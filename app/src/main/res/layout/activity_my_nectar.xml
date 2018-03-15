@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/top_tab_back"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/my_nectar_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:src="@drawable/ic_arrow_left2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="我的花蜜"
+                android:textColor="@color/text_black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/exchange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="兑换"
+                android:textColor="@color/text_black"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@color/white"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/my_nectar_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/icon_explain" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/my_nectar_headpic"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/photo" />
+
+            <TextView
+                android:id="@+id/my_nectar_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_nectar_headpic"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="3dp"
+                android:text="安妮"
+                android:textColor="@color/text_black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/my_nectar_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_nectar_name"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="3dp"
+                android:text="2000花蜜"
+                android:textColor="@color/text_black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
+            android:id="@+id/my_nectar_tab_layout"
+            style="@style/pagertab_style"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:fillViewport="false">
+
+        </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
+
+        <com.annie.annieforchild.Utils.views.APSTSViewPager
+            android:id="@+id/my_nectar_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+        </com.annie.annieforchild.Utils.views.APSTSViewPager>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

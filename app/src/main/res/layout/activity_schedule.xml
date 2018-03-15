@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/top_tab_back"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/schedule_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:src="@drawable/ic_arrow_left2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="我的课表"
+                android:textColor="@color/text_black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/total_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="总课表"
+                android:textColor="@color/text_black"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/date_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/back_today"
+                android:layout_below="@+id/date_recycler"
+                android:layout_marginTop="2dp"
+                android:orientation="vertical">
+
+                <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
+                    android:id="@+id/schedule_tab_layout"
+                    style="@style/pagertab_style2"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:background="@color/white"
+                    android:fillViewport="false">
+
+                </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
+
+                <com.annie.annieforchild.Utils.views.APSTSViewPager
+                    android:id="@+id/schedule_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
+
+                </com.annie.annieforchild.Utils.views.APSTSViewPager>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/back_today"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="-5dp"
+                android:layout_marginEnd="-5dp"
+                android:background="@drawable/login_btn_t"
+                android:text="返回今天"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

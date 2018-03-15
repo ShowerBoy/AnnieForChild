@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.annie.annieforchild">
+
+    <!--连接网络权限，用于执行云端语音能力 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!--读取网络信息状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--获取当前wifi状态 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--允许程序改变网络连接状态 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!--读取手机信息权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--读取联系人权限，上传联系人需要用到此权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!--外存储写权限，构建语法需要用到此权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--外存储读权限，构建语法需要用到此权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--配置权限，用来记录应用配置信息 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!--手机定位信息，用来为语义等功能提供定位，提供更精准的服务-->
+    <!--定位信息是敏感信息，可通过Setting.setLocationEnable(false)关闭定位请求 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--如需使用人脸识别，还要添加：摄相头权限，拍照需要用到 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+    <!--用于申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
+    <!--用于申请获取蓝牙信息进行室内定位-->
+    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+
+    <application
+        android:name=".ui.application.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <!--高德地图key-->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="06a5f30bf7bf1262ab0bdbfed1afa540"></meta-data>
+
+        <service android:name="com.amap.api.location.APSService"></service>
+
+        <activity
+            android:name=".ui.activity.login.LoginActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <activity android:name=".ui.activity.Details" />
+        <activity android:name=".ui.activity.my.MyMessageActivity" />
+        <activity
+            android:name=".ui.activity.my.MyExchangeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <activity android:name=".ui.activity.my.AboutActivity" />
+        <activity android:name=".ui.activity.my.HelpActivity" />
+        <activity android:name=".ui.activity.my.SettingsActivity" />
+        <activity android:name=".ui.activity.my.ToFriendActivity" />
+        <activity android:name=".ui.activity.grindEar.GrindEarActivity" />
+        <activity android:name=".ui.activity.grindEar.SingingActivity" />
+        <activity android:name=".ui.activity.ReadingActivity" />
+        <activity android:name=".ui.activity.login.RegisterActivity" />
+        <activity android:name=".ui.activity.grindEar.RankingListActivity" />
+        <activity android:name=".ui.activity.my.GradeAchievementActivity" />
+        <activity android:name=".ui.activity.my.MyCollectionActivity" />
+        <activity android:name=".ui.activity.my.ChangePhoneActivity" />
+        <activity
+            android:name=".ui.activity.child.BindStudentActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <activity
+            android:name=".ui.activity.child.AddChildActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <activity android:name=".ui.activity.lesson.ScheduleActivity" />
+        <activity android:name=".ui.activity.lesson.AddOnlineScheActivity" />
+        <activity android:name=".ui.activity.child.ModifyChildActivity" />
+        <activity android:name=".ui.activity.my.MyNectarActivity" />
+        <activity android:name=".ui.activity.my.MyCoinActivity" />
+        <activity android:name=".ui.activity.my.MyRecordActivity" />
+        <activity android:name=".ui.activity.lesson.TotalScheduleActivity" />
+        <activity android:name=".ui.activity.grindEar.SongActivity" />
+        <activity android:name=".ui.activity.grindEar.MyGrindEarActivity" />
+
+    </application>
+
+</manifest>

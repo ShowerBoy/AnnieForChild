@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="注册"
+        android:textColor="@color/text_black"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/refenerce"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_centerInParent="true">
+
+    </TextView>
+
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/refenerce"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/login_btn_t"
+        android:text="登 录"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/forget_psd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/refenerce"
+        android:layout_alignRight="@+id/password"
+        android:text="忘记密码"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/forget_psd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:drawableLeft="@drawable/icon_lock"
+        android:drawablePadding="10dp"
+        android:hint="请输入密码"
+        android:textSize="18sp"
+        android:inputType="textPassword"
+        android:textColor="@color/text_black"
+        android:textColorHint="@color/gray" />
+
+    <EditText
+        android:id="@+id/phoneNumber"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:drawableLeft="@drawable/icon_phone"
+        android:drawablePadding="10dp"
+        android:hint="请输入手机号"
+        android:inputType="phone|number"
+        android:maxLength="11"
+        android:textSize="18sp"
+        android:textColor="@color/text_black"
+        android:textColorHint="@color/gray" />
+
+    <TextView
+        android:id="@+id/annieflower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/phoneNumber"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:text="欢迎来到安妮花"
+        android:textColor="@color/text_black"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/annieflower"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/youke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="游客访问 >>"
+        android:textColor="@color/text_black"
+        android:textSize="16sp" />
+</RelativeLayout>

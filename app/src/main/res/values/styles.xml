@@ -1,0 +1,54 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="pagertab_style">
+        <item name="android:background">@drawable/tab_bg_normal</item>
+        <item name="apTabBackground">@drawable/tab_bg_transparent</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
+        <item name="android:textColor">@drawable/tab_color_select</item>
+        <item name="apTabIndicatorColor">@color/button_orange</item>
+        <item name="apTabUnderlineColor">#00000000</item>
+        <item name="apTabDividerColor">#00000000</item>
+        <item name="apTabShouldExpand">false</item>
+        <item name="apTabPaddingLeftRight">8dp</item>
+        <item name="apTabDrawMode">text</item>
+        <item name="apTabTextSelectColor">@color/button_orange</item>
+    </style>
+
+    <style name="pagertab_style2">
+        <item name="android:background">@drawable/tab_bg_normal</item>
+        <item name="apTabBackground">@drawable/tab_bg_transparent</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
+        <item name="android:textColor">@drawable/tab_color_select2</item>
+        <item name="apTabIndicatorColor">@color/button_orange</item>
+        <item name="apTabUnderlineColor">#00000000</item>
+        <item name="apTabDividerColor">#00000000</item>
+        <item name="apTabShouldExpand">false</item>
+        <item name="apTabPaddingLeftRight">8dp</item>
+        <item name="apTabDrawMode">text</item>
+        <item name="apTabTextSelectColor">@color/button_orange</item>
+    </style>
+
+    <style name="new_circle_progress" parent="@android:style/Theme.Dialog">
+        <item name="android:indeterminateDrawable">@drawable/ic_circle_progress</item>
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowBackground">@color/clarity</item><!--背景透明-->
+        <item name="android:backgroundDimEnabled">false</item><!--模糊-->
+    </style>
+
+</resources>

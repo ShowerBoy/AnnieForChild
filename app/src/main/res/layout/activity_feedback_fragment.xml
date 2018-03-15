@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray"
+    android:paddingTop="16dp">
+    <RelativeLayout
+        android:id="@+id/feedback_layout"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/relativelayout_back">
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/feedback_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="left|top"
+            android:padding="2dp"
+            android:maxLength="300"
+            android:textSize="16sp"
+            android:hint="请输入你的反馈意见"
+            app:met_baseColor="@color/system_text_color"
+            app:met_bottomTextSize="14sp"
+            app:met_errorColor="@color/red"
+            app:met_floatingLabel="none"
+            app:met_hideUnderline="true"
+            app:met_maxCharacters="300"
+            app:met_textColor="@color/text_black"
+            android:background="@color/white"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/commit_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/login_btn_t"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feedback_layout" />
+
+</android.support.constraint.ConstraintLayout>

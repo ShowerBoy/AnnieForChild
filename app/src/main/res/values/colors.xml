@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="system_text_color">#8A000000</color>
+
+    <color name="home_bar_text_normal">#6a6c6f</color>
+    <color name="home_bar_text_push">#ff5959</color>
+    <color name="textnormal">#adadad</color>
+    <color name="btn_bg_pressed_color">#ffacac</color>
+    <color name="btn_bg_color">#ff5959</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="teal">#00796B</color>
+    <color name="brown">#8D6E63</color>
+    <color name="blue">#2196F3</color>
+    <color name="red">#ff0000</color>
+    <color name="text_red">#E51C23</color>
+    <color name="grey">#607D8B</color>
+    <color name="text_color">#898989</color>
+    <color name="light_gray">#F5F5F8</color>
+    <color name="light_gray2">#E0E0E0</color>
+    <color name="gray">#CECECE</color>
+    <color name="orange">#F57C00</color>
+    <color name="button_orange">#FF9800</color>
+    <color name="card_back">#FFE6C9</color>
+    <color name="icon_green">#4ED0AA</color>
+    <color name="text_green">#259B24</color>
+    <color name="text_green2">#8ABD2D</color>
+    <color name="text_black">#333333</color>
+    <color name="navigation_bar_color">#35883E</color>
+    <color name="text_back_green">#E3F7C8</color>
+    <color name="top_tab_back">#fafbfd</color>
+    <color name="clarity">#00000000</color>
+
+    <!--聊天框-->
+    <color name="color_input_dialog_background">#b4ffffff</color>
+    <color name="colorTransparentBlack">#44777777</color>
+    <color name="c9">#777777</color>
+    <color name="item_live_chat">#1D1B31</color>
+    <color name="live_tip_btn">#0000cc</color>
+    <color name="black">#000000</color>
+    <color name="canlendar_text_color">#969696</color>
+</resources>

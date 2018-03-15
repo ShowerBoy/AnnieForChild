@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top_tab_back"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/ranking_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
+            android:src="@drawable/ic_arrow_left2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="榜单"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray" />
+    <RadioGroup
+        android:id="@+id/time_ranking_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp">
+        <RadioButton
+            android:id="@+id/this_week_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="本周"
+            android:textSize="18sp"/>
+        <RadioButton
+            android:id="@+id/this_month_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="本月"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"/>
+        <RadioButton
+            android:id="@+id/half_year_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="半年"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"/>
+        <RadioButton
+            android:id="@+id/one_year_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一年"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"/>
+    </RadioGroup>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray" />
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/ranking_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.jcodecraeer.xrecyclerview.XRecyclerView>
+</LinearLayout>
