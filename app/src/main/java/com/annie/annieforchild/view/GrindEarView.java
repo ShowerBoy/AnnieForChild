@@ -9,7 +9,10 @@ import java.util.HashMap;
  * Created by WangLei on 2018/1/18 0018
  */
 
-public interface GrindEarView extends ViewInfo{
+public interface GrindEarView extends ViewInfo {
     SliderLayout getImageSlide();
-    HashMap<String, String> getFile_maps();
+
+    HashMap<Integer, String> getFile_maps();
+
+    void setPictureUrl(String listening, String animation);
 }

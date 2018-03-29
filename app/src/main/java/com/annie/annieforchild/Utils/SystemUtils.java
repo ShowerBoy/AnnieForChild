@@ -15,8 +15,8 @@ import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
-import com.annie.annieforchild.bean.MainBean;
-import com.annie.annieforchild.bean.PhoneSN;
+import com.annie.annieforchild.bean.login.MainBean;
+import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.ui.application.MyApplication;
 
 import java.io.File;

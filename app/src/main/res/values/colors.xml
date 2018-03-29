@@ -22,14 +22,14 @@
     <color name="light_gray">#F5F5F8</color>
     <color name="light_gray2">#E0E0E0</color>
     <color name="gray">#CECECE</color>
-    <color name="orange">#F57C00</color>
+    <color name="text_orange">#FF8A0D</color>
     <color name="button_orange">#FF9800</color>
     <color name="card_back">#FFE6C9</color>
     <color name="icon_green">#4ED0AA</color>
     <color name="text_green">#259B24</color>
     <color name="text_green2">#8ABD2D</color>
-    <color name="text_black">#333333</color>
-    <color name="navigation_bar_color">#35883E</color>
+    <color name="text_black">#1e1e1e</color>
+    <color name="navigation_bar_color">#888888</color>
     <color name="text_back_green">#E3F7C8</color>
     <color name="top_tab_back">#fafbfd</color>
     <color name="clarity">#00000000</color>

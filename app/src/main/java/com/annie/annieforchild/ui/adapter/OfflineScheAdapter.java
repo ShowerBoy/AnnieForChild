@@ -31,17 +31,17 @@ public class OfflineScheAdapter extends RecyclerView.Adapter<OfflineScheViewHold
     @Override
     public OfflineScheViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         OfflineScheViewHolder holder = null;
-        holder = new OfflineScheViewHolder(inflater.inflate(R.layout.activity_offline_item, parent, false));
+        holder = new OfflineScheViewHolder(inflater.inflate(R.layout.activity_offline_sche_item, parent, false));
         return holder;
     }
 
     @Override
     public void onBindViewHolder(OfflineScheViewHolder holder, int position) {
-        if ((position + 1) == lists.size()) {
-            holder.line.setVisibility(View.GONE);
-        } else {
-            holder.line.setVisibility(View.VISIBLE);
-        }
+//        if ((position + 1) == lists.size()) {
+//            holder.line.setVisibility(View.GONE);
+//        } else {
+//            holder.line.setVisibility(View.VISIBLE);
+//        }
         holder.scheduleTime.setText(lists.get(position).getStart() + "-" + lists.get(position).getStop());
         holder.scheduleName.setText(lists.get(position).getMaterialName());
         holder.selectSpot.setVisibility(View.GONE);

@@ -8,8 +8,8 @@ import com.alibaba.fastjson.JSON;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.LoginBean;
-import com.annie.annieforchild.bean.MainBean;
+import com.annie.annieforchild.bean.login.LoginBean;
+import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.interactor.LoginInteractor;
 import com.annie.annieforchild.interactor.imp.LoginInteractorImp;
 import com.annie.annieforchild.presenter.LoginPresenter;
@@ -20,7 +20,6 @@ import com.annie.baselibrary.base.BasePresenterImp;
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.crud.DataSupport;
 
-import java.lang.invoke.MethodHandle;
 import java.util.List;
 
 /**

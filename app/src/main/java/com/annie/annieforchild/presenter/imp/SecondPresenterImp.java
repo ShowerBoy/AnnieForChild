@@ -31,12 +31,12 @@ public class SecondPresenterImp extends BasePresenterImp implements SecondPresen
     @Override
     public void initViewAndData() {
         myLesson_lists = new ArrayList<>();
-        myLesson_lists.add(new Course(R.drawable.lesson_grind_ear, "西游记"));
-        myLesson_lists.add(new Course(R.drawable.lesson_spelling, "红楼梦"));
-        myLesson_lists.add(new Course(R.drawable.lesson_story, "三国演义"));
-        myLesson_lists.add(new Course(R.drawable.lesson_grind_ear, "水浒传"));
-        myLesson_lists.add(new Course(R.drawable.lesson_spelling, "论语"));
-        myLesson_lists.add(new Course(R.drawable.lesson_story, "三字经"));
+//        myLesson_lists.add(new Course(R.drawable.lesson_grind_ear, "西游记"));
+//        myLesson_lists.add(new Course(R.drawable.lesson_spelling, "红楼梦"));
+//        myLesson_lists.add(new Course(R.drawable.lesson_story, "三国演义"));
+//        myLesson_lists.add(new Course(R.drawable.lesson_grind_ear, "水浒传"));
+//        myLesson_lists.add(new Course(R.drawable.lesson_spelling, "论语"));
+//        myLesson_lists.add(new Course(R.drawable.lesson_story, "三字经"));
         adapter = new MyCourseAdapter(context, myLesson_lists);
     }
 

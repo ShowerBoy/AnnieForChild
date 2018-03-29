@@ -43,16 +43,12 @@
             android:fillViewport="false">
 
         </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
-        
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/light_gray" />
 
         <com.annie.annieforchild.Utils.views.APSTSViewPager
             android:id="@+id/collection_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
             android:background="@color/white">
 
         </com.annie.annieforchild.Utils.views.APSTSViewPager>

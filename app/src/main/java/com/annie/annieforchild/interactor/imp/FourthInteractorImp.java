@@ -7,6 +7,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.bean.Banner;
+import com.annie.annieforchild.bean.Course;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.interactor.FourthInteractor;
@@ -70,6 +72,21 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
     }
 
     @Override
+    public void deleteUsername(String deleteUsername) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.DELETEUSERNAME, RequestMethod.POST);
+        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
+        request.add("system", SystemUtils.phoneSN.getSystem());
+        request.add("deviceId", SystemUtils.sn);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
+        request.add("token", SystemUtils.token);
+
+        request.add("deleteUsername", deleteUsername);
+        addQueue(MethodCode.EVENT_DELETEUSERNAME, request);
+        startQueue();
+    }
+
+    @Override
     public void getUserList() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.GETUSERLIST, RequestMethod.POST);
         request.add("bitcode", SystemUtils.phoneSN.getBitcode());
@@ -114,6 +131,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
                 listener.Success(what, list);
             } else if (what == MethodCode.EVENT_SETDEFAULEUSER) {
                 listener.Success(what, "切换成功");
+            } else if (what == MethodCode.EVENT_DELETEUSERNAME) {
+                listener.Success(what, "删除成功");
             }
         }
     }

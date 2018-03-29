@@ -8,7 +8,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.MainBean;
 import com.annie.annieforchild.interactor.ChildInteractor;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;

@@ -69,7 +69,27 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
 
             @Override
             public void onItemLongClick(View view) {
-
+                position = fourthView.getMemberRecycler().getChildAdapterPosition(view);
+                if (lists.get(position).getUsername().equals(SystemUtils.defaultUsername)) {
+                    fourthView.showInfo("默认学员不能删除！");
+                    return;
+                }
+                SystemUtils.GeneralDialog(context, "删除学员")
+                        .setMessage("是否删除当前选中学员？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                setDefaultUser(lists.get(position).getUsername());
+                                deleteUsername(lists.get(position).getUsername());
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         fourthView.getMemberRecycler().setAdapter(adapter);
@@ -93,6 +113,17 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
     public void setDefaultUser(String defaultUser) {
         fourthView.showLoad();
         interactor.setDefaultUser(defaultUser);
+    }
+
+    /**
+     * 删除学员
+     *
+     * @param deleteUsername
+     */
+    @Override
+    public void deleteUsername(String deleteUsername) {
+        fourthView.showLoad();
+        interactor.deleteUsername(deleteUsername);
     }
 
     @Override
@@ -122,6 +153,14 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 SystemUtils.defaultUsername = lists.get(position).getUsername();
                 getUserInfo();
                 fourthView.showInfo((String) result);
+            } else if (what == MethodCode.EVENT_DELETEUSERNAME) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
             }
         } else {
             fourthView.dismissLoad();

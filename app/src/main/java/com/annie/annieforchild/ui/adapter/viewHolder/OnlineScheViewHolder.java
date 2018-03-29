@@ -18,7 +18,7 @@ public class OnlineScheViewHolder extends RecyclerView.ViewHolder{
 
     public OnlineScheViewHolder(View itemView) {
         super(itemView);
-        line = itemView.findViewById(R.id.sche_line2);
+//        line = itemView.findViewById(R.id.sche_line2);
         scheduleTime = itemView.findViewById(R.id.online_schedule_time);
         scheduleName = itemView.findViewById(R.id.online_schedule_name);
         selectSpot = itemView.findViewById(R.id.select_spot2);

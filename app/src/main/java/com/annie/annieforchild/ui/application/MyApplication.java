@@ -16,7 +16,7 @@ public class MyApplication extends LitePalApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        SpeechUtility.createUtility(MyApplication.this, SpeechConstant.APPID + "=5a6034e1");
+        SpeechUtility.createUtility(MyApplication.this, SpeechConstant.APPID + "=5aab99b5");
         Utils.init(this);
         initJpush();
     }

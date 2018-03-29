@@ -6,11 +6,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/light_gray"
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/top_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/top_tab_back"
@@ -34,26 +33,18 @@
                 android:textSize="20sp" />
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/light_gray" />
-
         <com.daimajia.slider.library.SliderLayout
             android:id="@+id/grind_ear_slide"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="200dp"
+            android:layout_marginTop="1dp">
 
         </com.daimajia.slider.library.SliderLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/light_gray" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:background="@color/white"
             android:padding="10dp">
 
@@ -87,15 +78,11 @@
                 android:textSize="16sp" />
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/light_gray" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_marginTop="1dp"
+            android:background="@color/light_gray"
             android:orientation="vertical">
 
             <LinearLayout
@@ -201,14 +188,11 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/light_gray" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
                 android:orientation="horizontal"
                 android:padding="10dp">
 
@@ -217,17 +201,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
-                    <TextView
+                    <ImageView
                         android:id="@+id/i_want_grindear"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:drawablePadding="20dp"
-                        android:drawableRight="@drawable/image_grindear"
-                        android:gravity="center"
-                        android:text="我的磨耳朵"
-                        android:textColor="@color/button_orange"
-                        android:textSize="18sp" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/image_grindear" />
                 </RelativeLayout>
 
                 <TextView
@@ -241,29 +222,20 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <ImageView
                         android:id="@+id/i_want_sing"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:drawableEnd="@drawable/image_sing"
-                        android:drawablePadding="20dp"
-                        android:gravity="center"
-                        android:text="我要唱歌"
-                        android:textColor="@color/button_orange"
-                        android:textSize="18sp" />
+                        android:src="@drawable/image_sing" />
                 </RelativeLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/light_gray" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
                 android:background="@color/white"
                 android:padding="10dp">
 
@@ -300,6 +272,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:paddingBottom="10dp"
@@ -308,31 +281,29 @@
                 android:paddingTop="10dp">
 
                 <ImageView
+                    android:id="@+id/listening100"
                     android:layout_width="wrap_content"
-                    android:layout_height="105dp"
+                    android:layout_height="100dp"
                     android:layout_marginRight="6dp"
                     android:layout_weight="1"
                     android:scaleType="fitXY"
                     android:src="@drawable/icon_grindear100" />
 
                 <ImageView
+                    android:id="@+id/animation100"
                     android:layout_width="wrap_content"
-                    android:layout_height="105dp"
+                    android:layout_height="100dp"
                     android:layout_marginLeft="6dp"
                     android:layout_weight="1"
                     android:scaleType="fitXY"
                     android:src="@drawable/icon_cartoon100" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/light_gray" />
-
             <com.jcodecraeer.xrecyclerview.XRecyclerView
                 android:id="@+id/recommend_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
                 android:background="@color/white">
 
             </com.jcodecraeer.xrecyclerview.XRecyclerView>

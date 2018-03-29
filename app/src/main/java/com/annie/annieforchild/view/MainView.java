@@ -11,5 +11,5 @@ import java.util.HashMap;
 
 public interface MainView extends ViewInfo {
     SliderLayout getImageSlide();
-    HashMap<String, Integer> getFile_maps();
+    HashMap<Integer, String> getFile_maps();
 }

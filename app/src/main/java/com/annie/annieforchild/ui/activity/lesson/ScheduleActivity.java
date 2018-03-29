@@ -1,8 +1,6 @@
 package com.annie.annieforchild.ui.activity.lesson;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,25 +18,18 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
-import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.DateBean;
-import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.SchedulePresenter;
 import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
-import com.annie.annieforchild.ui.activity.my.MyMessageActivity;
 import com.annie.annieforchild.ui.adapter.DateRecyclerAdapter;
-import com.annie.annieforchild.ui.fragment.message.GroupMsgFragment;
-import com.annie.annieforchild.ui.fragment.message.NoticeFragment;
-import com.annie.annieforchild.ui.fragment.schedule.OfflineFragment;
-import com.annie.annieforchild.ui.fragment.schedule.OnlineFragment;
+import com.annie.annieforchild.ui.fragment.schedule.OfflineScheduleFragment;
+import com.annie.annieforchild.ui.fragment.schedule.OnlineScheduleFragment;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
-
-import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,8 +50,8 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
     private APSTSViewPager mVP;
     private List<DateBean> date_lists;
     private DateRecyclerAdapter adapter;
-    private OnlineFragment onlineFragment;
-    private OfflineFragment offlineFragment;
+    private OnlineScheduleFragment onlineScheduleFragment;
+    private OfflineScheduleFragment offlineScheduleFragment;
     private ScheduleFragmentAdapter fragmentAdapter;
     private SchedulePresenter presenter;
     private AlertHelper helper;
@@ -136,7 +127,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy");
         SimpleDateFormat format2 = new SimpleDateFormat("MM");
         SimpleDateFormat format3 = new SimpleDateFormat("dd");
-        SimpleDateFormat format4 = new SimpleDateFormat("EEEE");
+        SimpleDateFormat format4 = new SimpleDateFormat("E");
         long time = System.currentTimeMillis();
         for (int i = 0; i < 30; i++) {
             Date date = new Date(time + oneDay * i);
@@ -227,15 +218,15 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
             if (position >= 0 && position < 2) {
                 switch (position) {
                     case 0:
-                        if (null == offlineFragment) {
-                            offlineFragment = OfflineFragment.instance();
+                        if (null == offlineScheduleFragment) {
+                            offlineScheduleFragment = OfflineScheduleFragment.instance();
                         }
-                        return offlineFragment;
+                        return offlineScheduleFragment;
                     case 1:
-                        if (null == onlineFragment) {
-                            onlineFragment = OnlineFragment.instance();
+                        if (null == onlineScheduleFragment) {
+                            onlineScheduleFragment = OnlineScheduleFragment.instance();
                         }
-                        return onlineFragment;
+                        return onlineScheduleFragment;
                     default:
                         break;
                 }
@@ -253,9 +244,9 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
             if (position >= 0 && position < 2) {
                 switch (position) {
                     case 0:
-                        return "线下课程";
+                        return "线下课表";
                     case 1:
-                        return "线上课程";
+                        return "线上课表";
                     default:
                         break;
                 }

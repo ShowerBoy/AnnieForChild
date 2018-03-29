@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingEnd="12dp"
+    android:paddingStart="12dp"
+    android:paddingTop="5dp">
+
+    <ImageView
+        android:id="@+id/follow_task_image"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_alignParentStart="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/lesson_grind_ear" />
+
+    <TextView
+        android:id="@+id/follow_task_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/follow_task_image"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/follow_task_image"
+        android:text="自然拼读阅读会"
+        android:textColor="@color/text_black"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/icon_arrow_right2"/>
+
+</RelativeLayout>

@@ -11,5 +11,7 @@ public interface FourthPresenter {
 
     void setDefaultUser(String defaultUser);
 
+    void deleteUsername(String deleteUsername);
+
     void getUserList();
 }

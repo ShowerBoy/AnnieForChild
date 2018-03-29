@@ -98,8 +98,15 @@
         <activity android:name=".ui.activity.my.MyCoinActivity" />
         <activity android:name=".ui.activity.my.MyRecordActivity" />
         <activity android:name=".ui.activity.lesson.TotalScheduleActivity" />
-        <activity android:name=".ui.activity.grindEar.SongActivity" />
+        <activity android:name=".ui.activity.grindEar.ListenSongActivity" />
         <activity android:name=".ui.activity.grindEar.MyGrindEarActivity" />
+        <activity android:name=".ui.activity.lesson.CourseActivity" />
+        <activity android:name=".ui.activity.grindEar.ExerciseActivity" />
+        <activity android:name=".ui.activity.mains.TodayClockInActivity" />
+        <activity android:name=".ui.activity.my.WebActivity" />
+        <activity android:name=".ui.activity.login.ModifyPsdActivity" />
+        <activity android:name=".ui.activity.lesson.FollowTaskActivity" />
+        <activity android:name=".ui.activity.lesson.SongTaskActivity" />
 
     </application>
 

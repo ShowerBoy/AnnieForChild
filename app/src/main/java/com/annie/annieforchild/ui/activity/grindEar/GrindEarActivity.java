@@ -1,16 +1,22 @@
 package com.annie.annieforchild.ui.activity.grindEar;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
+import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -18,7 +24,12 @@ import com.daimajia.slider.library.SliderLayout;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import org.greenrobot.eventbus.Subscribe;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 磨耳朵
@@ -26,15 +37,24 @@ import java.util.HashMap;
  */
 
 public class GrindEarActivity extends BaseActivity implements GrindEarView, View.OnClickListener {
-    ImageView grindEarBack;
-    RelativeLayout topLayout;
-    SliderLayout grindEarSlide;
-    TextView grindEarCheck, iWantGrindEar, iWantSing;
-    XRecyclerView recommendRecycler;
-    LinearLayout songLayout, poetryLayout, dialogueLayout, picturebookLayout;
-
+    private ImageView grindEarBack, listening100, animation100, iWantGrindEar, iWantSing;
+    private SliderLayout grindEarSlide;
+    private TextView grindEarCheck;
+    private XRecyclerView recommendRecycler;
+    private LinearLayout songLayout, poetryLayout, dialogueLayout, picturebookLayout;
+    private String listeningUrl, animationUrl;
+    private AlertHelper helper;
+    private Dialog dialog;
     private GrindEarPresenterImp presenter;
-    private HashMap<String, String> file_maps;//轮播图图片map
+    private List<SongClassify> songClassifyList;
+    private List<SongClassify> poetryClassifyList;
+    private List<SongClassify> dialogueClassifyList;
+    private List<SongClassify> picturebookClassifyList;
+    private HashMap<Integer, String> file_maps;//轮播图图片map
+
+    {
+        setRegister(true);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -44,10 +64,11 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
     @Override
     protected void initView() {
         grindEarBack = findViewById(R.id.grind_ear_back);
-        topLayout = findViewById(R.id.top_layout);
         grindEarSlide = findViewById(R.id.grind_ear_slide);
         grindEarCheck = findViewById(R.id.grind_ear_check);
         iWantGrindEar = findViewById(R.id.i_want_grindear);
+        listening100 = findViewById(R.id.listening100);
+        animation100 = findViewById(R.id.animation100);
         iWantSing = findViewById(R.id.i_want_sing);
         recommendRecycler = findViewById(R.id.recommend_recycler);
         songLayout = findViewById(R.id.song_layout);
@@ -66,6 +87,12 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
 
     @Override
     protected void initData() {
+        songClassifyList = new ArrayList<>();
+        poetryClassifyList = new ArrayList<>();
+        dialogueClassifyList = new ArrayList<>();
+        picturebookClassifyList = new ArrayList<>();
+        helper = new AlertHelper(this);
+        dialog = helper.LoadingDialog();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recommendRecycler.setLayoutManager(layoutManager);
@@ -75,6 +102,9 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
         file_maps = new HashMap<>();
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
+        presenter.getListening();
+        //1:听儿歌 2：听诗歌 3：听对话 4：听绘本
+        presenter.getMusicClasses();
     }
 
     @Override
@@ -86,7 +116,8 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
                 startActivity(intent);
                 break;
             case R.id.i_want_sing:
-                intent.setClass(this, SingingActivity.class);
+//                intent.setClass(this, SingingActivity.class);
+                intent.setClass(this, ExerciseActivity.class);
                 startActivity(intent);
                 break;
             case R.id.grind_ear_back:
@@ -99,21 +130,74 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
                 break;
             case R.id.song_layout:
                 //听儿歌
-                intent.setClass(this, SongActivity.class);
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putInt("type", 1);
+                bundle1.putSerializable("ClassifyList", (Serializable) songClassifyList);
+                intent.putExtras(bundle1);
                 startActivity(intent);
                 break;
             case R.id.poetry_layout:
                 //听诗歌
-
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle2 = new Bundle();
+                bundle2.putInt("type", 2);
+                bundle2.putSerializable("ClassifyList", (Serializable) poetryClassifyList);
+                intent.putExtras(bundle2);
+                startActivity(intent);
                 break;
             case R.id.dialogue_layout:
                 //听对话
-
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle3 = new Bundle();
+                bundle3.putInt("type", 3);
+                bundle3.putSerializable("ClassifyList", (Serializable) dialogueClassifyList);
+                intent.putExtras(bundle3);
+                startActivity(intent);
                 break;
             case R.id.picturebook_layout:
                 //听绘本
-
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle4 = new Bundle();
+                bundle4.putInt("type", 4);
+                bundle4.putSerializable("ClassifyList", (Serializable) picturebookClassifyList);
+                intent.putExtras(bundle4);
+                startActivity(intent);
                 break;
+            case R.id.listening100:
+                //磨100
+                intent.setClass(this, WebActivity.class);
+                intent.putExtra("url", listeningUrl);
+                startActivity(intent);
+                break;
+            case R.id.animation100:
+                //动画100
+                intent.setClass(this, WebActivity.class);
+                intent.putExtra("url", animationUrl);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    /**
+     * {@link GrindEarPresenterImp#Success(int, Object)}
+     *
+     * @param message
+     */
+    @Subscribe
+    public void onMainEventThread(JTMessage message) {
+        if (message.what == MethodCode.EVENT_GETMUSICCLASSES1) {
+            songClassifyList.clear();
+            songClassifyList.addAll((List<SongClassify>) message.obj);
+        } else if (message.what == MethodCode.EVENT_GETMUSICCLASSES2) {
+            poetryClassifyList.clear();
+            poetryClassifyList.addAll((List<SongClassify>) message.obj);
+        } else if (message.what == MethodCode.EVENT_GETMUSICCLASSES3) {
+            dialogueClassifyList.clear();
+            dialogueClassifyList.addAll((List<SongClassify>) message.obj);
+        } else if (message.what == MethodCode.EVENT_GETMUSICCLASSES4) {
+            picturebookClassifyList.clear();
+            picturebookClassifyList.addAll((List<SongClassify>) message.obj);
         }
     }
 
@@ -124,17 +208,21 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
 
     @Override
     public void showInfo(String info) {
-
+        Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showLoad() {
-
+        if (dialog != null && !dialog.isShowing()) {
+            dialog.show();
+        }
     }
 
     @Override
     public void dismissLoad() {
-
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
     @Override
@@ -143,8 +231,14 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
     }
 
     @Override
-    public HashMap<String, String> getFile_maps() {
+    public HashMap<Integer, String> getFile_maps() {
         return file_maps;
+    }
+
+    @Override
+    public void setPictureUrl(String listening, String animation) {
+        this.listeningUrl = listening;
+        this.animationUrl = animation;
     }
 
 }

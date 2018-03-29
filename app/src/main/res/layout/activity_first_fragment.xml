@@ -257,18 +257,19 @@
                             android:layout_toEndOf="@+id/text_line"
                             android:src="@drawable/icon_horn" />
 
-                        <TextView
+                        <ViewFlipper
+                            android:id="@+id/msg_flipper"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="10dp"
                             android:layout_toEndOf="@+id/horn"
-                            android:ellipsize="end"
-                            android:maxEms="10"
-                            android:singleLine="true"
-                            android:text="今天还有两本书未读"
-                            android:textColor="@color/text_color"
-                            android:textSize="14sp" />
+                            android:autoStart="true"
+                            android:flipInterval="3000"
+                            android:inAnimation="@anim/anim_come_in"
+                            android:outAnimation="@anim/anim_come_out">
+
+                        </ViewFlipper>
 
                         <TextView
                             android:id="@+id/chakan"
@@ -441,6 +442,7 @@
                         android:orientation="vertical">
 
                         <RelativeLayout
+                            android:id="@+id/lesson_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp">

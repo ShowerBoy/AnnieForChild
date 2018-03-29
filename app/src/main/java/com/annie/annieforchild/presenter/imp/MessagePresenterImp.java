@@ -55,6 +55,12 @@ public class MessagePresenterImp extends BasePresenterImp implements MessagePres
     }
 
     @Override
+    public void deleteRecording(int recordingId) {
+        viewInfo.showLoad();
+        interactor.deleteRecording(recordingId);
+    }
+
+    @Override
     public void getExchangeRecording() {
         viewInfo.showLoad();
         interactor.getExchangeRecording();
@@ -134,6 +140,14 @@ public class MessagePresenterImp extends BasePresenterImp implements MessagePres
                 message4.what = what;
                 message4.obj = result;
                 EventBus.getDefault().post(message4);
+            } else if (what == MethodCode.EVENT_DELETERECORDING) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.my.MyRecordActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message5 = new JTMessage();
+                message5.what = what;
+                message5.obj = result;
+                EventBus.getDefault().post(message5);
             }
         }
     }

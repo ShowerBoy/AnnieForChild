@@ -12,11 +12,12 @@ import com.annie.annieforchild.R;
  */
 
 public class MyRecordViewHolder extends RecyclerView.ViewHolder {
-    public TextView myRecordDate, myRecordTime;
+    public TextView myRecordContent, myRecordDate, myRecordTime;
     public ImageView myRecordPlay;
 
     public MyRecordViewHolder(View itemView) {
         super(itemView);
+        myRecordContent = itemView.findViewById(R.id.my_record_content);
         myRecordDate = itemView.findViewById(R.id.my_record_date);
         myRecordTime = itemView.findViewById(R.id.my_record_time);
         myRecordPlay = itemView.findViewById(R.id.my_record_play);

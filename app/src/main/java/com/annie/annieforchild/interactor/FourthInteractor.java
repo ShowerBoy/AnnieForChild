@@ -9,5 +9,7 @@ public interface FourthInteractor {
 
     void setDefaultUser(String defaultUser);
 
+    void deleteUsername(String deleteUsername);
+
     void getUserList();
 }

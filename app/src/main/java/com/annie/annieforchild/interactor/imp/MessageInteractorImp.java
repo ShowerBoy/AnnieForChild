@@ -76,6 +76,21 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     }
 
     @Override
+    public void deleteRecording(int recordingId) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.DELETERECORDING, RequestMethod.POST);
+        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
+        request.add("system", SystemUtils.phoneSN.getSystem());
+        request.add("deviceId", SystemUtils.sn);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
+
+        request.add("token", SystemUtils.token);
+        request.add("recordingId", recordingId);
+        addQueue(MethodCode.EVENT_DELETERECORDING, request);
+        startQueue();
+    }
+
+    @Override
     public void getExchangeRecording() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.EXCHANGERECORDING, RequestMethod.POST);
         request.add("bitcode", SystemUtils.phoneSN.getBitcode());
@@ -148,6 +163,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
             } else if (what == MethodCode.EVENT_EXCHANGERECORDING) {
                 NectarExchanges exchanges = JSON.parseObject(data, NectarExchanges.class);
                 listener.Success(what, exchanges);
+            } else if (what == MethodCode.EVENT_DELETERECORDING) {
+                listener.Success(what, "删除成功");
             }
         }
     }

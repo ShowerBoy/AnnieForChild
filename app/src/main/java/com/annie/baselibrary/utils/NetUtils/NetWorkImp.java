@@ -24,11 +24,12 @@ public abstract class NetWorkImp<T> implements OnResponseListener<T> {
 
     public NetWorkImp() {
         mHttpConnect = HttpConnect.newInstance();
-        mHttpConnect.setResponseListener(this);
+//        mHttpConnect = new HttpConnect();
+//        mHttpConnect.setResponseListener(this);
     }
 
     public void addQueue(int what, Request<T> request) {
-        mHttpConnect.addJsonQueue(what, request);
+        mHttpConnect.addJsonQueue(what, request, this);
     }
 
     public void startQueue() {
@@ -39,6 +40,7 @@ public abstract class NetWorkImp<T> implements OnResponseListener<T> {
     public void onStart(int what) {
         onNetWorkStart(what);
     }
+
 
     protected abstract void onNetWorkStart(int what);
 

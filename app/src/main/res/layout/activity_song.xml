@@ -25,6 +25,7 @@
                 android:src="@drawable/ic_arrow_left2" />
 
             <TextView
+                android:id="@+id/listen_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -33,24 +34,22 @@
                 android:textSize="20sp" />
         </RelativeLayout>
 
-        <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
-            android:id="@+id/song_tab_layout"
-            style="@style/pagertab_style"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/song_classify_recycler"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/white"
-            android:fillViewport="false">
-
-        </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
-
-        <com.annie.annieforchild.Utils.views.APSTSViewPager
-            android:id="@+id/song_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white">
 
-        </com.annie.annieforchild.Utils.views.APSTSViewPager>
+        </android.support.v7.widget.RecyclerView>
+
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:id="@+id/song_xrecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:background="@color/white">
+
+        </com.jcodecraeer.xrecyclerview.XRecyclerView>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

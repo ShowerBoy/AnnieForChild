@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="85dp"
+    android:layout_height="65dp"
     android:background="@color/white"
-    android:padding="16dp">
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/my_record_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="录音内容"
+        android:textColor="@color/text_black"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/my_record_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/my_record_content"
+        android:layout_marginTop="3dp"
         android:text="2018-03-08"
-        android:textColor="@color/text_black"
-        android:textSize="18sp" />
+        android:textColor="@color/text_color"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/my_record_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/my_record_date"
-        android:layout_marginTop="8dp"
-        android:text="录音时长15秒"
-        android:textColor="@color/text_color"
+        android:layout_toEndOf="@+id/my_record_content"
+        android:layout_marginStart="5dp"
+        android:text="(15秒）"
+        android:textColor="@color/text_black"
         android:textSize="16sp" />
 
     <ImageView
@@ -29,5 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="3dp"
         android:src="@drawable/icon_play" />
 </RelativeLayout>

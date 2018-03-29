@@ -15,7 +15,7 @@ public class HttpConnect {
 
     private RequestQueue queue;
 
-    private NetWorkImp mResponseListener;
+//    private NetWorkImp mResponseListener;
 
     public static class HttpConnectHolder {
         private static HttpConnect INSTANCE = new HttpConnect();
@@ -25,12 +25,12 @@ public class HttpConnect {
         return HttpConnectHolder.INSTANCE;
     }
 
-    private HttpConnect() {
+    public HttpConnect() {
         this.queue = NoHttp.newRequestQueue(5);
     }
 
     void setResponseListener(NetWorkImp responseListener) {
-        this.mResponseListener = responseListener;
+//        this.mResponseListener = responseListener;
     }
 
     /**
@@ -39,7 +39,7 @@ public class HttpConnect {
      * @param what    用来标志请求, 当多个请求使用同一个Listener时, 在回调方法中会返回这个what。
      * @param request 请求对象。
      */
-    public <T> void addJsonQueue(int what, Request<T> request) {
+    public <T> void addJsonQueue(int what, Request<T> request,NetWorkImp mResponseListener) {
         queue.add(what, request, new OnResponseListener<T>() {
             @Override
             public void onStart(int what) {

@@ -44,8 +44,8 @@ public class MainActivity extends QuickNavigationBarActivity {
         MPermissions.requestPermissions(this, 1, new String[]{
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.CAMERA,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.RECORD_AUDIO
         });
         tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
@@ -82,10 +82,10 @@ public class MainActivity extends QuickNavigationBarActivity {
         return new BaseFragment[]{firstFragment, secondFragment, thirdFragment, fourthFragment};
     }
 
-    @Override
-    protected int[] getDrawable() {
-        return new int[]{R.drawable.icon_main, R.drawable.icon_lesson, R.drawable.icon_discover, R.drawable.icon_my};
-    }
+//    @Override
+//    protected int[] getDrawable() {
+//        return new int[]{R.drawable.icon_main, R.drawable.icon_lesson, R.drawable.icon_discover, R.drawable.icon_my};
+//    }
 
     @Override
     protected String[] getText() {
@@ -93,13 +93,28 @@ public class MainActivity extends QuickNavigationBarActivity {
     }
 
     @Override
+    protected int[] getActive_icons() {
+        return new int[]{R.drawable.icon_main_t, R.drawable.icon_lesson_t, R.drawable.icon_discover_t, R.drawable.icon_my_t};
+    }
+
+    @Override
+    protected int[] getInactive_icons() {
+        return new int[]{R.drawable.icon_main_f, R.drawable.icon_lesson_f, R.drawable.icon_discover_f, R.drawable.icon_my_f};
+    }
+
+    @Override
     protected int[] getActive_Color() {
-        return new int[]{R.color.navigation_bar_color, R.color.navigation_bar_color, R.color.navigation_bar_color, R.color.navigation_bar_color};
+        return new int[]{R.color.text_orange, R.color.text_orange, R.color.text_orange, R.color.text_orange};
     }
 
     @Override
     protected int[] getInactive_Color() {
-        return new int[]{R.color.gray, R.color.gray, R.color.gray, R.color.gray};
+        return new int[]{R.color.navigation_bar_color, R.color.navigation_bar_color, R.color.navigation_bar_color, R.color.navigation_bar_color};
+    }
+
+    @Override
+    protected int getPlan() {
+        return 1;
     }
 
     @Override

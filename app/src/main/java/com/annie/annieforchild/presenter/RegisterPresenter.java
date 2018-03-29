@@ -14,5 +14,7 @@ public interface RegisterPresenter {
 
     void changePhone(String serialNumber, String code, String newPhone);
 
+    void resetPassword(String phone, String code, String password, String serialNumber);
+
     String getSerial_number();
 }

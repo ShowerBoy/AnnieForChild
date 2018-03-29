@@ -17,7 +17,7 @@ public class OfflineScheViewHolder extends RecyclerView.ViewHolder {
 
     public OfflineScheViewHolder(View itemView) {
         super(itemView);
-        line = itemView.findViewById(R.id.sche_line);
+//        line = itemView.findViewById(R.id.sche_line);
         scheduleTime = itemView.findViewById(R.id.offline_schedule_time);
         scheduleName = itemView.findViewById(R.id.offline_schedule_name);
         selectSpot = itemView.findViewById(R.id.select_spot);

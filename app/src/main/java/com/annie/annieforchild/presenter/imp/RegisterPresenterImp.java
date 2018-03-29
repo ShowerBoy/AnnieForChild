@@ -58,6 +58,12 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
     }
 
     @Override
+    public void resetPassword(String phone, String code, String password, String serialNumber) {
+        registerView.showLoad();
+        interactor.resetPassword(phone, code, password, serialNumber);
+    }
+
+    @Override
     public String getSerial_number() {
         return serial_number;
     }
@@ -88,6 +94,15 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
                 JTMessage message = new JTMessage();
                 message.setWhat(what);
                 message.setObj("修改成功");
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_RESETPASSWORD) {
+                registerView.dismissLoad();
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.login.ModifyPsdActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
                 EventBus.getDefault().post(message);
             }
         }

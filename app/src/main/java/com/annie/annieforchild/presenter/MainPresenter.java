@@ -10,5 +10,8 @@ import com.annie.baselibrary.base.BasePresenter;
 
 public interface MainPresenter {
     void initViewAndData();
+
+    void getHomeData(String tag);
+
     void setMyCourseAdapter(RecyclerView myCourse_list);
 }

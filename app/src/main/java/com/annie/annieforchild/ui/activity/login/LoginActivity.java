@@ -21,9 +21,9 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.LoginBean;
-import com.annie.annieforchild.bean.MainBean;
-import com.annie.annieforchild.bean.PhoneSN;
+import com.annie.annieforchild.bean.login.LoginBean;
+import com.annie.annieforchild.bean.login.MainBean;
+import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
 import com.annie.annieforchild.ui.activity.MainActivity;
@@ -35,10 +35,8 @@ import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
-import org.litepal.LitePalApplication;
 import org.litepal.crud.DataSupport;
 
 import java.util.Calendar;
@@ -52,7 +50,7 @@ import java.util.UUID;
 
 public class LoginActivity extends BaseActivity implements LoginView, View.OnClickListener {
     private EditText phoneNumber, password;
-    private TextView register, youke;
+    private TextView register, youke, forgetPsd;
     private Button loginBtn;
     private TelephonyManager tm;
     private LoginPresenter presenter;
@@ -77,9 +75,11 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
         loginBtn = findViewById(R.id.login_btn);
         phoneNumber = findViewById(R.id.phoneNumber);
         password = findViewById(R.id.password);
+        forgetPsd = findViewById(R.id.forget_psd);
         register.setOnClickListener(this);
         youke.setOnClickListener(this);
         loginBtn.setOnClickListener(this);
+        forgetPsd.setOnClickListener(this);
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
     }
@@ -189,6 +189,11 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
                 } else {
                     showInfo("手机号或密码填写有误");
                 }
+                break;
+            case R.id.forget_psd:
+                Intent intent2 = new Intent(this, ModifyPsdActivity.class);
+                intent2.putExtra("title", "忘记密码");
+                startActivity(intent2);
                 break;
         }
     }

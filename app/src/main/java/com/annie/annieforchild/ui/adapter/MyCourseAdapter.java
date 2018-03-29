@@ -39,7 +39,7 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseViewHolder> {
 
     @Override
     public void onBindViewHolder(MyCourseViewHolder holder, int position) {
-        Glide.with(context).load(lists.get(position).getImage()).fitCenter().into(holder.image_myCourse);
+        Glide.with(context).load(lists.get(position).getImageUrl()).fitCenter().into(holder.image_myCourse);
         holder.name_myCourse.setText(lists.get(position).getName());
         holder.image_myCourse.setOnClickListener(new View.OnClickListener() {
             @Override

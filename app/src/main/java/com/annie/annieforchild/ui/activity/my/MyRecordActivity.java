@@ -1,8 +1,12 @@
 package com.annie.annieforchild.ui.activity.my;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -10,6 +14,7 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.Record;
 import com.annie.annieforchild.presenter.MessagePresenter;
@@ -19,8 +24,11 @@ import com.annie.annieforchild.ui.adapter.MyRecordAdapter;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -34,7 +42,7 @@ import java.util.List;
 
 public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnClickListener {
     private ImageView myRecordBack;
-    private XRecyclerView myRecordRecycler;
+    private SwipeMenuListView myRecordRecycler;
     private List<Record> lists;
     private MyRecordAdapter adapter;
     private MessagePresenter presenter;
@@ -63,16 +71,36 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
     protected void initData() {
         presenter = new MessagePresenterImp(this, this);
         presenter.initViewAndData();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        myRecordRecycler.setLayoutManager(layoutManager);
-        myRecordRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        myRecordRecycler.setPullRefreshEnabled(false);
-        myRecordRecycler.setLoadingMoreEnabled(false);
-        myRecordRecycler.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         lists = new ArrayList<>();
         adapter = new MyRecordAdapter(this, lists);
+        myRecordRecycler.setMenuCreator(creator);
         myRecordRecycler.setAdapter(adapter);
+        myRecordRecycler.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        SystemUtils.GeneralDialog(MyRecordActivity.this, "删除录音")
+                                .setMessage("是否删除该录音？")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        presenter.deleteRecording(lists.get(position).getRecordingId());
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+                        break;
+                }
+                return true;
+            }
+        });
+        myRecordRecycler.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
         presenter.myRecordings();
     }
 
@@ -90,6 +118,19 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
         }
     }
 
+    SwipeMenuCreator creator = new SwipeMenuCreator() {
+        @Override
+        public void create(SwipeMenu menu) {
+            SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
+            deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+            deleteItem.setWidth(dp2px(60));
+            deleteItem.setTitle("删除");
+            deleteItem.setTitleSize(16);
+            deleteItem.setTitleColor(Color.WHITE);
+            menu.addMenuItem(deleteItem);
+        }
+    };
+
     /**
      * {@link MessagePresenterImp#Success(int, Object)}
      *
@@ -101,6 +142,9 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
             lists.clear();
             lists.addAll((List<Record>) (message.obj));
             adapter.notifyDataSetChanged();
+        } else if (message.what == MethodCode.EVENT_DELETERECORDING) {
+            showInfo((String) message.obj);
+            presenter.myRecordings();
         }
     }
 
@@ -121,5 +165,10 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
+    }
+
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
     }
 }

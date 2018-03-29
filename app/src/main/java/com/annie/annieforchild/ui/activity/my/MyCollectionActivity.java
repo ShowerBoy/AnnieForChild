@@ -84,7 +84,7 @@ public class MyCollectionActivity extends BaseActivity implements View.OnClickLi
 
     class CollectionFragmentAdapter extends FragmentStatePagerAdapter {
 
-        public CollectionFragmentAdapter(FragmentManager fm) {
+        private CollectionFragmentAdapter(FragmentManager fm) {
             super(fm);
         }
 

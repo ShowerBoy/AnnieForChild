@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.ui.activity.login.ModifyPsdActivity;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.annie.baselibrary.utils.CleanUtils;
@@ -64,7 +65,9 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.change_psd_layout:
                 //修改密码
-
+                Intent intent1 = new Intent(this, ModifyPsdActivity.class);
+                intent1.putExtra("title", "修改密码");
+                startActivity(intent1);
                 break;
             case R.id.change_phone_layout:
                 //修改手机号

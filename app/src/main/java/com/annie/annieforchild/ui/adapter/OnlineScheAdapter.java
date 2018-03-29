@@ -11,8 +11,6 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.Schedule;
 import com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity;
-import com.annie.annieforchild.ui.adapter.viewHolder.MemberFooterViewHolder;
-import com.annie.annieforchild.ui.adapter.viewHolder.MemberViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.OnlineFooterViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.OnlineScheViewHolder;
 
@@ -55,9 +53,9 @@ public class OnlineScheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ITEM_TYPE_BOTTOM) {
-            return new OnlineFooterViewHolder(inflater.inflate(R.layout.activity_online_footer_item, parent, false));
+            return new OnlineFooterViewHolder(inflater.inflate(R.layout.activity_online_sche_footer_item, parent, false));
         } else if (viewType == ITEM_TYPE_CONTENT) {
-            return new OnlineScheViewHolder(inflater.inflate(R.layout.activity_online_item, parent, false));
+            return new OnlineScheViewHolder(inflater.inflate(R.layout.activity_online_sche_item, parent, false));
         }
         return null;
     }

@@ -1,26 +1,18 @@
 package com.annie.annieforchild.interactor.imp;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.MainBean;
 import com.annie.annieforchild.interactor.RegisterInteractor;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
-import com.annie.baselibrary.utils.NetUtils.NoHttpUtils;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
 import com.yanzhenjie.nohttp.RequestMethod;
-import com.yanzhenjie.nohttp.rest.JsonObjectRequest;
-import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.Response;
-import com.yanzhenjie.nohttp.rest.StringRequest;
-
-import java.util.UUID;
 
 /**
  * Created by WangLei on 2018/1/29 0029
@@ -73,6 +65,23 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
     }
 
     @Override
+    public void resetPassword(String phone, String code, String password, String serialNumber) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.RESETPASSWORD, RequestMethod.POST);
+        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
+        request.add("system", SystemUtils.phoneSN.getSystem());
+        request.add("deviceId", SystemUtils.sn);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
+
+        request.add("phone", phone);
+        request.add("code", code);
+        request.add("password", password);
+        request.add("serialNumber", serialNumber);
+        addQueue(MethodCode.EVENT_RESETPASSWORD, request);
+        startQueue();
+    }
+
+    @Override
     protected void onNetWorkStart(int what) {
 
     }
@@ -101,6 +110,8 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
                 listener.Success(what, token);
             } else if (what == MethodCode.EVENT_CHANGEPHONE) {
                 listener.Success(what, "修改成功");
+            } else if (what == MethodCode.EVENT_RESETPASSWORD) {
+                listener.Success(what, "成功");
             }
         }
     }

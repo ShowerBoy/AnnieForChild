@@ -5,15 +5,15 @@ import android.content.Context;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.SchedulePresenter;
+import com.annie.annieforchild.ui.fragment.schedule.OfflineScheduleFragment;
+import com.annie.annieforchild.ui.fragment.schedule.OnlineScheduleFragment;
 import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BasePresenterImp;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.logging.Handler;
-
 /**
- * 课表
+ * 课表与课业
  * Created by WangLei on 2018/2/28 0028
  */
 
@@ -33,8 +33,8 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
 
     /**
      * 根据日期获取课程详情
-     * {@link com.annie.annieforchild.ui.fragment.schedule.OfflineFragment#onEventMainThread(JTMessage)}
-     * {@link com.annie.annieforchild.ui.fragment.schedule.OnlineFragment#onEventMainThread(JTMessage)}
+     * {@link OfflineScheduleFragment#onEventMainThread(JTMessage)}
+     * {@link OnlineScheduleFragment#onEventMainThread(JTMessage)}
      */
     @Override
     public void getScheduleDetails(String time) {

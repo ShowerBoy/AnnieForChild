@@ -7,19 +7,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.LoginBean;
-import com.annie.annieforchild.bean.MainBean;
+import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.interactor.LoginInteractor;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Response;
-
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.UUID;
 
 /**
  * 登陆

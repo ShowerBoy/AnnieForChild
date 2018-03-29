@@ -3,8 +3,8 @@
     <dbname value="Annie"></dbname>
     <version value="1"></version>
     <list>
-        <mapping class="com.annie.annieforchild.bean.MainBean"></mapping>
-        <mapping class="com.annie.annieforchild.bean.PhoneSN"></mapping>
-        <mapping class="com.annie.annieforchild.bean.LoginBean"></mapping>
+        <mapping class="com.annie.annieforchild.bean.login.MainBean"></mapping>
+        <mapping class="com.annie.annieforchild.bean.login.PhoneSN"></mapping>
+        <mapping class="com.annie.annieforchild.bean.login.LoginBean"></mapping>
     </list>
 </litepal>

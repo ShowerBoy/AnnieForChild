@@ -11,6 +11,8 @@ public interface MessageInteractor {
 
     void myRecordings();
 
+    void deleteRecording(int recordingId);
+
     void getExchangeRecording();
 
     void feedback(String content);

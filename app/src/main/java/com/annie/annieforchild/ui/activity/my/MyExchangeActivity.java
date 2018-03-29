@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,9 +43,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MyExchangeActivity extends BaseActivity implements ViewInfo, View.OnClickListener {
     private ImageView myExchangeBack;
     private CircleImageView headpic;
-    private TextView name, nectar, coin;
+    private TextView name, nectar, coin, exchange_btn;
     private EditText exchange_nectar;
-    private Button exchange_btn;
     private RecyclerView myExchangeList;
     private MyExchangeAdapter adapter;
     private List<GoldExchanges> lists;

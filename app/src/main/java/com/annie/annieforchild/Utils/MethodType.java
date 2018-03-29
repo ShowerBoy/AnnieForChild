@@ -15,13 +15,21 @@ public class MethodType {
     final public static String UPDATEUSERINFO = "updateUserInfo"; //修改个人信息 7
     final public static String MYCOLLECTIONS = "myCollections"; //我的收藏
     final public static String CHANGEPHONE = "changePhone"; //修改手机号
+    final public static String RESETPASSWORD = "resetPassword"; //修改密码
     final public static String GETNECTAR = "getNectar"; //我的花蜜
     final public static String UPLOADACATAR = "uploadAvatar"; //上传头像
     final public static String SETDEFAULTUSER = "setDefaultUser"; //设置默认学员
+    final public static String DELETEUSERNAME = "deleteUsername"; //删除学员
     final public static String GETMYMESSAGES = "getMyMessages"; //获取通知和群消息
     final public static String FEEDBACK = "feedback"; //意见反馈
     final public static String GETHELP = "getDocumentations"; //帮助文档
     final public static String CANCELCOLLECTION = "cancelCollection"; //取消收藏
     final public static String MYRECORDINGS = "myRecordings"; //我的录音
+    final public static String DELETERECORDING = "deleteRecording"; //删除录音
     final public static String EXCHANGERECORDING = "nectarExchangeRecording"; //花蜜兑换记录
+    final public static String GETHOMEDATA = "getHomeData"; //获取首页信息
+    final public static String GETCARDDETAIL = "getCardDetail"; //今日打卡详情
+    final public static String GETLISTENING = "getListening"; //获取磨耳朵信息
+    final public static String GETMUSICCLASSES = "getMusicClasses"; //获取儿歌分类
+    final public static String GETMUSICLIST = "getMusicList"; //获取儿歌列表
 }
