@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.activity.my;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.bean.login.LoginBean;
+import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.activity.login.ModifyPsdActivity;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -22,7 +25,7 @@ import com.annie.baselibrary.utils.CleanUtils;
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
     private ImageView settingsBack;
     private TextView cacheSize;
-    private RelativeLayout changePsdLayout, changePhoneLayout, clearCacheLayout;
+    private RelativeLayout changePsdLayout, changePhoneLayout, clearCacheLayout, logout;
 
     @Override
     protected int getLayoutId() {
@@ -36,10 +39,12 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         changePsdLayout = findViewById(R.id.change_psd_layout);
         changePhoneLayout = findViewById(R.id.change_phone_layout);
         clearCacheLayout = findViewById(R.id.clear_cache_layout);
+        logout = findViewById(R.id.logout);
         settingsBack.setOnClickListener(this);
         changePsdLayout.setOnClickListener(this);
         changePhoneLayout.setOnClickListener(this);
         clearCacheLayout.setOnClickListener(this);
+        logout.setOnClickListener(this);
     }
 
     @Override
@@ -90,6 +95,39 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
+                            }
+                        })
+                        .create().show();
+                break;
+            case R.id.logout:
+                SystemUtils.GeneralDialog(this, "退出登陆")
+                        .setMessage("是否退出登录?")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences preferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.remove("phone");
+                                editor.remove("psd");
+                                editor.commit();
+
+                                SystemUtils.phoneSN.setUsername(null);
+                                SystemUtils.phoneSN.setLastlogintime(null);
+                                SystemUtils.phoneSN.setSystem(null);
+                                SystemUtils.phoneSN.setBitcode(null);
+                                SystemUtils.defaultUsername = null;
+                                SystemUtils.token = null;
+                                SystemUtils.phoneSN.save();
+                                dialog.dismiss();
+                                Intent intent2 = new Intent(SettingsActivity.this, LoginActivity.class);
+                                startActivity(intent2);
+                                finishAffinity();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
                             }
                         })
                         .create().show();

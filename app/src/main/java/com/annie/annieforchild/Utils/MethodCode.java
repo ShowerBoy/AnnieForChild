@@ -21,7 +21,7 @@ public class MethodCode {
     final public static int EVENT_RGISTER = 2; //注册
     final public static int EVENT_VERIFICATION_CODE = 3; //获取验证码
     final public static int EVENT_USERINFO = 4; //获取用户信息
-    final public static int EVENT_SCHEDULE = 5; //课表
+    final public static int EVENT_MYSCHEDULE = 5; //课表
     final public static int EVENT_ADDCHILD = 6; //注册学员
     final public static int EVENT_ADDCHILD2 = 7; //注册学员2
     final public static int EVENT_USERLIST = 8; //获取学员列表
@@ -52,4 +52,7 @@ public class MethodCode {
     final public static int EVENT_GETMUSICCLASSES4 = 33; //获取绘本分类
     final public static int EVENT_GETMUSICLIST = 34; //获取儿歌列表
     final public static int EVENT_DELETEUSERNAME = 35; //删除学员
+    final public static int EVENT_GETMYLISTENING = 36; //获取我的磨耳朵
+    final public static int EVENT_COMMITDURATION = 37; //时长录入
+    final public static int EVENT_GETBOOKSCORE = 38; //获取书籍信息
 }

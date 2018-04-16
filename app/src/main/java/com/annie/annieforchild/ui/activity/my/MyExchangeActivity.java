@@ -79,7 +79,9 @@ public class MyExchangeActivity extends BaseActivity implements ViewInfo, View.O
         myExchangeList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         if (getIntent() != null) {
             Bundle bundle = getIntent().getExtras();
-            userInfo = (UserInfo) bundle.getSerializable("userinfo");
+            if (bundle != null) {
+                userInfo = (UserInfo) bundle.getSerializable("userinfo");
+            }
         }
     }
 

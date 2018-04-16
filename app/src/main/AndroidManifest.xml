@@ -66,7 +66,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name="com.annie.annieforchild.ui.activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:taskAffinity="Logout.finish"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".ui.activity.Details" />
         <activity android:name=".ui.activity.my.MyMessageActivity" />
@@ -75,9 +77,13 @@
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".ui.activity.my.AboutActivity" />
         <activity android:name=".ui.activity.my.HelpActivity" />
-        <activity android:name=".ui.activity.my.SettingsActivity" />
+        <activity
+            android:name="com.annie.annieforchild.ui.activity.my.SettingsActivity"
+            android:taskAffinity="Logout.finish"></activity>
         <activity android:name=".ui.activity.my.ToFriendActivity" />
-        <activity android:name=".ui.activity.grindEar.GrindEarActivity" />
+        <activity
+            android:name=".ui.activity.grindEar.GrindEarActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.activity.grindEar.SingingActivity" />
         <activity android:name=".ui.activity.ReadingActivity" />
         <activity android:name=".ui.activity.login.RegisterActivity" />
@@ -91,7 +97,9 @@
         <activity
             android:name=".ui.activity.child.AddChildActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
-        <activity android:name=".ui.activity.lesson.ScheduleActivity" />
+        <activity
+            android:name=".ui.activity.lesson.ScheduleActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.activity.lesson.AddOnlineScheActivity" />
         <activity android:name=".ui.activity.child.ModifyChildActivity" />
         <activity android:name=".ui.activity.my.MyNectarActivity" />
@@ -101,12 +109,24 @@
         <activity android:name=".ui.activity.grindEar.ListenSongActivity" />
         <activity android:name=".ui.activity.grindEar.MyGrindEarActivity" />
         <activity android:name=".ui.activity.lesson.CourseActivity" />
-        <activity android:name=".ui.activity.grindEar.ExerciseActivity" />
+        <activity android:name=".ui.activity.grindEar.ExerciseTestActivity" />
         <activity android:name=".ui.activity.mains.TodayClockInActivity" />
         <activity android:name=".ui.activity.my.WebActivity" />
         <activity android:name=".ui.activity.login.ModifyPsdActivity" />
         <activity android:name=".ui.activity.lesson.FollowTaskActivity" />
         <activity android:name=".ui.activity.lesson.SongTaskActivity" />
+        <activity android:name=".ui.activity.pk.ExerciseActivity" />
+        <activity android:name=".ui.activity.pk.PracticeActivity" />
+        <activity android:name=".ui.activity.pk.ChallengeActivity" />
+        <activity android:name=".ui.activity.pk.pkActivity" />
+        <activity android:name=".ui.activity.lesson.MaterialActivity" />
+        <activity
+            android:name=".ui.activity.lesson.SearchMaterialActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <activity android:name=".ui.activity.lesson.SelectMaterialActivity" />
+        <activity
+            android:name=".ui.activity.grindEar.InputActivity"
+            android:screenOrientation="user"></activity>
 
     </application>
 

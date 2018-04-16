@@ -8,5 +8,4 @@ import android.support.v7.widget.RecyclerView;
 
 public interface SecondPresenter {
     void initViewAndData();
-    void setMyLessonAdapter(RecyclerView myLesson_list);
 }

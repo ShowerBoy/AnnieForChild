@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_gray">
 
     <LinearLayout
@@ -34,22 +35,45 @@
                 android:textSize="20sp" />
         </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/song_classify_recycler"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/song_tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:layout_height="42dp"
+            app:tabSelectedTextColor="@color/button_orange"
+            app:tabTextAppearance="@style/CustomTabPageIndicator.Text"
+            app:tabTextColor="@color/text_color"
+            app:tabIndicatorColor="@color/clarity"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:fillViewport="false">
 
-        </android.support.v7.widget.RecyclerView>
+        </android.support.design.widget.TabLayout>
 
-        <com.jcodecraeer.xrecyclerview.XRecyclerView
-            android:id="@+id/song_xrecycler"
+        <com.annie.annieforchild.Utils.views.APSTSViewPager
+            android:id="@+id/song_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="2dp"
             android:background="@color/white">
 
-        </com.jcodecraeer.xrecyclerview.XRecyclerView>
+        </com.annie.annieforchild.Utils.views.APSTSViewPager>
+
+        <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/song_classify_recycler"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white">-->
+
+        <!--</android.support.v7.widget.RecyclerView>-->
+
+        <!--<com.jcodecraeer.xrecyclerview.XRecyclerView-->
+        <!--android:id="@+id/song_xrecycler"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginTop="1dp"-->
+        <!--android:background="@color/white">-->
+
+        <!--</com.jcodecraeer.xrecyclerview.XRecyclerView>-->
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

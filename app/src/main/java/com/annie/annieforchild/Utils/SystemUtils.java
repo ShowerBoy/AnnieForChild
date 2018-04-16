@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
+import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.ui.application.MyApplication;
@@ -27,10 +28,12 @@ import java.io.IOException;
  */
 
 public class SystemUtils {
-    public static String mainUrl = "http://appapi.anniekids.net/getapiaddr/"; //获取接口对象地址
+//    public static String mainUrl = "https://appapi.anniekids.net/getapiaddr/"; //获取接口对象地址（正式）
+    public static String mainUrl = "https://demoapi.anniekids.net/getapiaddr/"; //获取接口对象地址（测试）
 
     public static MainBean mainBean; //第一次启动获取的接口对象
     public static PhoneSN phoneSN; //登陆时产生的phoneSN
+    public static UserInfo userInfo;//用户对象
     public static String token; //token
     public static String defaultUsername; //默认学员编号
     public static String sn; //设备sn号

@@ -16,7 +16,6 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.ui.fragment.FirstFragment;
 import com.annie.annieforchild.ui.fragment.FourthFragment;
 import com.annie.annieforchild.ui.fragment.SecondFragment;
-import com.annie.annieforchild.ui.fragment.SecondFragment2;
 import com.annie.annieforchild.ui.fragment.ThirdFragment;
 import com.annie.baselibrary.base.BaseFragment;
 import com.annie.baselibrary.base.BasePresenter;

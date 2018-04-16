@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
@@ -57,6 +58,9 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     private SQLiteDatabase db;
     private AlertHelper helper;
     private Dialog dialog;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    private Calendar calendar;
     String logintime, phone, psd;
 
     {
@@ -86,6 +90,7 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
 
     @Override
     protected void initData() {
+        calendar = Calendar.getInstance();
         presenter = new LoginPresenterImp(this, this);
         tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED ||
@@ -131,6 +136,15 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
         } else {
             presenter.getMainAddress();
         }
+        preferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+        editor = preferences.edit();
+
+        if (preferences.getString("phone", null) != null && preferences.getString("psd", null) != null) {
+            phone = preferences.getString("phone", null);
+            psd = preferences.getString("psd", null);
+            logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
+            presenter.login(phone, psd, logintime);
+        }
     }
 
     /**
@@ -154,6 +168,11 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
             SystemUtils.phoneSN.setSystem("android");
             SystemUtils.phoneSN.setBitcode(SystemUtils.getVersionCode(this));
             SystemUtils.phoneSN.save();
+
+            editor.putString("phone", phone);
+            editor.putString("psd", psd);
+            editor.commit();
+
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("tag", "会员");
             startActivity(intent);
@@ -181,7 +200,6 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
                 break;
             case R.id.login_btn:
                 if (check()) {
-                    Calendar calendar = Calendar.getInstance();
                     logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
                     phone = phoneNumber.getText().toString();
                     psd = password.getText().toString();

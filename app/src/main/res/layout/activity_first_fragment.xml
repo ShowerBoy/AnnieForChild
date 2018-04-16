@@ -17,6 +17,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -57,20 +58,13 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@+id/search_icon"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="5dp"
+                                android:layout_toEndOf="@+id/search_icon"
                                 android:text="请输入教材名称"
                                 android:textColor="@color/text_color"
                                 android:textSize="14sp" />
-                            <!--<SearchView-->
-                            <!--android:id="@+id/search_view"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:iconifiedByDefault="false"-->
-                            <!--android:queryHint="请输入教材名称">-->
 
-                            <!--</SearchView>-->
                         </RelativeLayout>
 
                         <ImageView
@@ -86,135 +80,223 @@
                     <com.daimajia.slider.library.SliderLayout
                         android:id="@+id/image_slide"
                         android:layout_width="match_parent"
-                        android:layout_height="190dp">
+                        android:layout_height="180dp">
 
                     </com.daimajia.slider.library.SliderLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:background="@color/white"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/clock_in_layout"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:layout_marginTop="5dp"
+                            android:background="@color/white"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
 
-                            <ImageView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:id="@+id/clock_in_layout"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:src="@drawable/main_clock_in" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/main_clock_in" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text="今日打卡"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/schedule_layout"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="5dp"
-                                android:text="今日打卡"
-                                android:textColor="@color/text_black"
-                                android:textSize="14sp" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/main_schedule" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text="我的课表"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/event_layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/main_event" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text="精彩活动"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/match_layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/main_match" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text="大赛专区"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/schedule_layout"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:background="@color/white"
+                            android:orientation="horizontal"
+                            android:paddingBottom="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingStart="10dp"
+                            android:paddingTop="5dp">
 
-                            <ImageView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:id="@+id/grind_ear100_layout"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:src="@drawable/main_schedule" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/main_grindear100" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text="磨耳朵100"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/reading100_layout"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="5dp"
-                                android:text="我的课表"
-                                android:textColor="@color/text_black"
-                                android:textSize="14sp" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                        </LinearLayout>
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/main_reading100" />
 
-                        <LinearLayout
-                            android:id="@+id/square_layout"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text="阅读100"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="14sp" />
 
-                            <ImageView
-                                android:layout_width="wrap_content"
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/spoken100_layout"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:src="@drawable/main_square" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/main_spoken100" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text="口语100"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/word100_layout"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="5dp"
-                                android:text="广场"
-                                android:textColor="@color/text_black"
-                                android:textSize="14sp" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                        </LinearLayout>
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/main_word100" />
 
-                        <LinearLayout
-                            android:id="@+id/event_layout"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text="单词100"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="14sp" />
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:src="@drawable/main_event" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="5dp"
-                                android:text="精彩活动"
-                                android:textColor="@color/text_black"
-                                android:textSize="14sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/match_layout"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:src="@drawable/main_match" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="5dp"
-                                android:text="大赛专区"
-                                android:textColor="@color/text_black"
-                                android:textSize="14sp" />
-
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -227,43 +309,19 @@
                         android:id="@+id/first_msg_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/main_porn"
                         android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/remind"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:text="花花提醒"
-                            android:textColor="@color/text_green2"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/text_line"
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:layout_toEndOf="@+id/remind"
-                            android:background="@color/text_green2" />
-
-                        <ImageView
-                            android:id="@+id/horn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:layout_toEndOf="@+id/text_line"
-                            android:src="@drawable/icon_horn" />
 
                         <ViewFlipper
                             android:id="@+id/msg_flipper"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:layout_toEndOf="@+id/horn"
                             android:autoStart="true"
                             android:flipInterval="3000"
                             android:inAnimation="@anim/anim_come_in"
@@ -271,23 +329,24 @@
 
                         </ViewFlipper>
 
-                        <TextView
-                            android:id="@+id/chakan"
+                        <ImageView
+                            android:id="@+id/arrow_right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:text="更多"
-                            android:textColor="@color/text_color"
-                            android:textSize="16sp" />
+                            android:src="@drawable/icon_arrow_right_orange" />
 
                         <TextView
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
+                            android:id="@+id/chakan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="10dp"
-                            android:layout_toStartOf="@+id/chakan"
-                            android:background="@color/text_green2" />
+                            android:layout_marginRight="5dp"
+                            android:layout_toStartOf="@+id/arrow_right"
+                            android:text="更多"
+                            android:textColor="@color/text_orange"
+                            android:textSize="16sp" />
 
                     </RelativeLayout>
 
@@ -306,134 +365,31 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp">
+                            android:orientation="horizontal">
 
-                            <android.support.constraint.ConstraintLayout
+                            <ImageView
                                 android:id="@+id/grind_ear_layout"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="5dp"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:src="@drawable/main_grind_ear" />
 
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:scaleType="fitXY"
-                                    android:src="@drawable/main_grind_ear_bg"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/main_grind_ear_img"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.75" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="5dp"
-                                    android:scaleType="fitCenter"
-                                    android:src="@drawable/main_grind_ear_txt"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </android.support.constraint.ConstraintLayout>
-
-                            <android.support.constraint.ConstraintLayout
+                            <ImageView
                                 android:id="@+id/reading_layout"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:src="@drawable/main_reading" />
 
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:scaleType="fitXY"
-                                    android:src="@drawable/main_reading_bg"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/main_reading_img"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.75" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="5dp"
-                                    android:scaleType="fitCenter"
-                                    android:src="@drawable/main_reading_txt"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                            </android.support.constraint.ConstraintLayout>
-
-                            <android.support.constraint.ConstraintLayout
+                            <ImageView
                                 android:id="@+id/spoken_layout"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_weight="1">
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:scaleType="fitXY"
-                                    android:src="@drawable/main_spoken_bg"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/main_spoken_img"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.75" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="5dp"
-                                    android:scaleType="fitCenter"
-                                    android:src="@drawable/main_spoken_txt"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                            </android.support.constraint.ConstraintLayout>
+                                android:layout_weight="1"
+                                android:src="@drawable/main_spoken" />
 
                         </LinearLayout>
                     </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="6dp"
-                        android:background="@color/light_gray" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -445,15 +401,17 @@
                             android:id="@+id/lesson_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="10dp">
+                            android:paddingBottom="12dp"
+                            android:paddingEnd="16dp"
+                            android:paddingTop="10dp">
 
                             <TextView
                                 android:id="@+id/lesson_line"
-                                android:layout_width="1.5dp"
+                                android:layout_width="5dp"
                                 android:layout_height="match_parent"
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
-                                android:background="@color/text_green" />
+                                android:background="@color/text_green2" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -469,9 +427,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:drawablePadding="5dp"
-                                android:drawableRight="@drawable/icon_arrow_right2"
                                 android:text="全部"
+                                android:textColor="@color/text_orange"
                                 android:textSize="16sp" />
                         </RelativeLayout>
 
@@ -483,8 +440,7 @@
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/myCourse_list"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="5dp">
+                            android:layout_height="wrap_content">
 
                         </android.support.v7.widget.RecyclerView>
 
@@ -504,15 +460,17 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="10dp">
+                            android:paddingBottom="12dp"
+                            android:paddingEnd="16dp"
+                            android:paddingTop="10dp">
 
                             <TextView
                                 android:id="@+id/recommend_line"
-                                android:layout_width="1.5dp"
+                                android:layout_width="5dp"
                                 android:layout_height="match_parent"
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
-                                android:background="@color/text_green" />
+                                android:background="@color/text_green2" />
 
                             <TextView
                                 android:id="@+id/recommend"
@@ -521,26 +479,17 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="10dp"
                                 android:layout_toEndOf="@+id/recommend_line"
-                                android:text="推荐"
+                                android:text="猜你喜欢"
                                 android:textColor="@color/text_black"
                                 android:textSize="18sp" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="5dp"
-                                android:layout_toEndOf="@+id/recommend"
-                                android:src="@drawable/five_stars" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:drawablePadding="5dp"
-                                android:drawableRight="@drawable/icon_arrow_right2"
                                 android:text="全部"
+                                android:textColor="@color/text_orange"
                                 android:textSize="16sp" />
                         </RelativeLayout>
 
@@ -611,14 +560,11 @@
 
         <include
             android:id="@+id/network_error_layout"
+            layout="@layout/activity_network_error"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            layout="@layout/activity_network_error">
-        </include>
+            android:visibility="gone"></include>
     </RelativeLayout>
-
-
 
 
 </android.support.v4.widget.SwipeRefreshLayout>

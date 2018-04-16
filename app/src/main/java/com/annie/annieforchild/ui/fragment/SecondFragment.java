@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.ui.activity.lesson.CourseActivity;
 import com.annie.annieforchild.ui.activity.lesson.FollowTaskActivity;
+import com.annie.annieforchild.ui.activity.lesson.MaterialActivity;
 import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity;
 import com.annie.annieforchild.view.SecondView;
 import com.annie.baselibrary.base.BaseFragment;
@@ -102,7 +103,8 @@ public class SecondFragment extends BaseFragment implements SecondView, View.OnC
                 break;
             case R.id.lesson_textbook:
                 //我的教材
-
+                intent.setClass(getContext(), MaterialActivity.class);
+                startActivity(intent);
                 break;
             case R.id.follow_task_layout:
                 //随堂作业

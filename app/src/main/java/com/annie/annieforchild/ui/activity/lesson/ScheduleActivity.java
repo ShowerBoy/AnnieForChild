@@ -101,7 +101,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
                 }
                 date_lists.get(position).setSelect(true);
                 adapter.notifyDataSetChanged();
-                presenter.getScheduleDetails(date_lists.get(position).getMonth() + date_lists.get(position).getDay());
+                presenter.getScheduleDetails(date_lists.get(position).getYear() + date_lists.get(position).getMonth() + date_lists.get(position).getDay());
             }
 
             @Override
@@ -116,7 +116,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
         fragmentAdapter.notifyDataSetChanged();
         mTab.setViewPager(mVP);
         mTab.setOnPageChangeListener(this);
-        presenter.getScheduleDetails(date_lists.get(0).getMonth() + date_lists.get(0).getDay());
+        presenter.getScheduleDetails(date_lists.get(0).getYear() + date_lists.get(0).getMonth() + date_lists.get(0).getDay());
     }
 
     /**
@@ -163,7 +163,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
                 date_lists.get(0).setSelect(true);
                 adapter.notifyDataSetChanged();
                 dateRecycler.smoothScrollToPosition(0);
-                presenter.getScheduleDetails(date_lists.get(0).getMonth() + date_lists.get(0).getDay());
+                presenter.getScheduleDetails(date_lists.get(0).getYear() + date_lists.get(0).getMonth() + date_lists.get(0).getDay());
                 break;
             case R.id.total_schedule:
                 Intent intent = new Intent(this, TotalScheduleActivity.class);

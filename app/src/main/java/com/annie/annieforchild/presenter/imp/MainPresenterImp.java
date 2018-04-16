@@ -39,14 +39,16 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
     private MainView mainView;
     private MyCourseAdapter course_adapter;
     private MainInteractor interactor;
-    private List<Course> myCourse_lists;
+    //    private List<Course> myCourse_lists;
     private List<Course2> myCourse_lists2;
     private List<Banner> bannerList; //banner列表
     private HashMap<Integer, String> file_maps;
+    private int screenwidth;
 
-    public MainPresenterImp(Context context, MainView mainView) {
+    public MainPresenterImp(Context context, MainView mainView, int screenwidth) {
         this.context = context;
         this.mainView = mainView;
+        this.screenwidth = screenwidth;
     }
 
     private void initImageSlide() {
@@ -76,17 +78,9 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
     @Override
     public void initViewAndData() {
         file_maps = mainView.getFile_maps();
-        myCourse_lists = new ArrayList<>();
         myCourse_lists2 = new ArrayList<>();
-//        myCourse_lists.add(new Course(0,R.drawable.lesson_grind_ear, "西游记"));
-//        myCourse_lists.add(new Course(R.drawable.lesson_spelling, "红楼梦"));
-//        myCourse_lists.add(new Course(R.drawable.lesson_story, "三国演义"));
-//        myCourse_lists.add(new Course(R.drawable.lesson_grind_ear, "水浒传"));
-//        myCourse_lists.add(new Course(R.drawable.lesson_spelling, "论语"));
-//        myCourse_lists.add(new Course(R.drawable.lesson_story, "三字经"));
-        course_adapter = new MyCourseAdapter(context, myCourse_lists);
+        course_adapter = new MyCourseAdapter(context, screenwidth, myCourse_lists2);
         interactor = new MainInteractorImp(context, this);
-
     }
 
     @Override
@@ -130,8 +124,9 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
                     EventBus.getDefault().post(message);
                 }
                 if (homeData.getMyCourseList() != null) {
-                    myCourse_lists.clear();
+                    myCourse_lists2.clear();
 //                    myCourse_lists.addAll(homeData.getMyCourseList());
+                    myCourse_lists2.addAll(homeData.getMyCourseList());
                     course_adapter.notifyDataSetChanged();
                 }
             }

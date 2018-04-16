@@ -137,6 +137,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
             if (what == MethodCode.EVENT_USERINFO) {
                 fourthView.dismissLoad();
                 UserInfo info = (UserInfo) result;
+                SystemUtils.userInfo = info;
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
                  */

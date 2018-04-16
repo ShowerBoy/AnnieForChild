@@ -3,36 +3,28 @@ package com.annie.annieforchild.ui.activity.grindEar;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
-import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
-import com.annie.annieforchild.presenter.GrindEarPresenter;
-import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.adapter.SongAdapter;
-import com.annie.annieforchild.ui.adapter.SongClassifyAdapter;
-import com.annie.annieforchild.ui.fragment.song.Mobao1Fragment;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
+import com.annie.annieforchild.ui.fragment.song.ListenSongFragment;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
-
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -40,25 +32,25 @@ import java.util.List;
  * Created by WangLei on 2018/3/13 0013
  */
 
-public class ListenSongActivity extends BaseActivity implements SongView, View.OnClickListener, ViewPager.OnPageChangeListener {
+public class ListenSongActivity extends BaseActivity implements SongView, View.OnClickListener {
     private ImageView back;
     private TextView listenTitle;
-    private RecyclerView classifyRecycler;
-    private XRecyclerView songXRecycler;
-    private GrindEarPresenter presenter;
-    private List<SongClassify> lists;
+    private ArrayList<SongClassify> lists;
     private List<Song> songsList;
-    private SongClassifyAdapter topAdapter;
-    private SongAdapter songAdapter;
     private Intent intent;
     private Bundle bundle;
     private AlertHelper helper;
     private Dialog dialog;
     private int type;
 
-    {
-        setRegister(true);
-    }
+    //
+//    private AdvancedPagerSlidingTabStrip mTab;
+    private TabLayout mTab;
+    private APSTSViewPager mVP;
+    private ListenSongFragmentAdapter fragmentAdapter;
+    private ListenSongFragment listenSongFragment;
+    private Boolean[] bool;
+    private List<ListenSongFragment> fragments;
 
     @Override
     protected int getLayoutId() {
@@ -68,9 +60,12 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
     @Override
     protected void initView() {
         back = findViewById(R.id.song_back);
-        classifyRecycler = findViewById(R.id.song_classify_recycler);
-        songXRecycler = findViewById(R.id.song_xrecycler);
         listenTitle = findViewById(R.id.listen_title);
+
+        //
+        mTab = findViewById(R.id.song_tab_layout);
+        mVP = findViewById(R.id.song_viewpager);
+        //
         back.setOnClickListener(this);
 
         intent = getIntent();
@@ -79,65 +74,48 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
             type = bundle.getInt("type");
             if (type == 1) {
                 listenTitle.setText("听儿歌");
-                lists = (List<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
             } else if (type == 2) {
                 listenTitle.setText("听诗歌");
-                lists = (List<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
             } else if (type == 3) {
                 listenTitle.setText("听对话");
-                lists = (List<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
             } else if (type == 4) {
                 listenTitle.setText("听绘本");
-                lists = (List<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
             }
         }
 
         if (lists.size() != 0) {
             lists.get(0).setSelected(true);
         }
-        topAdapter = new SongClassifyAdapter(this, lists, new OnRecyclerItemClickListener() {
-            @Override
-            public void onItemClick(View view) {
-                int position = classifyRecycler.getChildAdapterPosition(view);
-                for (int i = 0; i < lists.size(); i++) {
-                    lists.get(i).setSelected(false);
-                }
-                lists.get(position).setSelected(true);
-                topAdapter.notifyDataSetChanged();
-                presenter.getMusicList(lists.get(position).getCalssId());
-            }
 
-            @Override
-            public void onItemLongClick(View view) {
+        //
+        initTab();
+        //
+    }
 
-            }
-        });
+    private void initTab() {
+        bool = new Boolean[lists.size()];
+        for (int i = 0; i < bool.length; i++) {
+            bool[i] = false;
+        }
+        fragments = new ArrayList<>(lists.size());
 
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        classifyRecycler.setLayoutManager(manager);
-        classifyRecycler.setAdapter(topAdapter);
+        fragmentAdapter = new ListenSongFragmentAdapter(getSupportFragmentManager());
+        mVP.setOffscreenPageLimit(lists.size());
+        mVP.setAdapter(fragmentAdapter);
+        fragmentAdapter.notifyDataSetChanged();
+
+        mTab.setupWithViewPager(mVP);
+        mTab.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
     @Override
     protected void initData() {
-        songsList = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-        presenter = new GrindEarPresenterImp(this, this);
-        presenter.initViewAndData();
-        songAdapter = new SongAdapter(this, songsList);
-        initRecycler();
-        presenter.getMusicList(lists.get(0).getCalssId());
-    }
-
-    private void initRecycler() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        songXRecycler.setLayoutManager(layoutManager);
-        songXRecycler.setPullRefreshEnabled(false);
-        songXRecycler.setLoadingMoreEnabled(false);
-        songXRecycler.setAdapter(songAdapter);
     }
 
     @Override
@@ -152,35 +130,6 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
                 finish();
                 break;
         }
-    }
-
-    /**
-     * {@link GrindEarPresenterImp#Success(int, Object)}
-     *
-     * @param message
-     */
-    @Subscribe
-    public void onMainEventThread(JTMessage message) {
-        if (message.what == MethodCode.EVENT_GETMUSICLIST) {
-            songsList.clear();
-            songsList.addAll((List<Song>) message.obj);
-            songAdapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
     }
 
     @Override
@@ -199,6 +148,35 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
+        }
+    }
+
+    class ListenSongFragmentAdapter extends FragmentStatePagerAdapter {
+
+        public ListenSongFragmentAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (bool[position]) {
+                return fragments.get(position);
+            } else {
+                listenSongFragment = ListenSongFragment.instance(lists.get(position).getCalssId());
+                fragments.add(position, listenSongFragment);
+                bool[position] = true;
+                return listenSongFragment;
+            }
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return lists.get(position).getTitle();
+        }
+
+        @Override
+        public int getCount() {
+            return lists.size();
         }
     }
 }

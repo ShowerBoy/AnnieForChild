@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,8 +39,6 @@ import com.annie.annieforchild.ui.adapter.MemberAdapter;
 import com.annie.annieforchild.view.FourthView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -50,7 +47,6 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * 我的
@@ -60,7 +56,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class FourthFragment extends BaseFragment implements FourthView, View.OnClickListener {
     private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, aboutLayout, collectionLayout;
     private LinearLayout nectarLayout, coinLayout, recordLayout;
-    private ImageView settings, sexIcon, headpicBack;
+    private ImageView settings, sexIcon, headpic_back;
     private CircleImageView userHeadpic;
     private TextView userId, userName, userLevel, userOld, nectarNum, coinNum, recordNum;
     private RecyclerView member_layout;
@@ -115,7 +111,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
         nectarLayout = view.findViewById(R.id.nectar_layout);
         coinLayout = view.findViewById(R.id.coin_layout);
         recordLayout = view.findViewById(R.id.record_layout);
-        headpicBack = view.findViewById(R.id.headpic_back);
+        headpic_back = view.findViewById(R.id.headpic_back);
         myMsgLayout.setOnClickListener(this);
         toFriendLayout.setOnClickListener(this);
         myExchangeLayout.setOnClickListener(this);
@@ -279,21 +275,19 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
                 userInfo = (UserInfo) message.obj;
                 refresh(userInfo);
             } else if (message.what == MethodCode.EVENT_ADDCHILD2) {
-//                presenter.initViewAndData();
+                presenter.initViewAndData();
                 presenter.getUserInfo();
             } else if (message.what == MethodCode.EVENT_UPDATEUSER) {
-//                presenter.initViewAndData();
-                presenter.getUserInfo();
-            } else if (message.what == MethodCode.EVENT_DELETEUSERNAME) {
-                showInfo((String) message.obj);
+                presenter.initViewAndData();
                 presenter.getUserInfo();
             }
         }
     }
 
     public void refresh(UserInfo userInfo) {
-        userId.setText("学员编号：" + userInfo.getUsername());
-        Glide.with(getContext()).load(userInfo.getAvatar()).into(userHeadpic);
+        userId.setText(userInfo.getUsername());
+        Glide.with(this).load(userInfo.getAvatar()).into(userHeadpic);
+        Glide.with(this).load(userInfo.getAvatar()).bitmapTransform(new BlurTransformation(getContext(), 5)).into(headpic_back);
         userName.setText(userInfo.getName());
         userLevel.setText(userInfo.getLevel());
         userOld.setText(getOld(userInfo.getBirthday()) + "岁");
@@ -305,7 +299,6 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
         nectarNum.setText(userInfo.getNectar() != null ? userInfo.getNectar() : "0");
         coinNum.setText(userInfo.getGold() != null ? userInfo.getGold() : "0");
         recordNum.setText(userInfo.getRecorderCount() != null ? userInfo.getRecorderCount() : "0");
-        Glide.with(getContext()).load(userInfo.getAvatar()).bitmapTransform(new BlurTransformation(getContext(), 5, 1)).into(headpicBack);
     }
 
     @Override
@@ -356,3 +349,4 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
 
 
 }
+

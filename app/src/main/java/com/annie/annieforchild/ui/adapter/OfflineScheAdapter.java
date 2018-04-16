@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.Schedule;
+import com.annie.annieforchild.bean.schedule.Schedule;
 import com.annie.annieforchild.ui.adapter.viewHolder.OfflineScheViewHolder;
 
 import java.util.List;
@@ -37,13 +37,8 @@ public class OfflineScheAdapter extends RecyclerView.Adapter<OfflineScheViewHold
 
     @Override
     public void onBindViewHolder(OfflineScheViewHolder holder, int position) {
-//        if ((position + 1) == lists.size()) {
-//            holder.line.setVisibility(View.GONE);
-//        } else {
-//            holder.line.setVisibility(View.VISIBLE);
-//        }
         holder.scheduleTime.setText(lists.get(position).getStart() + "-" + lists.get(position).getStop());
-        holder.scheduleName.setText(lists.get(position).getMaterialName());
+        holder.scheduleName.setText(lists.get(position).getDetail());
         holder.selectSpot.setVisibility(View.GONE);
     }
 

@@ -56,7 +56,7 @@ public class CourseActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initData() {
         fragmentAdapter = new CourseFragmentAdapter(getSupportFragmentManager());
-        mVP.setOffscreenPageLimit(3);
+        mVP.setOffscreenPageLimit(4);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
         mTab.setViewPager(mVP);

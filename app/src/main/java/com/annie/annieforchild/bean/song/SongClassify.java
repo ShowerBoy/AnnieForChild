@@ -1,5 +1,8 @@
 package com.annie.annieforchild.bean.song;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
@@ -34,4 +37,5 @@ public class SongClassify implements Serializable {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
+
 }

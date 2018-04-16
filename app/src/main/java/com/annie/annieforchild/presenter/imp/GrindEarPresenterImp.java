@@ -2,18 +2,24 @@ package com.annie.annieforchild.presenter.imp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.Banner;
-import com.annie.annieforchild.bean.GrindEarData;
+import com.annie.annieforchild.bean.grindear.GrindEarData;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
+import com.annie.annieforchild.bean.material.MaterialGroup;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.interactor.GrindEarInteractor;
 import com.annie.annieforchild.interactor.imp.GrindEarInteractorImp;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
-import com.annie.annieforchild.ui.activity.grindEar.ListenSongActivity;
+import com.annie.annieforchild.ui.adapter.PopupAdapter;
 import com.annie.annieforchild.view.GrindEarView;
+import com.annie.annieforchild.view.ReadingView;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BasePresenterImp;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -23,6 +29,7 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,6 +44,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     private SongView songView;
     private GrindEarInteractor interactor;
     private List<Banner> bannerList;
+    private int classId;
     private HashMap<Integer, String> file_maps;
 
     public GrindEarPresenterImp(Context context, GrindEarView grindEarView) {
@@ -67,6 +75,15 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     }
 
     /**
+     * 获取我的磨耳朵
+     */
+    @Override
+    public void getMyListening() {
+        songView.showLoad();
+        interactor.getMyListening();
+    }
+
+    /**
      * 获取儿歌以及分类
      */
     @Override
@@ -82,7 +99,30 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     @Override
     public void getMusicList(int calssId) {
         songView.showLoad();
+        classId = calssId;
         interactor.getMusicList(calssId);
+    }
+
+    /**
+     * 时长录入
+     *
+     * @param type
+     * @param duration
+     */
+    @Override
+    public void commitDuration(String[] type, String[] duration) {
+        songView.showLoad();
+        interactor.commitDuration(type, duration);
+    }
+
+    /**
+     * 获取书籍信息
+     *
+     * @param bookId
+     */
+    @Override
+    public void getBookScore(int bookId) {
+        interactor.getBookScore(bookId);
     }
 
     private void initImageSlide() {
@@ -162,14 +202,41 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 message.what = what;
                 message.obj = lists;
                 EventBus.getDefault().post(message);
-            } else if (what == MethodCode.EVENT_GETMUSICLIST) {
+            } else if (what == MethodCode.EVENT_GETMUSICLIST + 10000 + classId) {
                 List<Song> songList = (List<Song>) result;
                 /**
-                 * {@link ListenSongActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.fragment.song.ListenSongFragment#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = songList;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETMYLISTENING) {
+                MyGrindEarBean bean = (MyGrindEarBean) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.MyGrindEarActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage jtMessage = new JTMessage();
+                jtMessage.what = what;
+                jtMessage.obj = bean;
+                EventBus.getDefault().post(jtMessage);
+            } else if (what == MethodCode.EVENT_COMMITDURATION) {
+                songView.showInfo((String) result);
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.InputActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETBOOKSCORE) {
+                Song song = (Song) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.pk.PracticeActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = song;
                 EventBus.getDefault().post(message);
             }
         }

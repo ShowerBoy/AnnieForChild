@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.Course;
+import com.annie.annieforchild.bean.Course2;
 import com.annie.annieforchild.presenter.imp.MainPresenterImp;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyCourseViewHolder;
 import com.bumptech.glide.Glide;
@@ -21,19 +22,23 @@ import java.util.List;
  */
 
 public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseViewHolder> {
-    private List<Course> lists;
+    private List<Course2> lists;
     LayoutInflater inflater;
     Context context;
+    private int screenwidth;
 
-    public MyCourseAdapter(Context context, List<Course> lists) {
+    public MyCourseAdapter(Context context, int screenwidth, List<Course2> lists) {
         this.context = context;
+        this.screenwidth = screenwidth;
         this.lists = lists;
         inflater = LayoutInflater.from(context);
     }
 
     @Override
     public MyCourseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyCourseViewHolder viewHolder = new MyCourseViewHolder(inflater.inflate(R.layout.activity_item_mycourse, parent, false));
+        View view = inflater.inflate(R.layout.activity_item_mycourse, parent, false);
+        view.getLayoutParams().width = screenwidth / 3;
+        MyCourseViewHolder viewHolder = new MyCourseViewHolder(view);
         return viewHolder;
     }
 

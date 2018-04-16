@@ -117,7 +117,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
                 break;
             case R.id.i_want_sing:
 //                intent.setClass(this, SingingActivity.class);
-                intent.setClass(this, ExerciseActivity.class);
+                intent.setClass(this, ExerciseTestActivity.class);
                 startActivity(intent);
                 break;
             case R.id.grind_ear_back:

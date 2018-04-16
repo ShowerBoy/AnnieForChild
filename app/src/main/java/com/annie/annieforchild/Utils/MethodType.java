@@ -30,6 +30,10 @@ public class MethodType {
     final public static String GETHOMEDATA = "getHomeData"; //获取首页信息
     final public static String GETCARDDETAIL = "getCardDetail"; //今日打卡详情
     final public static String GETLISTENING = "getListening"; //获取磨耳朵信息
+    final public static String GETMYLISTENING = "getMyListening"; //获取我的磨耳朵
     final public static String GETMUSICCLASSES = "getMusicClasses"; //获取儿歌分类
     final public static String GETMUSICLIST = "getMusicList"; //获取儿歌列表
+    final public static String MYSCHEDULE = "mySchedule"; //我的课表
+    final public static String COMMITDURATION = "commitDuration"; //时长录入
+    final public static String GETBOOKSCORE = "getBookScore"; //获取书籍接口
 }

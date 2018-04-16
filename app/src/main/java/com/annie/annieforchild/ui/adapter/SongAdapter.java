@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.song.Song;
+import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.SongViewHolder;
 import com.bumptech.glide.Glide;
 
@@ -54,6 +56,14 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             songViewHolder.collect.setCompoundDrawables(drawable, null, null, null);
         }
+        songViewHolder.songDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PracticeActivity.class);
+                intent.putExtra("song", lists.get(i));
+                context.startActivity(intent);
+            }
+        });
         songViewHolder.collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +82,10 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
                 SystemUtils.show(context, "加入课程" + lists.get(i).getBookId());
             }
         });
+
+
     }
+
 
     @Override
     public int getItemCount() {

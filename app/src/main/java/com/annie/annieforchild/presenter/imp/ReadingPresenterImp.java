@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.bean.material.MaterialGroup;
 import com.annie.annieforchild.presenter.ReadingPresenter;
 import com.annie.annieforchild.ui.adapter.PopupAdapter;
 import com.annie.annieforchild.view.ReadingView;
@@ -22,7 +23,7 @@ import java.util.List;
 public class ReadingPresenterImp extends BasePresenterImp implements ReadingPresenter {
     private Context context;
     private ReadingView readingView;
-    private List<String> popup_lists;
+    private List<MaterialGroup> popup_lists;
     private PopupAdapter adapter;
 
     public ReadingPresenterImp(Context context, ReadingView readingView) {
@@ -39,7 +40,7 @@ public class ReadingPresenterImp extends BasePresenterImp implements ReadingPres
         readingView.getPopupListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                SystemUtils.show(context, popup_lists.get(position));
+                SystemUtils.show(context, popup_lists.get(position).getTitle());
                 readingView.getPopupWindow().dismiss();
             }
         });
@@ -50,20 +51,20 @@ public class ReadingPresenterImp extends BasePresenterImp implements ReadingPres
         switch (type) {
             case "难度":
                 popup_lists.clear();
-                popup_lists.add("1");
-                popup_lists.add("2");
-                popup_lists.add("3");
-                popup_lists.add("4");
+                popup_lists.add(new MaterialGroup("1",false));
+                popup_lists.add(new MaterialGroup("2",false));
+                popup_lists.add(new MaterialGroup("3",false));
+                popup_lists.add(new MaterialGroup("4",false));
                 adapter.notifyDataSetChanged();
                 readingView.getPopupWindow().showAsDropDown(view);
                 break;
             case "类型":
                 popup_lists.clear();
-                popup_lists.add("aaa");
-                popup_lists.add("bbb");
-                popup_lists.add("ccc");
-                popup_lists.add("ddd");
-                popup_lists.add("eee");
+                popup_lists.add(new MaterialGroup("aaa",false));
+                popup_lists.add(new MaterialGroup("bbb",false));
+                popup_lists.add(new MaterialGroup("ccc",false));
+                popup_lists.add(new MaterialGroup("ddd",false));
+                popup_lists.add(new MaterialGroup("eee",false));
                 adapter.notifyDataSetChanged();
                 readingView.getPopupWindow().showAsDropDown(view);
                 break;

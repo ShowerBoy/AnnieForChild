@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.bean.material.MaterialGroup;
 
 import java.util.List;
 
@@ -17,11 +18,11 @@ import java.util.List;
  */
 
 public class PopupAdapter extends BaseAdapter {
-    private List<String> popup_lists;
+    private List<MaterialGroup> popup_lists;
     private Context context;
     private LayoutInflater inflater;
 
-    public PopupAdapter(Context context, List<String> popup_lists) {
+    public PopupAdapter(Context context, List<MaterialGroup> popup_lists) {
         this.popup_lists = popup_lists;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -53,7 +54,12 @@ public class PopupAdapter extends BaseAdapter {
         } else {
             viewHolder = (MyViewHolder) view.getTag();
         }
-        viewHolder.popup_list_text.setText(popup_lists.get(i));
+        viewHolder.popup_list_text.setText(popup_lists.get(i).getTitle());
+        if (popup_lists.get(i).isSelect()) {
+            viewHolder.popup_list_text.setTextColor(context.getResources().getColor(R.color.text_orange));
+        } else {
+            viewHolder.popup_list_text.setTextColor(context.getResources().getColor(R.color.text_black));
+        }
         return view;
     }
 

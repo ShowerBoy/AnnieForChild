@@ -87,6 +87,6 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Error(what, "请求失败");
+        listener.Error(what, response.getException().getMessage());
     }
 }

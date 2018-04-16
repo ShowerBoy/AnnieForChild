@@ -5,4 +5,5 @@ package com.annie.annieforchild.interactor;
  */
 
 public interface ScheduleInteractor {
+    void mySchedule(String date);
 }

@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.activity.my;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -73,6 +74,9 @@ public class MyCoinActivity extends BaseActivity implements AddChildView, View.O
                 break;
             case R.id.duihuan:
                 Intent intent = new Intent(this, MyExchangeActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("userinfo", userInfo);
+                intent.putExtras(bundle);
                 startActivity(intent);
                 break;
         }

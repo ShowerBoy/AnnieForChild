@@ -3,6 +3,7 @@ package com.annie.annieforchild.ui.adapter.viewHolder;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
@@ -14,6 +15,7 @@ import com.annie.annieforchild.R;
 public class SongViewHolder extends RecyclerView.ViewHolder {
     public TextView songName, songCount, collect, addMaterial, addCourse;
     public ImageView songImage;
+    public RelativeLayout songDetail;
 
     public SongViewHolder(View itemView) {
         super(itemView);
@@ -23,5 +25,6 @@ public class SongViewHolder extends RecyclerView.ViewHolder {
         addMaterial = itemView.findViewById(R.id.add_material);
         addCourse = itemView.findViewById(R.id.add_course);
         songImage = itemView.findViewById(R.id.song_image);
+        songDetail = itemView.findViewById(R.id.song_detail);
     }
 }

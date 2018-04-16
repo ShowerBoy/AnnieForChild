@@ -9,8 +9,9 @@ import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.Schedule;
-import com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity;
+import com.annie.annieforchild.bean.schedule.Schedule;
+import com.annie.annieforchild.ui.activity.lesson.SearchMaterialActivity;
+import com.annie.annieforchild.ui.activity.lesson.SelectMaterialActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.OnlineFooterViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.OnlineScheViewHolder;
 
@@ -66,13 +67,13 @@ public class OnlineScheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((OnlineFooterViewHolder) holder).addSchedule.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, AddOnlineScheActivity.class);
+                    Intent intent = new Intent(context, SelectMaterialActivity.class);
                     context.startActivity(intent);
                 }
             });
         } else if (holder instanceof OnlineScheViewHolder) {
             ((OnlineScheViewHolder) holder).scheduleTime.setText(lists.get(position).getStart() + "-" + lists.get(position).getStop());
-            ((OnlineScheViewHolder) holder).scheduleName.setText(lists.get(position).getMaterialName());
+            ((OnlineScheViewHolder) holder).scheduleName.setText(lists.get(position).getDetail());
             ((OnlineScheViewHolder) holder).selectSpot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

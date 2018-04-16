@@ -91,6 +91,4 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
         Exception exception = response.getException();
         listener.Error(what, "请求失败");
     }
-
-
 }

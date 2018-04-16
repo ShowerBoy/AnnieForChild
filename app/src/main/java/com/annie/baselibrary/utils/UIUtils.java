@@ -11,7 +11,7 @@ public class UIUtils {
     /**
      * dip-->px
      */
-    public static int dip2Px(Context context, int dip) {
+    public static int dip2px(Context context, int dip) {
         // px/dip = density;
         // density = dpi/160
         // 320*480 density = 1 1px = 1dp

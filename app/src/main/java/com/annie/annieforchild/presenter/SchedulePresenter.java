@@ -8,5 +8,5 @@ package com.annie.annieforchild.presenter;
 public interface SchedulePresenter {
     void initViewAndData();
 
-    void getScheduleDetails(String time);
+    void getScheduleDetails(String date);
 }

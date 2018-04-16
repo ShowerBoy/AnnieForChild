@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.bean.material.MaterialGroup;
 import com.annie.annieforchild.ui.adapter.PopupAdapter;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -41,7 +42,7 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
     private TimePickerDialog timePickerDialog1;
     private TimePickerDialog timePickerDialog2;
     private ListView popup_listView;
-    private List<String> popup_lists;
+    private List<MaterialGroup> popup_lists;
     private PopupAdapter popupAdapter;
     SimpleDateFormat sf1;
     SimpleDateFormat sf2;
@@ -114,15 +115,15 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
                 .setCallBack(this)
                 .build();
         for (int i = 1; i < 31; i++) {
-            popup_lists.add(i + "");
+
+            popup_lists.add(new MaterialGroup(i + "", false));
         }
         popupAdapter = new PopupAdapter(this, popup_lists);
         popup_listView.setAdapter(popupAdapter);
         popup_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SystemUtils.show(AddOnlineScheActivity.this, popup_lists.get(position));
-                scheduleDaysText.setText(popup_lists.get(position));
+                scheduleDaysText.setText(popup_lists.get(position).getTitle());
                 popupWindow.dismiss();
             }
         });
@@ -166,7 +167,7 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onDateSet(TimePickerDialog PickerDialog, long l) {
         if (PickerDialog.getTag().equals("year_month_day")) {
-            scheduleStartText.setText(sf1.format(new Date(l)).replace("-", ""));
+            scheduleStartText.setText(sf1.format(new Date(l)));
         } else if (PickerDialog.getTag().equals("hour:minute1")) {
             startTime = sf2.format(new Date(l));
             PickerDialog.dismiss();

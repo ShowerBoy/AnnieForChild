@@ -7,7 +7,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.GrindEarData;
+import com.annie.annieforchild.bean.grindear.GrindEarData;
+import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.interactor.GrindEarInteractor;
@@ -27,6 +28,7 @@ import java.util.List;
 public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInteractor {
     private Context context;
     private RequestListener listener;
+    private int classId;
 
     public GrindEarInteractorImp(Context context, RequestListener listener) {
         this.context = context;
@@ -43,6 +45,19 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETLISTENING, request);
+        startQueue();
+    }
+
+    @Override
+    public void getMyListening() {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.GETMYLISTENING, RequestMethod.POST);
+        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
+        request.add("system", SystemUtils.phoneSN.getSystem());
+        request.add("deviceId", SystemUtils.sn);
+        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        addQueue(MethodCode.EVENT_GETMYLISTENING, request);
         startQueue();
     }
 
@@ -97,7 +112,43 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         request.add("calssId", calssId);
-        addQueue(MethodCode.EVENT_GETMUSICLIST, request);
+        classId = calssId;
+        addQueue(MethodCode.EVENT_GETMUSICLIST + 10000 + calssId, request);
+        startQueue();
+    }
+
+    @Override
+    public void commitDuration(String[] type, String[] duration) {
+        for (int i = 0; i < type.length; i++) {
+            if (!duration[i].equals("0")) {
+                FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.COMMITDURATION, RequestMethod.POST);
+                request.add("bitcode", SystemUtils.phoneSN.getBitcode());
+                request.add("system", SystemUtils.phoneSN.getSystem());
+                request.add("deviceId", SystemUtils.sn);
+                request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
+                request.add("username", SystemUtils.defaultUsername);
+                request.add("token", SystemUtils.token);
+
+                request.add("type", type[i]);
+                request.add("duration", duration[i]);
+                addQueue(MethodCode.EVENT_COMMITDURATION, request);
+            }
+        }
+        startQueue();
+    }
+
+    @Override
+    public void getBookScore(int bookId) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.GETBOOKSCORE, RequestMethod.POST);
+        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
+        request.add("system", SystemUtils.phoneSN.getSystem());
+        request.add("deviceId", SystemUtils.sn);
+        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+
+        request.add("bookId", bookId);
+        addQueue(MethodCode.EVENT_GETBOOKSCORE, request);
         startQueue();
     }
 
@@ -136,9 +187,17 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES4) {
                 List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
                 listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETMUSICLIST) {
+            } else if (what == MethodCode.EVENT_GETMUSICLIST + 10000 + classId) {
                 List<Song> songList = JSON.parseArray(data, Song.class);
                 listener.Success(what, songList);
+            } else if (what == MethodCode.EVENT_GETMYLISTENING) {
+                MyGrindEarBean bean = JSON.parseObject(data, MyGrindEarBean.class);
+                listener.Success(what, bean);
+            } else if (what == MethodCode.EVENT_COMMITDURATION) {
+                listener.Success(what, "提交成功");
+            } else if (what == MethodCode.EVENT_GETBOOKSCORE) {
+                Song song = JSON.parseObject(data, Song.class);
+                listener.Success(what, song);
             }
         }
     }
