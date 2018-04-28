@@ -33,67 +33,88 @@
                 android:textSize="20sp" />
         </RelativeLayout>
 
-        <LinearLayout
+        <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
+            android:id="@+id/select_tab_layout"
+            style="@style/pagertab_style"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp">
+            android:layout_height="42dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:fillViewport="false">
 
-            <TextView
-                android:id="@+id/grindear_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="磨耳朵"
-                android:textColor="@color/text_orange"
-                android:textSize="18sp" />
+        </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
 
-            <TextView
-                android:id="@+id/reading_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="阅读"
-                android:textColor="@color/text_black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/spoken_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="口语"
-                android:textColor="@color/text_black"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
+        <com.annie.annieforchild.Utils.views.APSTSViewPager
+            android:id="@+id/select_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_marginTop="2dp"
+            android:background="@color/white">
 
-            <ExpandableListView
-                android:id="@+id/second_classify_list"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:divider="@null"
-                android:groupIndicator="@null">
+        </com.annie.annieforchild.Utils.views.APSTSViewPager>
 
-            </ExpandableListView>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:paddingBottom="16dp"-->
+            <!--android:paddingTop="16dp">-->
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/material_recycler"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3">
+            <!--<TextView-->
+                <!--android:id="@+id/grindear_text"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:text="磨耳朵"-->
+                <!--android:textColor="@color/text_orange"-->
+                <!--android:textSize="18sp" />-->
 
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/reading_text"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:text="阅读"-->
+                <!--android:textColor="@color/text_black"-->
+                <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/spoken_text"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:text="口语"-->
+                <!--android:textColor="@color/text_black"-->
+                <!--android:textSize="18sp" />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<ExpandableListView-->
+                <!--android:id="@+id/second_classify_list"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:divider="@null"-->
+                <!--android:groupIndicator="@null">-->
+
+            <!--</ExpandableListView>-->
+
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/material_recycler"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="3">-->
+
+            <!--</android.support.v7.widget.RecyclerView>-->
+        <!--</LinearLayout>-->
+
     </LinearLayout>
 
 

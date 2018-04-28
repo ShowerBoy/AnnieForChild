@@ -18,9 +18,13 @@ import android.widget.Toast;
 import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.bean.login.PhoneSN;
+import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.application.MyApplication;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -28,15 +32,19 @@ import java.io.IOException;
  */
 
 public class SystemUtils {
-//    public static String mainUrl = "https://appapi.anniekids.net/getapiaddr/"; //获取接口对象地址（正式）
-    public static String mainUrl = "https://demoapi.anniekids.net/getapiaddr/"; //获取接口对象地址（测试）
+    //    public static String mainUrl = "https://appapi.anniekids.net/api/"; //获取接口对象地址（正式）
+    public static String mainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（测试）
 
+    public static String recordPath = "/record/"; //录制音频地址
     public static MainBean mainBean; //第一次启动获取的接口对象
     public static PhoneSN phoneSN; //登陆时产生的phoneSN
     public static UserInfo userInfo;//用户对象
     public static String token; //token
     public static String defaultUsername; //默认学员编号
     public static String sn; //设备sn号
+    public static String tag; //会员标识
+    public static int window_width;
+    public static int window_height;
     Activity activity;
     final public static int SELECT_CAMER = 0;
     final public static int SELECT_PICTURE = 1;
@@ -47,6 +55,12 @@ public class SystemUtils {
 
     public static void show(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void toLogin(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra("tag", "游客登陆");
+        context.startActivity(intent);
     }
 
     /**
@@ -147,6 +161,31 @@ public class SystemUtils {
         ConnectivityManager connectivityManager = (ConnectivityManager) MyApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         TelephonyManager telephonyManager = (TelephonyManager) MyApplication.getContext().getSystemService(Context.TELEPHONY_SERVICE);
         return ((connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().getState() == NetworkInfo.State.CONNECTED) || telephonyManager.getNetworkType() == TelephonyManager.NETWORK_TYPE_UMTS);
+    }
+
+    /**
+     * 获得指定文件的byte数组
+     */
+    public static byte[] getBytes(String filePath){
+        byte[] buffer = null;
+        try {
+            File file = new File(filePath);
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);
+            byte[] b = new byte[1000];
+            int n;
+            while ((n = fis.read(b)) != -1) {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer;
     }
 
 }

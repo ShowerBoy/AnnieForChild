@@ -133,9 +133,9 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
 
     @Override
     public void Success(int what, Object result) {
+        fourthView.dismissLoad();
         if (result != null) {
             if (what == MethodCode.EVENT_USERINFO) {
-                fourthView.dismissLoad();
                 UserInfo info = (UserInfo) result;
                 SystemUtils.userInfo = info;
                 /**
@@ -146,7 +146,6 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 message.setObj(info);
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_USERLIST) {
-                fourthView.dismissLoad();
                 lists.clear();
                 lists.addAll((List<UserInfo2>) result);
                 adapter.notifyDataSetChanged();
@@ -155,6 +154,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 getUserInfo();
                 fourthView.showInfo((String) result);
             } else if (what == MethodCode.EVENT_DELETEUSERNAME) {
+                fourthView.showInfo((String) result);
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
                  */

@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.song.Song;
+import com.annie.annieforchild.presenter.CollectionPresenter;
+import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.SongViewHolder;
 import com.bumptech.glide.Glide;
@@ -25,11 +27,17 @@ import java.util.List;
 public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
     private Context context;
     private List<Song> lists;
+    private GrindEarPresenter presenter;
+    private int type;
+    private int classId;
     private LayoutInflater inflater;
 
-    public SongAdapter(Context context, List<Song> lists) {
+    public SongAdapter(Context context, List<Song> lists, GrindEarPresenter presenter, int type, int classId) {
         this.context = context;
         this.lists = lists;
+        this.presenter = presenter;
+        this.type = type;
+        this.classId = classId;
         inflater = LayoutInflater.from(context);
     }
 
@@ -67,7 +75,11 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
         songViewHolder.collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SystemUtils.show(context, "收藏" + lists.get(i).getBookId());
+                if (lists.get(i).getIsCollected() == 0) {
+                    presenter.collectCourse(type, lists.get(i).getBookId(), classId);
+                } else {
+                    presenter.cancelCollection(type, lists.get(i).getBookId(), classId);
+                }
             }
         });
         songViewHolder.addMaterial.setOnClickListener(new View.OnClickListener() {
@@ -82,10 +94,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
                 SystemUtils.show(context, "加入课程" + lists.get(i).getBookId());
             }
         });
-
-
     }
-
 
     @Override
     public int getItemCount() {

@@ -125,6 +125,8 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
         if (message.what == MethodCode.EVENT_GETMYLISTENING) {
             MyGrindEarBean bean = (MyGrindEarBean) message.obj;
             refresh(bean);
+        } else if (message.what == MethodCode.EVENT_COMMITDURATION) {
+            presenter.getMyListening();
         }
     }
 

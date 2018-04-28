@@ -1,15 +1,20 @@
 package com.annie.annieforchild.ui.fragment.schedule;
 
+import android.app.Dialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.schedule.Schedule;
 import com.annie.annieforchild.bean.schedule.TotalSchedule;
+import com.annie.annieforchild.presenter.SchedulePresenter;
 import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
 import com.annie.annieforchild.ui.adapter.OnlineScheAdapter;
+import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -24,10 +29,13 @@ import java.util.List;
  * Created by WangLei on 2018/2/28 0028
  */
 
-public class OnlineScheduleFragment extends BaseFragment {
+public class OnlineScheduleFragment extends BaseFragment implements ScheduleView {
     private XRecyclerView onlineRecycler;
     private List<Schedule> lists;
     private OnlineScheAdapter adapter;
+    private SchedulePresenter presenter;
+    private AlertHelper helper;
+    private Dialog dialog;
 
     {
         setRegister(true);
@@ -40,8 +48,12 @@ public class OnlineScheduleFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        helper = new AlertHelper(getActivity());
+        dialog = helper.LoadingDialog();
         lists = new ArrayList<>();
-        adapter = new OnlineScheAdapter(getContext(), lists);
+        presenter = new SchedulePresenterImp(getContext(), this);
+        presenter.initViewAndData();
+        adapter = new OnlineScheAdapter(getContext(), lists, presenter);
         initRecycler();
     }
 
@@ -79,4 +91,22 @@ public class OnlineScheduleFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void showInfo(String info) {
+        Toast.makeText(getContext(), info, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoad() {
+        if (dialog != null && !dialog.isShowing()) {
+            dialog.show();
+        }
+    }
+
+    @Override
+    public void dismissLoad() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
 }

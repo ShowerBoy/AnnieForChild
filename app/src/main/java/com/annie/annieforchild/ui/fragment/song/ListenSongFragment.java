@@ -14,7 +14,9 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
+import com.annie.annieforchild.presenter.CollectionPresenter;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
+import com.annie.annieforchild.presenter.imp.CollectionPresenterImp;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.adapter.SongAdapter;
 import com.annie.annieforchild.view.SongView;
@@ -61,10 +63,10 @@ public class ListenSongFragment extends BaseFragment implements SongView {
         bundle = getArguments();
         songsList = new ArrayList<>();
         classId = bundle.getInt("classId");
-        songAdapter = new SongAdapter(getContext(), songsList);
-        initRecycler();
         presenter = new GrindEarPresenterImp(getContext(), this);
         presenter.initViewAndData();
+        songAdapter = new SongAdapter(getContext(), songsList, presenter, 1, classId);
+        initRecycler();
         presenter.getMusicList(classId);
     }
 
@@ -96,10 +98,16 @@ public class ListenSongFragment extends BaseFragment implements SongView {
      */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-        if (message.what == MethodCode.EVENT_GETMUSICLIST + 10000 + classId) {
+        if (message.what == MethodCode.EVENT_GETMUSICLIST + 1000 + classId) {
             songsList.clear();
             songsList.addAll((List<Song>) message.obj);
             songAdapter.notifyDataSetChanged();
+        } else if (message.what == MethodCode.EVENT_COLLECTCOURSE + 2000 + classId) {
+            showInfo((String) message.obj);
+            presenter.getMusicList(classId);
+        } else if (message.what == MethodCode.EVENT_CANCELCOLLECTION1 + 3000 + classId) {
+            showInfo((String) message.obj);
+            presenter.getMusicList(classId);
         }
     }
 

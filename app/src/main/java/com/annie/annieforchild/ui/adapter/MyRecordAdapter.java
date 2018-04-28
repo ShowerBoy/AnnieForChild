@@ -54,8 +54,15 @@ public class MyRecordAdapter extends BaseAdapter {
         } else {
             holder = (MyRecordViewHolder) convertView.getTag();
         }
+        holder.myRecordContent.setText(lists.get(position).getTitle());
         holder.myRecordDate.setText(lists.get(position).getTime().substring(0, 4) + "-" + lists.get(position).getTime().substring(4, 6) + "-" + lists.get(position).getTime().substring(6, 8));
         holder.myRecordTime.setText("（" + lists.get(position).getDuration() + "秒）");
+        holder.myRecordPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return convertView;
     }
 

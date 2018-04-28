@@ -5,7 +5,6 @@ package com.annie.annieforchild.interactor;
  */
 
 public interface LoginInteractor {
-    void getMainAddress(String deviceId);
 
     void login(String phone, String password, String loginTime);
 }

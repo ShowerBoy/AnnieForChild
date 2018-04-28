@@ -3,6 +3,7 @@ package com.annie.annieforchild.presenter.imp;
 import android.content.Context;
 
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.bean.ClassList;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.schedule.TotalSchedule;
 import com.annie.annieforchild.interactor.ScheduleInteractor;
@@ -48,6 +49,65 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
         interactor.mySchedule(date);
     }
 
+    @Override
+    public void getMaterialClass(int type) {
+        interactor.getMaterialClass(type);
+    }
+
+    /**
+     * 添加课表任务
+     *
+     * @param materialId
+     * @param startDate
+     * @param totalDays
+     * @param start
+     * @param end
+     */
+    @Override
+    public void addSchedule(int materialId, String startDate, int totalDays, String start, String end) {
+        scheduleView.showLoad();
+        interactor.addSchedule(materialId, startDate, totalDays, start, end);
+    }
+
+    /**
+     * 总课表
+     *
+     * @param startDate
+     * @param endDate
+     */
+    @Override
+    public void totalSchedule(String startDate, String endDate) {
+        scheduleView.showLoad();
+        interactor.totalSchedule(startDate, endDate);
+    }
+
+    /**
+     * 编辑课表
+     *
+     * @param scheduleId
+     * @param materialId
+     * @param startDate
+     * @param totalDays
+     * @param start
+     * @param end
+     */
+    @Override
+    public void editSchedule(int scheduleId, int materialId, String startDate, int totalDays, String start, String end) {
+        scheduleView.showLoad();
+        interactor.editSchedule(scheduleId, materialId, startDate, totalDays, start, end);
+    }
+
+    /**
+     * 删除课表
+     *
+     * @param scheduleId
+     */
+    @Override
+    public void deleteSchedule(int scheduleId) {
+        scheduleView.showLoad();
+        interactor.deleteSchedule(scheduleId);
+    }
+
 
     @Override
     public void Success(int what, Object result) {
@@ -62,6 +122,59 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = totalSchedule;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETALLMATERIALLIST1) {
+                List<ClassList> lists = (List<ClassList>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.selectmaterial.SelectGrindEarFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETALLMATERIALLIST2) {
+                List<ClassList> lists = (List<ClassList>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.selectmaterial.SelectReadingFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETALLMATERIALLIST3) {
+                List<ClassList> lists = (List<ClassList>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.selectmaterial.SelectSpokenFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_ADDSCHEDULE) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.lesson.ScheduleActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_EDITSCHEDULE) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.lesson.ScheduleActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_DELETESCHEDULE) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.lesson.ScheduleActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
                 EventBus.getDefault().post(message);
             }
         }

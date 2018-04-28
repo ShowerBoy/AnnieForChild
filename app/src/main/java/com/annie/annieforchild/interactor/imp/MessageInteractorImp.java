@@ -35,12 +35,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
 
     @Override
     public void getMyMessages() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.GETMYMESSAGES, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETMYMESSAGES, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
 
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETMYMESSAGES, request);
@@ -49,12 +45,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
 
     @Override
     public void getDocumentations() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.GETHELP, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETHELP, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
 
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETHELP, request);
@@ -63,12 +55,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
 
     @Override
     public void myRecordings() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.MYRECORDINGS, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGS, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
 
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_MYRECORDINGS, request);
@@ -77,12 +65,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
 
     @Override
     public void deleteRecording(int recordingId) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.DELETERECORDING, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETERECORDING, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
 
         request.add("token", SystemUtils.token);
         request.add("recordingId", recordingId);
@@ -92,12 +76,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
 
     @Override
     public void getExchangeRecording() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.EXCHANGERECORDING, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.EXCHANGERECORDING, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
 
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_EXCHANGERECORDING, request);
@@ -106,12 +86,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
 
     @Override
     public void feedback(String content) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.FEEDBACK, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.FEEDBACK, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
 
         request.add("token", SystemUtils.token);
         request.add("content", content);
@@ -149,16 +125,6 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_MYRECORDINGS) {
                 List<Record> lists = JSON.parseArray(data, Record.class);
-                //TODO:
-                Record record = new Record();
-                record.setTime("20180308");
-                record.setDuration(120);
-                Record record1 = new Record();
-                record1.setTime("20181201");
-                record1.setDuration(50);
-                lists.add(record);
-                lists.add(record1);
-                //
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_EXCHANGERECORDING) {
                 NectarExchanges exchanges = JSON.parseObject(data, NectarExchanges.class);

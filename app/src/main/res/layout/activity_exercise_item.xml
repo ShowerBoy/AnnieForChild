@@ -40,14 +40,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_toEndOf="@+id/exercise_speak"
-            android:src="@drawable/icon_play_big" />
+            android:src="@drawable/icon_play_big_f" />
 
         <TextView
+            android:id="@+id/exercise_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text="+30分"
+            android:text="0分"
             android:textColor="@color/text_red"
             android:textSize="14sp" />
     </RelativeLayout>

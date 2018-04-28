@@ -3,7 +3,6 @@ package com.annie.annieforchild.ui.fragment;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,14 +27,13 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.presenter.MainPresenter;
 import com.annie.annieforchild.presenter.imp.MainPresenterImp;
-import com.annie.annieforchild.ui.activity.pk.ChallengeActivity;
-import com.annie.annieforchild.ui.activity.pk.ExerciseActivity;
+import com.annie.annieforchild.ui.activity.grindEar.ExerciseTestActivity;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.lesson.CourseActivity;
 import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity;
 import com.annie.annieforchild.ui.activity.mains.TodayClockInActivity;
 import com.annie.annieforchild.ui.activity.my.MyMessageActivity;
-import com.annie.annieforchild.ui.activity.ReadingActivity;
+import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
 import com.annie.annieforchild.view.MainView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.daimajia.slider.library.SliderLayout;
@@ -85,7 +83,6 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
         Bundle bundle = getArguments();
         if (bundle != null) {
             tag = bundle.getString("tag");
-            showInfo("身份:" + tag);
         }
         file_maps = new HashMap<>();
         WindowManager managers = getActivity().getWindowManager();
@@ -96,7 +93,7 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
         presenter.initViewAndData();
         presenter.setMyCourseAdapter(myCourse_list);
         List<PhoneSN> list = DataSupport.findAll(PhoneSN.class);
-        showInfo(list.size() + "==" + SystemUtils.phoneSN.toString());
+//        showInfo(list.size() + "==" + SystemUtils.phoneSN.toString());
         presenter.getHomeData(tag);
     }
 
@@ -155,7 +152,6 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
         return R.layout.activity_first_fragment;
     }
 
-
     /**
      * {@link MainPresenterImp#Success(int, Object)}
      *
@@ -202,7 +198,7 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
             case R.id.clock_in_layout:
                 //今日打卡
                 if (tag.equals("游客")) {
-                    showInfo("请登录");
+                    SystemUtils.toLogin(getContext());
                     return;
                 }
                 intent.setClass(getContext(), TodayClockInActivity.class);
@@ -210,8 +206,12 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                 break;
             case R.id.schedule_layout:
                 //我的课表
-                intent.setClass(getContext(), ScheduleActivity.class);
-                startActivity(intent);
+                if (SystemUtils.tag.equals("会员")) {
+                    intent.setClass(getContext(), ScheduleActivity.class);
+                    startActivity(intent);
+                } else {
+                    SystemUtils.toLogin(getContext());
+                }
                 break;
             case R.id.event_layout:
                 //精彩活动
@@ -223,20 +223,36 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                 break;
             case R.id.grind_ear_layout:
                 //磨耳朵
+//                if (SystemUtils.tag.equals("游客")) {
+//                    SystemUtils.toLogin(getContext());
+//                    return;
+//                }
                 intent.setClass(getContext(), GrindEarActivity.class);
                 startActivity(intent);
                 break;
             case R.id.reading_layout:
                 //阅读
+//                if (SystemUtils.tag.equals("游客")) {
+//                    SystemUtils.toLogin(getContext());
+//                    return;
+//                }
                 intent.setClass(getContext(), ReadingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.spoken_layout:
                 //口语
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
 
                 break;
             case R.id.first_msg_layout:
                 //信息
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
                 intent.setClass(getContext(), MyMessageActivity.class);
                 startActivity(intent);
                 break;
@@ -247,11 +263,19 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
             case R.id.sign_image:
                 //右上角分享
                 //TODO:
-                intent.setClass(getContext(), ChallengeActivity.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(getContext(), ExerciseTestActivity.class);
+                startActivity(intent1);
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
                 break;
             case R.id.lesson_layout:
                 //我的课程
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
                 intent.setClass(getContext(), CourseActivity.class);
                 startActivity(intent);
                 break;

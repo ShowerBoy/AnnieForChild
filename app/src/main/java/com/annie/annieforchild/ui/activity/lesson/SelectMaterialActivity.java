@@ -1,18 +1,36 @@
 package com.annie.annieforchild.ui.activity.lesson;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.IntRange;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.material.MaterialGroup;
+import com.annie.annieforchild.bean.schedule.Schedule;
+import com.annie.annieforchild.presenter.SchedulePresenter;
+import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
 import com.annie.annieforchild.ui.adapter.SelectMaterialExpandAdapter;
+import com.annie.annieforchild.ui.fragment.selectmaterial.SelectGrindEarFragment;
+import com.annie.annieforchild.ui.fragment.selectmaterial.SelectReadingFragment;
+import com.annie.annieforchild.ui.fragment.selectmaterial.SelectSpokenFragment;
+import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,14 +41,22 @@ import java.util.List;
  * Created by wanglei on 2018/4/9.
  */
 
-public class SelectMaterialActivity extends BaseActivity implements View.OnClickListener {
-    private TextView grindEar, reading, spoken;
+public class SelectMaterialActivity extends BaseActivity implements View.OnClickListener, ScheduleView, ViewPager.OnPageChangeListener {
     private ImageView back;
-    private ExpandableListView secondClassifyList;
-    private RecyclerView selectMaterialRecycler;
-    private List<MaterialGroup> groupList;
-    private HashMap<Integer, List<MaterialGroup>> childList;
-    private SelectMaterialExpandAdapter expandAdapter;
+    private AdvancedPagerSlidingTabStrip mTab;
+    private APSTSViewPager mVP;
+    private AlertHelper helper;
+    private Dialog dialog;
+
+    private SelectGrindEarFragment grindEarFragment;
+    private SelectReadingFragment readingFragment;
+    private SelectSpokenFragment spokenFragment;
+
+    private SchedulePresenter presenter;
+    private SelectMaterialFragmentAdapter fragmentAdapter;
+    private Intent intent;
+    private Bundle bundle;
+    private Schedule schedule = null;
 
     @Override
     protected int getLayoutId() {
@@ -40,84 +66,33 @@ public class SelectMaterialActivity extends BaseActivity implements View.OnClick
     @Override
     protected void initView() {
         back = findViewById(R.id.select_material_back);
-        grindEar = findViewById(R.id.grindear_text);
-        reading = findViewById(R.id.reading_text);
-        spoken = findViewById(R.id.spoken_text);
-        secondClassifyList = findViewById(R.id.second_classify_list);
-        selectMaterialRecycler = findViewById(R.id.material_recycler);
-        back.setOnClickListener(this);
-        grindEar.setOnClickListener(this);
-        reading.setOnClickListener(this);
-        spoken.setOnClickListener(this);
+        mTab = findViewById(R.id.select_tab_layout);
+        mVP = findViewById(R.id.select_viewpager);
 
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        selectMaterialRecycler.setLayoutManager(manager);
+        back.setOnClickListener(this);
+
+        fragmentAdapter = new SelectMaterialFragmentAdapter(getSupportFragmentManager());
+        mVP.setOffscreenPageLimit(3);
+        mVP.setAdapter(fragmentAdapter);
+        fragmentAdapter.notifyDataSetChanged();
+        mTab.setViewPager(mVP);
+        mTab.setOnPageChangeListener(this);
+
+        intent = getIntent();
+        if (intent != null) {
+            bundle = intent.getExtras();
+            if (bundle != null) {
+                schedule = (Schedule) bundle.getSerializable("schedule");
+            }
+        }
     }
 
     @Override
     protected void initData() {
-        groupList = new ArrayList<>();
-        childList = new HashMap<>();
-        groupList.add(new MaterialGroup("儿歌", true));
-        groupList.add(new MaterialGroup("诗歌", false));
-        groupList.add(new MaterialGroup("对话", false));
-        groupList.add(new MaterialGroup("绘本", false));
-        for (int i = 0; i < groupList.size(); i++) {
-            List<MaterialGroup> lists = new ArrayList<>();
-            if (i == 0) {
-                lists.add(new MaterialGroup("磨宝1", true));
-            } else {
-                lists.add(new MaterialGroup("磨宝1", false));
-            }
-            lists.add(new MaterialGroup("磨宝2", false));
-            lists.add(new MaterialGroup("磨宝3", false));
-            lists.add(new MaterialGroup("磨1", false));
-            lists.add(new MaterialGroup("磨2", false));
-            lists.add(new MaterialGroup("磨3", false));
-            childList.put(i, lists);
-        }
-        expandAdapter = new SelectMaterialExpandAdapter(this, groupList, childList);
-        secondClassifyList.setAdapter(expandAdapter);
-        secondClassifyList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                if (!childList.get(groupPosition).get(childPosition).isSelect()) {
-                    for (int i = 0; i < childList.size(); i++) {
-                        for (int j = 0; j < childList.get(i).size(); j++) {
-                            childList.get(i).get(j).setSelect(false);
-                        }
-                    }
-                    childList.get(groupPosition).get(childPosition).setSelect(true);
-                    expandAdapter.notifyDataSetChanged();
-                }
-                return true;
-            }
-        });
-        secondClassifyList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                if (!groupList.get(groupPosition).isSelect()) {
-                    for (int i = 0; i < groupList.size(); i++) {
-                        groupList.get(i).setSelect(false);
-                    }
-                    groupList.get(groupPosition).setSelect(true);
-                    expandAdapter.notifyDataSetChanged();
-                }
-                return false;
-            }
-        });
-        secondClassifyList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                for (int i = 0; i < expandAdapter.getGroupCount(); i++) {
-                    if (groupPosition != i) {
-                        secondClassifyList.collapseGroup(i);
-                    }
-                }
-            }
-        });
-        secondClassifyList.expandGroup(0);
+        helper = new AlertHelper(this);
+        dialog = helper.LoadingDialog();
+        presenter = new SchedulePresenterImp(this, this);
+        presenter.initViewAndData();
     }
 
     @Override
@@ -131,21 +106,95 @@ public class SelectMaterialActivity extends BaseActivity implements View.OnClick
             case R.id.select_material_back:
                 finish();
                 break;
-            case R.id.grindear_text:
-                grindEar.setTextColor(getResources().getColor(R.color.text_orange));
-                reading.setTextColor(getResources().getColor(R.color.text_black));
-                spoken.setTextColor(getResources().getColor(R.color.text_black));
-                break;
-            case R.id.reading_text:
-                grindEar.setTextColor(getResources().getColor(R.color.text_black));
-                reading.setTextColor(getResources().getColor(R.color.text_orange));
-                spoken.setTextColor(getResources().getColor(R.color.text_black));
-                break;
-            case R.id.spoken_text:
-                grindEar.setTextColor(getResources().getColor(R.color.text_black));
-                reading.setTextColor(getResources().getColor(R.color.text_black));
-                spoken.setTextColor(getResources().getColor(R.color.text_orange));
-                break;
+        }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    class SelectMaterialFragmentAdapter extends FragmentStatePagerAdapter {
+
+        public SelectMaterialFragmentAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position >= 0 && position < 3) {
+                switch (position) {
+                    case 0:
+                        if (null == grindEarFragment) {
+                            grindEarFragment = SelectGrindEarFragment.instance(schedule);
+                        }
+                        return grindEarFragment;
+                    case 1:
+                        if (null == readingFragment) {
+                            readingFragment = SelectReadingFragment.instance(schedule);
+                        }
+                        return readingFragment;
+                    case 2:
+                        if (null == spokenFragment) {
+                            spokenFragment = SelectSpokenFragment.instance(schedule);
+                        }
+                        return spokenFragment;
+                    default:
+                        break;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position >= 0 && position < 3) {
+                switch (position) {
+                    case 0:
+                        return "磨耳朵";
+                    case 1:
+                        return "阅读";
+                    case 2:
+                        return "口语";
+                    default:
+                        break;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+    }
+
+    @Override
+    public void showInfo(String info) {
+        Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoad() {
+        if (dialog != null && !dialog.isShowing()) {
+            dialog.show();
+        }
+    }
+
+    @Override
+    public void dismissLoad() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
         }
     }
 }

@@ -67,13 +67,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/pk_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/pk_linearlayout">
 
-            </ListView>
+            </android.support.v7.widget.RecyclerView>
 
             <LinearLayout
                 android:id="@+id/pk_linearlayout"
@@ -95,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/icon_speak_big" />
+                        android:src="@drawable/icon_speak_big_f" />
 
                     <com.annie.annieforchild.Utils.views.CircleProgressBar
                         android:id="@+id/pk_circleProgressBar"
@@ -105,16 +105,44 @@
 
                 </FrameLayout>
 
-                <TextView
-                    android:id="@+id/pk_quit"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:drawableLeft="@drawable/icon_quit"
-                    android:drawablePadding="2dp"
-                    android:text="退出"
-                    android:textColor="@color/text_black"
-                    android:textSize="16sp" />
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/pk_quit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@drawable/icon_quit"
+                        android:drawablePadding="2dp"
+                        android:text="退出"
+                        android:textColor="@color/text_black"
+                        android:textSize="16sp" />
+
+                    <FrameLayout
+                        android:id="@+id/pk_finish_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_next_btn" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="继续"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+                    </FrameLayout>
+
+                </RelativeLayout>
             </LinearLayout>
 
         </RelativeLayout>

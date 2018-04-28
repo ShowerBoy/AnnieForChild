@@ -18,8 +18,10 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.DateBean;
+import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.SchedulePresenter;
 import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
 import com.annie.annieforchild.ui.adapter.DateRecyclerAdapter;
@@ -30,6 +32,8 @@ import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,6 +62,10 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
     private Dialog dialog;
     private int screenwidth;
     private long oneDay = 1000 * 60 * 60 * 24L;
+
+    {
+        setRegister(true);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -172,6 +180,22 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
         }
     }
 
+    /**
+     * {@link SchedulePresenterImp#Success(int, Object)}
+     *
+     * @param message
+     */
+    @Subscribe
+    public void onMainEventThread(JTMessage message) {
+        if (message.what == MethodCode.EVENT_ADDSCHEDULE) {
+            presenter.getScheduleDetails(date_lists.get(0).getYear() + date_lists.get(0).getMonth() + date_lists.get(0).getDay());
+        } else if (message.what == MethodCode.EVENT_EDITSCHEDULE) {
+            presenter.getScheduleDetails(date_lists.get(0).getYear() + date_lists.get(0).getMonth() + date_lists.get(0).getDay());
+        } else if (message.what == MethodCode.EVENT_DELETESCHEDULE) {
+            showInfo((String) message.obj);
+            presenter.getScheduleDetails(date_lists.get(0).getYear() + date_lists.get(0).getMonth() + date_lists.get(0).getDay());
+        }
+    }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

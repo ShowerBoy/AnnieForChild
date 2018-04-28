@@ -9,4 +9,14 @@ public interface SchedulePresenter {
     void initViewAndData();
 
     void getScheduleDetails(String date);
+
+    void getMaterialClass(int type);
+
+    void addSchedule(int materialId, String startDate, int totalDays, String start, String end);
+
+    void totalSchedule(String startDate, String endDate);
+
+    void editSchedule(int scheduleId, int materialId, String startDate, int totalDays, String start, String end);
+
+    void deleteSchedule(int scheduleId);
 }

@@ -36,7 +36,6 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
     private ImageView back;
     private TextView listenTitle;
     private ArrayList<SongClassify> lists;
-    private List<Song> songsList;
     private Intent intent;
     private Bundle bundle;
     private AlertHelper helper;
@@ -83,6 +82,24 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
             } else if (type == 4) {
                 listenTitle.setText("听绘本");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+            } else if (type == 5) {
+                listenTitle.setText("我要唱歌");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+            } else if (type == 6) {
+                listenTitle.setText("儿歌绘本");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+            } else if (type == 7) {
+                listenTitle.setText("虚构故事");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+            } else if (type == 8) {
+                listenTitle.setText("非虚构");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+            } else if (type == 9) {
+                listenTitle.setText("章节图书");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+            } else if (type == 10) {
+                listenTitle.setText("我要朗读");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
             }
         }
@@ -162,7 +179,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
             if (bool[position]) {
                 return fragments.get(position);
             } else {
-                listenSongFragment = ListenSongFragment.instance(lists.get(position).getCalssId());
+                listenSongFragment = ListenSongFragment.instance(Integer.parseInt(lists.get(position).getClassId()));
                 fragments.add(position, listenSongFragment);
                 bool[position] = true;
                 return listenSongFragment;

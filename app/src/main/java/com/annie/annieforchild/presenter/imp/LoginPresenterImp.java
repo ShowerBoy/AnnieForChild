@@ -43,10 +43,10 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
         interactor = new LoginInteractorImp(context, this);
     }
 
-    @Override
-    public void getMainAddress() {
-        interactor.getMainAddress(SystemUtils.sn);
-    }
+//    @Override
+//    public void getMainAddress() {
+//        interactor.getMainAddress(SystemUtils.sn);
+//    }
 
     @Override
     public void login(String phone, String password, String loginTime) {

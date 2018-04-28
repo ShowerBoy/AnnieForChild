@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.ui.activity.lesson.CourseActivity;
 import com.annie.annieforchild.ui.activity.lesson.FollowTaskActivity;
 import com.annie.annieforchild.ui.activity.lesson.MaterialActivity;
@@ -93,23 +94,40 @@ public class SecondFragment extends BaseFragment implements SecondView, View.OnC
         switch (view.getId()) {
             case R.id.lesson_schedule:
                 //我的课表
-                intent.setClass(getContext(), ScheduleActivity.class);
-                startActivity(intent);
+                if (SystemUtils.tag.equals("会员")) {
+                    intent.setClass(getContext(), ScheduleActivity.class);
+                    startActivity(intent);
+                } else {
+                    SystemUtils.toLogin(getContext());
+                }
+
                 break;
             case R.id.lesson_course:
                 //我的课程
-                intent.setClass(getContext(), CourseActivity.class);
-                startActivity(intent);
+                if (SystemUtils.tag.equals("会员")) {
+                    intent.setClass(getContext(), CourseActivity.class);
+                    startActivity(intent);
+                } else {
+                    SystemUtils.toLogin(getContext());
+                }
                 break;
             case R.id.lesson_textbook:
                 //我的教材
-                intent.setClass(getContext(), MaterialActivity.class);
-                startActivity(intent);
+                if (SystemUtils.tag.equals("会员")) {
+                    intent.setClass(getContext(), MaterialActivity.class);
+                    startActivity(intent);
+                } else {
+                    SystemUtils.toLogin(getContext());
+                }
                 break;
             case R.id.follow_task_layout:
                 //随堂作业
-                intent.setClass(getContext(), FollowTaskActivity.class);
-                startActivity(intent);
+                if (SystemUtils.tag.equals("会员")) {
+                    intent.setClass(getContext(), FollowTaskActivity.class);
+                    startActivity(intent);
+                } else {
+                    SystemUtils.toLogin(getContext());
+                }
                 break;
             case R.id.series_task_layout:
                 //系列作业

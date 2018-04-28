@@ -22,6 +22,7 @@ import com.annie.annieforchild.ui.activity.child.AddChildActivity;
 import com.annie.annieforchild.view.RegisterView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.ashokvarma.bottomnavigation.utils.Utils;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -74,11 +75,13 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
         countDownTimer = new CountDownTimer(60 * 1000, 1000) {
             @Override
             public void onTick(long l) {
+//                getTestCode.setTextSize(12);
                 getTestCode.setText(l / 1000 + "s后重新发送");
             }
 
             @Override
             public void onFinish() {
+//                getTestCode.setTextSize(14);
                 getTestCode.setText("获取验证码");
                 getTestCode.setClickable(true);
             }
@@ -125,7 +128,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
 
     private boolean ifNext() {
         if (phone_number.getText().toString().equals("") || phone_number.getText().toString().length() != 11 || phone_number.getText().toString().contains(" ") || test_code.getText().toString().contains(" ") || test_code.getText().toString().equals("")
-                || password.getText().toString().equals("") || confirm_password.getText().toString().equals("") || password.getText().toString().length() != confirm_password.getText().toString().length()) {
+                || password.getText().toString().equals("") || confirm_password.getText().toString().equals("") || password.getText().toString().length() != confirm_password.getText().toString().length() || password.getText().toString().equals(confirm_password.getText().toString())) {
             return false;
         } else {
             return true;

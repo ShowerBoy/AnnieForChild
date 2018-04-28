@@ -29,7 +29,7 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
 
     @Override
     public void getVerificationCode(String phone, int type) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.GET_VERIFICATION_CODE, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.GET_VERIFICATION_CODE, RequestMethod.POST);
         request.add("phone", phone);
         request.add("type", type);
         addQueue(MethodCode.EVENT_VERIFICATION_CODE, request);
@@ -38,7 +38,7 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
 
     @Override
     public void register(String phone, String code, String password, String serialNumber) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.REGISTER, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.REGISTER, RequestMethod.POST);
         request.add("phone", phone);
         request.add("code", code);
         request.add("password", password);
@@ -49,14 +49,8 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
 
     @Override
     public void changePhone(String serialNumber, String code, String newPhone) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.CHANGEPHONE, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.CHANGEPHONE, RequestMethod.POST);
         request.add("token", SystemUtils.token);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
-
         request.add("serialNumber", serialNumber);
         request.add("code", code);
         request.add("newPhone", newPhone);
@@ -66,13 +60,7 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
 
     @Override
     public void resetPassword(String phone, String code, String password, String serialNumber) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.RESETPASSWORD, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
-
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.RESETPASSWORD, RequestMethod.POST);
         request.add("phone", phone);
         request.add("code", code);
         request.add("password", password);

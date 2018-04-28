@@ -6,7 +6,5 @@ package com.annie.annieforchild.presenter;
 public interface LoginPresenter {
     void initViewAndData();
 
-    void getMainAddress();
-
     void login(String phone, String password, String loginTime);
 }

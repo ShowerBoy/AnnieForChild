@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
@@ -56,6 +57,8 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     private TelephonyManager tm;
     private LoginPresenter presenter;
     private SQLiteDatabase db;
+    private Intent intent;
+    private String tag;
     private AlertHelper helper;
     private Dialog dialog;
     private SharedPreferences preferences;
@@ -86,6 +89,11 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
         forgetPsd.setOnClickListener(this);
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
+
+        intent = getIntent();
+        if (intent != null) {
+            tag = intent.getStringExtra("tag");
+        }
     }
 
     @Override
@@ -127,14 +135,14 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
             SystemUtils.phoneSN.setSn(SystemUtils.sn);
             SystemUtils.phoneSN.save();
         }
-        NoHttpUtils.init(this);
+
         presenter.initViewAndData();
         List<MainBean> lists = DataSupport.findAll(MainBean.class);
         if (lists != null && lists.size() != 0) {
             SystemUtils.mainBean = lists.get(lists.size() - 1);
-            showInfo("数据库里存在mainBean:" + SystemUtils.mainBean.toString());
+//            showInfo("数据库里存在mainBean:" + SystemUtils.mainBean.toString());
         } else {
-            presenter.getMainAddress();
+//            presenter.getMainAddress();
         }
         preferences = getSharedPreferences("userInfo", MODE_PRIVATE);
         editor = preferences.edit();
@@ -155,9 +163,9 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     @Subscribe
     public void onEventMainThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_MAIN) {
-            showInfo("EventBus:" + message.getObj().toString());
+//            showInfo("EventBus:" + message.getObj().toString());
         } else if (message.what == MethodCode.EVENT_LOGIN) {
-            showInfo("登陆成功:" + SystemUtils.token);
+//            showInfo("登陆成功:" + SystemUtils.token);
             LoginBean bean = (LoginBean) message.obj;
 //            List<PhoneSN> list = DataSupport.findAll(PhoneSN.class);
 //            PhoneSN phoneSN = list.get(list.size() - 1);
@@ -175,8 +183,13 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("tag", "会员");
+            SystemUtils.tag = "会员";
             startActivity(intent);
+            if (tag != null && tag.equals("游客登陆")) {
+                ActivityCollector.finishAll();
+            }
             finish();
+
         }
     }
 
@@ -195,6 +208,7 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
             case R.id.youke:
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("tag", "游客");
+                SystemUtils.tag = "游客";
                 startActivity(intent);
                 finish();
                 break;

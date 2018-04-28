@@ -10,6 +10,5 @@ import com.annie.annieforchild.view.info.ViewInfo;
  */
 
 public interface ReadingView extends ViewInfo {
-    PopupWindow getPopupWindow();
-    ListView getPopupListView();
+
 }

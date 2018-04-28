@@ -8,7 +8,10 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.bean.ClassList;
 import com.annie.annieforchild.bean.material.MaterialGroup;
+import com.annie.annieforchild.bean.material.SubClassList;
+import com.annie.annieforchild.bean.song.SongClassify;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,10 +22,10 @@ import java.util.List;
 
 public class SelectMaterialExpandAdapter extends BaseExpandableListAdapter {
     private Context context;
-    private List<MaterialGroup> groupList;
-    private HashMap<Integer, List<MaterialGroup>> childList;
+    private List<ClassList> groupList;
+    private HashMap<Integer, List<SubClassList>> childList;
 
-    public SelectMaterialExpandAdapter(Context context, List<MaterialGroup> groupList, HashMap<Integer, List<MaterialGroup>> childList) {
+    public SelectMaterialExpandAdapter(Context context, List<ClassList> groupList, HashMap<Integer, List<SubClassList>> childList) {
         this.context = context;
         this.groupList = groupList;
         this.childList = childList;
@@ -35,7 +38,7 @@ public class SelectMaterialExpandAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return childList.get(groupPosition).size();
+        return childList.get(groupPosition) != null ? childList.get(groupPosition).size() : 0;
     }
 
     @Override
@@ -45,7 +48,8 @@ public class SelectMaterialExpandAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return childList.get(groupPosition).get(childPosition);
+//        return childList.get(groupPosition).get(childPosition);
+        return childList.get(groupPosition) != null ? childList.get(groupPosition).get(childPosition) : null;
     }
 
     @Override
@@ -69,7 +73,7 @@ public class SelectMaterialExpandAdapter extends BaseExpandableListAdapter {
         convertView = LayoutInflater.from(context).inflate(R.layout.activity_select_material_group_item, parent, false);
         holder = new GroupViewHolder(convertView);
         holder.grouptextView.setText(groupList.get(groupPosition).getTitle());
-        if (groupList.get(groupPosition).isSelect()) {
+        if (groupList.get(groupPosition).isSelected()) {
             holder.grouptextView.setTextColor(context.getResources().getColor(R.color.text_orange));
             holder.groupSelect.setBackgroundColor(context.getResources().getColor(R.color.text_orange));
         } else {
@@ -85,7 +89,7 @@ public class SelectMaterialExpandAdapter extends BaseExpandableListAdapter {
         convertView = LayoutInflater.from(context).inflate(R.layout.activity_select_material_child_item, parent, false);
         holder = new ChildViewHolder(convertView);
         holder.childtextView.setText(childList.get(groupPosition).get(childPosition).getTitle());
-        if (childList.get(groupPosition).get(childPosition).isSelect()) {
+        if (childList.get(groupPosition).get(childPosition).isSelected()) {
             holder.childtextView.setTextColor(context.getResources().getColor(R.color.text_orange));
         } else {
             holder.childtextView.setTextColor(context.getResources().getColor(R.color.text_black));

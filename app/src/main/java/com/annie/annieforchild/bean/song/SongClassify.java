@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 public class SongClassify implements Serializable {
     private String title;
-    private int calssId;
+    private String classId;
     private boolean isSelected;
 
     public String getTitle() {
@@ -22,12 +22,12 @@ public class SongClassify implements Serializable {
         this.title = title;
     }
 
-    public int getCalssId() {
-        return calssId;
+    public String getClassId() {
+        return classId;
     }
 
-    public void setCalssId(int calssId) {
-        this.calssId = calssId;
+    public void setClassId(String classId) {
+        this.classId = classId;
     }
 
     public boolean isSelected() {

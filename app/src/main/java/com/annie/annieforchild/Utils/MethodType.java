@@ -14,6 +14,7 @@ public class MethodType {
     final public static String GETUSERLIST = "getUserList"; //获取学员列表 6
     final public static String UPDATEUSERINFO = "updateUserInfo"; //修改个人信息 7
     final public static String MYCOLLECTIONS = "myCollections"; //我的收藏
+    final public static String COLLECTCOURSE = "collectCourse"; //收藏
     final public static String CHANGEPHONE = "changePhone"; //修改手机号
     final public static String RESETPASSWORD = "resetPassword"; //修改密码
     final public static String GETNECTAR = "getNectar"; //我的花蜜
@@ -34,6 +35,14 @@ public class MethodType {
     final public static String GETMUSICCLASSES = "getMusicClasses"; //获取儿歌分类
     final public static String GETMUSICLIST = "getMusicList"; //获取儿歌列表
     final public static String MYSCHEDULE = "mySchedule"; //我的课表
+    final public static String ADDSCHEDULE = "addSchedule"; //添加课表
+    final public static String EDITSCHEDULE = "editSchedule"; //编辑课表
+    final public static String DELETESCHEDULE = "deleteSchedule"; //删除课表
+    final public static String TOTALSCHEDULE = "totalSchedule"; //总课表
     final public static String COMMITDURATION = "commitDuration"; //时长录入
     final public static String GETBOOKSCORE = "getBookScore"; //获取书籍接口
+    final public static String GETBOOKAUDIODATA = "getBookAudioData"; //练习，挑战，PK接口
+    final public static String UPLOADAUDIO = "uploadAudioResource"; //上传音频接口——磨耳朵
+    final public static String GETPKUSERS = "getPkUsers"; //获取pk对象
+    final public static String GETALLMATERIALLIST = "getAllMaterialList"; //获取所有教材
 }

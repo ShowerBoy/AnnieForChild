@@ -16,6 +16,20 @@
             android:text="How are you today?"
             android:textColor="@color/text_black"
             android:textSize="16sp" />
+        <Button
+            android:id="@+id/record_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iseText"
+            android:text="开始录音"/>
+        <Button
+            android:id="@+id/record_stop_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/record_btn"
+            app:layout_constraintTop_toBottomOf="@+id/iseText"
+            android:text="停止录音"/>
 
         <Button
             android:id="@+id/startBtn"
@@ -23,7 +37,7 @@
             android:layout_height="wrap_content"
             android:text="开始评测"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iseText" />
+            app:layout_constraintTop_toBottomOf="@+id/record_btn" />
 
         <Button
             android:id="@+id/stopBtn"
@@ -31,7 +45,7 @@
             android:layout_height="wrap_content"
             android:text="停止评测"
             app:layout_constraintStart_toEndOf="@+id/startBtn"
-            app:layout_constraintTop_toBottomOf="@+id/iseText" />
+            app:layout_constraintTop_toBottomOf="@+id/record_stop_btn" />
 
         <Button
             android:id="@+id/parseBtn"

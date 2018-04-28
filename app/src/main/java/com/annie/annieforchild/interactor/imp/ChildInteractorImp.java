@@ -35,14 +35,8 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
     public void uploadHeadpic(String path) {
         File file = new File(path);
         FileBinary fileBinary = new FileBinary(file);
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.UPLOADACATAR, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.UPLOADACATAR, RequestMethod.POST);
         request.add("token", SystemUtils.token);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
-
         request.add("file", fileBinary);
         addQueue(MethodCode.EVENT_UPLOADAVATAR, request);
         startQueue();
@@ -50,13 +44,8 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
 
     @Override
     public void addChild(String headpic, String name, String sex, String birthday) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.REGISTERUSER, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.REGISTERUSER, RequestMethod.POST);
         request.add("token", SystemUtils.token);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
 
         request.add("avatar", headpic);
         request.add("name", name);
@@ -68,13 +57,8 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
 
     @Override
     public void motifyChild(String avatar, String name, String sex, String birthday) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.UPDATEUSERINFO, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.UPDATEUSERINFO, RequestMethod.POST);
         request.add("token", SystemUtils.token);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
 
         request.add("avatar", avatar);
         request.add("name", name);

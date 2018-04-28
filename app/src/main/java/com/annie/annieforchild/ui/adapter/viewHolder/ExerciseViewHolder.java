@@ -13,13 +13,14 @@ import com.annie.annieforchild.R;
  */
 
 public class ExerciseViewHolder extends RecyclerView.ViewHolder {
-    public TextView textView;
+    public TextView textView, exercise_score;
     public RelativeLayout exerciseLayout;
     public ImageView preview, speak, play;
 
     public ExerciseViewHolder(View itemView) {
         super(itemView);
         textView = itemView.findViewById(R.id.exercise_text);
+        exercise_score = itemView.findViewById(R.id.exercise_score);
         exerciseLayout = itemView.findViewById(R.id.exercise_layout);
         preview = itemView.findViewById(R.id.exercise_preview);
         speak = itemView.findViewById(R.id.exercise_speak);

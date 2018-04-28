@@ -38,7 +38,7 @@ public class MyNectarAdapter extends RecyclerView.Adapter<MyNectarViewHolder> {
     public void onBindViewHolder(MyNectarViewHolder holder, int position) {
         holder.incomeName.setText(lists.get(position).getDetail());
         holder.incomeTime.setText("（" + lists.get(position).getDuration() + "分钟）");
-        holder.incomeDate.setText(lists.get(position).getTime().substring(0, 4) + "-" + lists.get(position).getTime().substring(4, 6) + "-" + lists.get(position).getTime().substring(6, 8) + " " + lists.get(position).getTime().substring(8, 10) + ":" + lists.get(position).getTime().substring(10, 12));
+        holder.incomeDate.setText(lists.get(position).getTime().substring(0, 4) + "-" + lists.get(position).getTime().substring(4, 6) + "-" + lists.get(position).getTime().substring(6, 8));
         if (lists.get(position).getCount() >= 0) {
             holder.incomeCount.setText("+" + lists.get(position).getCount() + "");
         } else {

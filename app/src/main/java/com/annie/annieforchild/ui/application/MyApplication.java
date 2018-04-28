@@ -3,6 +3,7 @@ package com.annie.annieforchild.ui.application;
 import com.annie.baselibrary.utils.Utils;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
+import com.yanzhenjie.nohttp.NoHttp;
 
 import org.litepal.LitePalApplication;
 
@@ -16,6 +17,7 @@ public class MyApplication extends LitePalApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        NoHttp.initialize(MyApplication.this);
         SpeechUtility.createUtility(MyApplication.this, SpeechConstant.APPID + "=5aab99b5");
         Utils.init(this);
         initJpush();

@@ -10,6 +10,15 @@ public class Record {
     private String url;
     private String time;
     private int duration;
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public int getRecordingId() {
         return recordingId;

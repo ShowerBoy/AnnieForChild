@@ -143,7 +143,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
             case R.id.user_headpic:
                 //头像
                 if (tag.equals("游客")) {
-                    showInfo("请登录");
+                    SystemUtils.toLogin(getContext());
                     return;
                 }
                 intent.setClass(getContext(), ModifyChildActivity.class);
@@ -155,7 +155,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
             case R.id.settings:
                 //设置
                 if (tag.equals("游客")) {
-                    showInfo("请登录");
+                    SystemUtils.toLogin(getContext());
                     return;
                 }
                 intent.setClass(getContext(), SettingsActivity.class);
@@ -164,7 +164,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
             case R.id.my_msg_layout:
                 //我的信息
                 if (tag.equals("游客")) {
-                    showInfo("请登录");
+                    SystemUtils.toLogin(getContext());
                     return;
                 }
                 intent.setClass(getContext(), MyMessageActivity.class);
@@ -173,7 +173,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
             case R.id.to_friend_layout:
                 //推荐好友
                 if (tag.equals("游客")) {
-                    showInfo("请登录");
+                    SystemUtils.toLogin(getContext());
                     return;
                 }
                 intent.setClass(getContext(), ToFriendActivity.class);
@@ -182,7 +182,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
             case R.id.my_exchange_layout:
                 //我的兑换
                 if (tag.equals("游客")) {
-                    showInfo("请登录");
+                    SystemUtils.toLogin(getContext());
                     return;
                 }
                 intent.setClass(getContext(), MyExchangeActivity.class);
@@ -194,7 +194,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
             case R.id.collection_layout:
                 //我的收藏
                 if (tag.equals("游客")) {
-                    showInfo("请登录");
+                    SystemUtils.toLogin(getContext());
                     return;
                 }
                 intent.setClass(getContext(), MyCollectionActivity.class);
@@ -203,7 +203,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
             case R.id.help_layout:
                 //帮助与反馈
                 if (tag.equals("游客")) {
-                    showInfo("请登录");
+                    SystemUtils.toLogin(getContext());
                     return;
                 }
                 intent.setClass(getContext(), HelpActivity.class);
@@ -217,7 +217,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
             case R.id.user_level:
                 //等级成就
                 if (tag.equals("游客")) {
-                    showInfo("请登录");
+                    SystemUtils.toLogin(getContext());
                     return;
                 }
                 intent.setClass(getContext(), GradeAchievementActivity.class);
@@ -226,7 +226,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
             case R.id.nectar_layout:
                 //我的花蜜
                 if (tag.equals("游客")) {
-                    showInfo("请登录");
+                    SystemUtils.toLogin(getContext());
                     return;
                 }
                 intent.setClass(getContext(), MyNectarActivity.class);
@@ -238,7 +238,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
             case R.id.coin_layout:
                 //我的金币
                 if (tag.equals("游客")) {
-                    showInfo("请登录");
+                    SystemUtils.toLogin(getContext());
                     return;
                 }
                 intent.setClass(getContext(), MyCoinActivity.class);
@@ -250,7 +250,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
             case R.id.record_layout:
                 //我的录音
                 if (tag.equals("游客")) {
-                    showInfo("请登录");
+                    SystemUtils.toLogin(getContext());
                     return;
                 }
                 intent.setClass(getContext(), MyRecordActivity.class);
@@ -275,10 +275,12 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
                 userInfo = (UserInfo) message.obj;
                 refresh(userInfo);
             } else if (message.what == MethodCode.EVENT_ADDCHILD2) {
-                presenter.initViewAndData();
+//                presenter.initViewAndData();
                 presenter.getUserInfo();
             } else if (message.what == MethodCode.EVENT_UPDATEUSER) {
-                presenter.initViewAndData();
+//                presenter.initViewAndData();
+                presenter.getUserInfo();
+            } else if (message.what == MethodCode.EVENT_DELETEUSERNAME) {
                 presenter.getUserInfo();
             }
         }

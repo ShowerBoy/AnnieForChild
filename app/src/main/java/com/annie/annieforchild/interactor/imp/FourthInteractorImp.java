@@ -37,19 +37,11 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
 
     @Override
     public void getUserInfo() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.GETUSERINFO, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERINFO, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
         request.add("token", SystemUtils.token);
-        FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.GETUSERLIST, RequestMethod.POST);
-        request2.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request2.add("system", SystemUtils.phoneSN.getSystem());
-        request2.add("deviceId", SystemUtils.sn);
+        FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERLIST, RequestMethod.POST);
         request2.add("username", SystemUtils.defaultUsername);
-        request2.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
         request2.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_USERINFO, request);
         addQueue(MethodCode.EVENT_USERLIST, request2);
@@ -58,12 +50,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
 
     @Override
     public void setDefaultUser(String defaultUser) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.SETDEFAULTUSER, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.SETDEFAULTUSER, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
 
         request.add("defaultUser", defaultUser);
         request.add("token", SystemUtils.token);
@@ -73,12 +61,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
 
     @Override
     public void deleteUsername(String deleteUsername) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.DELETEUSERNAME, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETEUSERNAME, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
         request.add("token", SystemUtils.token);
 
         request.add("deleteUsername", deleteUsername);
@@ -88,12 +72,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
 
     @Override
     public void getUserList() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.GETUSERLIST, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERLIST, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_USERLIST, request);
         startQueue();

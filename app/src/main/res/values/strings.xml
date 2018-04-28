@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">安妮花（学员版）</string>
+    <string name="app_name">安妮花</string>
 
     <!-- error -->
     <string name="error_please_check_network">请检查网络。</string>
@@ -13,9 +13,6 @@
     <!--输入框-->
     <string name="send">发送</string>
     <string name="dialog_input_text_hint">说点什么...</string>
-
-
-
 
 
     <!-- 请替换成在语音云官网申请的appid -->
@@ -123,7 +120,7 @@
         <item>4</item>
         <item>5</item>
     </string-array>
-    <string formatted="false" name="tts_toast_format">缓冲进度为%d%%，播放进度为%d%%</string>
+    <string name="tts_toast_format" formatted="false">缓冲进度为%d%%，播放进度为%d%%</string>
     <!-- 语言 -->
     <string-array name="language_entries">
         <item>普通话</item>

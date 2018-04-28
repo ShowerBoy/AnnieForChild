@@ -1,9 +1,13 @@
 package com.annie.annieforchild.ui.activity.lesson;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,14 +18,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.material.Material;
 import com.annie.annieforchild.bean.material.MaterialGroup;
+import com.annie.annieforchild.bean.schedule.Schedule;
+import com.annie.annieforchild.presenter.SchedulePresenter;
+import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
 import com.annie.annieforchild.ui.adapter.PopupAdapter;
+import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.ashokvarma.bottomnavigation.utils.Utils;
+import com.bumptech.glide.Glide;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,17 +49,24 @@ import java.util.List;
  * Created by WangLei on 2018/3/2 0002
  */
 
-public class AddOnlineScheActivity extends BaseActivity implements View.OnClickListener, OnDateSetListener {
+public class AddOnlineScheActivity extends BaseActivity implements View.OnClickListener, OnDateSetListener, ScheduleView {
     private ImageView back, scheduleImage;
-    private RelativeLayout selectSchedule, scheduleStart, scheduleDays, scheduleTime;
+    private RelativeLayout scheduleStart, scheduleDays, scheduleTime;
     private Button addSchedule;
-    private TextView scheduleName, scheduleStartText, scheduleDaysText, scheduleTimeText;
+    private TextView scheduleName, scheduleStartText, scheduleDaysText, scheduleTimeText, title;
     private TimePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog1;
     private TimePickerDialog timePickerDialog2;
     private ListView popup_listView;
     private List<MaterialGroup> popup_lists;
     private PopupAdapter popupAdapter;
+    private SchedulePresenter presenter;
+    private Intent intent;
+    private Bundle bundle;
+    private Schedule schedule;
+    private Material material;
+    private String startDate;
+    private int totalDays = 1;
     SimpleDateFormat sf1;
     SimpleDateFormat sf2;
     String startTime, endTime;
@@ -51,6 +74,12 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
     View popup_contentView;
     long thirtyYears = 30L * 365 * 1000 * 60 * 60 * 24L;
     long oneYears = 1L * 365 * 1000 * 60 * 60 * 24L;
+    private AlertHelper helper;
+    private Dialog dialog;
+
+    {
+        setRegister(true);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -65,29 +94,39 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
         scheduleStartText = findViewById(R.id.schedule_start_text);
         scheduleDaysText = findViewById(R.id.schedule_days_text);
         scheduleTimeText = findViewById(R.id.schedule_time_text);
-        selectSchedule = findViewById(R.id.select_schedule_layout);
         scheduleStart = findViewById(R.id.schedule_start_layout);
         scheduleDays = findViewById(R.id.schedule_days_layout);
         scheduleTime = findViewById(R.id.schedule_time_layout);
         addSchedule = findViewById(R.id.add_online_schedule);
+        title = findViewById(R.id.add_title);
         back.setOnClickListener(this);
-        selectSchedule.setOnClickListener(this);
         scheduleStart.setOnClickListener(this);
         scheduleDays.setOnClickListener(this);
         scheduleTime.setOnClickListener(this);
         addSchedule.setOnClickListener(this);
         popup_lists = new ArrayList<>();
-        popupWindow = new PopupWindow(popup_contentView, ViewGroup.LayoutParams.MATCH_PARENT, 500, true);
+        popupWindow = new PopupWindow(popup_contentView, ViewGroup.LayoutParams.MATCH_PARENT, Utils.dp2px(this, 200), true);
         popup_contentView = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_item, null);
         popup_listView = popup_contentView.findViewById(R.id.popup_lists1);
         popupWindow.setContentView(popup_contentView);
         popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                getWindowGray(false);
+            }
+        });
+
     }
 
     @Override
     protected void initData() {
+        helper = new AlertHelper(this);
+        dialog = helper.LoadingDialog();
         sf1 = new SimpleDateFormat("yyyy-MM-dd");
         sf2 = new SimpleDateFormat("HH:mm");
+        scheduleStartText.setText(sf1.format(new Date()));
+        startDate = sf1.format(new Date()).replace("-", "");
         datePickerDialog = new TimePickerDialog.Builder()
                 .setType(Type.YEAR_MONTH_DAY)
                 .setThemeColor(R.color.black)
@@ -115,7 +154,6 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
                 .setCallBack(this)
                 .build();
         for (int i = 1; i < 31; i++) {
-
             popup_lists.add(new MaterialGroup(i + "", false));
         }
         popupAdapter = new PopupAdapter(this, popup_lists);
@@ -123,11 +161,35 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
         popup_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                totalDays = Integer.parseInt(popup_lists.get(position).getTitle());
                 scheduleDaysText.setText(popup_lists.get(position).getTitle());
                 popupWindow.dismiss();
             }
         });
 
+        intent = getIntent();
+        if (intent != null) {
+            bundle = intent.getExtras();
+            material = (Material) bundle.getSerializable("material");
+            if (bundle.getSerializable("schedule") != null) {
+                schedule = (Schedule) bundle.getSerializable("schedule");
+            }
+        }
+        Glide.with(this).load(material.getImageUrl()).into(scheduleImage);
+        scheduleName.setText(material.getName());
+        if (schedule != null) {
+            title.setText("修改课表");
+            addSchedule.setText("修改课表");
+            startTime = schedule.getStart();
+            endTime = schedule.getStop();
+            scheduleTimeText.setText(schedule.getStart() + "~" + schedule.getStop());
+        } else {
+            title.setText("加入课表");
+            addSchedule.setText("加入课表");
+        }
+
+        presenter = new SchedulePresenterImp(this, this);
+        presenter.initViewAndData();
     }
 
     @Override
@@ -141,17 +203,15 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
             case R.id.add_online_schedule_back:
                 finish();
                 break;
-            case R.id.select_schedule_layout:
-                //选择课程
-
-                break;
             case R.id.schedule_start_layout:
                 //设置开始时间
                 datePickerDialog.show(getSupportFragmentManager(), "year_month_day");
                 break;
             case R.id.schedule_days_layout:
                 //重复天数
-                popupWindow.showAsDropDown(scheduleDays);
+//                popupWindow.showAsDropDown(scheduleDays);
+                getWindowGray(true);
+                popupWindow.showAtLocation(popup_contentView, Gravity.BOTTOM, 0, 0);
                 break;
             case R.id.schedule_time_layout:
                 //每天开始结束时间
@@ -159,7 +219,19 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.add_online_schedule:
                 //加入课表
-
+                if (startDate != null && !startDate.equals("")) {
+                    if (startTime != null && !startTime.equals("") && endTime != null && !endTime.equals("")) {
+                        if (title.getText().equals("加入课表")) {
+                            presenter.addSchedule(material.getMaterialId(), startDate, totalDays, startTime, endTime);
+                        } else {
+                            presenter.editSchedule(schedule.getScheduleId(), material.getMaterialId(), startDate, totalDays, startTime, endTime);
+                        }
+                    } else {
+                        showInfo("请设置每天学习时间");
+                    }
+                } else {
+                    showInfo("请选择课表开始时间");
+                }
                 break;
         }
     }
@@ -167,6 +239,7 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onDateSet(TimePickerDialog PickerDialog, long l) {
         if (PickerDialog.getTag().equals("year_month_day")) {
+            startDate = sf1.format(new Date(l)).replace("-", "");
             scheduleStartText.setText(sf1.format(new Date(l)));
         } else if (PickerDialog.getTag().equals("hour:minute1")) {
             startTime = sf2.format(new Date(l));
@@ -175,6 +248,53 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
         } else if (PickerDialog.getTag().equals("hour:minute2")) {
             endTime = sf2.format(new Date(l));
             scheduleTimeText.setText(startTime + "~" + endTime);
+        }
+    }
+
+    /**
+     * {@link SchedulePresenterImp#Success(int, Object)}
+     *
+     * @param message
+     */
+    @Subscribe
+    public void onMainEventThread(JTMessage message) {
+        if (message.what == MethodCode.EVENT_ADDSCHEDULE) {
+            showInfo((String) message.obj);
+            finish();
+        } else if (message.what == MethodCode.EVENT_EDITSCHEDULE) {
+            showInfo((String) message.obj);
+            finish();
+        }
+    }
+
+    private void getWindowGray(boolean tag) {
+        if (tag) {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.alpha = 0.7f;
+            getWindow().setAttributes(layoutParams);
+        } else {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.alpha = 1f;
+            getWindow().setAttributes(layoutParams);
+        }
+    }
+
+    @Override
+    public void showInfo(String info) {
+        Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoad() {
+        if (dialog != null && !dialog.isShowing()) {
+            dialog.show();
+        }
+    }
+
+    @Override
+    public void dismissLoad() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
         }
     }
 }

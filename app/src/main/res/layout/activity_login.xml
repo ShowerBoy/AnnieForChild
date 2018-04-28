@@ -55,10 +55,10 @@
         android:drawableLeft="@drawable/icon_lock"
         android:drawablePadding="10dp"
         android:hint="请输入密码"
-        android:textSize="18sp"
         android:inputType="textPassword"
         android:textColor="@color/text_black"
-        android:textColorHint="@color/gray" />
+        android:textColorHint="@color/gray"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/phoneNumber"
@@ -72,29 +72,17 @@
         android:hint="请输入手机号"
         android:inputType="phone|number"
         android:maxLength="11"
-        android:textSize="18sp"
         android:textColor="@color/text_black"
-        android:textColorHint="@color/gray" />
-
-    <TextView
-        android:id="@+id/annieflower"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/phoneNumber"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="45dp"
-        android:text="欢迎来到安妮花"
-        android:textColor="@color/text_black"
-        android:textSize="20sp" />
+        android:textColorHint="@color/gray"
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/annieflower"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/logo" />
+        android:layout_below="@+id/register"
+        android:src="@drawable/icon_logo" />
 
     <TextView
         android:id="@+id/youke"
@@ -102,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:text="游客访问 >>"
-        android:textColor="@color/text_black"
+        android:text="游客访问"
+        android:textColor="@color/text_orange"
         android:textSize="16sp" />
 </RelativeLayout>

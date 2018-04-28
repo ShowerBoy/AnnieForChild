@@ -10,6 +10,7 @@ import com.annie.annieforchild.interactor.imp.CollectionInteractorImp;
 import com.annie.annieforchild.presenter.CollectionPresenter;
 import com.annie.annieforchild.ui.adapter.CollectionAdapter;
 import com.annie.annieforchild.view.CollectionView;
+import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BasePresenterImp;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -25,10 +26,11 @@ import java.util.List;
 
 public class CollectionPresenterImp extends BasePresenterImp implements CollectionPresenter {
     private Context context;
-    private CollectionView collectionView;
+    private ViewInfo collectionView;
+    private int classId;
     private CollectionInteractor interactor;
 
-    public CollectionPresenterImp(Context context, CollectionView collectionView) {
+    public CollectionPresenterImp(Context context, ViewInfo collectionView) {
         this.context = context;
         this.collectionView = collectionView;
     }
@@ -62,6 +64,7 @@ public class CollectionPresenterImp extends BasePresenterImp implements Collecti
 
     @Override
     public void Success(int what, Object result) {
+        collectionView.dismissLoad();
         if (result != null) {
             if (what == MethodCode.EVENT_MYCOLLECTIONS1) {
                 /**
@@ -120,6 +123,7 @@ public class CollectionPresenterImp extends BasePresenterImp implements Collecti
 
     @Override
     public void Error(int what, String error) {
+        collectionView.dismissLoad();
         collectionView.showInfo(error);
     }
 }

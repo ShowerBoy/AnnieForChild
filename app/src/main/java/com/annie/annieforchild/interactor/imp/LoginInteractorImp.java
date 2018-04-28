@@ -29,27 +29,27 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         this.listener = listener;
     }
 
-    @Override
-    public void getMainAddress(String deviceId) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.getVersionCode(context));
-        request.add("system", "android");
-        request.add("deviceId", deviceId);
-        request.add("username", "");
-        request.add("lastlogintime", "");
-        request.setConnectTimeout(3000);
-        addQueue(MethodCode.EVENT_MAIN, request);
-        startQueue();
-    }
+//    @Override
+//    public void getMainAddress(String deviceId) {
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl, RequestMethod.POST);
+//        request.add("bitcode", SystemUtils.getVersionCode(context));
+//        request.add("system", "android");
+//        request.add("deviceId", deviceId);
+//        request.add("username", "");
+//        request.add("lastlogintime", "");
+//        request.setConnectTimeout(3000);
+//        addQueue(MethodCode.EVENT_MAIN, request);
+//        startQueue();
+//    }
 
     @Override
     public void login(String phone, String password, String loginTime) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.LOGIN, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.getVersionCode(context));
-        request.add("system", "android");
-        request.add("deviceId", SystemUtils.sn);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", loginTime);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.LOGIN, RequestMethod.POST);
+//        request.add("bitcode", SystemUtils.getVersionCode(context));
+//        request.add("system", "android");
+//        request.add("deviceId", SystemUtils.sn);
+//        request.add("username", SystemUtils.defaultUsername);
+//        request.add("lastlogintime", loginTime);
         request.add("phone", phone);
         request.add("password", password);
         addQueue(MethodCode.EVENT_LOGIN, request);

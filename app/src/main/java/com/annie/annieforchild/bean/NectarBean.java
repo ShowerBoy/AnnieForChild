@@ -9,7 +9,7 @@ public class NectarBean {
     private String detail;
     private String duration;
     private String time;
-    private int count;
+    private float count;
 
     public String getDetail() {
         return detail;
@@ -35,11 +35,11 @@ public class NectarBean {
         this.time = time;
     }
 
-    public int getCount() {
+    public float getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(float count) {
         this.count = count;
     }
 }

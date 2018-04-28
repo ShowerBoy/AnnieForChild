@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.views.CountDownDialog;
+import com.annie.annieforchild.ui.interfaces.OnCountFinishListener;
 
 /**
  * 提示框工具类
@@ -33,6 +35,11 @@ public class AlertHelper {
         Dialog dialog = new Dialog(activity, R.style.new_circle_progress);
         dialog.setContentView(R.layout.layout_progressbar);
         dialog.setCancelable(false);
+        return dialog;
+    }
+
+    public Dialog getCountDownDialog(OnCountFinishListener listener) {
+        CountDownDialog dialog = new CountDownDialog(activity, R.style.new_circle_progress, listener);
         return dialog;
     }
 }

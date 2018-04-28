@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.bean.AudioBean;
 import com.annie.annieforchild.bean.Banner;
+import com.annie.annieforchild.bean.UserInfo2;
+import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.grindear.GrindEarData;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
@@ -31,6 +34,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 /**
@@ -45,6 +49,8 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     private GrindEarInteractor interactor;
     private List<Banner> bannerList;
     private int classId;
+    private int lineId;
+    private int pkType;
     private HashMap<Integer, String> file_maps;
 
     public GrindEarPresenterImp(Context context, GrindEarView grindEarView) {
@@ -84,11 +90,44 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     }
 
     /**
+     * 收藏
+     *
+     * @param type     1:磨耳朵 2:阅读 3:口语
+     * @param courseId
+     */
+    @Override
+    public void collectCourse(int type, int courseId, int classId) {
+        songView.showLoad();
+        interactor.collectCourse(type, courseId, classId);
+    }
+
+    /**
+     * 取消收藏
+     *
+     * @param type
+     * @param courseId
+     */
+    @Override
+    public void cancelCollection(int type, int courseId, int classId) {
+        songView.showLoad();
+        this.classId = classId;
+        interactor.cancelCollection(type, courseId, classId);
+    }
+
+    /**
      * 获取儿歌以及分类
      */
     @Override
     public void getMusicClasses() {
         interactor.getMusicClasses();
+    }
+
+    /**
+     * 获取阅读分类
+     */
+    @Override
+    public void getReadingClasses() {
+        interactor.getReadingClasses();
     }
 
     /**
@@ -123,6 +162,45 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     @Override
     public void getBookScore(int bookId) {
         interactor.getBookScore(bookId);
+    }
+
+    /**
+     * 练习，挑战，PK
+     *
+     * @param bookId
+     * @param pkType
+     * @param pkUsername
+     */
+    @Override
+    public void getBookAudioData(int bookId, int pkType, String pkUsername) {
+        songView.showLoad();
+        this.pkType = pkType;
+        interactor.getBookAudioData(bookId, pkType, pkUsername);
+    }
+
+    /**
+     * 上传音频——磨耳朵
+     *
+     * @param resourseId
+     * @param page
+     * @param lineId
+     * @param path
+     * @param score
+     */
+    @Override
+    public void uploadAudioResource(int resourseId, int page, int lineId, String path, float score, String title, int duration) {
+        this.lineId = lineId;
+        interactor.uploadAudioResource(resourseId, page, lineId, path, score, title, duration);
+    }
+
+    /**
+     * 获取pk用户
+     *
+     * @param bookId
+     */
+    @Override
+    public void getPkUsers(int bookId) {
+        interactor.getPkUsers(bookId);
     }
 
     private void initImageSlide() {
@@ -202,7 +280,61 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 message.what = what;
                 message.obj = lists;
                 EventBus.getDefault().post(message);
-            } else if (what == MethodCode.EVENT_GETMUSICLIST + 10000 + classId) {
+            } else if (what == MethodCode.EVENT_GETMUSICCLASSES5) {
+                List<SongClassify> lists = (List<SongClassify>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETMUSICCLASSES6) {
+                List<SongClassify> lists = (List<SongClassify>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETMUSICCLASSES7) {
+                List<SongClassify> lists = (List<SongClassify>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETMUSICCLASSES8) {
+                List<SongClassify> lists = (List<SongClassify>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETMUSICCLASSES9) {
+                List<SongClassify> lists = (List<SongClassify>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETMUSICCLASSES10) {
+                List<SongClassify> lists = (List<SongClassify>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETMUSICLIST + 1000 + classId) {
                 List<Song> songList = (List<Song>) result;
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.song.ListenSongFragment#onMainEventThread(JTMessage)}
@@ -237,6 +369,76 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = song;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETBOOKAUDIODATA) {
+                Book book = (Book) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.pk.ExerciseActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.pk.ChallengeActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.pk.pkActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                if (pkType == 0) {
+                    message.what = MethodCode.EVENT_PK_EXERCISE;
+                } else if (pkType == 1) {
+                    message.what = MethodCode.EVENT_PK_CHALLENGE;
+                } else if (pkType == 2) {
+                    message.what = MethodCode.EVENT_PK_PK;
+                }
+                message.obj = book;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_UPLOADAUDIO) {
+                AudioBean audioBean = (AudioBean) result;
+                audioBean.setLineId(lineId);
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.pk.ExerciseActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = audioBean;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_COLLECTCOURSE + 2000 + classId) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.song.ListenSongFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_CANCELCOLLECTION1 + 3000 + classId) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.song.ListenSongFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETPKUSERS) {
+                List<UserInfo2> lists = (List<UserInfo2>) result;
+                //TODO:假数据
+//                lists.clear();
+//                UserInfo2 userInfo2 = new UserInfo2();
+//                userInfo2.setAvatar("http://pic.58pic.com/58pic/14/62/50/62558PICxm8_1024.jpg");
+//                userInfo2.setName("小明");
+//                UserInfo2 userInfo3 = new UserInfo2();
+//                userInfo3.setAvatar("http://pic.58pic.com/58pic/14/62/50/62558PICxm8_1024.jpg");
+//                userInfo3.setName("小明");
+//                UserInfo2 userInfo4 = new UserInfo2();
+//                userInfo4.setAvatar("http://pic.58pic.com/58pic/14/62/50/62558PICxm8_1024.jpg");
+//                userInfo4.setName("小明");
+//                UserInfo2 userInfo5 = new UserInfo2();
+//                userInfo5.setAvatar("http://pic.58pic.com/58pic/14/62/50/62558PICxm8_1024.jpg");
+//                userInfo5.setName("小明");
+//                lists.add(userInfo2);
+//                lists.add(userInfo3);
+//                lists.add(userInfo4);
+//                lists.add(userInfo5);
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.pk.PracticeActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
                 EventBus.getDefault().post(message);
             }
         }

@@ -7,12 +7,16 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.ActivityCollector;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.ui.fragment.FirstFragment;
 import com.annie.annieforchild.ui.fragment.FourthFragment;
 import com.annie.annieforchild.ui.fragment.SecondFragment;
@@ -131,4 +135,11 @@ public class MainActivity extends QuickNavigationBarActivity {
         Toast.makeText(this, "DENY ACCESS SDCARD!", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        SystemUtils.window_width = wm.getDefaultDisplay().getWidth();
+        SystemUtils.window_height = wm.getDefaultDisplay().getHeight();
+    }
 }

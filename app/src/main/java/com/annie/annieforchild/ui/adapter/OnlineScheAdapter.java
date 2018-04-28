@@ -1,15 +1,21 @@
 package com.annie.annieforchild.ui.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.schedule.Schedule;
+import com.annie.annieforchild.presenter.SchedulePresenter;
+import com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity;
 import com.annie.annieforchild.ui.activity.lesson.SearchMaterialActivity;
 import com.annie.annieforchild.ui.activity.lesson.SelectMaterialActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.OnlineFooterViewHolder;
@@ -27,13 +33,17 @@ public class OnlineScheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private int ITEM_TYPE_BOTTOM = 2;
     private int mBottomCount = 1;//底部View个数
     private Context context;
+    private SchedulePresenter presenter;
     private List<Schedule> lists;
     private LayoutInflater inflater;
+    private String[] strings;
 
-    public OnlineScheAdapter(Context context, List<Schedule> lists) {
+    public OnlineScheAdapter(Context context, List<Schedule> lists, SchedulePresenter presenter) {
         this.context = context;
         this.lists = lists;
+        this.presenter = presenter;
         inflater = LayoutInflater.from(context);
+        strings = new String[]{"编辑课表", "删除课表"};
     }
 
     //内容长度
@@ -77,7 +87,31 @@ public class OnlineScheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((OnlineScheViewHolder) holder).selectSpot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SystemUtils.show(context, "修改" + position);
+//                    SystemUtils.show(context, "修改" + lists.get(position).getScheduleId());
+                    new AlertDialog.Builder(context).setTitle("编辑")
+                            .setItems(strings, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+//                                    SystemUtils.show(context, strings[which]);
+                                    if (which == 0) {
+                                        Intent intent = new Intent(context, SelectMaterialActivity.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putSerializable("schedule", lists.get(position));
+                                        intent.putExtras(bundle);
+                                        context.startActivity(intent);
+                                        dialog.dismiss();
+                                    } else {
+                                        presenter.deleteSchedule(lists.get(position).getScheduleId());
+                                        dialog.dismiss();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
                 }
             });
         }

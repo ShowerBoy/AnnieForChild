@@ -31,6 +31,16 @@
                 android:text="练习"
                 android:textColor="@color/text_black"
                 android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/go_to_challenge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="去挑战"
+                android:textColor="@color/text_orange"
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -41,22 +51,51 @@
                 android:id="@+id/exercise_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/go_to_challenge"
+                android:layout_above="@+id/page_layout"
                 android:layout_alignParentTop="true">
 
             </com.jcodecraeer.xrecyclerview.XRecyclerView>
 
-            <Button
-                android:id="@+id/go_to_challenge"
+            <RelativeLayout
+                android:id="@+id/page_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginEnd="-40dp"
-                android:layout_marginStart="-40dp"
-                android:background="@drawable/login_btn_t"
-                android:text="去挑战"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/book_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="1/20"
+                    android:textColor="@color/text_black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/last_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@+id/book_page"
+                    android:text="上一页"
+                    android:textColor="@color/text_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/next_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@+id/book_page"
+                    android:text="下一页"
+                    android:textColor="@color/text_orange"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
         </RelativeLayout>
 
 

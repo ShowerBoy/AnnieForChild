@@ -6,10 +6,15 @@ import android.widget.TextView;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.grindear.GrindTime;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
 import com.annie.baselibrary.base.BaseFragment;
 
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 累计磨耳朵
@@ -18,6 +23,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class TotalGrindEarFragment extends BaseFragment {
     private TextView tingerge, tingshige, tingduihua, tingduwu, tingdonghua, tingmobao, jiqiren, diandubi, qita, total;
+    private List<GrindTime> lists;
+    MyGrindEarBean bean;
 
     {
         setRegister(true);
@@ -30,7 +37,7 @@ public class TotalGrindEarFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        lists = new ArrayList<>();
     }
 
     @Override
@@ -55,12 +62,46 @@ public class TotalGrindEarFragment extends BaseFragment {
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETMYLISTENING) {
-            MyGrindEarBean bean = (MyGrindEarBean) message.obj;
-            refresh(bean);
+            bean = (MyGrindEarBean) message.obj;
+            lists.clear();
+            lists.addAll(bean.getHistoryList());
+            refresh();
         }
     }
 
-    private void refresh(MyGrindEarBean bean) {
-
+    private void refresh() {
+        for (int i = 0; i < lists.size(); i++) {
+            GrindTime grindTime = lists.get(i);
+            switch (grindTime.getType()) {
+                case "song":
+                    tingerge.setText(grindTime.getDuration() + "分");
+                    break;
+                case "poetry":
+                    tingshige.setText(grindTime.getDuration() + "分");
+                    break;
+                case "communicate":
+                    tingduihua.setText(grindTime.getDuration() + "分");
+                    break;
+                case "reading":
+                    tingduwu.setText(grindTime.getDuration() + "分");
+                    break;
+                case "animation":
+                    tingdonghua.setText(grindTime.getDuration() + "分");
+                    break;
+                case "mobao":
+                    tingmobao.setText(grindTime.getDuration() + "分");
+                    break;
+                case "robot":
+                    jiqiren.setText(grindTime.getDuration() + "分");
+                    break;
+                case "readingpen":
+                    diandubi.setText(grindTime.getDuration() + "分");
+                    break;
+                case "others":
+                    qita.setText(grindTime.getDuration() + "分");
+                    break;
+            }
+        }
+        total.setText(bean.getHistoryTotalDuration() + "分");
     }
 }

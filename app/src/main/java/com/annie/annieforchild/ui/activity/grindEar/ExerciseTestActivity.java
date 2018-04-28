@@ -22,10 +22,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.PCMRecordUtils;
+import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.speech.util.FucUtil;
 import com.annie.annieforchild.Utils.speech.util.Result;
 import com.annie.annieforchild.Utils.speech.util.XmlResultParser;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.EvaluatorListener;
 import com.iflytek.cloud.EvaluatorResult;
 import com.iflytek.cloud.SpeechConstant;
@@ -43,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 练习--测试
+ * 讯飞--测试
  * Created by wanglei on 2018/3/19.
  */
 
@@ -52,7 +56,7 @@ public class ExerciseTestActivity extends BaseActivity implements View.OnClickLi
     private TextView resultText;
     private EditText iseText;
     private Spinner spinner;
-    private Button start, stop, parse;
+    private Button start, stop, parse, startRecord, stopRecord;
     private SpeechEvaluator mIse;
     // 评测语种
     private String language;
@@ -71,6 +75,9 @@ public class ExerciseTestActivity extends BaseActivity implements View.OnClickLi
     DataInputStream dis = null;
     private boolean isPlay = false;
     Handler handler = new Handler();
+    PCMRecordUtils pcmRecordUtils;
+    String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/record/test.pcm";
+    File file;
 
     @Override
     protected int getLayoutId() {
@@ -85,9 +92,13 @@ public class ExerciseTestActivity extends BaseActivity implements View.OnClickLi
         stop = findViewById(R.id.stopBtn);
         parse = findViewById(R.id.parseBtn);
         spinner = findViewById(R.id.spinner);
+        startRecord = findViewById(R.id.record_btn);
+        stopRecord = findViewById(R.id.record_stop_btn);
         start.setOnClickListener(this);
         stop.setOnClickListener(this);
         parse.setOnClickListener(this);
+        startRecord.setOnClickListener(this);
+        stopRecord.setOnClickListener(this);
     }
 
     @Override
@@ -104,7 +115,7 @@ public class ExerciseTestActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 lan = spinnerList.get(position);
-                showInfo(lan);
+//                showInfo(lan);
             }
 
             @Override
@@ -119,6 +130,9 @@ public class ExerciseTestActivity extends BaseActivity implements View.OnClickLi
                 mediaPlayer.start();
             }
         });
+
+        pcmRecordUtils = new PCMRecordUtils(this, filePath);
+
     }
 
     private void setParams() {
@@ -149,8 +163,10 @@ public class ExerciseTestActivity extends BaseActivity implements View.OnClickLi
         // 注：AUDIO_FORMAT参数语记需要更新版本才能生效
         mIse.setParameter(SpeechConstant.AUDIO_FORMAT, "pcm");
         mIse.setParameter(SpeechConstant.ISE_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/ise.pcm");
+
         //通过writeaudio方式直接写入音频时才需要此设置
-        //mIse.setParameter(SpeechConstant.AUDIO_SOURCE,"-1");
+        mIse.setParameter(SpeechConstant.AUDIO_SOURCE, "-1");
+        mIse.setParameter(SpeechConstant.ISE_SOURCE_PATH, filePath);
     }
 
     @Override
@@ -161,12 +177,38 @@ public class ExerciseTestActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.record_btn:
+                pcmRecordUtils.startRecord();
+                break;
+            case R.id.record_stop_btn:
+                pcmRecordUtils.stopRecord();
+                break;
             case R.id.startBtn:
                 if (mIse == null) {
                     return;
                 }
                 showInfo("评测开始");
                 int ret = mIse.startEvaluating(iseText.getText().toString(), null, mEvaluatorListener);
+                /**
+                 * 通过writeaudio方式直接写入音频
+                 */
+                if (ret != ErrorCode.SUCCESS) {
+
+                } else {
+//                    byte[] audioData = FucUtil.readAudioFile(ExerciseTestActivity.this, "ise.pcm");
+                    byte[] audioData = SystemUtils.getBytes(filePath);
+
+                    if (audioData != null) {
+                        try {
+                            new Thread().sleep(100);
+                        } catch (InterruptedException e) {
+                            Log.d(TAG, "InterruptedException :" + e);
+                        }
+                        mIse.writeAudio(audioData, 0, audioData.length);
+                        mIse.stopEvaluating();
+                    }
+                }
+
                 break;
             case R.id.stopBtn:
                 if (mIse.isEvaluating()) {
@@ -276,11 +318,10 @@ public class ExerciseTestActivity extends BaseActivity implements View.OnClickLi
         Toast.makeText(this, info, Toast.LENGTH_LONG).show();
     }
 
-
     public void play() {
         try {
             //从音频文件中读取声音
-            File file = new File(Environment.getExternalStorageDirectory() + "/msc/ise.pcm");
+            File file = new File(filePath);
 
             if (!file.exists()) {
                 return;
@@ -334,7 +375,6 @@ public class ExerciseTestActivity extends BaseActivity implements View.OnClickLi
             }
         }).start();
     }
-
 
     @Override
     protected void onDestroy() {

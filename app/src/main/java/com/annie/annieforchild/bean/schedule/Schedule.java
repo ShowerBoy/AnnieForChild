@@ -1,10 +1,12 @@
 package com.annie.annieforchild.bean.schedule;
 
+import java.io.Serializable;
+
 /**
  * Created by WangLei on 2018/3/1 0001
  */
 
-public class Schedule {
+public class Schedule implements Serializable {
     private String start;
     private String stop;
     private int scheduleId;

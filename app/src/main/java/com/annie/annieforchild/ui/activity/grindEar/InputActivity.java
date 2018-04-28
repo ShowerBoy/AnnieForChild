@@ -111,19 +111,19 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (type.equals("听动画")) {
                     durations[0] = popup_lists.get(position).getTitle();
-                    inputTingdonghua.setText(popup_lists.get(position).getTitle() + "分");
+                    inputTingdonghua.setText(popup_lists.get(position).getTitle() + "分钟");
                 } else if (type.equals("听磨宝")) {
                     durations[1] = popup_lists.get(position).getTitle();
-                    inputTingmobao.setText(popup_lists.get(position).getTitle() + "分");
+                    inputTingmobao.setText(popup_lists.get(position).getTitle() + "分钟");
                 } else if (type.equals("机器人")) {
                     durations[2] = popup_lists.get(position).getTitle();
-                    inputJiqiren.setText(popup_lists.get(position).getTitle() + "分");
+                    inputJiqiren.setText(popup_lists.get(position).getTitle() + "分钟");
                 } else if (type.equals("点读笔")) {
                     durations[3] = popup_lists.get(position).getTitle();
-                    inputDiandubi.setText(popup_lists.get(position).getTitle() + "分");
+                    inputDiandubi.setText(popup_lists.get(position).getTitle() + "分钟");
                 } else if (type.equals("其他")) {
                     durations[4] = popup_lists.get(position).getTitle();
-                    inputQita.setText(popup_lists.get(position).getTitle() + "分");
+                    inputQita.setText(popup_lists.get(position).getTitle() + "分钟");
                 }
                 popupWindow.dismiss();
             }
@@ -210,7 +210,7 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_COMMITDURATION) {
-
+            finish();
         }
     }
 

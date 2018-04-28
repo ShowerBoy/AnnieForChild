@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 
+import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.baselibrary.utils.ToastHelp;
 
 import org.greenrobot.eventbus.EventBus;
@@ -34,6 +35,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        ActivityCollector.addActivity(this);
         if (register) {
             EventBus.getDefault().register(this);
         }
@@ -63,6 +65,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ActivityCollector.removeActivity(this);
         if (register) {
             EventBus.getDefault().unregister(this);
         }

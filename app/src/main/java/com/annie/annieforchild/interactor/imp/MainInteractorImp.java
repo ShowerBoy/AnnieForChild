@@ -38,11 +38,7 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
 
     @Override
     public void getHomeData(String tag) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.GETHOMEDATA, RequestMethod.POST);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETHOMEDATA, RequestMethod.POST);
         if (tag.equals("会员")) {
             request.add("username", SystemUtils.defaultUsername);
             request.add("token", SystemUtils.token);

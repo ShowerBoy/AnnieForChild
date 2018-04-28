@@ -23,6 +23,7 @@ import java.util.List;
 
 public class CollectionInteractorImp extends NetWorkImp implements CollectionInteractor {
     private Context context;
+    private int classId;
     private RequestListener listener;
 
     public CollectionInteractorImp(Context context, RequestListener listener) {
@@ -32,13 +33,9 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
 
     @Override
     public void getMyCollections(int type) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.MYCOLLECTIONS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYCOLLECTIONS, RequestMethod.POST);
         request.add("token", SystemUtils.token);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
 
         request.add("type", type);
         if (type == 1) {
@@ -53,13 +50,9 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
 
     @Override
     public void cancelCollection(int type, int courseId) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainBean.getData() + MethodType.CANCELCOLLECTION, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.CANCELCOLLECTION, RequestMethod.POST);
         request.add("token", SystemUtils.token);
-        request.add("bitcode", SystemUtils.phoneSN.getBitcode());
-        request.add("system", SystemUtils.phoneSN.getSystem());
-        request.add("deviceId", SystemUtils.sn);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("lastlogintime", SystemUtils.phoneSN.getLastlogintime());
 
         request.add("type", type);
         request.add("courseId", courseId);
@@ -95,42 +88,12 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
         } else {
             if (what == MethodCode.EVENT_MYCOLLECTIONS1) {
                 List<Collection> lists = JSON.parseArray(data, Collection.class);
-                Collection collection = new Collection();
-                collection.setCourseId(1);
-                collection.setImageUrl("http://www.yanjinews.com/uploadfile/2016/0222/20160222122040243.jpg");
-                collection.setName("磨耳朵1");
-                Collection collection1 = new Collection();
-                collection1.setCourseId(3);
-                collection1.setImageUrl("http://www.yanjinews.com/uploadfile/2016/0222/20160222122040243.jpg");
-                collection1.setName("磨耳朵2");
-                lists.add(collection);
-                lists.add(collection1);
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_MYCOLLECTIONS2) {
                 List<Collection> lists = JSON.parseArray(data, Collection.class);
-                Collection collection = new Collection();
-                collection.setCourseId(1);
-                collection.setImageUrl("http://www.yanjinews.com/uploadfile/2016/0222/20160222122040243.jpg");
-                collection.setName("阅读1");
-                Collection collection1 = new Collection();
-                collection1.setCourseId(3);
-                collection1.setImageUrl("http://www.yanjinews.com/uploadfile/2016/0222/20160222122040243.jpg");
-                collection1.setName("阅读2");
-                lists.add(collection);
-                lists.add(collection1);
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_MYCOLLECTIONS3) {
                 List<Collection> lists = JSON.parseArray(data, Collection.class);
-                Collection collection = new Collection();
-                collection.setCourseId(1);
-                collection.setImageUrl("http://www.yanjinews.com/uploadfile/2016/0222/20160222122040243.jpg");
-                collection.setName("口语1");
-                Collection collection1 = new Collection();
-                collection1.setCourseId(3);
-                collection1.setImageUrl("http://www.yanjinews.com/uploadfile/2016/0222/20160222122040243.jpg");
-                collection1.setName("口语2");
-                lists.add(collection);
-                lists.add(collection1);
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_CANCELCOLLECTION1) {
                 listener.Success(what, "取消收藏成功");
