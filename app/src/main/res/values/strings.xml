@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">安妮花</string>
 
+    <string name="app_about">北京安妮教育科技有限公司（以下简称安妮花），总部位于北京。经过八年的持续努力,已经发展为国内阅读领导品牌。创始人安妮鲜花，海归夫妇，全国“十二五”教育科研重点规划课题组专家。以安妮鲜花为名开设新浪博客，访问量超千万。著有畅销书《不能错过的英语启蒙——中国孩子的英语路线图》、《出国不出国——北美金字塔教育的启示》、《安妮花英语自然拼读与阅读》系列教材等，提倡以阅读为主线培养国际化思维能力，让数十万家庭和孩子受益。</string>
+
     <!-- error -->
     <string name="error_please_check_network">请检查网络。</string>
     <string name="error_timeout">请求超时，网络不好或者服务器不稳定。</string>

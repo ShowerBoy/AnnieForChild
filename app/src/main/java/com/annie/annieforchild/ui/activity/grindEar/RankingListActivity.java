@@ -9,7 +9,7 @@ import android.widget.RadioGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.RankingBean;
+import com.annie.annieforchild.bean.rank.RankingBean;
 import com.annie.annieforchild.ui.adapter.RankingRecyclerAdapter;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;

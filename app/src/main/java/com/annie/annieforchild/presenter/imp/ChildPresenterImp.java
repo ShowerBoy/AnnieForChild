@@ -140,6 +140,7 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
         if (what == MethodCode.EVENT_UPDATEUSER) {
             /**
              * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
+             *  {@link com.annie.annieforchild.ui.activity.child.ModifyChildActivity#onMainEventThread(JTMessage)}
              */
             JTMessage message2 = new JTMessage();
             message2.what = what;

@@ -131,11 +131,11 @@ public class SecondFragment extends BaseFragment implements SecondView, View.OnC
                 break;
             case R.id.series_task_layout:
                 //系列作业
-
+                showInfo("敬请期待");
                 break;
             case R.id.optional_task_layout:
                 //自选作业
-
+                showInfo("敬请期待");
                 break;
         }
     }

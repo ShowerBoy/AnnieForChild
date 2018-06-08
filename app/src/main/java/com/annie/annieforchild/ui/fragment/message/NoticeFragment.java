@@ -2,16 +2,14 @@ package com.annie.annieforchild.ui.fragment.message;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.Notice;
-import com.annie.annieforchild.presenter.MessagePresenter;
+import com.annie.annieforchild.bean.tongzhi.MyNotice;
+import com.annie.annieforchild.bean.tongzhi.Notice;
 import com.annie.annieforchild.presenter.imp.MessagePresenterImp;
 import com.annie.annieforchild.ui.adapter.NoticeAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
-import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseFragment;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -81,8 +79,9 @@ public class NoticeFragment extends BaseFragment {
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == -1) {
+            MyNotice myNotice = (MyNotice) message.obj;
             lists.clear();
-            lists.addAll((List<Notice>) message.obj);
+            lists.addAll(myNotice.getNotis());
             adapter.notifyDataSetChanged();
         }
     }

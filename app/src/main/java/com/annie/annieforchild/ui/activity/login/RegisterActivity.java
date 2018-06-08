@@ -128,7 +128,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
 
     private boolean ifNext() {
         if (phone_number.getText().toString().equals("") || phone_number.getText().toString().length() != 11 || phone_number.getText().toString().contains(" ") || test_code.getText().toString().contains(" ") || test_code.getText().toString().equals("")
-                || password.getText().toString().equals("") || confirm_password.getText().toString().equals("") || password.getText().toString().length() != confirm_password.getText().toString().length() || password.getText().toString().equals(confirm_password.getText().toString())) {
+                || password.getText().toString().equals("") || confirm_password.getText().toString().equals("") || password.getText().toString().length() != confirm_password.getText().toString().length() || !password.getText().toString().equals(confirm_password.getText().toString())) {
             return false;
         } else {
             return true;

@@ -6,9 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alibaba.fastjson.serializer.ListSerializer;
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.Notice;
+import com.annie.annieforchild.bean.tongzhi.Notice;
 import com.annie.annieforchild.ui.adapter.viewHolder.NoticeViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 

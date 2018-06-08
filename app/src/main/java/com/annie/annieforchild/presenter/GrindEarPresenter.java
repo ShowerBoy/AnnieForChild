@@ -29,7 +29,31 @@ public interface GrindEarPresenter {
 
     void getBookAudioData(int bookId, int pkType, String pkUsername);
 
-    void uploadAudioResource(int resourseId, int page, int lineId, String path, float score,String title,int duration);
+    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin);
 
     void getPkUsers(int bookId);
+
+    void getPkResult(int bookId, String pkUsername, int pkType);
+
+    void joinMaterial(int bookId, int classId);
+
+    void cancelMaterial(int bookId, int classId);
+
+    void getRank(int spaceType, int timeType);
+
+    void getSquareRank();
+
+    void getSquareRankList(int resourceType, int timeType, int locationType);
+
+    void likeStudent(String likeUsername);
+
+    void cancelLikeStudent(String cancelLikeUsername);
+
+    void getReading();
+
+    void getMyReading();
+
+    void commitReading(String[] type, String[] duration);
+
+    void getDurationStatistics(int timeType, int locationType);
 }

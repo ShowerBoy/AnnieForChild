@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.mob.sdk'
 
 android {
     configurations.all {
@@ -26,6 +27,7 @@ android {
                 JPUSH_APPKEY : "c6670521ba634f008a7ad58f", //JPush上注册的包名对应的appkey.
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -41,11 +43,41 @@ android {
     }
 }
 
+
+MobSDK {
+    appKey "25ae3329fd83c"
+    appSecret "3a6bf549a506548273b37fadc35aae27"
+
+    ShareSDK {
+        devInfo {
+            Wechat {
+                appId "wxcacacb4196e0dc91"
+                appSecret "5c28b6fdf84d9330d524dfba1fa66f52"
+            }
+            WechatMoments {
+                appId "wxcacacb4196e0dc91"
+                appSecret "5c28b6fdf84d9330d524dfba1fa66f52"
+            }
+            QQ {
+                appId "1106863922"
+                appSecret "KEYez9rmC8rqH2en8Aw"
+                shareByAppClient true
+            }
+            QZone {
+                appId "1106863922"
+                appSecret "KEYez9rmC8rqH2en8Aw"
+            }
+        }
+    }
+
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:1.0.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -74,6 +106,8 @@ dependencies {
     compile 'cn.jiguang.sdk:jpush:3.1.1'
     compile 'cn.jiguang.sdk:jcore:1.1.9'
     compile 'com.baoyz.swipemenulistview:library:1.3.0'
+    compile 'com.truizlop.sectionedrecyclerview:library:1.2.0'
+    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
     compile files('libs/Msc.jar')
     compile files('libs/AMap2DMap_5.2.0_AMapSearch_5.7.0_AMapLocation_3.8.0_20180201.jar')
     compile files('libs/Sunflower.jar')

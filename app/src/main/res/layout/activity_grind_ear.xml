@@ -41,7 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/icon_bangdan" />
+                android:src="@drawable/icon_bangdan"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <com.daimajia.slider.library.SliderLayout
@@ -240,38 +241,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:background="@color/white"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingBottom="10dp"
                 android:paddingEnd="12dp"
                 android:paddingStart="12dp">
 
                 <ImageView
-                    android:id="@+id/listening100"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/meiriyshi"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="6dp"
-                    android:layout_weight="1"
                     android:scaleType="fitXY"
-                    android:src="@drawable/icon_grindear100" />
+                    android:src="@drawable/image_meiriyishi" />
 
                 <ImageView
-                    android:id="@+id/animation100"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/meiriyige"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
-                    android:layout_weight="1"
+                    android:layout_marginTop="12dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/icon_cartoon100" />
+                    android:src="@drawable/image_meiriyige" />
             </LinearLayout>
 
-            <com.jcodecraeer.xrecyclerview.XRecyclerView
-                android:id="@+id/recommend_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="1dp"
-                android:background="@color/white">
+            <!--<com.jcodecraeer.xrecyclerview.XRecyclerView-->
+            <!--android:id="@+id/recommend_recycler"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginTop="1dp"-->
+            <!--android:background="@color/white">-->
 
-            </com.jcodecraeer.xrecyclerview.XRecyclerView>
+            <!--</com.jcodecraeer.xrecyclerview.XRecyclerView>-->
 
         </LinearLayout>
     </LinearLayout>

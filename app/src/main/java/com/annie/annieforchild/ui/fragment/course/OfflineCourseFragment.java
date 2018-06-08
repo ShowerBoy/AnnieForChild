@@ -5,12 +5,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.Course;
+import com.annie.annieforchild.bean.course.Course;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.SchedulePresenter;
 import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
-import com.annie.annieforchild.ui.adapter.OnlineCourseAdapter;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -63,7 +61,7 @@ public class OfflineCourseFragment extends BaseFragment implements ScheduleView 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         offlineRecycler.setLayoutManager(layoutManager);
-        offlineRecycler.setPullRefreshEnabled(true);
+        offlineRecycler.setPullRefreshEnabled(false);
         offlineRecycler.setLoadingMoreEnabled(false);
         offlineRecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override

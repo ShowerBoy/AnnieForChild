@@ -2,18 +2,15 @@ package com.annie.annieforchild.ui.fragment.help;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.HelpBean;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.Notice;
 import com.annie.annieforchild.presenter.MessagePresenter;
 import com.annie.annieforchild.presenter.imp.MessagePresenterImp;
 import com.annie.annieforchild.ui.adapter.HelpAdapter;
-import com.annie.annieforchild.ui.adapter.NoticeAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseFragment;

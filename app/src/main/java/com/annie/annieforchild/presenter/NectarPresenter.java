@@ -7,5 +7,5 @@ package com.annie.annieforchild.presenter;
 public interface NectarPresenter {
     void initViewAndData();
 
-    void getNectar(int type);
+    void getNectar();
 }

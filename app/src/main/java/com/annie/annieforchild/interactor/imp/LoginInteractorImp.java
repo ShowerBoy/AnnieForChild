@@ -8,12 +8,15 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.login.MainBean;
+import com.annie.annieforchild.bean.search.BookClassify;
 import com.annie.annieforchild.interactor.LoginInteractor;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Response;
+
+import java.util.List;
 
 /**
  * 登陆
@@ -57,6 +60,15 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
     }
 
     @Override
+    public void globalSearch(String keyword) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SEARCHAPI + MethodType.GLOBALSEARCH, RequestMethod.POST);
+        request.add("token", SystemUtils.token);
+        request.add("keyword", keyword);
+        addQueue(MethodCode.EVENT_GLOBALSEARCH, request);
+        startQueue();
+    }
+
+    @Override
     protected void onNetWorkStart(int what) {
 
     }
@@ -75,12 +87,18 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         if (errorType == 3) {
             listener.Error(what, errorInfo);
         } else {
-            MainBean bean = JSON.parseObject(jsonString, MainBean.class);
-            if (bean != null) {
-                //请求成功
-                listener.Success(what, bean);
-            } else {
-                listener.Error(what, "没有数据");
+            if (what == MethodCode.EVENT_LOGIN) {
+                MainBean bean = JSON.parseObject(jsonString, MainBean.class);
+                if (bean != null) {
+                    //请求成功
+                    listener.Success(what, bean);
+                } else {
+                    listener.Error(what, "没有数据");
+                }
+            } else if (what == MethodCode.EVENT_GLOBALSEARCH) {
+                String data = jsonObject.getString(MethodCode.DATA);
+                List<BookClassify> lists = JSON.parseArray(data, BookClassify.class);
+                listener.Success(what, lists);
             }
         }
     }

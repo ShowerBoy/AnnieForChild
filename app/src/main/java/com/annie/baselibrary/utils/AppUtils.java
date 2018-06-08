@@ -211,6 +211,7 @@ public class AppUtils {
      */
     public static void getAppDetailsSettings(final String packageName) {
         if (isSpace(packageName)) return;
+
         Utils.getApp().startActivity(IntentUtils.getAppDetailsSettingsIntent(packageName));
     }
 

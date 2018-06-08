@@ -9,7 +9,7 @@ import java.util.List;
 public class GoldExchanges {
     private String detail;
     private String time;
-    private int count;
+    private float count;
     private int action;
 
     public String getDetail() {
@@ -28,11 +28,11 @@ public class GoldExchanges {
         this.time = time;
     }
 
-    public int getCount() {
+    public float getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(float count) {
         this.count = count;
     }
 

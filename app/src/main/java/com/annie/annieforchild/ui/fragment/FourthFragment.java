@@ -1,8 +1,6 @@
 package com.annie.annieforchild.ui.fragment;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +16,6 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.presenter.FourthPresenter;
@@ -27,15 +24,14 @@ import com.annie.annieforchild.ui.activity.child.ModifyChildActivity;
 import com.annie.annieforchild.ui.activity.my.AboutActivity;
 import com.annie.annieforchild.ui.activity.my.GradeAchievementActivity;
 import com.annie.annieforchild.ui.activity.my.HelpActivity;
-import com.annie.annieforchild.ui.activity.my.MyCoinActivity;
 import com.annie.annieforchild.ui.activity.my.MyCollectionActivity;
+import com.annie.annieforchild.ui.activity.my.ExchangeActivity;
 import com.annie.annieforchild.ui.activity.my.MyExchangeActivity;
 import com.annie.annieforchild.ui.activity.my.MyMessageActivity;
 import com.annie.annieforchild.ui.activity.my.MyNectarActivity;
 import com.annie.annieforchild.ui.activity.my.MyRecordActivity;
 import com.annie.annieforchild.ui.activity.my.SettingsActivity;
 import com.annie.annieforchild.ui.activity.my.ToFriendActivity;
-import com.annie.annieforchild.ui.adapter.MemberAdapter;
 import com.annie.annieforchild.view.FourthView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.bumptech.glide.Glide;
@@ -43,7 +39,6 @@ import com.bumptech.glide.Glide;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Calendar;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -122,7 +117,6 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
         userLevel.setOnClickListener(this);
         collectionLayout.setOnClickListener(this);
         nectarLayout.setOnClickListener(this);
-        coinLayout.setOnClickListener(this);
         recordLayout.setOnClickListener(this);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -186,9 +180,6 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
                     return;
                 }
                 intent.setClass(getContext(), MyExchangeActivity.class);
-                Bundle bundle1 = new Bundle();
-                bundle1.putSerializable("userinfo", userInfo);
-                intent.putExtras(bundle1);
                 startActivity(intent);
                 break;
             case R.id.collection_layout:
@@ -235,18 +226,18 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
                 intent.putExtras(bundle2);
                 startActivity(intent);
                 break;
-            case R.id.coin_layout:
-                //我的金币
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                intent.setClass(getContext(), MyCoinActivity.class);
-                Bundle bundle3 = new Bundle();
-                bundle3.putSerializable("userinfo", userInfo);
-                intent.putExtras(bundle3);
-                startActivity(intent);
-                break;
+//            case R.id.coin_layout:
+//                //我的金币
+//                if (tag.equals("游客")) {
+//                    SystemUtils.toLogin(getContext());
+//                    return;
+//                }
+//                intent.setClass(getContext(), MyCoinActivity.class);
+//                Bundle bundle3 = new Bundle();
+//                bundle3.putSerializable("userinfo", userInfo);
+//                intent.putExtras(bundle3);
+//                startActivity(intent);
+//                break;
             case R.id.record_layout:
                 //我的录音
                 if (tag.equals("游客")) {
@@ -270,19 +261,23 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
      */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-        if (message != null) {
-            if (message.what == MethodCode.EVENT_USERINFO) {
-                userInfo = (UserInfo) message.obj;
-                refresh(userInfo);
-            } else if (message.what == MethodCode.EVENT_ADDCHILD2) {
-//                presenter.initViewAndData();
-                presenter.getUserInfo();
-            } else if (message.what == MethodCode.EVENT_UPDATEUSER) {
-//                presenter.initViewAndData();
-                presenter.getUserInfo();
-            } else if (message.what == MethodCode.EVENT_DELETEUSERNAME) {
-                presenter.getUserInfo();
-            }
+        if (message.what == MethodCode.EVENT_USERINFO) {
+            userInfo = (UserInfo) message.obj;
+            refresh(userInfo);
+        } else if (message.what == MethodCode.EVENT_ADDCHILD2) {
+            presenter.getUserInfo();
+        } else if (message.what == MethodCode.EVENT_UPDATEUSER) {
+            presenter.getUserInfo();
+        } else if (message.what == MethodCode.EVENT_DELETEUSERNAME) {
+            presenter.getUserInfo();
+        } else if (message.what == MethodCode.EVENT_EXCHANGEGOLD) {
+            presenter.getUserInfo();
+        } else if (message.what == MethodCode.EVENT_COMMITDURATION) {
+            presenter.getUserInfo();
+        } else if (message.what == MethodCode.EVENT_COMMITREADING) {
+            presenter.getUserInfo();
+        } else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
+            presenter.getUserInfo();
         }
     }
 
@@ -291,8 +286,12 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
         Glide.with(this).load(userInfo.getAvatar()).into(userHeadpic);
         Glide.with(this).load(userInfo.getAvatar()).bitmapTransform(new BlurTransformation(getContext(), 5)).into(headpic_back);
         userName.setText(userInfo.getName());
-        userLevel.setText(userInfo.getLevel());
-        userOld.setText(getOld(userInfo.getBirthday()) + "岁");
+        userLevel.setText(userInfo.getLevel() != null ? userInfo.getLevel() : "");
+        if (userInfo.getBirthday() != null) {
+            if (!userInfo.getBirthday().equals("") && userInfo.getBirthday().length() != 0) {
+                userOld.setText(getOld(userInfo.getBirthday()) + "岁");
+            }
+        }
         if (userInfo.getSex().equals("男")) {
             sexIcon.setImageResource(R.drawable.icon_sex_boy);
         } else {
@@ -348,7 +347,6 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
     public RecyclerView getMemberRecycler() {
         return member_layout;
     }
-
 
 }
 

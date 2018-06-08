@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.Course;
+import com.annie.annieforchild.bean.course.Course;
+import com.annie.annieforchild.bean.course.OnlineCourse;
 import com.annie.annieforchild.ui.adapter.viewHolder.OnlineCourseViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
@@ -21,11 +22,11 @@ import java.util.List;
 
 public class OnlineCourseAdapter extends RecyclerView.Adapter<OnlineCourseViewHolder> {
     private Context context;
-    private List<Course> lists;
+    private List<OnlineCourse> lists;
     private LayoutInflater inflater;
     private OnRecyclerItemClickListener listener;
 
-    public OnlineCourseAdapter(Context context, List<Course> lists, OnRecyclerItemClickListener listener) {
+    public OnlineCourseAdapter(Context context, List<OnlineCourse> lists, OnRecyclerItemClickListener listener) {
         this.context = context;
         this.lists = lists;
         this.listener = listener;

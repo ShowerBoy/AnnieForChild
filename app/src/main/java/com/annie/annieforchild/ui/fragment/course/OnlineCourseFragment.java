@@ -5,12 +5,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.Course;
+import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.bean.course.Course;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.presenter.SchedulePresenter;
+import com.annie.annieforchild.bean.course.OnlineCourse;
 import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
 import com.annie.annieforchild.ui.adapter.OnlineCourseAdapter;
-import com.annie.annieforchild.ui.adapter.OnlineScheAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseFragment;
@@ -19,6 +19,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,9 +29,8 @@ import java.util.List;
 
 public class OnlineCourseFragment extends BaseFragment implements ScheduleView {
     private XRecyclerView onlineRecycler;
-    private List<Course> lists;
+    private List<OnlineCourse> lists;
     private OnlineCourseAdapter adapter;
-    private SchedulePresenter presenter;
 
     {
         setRegister(true);
@@ -43,8 +43,6 @@ public class OnlineCourseFragment extends BaseFragment implements ScheduleView {
 
     @Override
     protected void initData() {
-        presenter = new SchedulePresenterImp(getContext(), this);
-        presenter.initViewAndData();
         lists = new ArrayList<>();
         adapter = new OnlineCourseAdapter(getContext(), lists, new OnRecyclerItemClickListener() {
             @Override
@@ -64,7 +62,7 @@ public class OnlineCourseFragment extends BaseFragment implements ScheduleView {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         onlineRecycler.setLayoutManager(layoutManager);
-        onlineRecycler.setPullRefreshEnabled(true);
+        onlineRecycler.setPullRefreshEnabled(false);
         onlineRecycler.setLoadingMoreEnabled(false);
         onlineRecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -90,9 +88,18 @@ public class OnlineCourseFragment extends BaseFragment implements ScheduleView {
         return R.layout.activity_online_course_fragment;
     }
 
+    /**
+     * {@link SchedulePresenterImp#Success(int, Object)}
+     *
+     * @param message
+     */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-
+        if (message.what == MethodCode.EVENT_MYCOURSESONLINE) {
+            lists.clear();
+            lists.addAll((List<OnlineCourse>) message.obj);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override

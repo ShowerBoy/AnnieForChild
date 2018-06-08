@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="5dp"
+    android:paddingEnd="12dp"
+    android:paddingStart="12dp"
+    android:paddingTop="5dp">
+
+    <ImageView
+        android:id="@+id/search_book_image"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/image_listen_erge" />
+
+    <TextView
+        android:id="@+id/search_book_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
+        android:text="Twin sisters"
+        android:textColor="@color/text_black"
+        android:textSize="16sp" />
+</LinearLayout>

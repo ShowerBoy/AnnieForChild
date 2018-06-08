@@ -12,11 +12,8 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.schedule.Schedule;
 import com.annie.annieforchild.presenter.SchedulePresenter;
-import com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity;
-import com.annie.annieforchild.ui.activity.lesson.SearchMaterialActivity;
 import com.annie.annieforchild.ui.activity.lesson.SelectMaterialActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.OnlineFooterViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.OnlineScheViewHolder;
@@ -37,6 +34,7 @@ public class OnlineScheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<Schedule> lists;
     private LayoutInflater inflater;
     private String[] strings;
+    private String date;
 
     public OnlineScheAdapter(Context context, List<Schedule> lists, SchedulePresenter presenter) {
         this.context = context;
@@ -77,7 +75,12 @@ public class OnlineScheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((OnlineFooterViewHolder) holder).addSchedule.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //添加课程
                     Intent intent = new Intent(context, SelectMaterialActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("date", date);
+                    bundle.putSerializable("schedule", null);
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
             });
@@ -96,6 +99,7 @@ public class OnlineScheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                     if (which == 0) {
                                         Intent intent = new Intent(context, SelectMaterialActivity.class);
                                         Bundle bundle = new Bundle();
+                                        bundle.putString("date", date);
                                         bundle.putSerializable("schedule", lists.get(position));
                                         intent.putExtras(bundle);
                                         context.startActivity(intent);
@@ -120,5 +124,9 @@ public class OnlineScheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemCount() {
         return getContentItemCount() + mBottomCount;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

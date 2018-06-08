@@ -20,7 +20,7 @@ public class UserInfo implements Serializable {
     private String collectionCount;
     private String qrCode;
     private String school;
-    private String status;
+    private int status;
 
     public String getAvatar() {
         return avatar;
@@ -118,11 +118,11 @@ public class UserInfo implements Serializable {
         this.school = school;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }

@@ -8,6 +8,7 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.GrindTime;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
+import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.baselibrary.base.BaseFragment;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -59,6 +60,11 @@ public class TotalGrindEarFragment extends BaseFragment {
         return R.layout.activity_total_grind_ear_fragment;
     }
 
+    /**
+     * {@link GrindEarPresenterImp#Success(int, Object)}
+     *
+     * @param message
+     */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETMYLISTENING) {
@@ -72,36 +78,88 @@ public class TotalGrindEarFragment extends BaseFragment {
     private void refresh() {
         for (int i = 0; i < lists.size(); i++) {
             GrindTime grindTime = lists.get(i);
+            int min = (int) Double.parseDouble(grindTime.getDuration()) / 60;
+            int hour = 0;
+            if (min > 60) {
+                hour = min / 60;
+                min = min % 60;
+            }
             switch (grindTime.getType()) {
                 case "song":
-                    tingerge.setText(grindTime.getDuration() + "分");
+                    if (hour == 0) {
+                        tingerge.setText(min + "分");
+                    } else {
+                        tingerge.setText(hour + "小时" + min + "分");
+                    }
                     break;
                 case "poetry":
-                    tingshige.setText(grindTime.getDuration() + "分");
+                    if (hour == 0) {
+                        tingshige.setText(min + "分");
+                    } else {
+                        tingshige.setText(hour + "小时" + min + "分");
+                    }
                     break;
                 case "communicate":
-                    tingduihua.setText(grindTime.getDuration() + "分");
+                    if (hour == 0) {
+                        tingduihua.setText(min + "分");
+                    } else {
+                        tingduihua.setText(hour + "小时" + min + "分");
+                    }
                     break;
                 case "reading":
-                    tingduwu.setText(grindTime.getDuration() + "分");
+                    if (hour == 0) {
+                        tingduwu.setText(min + "分");
+                    } else {
+                        tingduwu.setText(hour + "小时" + min + "分");
+                    }
                     break;
                 case "animation":
-                    tingdonghua.setText(grindTime.getDuration() + "分");
+                    if (hour == 0) {
+                        tingdonghua.setText(min + "分");
+                    } else {
+                        tingdonghua.setText(hour + "小时" + min + "分");
+                    }
                     break;
                 case "mobao":
-                    tingmobao.setText(grindTime.getDuration() + "分");
+                    if (hour == 0) {
+                        tingmobao.setText(min + "分");
+                    } else {
+                        tingmobao.setText(hour + "小时" + min + "分");
+                    }
                     break;
                 case "robot":
-                    jiqiren.setText(grindTime.getDuration() + "分");
+                    if (hour == 0) {
+                        jiqiren.setText(min + "分");
+                    } else {
+                        jiqiren.setText(hour + "小时" + min + "分");
+                    }
                     break;
                 case "readingpen":
-                    diandubi.setText(grindTime.getDuration() + "分");
+                    if (hour == 0) {
+                        diandubi.setText(min + "分");
+                    } else {
+                        diandubi.setText(hour + "小时" + min + "分");
+                    }
                     break;
                 case "others":
-                    qita.setText(grindTime.getDuration() + "分");
+                    if (hour == 0) {
+                        qita.setText(min + "分");
+                    } else {
+                        qita.setText(hour + "小时" + min + "分");
+                    }
                     break;
             }
         }
-        total.setText(bean.getHistoryTotalDuration() + "分");
+        int t_min = (int) Double.parseDouble(bean.getHistoryTotalDuration()) / 60;
+        int t_hour = 0;
+        if (t_min > 60) {
+            t_hour = t_min / 60;
+            t_min = t_min % 60;
+        }
+        if (t_hour == 0) {
+            total.setText(t_min + "分");
+        } else {
+            total.setText(t_hour + "小时" + t_min + "分");
+        }
     }
 }

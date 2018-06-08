@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.activity.grindEar;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -51,6 +52,7 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
     private TotalGrindEarFragment totalGrindEarFragment;
     private MyGrindEarFragmentAdapter fragmentAdapter;
     private GrindEarPresenter presenter;
+    private MyGrindEarBean bean;
     private AlertHelper helper;
     private Dialog dialog;
 
@@ -74,6 +76,7 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
         mTab = findViewById(R.id.my_grind_ear_tab);
         mVP = findViewById(R.id.my_grind_ear_viewpager);
         back.setOnClickListener(this);
+        help.setOnClickListener(this);
         input.setOnClickListener(this);
     }
 
@@ -105,12 +108,20 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.my_grind_ear_help:
-
+                Intent intent = new Intent(this, MyLevelActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("tag", "grindear");
+                bundle.putString("level", bean.getLevel());
+                bundle.putString("sublevel", bean.getSubLevel());
+                bundle.putString("totalduration", bean.getHistoryTotalDuration());
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             case R.id.input:
                 //录入
-                Intent intent = new Intent(this, InputActivity.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(this, InputActivity.class);
+                intent1.putExtra("tag", "grindear");
+                startActivity(intent1);
                 break;
         }
     }
@@ -123,7 +134,7 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETMYLISTENING) {
-            MyGrindEarBean bean = (MyGrindEarBean) message.obj;
+            bean = (MyGrindEarBean) message.obj;
             refresh(bean);
         } else if (message.what == MethodCode.EVENT_COMMITDURATION) {
             presenter.getMyListening();

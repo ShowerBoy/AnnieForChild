@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.NectarBean;
+import com.annie.annieforchild.bean.nectar.NectarBean;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyNectarViewHolder;
 
 import java.util.List;
@@ -37,12 +37,22 @@ public class MyNectarAdapter extends RecyclerView.Adapter<MyNectarViewHolder> {
     @Override
     public void onBindViewHolder(MyNectarViewHolder holder, int position) {
         holder.incomeName.setText(lists.get(position).getDetail());
-        holder.incomeTime.setText("（" + lists.get(position).getDuration() + "分钟）");
+        int second = Integer.parseInt(lists.get(position).getDuration());
+        if (lists.get(position).getType() == 0) {
+            if (second >= 60) {
+                holder.incomeTime.setText("（" + second / 60 + "分钟）");
+            } else {
+                holder.incomeTime.setText("（" + second + "秒）");
+            }
+        } else {
+            holder.incomeTime.setText("");
+        }
+
         holder.incomeDate.setText(lists.get(position).getTime().substring(0, 4) + "-" + lists.get(position).getTime().substring(4, 6) + "-" + lists.get(position).getTime().substring(6, 8));
-        if (lists.get(position).getCount() >= 0) {
+        if (lists.get(position).getType() == 0) {
             holder.incomeCount.setText("+" + lists.get(position).getCount() + "");
         } else {
-            holder.incomeCount.setText(lists.get(position).getCount() + "");
+            holder.incomeCount.setText("-" + lists.get(position).getCount() + "");
         }
     }
 

@@ -57,6 +57,7 @@ public class SelectMaterialActivity extends BaseActivity implements View.OnClick
     private Intent intent;
     private Bundle bundle;
     private Schedule schedule = null;
+    private String date;
 
     @Override
     protected int getLayoutId() {
@@ -78,11 +79,15 @@ public class SelectMaterialActivity extends BaseActivity implements View.OnClick
         mTab.setViewPager(mVP);
         mTab.setOnPageChangeListener(this);
 
+        /**
+         * {@link com.annie.annieforchild.ui.adapter.OnlineScheAdapter#onBindViewHolder(RecyclerView.ViewHolder, int)}
+         */
         intent = getIntent();
         if (intent != null) {
             bundle = intent.getExtras();
             if (bundle != null) {
                 schedule = (Schedule) bundle.getSerializable("schedule");
+                date = bundle.getString("date");
             }
         }
     }
@@ -136,17 +141,17 @@ public class SelectMaterialActivity extends BaseActivity implements View.OnClick
                 switch (position) {
                     case 0:
                         if (null == grindEarFragment) {
-                            grindEarFragment = SelectGrindEarFragment.instance(schedule);
+                            grindEarFragment = SelectGrindEarFragment.instance(schedule, date);
                         }
                         return grindEarFragment;
                     case 1:
                         if (null == readingFragment) {
-                            readingFragment = SelectReadingFragment.instance(schedule);
+                            readingFragment = SelectReadingFragment.instance(schedule, date);
                         }
                         return readingFragment;
                     case 2:
                         if (null == spokenFragment) {
-                            spokenFragment = SelectSpokenFragment.instance(schedule);
+                            spokenFragment = SelectSpokenFragment.instance(schedule, date);
                         }
                         return spokenFragment;
                     default:

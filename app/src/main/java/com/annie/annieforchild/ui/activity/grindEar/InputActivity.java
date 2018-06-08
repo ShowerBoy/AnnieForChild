@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ import java.util.List;
 public class InputActivity extends BaseActivity implements View.OnClickListener, SongView {
     private TextView inputTingdonghua, inputTingmobao, inputJiqiren, inputDiandubi, inputQita, feedback;
     private ImageView back;
+    private RelativeLayout tingdonghuaLayout, tingmobaoLayout, jiqirenLayout;
     private Button inputBtn;
     private PopupWindow popupWindow;
     private List<MaterialGroup> popup_lists;
@@ -56,6 +58,8 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
     private String type;
     private AlertHelper helper;
     private Dialog dialog;
+    private Intent intent;
+    private String tag;
 
     {
         setRegister(true);
@@ -76,6 +80,9 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
         inputBtn = findViewById(R.id.input_btn);
         feedback = findViewById(R.id.input_feedback);
         back = findViewById(R.id.input_back);
+        tingdonghuaLayout = findViewById(R.id.tingdonghua_layout);
+        tingmobaoLayout = findViewById(R.id.tingmobao_layout);
+        jiqirenLayout = findViewById(R.id.jiqiren_layout);
         inputTingdonghua.setOnClickListener(this);
         inputTingmobao.setOnClickListener(this);
         inputJiqiren.setOnClickListener(this);
@@ -84,6 +91,9 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
         inputBtn.setOnClickListener(this);
         feedback.setOnClickListener(this);
         back.setOnClickListener(this);
+        tingdonghuaLayout.setOnClickListener(this);
+        tingmobaoLayout.setOnClickListener(this);
+        jiqirenLayout.setOnClickListener(this);
 
         popup_contentView = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_item, null);
         popupList = popup_contentView.findViewById(R.id.popup_lists1);
@@ -93,10 +103,22 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initData() {
+        intent = getIntent();
+        tag = intent.getStringExtra("tag");
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         types = new String[]{"animation", "mobao", "robot", "readingpen", "others"};
         durations = new String[]{"0", "0", "0", "0", "0"};
+        if (tag.equals("grindear")) {
+            tingdonghuaLayout.setVisibility(View.VISIBLE);
+            tingmobaoLayout.setVisibility(View.VISIBLE);
+            jiqirenLayout.setVisibility(View.VISIBLE);
+        } else {
+            tingdonghuaLayout.setVisibility(View.GONE);
+            tingmobaoLayout.setVisibility(View.GONE);
+            jiqirenLayout.setVisibility(View.GONE);
+        }
+
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
 
@@ -177,7 +199,11 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
                     }
                 }
                 if (b) {
-                    presenter.commitDuration(types, durations);
+                    if (tag.equals("grindear")) {
+                        presenter.commitDuration(types, durations);
+                    } else {
+                        presenter.commitReading(types, durations);
+                    }
                 }
                 break;
             case R.id.input_feedback:
@@ -210,6 +236,8 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_COMMITDURATION) {
+            finish();
+        } else if (message.what == MethodCode.EVENT_COMMITREADING) {
             finish();
         }
     }

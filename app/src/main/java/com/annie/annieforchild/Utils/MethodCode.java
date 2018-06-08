@@ -10,6 +10,8 @@ public class MethodCode {
     final public static String PERSONAPI = "personApi/";
     final public static String HOMEPAGEAPI = "homepageApi/";
     final public static String HOMEWORKAPI = "homeworkApi/";
+    final public static String SEARCHAPI = "searchApi/";
+    final public static String SQUAREAPI = "SquareApi/";
     final public static String ERRTYPE = "errType";
     final public static String ERRINFO = "errInfo";
     final public static String DATA = "data";
@@ -35,8 +37,7 @@ public class MethodCode {
     final public static int EVENT_MYCOLLECTIONS2 = 12; //我的收藏——阅读
     final public static int EVENT_MYCOLLECTIONS3 = 13; //我的收藏——口语
     final public static int EVENT_CHANGEPHONE = 14; //修改手机号
-    final public static int EVENT_GETNECTAR1 = 15; //我的花蜜——收入
-    final public static int EVENT_GETNECTAR2 = 16; //我的花蜜——支出
+    final public static int EVENT_GETNECTAR = 15; //我的花蜜
     final public static int EVENT_UPLOADAVATAR = 17; //上传头像
     final public static int EVENT_SETDEFAULEUSER = 18; //设置默认学员
     final public static int EVENT_GETMYMESSAGES = 19; //获取通知和群消息
@@ -47,7 +48,7 @@ public class MethodCode {
     final public static int EVENT_CANCELCOLLECTION3 = 24; //取消收藏——口语
     final public static int EVENT_MYRECORDINGS = 25; //我的录音
     final public static int EVENT_DELETERECORDING = 26; //删除录音
-    final public static int EVENT_EXCHANGERECORDING = 27; //花蜜兑换记录
+    final public static int EVENT_EXCHANGEGOLD = 27; //花蜜兑换
     final public static int EVENT_GETHOMEDATA = 28; //获取首页信息
     final public static int EVENT_GETLISTENING = 29; //获取磨耳朵信息
     final public static int EVENT_GETMUSICCLASSES1 = 30; //获取儿歌分类
@@ -79,4 +80,21 @@ public class MethodCode {
     final public static int EVENT_GETMUSICCLASSES8 = 56; //获取阅读分类
     final public static int EVENT_GETMUSICCLASSES9 = 57; //获取阅读分类
     final public static int EVENT_GETMUSICCLASSES10 = 58; //获取阅读分类
+    final public static int EVENT_GLOBALSEARCH = 59; //全局搜索
+    final public static int EVENT_GETPKRESULT = 60; //获取PK结果
+    final public static int EVENT_MYCOURSESONLINE = 61; //获取线上课程
+    final public static int EVENT_MYCOURSESOFFLINE = 62; //获取线下课程
+    final public static int EVENT_MYTEACHINGMATERIALS = 63; //我的教材
+    final public static int EVENT_JOINMATERIAL = 64; //加入教材
+    final public static int EVENT_CANCELMATERIAL = 65; //取消加入教材
+    final public static int EVENT_GETRANK = 66; //榜单
+    final public static int EVENT_GETSQUARERANK = 67; //广场首页排行榜
+    final public static int EVENT_GETSQUARERANKLIST = 68; //广场排行榜列表
+    final public static int EVENT_LIKESTUDENT = 69; //点赞
+    final public static int EVENT_CANCELLIKESTUDENT = 70; //取消点赞
+    final public static int EVENT_GETMYREADING = 71; //阅读存折
+    final public static int EVENT_COMMITREADING = 72; //阅读时长录入
+    final public static int EVENT_GETREADING = 73; //获取阅读
+    final public static int EVENT_SHARETO = 74; //分享
+    final public static int EVENT_GETDURATIONSTATISTICS = 75; //统计
 }

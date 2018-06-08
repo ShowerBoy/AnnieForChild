@@ -2,9 +2,13 @@ package com.annie.annieforchild.presenter.imp;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.JSON;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.ClassList;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.course.Course;
+import com.annie.annieforchild.bean.course.OnlineCourse;
+import com.annie.annieforchild.bean.material.Material;
 import com.annie.annieforchild.bean.schedule.TotalSchedule;
 import com.annie.annieforchild.interactor.ScheduleInteractor;
 import com.annie.annieforchild.interactor.imp.ScheduleInteractorImp;
@@ -29,6 +33,7 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
     private Context context;
     private ScheduleView scheduleView;
     private ScheduleInteractor interactor;
+    private String date;
 
     public SchedulePresenterImp(Context context, ScheduleView scheduleView) {
         this.context = context;
@@ -45,6 +50,7 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
      */
     @Override
     public void getScheduleDetails(String date) {
+        this.date = date;
         scheduleView.showLoad();
         interactor.mySchedule(date);
     }
@@ -108,6 +114,31 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
         interactor.deleteSchedule(scheduleId);
     }
 
+    /**
+     * 获取线上课程
+     */
+    @Override
+    public void myCoursesOnline() {
+        interactor.myCoursesOnline();
+    }
+
+    /**
+     * 获取线下课程
+     */
+    @Override
+    public void myCoursesOffline() {
+        interactor.myCoursesOffline();
+    }
+
+    /**
+     * 我的教材
+     */
+    @Override
+    public void myTeachingMaterials() {
+        scheduleView.showLoad();
+        interactor.myTeachingMaterials();
+    }
+
 
     @Override
     public void Success(int what, Object result) {
@@ -116,12 +147,13 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
             if (what == MethodCode.EVENT_MYSCHEDULE) {
                 TotalSchedule totalSchedule = (TotalSchedule) result;
                 /**
-                 * {@link OfflineScheduleFragment#onEventMainThread(JTMessage)}
-                 * {@link OnlineScheduleFragment#onEventMainThread(JTMessage)}
+                 * {@link OfflineScheduleFragment#onMainEventThread(JTMessage)}
+                 * {@link OnlineScheduleFragment#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = totalSchedule;
+                message.obj2 = date;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_GETALLMATERIALLIST1) {
                 List<ClassList> lists = (List<ClassList>) result;
@@ -175,6 +207,33 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_TOTALSCHEDULE) {
+                TotalSchedule totalSchedule = (TotalSchedule) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.lesson.TotalScheduleActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = totalSchedule;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_MYCOURSESONLINE) {
+                List<OnlineCourse> lists = (List<OnlineCourse>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.course.OnlineCourseFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_MYTEACHINGMATERIALS) {
+                List<Material> lists = (List<Material>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.material.OptionalMaterialFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
                 EventBus.getDefault().post(message);
             }
         }

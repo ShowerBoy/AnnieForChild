@@ -8,9 +8,8 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.HelpBean;
-import com.annie.annieforchild.bean.NectarExchanges;
-import com.annie.annieforchild.bean.Notice;
 import com.annie.annieforchild.bean.Record;
+import com.annie.annieforchild.bean.tongzhi.MyNotice;
 import com.annie.annieforchild.interactor.MessageInteractor;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
@@ -37,7 +36,6 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     public void getMyMessages() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETMYMESSAGES, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETMYMESSAGES, request);
         startQueue();
@@ -47,7 +45,6 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     public void getDocumentations() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETHELP, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETHELP, request);
         startQueue();
@@ -57,7 +54,6 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     public void myRecordings() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGS, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_MYRECORDINGS, request);
         startQueue();
@@ -67,31 +63,47 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     public void deleteRecording(int recordingId) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETERECORDING, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-
         request.add("token", SystemUtils.token);
         request.add("recordingId", recordingId);
         addQueue(MethodCode.EVENT_DELETERECORDING, request);
         startQueue();
     }
 
-    @Override
-    public void getExchangeRecording() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.EXCHANGERECORDING, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-
-        request.add("token", SystemUtils.token);
-        addQueue(MethodCode.EVENT_EXCHANGERECORDING, request);
-        startQueue();
-    }
+//    @Override
+//    public void getExchangeRecording() {
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.EXCHANGERECORDING, RequestMethod.POST);
+//        request.add("username", SystemUtils.defaultUsername);
+//        request.add("token", SystemUtils.token);
+//        addQueue(MethodCode.EVENT_EXCHANGERECORDING, request);
+//        startQueue();
+//    }
 
     @Override
     public void feedback(String content) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.FEEDBACK, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-
         request.add("token", SystemUtils.token);
         request.add("content", content);
         addQueue(MethodCode.EVENT_FEEDBACK, request);
+        startQueue();
+    }
+
+    @Override
+    public void exchangeGold(int nectar) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.EXCHANGEGOLD, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("nectar", nectar);
+        addQueue(MethodCode.EVENT_EXCHANGEGOLD, request);
+        startQueue();
+    }
+
+    @Override
+    public void shareTo() {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.SHARETO, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        addQueue(MethodCode.EVENT_SHARETO, request);
         startQueue();
     }
 
@@ -116,8 +128,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
             listener.Error(what, errorInfo);
         } else {
             if (what == MethodCode.EVENT_GETMYMESSAGES) {
-                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
-                listener.Success(what, dataobj);
+                MyNotice myNotice = JSON.parseObject(data, MyNotice.class);
+                listener.Success(what, myNotice);
             } else if (what == MethodCode.EVENT_FEEDBACK) {
                 listener.Success(what, "提交成功");
             } else if (what == MethodCode.EVENT_GETHELP) {
@@ -126,11 +138,14 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
             } else if (what == MethodCode.EVENT_MYRECORDINGS) {
                 List<Record> lists = JSON.parseArray(data, Record.class);
                 listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_EXCHANGERECORDING) {
-                NectarExchanges exchanges = JSON.parseObject(data, NectarExchanges.class);
-                listener.Success(what, exchanges);
             } else if (what == MethodCode.EVENT_DELETERECORDING) {
                 listener.Success(what, "删除成功");
+            } else if (what == MethodCode.EVENT_EXCHANGEGOLD) {
+                listener.Success(what, "兑换成功");
+            } else if (what == MethodCode.EVENT_SHARETO) {
+                JSONObject dataObj = jsonObject.getJSONObject(MethodCode.DATA);
+                String shareUrl = dataObj.getString("shareUrl");
+                listener.Success(what, shareUrl);
             }
         }
     }

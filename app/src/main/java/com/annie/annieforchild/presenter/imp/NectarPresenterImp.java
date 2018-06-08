@@ -34,26 +34,18 @@ public class NectarPresenterImp extends BasePresenterImp implements NectarPresen
 
     /**
      * 我的花蜜
-     * @param type 0：收入  1：支出
      */
     @Override
-    public void getNectar(int type) {
-        interactor.getNectar(type);
+    public void getNectar() {
+        interactor.getNectar();
     }
 
     @Override
     public void Success(int what, Object result) {
         if (result != null) {
-            if (what == MethodCode.EVENT_GETNECTAR1) {
+            if (what == MethodCode.EVENT_GETNECTAR) {
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.nectar.IncomeFragment#onMainEventThread(JTMessage)}
-                 */
-                JTMessage message = new JTMessage();
-                message.what = what;
-                message.obj = result;
-                EventBus.getDefault().post(message);
-            } else if (what == MethodCode.EVENT_GETNECTAR2) {
-                /**
                  * {@link com.annie.annieforchild.ui.fragment.nectar.OutcomeFragment#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();

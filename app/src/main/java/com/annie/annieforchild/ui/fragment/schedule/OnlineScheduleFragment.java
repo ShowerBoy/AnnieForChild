@@ -36,6 +36,7 @@ public class OnlineScheduleFragment extends BaseFragment implements ScheduleView
     private SchedulePresenter presenter;
     private AlertHelper helper;
     private Dialog dialog;
+    private String date; //用户选中的当前日期
 
     {
         setRegister(true);
@@ -77,16 +78,18 @@ public class OnlineScheduleFragment extends BaseFragment implements ScheduleView
     }
 
     /**
-     * {@link SchedulePresenterImp#getScheduleDetails(String)}
+     * {@link SchedulePresenterImp#Success(int, Object)}
      *
      * @param message
      */
     @Subscribe
-    public void onEventMainThread(JTMessage message) {
+    public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_MYSCHEDULE) {
             TotalSchedule totalSchedule = (TotalSchedule) message.obj;
+            date = (String) message.obj2;
             lists.clear();
             lists.addAll(totalSchedule.getOnline());
+            adapter.setDate(date);
             adapter.notifyDataSetChanged();
         }
     }

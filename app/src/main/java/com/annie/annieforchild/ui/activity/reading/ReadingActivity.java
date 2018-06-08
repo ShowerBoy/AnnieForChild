@@ -17,6 +17,7 @@ import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.grindEar.ListenSongActivity;
+import com.annie.annieforchild.ui.activity.grindEar.MyGrindEarActivity;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.annieforchild.view.ReadingView;
 import com.annie.baselibrary.base.BaseActivity;
@@ -91,6 +92,7 @@ public class ReadingActivity extends BaseActivity implements View.OnClickListene
         dialog = helper.LoadingDialog();
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
+        presenter.getReading();
         presenter.getReadingClasses();
     }
 
@@ -159,7 +161,13 @@ public class ReadingActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.my_level:
-
+                //阅读存折
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                intent.setClass(this, MyReadingActivity.class);
+                startActivity(intent);
                 break;
             case R.id.lets_reading:
                 //我要朗读

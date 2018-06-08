@@ -38,9 +38,8 @@ import java.util.List;
  */
 
 public class GrindEarActivity extends BaseActivity implements GrindEarView, View.OnClickListener {
-    private ImageView grindEarBack, listening100, animation100, iWantGrindEar, iWantSing, grindEarCheck;
+    private ImageView grindEarBack, meiriyishi, meiriyige, iWantGrindEar, iWantSing, grindEarCheck;
     private SliderLayout grindEarSlide;
-    private XRecyclerView recommendRecycler;
     private LinearLayout songLayout, poetryLayout, dialogueLayout, picturebookLayout;
     private String listeningUrl, animationUrl;
     private AlertHelper helper;
@@ -67,10 +66,9 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
         grindEarBack = findViewById(R.id.grind_ear_back);
         grindEarSlide = findViewById(R.id.grind_ear_slide);
         iWantGrindEar = findViewById(R.id.i_want_grindear);
-        listening100 = findViewById(R.id.listening100);
-        animation100 = findViewById(R.id.animation100);
+//        listening100 = findViewById(R.id.listening100);
+//        animation100 = findViewById(R.id.animation100);
         iWantSing = findViewById(R.id.i_want_sing);
-        recommendRecycler = findViewById(R.id.recommend_recycler);
         songLayout = findViewById(R.id.song_layout);
         poetryLayout = findViewById(R.id.poetry_layout);
         dialogueLayout = findViewById(R.id.dialogue_layout);
@@ -97,10 +95,6 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
         dialog = helper.LoadingDialog();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recommendRecycler.setLayoutManager(layoutManager);
-        recommendRecycler.setPullRefreshEnabled(false);
-        recommendRecycler.setLoadingMoreEnabled(false);
-        recommendRecycler.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         file_maps = new HashMap<>();
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
@@ -202,18 +196,18 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
                 intent.putExtras(bundle4);
                 startActivity(intent);
                 break;
-            case R.id.listening100:
-                //磨100
-                intent.setClass(this, WebActivity.class);
-                intent.putExtra("url", listeningUrl);
-                startActivity(intent);
-                break;
-            case R.id.animation100:
-                //动画100
-                intent.setClass(this, WebActivity.class);
-                intent.putExtra("url", animationUrl);
-                startActivity(intent);
-                break;
+//            case R.id.listening100:
+//                //磨100
+//                intent.setClass(this, WebActivity.class);
+//                intent.putExtra("url", listeningUrl);
+//                startActivity(intent);
+//                break;
+//            case R.id.animation100:
+//                //动画100
+//                intent.setClass(this, WebActivity.class);
+//                intent.putExtra("url", animationUrl);
+//                startActivity(intent);
+//                break;
         }
     }
 

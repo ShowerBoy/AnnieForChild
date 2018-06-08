@@ -48,7 +48,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
     private TextView detailName, detailSex, detailBirthday, edit;
     private EditText editText;
     private String[] strings;
-    private String childSex, birth, childName, avatar;
+    private String childSex, birth, childName, avatar, today;
     private UserInfo userInfo;
     private SystemUtils systemUtils;
     private Bitmap headbitmap;
@@ -59,8 +59,10 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
     SimpleDateFormat sf;
     int index = 0;
     private boolean isEdit = false;
+
     long tenYears = 30L * 365 * 1000 * 60 * 60 * 24L;
     long oneYears = 5L * 365 * 1000 * 60 * 60 * 24L;
+
 
     {
         setRegister(true);
@@ -99,6 +101,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
     protected void initData() {
         presenter = new ChildPresenterImp(this, this);
         sf = new SimpleDateFormat("yyyy-MM-dd");
+        today = sf.format(new Date());
         datePickerDialog = new TimePickerDialog.Builder()
                 .setType(Type.YEAR_MONTH_DAY)
                 .setThemeColor(R.color.black)
@@ -134,7 +137,11 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
             }
             detailName.setText(userInfo.getName());
             Glide.with(this).load(userInfo.getAvatar()).into(modify_headpic);
-            detailBirthday.setText(userInfo.getBirthday().substring(0, 4) + "-" + userInfo.getBirthday().substring(4, 6) + "-" + userInfo.getBirthday().substring(6, 8));
+            if (userInfo.getBirthday() != null) {
+                if (!userInfo.getBirthday().equals("") && userInfo.getBirthday().length() != 0) {
+                    detailBirthday.setText(userInfo.getBirthday().substring(0, 4) + "-" + userInfo.getBirthday().substring(4, 6) + "-" + userInfo.getBirthday().substring(6, 8));
+                }
+            }
         }
     }
 
@@ -216,6 +223,12 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
                 break;
             case R.id.edit:
                 if (isEdit) {
+                    int todayDate = Integer.parseInt(today.replace("-", ""));
+                    int birthDate = Integer.parseInt(birth.replace("-", ""));
+                    if (birthDate > todayDate) {
+                        showInfo("日期选择有误，请重新选择");
+                        return;
+                    }
                     isEdit = false;
                     edit.setText("编辑");
                     presenter.motifyChild(avatar, childName, childSex, birth);
@@ -240,6 +253,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
                     refresh();
                 } else {
                     initialize();
+
                 }
             }
         } else if (message.what == MethodCode.EVENT_UPLOADAVATAR + 10001) {
@@ -267,8 +281,17 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
 
     @Override
     public void onDateSet(TimePickerDialog timePickerDialog, long l) {
-        birth = sf.format(new Date(l));
-        detailBirthday.setText(birth.replace("-", ""));
+        birth = sf.format(new Date(l)).replace("-", "");
+
+        int todayDate = Integer.parseInt(today.replace("-", ""));
+        int birthDate = Integer.parseInt(birth.replace("-", ""));
+        if (birthDate > todayDate) {
+            showInfo("日期选择有误，请重新选择");
+            birth = userInfo.getBirthday();
+        } else {
+            detailBirthday.setText(sf.format(new Date(l)));
+        }
+
 //        presenter.motifyChild(userInfo.getAvatar(), userInfo.getName(), userInfo.getSex(), birth);
     }
 

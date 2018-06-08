@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Environment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.TypedValue;
@@ -24,6 +25,7 @@ import com.annie.annieforchild.ui.adapter.MyRecordAdapter;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.annie.baselibrary.utils.NetUtils.NoHttpUtils;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -32,6 +34,7 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +89,23 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         presenter.deleteRecording(lists.get(position).getRecordingId());
+                                        if (lists.get(position).getOrigin() == 0) {
+                                            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + lists.get(position).getTitle() + ".pcm");
+                                            if (file.exists()) {
+                                                file.delete();
+                                            }
+                                        }
+//                                        else if (lists.get(position).getOrigin() == 1) {
+//                                            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + lists.get(position).getTitle() + ".pcm");
+//                                            if (file.exists()) {
+//                                                file.delete();
+//                                            }
+//                                        } else if (lists.get(position).getOrigin() == 2) {
+//                                            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + lists.get(position).getTitle() + ".pcm");
+//                                            if (file.exists()) {
+//                                                file.delete();
+//                                            }
+//                                        }
                                         dialog.dismiss();
                                     }
                                 })

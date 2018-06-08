@@ -56,6 +56,7 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
     private boolean isLast = false;
     private boolean isNext = true;
     public static boolean isPlay;
+    private int audioType, audioSource;
 
     {
         setRegister(true);
@@ -87,6 +88,8 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
         exerciseList.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         intent = getIntent();
         bookId = intent.getIntExtra("bookId", 0);
+        audioType = intent.getIntExtra("audioType", 0);
+        audioSource = intent.getIntExtra("audioSource", 3);
     }
 
     @Override
@@ -97,7 +100,7 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
 
-        adapter = new ExerciseAdapter(this, lists, bookId, presenter, new OnRecyclerItemClickListener() {
+        adapter = new ExerciseAdapter(this, lists, bookId, presenter, audioType, audioSource, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 int positon = exerciseList.getChildAdapterPosition(view);

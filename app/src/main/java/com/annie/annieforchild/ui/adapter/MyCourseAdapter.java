@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.Course;
-import com.annie.annieforchild.bean.Course2;
+import com.annie.annieforchild.bean.course.Course2;
 import com.annie.annieforchild.presenter.imp.MainPresenterImp;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyCourseViewHolder;
 import com.bumptech.glide.Glide;
@@ -49,7 +48,7 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseViewHolder> {
         holder.image_myCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, position + lists.get(position).getName(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, position + lists.get(position).getName(), Toast.LENGTH_SHORT).show();
             }
         });
     }

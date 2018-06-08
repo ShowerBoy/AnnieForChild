@@ -94,6 +94,9 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
         if (intent != null) {
             tag = intent.getStringExtra("tag");
         }
+        if (tag != null && tag.equals("游客登陆")) {
+            youke.setVisibility(View.GONE);
+        }
     }
 
     @Override

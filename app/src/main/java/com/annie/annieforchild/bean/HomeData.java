@@ -1,5 +1,9 @@
 package com.annie.annieforchild.bean;
 
+import com.annie.annieforchild.bean.course.Course2;
+import com.annie.annieforchild.bean.song.Song;
+import com.annie.annieforchild.bean.tongzhi.Msgs;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,11 +12,19 @@ import java.util.List;
  * Created by wanglei on 2018/3/20.
  */
 
-public class HomeData implements Serializable{
+public class HomeData implements Serializable {
     private List<Banner> bannerList;
-    private String[] msgList;
+    private List<Msgs> msgList;
     private List<Course2> myCourseList;
-    private List<RecommendBean> recommendList;
+    private List<Song> recommendList;
+
+    public List<Msgs> getMsgList() {
+        return msgList;
+    }
+
+    public void setMsgList(List<Msgs> msgList) {
+        this.msgList = msgList;
+    }
 
     public List<Banner> getBannerList() {
         return bannerList;
@@ -20,14 +32,6 @@ public class HomeData implements Serializable{
 
     public void setBannerList(List<Banner> bannerList) {
         this.bannerList = bannerList;
-    }
-
-    public String[] getMsgList() {
-        return msgList;
-    }
-
-    public void setMsgList(String[] msgList) {
-        this.msgList = msgList;
     }
 
     public List<Course2> getMyCourseList() {
@@ -38,11 +42,11 @@ public class HomeData implements Serializable{
         this.myCourseList = myCourseList;
     }
 
-    public List<RecommendBean> getRecommendList() {
+    public List<Song> getRecommendList() {
         return recommendList;
     }
 
-    public void setRecommendList(List<RecommendBean> recommendList) {
+    public void setRecommendList(List<Song> recommendList) {
         this.recommendList = recommendList;
     }
 }

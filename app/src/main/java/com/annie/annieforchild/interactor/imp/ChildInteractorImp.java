@@ -37,6 +37,7 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
         FileBinary fileBinary = new FileBinary(file);
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.UPLOADACATAR, RequestMethod.POST);
         request.add("token", SystemUtils.token);
+        request.add("username", SystemUtils.defaultUsername);
         request.add("file", fileBinary);
         addQueue(MethodCode.EVENT_UPLOADAVATAR, request);
         startQueue();
@@ -46,7 +47,7 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
     public void addChild(String headpic, String name, String sex, String birthday) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.REGISTERUSER, RequestMethod.POST);
         request.add("token", SystemUtils.token);
-
+        request.add("username", SystemUtils.defaultUsername);
         request.add("avatar", headpic);
         request.add("name", name);
         request.add("sex", sex);
@@ -59,7 +60,7 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
     public void motifyChild(String avatar, String name, String sex, String birthday) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.UPDATEUSERINFO, RequestMethod.POST);
         request.add("token", SystemUtils.token);
-
+        request.add("username", SystemUtils.defaultUsername);
         request.add("avatar", avatar);
         request.add("name", name);
         request.add("sex", sex);

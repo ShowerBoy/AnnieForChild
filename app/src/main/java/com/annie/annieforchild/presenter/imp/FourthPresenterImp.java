@@ -50,6 +50,9 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
             @Override
             public void onItemClick(View view) {
                 position = fourthView.getMemberRecycler().getChildAdapterPosition(view);
+                if (lists.get(position).getUsername().equals(SystemUtils.defaultUsername)){
+                    return;
+                }
                 SystemUtils.GeneralDialog(context, "切换默认学员")
                         .setMessage("切换当前学员为默认学员？")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {

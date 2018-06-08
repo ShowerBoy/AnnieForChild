@@ -15,7 +15,9 @@ public interface MessagePresenter {
 
     void deleteRecording(int recordingId);
 
-    void getExchangeRecording();
-
     void feedback(String content);
+
+    void exchangeGold(int nectar);
+
+    void shareTo();
 }

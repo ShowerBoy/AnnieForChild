@@ -3,6 +3,7 @@ package com.annie.annieforchild.ui.application;
 import com.annie.baselibrary.utils.Utils;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
+import com.mob.MobSDK;
 import com.yanzhenjie.nohttp.NoHttp;
 
 import org.litepal.LitePalApplication;
@@ -21,6 +22,7 @@ public class MyApplication extends LitePalApplication {
         SpeechUtility.createUtility(MyApplication.this, SpeechConstant.APPID + "=5aab99b5");
         Utils.init(this);
         initJpush();
+        MobSDK.init(this);
     }
 
     private void initJpush() {

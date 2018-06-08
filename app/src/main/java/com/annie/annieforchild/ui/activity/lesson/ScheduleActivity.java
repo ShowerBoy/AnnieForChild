@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.activity.lesson;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -20,8 +21,12 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
+import com.annie.annieforchild.Utils.views.weekview.WeekViewEvent;
 import com.annie.annieforchild.bean.DateBean;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.WeekBean;
+import com.annie.annieforchild.bean.schedule.Schedule;
+import com.annie.annieforchild.bean.schedule.TotalSchedule;
 import com.annie.annieforchild.presenter.SchedulePresenter;
 import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
 import com.annie.annieforchild.ui.adapter.DateRecyclerAdapter;
@@ -35,8 +40,10 @@ import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -62,6 +69,20 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
     private Dialog dialog;
     private int screenwidth;
     private long oneDay = 1000 * 60 * 60 * 24L;
+
+    Calendar calendar;
+    TotalSchedule total_Schedule;
+    List<WeekViewEvent> events;
+    //    WeekViewEvent event;
+//    Calendar startCalendar;
+//    Calendar endCalendar;
+    private List<WeekBean> dateLists;
+    List<Schedule> onlineLists;
+    List<Schedule> offlineLists;
+    int year, month, day;
+    String startTime, endTime;
+    boolean isLeap;
+    int position = 0;
 
     {
         setRegister(true);
@@ -91,10 +112,23 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
         DisplayMetrics outMetrics = new DisplayMetrics();
         managers.getDefaultDisplay().getMetrics(outMetrics);
         screenwidth = outMetrics.widthPixels;
+
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH) + 1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     @Override
     protected void initData() {
+        onlineLists = new ArrayList<>();
+        offlineLists = new ArrayList<>();
+        if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+            isLeap = true;
+        } else {
+            isLeap = false;
+        }
+        initDatesList();
         presenter = new SchedulePresenterImp(this, this);
         presenter.initViewAndData();
         helper = new AlertHelper(this);
@@ -103,7 +137,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
         adapter = new DateRecyclerAdapter(this, date_lists, screenwidth, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
-                int position = dateRecycler.getChildAdapterPosition(view);
+                position = dateRecycler.getChildAdapterPosition(view);
                 for (int i = 0; i < 30; i++) {
                     date_lists.get(i).setSelect(false);
                 }
@@ -153,6 +187,53 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
         }
     }
 
+    private void initDatesList() {
+        SimpleDateFormat format2 = new SimpleDateFormat("MM");
+        String months = format2.format(new Date());
+        startTime = year + months + "01";
+
+        dateLists = new ArrayList<>();
+        if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+            for (int i = 0; i < 31; i++) {
+                WeekBean bean = new WeekBean();
+                bean.setYear(year);
+                bean.setMonth(month);
+                bean.setDay(i + 1);
+                dateLists.add(bean);
+            }
+            endTime = year + months + "31";
+        } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+            for (int i = 0; i < 30; i++) {
+                WeekBean bean = new WeekBean();
+                bean.setYear(year);
+                bean.setMonth(month);
+                bean.setDay(i + 1);
+                dateLists.add(bean);
+            }
+            endTime = year + months + "30";
+        } else if (month == 2) {
+            if (isLeap) {
+                for (int i = 0; i < 29; i++) {
+                    WeekBean bean = new WeekBean();
+                    bean.setYear(year);
+                    bean.setMonth(month);
+                    bean.setDay(i + 1);
+                    dateLists.add(bean);
+                }
+                endTime = year + months + "29";
+            } else {
+                for (int i = 0; i < 28; i++) {
+                    WeekBean bean = new WeekBean();
+                    bean.setYear(year);
+                    bean.setMonth(month);
+                    bean.setDay(i + 1);
+                    dateLists.add(bean);
+                }
+                endTime = year + months + "28";
+            }
+        }
+    }
+
     @Override
     protected BasePresenter getPresenter() {
         return null;
@@ -174,8 +255,13 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
                 presenter.getScheduleDetails(date_lists.get(0).getYear() + date_lists.get(0).getMonth() + date_lists.get(0).getDay());
                 break;
             case R.id.total_schedule:
-                Intent intent = new Intent(this, TotalScheduleActivity.class);
-                startActivity(intent);
+                presenter.totalSchedule(startTime, endTime);
+//                Intent intent = new Intent(this, TotalScheduleActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("startTime", startTime);
+//                bundle.putString("endTime", endTime);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
                 break;
         }
     }
@@ -188,13 +274,56 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_ADDSCHEDULE) {
-            presenter.getScheduleDetails(date_lists.get(0).getYear() + date_lists.get(0).getMonth() + date_lists.get(0).getDay());
+            presenter.getScheduleDetails(date_lists.get(position).getYear() + date_lists.get(position).getMonth() + date_lists.get(position).getDay());
         } else if (message.what == MethodCode.EVENT_EDITSCHEDULE) {
-            presenter.getScheduleDetails(date_lists.get(0).getYear() + date_lists.get(0).getMonth() + date_lists.get(0).getDay());
+            presenter.getScheduleDetails(date_lists.get(position).getYear() + date_lists.get(position).getMonth() + date_lists.get(position).getDay());
         } else if (message.what == MethodCode.EVENT_DELETESCHEDULE) {
             showInfo((String) message.obj);
-            presenter.getScheduleDetails(date_lists.get(0).getYear() + date_lists.get(0).getMonth() + date_lists.get(0).getDay());
+            presenter.getScheduleDetails(date_lists.get(position).getYear() + date_lists.get(position).getMonth() + date_lists.get(position).getDay());
+        } else if (message.what == MethodCode.EVENT_TOTALSCHEDULE) {
+            total_Schedule = (TotalSchedule) message.obj;
+            onlineLists.clear();
+            offlineLists.clear();
+            onlineLists.addAll(total_Schedule.getOnline());
+            offlineLists.addAll(total_Schedule.getOffline());
+            refresh();
         }
+    }
+
+    private void refresh() {
+        events = new ArrayList<>();
+        for (int i = 0; i < onlineLists.size(); i++) {
+            int month = Integer.parseInt(onlineLists.get(i).getDate().substring(4, 6));
+            int date = Integer.parseInt(onlineLists.get(i).getDate().substring(6, 8));
+            int startHour = Integer.parseInt(onlineLists.get(i).getStart().split(":")[0]);
+            int startMin = Integer.parseInt(onlineLists.get(i).getStart().split(":")[1]);
+            int endHour = Integer.parseInt(onlineLists.get(i).getStop().split(":")[0]);
+            int endMin = Integer.parseInt(onlineLists.get(i).getStop().split(":")[1]);
+            Calendar startCalendar = Calendar.getInstance();
+            startCalendar.set(Calendar.DAY_OF_MONTH, date);
+            startCalendar.set(Calendar.HOUR_OF_DAY, startHour);
+            startCalendar.set(Calendar.MINUTE, startMin);
+            startCalendar.set(Calendar.MONTH, month - 1);
+            startCalendar.set(Calendar.YEAR, year);
+            Calendar endCalendar = Calendar.getInstance();
+            endCalendar.set(Calendar.DAY_OF_MONTH, date);
+            endCalendar.set(Calendar.HOUR_OF_DAY, endHour);
+            endCalendar.set(Calendar.MINUTE, endMin);
+            endCalendar.set(Calendar.MONTH, month - 1);
+            endCalendar.set(Calendar.YEAR, year);
+            WeekViewEvent event = new WeekViewEvent(i, onlineLists.get(i).getDetail(), startCalendar, endCalendar);
+            if (onlineLists.get(i).getType() == 1) {
+                event.setColor(getResources().getColor(R.color.event_color_01));
+            } else {
+                event.setColor(getResources().getColor(R.color.event_color_02));
+            }
+            events.add(event);
+        }
+        Intent intent = new Intent(this, TotalScheduleActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("events", (Serializable) events);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
@@ -268,9 +397,9 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
             if (position >= 0 && position < 2) {
                 switch (position) {
                     case 0:
-                        return "线下课表";
+                        return "线下课程";
                     case 1:
-                        return "线上课表";
+                        return "线上课程";
                     default:
                         break;
                 }

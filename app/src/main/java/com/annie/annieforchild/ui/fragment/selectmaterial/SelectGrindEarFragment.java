@@ -53,18 +53,18 @@ public class SelectGrindEarFragment extends BaseFragment implements ScheduleView
     private Schedule schedule;
     private int currentGroup = 0;
     private int currentChild = 0;
+    private String date;
 
     {
         setRegister(true);
     }
 
-    public static SelectGrindEarFragment instance(Schedule schedule) {
+    public static SelectGrindEarFragment instance(Schedule schedule, String date) {
         SelectGrindEarFragment fragment = new SelectGrindEarFragment();
-        if (schedule != null) {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("schedule", schedule);
-            fragment.setArguments(bundle);
-        }
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("schedule", schedule);
+        bundle.putString("date", date);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -75,6 +75,7 @@ public class SelectGrindEarFragment extends BaseFragment implements ScheduleView
 
         if (getArguments() != null) {
             schedule = (Schedule) getArguments().getSerializable("schedule");
+            date = getArguments().getString("date");
         }
 
         presenter = new SchedulePresenterImp(getContext(), this);
@@ -89,6 +90,7 @@ public class SelectGrindEarFragment extends BaseFragment implements ScheduleView
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("material", lists.get(position));
                 bundle.putSerializable("schedule", schedule);
+                bundle.putString("date", date);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 getActivity().finish();

@@ -7,4 +7,6 @@ public interface LoginPresenter {
     void initViewAndData();
 
     void login(String phone, String password, String loginTime);
+
+    void globalSearch(String keyword);
 }

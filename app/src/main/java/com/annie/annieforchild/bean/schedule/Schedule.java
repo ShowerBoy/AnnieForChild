@@ -7,10 +7,28 @@ import java.io.Serializable;
  */
 
 public class Schedule implements Serializable {
+    private String date;
     private String start;
     private String stop;
     private int scheduleId;
     private String detail;
+    private int type; //1:线上 2:线下
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getStart() {
         return start;

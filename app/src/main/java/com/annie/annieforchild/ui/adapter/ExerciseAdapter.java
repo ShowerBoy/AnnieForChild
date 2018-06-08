@@ -69,16 +69,18 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
     String fileName;
     private Handler handler = new Handler();
     Runnable runnable;
+    private int audioType, audioSource;
 
-    public ExerciseAdapter(Context context, List<Line> lists, int bookId, GrindEarPresenter presenter, OnRecyclerItemClickListener listener) {
+    public ExerciseAdapter(Context context, List<Line> lists, int bookId, GrindEarPresenter presenter, int audioType, int audioSource, OnRecyclerItemClickListener listener) {
         this.context = context;
         this.lists = lists;
         this.bookId = bookId;
         this.presenter = presenter;
+        this.audioType = audioType;
+        this.audioSource = audioSource;
         this.listener = listener;
         inflater = LayoutInflater.from(context);
         initData();
-
     }
 
     @Override
@@ -88,6 +90,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                fileName = lists.get(i).getPage() + "-" + lists.get(i).getLineId() + "-" + lists.get(i).getEnTitle().replace(".", "");
                 listener.onItemClick(v);
             }
         });
@@ -106,15 +109,24 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
         if (lists.get(i).isSelect()) {
             exerciseViewHolder.exerciseLayout.setVisibility(View.VISIBLE);
             exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_black));
+            fileName = lists.get(i).getEnTitle().replace(".", "");
         } else {
             exerciseViewHolder.exerciseLayout.setVisibility(View.GONE);
             exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_color));
         }
-        if (lists.get(i).getMyResourceUrl() != null && lists.get(i).getMyResourceUrl().length() != 0 && !lists.get(i).getMyResourceUrl().equals("")) {
+
+        String fileName = lists.get(i).getEnTitle().replace(".", "");
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm");
+        if (file.exists()) {
             exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
         } else {
             exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big_f);
         }
+//        if (lists.get(i).getMyResourceUrl() != null && lists.get(i).getMyResourceUrl().length() != 0 && !lists.get(i).getMyResourceUrl().equals("")) {
+//            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
+//        } else {
+//            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big_f);
+//        }
         exerciseViewHolder.textView.setText(lists.get(i).getEnTitle());
         exerciseViewHolder.exercise_score.setText(lists.get(i).getScore() + "分");
         exerciseViewHolder.preview.setOnClickListener(new View.OnClickListener() {
@@ -135,16 +147,25 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
             @Override
             public void onClick(View v) {
                 if (isClick) {
-                    isClick = false;
-                    SystemUtils.show(context, "说话开始");
-                    fileName = lists.get(i).getPage() + "-" + lists.get(i).getLineId() + "-" + lists.get(i).getEnTitle().replace(".", "");
-                    setParams(fileName);
-                    if (mIse == null) {
-                        isClick = true;
-                        return;
+//                    isClick = false;
+                    if (isRecording) {
+                        isRecording = false;
+                        mIse.stopEvaluating();
+                    } else {
+                        isRecording = true;
+                        SystemUtils.show(context, "说话开始");
+//                        exerciseViewHolder.speak.setImageResource(R.drawable.icon_stop_medium);
+//                        fileName = lists.get(i).getPage() + "-" + lists.get(i).getLineId() + "-" + lists.get(i).getEnTitle().replace(".", "");
+                        setParams(fileName);
+                        if (mIse == null) {
+                            isClick = true;
+                            return;
+                        }
+                        EvaluatorListener evaluatorListener = getEvaluatorListener(exerciseViewHolder, i);
+                        int ret = mIse.startEvaluating(lists.get(i).getEnTitle(), null, evaluatorListener);
                     }
-                    EvaluatorListener evaluatorListener = getEvaluatorListener(exerciseViewHolder, i);
-                    int ret = mIse.startEvaluating(lists.get(i).getEnTitle(), null, evaluatorListener);
+
+
                 }
             }
         });
@@ -227,6 +248,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                     results = builder.toString();
 
                     SystemUtils.show(context, "说话结束");
+                    isRecording = false;
+                    viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
+
                     if (!TextUtils.isEmpty(results)) {
                         XmlResultParser resultParser = new XmlResultParser();
                         Result finalResult = resultParser.parse(results);
@@ -236,12 +260,13 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                             float score = finalResult.total_score;
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-                            presenter.uploadAudioResource(bookId, lists.get(i).getPage(), lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm", score, fileName, record_time);
+                            presenter.uploadAudioResource(bookId, lists.get(i).getPage(), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm", score, fileName, record_time, 0);
                         } else {
 //                        showInfo("解析结果为空");
                         }
                     }
                     isClick = true;
+                    notifyDataSetChanged();
                 }
             }
 
@@ -252,6 +277,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
 //                showTip("error:"+ error.getErrorCode() + "," + error.getErrorDescription());
 //                mResultEditText.setText("");
 //                mResultEditText.setHint("请点击“开始评测”按钮");
+                    isRecording = false;
+                    viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
                 } else {
 //                Log.d(TAG, "evaluator over");
                 }
@@ -265,6 +292,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                 record_time = 0;
                 isRecording = true;
                 handler.postDelayed(runnable, 1000);
+                viewHolder.speak.setImageResource(R.drawable.icon_stop_medium);
             }
 
             @Override
@@ -272,6 +300,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                 // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
                 Log.d(TAG, "evaluator stoped");
                 isRecording = false;
+                viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
             }
 
             @Override
@@ -295,10 +324,12 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
     public void play() {
         try {
             //从音频文件中读取声音
+//            SystemUtils.show(context, fileName);
             File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm");
 //            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +"/record/" + "ceshi.pcm");
 
             if (!file.exists()) {
+                isClick = true;
                 return;
             }
 //            ContentResolver resolver = getContentResolver();

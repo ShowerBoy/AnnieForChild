@@ -4,11 +4,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.ui.adapter.MyFooterRecyclerAdapter;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.annie.baselibrary.utils.AppUtils;
 
 /**
  * 关于
@@ -16,9 +18,8 @@ import com.annie.baselibrary.base.BasePresenter;
  */
 
 public class AboutActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView aboutBack;
-    private RecyclerView recyclerView;
-    private MyFooterRecyclerAdapter adapter;
+    private ImageView back;
+    private TextView appName, appVersion;
 
     @Override
     protected int getLayoutId() {
@@ -27,19 +28,16 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initView() {
-        aboutBack = findViewById(R.id.about_back);
-        recyclerView = findViewById(R.id.about_recycler);
-        aboutBack.setOnClickListener(this);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
-        adapter = new MyFooterRecyclerAdapter(this);
-        recyclerView.setAdapter(adapter);
+        back = findViewById(R.id.about_back);
+        appName = findViewById(R.id.app_name);
+        appVersion = findViewById(R.id.app_version);
+        back.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-
+        appName.setText(AppUtils.getAppName());
+        appVersion.setText(AppUtils.getAppVersionName());
     }
 
     @Override

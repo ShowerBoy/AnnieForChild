@@ -41,7 +41,7 @@ public class ListenSongFragment extends BaseFragment implements SongView {
     private GrindEarPresenter presenter;
     private AlertHelper helper;
     private Dialog dialog;
-    private int classId;
+    private int classId, audioType, audioSource;
 
     {
         setRegister(true);
@@ -50,10 +50,12 @@ public class ListenSongFragment extends BaseFragment implements SongView {
     public ListenSongFragment() {
     }
 
-    public static ListenSongFragment instance(int classId) {
+    public static ListenSongFragment instance(int classId, int audioType, int audioSource) {
         ListenSongFragment fragment = new ListenSongFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("classId", classId);
+        bundle.putInt("audioType", audioType);
+        bundle.putInt("audioSource", audioSource);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -63,9 +65,11 @@ public class ListenSongFragment extends BaseFragment implements SongView {
         bundle = getArguments();
         songsList = new ArrayList<>();
         classId = bundle.getInt("classId");
+        audioType = bundle.getInt("audioType");
+        audioSource = bundle.getInt("audioSource");
         presenter = new GrindEarPresenterImp(getContext(), this);
         presenter.initViewAndData();
-        songAdapter = new SongAdapter(getContext(), songsList, presenter, 1, classId);
+        songAdapter = new SongAdapter(getContext(), songsList, presenter, 1, classId, audioType, audioSource);
         initRecycler();
         presenter.getMusicList(classId);
     }
@@ -106,6 +110,12 @@ public class ListenSongFragment extends BaseFragment implements SongView {
             showInfo((String) message.obj);
             presenter.getMusicList(classId);
         } else if (message.what == MethodCode.EVENT_CANCELCOLLECTION1 + 3000 + classId) {
+            showInfo((String) message.obj);
+            presenter.getMusicList(classId);
+        } else if (message.what == MethodCode.EVENT_JOINMATERIAL + 4000 + classId) {
+            showInfo((String) message.obj);
+            presenter.getMusicList(classId);
+        } else if (message.what == MethodCode.EVENT_CANCELMATERIAL + 5000 + classId) {
             showInfo((String) message.obj);
             presenter.getMusicList(classId);
         }

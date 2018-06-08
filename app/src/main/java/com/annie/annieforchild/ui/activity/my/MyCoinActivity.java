@@ -73,7 +73,7 @@ public class MyCoinActivity extends BaseActivity implements AddChildView, View.O
                 finish();
                 break;
             case R.id.duihuan:
-                Intent intent = new Intent(this, MyExchangeActivity.class);
+                Intent intent = new Intent(this, ExchangeActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("userinfo", userInfo);
                 intent.putExtras(bundle);

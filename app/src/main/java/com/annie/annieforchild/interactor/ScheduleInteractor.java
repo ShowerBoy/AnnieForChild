@@ -16,4 +16,10 @@ public interface ScheduleInteractor {
     void editSchedule(int scheduleId, int materialId, String startDate, int totalDays, String start, String end);
 
     void deleteSchedule(int scheduleId);
+
+    void myCoursesOnline();
+
+    void myCoursesOffline();
+
+    void myTeachingMaterials();
 }

@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,17 +24,24 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.tongzhi.Msgs;
 import com.annie.annieforchild.bean.login.PhoneSN;
+import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.MainPresenter;
 import com.annie.annieforchild.presenter.imp.MainPresenterImp;
-import com.annie.annieforchild.ui.activity.grindEar.ExerciseTestActivity;
+import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.lesson.CourseActivity;
 import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity;
-import com.annie.annieforchild.ui.activity.mains.TodayClockInActivity;
+import com.annie.annieforchild.ui.activity.mains.EventActivity;
+import com.annie.annieforchild.ui.activity.mains.SquareActivity;
 import com.annie.annieforchild.ui.activity.my.MyMessageActivity;
+import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
+import com.annie.annieforchild.ui.adapter.RecommendAdapter;
+import com.annie.annieforchild.ui.fragment.spoken.SpokenActivity;
 import com.annie.annieforchild.view.MainView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.daimajia.slider.library.SliderLayout;
@@ -53,12 +61,15 @@ import java.util.List;
 public class FirstFragment extends BaseFragment implements MainView, View.OnClickListener, SearchView.OnQueryTextListener {
     private SwipeRefreshLayout first_refresh_layout;
     private RelativeLayout firstMsgLayout, searchLayout, lessonLayout;
+    private GridView recommendGrid;
+    private RecommendAdapter recommend_adapter;
     private SliderLayout imageSlide;
-    private ImageView signImage, grindEarLayout, readingLayout, spokenLayout;
+    private ImageView signImage, grindEarLayout, readingLayout, spokenLayout, wodekecheng;
     private ViewFlipper msgFlipper;
     private RecyclerView myCourse_list;
     private LinearLayout clockInLayout, scheduleLayout, eventLayout, matchLayout, grindEar100, reading100, spoken100, word100;
     private List<TextView> msgText;
+    private List<Song> recommend_list;
     private View error;
     private String tag;
     private AlertHelper helper;
@@ -77,6 +88,7 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
 
     @Override
     protected void initData() {
+        recommend_list = new ArrayList<>();
         msgText = new ArrayList<>();
         helper = new AlertHelper(getActivity());
         dialog = helper.LoadingDialog();
@@ -85,6 +97,10 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
             tag = bundle.getString("tag");
         }
         file_maps = new HashMap<>();
+
+        recommend_adapter = new RecommendAdapter(getContext(), recommend_list);
+        recommendGrid.setAdapter(recommend_adapter);
+
         WindowManager managers = getActivity().getWindowManager();
         DisplayMetrics outMetrics = new DisplayMetrics();
         managers.getDefaultDisplay().getMetrics(outMetrics);
@@ -104,6 +120,7 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
         myCourse_list = view.findViewById(R.id.myCourse_list);
         firstMsgLayout = view.findViewById(R.id.first_msg_layout);
         searchLayout = view.findViewById(R.id.search_layout);
+        recommendGrid = view.findViewById(R.id.recommendGrid);
         clockInLayout = view.findViewById(R.id.clock_in_layout);
         scheduleLayout = view.findViewById(R.id.schedule_layout);
         eventLayout = view.findViewById(R.id.event_layout);
@@ -119,6 +136,7 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
         reading100 = view.findViewById(R.id.reading100_layout);
         spoken100 = view.findViewById(R.id.spoken100_layout);
         word100 = view.findViewById(R.id.word100_layout);
+        wodekecheng = view.findViewById(R.id.wodekecheng);
         clockInLayout.setOnClickListener(this);
         scheduleLayout.setOnClickListener(this);
         eventLayout.setOnClickListener(this);
@@ -134,6 +152,7 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
         reading100.setOnClickListener(this);
         spoken100.setOnClickListener(this);
         word100.setOnClickListener(this);
+        wodekecheng.setOnClickListener(this);
         first_refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -144,7 +163,9 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         myCourse_list.setLayoutManager(manager);
-
+        searchLayout.setFocusable(true);
+        searchLayout.setFocusableInTouchMode(true);
+        searchLayout.requestFocus();
     }
 
     @Override
@@ -160,10 +181,17 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETHOMEDATA) {
-            String[] msgList = (String[]) message.obj;
-            for (int i = 0; i < msgList.length; i++) {
+            HomeData homeData = (HomeData) message.obj;
+            List<Msgs> msgList = homeData.getMsgList();
+            if (msgList.size() == 0) {
+                msgList = new ArrayList<>();
+                Msgs msgs = new Msgs();
+                msgs.setContents("暂无数据");
+                msgList.add(msgs);
+            }
+            for (int i = 0; i < msgList.size(); i++) {
                 TextView textView = new TextView(getContext());
-                textView.setText(msgList[i]);
+                textView.setText(msgList.get(i).getContents());
                 textView.setTextSize(14);
                 textView.setTextColor(getResources().getColor(R.color.text_black));
                 textView.setMaxEms(10);
@@ -178,6 +206,9 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
             if (first_refresh_layout.isRefreshing()) {
                 first_refresh_layout.setRefreshing(false);
             }
+            recommend_list.clear();
+            recommend_list.addAll(homeData.getRecommendList());
+            recommend_adapter.notifyDataSetChanged();
         }
     }
 
@@ -201,7 +232,10 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                intent.setClass(getContext(), TodayClockInActivity.class);
+//                intent.setClass(getContext(), TodayClockInActivity.class);
+//                startActivity(intent);
+                intent = new Intent(getContext(), WebActivity.class);
+                intent.putExtra("url", SystemUtils.mainUrl + "Signin/today?username=" + SystemUtils.defaultUsername);
                 startActivity(intent);
                 break;
             case R.id.schedule_layout:
@@ -215,11 +249,13 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                 break;
             case R.id.event_layout:
                 //精彩活动
-
+                intent.setClass(getContext(), EventActivity.class);
+                startActivity(intent);
                 break;
             case R.id.match_layout:
-                //大赛专区
-
+                //广场
+                intent.setClass(getContext(), SquareActivity.class);
+                startActivity(intent);
                 break;
             case R.id.grind_ear_layout:
                 //磨耳朵
@@ -245,7 +281,8 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-
+                intent.setClass(getContext(), SpokenActivity.class);
+                startActivity(intent);
                 break;
             case R.id.first_msg_layout:
                 //信息
@@ -258,17 +295,25 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                 break;
             case R.id.search_layout:
                 //搜索
-
-                break;
-            case R.id.sign_image:
-                //右上角分享
-                //TODO:
-                Intent intent1 = new Intent(getContext(), ExerciseTestActivity.class);
-                startActivity(intent1);
                 if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
+                Intent intent2 = new Intent(getContext(), GlobalSearchActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.sign_image:
+                //右上角签到
+                //TODO:
+//                Intent intent1 = new Intent(getContext(), ExerciseTestActivity.class);
+//                startActivity(intent1);
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                Intent intent1 = new Intent(getContext(), WebActivity.class);
+                intent1.putExtra("url", SystemUtils.mainUrl + "Signin/index?username=" + SystemUtils.defaultUsername);
+                startActivity(intent1);
                 break;
             case R.id.lesson_layout:
                 //我的课程
@@ -294,6 +339,12 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
             case R.id.word100_layout:
                 //单词100
 
+                break;
+            case R.id.wodekecheng:
+                //我的课程推荐
+                intent.setClass(getContext(), WebActivity.class);
+                intent.putExtra("url", "https://mp.weixin.qq.com/s/Wtkns9YyzcmyNsnkgoFLMg");
+                startActivity(intent);
                 break;
         }
     }

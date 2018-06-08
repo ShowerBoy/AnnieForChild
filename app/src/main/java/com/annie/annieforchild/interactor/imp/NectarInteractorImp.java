@@ -7,7 +7,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.NectarBean;
+import com.annie.annieforchild.bean.nectar.MyNectar;
+import com.annie.annieforchild.bean.nectar.NectarBean;
 import com.annie.annieforchild.interactor.NectarInteractor;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
@@ -31,17 +32,11 @@ public class NectarInteractorImp extends NetWorkImp implements NectarInteractor 
     }
 
     @Override
-    public void getNectar(int type) {
+    public void getNectar() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETNECTAR, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
-
-        request.add("type", type);
-        if (type == 0) {
-            addQueue(MethodCode.EVENT_GETNECTAR1, request);
-        } else if (type == 1) {
-            addQueue(MethodCode.EVENT_GETNECTAR2, request);
-        }
+        addQueue(MethodCode.EVENT_GETNECTAR, request);
         startQueue();
     }
 
@@ -65,36 +60,9 @@ public class NectarInteractorImp extends NetWorkImp implements NectarInteractor 
         if (errorType == 3) {
             listener.Error(what, errorInfo);
         } else {
-            if (what == MethodCode.EVENT_GETNECTAR1) {
-                List<NectarBean> lists = JSON.parseArray(data, NectarBean.class);
-//                NectarBean bean = new NectarBean();
-//                bean.setDetail("完成一次磨耳朵的计划");
-//                bean.setDuration("120");
-//                bean.setTime("201803071344");
-//                bean.setCount(-12);
-//                NectarBean bean1 = new NectarBean();
-//                bean1.setDetail("完成一次磨耳朵的计划");
-//                bean1.setDuration("40");
-//                bean1.setTime("201804271035");
-//                bean1.setCount(30);
-//                lists.add(bean);
-//                lists.add(bean1);
-                listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_GETNECTAR2) {
-                List<NectarBean> lists = JSON.parseArray(data, NectarBean.class);
-//                NectarBean bean = new NectarBean();
-//                bean.setDetail("完成一次阅读的计划");
-//                bean.setDuration("120");
-//                bean.setTime("201503021200");
-//                bean.setCount(-122);
-//                NectarBean bean1 = new NectarBean();
-//                bean1.setDetail("完成一次阅读的计划");
-//                bean1.setDuration("40");
-//                bean1.setTime("201804271035");
-//                bean1.setCount(230);
-//                lists.add(bean);
-//                lists.add(bean1);
-                listener.Success(what, lists);
+            if (what == MethodCode.EVENT_GETNECTAR) {
+                MyNectar myNectar = JSON.parseObject(data, MyNectar.class);
+                listener.Success(what, myNectar);
             }
         }
     }

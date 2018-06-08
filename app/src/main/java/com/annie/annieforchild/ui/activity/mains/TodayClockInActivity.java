@@ -4,8 +4,12 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.bumptech.glide.Glide;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 今日打卡
@@ -14,6 +18,7 @@ import com.annie.baselibrary.base.BasePresenter;
 
 public class TodayClockInActivity extends BaseActivity implements View.OnClickListener {
     private ImageView back;
+    private CircleImageView headpic;
 
     @Override
     protected int getLayoutId() {
@@ -23,12 +28,13 @@ public class TodayClockInActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initView() {
         back = findViewById(R.id.clock_in_back);
+        headpic = findViewById(R.id.clock_in_headpic);
         back.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-
+        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(headpic);
     }
 
     @Override

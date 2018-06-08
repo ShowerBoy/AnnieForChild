@@ -39,7 +39,7 @@ public class HttpConnect {
      * @param what    用来标志请求, 当多个请求使用同一个Listener时, 在回调方法中会返回这个what。
      * @param request 请求对象。
      */
-    public <T> void addJsonQueue(int what, Request<T> request,NetWorkImp mResponseListener) {
+    public <T> void addJsonQueue(int what, Request<T> request, NetWorkImp mResponseListener) {
         queue.add(what, request, new OnResponseListener<T>() {
             @Override
             public void onStart(int what) {
@@ -76,10 +76,11 @@ public class HttpConnect {
 //    public void addStringQueue(int what, Request<String> request) {
 //        queue.add(what, request, );
 //    }
+
     /**
      * 开始
      */
-    void start(){
+    void start() {
         queue.start();
     }
 

@@ -1,27 +1,37 @@
 package com.annie.annieforchild.ui.activity.lesson;
 
+import android.app.Dialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
+import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.presenter.SchedulePresenter;
+import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
 import com.annie.annieforchild.ui.fragment.material.OptionalMaterialFragment;
 import com.annie.annieforchild.ui.fragment.material.SupplementaryMaterialFragment;
 import com.annie.annieforchild.ui.fragment.material.SupportingMaterialFragment;
+import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
+
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * 我的教材
  * Created by wanglei on 2018/4/4.
  */
 
-public class MaterialActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
+public class MaterialActivity extends BaseActivity implements View.OnClickListener, ScheduleView, ViewPager.OnPageChangeListener {
     private ImageView back;
     private AdvancedPagerSlidingTabStrip mTab;
     private APSTSViewPager mVP;
@@ -29,6 +39,9 @@ public class MaterialActivity extends BaseActivity implements View.OnClickListen
     private SupplementaryMaterialFragment supplementaryMaterialFragment;
     private SupportingMaterialFragment supportingMaterialFragment;
     private MaterialFragmentAdapter fragmentAdapter;
+    private SchedulePresenter presenter;
+    private AlertHelper helper;
+    private Dialog dialog;
 
     @Override
     protected int getLayoutId() {
@@ -45,12 +58,17 @@ public class MaterialActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
+        helper = new AlertHelper(this);
+        dialog = helper.LoadingDialog();
         fragmentAdapter = new MaterialFragmentAdapter(getSupportFragmentManager());
         mVP.setOffscreenPageLimit(3);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
         mTab.setViewPager(mVP);
         mTab.setOnPageChangeListener(this);
+        presenter = new SchedulePresenterImp(this, this);
+        presenter.initViewAndData();
+        presenter.myTeachingMaterials();
     }
 
     @Override
@@ -80,6 +98,26 @@ public class MaterialActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+
+    @Override
+    public void showInfo(String info) {
+        Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoad() {
+        if (dialog != null && !dialog.isShowing()) {
+            dialog.show();
+        }
+    }
+
+    @Override
+    public void dismissLoad() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
     class MaterialFragmentAdapter extends FragmentStatePagerAdapter {

@@ -8,7 +8,10 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.ClassList;
+import com.annie.annieforchild.bean.course.Course;
+import com.annie.annieforchild.bean.course.OnlineCourse;
 import com.annie.annieforchild.bean.grindear.GrindEarData;
+import com.annie.annieforchild.bean.material.Material;
 import com.annie.annieforchild.bean.schedule.Schedule;
 import com.annie.annieforchild.bean.schedule.TotalSchedule;
 import com.annie.annieforchild.bean.song.SongClassify;
@@ -78,6 +81,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
     public void totalSchedule(String startDate, String endDate) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.TOTALSCHEDULE, RequestMethod.POST);
         request.add("token", SystemUtils.token);
+        request.add("username", SystemUtils.defaultUsername);
         request.add("startDate", startDate);
         request.add("endDate", endDate);
         addQueue(MethodCode.EVENT_TOTALSCHEDULE, request);
@@ -106,6 +110,33 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("scheduleId", scheduleId);
         addQueue(MethodCode.EVENT_DELETESCHEDULE, request);
+        startQueue();
+    }
+
+    @Override
+    public void myCoursesOnline() {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYCOURSESONLINE, RequestMethod.POST);
+        request.add("token", SystemUtils.token);
+        request.add("username", SystemUtils.defaultUsername);
+        addQueue(MethodCode.EVENT_MYCOURSESONLINE, request);
+        startQueue();
+    }
+
+    @Override
+    public void myCoursesOffline() {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYCOURSESOFFLINE, RequestMethod.POST);
+        request.add("token", SystemUtils.token);
+        request.add("username", SystemUtils.defaultUsername);
+        addQueue(MethodCode.EVENT_MYCOURSESOFFLINE, request);
+        startQueue();
+    }
+
+    @Override
+    public void myTeachingMaterials() {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYTEACHINGMATERIALS, RequestMethod.POST);
+        request.add("token", SystemUtils.token);
+        request.add("username", SystemUtils.defaultUsername);
+        addQueue(MethodCode.EVENT_MYTEACHINGMATERIALS, request);
         startQueue();
     }
 
@@ -150,6 +181,16 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
                 listener.Success(what, "修改成功");
             } else if (what == MethodCode.EVENT_DELETESCHEDULE) {
                 listener.Success(what, "删除成功");
+            } else if (what == MethodCode.EVENT_MYCOURSESONLINE) {
+                List<OnlineCourse> lists = JSON.parseArray(data, OnlineCourse.class);
+                listener.Success(what, lists);
+            } else if (what == MethodCode.EVENT_MYCOURSESOFFLINE) {
+
+            } else if (what == MethodCode.EVENT_MYTEACHINGMATERIALS) {
+                JSONObject dataObj = jsonObject.getJSONObject(MethodCode.DATA);
+                String optional = dataObj.getString("optional");
+                List<Material> lists = JSON.parseArray(optional, Material.class);
+                listener.Success(what, lists);
             }
         }
     }

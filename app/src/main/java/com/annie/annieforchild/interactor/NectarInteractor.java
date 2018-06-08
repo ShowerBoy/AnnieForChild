@@ -5,5 +5,5 @@ package com.annie.annieforchild.interactor;
  */
 
 public interface NectarInteractor {
-    void getNectar(int type);
+    void getNectar();
 }

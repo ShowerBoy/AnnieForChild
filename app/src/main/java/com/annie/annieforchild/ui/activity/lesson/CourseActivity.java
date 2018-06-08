@@ -6,10 +6,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.presenter.SchedulePresenter;
+import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
 import com.annie.annieforchild.ui.fragment.collection.GrindEarFragment;
 import com.annie.annieforchild.ui.fragment.collection.ReadingFragment;
 import com.annie.annieforchild.ui.fragment.collection.SpokenFragment;
@@ -17,6 +20,7 @@ import com.annie.annieforchild.ui.fragment.course.ExerciseCourseFragment;
 import com.annie.annieforchild.ui.fragment.course.OfflineCourseFragment;
 import com.annie.annieforchild.ui.fragment.course.OnlineCourseFragment;
 import com.annie.annieforchild.ui.fragment.course.VacationCourseFragment;
+import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
@@ -30,7 +34,7 @@ import butterknife.OnClick;
  * Created by wanglei on 2018/3/17.
  */
 
-public class CourseActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
+public class CourseActivity extends BaseActivity implements View.OnClickListener, ScheduleView, ViewPager.OnPageChangeListener {
     private ImageView back;
     private AdvancedPagerSlidingTabStrip mTab;
     private APSTSViewPager mVP;
@@ -39,6 +43,7 @@ public class CourseActivity extends BaseActivity implements View.OnClickListener
     private VacationCourseFragment vacationCourseFragment;
     private ExerciseCourseFragment exerciseCourseFragment;
     private CourseFragmentAdapter fragmentAdapter;
+    private SchedulePresenter presenter;
 
     @Override
     protected int getLayoutId() {
@@ -55,12 +60,17 @@ public class CourseActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initData() {
+        presenter = new SchedulePresenterImp(this, this);
+        presenter.initViewAndData();
         fragmentAdapter = new CourseFragmentAdapter(getSupportFragmentManager());
         mVP.setOffscreenPageLimit(4);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
         mTab.setViewPager(mVP);
         mTab.setOnPageChangeListener(this);
+
+        presenter.myCoursesOnline();
+//        presenter.myCoursesOffline();
     }
 
     @Override
@@ -89,6 +99,21 @@ public class CourseActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onPageScrollStateChanged(int state) {
+
+    }
+
+    @Override
+    public void showInfo(String info) {
+        Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoad() {
+
+    }
+
+    @Override
+    public void dismissLoad() {
 
     }
 

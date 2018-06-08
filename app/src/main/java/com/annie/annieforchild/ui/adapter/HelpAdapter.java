@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.HelpBean;
-import com.annie.annieforchild.bean.Notice;
 import com.annie.annieforchild.ui.adapter.viewHolder.HelpViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 

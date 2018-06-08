@@ -4,14 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
-import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.Banner;
-import com.annie.annieforchild.bean.Course;
-import com.annie.annieforchild.bean.Course2;
+import com.annie.annieforchild.bean.course.Course2;
 import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.interactor.MainInteractor;
 import com.annie.annieforchild.interactor.imp.MainInteractorImp;
 import com.annie.annieforchild.presenter.MainPresenter;
@@ -107,25 +104,17 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
                     }
                     initImageSlide();
                 }
-                if (homeData.getMsgList() != null) {
-                    String[] msgList = homeData.getMsgList();
-                    //
-                    msgList = new String[3];
-                    msgList[0] = "第一条数据";
-                    msgList[1] = "第二条数据";
-                    msgList[2] = "第三条数据";
-                    //
+                if (homeData.getMsgList() != null || homeData.getRecommendList() != null) {
                     /**
                      * {@link com.annie.annieforchild.ui.fragment.FirstFragment#onMainEventThread(JTMessage)}
                      */
                     JTMessage message = new JTMessage();
                     message.what = what;
-                    message.obj = msgList;
+                    message.obj = homeData;
                     EventBus.getDefault().post(message);
                 }
                 if (homeData.getMyCourseList() != null) {
                     myCourse_lists2.clear();
-//                    myCourse_lists.addAll(homeData.getMyCourseList());
                     myCourse_lists2.addAll(homeData.getMyCourseList());
                     course_adapter.notifyDataSetChanged();
                 }

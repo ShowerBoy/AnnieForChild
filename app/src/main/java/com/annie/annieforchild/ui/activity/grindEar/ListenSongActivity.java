@@ -40,10 +40,9 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
     private Bundle bundle;
     private AlertHelper helper;
     private Dialog dialog;
-    private int type;
+    private int type, audioType, audioSource;
 
-    //
-//    private AdvancedPagerSlidingTabStrip mTab;
+    //    private AdvancedPagerSlidingTabStrip mTab;
     private TabLayout mTab;
     private APSTSViewPager mVP;
     private ListenSongFragmentAdapter fragmentAdapter;
@@ -74,33 +73,53 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
             if (type == 1) {
                 listenTitle.setText("听儿歌");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 0;
+                audioSource = 1;
             } else if (type == 2) {
                 listenTitle.setText("听诗歌");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 0;
+                audioSource = 2;
             } else if (type == 3) {
                 listenTitle.setText("听对话");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 0;
+                audioSource = 3;
             } else if (type == 4) {
                 listenTitle.setText("听绘本");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 0;
+                audioSource = 4;
             } else if (type == 5) {
                 listenTitle.setText("我要唱歌");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 3;
+                audioSource = 0;
             } else if (type == 6) {
                 listenTitle.setText("儿歌绘本");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 1;
+                audioSource = 5;
             } else if (type == 7) {
                 listenTitle.setText("虚构故事");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 1;
+                audioSource = 6;
             } else if (type == 8) {
                 listenTitle.setText("非虚构");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 1;
+                audioSource = 7;
             } else if (type == 9) {
                 listenTitle.setText("章节图书");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 1;
+                audioSource = 8;
             } else if (type == 10) {
                 listenTitle.setText("我要朗读");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 3;
+                audioSource = 0;
             }
         }
 
@@ -179,7 +198,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
             if (bool[position]) {
                 return fragments.get(position);
             } else {
-                listenSongFragment = ListenSongFragment.instance(Integer.parseInt(lists.get(position).getClassId()));
+                listenSongFragment = ListenSongFragment.instance(Integer.parseInt(lists.get(position).getClassId()), audioType, audioSource);
                 fragments.add(position, listenSongFragment);
                 bool[position] = true;
                 return listenSongFragment;

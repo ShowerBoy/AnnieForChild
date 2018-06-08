@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.activity.pk;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -10,21 +11,28 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.speech.util.Result;
 import com.annie.annieforchild.Utils.speech.util.XmlResultParser;
 import com.annie.annieforchild.Utils.views.CircleProgressBar;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.PkResult;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
@@ -47,8 +55,11 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -56,12 +67,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by wanglei on 2018/4/4.
  */
 
-public class pkActivity extends BaseActivity implements View.OnClickListener, SongView, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, OnCountFinishListener {
+public class pkActivity extends BaseActivity implements View.OnClickListener, SongView, PlatformActionListener, PopupWindow.OnDismissListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, OnCountFinishListener {
     private TextView quit;
     private CircleImageView player1, player2;
     private CircleProgressBar circleProgressBar;
     private RecyclerView pkList;
-    private ImageView pkSpeak;
+    private ImageView pkSpeak, pengyouquan, weixin, qq, qqzone, close, close2, star1, star2, star3, star4, star5;
+    private Button tryAgain1, tryAgain2;
     private FrameLayout pkFrameLayout, pkFinishBtn;
     private CountDownTimer timer;
     private int width, height;
@@ -92,6 +104,12 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
     private int record_time = 0; //录音时长
     Runnable runnable;
     private Handler handler;
+    private PopupWindow popupWindow1, popupWindow2;
+    private View popupView1, popupView2;
+    private int popupWidth, popupHeight;
+    private float star;
+    private ShareUtils shareUtils;
+    private int audioType, audioSource;
 
     {
         setRegister(true);
@@ -122,6 +140,8 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
         bookId = bundle.getInt("bookId");
         pkUserName = bundle.getString("pkUserName");
         avatar = bundle.getString("avatar");
+        audioType = bundle.getInt("audioType", 0);
+        audioSource = bundle.getInt("audioSource", 3);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -137,6 +157,36 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
                 }
             }
         };
+
+        popupWidth = Math.min(SystemUtils.window_width, SystemUtils.window_height) * 3 / 4;
+        popupHeight = Math.max(SystemUtils.window_width, SystemUtils.window_height) * 3 / 5;
+        popupView1 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_pk_win, null, false);
+        popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_pk_lose, null, false);
+        pengyouquan = popupView1.findViewById(R.id.share_pengyouquan);
+        weixin = popupView1.findViewById(R.id.share_weixin);
+        qq = popupView1.findViewById(R.id.share_qq);
+        qqzone = popupView1.findViewById(R.id.share_qqzone);
+        close = popupView1.findViewById(R.id.close);
+        close2 = popupView2.findViewById(R.id.close2);
+        tryAgain1 = popupView1.findViewById(R.id.try_again);
+        tryAgain2 = popupView2.findViewById(R.id.try_again2);
+        star1 = popupView1.findViewById(R.id.pkstar_1);
+        star2 = popupView1.findViewById(R.id.pkstar_2);
+        star3 = popupView1.findViewById(R.id.pkstar_3);
+        star4 = popupView1.findViewById(R.id.pkstar_4);
+        star5 = popupView1.findViewById(R.id.pkstar_5);
+        popupWindow1 = new PopupWindow(popupView1, popupWidth, popupHeight, false);
+        popupWindow2 = new PopupWindow(popupView2, popupWidth, popupHeight, false);
+        popupWindow1.setBackgroundDrawable(new ColorDrawable());
+        popupWindow1.setOutsideTouchable(false);
+        popupWindow1.setOnDismissListener(this);
+        popupWindow2.setBackgroundDrawable(new ColorDrawable());
+        popupWindow2.setOutsideTouchable(false);
+        popupWindow2.setOnDismissListener(this);
+        close.setOnClickListener(this);
+        close2.setOnClickListener(this);
+        tryAgain1.setOnClickListener(this);
+        tryAgain2.setOnClickListener(this);
     }
 
     private void initTalkBtn() {
@@ -162,12 +212,26 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
                 pkSpeak.setImageResource(R.drawable.icon_speak_big_f);
                 circleProgressBar.setProgress(0);
                 isPlay = false;
+                mIse.stopEvaluating();
+                currentLine++;
+                if (currentLine <= totalLines) {
+                    refresh();
+                } else {
+                    currentLine = 1;
+                    if (currentPage == totalPages) {
+                        //挑战结束
+                        presenter.getPkResult(bookId, pkUserName, 2);
+                    } else {
+                        pkFinishBtn.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         };
     }
 
     @Override
     protected void initData() {
+        shareUtils = new ShareUtils(this);
         lists = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
@@ -219,7 +283,12 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
                             refresh();
                         } else {
                             currentLine = 1;
-                            pkFinishBtn.setVisibility(View.VISIBLE);
+                            if (currentPage == totalPages) {
+                                //挑战结束
+                                presenter.getPkResult(bookId, pkUserName, 2);
+                            } else {
+                                pkFinishBtn.setVisibility(View.VISIBLE);
+                            }
                         }
                     } else {
                         pkSpeak.setImageResource(R.drawable.icon_stop_big);
@@ -237,6 +306,30 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
                     pkFinishBtn.setVisibility(View.GONE);
                     nextPage();
                 }
+                break;
+            case R.id.close:
+                popupWindow1.dismiss();
+                break;
+            case R.id.close2:
+                popupWindow2.dismiss();
+                break;
+            case R.id.share_pengyouquan:
+                shareUtils.shareWechatMoments("我得到了更高的成绩，你也一起来吧","https://demoapi.anniekids.net/api/searchApi/index");
+                break;
+            case R.id.share_weixin:
+                shareUtils.shareWechat("我得到了更高的成绩，你也一起来吧","https://demoapi.anniekids.net/api/searchApi/index");
+                break;
+            case R.id.share_qq:
+                shareUtils.shareQQ("我得到了更高的成绩，你也一起来吧","https://demoapi.anniekids.net/api/searchApi/index");
+                break;
+            case R.id.share_qqzone:
+                shareUtils.shareQZone("我得到了更高的成绩，你也一起来吧","https://demoapi.anniekids.net/api/searchApi/index");
+                break;
+            case R.id.try_again:
+                finish();
+                break;
+            case R.id.try_again2:
+                finish();
                 break;
         }
     }
@@ -296,7 +389,7 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
 //                            showInfo(score + "");
-                            presenter.uploadAudioResource(bookId, currentPage, currentLine, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time);
+                            presenter.uploadAudioResource(bookId, currentPage, audioType, audioSource, currentLine, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 2);
                         } else {
 //                        showInfo("解析结果为空");
                         }
@@ -366,6 +459,23 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
             totalPages = book.getBookTotalPages();
             adapter.notifyDataSetChanged();
             countDownDialog.show();
+        } else if (message.what == MethodCode.EVENT_GETPKRESULT) {
+            PkResult pkResult = (PkResult) message.obj;
+            initPopupData(pkResult);
+        }
+    }
+
+    private void initPopupData(PkResult pkResult) {
+        float a = Float.parseFloat(pkResult.getMyScore());
+        float b = Float.parseFloat(pkResult.getPkUserScore());
+        if (a >= b) {
+            //胜利
+            popupWindow1.showAtLocation(popupView1, Gravity.CENTER, 0, 0);
+            getWindowGray(true);
+        } else {
+            //失败
+            popupWindow2.showAtLocation(popupView2, Gravity.CENTER, 0, 0);
+            getWindowGray(true);
         }
     }
 
@@ -433,5 +543,38 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
             mediaPlayer.release();
             mediaPlayer = null;
         }
+    }
+
+    @Override
+    public void onDismiss() {
+        getWindowGray(false);
+        isPlay = false;
+        finish();
+    }
+
+    private void getWindowGray(boolean tag) {
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        if (tag) {
+            layoutParams.alpha = 0.7f;
+            getWindow().setAttributes(layoutParams);
+        } else {
+            layoutParams.alpha = 1f;
+            getWindow().setAttributes(layoutParams);
+        }
+    }
+
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+        showInfo("分享成功");
+    }
+
+    @Override
+    public void onError(Platform platform, int i, Throwable throwable) {
+        showInfo("分享失败");
+    }
+
+    @Override
+    public void onCancel(Platform platform, int i) {
+        showInfo("取消分享");
     }
 }

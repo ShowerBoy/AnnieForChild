@@ -1,11 +1,14 @@
 package com.annie.annieforchild.ui.fragment.message;
 
+import android.media.Image;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.Notice;
+import com.annie.annieforchild.bean.tongzhi.MyNotice;
+import com.annie.annieforchild.bean.tongzhi.Notice;
 import com.annie.annieforchild.ui.adapter.NoticeAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.baselibrary.base.BaseFragment;
@@ -24,6 +27,7 @@ import java.util.List;
 
 public class GroupMsgFragment extends BaseFragment {
     private XRecyclerView groupmsgRecycler;
+    private ImageView empty;
     private List<Notice> lists;
     private NoticeAdapter adapter;
 
@@ -62,6 +66,7 @@ public class GroupMsgFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         groupmsgRecycler = view.findViewById(R.id.group_msg_recycler);
+        empty = view.findViewById(R.id.empty);
     }
 
     @Override
@@ -76,10 +81,18 @@ public class GroupMsgFragment extends BaseFragment {
      */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-        if (message.what == -2) {
+        if (message.what == -1) {
+            MyNotice myNotice = (MyNotice) message.obj;
             lists.clear();
-            lists.addAll((List<Notice>) message.obj);
+            lists.addAll(myNotice.getMessages());
             adapter.notifyDataSetChanged();
+            if (lists.size() == 0) {
+                groupmsgRecycler.setVisibility(View.GONE);
+                empty.setVisibility(View.VISIBLE);
+            } else {
+                groupmsgRecycler.setVisibility(View.VISIBLE);
+                empty.setVisibility(View.GONE);
+            }
         }
     }
 }

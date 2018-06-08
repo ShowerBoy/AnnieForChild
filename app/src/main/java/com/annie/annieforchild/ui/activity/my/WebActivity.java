@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.activity.my;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.annie.annieforchild.R;
@@ -17,6 +18,7 @@ public class WebActivity extends BaseActivity {
     private WebView webView;
     private Intent mIntent;
     private String url;
+    private WebSettings webSettings;
 
     @Override
     protected int getLayoutId() {
@@ -30,6 +32,10 @@ public class WebActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setLoadsImagesAutomatically(true);
         mIntent = getIntent();
         if (mIntent != null) {
             url = mIntent.getStringExtra("url");

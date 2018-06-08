@@ -1,14 +1,19 @@
 package com.annie.annieforchild.ui.activity.lesson;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.views.WeekViewActivity;
 import com.annie.annieforchild.Utils.views.weekview.DateTimeInterpreter;
 import com.annie.annieforchild.Utils.views.weekview.MonthLoader;
@@ -17,6 +22,8 @@ import com.annie.annieforchild.Utils.views.weekview.WeekViewEvent;
 import com.annie.annieforchild.bean.DateBean;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.WeekBean;
+import com.annie.annieforchild.bean.schedule.Schedule;
+import com.annie.annieforchild.bean.schedule.TotalSchedule;
 import com.annie.annieforchild.presenter.SchedulePresenter;
 import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
 import com.annie.annieforchild.view.ScheduleView;
@@ -40,6 +47,7 @@ import java.util.Locale;
 
 public class TotalScheduleActivity extends WeekViewActivity implements MonthLoader.MonthChangeListener, WeekView.EventClickListener, WeekView.EmptyViewClickListener, ScheduleView {
     private WeekView weekView;
+    private FloatingActionButton floatingActionButton;
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
@@ -48,13 +56,22 @@ public class TotalScheduleActivity extends WeekViewActivity implements MonthLoad
     String startTime, endTime;
     boolean isLeap;
 
+    private ImageView back;
+    List<WeekViewEvent> events;
+    WeekViewEvent event;
+    Calendar startCalendar;
+    Calendar endCalendar;
+    List<Schedule> onlineLists;
+    List<Schedule> offlineLists;
     private AlertHelper helper;
     private Dialog dialog;
     private SchedulePresenter presenter;
     private List<WeekBean> date_lists;
     private long oneDay = 1000 * 60 * 60 * 24L;
     Calendar calendar;
-
+    TotalSchedule totalSchedule;
+    Intent intent;
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +79,26 @@ public class TotalScheduleActivity extends WeekViewActivity implements MonthLoad
         setContentView(R.layout.activity_total_schedule);
         EventBus.getDefault().register(this);
         weekView = findViewById(R.id.weekView);
+        back = findViewById(R.id.total_schedule_back);
+        floatingActionButton = findViewById(R.id.floatingButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+                String date = format.format(new Date());
+                Intent intent = new Intent(TotalScheduleActivity.this, SelectMaterialActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("date", date);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH) + 1;
@@ -69,7 +106,6 @@ public class TotalScheduleActivity extends WeekViewActivity implements MonthLoad
 
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-
 
         initData();
 
@@ -122,15 +158,22 @@ public class TotalScheduleActivity extends WeekViewActivity implements MonthLoad
     }
 
     private void initData() {
-        presenter = new SchedulePresenterImp(this, this);
-        presenter.initViewAndData();
+        onlineLists = new ArrayList<>();
+        offlineLists = new ArrayList<>();
+        events = new ArrayList<>();
+//        presenter = new SchedulePresenterImp(this, this);
+//        presenter.initViewAndData();
         if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
             isLeap = true;
         } else {
             isLeap = false;
         }
-        initDateList();
-        presenter.totalSchedule(startTime, endTime);
+        intent = getIntent();
+        bundle = intent.getExtras();
+        events.clear();
+        events.addAll((List<WeekViewEvent>) bundle.getSerializable("events"));
+//        initDateList();
+//        presenter.totalSchedule(startTime, endTime);
     }
 
     private void initDateList() {
@@ -184,27 +227,45 @@ public class TotalScheduleActivity extends WeekViewActivity implements MonthLoad
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         if (newYear == year) {
             if (newMonth == month) {
-                List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+//                if (events == null || events.size() == 0) {
+//                    events = new ArrayList<WeekViewEvent>();
+//                }
+//                events.clear();
+//                events.addAll((List<WeekViewEvent>) bundle.getSerializable("events"));
 
-                Calendar startTime = Calendar.getInstance();
-                startTime.set(Calendar.HOUR_OF_DAY, 2);
-                startTime.set(Calendar.MINUTE, 0);
-                startTime.set(Calendar.MONTH, newMonth - 1);
-//        startTime.set(Calendar.DAY_OF_MONTH, 10);
-                startTime.set(Calendar.YEAR, newYear);
+//                Calendar startTime = Calendar.getInstance();
+//                startTime.set(Calendar.HOUR_OF_DAY, 2);
+//                startTime.set(Calendar.MINUTE, 0);
+//                startTime.set(Calendar.MONTH, newMonth - 1);
+//                startTime.set(Calendar.YEAR, newYear);
+//
+//                Calendar endTime = Calendar.getInstance();
+//                endTime.set(Calendar.HOUR_OF_DAY, 4);
+//                endTime.set(Calendar.MINUTE, 30);
+//                endTime.set(Calendar.MONTH, newMonth - 1);
+//                endTime.set(Calendar.YEAR, newYear);
+//
+//                WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
+//                event.setColor(getResources().getColor(R.color.event_color_01));
+//
+//                Calendar startTime2 = Calendar.getInstance();
+//                startTime2.set(Calendar.DAY_OF_MONTH, 24);
+//                startTime2.set(Calendar.HOUR_OF_DAY, 15);
+//                startTime2.set(Calendar.MINUTE, 30);
+//                startTime2.set(Calendar.YEAR, newYear);
+//
+//                Calendar endTime2 = Calendar.getInstance();
+//                endTime2.set(Calendar.DAY_OF_MONTH, 24);
+//                endTime2.set(Calendar.HOUR_OF_DAY, 20);
+//                endTime2.set(Calendar.MINUTE, 0);
+//                endTime2.set(Calendar.YEAR, newYear);
+//
+//                WeekViewEvent event2 = new WeekViewEvent(2, getEventTitle(startTime2), startTime2, endTime2);
+//                event2.setColor(getResources().getColor(R.color.event_color_02));
+//
+//                events.add(event);
+//                events.add(event2);
 
-                Calendar endTime = Calendar.getInstance();
-                endTime.set(Calendar.HOUR_OF_DAY, 4);
-                endTime.set(Calendar.MINUTE, 30);
-                endTime.set(Calendar.MONTH, newMonth - 1);
-//        startTime.set(Calendar.DAY_OF_MONTH, 10);
-                endTime.set(Calendar.YEAR, newYear);
-//        Calendar endTime = (Calendar) startTime.clone();
-//        endTime.add(Calendar.HOUR, 2);
-////        endTime.set(Calendar.MONTH, newMonth - 1);
-                WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
-                event.setColor(getResources().getColor(R.color.event_color_01));
-                events.add(event);
 
 //        startTime = Calendar.getInstance();
 //        startTime.set(Calendar.HOUR_OF_DAY, 2);
@@ -256,9 +317,47 @@ public class TotalScheduleActivity extends WeekViewActivity implements MonthLoad
         Toast.makeText(this, time.get(Calendar.MONTH) + 1 + "/" + time.get(Calendar.DAY_OF_MONTH) + " " + time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE), Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * {@link SchedulePresenterImp#Success(int, Object)}
+     *
+     * @param message
+     */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-//        if (message.what)
+//        if (message.what == MethodCode.EVENT_TOTALSCHEDULE) {
+//            totalSchedule = (TotalSchedule) message.obj;
+//            onlineLists.clear();
+//            offlineLists.clear();
+//            onlineLists.addAll(totalSchedule.getOnline());
+//            offlineLists.addAll(totalSchedule.getOffline());
+//            refresh();
+//        }
+    }
+
+    private void refresh() {
+        events = new ArrayList<>();
+        for (int i = 0; i < onlineLists.size(); i++) {
+            int date = Integer.parseInt(onlineLists.get(i).getDate().substring(6, 8));
+            int startHour = Integer.parseInt(onlineLists.get(i).getStart().split(":")[0]);
+            int startMin = Integer.parseInt(onlineLists.get(i).getStart().split(":")[1]);
+            int endHour = Integer.parseInt(onlineLists.get(i).getStop().split(":")[0]);
+            int endMin = Integer.parseInt(onlineLists.get(i).getStop().split(":")[1]);
+            startCalendar = Calendar.getInstance();
+            startCalendar.set(Calendar.DAY_OF_MONTH, date);
+            startCalendar.set(Calendar.HOUR_OF_DAY, startHour);
+            startCalendar.set(Calendar.MINUTE, startMin);
+            endCalendar = Calendar.getInstance();
+            endCalendar.set(Calendar.DAY_OF_MONTH, date);
+            endCalendar.set(Calendar.HOUR_OF_DAY, endHour);
+            endCalendar.set(Calendar.MINUTE, endMin);
+            event = new WeekViewEvent(onlineLists.get(i).getScheduleId(), onlineLists.get(i).getDetail(), startCalendar, endCalendar);
+            if (onlineLists.get(i).getType() == 1) {
+                event.setColor(getResources().getColor(R.color.event_color_01));
+            } else {
+                event.setColor(getResources().getColor(R.color.event_color_02));
+            }
+            events.add(event);
+        }
     }
 
     @Override

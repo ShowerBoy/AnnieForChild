@@ -76,6 +76,7 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
     long oneYears = 1L * 365 * 1000 * 60 * 60 * 24L;
     private AlertHelper helper;
     private Dialog dialog;
+    private String date;
 
     {
         setRegister(true);
@@ -116,7 +117,6 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
                 getWindowGray(false);
             }
         });
-
     }
 
     @Override
@@ -167,12 +167,20 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
             }
         });
 
+        /**
+         * {@link com.annie.annieforchild.ui.fragment.selectmaterial.SelectGrindEarFragment#instance(Schedule, String)}
+         * {@link com.annie.annieforchild.ui.fragment.selectmaterial.SelectReadingFragment#instance(Schedule, String)}
+         * {@link com.annie.annieforchild.ui.fragment.selectmaterial.SelectSpokenFragment#instance(Schedule, String)}
+         */
         intent = getIntent();
         if (intent != null) {
             bundle = intent.getExtras();
             material = (Material) bundle.getSerializable("material");
             if (bundle.getSerializable("schedule") != null) {
                 schedule = (Schedule) bundle.getSerializable("schedule");
+                date = bundle.getString("date");
+            } else {
+                date = bundle.getString("date");
             }
         }
         Glide.with(this).load(material.getImageUrl()).into(scheduleImage);
@@ -182,12 +190,15 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
             addSchedule.setText("修改课表");
             startTime = schedule.getStart();
             endTime = schedule.getStop();
+            startDate = date;
             scheduleTimeText.setText(schedule.getStart() + "~" + schedule.getStop());
+            scheduleStartText.setText(startDate.substring(0, 4) + "-" + startDate.substring(4, 6) + "-" + startDate.substring(6, 8));
         } else {
             title.setText("加入课表");
             addSchedule.setText("加入课表");
+            startDate = date;
+            scheduleStartText.setText(startDate.substring(0, 4) + "-" + startDate.substring(4, 6) + "-" + startDate.substring(6, 8));
         }
-
         presenter = new SchedulePresenterImp(this, this);
         presenter.initViewAndData();
     }
@@ -247,8 +258,26 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
             timePickerDialog2.show(getSupportFragmentManager(), "hour:minute2");
         } else if (PickerDialog.getTag().equals("hour:minute2")) {
             endTime = sf2.format(new Date(l));
-            scheduleTimeText.setText(startTime + "~" + endTime);
+            int end1 = Integer.parseInt(endTime.split(":")[0]);
+            int end2 = Integer.parseInt(endTime.split(":")[1]);
+            int start1 = Integer.parseInt(startTime.split(":")[0]);
+            int start2 = Integer.parseInt(startTime.split(":")[1]);
+            if (end1 > start1) {
+                scheduleTimeText.setText(startTime + "~" + endTime);
+            } else if (end1 == start1) {
+                if (end2 > start2) {
+                    scheduleTimeText.setText(startTime + "~" + endTime);
+                } else {
+                    endTime = "";
+                    showInfo("结束时间不能小于开始时间");
+                }
+            } else {
+                endTime = "";
+                showInfo("结束时间不能小于开始时间");
+            }
+
         }
+
     }
 
     /**

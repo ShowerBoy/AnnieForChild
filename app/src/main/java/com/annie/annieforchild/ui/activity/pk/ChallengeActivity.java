@@ -2,12 +2,8 @@ package com.annie.annieforchild.ui.activity.pk;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.media.AudioFormat;
-import android.media.AudioRecord;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
@@ -15,29 +11,34 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.speech.util.Result;
 import com.annie.annieforchild.Utils.speech.util.XmlResultParser;
 import com.annie.annieforchild.Utils.views.CircleProgressBar;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.PkResult;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.adapter.ChallengeAdapter;
-import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnCountFinishListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
@@ -51,16 +52,15 @@ import com.iflytek.cloud.SpeechEvaluator;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -68,11 +68,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by wanglei on 2018/4/3.
  */
 
-public class ChallengeActivity extends BaseActivity implements View.OnClickListener, SongView, OnCountFinishListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+public class ChallengeActivity extends BaseActivity implements View.OnClickListener, SongView, PlatformActionListener, PopupWindow.OnDismissListener, OnCountFinishListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     private CircleProgressBar circleProgressBar;
     private CircleImageView challengeImage;
     private RecyclerView challengeList;
-    private ImageView challengeSpeak;
+    private RelativeLayout pkResultLayout;
+    private ImageView challengeSpeak, pengyouquan, weixin, qq, qqzone, close, star1, star2, star3, star4, star5;
+    private Button tryAgain;
     private FrameLayout frameLayout, continueBtn;
     private TextView quit;
     private Book book;
@@ -102,6 +104,12 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
     private int record_time = 0; //录音时长
     Runnable runnable;
     private Handler handler;
+    private PopupWindow popupWindow;
+    private View popupView;
+    private int popupWidth, popupHeight;
+    private float star;
+    private ShareUtils shareUtils;
+    private int audioType, audioSource;
 
     {
         setRegister(true);
@@ -128,6 +136,8 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
 
         intent = getIntent();
         bookId = intent.getIntExtra("bookId", 0);
+        audioType = intent.getIntExtra("audioType", 0);
+        audioSource = intent.getIntExtra("audioSource", 3);
         Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(challengeImage);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -143,6 +153,31 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
                 }
             }
         };
+        popupWidth = Math.min(SystemUtils.window_width, SystemUtils.window_height) * 3 / 4;
+        popupHeight = Math.max(SystemUtils.window_width, SystemUtils.window_height) * 3 / 5;
+        popupView = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_pk_win, null, false);
+        pengyouquan = popupView.findViewById(R.id.share_pengyouquan);
+        weixin = popupView.findViewById(R.id.share_weixin);
+        qq = popupView.findViewById(R.id.share_qq);
+        qqzone = popupView.findViewById(R.id.share_qqzone);
+        close = popupView.findViewById(R.id.close);
+        tryAgain = popupView.findViewById(R.id.try_again);
+        star1 = popupView.findViewById(R.id.pkstar_1);
+        star2 = popupView.findViewById(R.id.pkstar_2);
+        star3 = popupView.findViewById(R.id.pkstar_3);
+        star4 = popupView.findViewById(R.id.pkstar_4);
+        star5 = popupView.findViewById(R.id.pkstar_5);
+        pkResultLayout = popupView.findViewById(R.id.pkResult_layout);
+        popupWindow = new PopupWindow(popupView, popupWidth, popupHeight, false);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setOnDismissListener(this);
+        pengyouquan.setOnClickListener(this);
+        weixin.setOnClickListener(this);
+        qq.setOnClickListener(this);
+        qqzone.setOnClickListener(this);
+        close.setOnClickListener(this);
+        tryAgain.setOnClickListener(this);
     }
 
     private void initTalkBtn() {
@@ -174,7 +209,12 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
                     refresh();
                 } else {
                     currentLine = 1;
-                    continueBtn.setVisibility(View.VISIBLE);
+                    if (currentPage == totalPages) {
+                        //挑战结束
+                        presenter.getPkResult(bookId, "", 1);
+                    } else {
+                        continueBtn.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         };
@@ -182,6 +222,7 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initData() {
+        shareUtils = new ShareUtils(this);
         lists = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
@@ -229,7 +270,11 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
                             refresh();
                         } else {
                             currentLine = 1;
-                            continueBtn.setVisibility(View.VISIBLE);
+                            if (currentPage == totalPages) {
+                                presenter.getPkResult(bookId, "", 1);
+                            } else {
+                                continueBtn.setVisibility(View.VISIBLE);
+                            }
                         }
                     } else {
                         challengeSpeak.setImageResource(R.drawable.icon_stop_big);
@@ -251,6 +296,27 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
                     continueBtn.setVisibility(View.GONE);
                     nextPage();
                 }
+                break;
+            case R.id.share_pengyouquan:
+                shareUtils.shareWechatMoments("我得到了更高的成绩，你也一起来吧", "https://demoapi.anniekids.net/api/searchApi/index");
+                break;
+            case R.id.share_weixin:
+                shareUtils.shareWechat("我得到了更高的成绩，你也一起来吧", "https://demoapi.anniekids.net/api/searchApi/index");
+                break;
+            case R.id.share_qq:
+                shareUtils.shareQQ("我得到了更高的成绩，你也一起来吧", "https://demoapi.anniekids.net/api/searchApi/index");
+                break;
+            case R.id.share_qqzone:
+                shareUtils.shareQZone("我得到了更高的成绩，你也一起来吧", "https://demoapi.anniekids.net/api/searchApi/index");
+                break;
+            case R.id.close:
+                popupWindow.dismiss();
+                break;
+            case R.id.try_again:
+                Intent intent = new Intent(this, ChallengeActivity.class);
+                intent.putExtra("bookId", bookId);
+                startActivity(intent);
+                finish();
                 break;
         }
     }
@@ -288,7 +354,109 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
             totalPages = book.getBookTotalPages();
             adapter.notifyDataSetChanged();
             countDownDialog.show();
+        } else if (message.what == MethodCode.EVENT_GETPKRESULT) {
+            PkResult pkResult = (PkResult) message.obj;
+            initPopupData(pkResult);
         }
+    }
+
+    private void initPopupData(PkResult pkResult) {
+        float a = Float.parseFloat(pkResult.getMyScore());
+        float b = Float.parseFloat(pkResult.getPkUserScore());
+        star = a / b * 5f;
+
+        BigDecimal bigDecimal = new BigDecimal(star);
+        star = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+        String abc = star + "";
+        String[] ddd = abc.split("\\.");
+        if (ddd[0].equals("0")) {
+            int v = Integer.parseInt(ddd[1]);
+            if (v > 4) {
+                star1.setImageResource(R.drawable.icon_pkstar_t);
+                star2.setImageResource(R.drawable.icon_pkstar_f);
+                star3.setImageResource(R.drawable.icon_pkstar_f);
+                star4.setImageResource(R.drawable.icon_pkstar_f);
+                star5.setImageResource(R.drawable.icon_pkstar_f);
+            } else {
+                if (v == 0) {
+                    star1.setImageResource(R.drawable.icon_pkstar_f);
+                } else {
+                    star1.setImageResource(R.drawable.icon_pkstar_h);
+                }
+                star2.setImageResource(R.drawable.icon_pkstar_f);
+                star3.setImageResource(R.drawable.icon_pkstar_f);
+                star4.setImageResource(R.drawable.icon_pkstar_f);
+                star5.setImageResource(R.drawable.icon_pkstar_f);
+            }
+        } else if (ddd[0].equals("1")) {
+            int v = Integer.parseInt(ddd[1]);
+            if (v > 4) {
+                star1.setImageResource(R.drawable.icon_pkstar_t);
+                star2.setImageResource(R.drawable.icon_pkstar_t);
+                star3.setImageResource(R.drawable.icon_pkstar_f);
+                star4.setImageResource(R.drawable.icon_pkstar_f);
+                star5.setImageResource(R.drawable.icon_pkstar_f);
+            } else {
+                star1.setImageResource(R.drawable.icon_pkstar_t);
+                star2.setImageResource(R.drawable.icon_pkstar_h);
+                star3.setImageResource(R.drawable.icon_pkstar_f);
+                star4.setImageResource(R.drawable.icon_pkstar_f);
+                star5.setImageResource(R.drawable.icon_pkstar_f);
+            }
+        } else if (ddd[0].equals("2")) {
+            int v = Integer.parseInt(ddd[1]);
+            if (v > 4) {
+                star1.setImageResource(R.drawable.icon_pkstar_t);
+                star2.setImageResource(R.drawable.icon_pkstar_t);
+                star3.setImageResource(R.drawable.icon_pkstar_t);
+                star4.setImageResource(R.drawable.icon_pkstar_f);
+                star5.setImageResource(R.drawable.icon_pkstar_f);
+            } else {
+                star1.setImageResource(R.drawable.icon_pkstar_t);
+                star2.setImageResource(R.drawable.icon_pkstar_t);
+                star3.setImageResource(R.drawable.icon_pkstar_h);
+                star4.setImageResource(R.drawable.icon_pkstar_f);
+                star5.setImageResource(R.drawable.icon_pkstar_f);
+            }
+        } else if (ddd[0].equals("3")) {
+            int v = Integer.parseInt(ddd[1]);
+            if (v > 4) {
+                star1.setImageResource(R.drawable.icon_pkstar_t);
+                star2.setImageResource(R.drawable.icon_pkstar_t);
+                star3.setImageResource(R.drawable.icon_pkstar_t);
+                star4.setImageResource(R.drawable.icon_pkstar_t);
+                star5.setImageResource(R.drawable.icon_pkstar_f);
+            } else {
+                star1.setImageResource(R.drawable.icon_pkstar_t);
+                star2.setImageResource(R.drawable.icon_pkstar_t);
+                star3.setImageResource(R.drawable.icon_pkstar_t);
+                star4.setImageResource(R.drawable.icon_pkstar_h);
+                star5.setImageResource(R.drawable.icon_pkstar_f);
+            }
+        } else if (ddd[0].equals("4")) {
+            int v = Integer.parseInt(ddd[1]);
+            if (v > 4) {
+                star1.setImageResource(R.drawable.icon_pkstar_t);
+                star2.setImageResource(R.drawable.icon_pkstar_t);
+                star3.setImageResource(R.drawable.icon_pkstar_t);
+                star4.setImageResource(R.drawable.icon_pkstar_t);
+                star5.setImageResource(R.drawable.icon_pkstar_t);
+            } else {
+                star1.setImageResource(R.drawable.icon_pkstar_t);
+                star2.setImageResource(R.drawable.icon_pkstar_t);
+                star3.setImageResource(R.drawable.icon_pkstar_t);
+                star4.setImageResource(R.drawable.icon_pkstar_t);
+                star5.setImageResource(R.drawable.icon_pkstar_h);
+            }
+        } else if (ddd[0].equals("5")) {
+            star1.setImageResource(R.drawable.icon_pkstar_t);
+            star2.setImageResource(R.drawable.icon_pkstar_t);
+            star3.setImageResource(R.drawable.icon_pkstar_t);
+            star4.setImageResource(R.drawable.icon_pkstar_t);
+            star5.setImageResource(R.drawable.icon_pkstar_t);
+        }
+        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+        getWindowGray(true);
     }
 
     private void refresh() {
@@ -352,7 +520,7 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
                             score = finalResult.total_score;
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-                            presenter.uploadAudioResource(bookId, currentPage, currentLine, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time);
+                            presenter.uploadAudioResource(bookId, currentPage, audioType, audioSource, currentLine, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 1);
                         } else {
 //                        showInfo("解析结果为空");
                         }
@@ -446,5 +614,38 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
             mediaPlayer.release();
             mediaPlayer = null;
         }
+    }
+
+    private void getWindowGray(boolean tag) {
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        if (tag) {
+            layoutParams.alpha = 0.7f;
+            getWindow().setAttributes(layoutParams);
+        } else {
+            layoutParams.alpha = 1f;
+            getWindow().setAttributes(layoutParams);
+        }
+    }
+
+    @Override
+    public void onDismiss() {
+        getWindowGray(false);
+        isPlay = false;
+        finish();
+    }
+
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+        showInfo("分享成功");
+    }
+
+    @Override
+    public void onError(Platform platform, int i, Throwable throwable) {
+        showInfo("分享失败");
+    }
+
+    @Override
+    public void onCancel(Platform platform, int i) {
+        showInfo("取消分享");
     }
 }

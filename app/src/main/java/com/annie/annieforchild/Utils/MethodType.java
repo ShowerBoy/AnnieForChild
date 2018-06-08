@@ -45,4 +45,22 @@ public class MethodType {
     final public static String UPLOADAUDIO = "uploadAudioResource"; //上传音频接口——磨耳朵
     final public static String GETPKUSERS = "getPkUsers"; //获取pk对象
     final public static String GETALLMATERIALLIST = "getAllMaterialList"; //获取所有教材
+    final public static String GLOBALSEARCH = "globalSearch"; //全局搜索
+    final public static String GETPKRESULT = "getPkResult"; //获取PK结果
+    final public static String MYCOURSESONLINE = "myCoursesOnline"; //获取我的线上课程
+    final public static String MYCOURSESOFFLINE = "myCoursesOffline"; //获取我的线下课程
+    final public static String MYTEACHINGMATERIALS = "myTeachingMaterials"; //我的教材
+    final public static String JOINMATERIAL = "joinMaterial"; //加入教材
+    final public static String CANCELMATERIAL = "cancelMaterial"; //取消加入教材
+    final public static String GETRANK = "getRank"; //榜单
+    final public static String GETSQUARERANK = "getSquareRank"; //广场排行榜首页
+    final public static String GETSQUARERANKLIST = "getSquareRankList"; //广场排行榜列表
+    final public static String LIKESTUDENT = "likeStudent"; //点赞
+    final public static String CANCELLIKESTUDENT = "cancelLikeStudent"; //取消点赞
+    final public static String GETMYREADING = "getMyReading"; //阅读存折
+    final public static String COMMITREADING = "commitReading"; //阅读时长录入
+    final public static String GETREADING = "getReading"; //获取阅读接口
+    final public static String EXCHANGEGOLD = "exchangeGold"; //兑换金币
+    final public static String SHARETO = "shareTo"; //分享
+    final public static String GETDURATIONSTATISICS = "getDurationStatistics"; //统计
 }

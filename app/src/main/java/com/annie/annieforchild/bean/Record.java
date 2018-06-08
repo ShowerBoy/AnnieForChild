@@ -9,8 +9,17 @@ public class Record {
     private int recordingId;
     private String url;
     private String time;
-    private int duration;
+    private String duration;
     private String title;
+    private int origin;
+
+    public int getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(int origin) {
+        this.origin = origin;
+    }
 
     public String getTitle() {
         return title;
@@ -44,11 +53,11 @@ public class Record {
         this.time = time;
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 }

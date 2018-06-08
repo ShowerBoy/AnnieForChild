@@ -19,6 +19,7 @@
     <color name="text_red">#E51C23</color>
     <color name="grey">#607D8B</color>
     <color name="text_color">#898989</color>
+    <color name="text_light_color">#A1A1A1</color>
     <color name="light_gray">#F5F5F8</color>
     <color name="light_gray2">#E0E0E0</color>
     <color name="clarity_gray">#6F000000</color>
@@ -33,7 +34,12 @@
     <color name="navigation_bar_color">#888888</color>
     <color name="text_back_green">#E3F7C8</color>
     <color name="top_tab_back">#fafbfd</color>
+    <color name="blue2">#5F96F0</color>
     <color name="clarity">#00000000</color>
+
+    <color name="chart1">#FF8A0D</color>
+    <color name="chart2">#A1CA0F</color>
+    <color name="chart3">#66CBFF</color>
 
     <!--聊天框-->
     <color name="color_input_dialog_background">#b4ffffff</color>

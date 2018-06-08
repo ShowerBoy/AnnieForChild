@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.AudioBean;
 import com.annie.annieforchild.bean.Banner;
+import com.annie.annieforchild.bean.PkResult;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.grindear.GrindEarData;
@@ -110,7 +111,6 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     @Override
     public void cancelCollection(int type, int courseId, int classId) {
         songView.showLoad();
-        this.classId = classId;
         interactor.cancelCollection(type, courseId, classId);
     }
 
@@ -179,7 +179,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     }
 
     /**
-     * 上传音频——磨耳朵
+     * 上传音频
      *
      * @param resourseId
      * @param page
@@ -188,9 +188,9 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param score
      */
     @Override
-    public void uploadAudioResource(int resourseId, int page, int lineId, String path, float score, String title, int duration) {
+    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin) {
         this.lineId = lineId;
-        interactor.uploadAudioResource(resourseId, page, lineId, path, score, title, duration);
+        interactor.uploadAudioResource(resourseId, page, audioType, audioSource, lineId, path, score, title, duration, origin);
     }
 
     /**
@@ -201,6 +201,139 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     @Override
     public void getPkUsers(int bookId) {
         interactor.getPkUsers(bookId);
+    }
+
+    /**
+     * 获取PK结果
+     *
+     * @param bookId
+     * @param pkUsername
+     * @param pkType
+     */
+    @Override
+    public void getPkResult(int bookId, String pkUsername, int pkType) {
+        songView.showLoad();
+        interactor.getPkResult(bookId, pkUsername, pkType);
+    }
+
+    /**
+     * 加入教材
+     *
+     * @param bookId
+     */
+    @Override
+    public void joinMaterial(int bookId, int classId) {
+        songView.showLoad();
+        interactor.joinMaterial(bookId, classId);
+    }
+
+    /**
+     * 取消加入教材
+     *
+     * @param bookId
+     * @param classId
+     */
+    @Override
+    public void cancelMaterial(int bookId, int classId) {
+        songView.showLoad();
+        interactor.cancelMaterial(bookId, classId);
+    }
+
+    /**
+     * 榜单
+     *
+     * @param spaceType
+     * @param timeType
+     */
+    @Override
+    public void getRank(int spaceType, int timeType) {
+        songView.showLoad();
+        interactor.getRank(spaceType, timeType);
+    }
+
+    /**
+     * 广场排行榜首页
+     */
+    @Override
+    public void getSquareRank() {
+        songView.showLoad();
+        interactor.getSquareRank();
+    }
+
+    /**
+     * 获取排行榜列表
+     *
+     * @param resourceType
+     * @param timeType
+     * @param locationType
+     */
+    @Override
+    public void getSquareRankList(int resourceType, int timeType, int locationType) {
+        songView.showLoad();
+        interactor.getSquareRankList(resourceType, timeType, locationType);
+    }
+
+    /**
+     * 点赞
+     *
+     * @param likeUsername
+     */
+    @Override
+    public void likeStudent(String likeUsername) {
+        songView.showLoad();
+        interactor.likeStudent(likeUsername);
+    }
+
+    /**
+     * 取消点赞
+     *
+     * @param cancelLikeUsername
+     */
+    @Override
+    public void cancelLikeStudent(String cancelLikeUsername) {
+        songView.showLoad();
+        interactor.cancelLikeStudent(cancelLikeUsername);
+    }
+
+    /**
+     * 获取阅读接口
+     */
+    @Override
+    public void getReading() {
+        interactor.getReading();
+    }
+
+    /**
+     * 阅读存折
+     */
+    @Override
+    public void getMyReading() {
+        songView.showLoad();
+        interactor.getMyReading();
+    }
+
+    /**
+     * 阅读时长录入
+     *
+     * @param type
+     * @param duration
+     */
+    @Override
+    public void commitReading(String[] type, String[] duration) {
+        songView.showLoad();
+        interactor.commitReading(type, duration);
+    }
+
+    /**
+     * 统计
+     *
+     * @param timeType
+     * @param locationType
+     */
+    @Override
+    public void getDurationStatistics(int timeType, int locationType) {
+        songView.showLoad();
+        interactor.getDurationStatistics(timeType, locationType);
     }
 
     private void initImageSlide() {
@@ -347,6 +480,8 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 MyGrindEarBean bean = (MyGrindEarBean) result;
                 /**
                  * {@link com.annie.annieforchild.ui.activity.grindEar.MyGrindEarActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.fragment.mygrindear.TodayGrindEarFragment#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.fragment.mygrindear.TotalGrindEarFragment#onMainEventThread(JTMessage)}
                  */
                 JTMessage jtMessage = new JTMessage();
                 jtMessage.what = what;
@@ -439,6 +574,99 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETPKRESULT) {
+                PkResult pkResult = (PkResult) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.pk.ChallengeActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = pkResult;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_JOINMATERIAL + 4000 + classId) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.song.ListenSongFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_CANCELMATERIAL + 5000 + classId) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.song.ListenSongFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETSQUARERANK) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.square.RankingListFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETSQUARERANKLIST) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.mains.RankingActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_LIKESTUDENT) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.mains.RankingActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_CANCELLIKESTUDENT) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.mains.RankingActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETMYREADING) {
+                MyGrindEarBean bean = (MyGrindEarBean) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.reading.MyReadingActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.fragment.myreading.TodayReadingFragment#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.fragment.myreading.TotalReadingFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage jtMessage = new JTMessage();
+                jtMessage.what = what;
+                jtMessage.obj = bean;
+                EventBus.getDefault().post(jtMessage);
+            } else if (what == MethodCode.EVENT_COMMITREADING) {
+                songView.showInfo((String) result);
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.InputActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETREADING) {
+                List<Banner> lists = (List<Banner>) result;
+                if (lists.size() != 0) {
+                    for (int i = 0; i < lists.size(); i++) {
+                        file_maps.put(i, lists.get(i).getImageUrl());
+                    }
+                    initImageSlide();
+                }
+            } else if (what == MethodCode.EVENT_GETDURATIONSTATISTICS) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.square.CensusFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
                 EventBus.getDefault().post(message);
             }
         }

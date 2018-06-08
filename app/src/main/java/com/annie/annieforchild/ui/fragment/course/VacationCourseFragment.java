@@ -4,12 +4,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.Course;
+import com.annie.annieforchild.bean.course.Course;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.SchedulePresenter;
 import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
-import com.annie.annieforchild.ui.adapter.OnlineCourseAdapter;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -62,7 +60,7 @@ public class VacationCourseFragment extends BaseFragment implements ScheduleView
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         vacationRecycler.setLayoutManager(layoutManager);
-        vacationRecycler.setPullRefreshEnabled(true);
+        vacationRecycler.setPullRefreshEnabled(false);
         vacationRecycler.setLoadingMoreEnabled(false);
         vacationRecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override

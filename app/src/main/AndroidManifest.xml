@@ -46,7 +46,8 @@
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:replace="android:name">
 
         <!--高德地图key-->
         <meta-data
@@ -75,7 +76,7 @@
         <activity android:name=".ui.activity.Details" />
         <activity android:name=".ui.activity.my.MyMessageActivity" />
         <activity
-            android:name=".ui.activity.my.MyExchangeActivity"
+            android:name=".ui.activity.my.ExchangeActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".ui.activity.my.AboutActivity" />
         <activity android:name=".ui.activity.my.HelpActivity" />
@@ -108,7 +109,9 @@
         <activity android:name=".ui.activity.my.MyCoinActivity" />
         <activity android:name=".ui.activity.my.MyRecordActivity" />
         <activity android:name=".ui.activity.lesson.TotalScheduleActivity" />
-        <activity android:name=".ui.activity.grindEar.ListenSongActivity" />
+        <activity
+            android:name=".ui.activity.grindEar.ListenSongActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.activity.grindEar.MyGrindEarActivity" />
         <activity android:name=".ui.activity.lesson.CourseActivity" />
         <activity android:name=".ui.activity.grindEar.ExerciseTestActivity" />
@@ -139,6 +142,21 @@
         <activity
             android:name=".ui.activity.grindEar.InputActivity"
             android:screenOrientation="user"></activity>
+        <activity android:name=".ui.activity.GlobalSearchActivity" />
+        <activity android:name=".ui.activity.mains.EventActivity" />
+        <activity android:name=".ui.activity.mains.SquareActivity" />
+        <activity android:name=".ui.activity.mains.RankingActivity" />
+        <activity android:name=".ui.activity.reading.MyReadingActivity" />
+        <activity android:name=".ui.activity.my.MyExchangeActivity" />
+        <activity android:name=".ui.activity.grindEar.MyLevelActivity" />
+        <activity android:name=".ui.fragment.spoken.SpokenActivity" />
+
+        <activity
+            android:name="com.annie.annieforchild.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
     </application>
 

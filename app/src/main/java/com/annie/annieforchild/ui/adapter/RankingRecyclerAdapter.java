@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.RankingBean;
+import com.annie.annieforchild.bean.rank.RankingBean;
 import com.annie.annieforchild.ui.adapter.viewHolder.RankingViewHolder;
 import com.bumptech.glide.Glide;
 

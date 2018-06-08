@@ -1,5 +1,7 @@
 package com.annie.annieforchild.ui.activity.my;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,16 +10,26 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
+import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
+import com.annie.annieforchild.bean.nectar.MyNectar;
+import com.annie.annieforchild.presenter.NectarPresenter;
+import com.annie.annieforchild.presenter.imp.NectarPresenterImp;
 import com.annie.annieforchild.ui.fragment.nectar.IncomeFragment;
 import com.annie.annieforchild.ui.fragment.nectar.OutcomeFragment;
+import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -26,7 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by WangLei on 2018/3/7 0007
  */
 
-public class MyNectarActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
+public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnClickListener, ViewPager.OnPageChangeListener {
     private ImageView myNectarBack, myNectarHelp;
     private CircleImageView myNectarHeadpic;
     private TextView exchange, myNectarName, myNectarNum;
@@ -35,7 +47,14 @@ public class MyNectarActivity extends BaseActivity implements View.OnClickListen
     private IncomeFragment incomeFragment;
     private OutcomeFragment outcomeFragment;
     private MyNectarFragmentAdapter fragmentAdapter;
+    private NectarPresenter presenter;
     private UserInfo userInfo;
+    private AlertHelper helper;
+    private Dialog dialog;
+
+    {
+        setRegister(true);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -53,6 +72,7 @@ public class MyNectarActivity extends BaseActivity implements View.OnClickListen
         mTab = findViewById(R.id.my_nectar_tab_layout);
         mVP = findViewById(R.id.my_nectar_viewpager);
         myNectarBack.setOnClickListener(this);
+        exchange.setOnClickListener(this);
         if (getIntent() != null) {
             Bundle bundle = getIntent().getExtras();
             userInfo = (UserInfo) bundle.getSerializable("userinfo");
@@ -61,6 +81,8 @@ public class MyNectarActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
+        helper = new AlertHelper(this);
+        dialog = helper.LoadingDialog();
         initialize();
         fragmentAdapter = new MyNectarFragmentAdapter(getSupportFragmentManager());
         mVP.setOffscreenPageLimit(2);
@@ -68,6 +90,9 @@ public class MyNectarActivity extends BaseActivity implements View.OnClickListen
         fragmentAdapter.notifyDataSetChanged();
         mTab.setViewPager(mVP);
         mTab.setOnPageChangeListener(this);
+        presenter = new NectarPresenterImp(this, this);
+        presenter.initViewAndData();
+        presenter.getNectar();
     }
 
     private void initialize() {
@@ -95,7 +120,11 @@ public class MyNectarActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.exchange:
                 //兑换
-
+                Intent intent = new Intent(this, ExchangeActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("userinfo", userInfo);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
         }
     }
@@ -113,6 +142,40 @@ public class MyNectarActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    /**
+     * {@link com.annie.annieforchild.presenter.imp.MessagePresenterImp#Success(int, Object)}
+     *
+     * @param message
+     */
+    @Subscribe
+    public void onMainEventThread(JTMessage message) {
+        if (message.what == MethodCode.EVENT_EXCHANGEGOLD) {
+            presenter.getNectar();
+        } else if (message.what == MethodCode.EVENT_GETNECTAR) {
+            MyNectar myNectar = (MyNectar) message.obj;
+            myNectarNum.setText(myNectar.getNectarTotal() + "花蜜");
+        }
+    }
+
+    @Override
+    public void showInfo(String info) {
+        Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoad() {
+        if (dialog != null && !dialog.isShowing()) {
+            dialog.show();
+        }
+    }
+
+    @Override
+    public void dismissLoad() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
     class MyNectarFragmentAdapter extends FragmentStatePagerAdapter {

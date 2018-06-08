@@ -70,7 +70,7 @@ public class OfflineScheduleFragment extends BaseFragment {
      * @param message
      */
     @Subscribe
-    public void onEventMainThread(JTMessage message) {
+    public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_MYSCHEDULE) {
             TotalSchedule totalSchedule = (TotalSchedule) message.obj;
             lists.clear();

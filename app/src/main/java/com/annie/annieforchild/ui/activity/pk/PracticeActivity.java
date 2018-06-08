@@ -42,6 +42,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 歌曲pk,练习,挑战
@@ -50,7 +51,7 @@ import java.util.List;
 
 public class PracticeActivity extends BaseActivity implements View.OnClickListener, SongView, PopupWindow.OnDismissListener {
     private ImageView back, practiceImage, star1, star2, star3, star4, star5;
-    private TextView practiceTitle, practiceBtn, challengeBtn, pkBtn;
+    private TextView practiceTitle, practiceBtn, challengeBtn, pkBtn, randomMatch;
     private List<UserInfo2> pkUserList;
     private PopupWindow popupWindow;
     private View popupView;
@@ -63,6 +64,7 @@ public class PracticeActivity extends BaseActivity implements View.OnClickListen
     private AlertHelper helper;
     private Dialog dialog;
     private float star;
+    private int audioType, audioSource;
 
     {
         setRegister(true);
@@ -95,10 +97,12 @@ public class PracticeActivity extends BaseActivity implements View.OnClickListen
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_item2, null, false);
         popupWindow = new PopupWindow(popupView, popupWidth, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupGrid = popupView.findViewById(R.id.popup_grid);
-//        popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        randomMatch = popupView.findViewById(R.id.random_match);
+        randomMatch.setOnClickListener(this);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.setOutsideTouchable(false);
         popupWindow.setOnDismissListener(this);
-        popupGrid.setAdapter(popupAdapter);
+
         popupGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -119,11 +123,19 @@ public class PracticeActivity extends BaseActivity implements View.OnClickListen
         pkUserList = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
+        /**
+         * {@link com.annie.annieforchild.ui.activity.GlobalSearchActivity}
+         * {@link com.annie.annieforchild.ui.adapter.RecommendAdapter}
+         * {@link com.annie.annieforchild.ui.adapter.SongAdapter}
+         */
         intent = getIntent();
         if (intent != null) {
             song = (Song) intent.getSerializableExtra("song");
+            audioType = intent.getIntExtra("audioType", 3);
+            audioSource = intent.getIntExtra("audioSource", 0);
         }
         popupAdapter = new PkUserPopupAdapter(this, pkUserList);
+        popupGrid.setAdapter(popupAdapter);
 
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
@@ -247,17 +259,38 @@ public class PracticeActivity extends BaseActivity implements View.OnClickListen
             case R.id.practice_btn:
                 Intent intent = new Intent(this, ExerciseActivity.class);
                 intent.putExtra("bookId", song.getBookId());
+                intent.putExtra("audioType", audioType);
+                intent.putExtra("audioSource", audioSource);
                 startActivity(intent);
                 break;
             case R.id.challenge_btn:
                 Intent intent1 = new Intent(this, ChallengeActivity.class);
                 intent1.putExtra("bookId", song.getBookId());
+                intent1.putExtra("audioType", audioType);
+                intent1.putExtra("audioSource", audioSource);
                 startActivity(intent1);
                 break;
             case R.id.pk_btn:
                 presenter.getPkUsers(song.getBookId());
 //                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-
+                break;
+            case R.id.random_match:
+                if (pkUserList != null && pkUserList.size() != 0) {
+                    Random random = new Random();
+                    int position = random.nextInt(pkUserList.size());
+                    popupWindow.dismiss();
+                    Intent intent2 = new Intent(PracticeActivity.this, pkActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("bookId", song.getBookId());
+                    bundle.putString("pkUserName", pkUserList.get(position).getUsername());
+                    bundle.putString("avatar", pkUserList.get(position).getAvatar());
+                    bundle.putInt("audioType", audioType);
+                    bundle.putInt("audioSource", audioSource);
+                    intent2.putExtras(bundle);
+                    startActivity(intent2);
+                } else {
+                    showInfo("没有pk用户");
+                }
                 break;
         }
     }

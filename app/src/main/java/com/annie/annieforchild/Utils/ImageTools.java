@@ -142,7 +142,8 @@ public final class ImageTools {
     /**
      * Drawable transfer to bytes
      *
-     * @param drawable
+     * @param drawable。
+     *
      * @return
      */
     public static byte[] drawableToBytes(Drawable drawable) {

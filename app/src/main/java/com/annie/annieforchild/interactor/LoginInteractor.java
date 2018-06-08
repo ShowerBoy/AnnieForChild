@@ -7,4 +7,6 @@ package com.annie.annieforchild.interactor;
 public interface LoginInteractor {
 
     void login(String phone, String password, String loginTime);
+
+    void globalSearch(String keyword);
 }

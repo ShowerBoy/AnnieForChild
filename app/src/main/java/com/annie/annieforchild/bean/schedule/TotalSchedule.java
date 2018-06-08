@@ -1,12 +1,13 @@
 package com.annie.annieforchild.bean.schedule;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by wanglei on 2018/3/30.
  */
 
-public class TotalSchedule {
+public class TotalSchedule implements Serializable {
     private List<Schedule> online;
     private List<Schedule> offline;
 
