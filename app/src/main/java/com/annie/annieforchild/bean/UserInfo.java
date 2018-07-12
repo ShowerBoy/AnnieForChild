@@ -20,7 +20,16 @@ public class UserInfo implements Serializable {
     private String collectionCount;
     private String qrCode;
     private String school;
+    private String experience;
     private int status;
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
 
     public String getAvatar() {
         return avatar;

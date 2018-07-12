@@ -2,6 +2,8 @@ package com.annie.annieforchild.presenter.imp;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 
 import com.annie.annieforchild.Utils.MethodCode;
@@ -9,6 +11,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
+import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.interactor.FourthInteractor;
 import com.annie.annieforchild.interactor.imp.FourthInteractorImp;
 import com.annie.annieforchild.presenter.FourthPresenter;
@@ -18,9 +21,13 @@ import com.annie.annieforchild.view.FourthView;
 import com.annie.baselibrary.base.BasePresenterImp;
 
 import org.greenrobot.eventbus.EventBus;
+import org.litepal.LitePal;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 我的
@@ -50,7 +57,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
             @Override
             public void onItemClick(View view) {
                 position = fourthView.getMemberRecycler().getChildAdapterPosition(view);
-                if (lists.get(position).getUsername().equals(SystemUtils.defaultUsername)){
+                if (lists.get(position).getUsername().equals(SystemUtils.defaultUsername)) {
                     return;
                 }
                 SystemUtils.GeneralDialog(context, "切换默认学员")
@@ -59,6 +66,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 setDefaultUser(lists.get(position).getUsername());
+                                SystemUtils.getNetTime();
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -103,7 +111,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
      */
     @Override
     public void getUserInfo() {
-        fourthView.showLoad();
+//        fourthView.showLoad();
         interactor.getUserInfo();
     }
 
@@ -156,6 +164,65 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 SystemUtils.defaultUsername = lists.get(position).getUsername();
                 getUserInfo();
                 fourthView.showInfo((String) result);
+                //切换用户重置在线
+                List<SigninBean> list = DataSupport.where("username = ?", SystemUtils.defaultUsername).find(SigninBean.class);
+//                List<SigninBean> list = DataSupport.findAll(SigninBean.class);
+                if (list != null && list.size() != 0) {
+                    SigninBean signinBean = list.get(list.size() - 1);
+                    String date = SystemUtils.netDate;
+                    if (!date.equals(signinBean.getDate())) {
+                        if (SystemUtils.signinBean == null) {
+                            SystemUtils.signinBean = new SigninBean();
+                        }
+                        SystemUtils.signinBean.setDate(date);
+                        SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
+                        SystemUtils.signinBean.setNectar(false);
+                        SystemUtils.signinBean.save();
+                    } else {
+                        SystemUtils.signinBean = signinBean;
+                    }
+                } else {
+                    SystemUtils.signinBean = new SigninBean();
+                    String date = SystemUtils.netDate;
+                    SystemUtils.signinBean.setDate(date != null ? date : "");
+                    SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
+                    SystemUtils.signinBean.setNectar(false);
+                    SystemUtils.signinBean.save();
+                }
+                if (SystemUtils.timer != null) {
+                    SystemUtils.timer.cancel();
+                    SystemUtils.timer = null;
+                }
+                if (SystemUtils.task != null) {
+                    SystemUtils.task.cancel();
+                    SystemUtils.task = null;
+                }
+                SystemUtils.timer = new Timer();
+                if (SystemUtils.isOnline) {
+                    if (!SystemUtils.signinBean.isNectar()) {
+                        SystemUtils.task = new TimerTask() {
+                            @Override
+                            public void run() {
+                                if (!SystemUtils.signinBean.isNectar()) {
+                                    Intent intent = new Intent();
+                                    intent.setAction("countdown");
+                                    context.sendBroadcast(intent);
+                                }
+                            }
+                        };
+                        Runnable runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!SystemUtils.signinBean.isNectar()) {
+                                    SystemUtils.timer.schedule(SystemUtils.task, 120 * 1000);
+                                }
+                            }
+                        };
+                        SystemUtils.countDownThread = new Thread(runnable);
+                        SystemUtils.countDownThread.start();
+                    }
+                }
+
             } else if (what == MethodCode.EVENT_DELETEUSERNAME) {
                 fourthView.showInfo((String) result);
                 /**
@@ -173,6 +240,13 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
 
     @Override
     public void Error(int what, String error) {
+        /**
+         * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
+         */
+        JTMessage message = new JTMessage();
+        message.setWhat(what);
+        message.setObj(error);
+        EventBus.getDefault().post(message);
         fourthView.dismissLoad();
         fourthView.showInfo(error);
     }

@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.fragment.square;
 
 import android.app.Dialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -67,6 +68,7 @@ public class RankingListFragment extends BaseFragment implements SongView {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(layoutManager);
+//        recycler.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
 
     /**
@@ -79,6 +81,10 @@ public class RankingListFragment extends BaseFragment implements SongView {
             lists.clear();
             lists.add(rankList);
             adapter.notifyDataSetChanged();
+        } else if (message.what == MethodCode.EVENT_LIKESTUDENT) {
+            presenter.getSquareRank();
+        } else if (message.what == MethodCode.EVENT_CANCELLIKESTUDENT) {
+            presenter.getSquareRank();
         }
     }
 

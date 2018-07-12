@@ -4,10 +4,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
@@ -23,9 +25,11 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.login.LoginBean;
 import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.bean.login.PhoneSN;
+import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
 import com.annie.annieforchild.ui.activity.MainActivity;
@@ -33,6 +37,11 @@ import com.annie.annieforchild.view.LoginView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.annie.baselibrary.utils.NetUtils.NoHttpUtils;
+import com.yanzhenjie.nohttp.Headers;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.download.DownloadListener;
+import com.yanzhenjie.nohttp.download.DownloadQueue;
+import com.yanzhenjie.nohttp.download.DownloadRequest;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -41,6 +50,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -124,6 +134,7 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     private void doit() {
 //        LitePal.deleteDatabase("annie");
         db = LitePal.getDatabase();
+//        DataSupport.deleteAll(SigninBean.class);
         List<PhoneSN> list = DataSupport.findAll(PhoneSN.class);
         if (list != null && list.size() != 0) {
             SystemUtils.phoneSN = list.get(list.size() - 1);
@@ -155,6 +166,7 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
             psd = preferences.getString("psd", null);
             logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
             presenter.login(phone, psd, logintime);
+            SystemUtils.getNetTime();
         }
     }
 
@@ -177,22 +189,28 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
             SystemUtils.phoneSN.setUsername(bean.getDefaultUsername());
             SystemUtils.phoneSN.setLastlogintime(logintime);
             SystemUtils.phoneSN.setSystem("android");
-            SystemUtils.phoneSN.setBitcode(SystemUtils.getVersionCode(this));
+            SystemUtils.phoneSN.setBitcode(SystemUtils.getVersionName(this));
             SystemUtils.phoneSN.save();
 
             editor.putString("phone", phone);
             editor.putString("psd", psd);
             editor.commit();
 
+            SystemUtils.phone = phone;
+
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("tag", "会员");
             SystemUtils.tag = "会员";
+            if (bean.getDefaultUsername().equals("")) {
+                SystemUtils.childTag = 0;
+            } else {
+                SystemUtils.childTag = 1;
+            }
             startActivity(intent);
             if (tag != null && tag.equals("游客登陆")) {
                 ActivityCollector.finishAll();
             }
             finish();
-
         }
     }
 
@@ -212,6 +230,7 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("tag", "游客");
                 SystemUtils.tag = "游客";
+                SystemUtils.childTag = 0;
                 startActivity(intent);
                 finish();
                 break;
@@ -232,6 +251,7 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
                 break;
         }
     }
+
 
     private boolean check() {
         if (phoneNumber.getText().toString().equals("") && phoneNumber.getText().toString().contains(" ") || password.getText().toString().equals("")) {

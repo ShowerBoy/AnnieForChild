@@ -128,7 +128,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
 //            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big_f);
 //        }
         exerciseViewHolder.textView.setText(lists.get(i).getEnTitle());
-        exerciseViewHolder.exercise_score.setText(lists.get(i).getScore() + "分");
+        exerciseViewHolder.exercise_score.setText(lists.get(i).getScore() + "");
         exerciseViewHolder.preview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -260,7 +260,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                             float score = finalResult.total_score;
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-                            presenter.uploadAudioResource(bookId, lists.get(i).getPage(), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm", score, fileName, record_time, 0);
+                            lists.get(i).setScore(score);
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm", score, fileName, record_time, 0, "");
                         } else {
 //                        showInfo("解析结果为空");
                         }

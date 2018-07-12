@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.fragment.schedule;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.MethodCode;
@@ -25,6 +26,7 @@ import java.util.List;
 
 public class OfflineScheduleFragment extends BaseFragment {
     private XRecyclerView offlineRecycler;
+    private RelativeLayout emptyLayout;
     private List<Schedule> lists;
     private OfflineScheAdapter adapter;
 
@@ -57,6 +59,7 @@ public class OfflineScheduleFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         offlineRecycler = view.findViewById(R.id.offline_recycler);
+        emptyLayout = view.findViewById(R.id.empty_data_layout);
     }
 
     @Override
@@ -76,6 +79,11 @@ public class OfflineScheduleFragment extends BaseFragment {
             lists.clear();
             lists.addAll(totalSchedule.getOffline());
             adapter.notifyDataSetChanged();
+            if (lists.size() == 0) {
+                emptyLayout.setVisibility(View.VISIBLE);
+            } else {
+                emptyLayout.setVisibility(View.GONE);
+            }
         }
     }
 }

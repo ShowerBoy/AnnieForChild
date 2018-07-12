@@ -9,5 +9,5 @@ public interface CollectionPresenter {
 
     void getMyCollections(int type);
 
-    void cancelCollection(int type, int courseId);
+    void cancelCollection(int type, int audioSource, int courseId);
 }

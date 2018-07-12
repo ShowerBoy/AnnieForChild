@@ -66,12 +66,13 @@ public class RecommendAdapter extends BaseAdapter {
         holder.image_recommend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SystemUtils.tag.equals("游客")){
+                if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(context);
                     return;
                 }
                 Intent intent = new Intent(context, PracticeActivity.class);
                 intent.putExtra("song", lists.get(position));
+                intent.putExtra("type", 0);
                 intent.putExtra("audioType", 3);
                 intent.putExtra("audioSource", 0);
                 context.startActivity(intent);

@@ -69,12 +69,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class pkActivity extends BaseActivity implements View.OnClickListener, SongView, PlatformActionListener, PopupWindow.OnDismissListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, OnCountFinishListener {
     private TextView quit;
-    private CircleImageView player1, player2;
+    private CircleImageView player1, player2, character1, character2;
     private CircleProgressBar circleProgressBar;
     private RecyclerView pkList;
     private ImageView pkSpeak, pengyouquan, weixin, qq, qqzone, close, close2, star1, star2, star3, star4, star5;
     private Button tryAgain1, tryAgain2;
-    private FrameLayout pkFrameLayout, pkFinishBtn;
+    private FrameLayout pkFrameLayout;
     private CountDownTimer timer;
     private int width, height;
     private GrindEarPresenter presenter;
@@ -93,7 +93,6 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
     private int currentPage = 1; //当前页码
     private int currentLine = 1; //当前行号
     private int totalLines; //当前页总行数
-    private int totalPages; //总页数
     private String fileName;
     private AlertHelper helper;
     private Dialog dialog;
@@ -104,12 +103,14 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
     private int record_time = 0; //录音时长
     Runnable runnable;
     private Handler handler;
-    private PopupWindow popupWindow1, popupWindow2;
-    private View popupView1, popupView2;
+    private PopupWindow popupWindow1, popupWindow2, popupWindow3;
+    private View popupView1, popupView2, popupView3;
     private int popupWidth, popupHeight;
     private float star;
     private ShareUtils shareUtils;
     private int audioType, audioSource;
+    private boolean isEnd = false;
+    private int round = 0; //轮数
 
     {
         setRegister(true);
@@ -129,10 +130,8 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
         pkFrameLayout = findViewById(R.id.pk_frameLayout);
         circleProgressBar = findViewById(R.id.pk_circleProgressBar);
         pkList = findViewById(R.id.pk_list);
-        pkFinishBtn = findViewById(R.id.pk_finish_btn);
         quit.setOnClickListener(this);
         circleProgressBar.setOnClickListener(this);
-        pkFinishBtn.setOnClickListener(this);
 
         initTalkBtn();
         intent = getIntent();
@@ -162,6 +161,11 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
         popupHeight = Math.max(SystemUtils.window_width, SystemUtils.window_height) * 3 / 5;
         popupView1 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_pk_win, null, false);
         popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_pk_lose, null, false);
+        popupView3 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_change, null, false);
+        character1 = popupView3.findViewById(R.id.character_1);
+        character2 = popupView3.findViewById(R.id.character_2);
+        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(character1);
+        Glide.with(this).load(avatar).into(character2);
         pengyouquan = popupView1.findViewById(R.id.share_pengyouquan);
         weixin = popupView1.findViewById(R.id.share_weixin);
         qq = popupView1.findViewById(R.id.share_qq);
@@ -177,6 +181,7 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
         star5 = popupView1.findViewById(R.id.pkstar_5);
         popupWindow1 = new PopupWindow(popupView1, popupWidth, popupHeight, false);
         popupWindow2 = new PopupWindow(popupView2, popupWidth, popupHeight, false);
+
         popupWindow1.setBackgroundDrawable(new ColorDrawable());
         popupWindow1.setOutsideTouchable(false);
         popupWindow1.setOnDismissListener(this);
@@ -187,6 +192,11 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
         close2.setOnClickListener(this);
         tryAgain1.setOnClickListener(this);
         tryAgain2.setOnClickListener(this);
+        //
+        popupWindow3 = new PopupWindow(popupView3, popupWidth, popupHeight, false);
+        popupWindow3.setBackgroundDrawable(new ColorDrawable());
+        popupWindow3.setOutsideTouchable(false);
+        popupWindow3.setOnDismissListener(this);
     }
 
     private void initTalkBtn() {
@@ -217,21 +227,46 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
                 if (currentLine <= totalLines) {
                     refresh();
                 } else {
-                    currentLine = 1;
-                    if (currentPage == totalPages) {
-                        //挑战结束
-                        presenter.getPkResult(bookId, pkUserName, 2);
+                    if (round == 0) {
+                        round++;
+                        //TODO:互换角色
+                        popupWindow3.showAtLocation(popupView3, Gravity.CENTER, 0, 0);
+                        getWindowGray(true);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                popupWindow3.dismiss();
+                                getWindowGray(false);
+                                Round2();
+                            }
+                        }, 2000);
                     } else {
-                        pkFinishBtn.setVisibility(View.VISIBLE);
+                        //挑战结束
+                        isEnd = true;
+                        round = 0;
                     }
                 }
             }
         };
     }
 
+    private void Round2() {
+        currentLine = 1;
+        isClick = true;
+        for (int i = 0; i < lists.size(); i++) {
+            lists.get(i).setSelect(false);
+        }
+        lists.get(currentLine - 1).setSelect(true);
+//        challengeList.scrollToPosition(currentLine - 1);
+        pkList.smoothScrollToPosition(currentLine - 1);
+        adapter.notifyDataSetChanged();
+        pkSpeak.setImageResource(R.drawable.icon_speak_big);
+//        play(lists.get(currentLine - 1).getResourceUrl());
+    }
+
     @Override
     protected void initData() {
-        shareUtils = new ShareUtils(this);
+        shareUtils = new ShareUtils(this, this);
         lists = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
@@ -282,12 +317,23 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
                         if (currentLine <= totalLines) {
                             refresh();
                         } else {
-                            currentLine = 1;
-                            if (currentPage == totalPages) {
-                                //挑战结束
-                                presenter.getPkResult(bookId, pkUserName, 2);
+                            if (round == 0) {
+                                round++;
+                                //TODO:互换角色
+                                popupWindow3.showAtLocation(popupView3, Gravity.CENTER, 0, 0);
+                                getWindowGray(true);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        popupWindow3.dismiss();
+                                        getWindowGray(false);
+                                        Round2();
+                                    }
+                                }, 2000);
                             } else {
-                                pkFinishBtn.setVisibility(View.VISIBLE);
+                                //挑战结束
+                                isEnd = true;
+                                round = 0;
                             }
                         }
                     } else {
@@ -298,15 +344,6 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
                     }
                 }
                 break;
-            case R.id.pk_finish_btn:
-                currentPage++;
-                if (currentPage > totalPages) {
-                    showInfo("结束");
-                } else {
-                    pkFinishBtn.setVisibility(View.GONE);
-                    nextPage();
-                }
-                break;
             case R.id.close:
                 popupWindow1.dismiss();
                 break;
@@ -314,16 +351,16 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
                 popupWindow2.dismiss();
                 break;
             case R.id.share_pengyouquan:
-                shareUtils.shareWechatMoments("我得到了更高的成绩，你也一起来吧","https://demoapi.anniekids.net/api/searchApi/index");
+                shareUtils.shareWechatMoments("我得到了更高的成绩，你也一起来吧", "安妮花教育", "https://demoapi.anniekids.net/api/searchApi/index");
                 break;
             case R.id.share_weixin:
-                shareUtils.shareWechat("我得到了更高的成绩，你也一起来吧","https://demoapi.anniekids.net/api/searchApi/index");
+                shareUtils.shareWechat("我得到了更高的成绩，你也一起来吧", "安妮花教育", "https://demoapi.anniekids.net/api/searchApi/index");
                 break;
             case R.id.share_qq:
-                shareUtils.shareQQ("我得到了更高的成绩，你也一起来吧","https://demoapi.anniekids.net/api/searchApi/index");
+                shareUtils.shareQQ("我得到了更高的成绩，你也一起来吧", "安妮花教育", "https://demoapi.anniekids.net/api/searchApi/index");
                 break;
             case R.id.share_qqzone:
-                shareUtils.shareQZone("我得到了更高的成绩，你也一起来吧","https://demoapi.anniekids.net/api/searchApi/index");
+                shareUtils.shareQZone("我得到了更高的成绩，你也一起来吧", "安妮花教育", "https://demoapi.anniekids.net/api/searchApi/index");
                 break;
             case R.id.try_again:
                 finish();
@@ -389,7 +426,7 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
 //                            showInfo(score + "");
-                            presenter.uploadAudioResource(bookId, currentPage, audioType, audioSource, currentLine, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 2);
+                            presenter.uploadAudioResource(bookId, currentPage, audioType, audioSource, currentLine, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".pcm", score, fileName, record_time, 2, pkUserName);
                         } else {
 //                        showInfo("解析结果为空");
                         }
@@ -453,28 +490,35 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
         if (message.what == MethodCode.EVENT_PK_PK) {
             book = (Book) message.obj;
             lists.clear();
-            lists.addAll(book.getPageContent().get(currentPage - 1).getLineContent());
+            totalLines = 0;
+            for (int i = 0; i < book.getPageContent().size(); i++) {
+                lists.addAll(book.getPageContent().get(i).getLineContent());
+                totalLines = totalLines + book.getPageContent().get(i).getLineContent().size();
+            }
             lists.get(0).setSelect(true);
-            totalLines = lists.size();
-            totalPages = book.getBookTotalPages();
             adapter.notifyDataSetChanged();
             countDownDialog.show();
         } else if (message.what == MethodCode.EVENT_GETPKRESULT) {
             PkResult pkResult = (PkResult) message.obj;
             initPopupData(pkResult);
+        } else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
+            if (isEnd) {
+                isEnd = false;
+                presenter.getPkResult(bookId, pkUserName, 2);
+            }
         }
     }
 
     private void initPopupData(PkResult pkResult) {
-        float a = Float.parseFloat(pkResult.getMyScore());
-        float b = Float.parseFloat(pkResult.getPkUserScore());
-        if (a >= b) {
-            //胜利
-            popupWindow1.showAtLocation(popupView1, Gravity.CENTER, 0, 0);
-            getWindowGray(true);
-        } else {
+        float a = Float.parseFloat(pkResult.getMyscore());
+        float b = Float.parseFloat(pkResult.getPkscore());
+        if (pkResult.getResult() == 0) {
             //失败
             popupWindow2.showAtLocation(popupView2, Gravity.CENTER, 0, 0);
+            getWindowGray(true);
+        } else {
+            //成功
+            popupWindow1.showAtLocation(popupView1, Gravity.CENTER, 0, 0);
             getWindowGray(true);
         }
     }
@@ -520,7 +564,40 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
     @Override
     public void onCompletion(MediaPlayer mp) {
         isClick = true;
-        pkSpeak.setImageResource(R.drawable.icon_speak_big);
+        currentLine++;
+        if (currentLine > totalLines) {
+            if (round == 0) {
+                round++;
+                //TODO:互换角色
+                popupWindow3.showAtLocation(popupView3, Gravity.CENTER, 0, 0);
+                getWindowGray(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        popupWindow3.dismiss();
+                        getWindowGray(false);
+                        Round2();
+                    }
+                }, 2000);
+            } else {
+                //挑战结束
+                isEnd = true;
+                round = 0;
+                if (isEnd) {
+                    isEnd = false;
+                    presenter.getPkResult(bookId, pkUserName, 2);
+                }
+            }
+        } else {
+            for (int i = 0; i < lists.size(); i++) {
+                lists.get(i).setSelect(false);
+            }
+            lists.get(currentLine - 1).setSelect(true);
+//            challengeList.scrollToPosition(currentLine - 1);
+            pkList.smoothScrollToPosition(currentLine - 1);
+            adapter.notifyDataSetChanged();
+            pkSpeak.setImageResource(R.drawable.icon_speak_big);
+        }
     }
 
     @Override
@@ -549,7 +626,9 @@ public class pkActivity extends BaseActivity implements View.OnClickListener, So
     public void onDismiss() {
         getWindowGray(false);
         isPlay = false;
-        finish();
+        if (isEnd) {
+            finish();
+        }
     }
 
     private void getWindowGray(boolean tag) {

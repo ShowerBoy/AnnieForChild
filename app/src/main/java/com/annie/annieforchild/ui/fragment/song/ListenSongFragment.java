@@ -2,10 +2,10 @@ package com.annie.annieforchild.ui.fragment.song;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
@@ -13,10 +13,7 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.song.Song;
-import com.annie.annieforchild.bean.song.SongClassify;
-import com.annie.annieforchild.presenter.CollectionPresenter;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
-import com.annie.annieforchild.presenter.imp.CollectionPresenterImp;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.adapter.SongAdapter;
 import com.annie.annieforchild.view.SongView;
@@ -41,7 +38,9 @@ public class ListenSongFragment extends BaseFragment implements SongView {
     private GrindEarPresenter presenter;
     private AlertHelper helper;
     private Dialog dialog;
-    private int classId, audioType, audioSource;
+    private String title;
+    private int classId, audioType, audioSource, type;
+    private int collectType; //收藏 1:磨耳朵 2：阅读 3：口语
 
     {
         setRegister(true);
@@ -50,12 +49,14 @@ public class ListenSongFragment extends BaseFragment implements SongView {
     public ListenSongFragment() {
     }
 
-    public static ListenSongFragment instance(int classId, int audioType, int audioSource) {
+    public static ListenSongFragment instance(int classId, String title, int audioType, int audioSource, int type) {
         ListenSongFragment fragment = new ListenSongFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("classId", classId);
+        bundle.putString("title", title);
         bundle.putInt("audioType", audioType);
         bundle.putInt("audioSource", audioSource);
+        bundle.putInt("type", type);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -65,13 +66,33 @@ public class ListenSongFragment extends BaseFragment implements SongView {
         bundle = getArguments();
         songsList = new ArrayList<>();
         classId = bundle.getInt("classId");
+        title = bundle.getString("title");
         audioType = bundle.getInt("audioType");
         audioSource = bundle.getInt("audioSource");
+        type = bundle.getInt("type");
         presenter = new GrindEarPresenterImp(getContext(), this);
         presenter.initViewAndData();
-        songAdapter = new SongAdapter(getContext(), songsList, presenter, 1, classId, audioType, audioSource);
+        if (type < 6) {
+            collectType = 1;
+        } else if (type == 11) {
+            collectType = 3;
+        } else {
+            collectType = 2;
+        }
+        songAdapter = new SongAdapter(getContext(), songsList, presenter, collectType, classId, audioType, audioSource, type);
         initRecycler();
-        presenter.getMusicList(classId);
+        if (type == 3) {
+//            presenter.getAnimationList(title);
+        } else if (type == 11) {
+            presenter.getSpokenList(classId);
+        } else {
+            if (type < 6) {
+                presenter.getMusicList(classId);
+            } else {
+                presenter.getReadList(classId);
+            }
+        }
+
     }
 
     @Override
@@ -85,6 +106,7 @@ public class ListenSongFragment extends BaseFragment implements SongView {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(layoutManager);
+        recycler.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recycler.setPullRefreshEnabled(false);
         recycler.setLoadingMoreEnabled(false);
         recycler.setAdapter(songAdapter);
@@ -106,18 +128,50 @@ public class ListenSongFragment extends BaseFragment implements SongView {
             songsList.clear();
             songsList.addAll((List<Song>) message.obj);
             songAdapter.notifyDataSetChanged();
+        } else if (message.what == MethodCode.EVENT_GETREADLIST + 6000 + classId) {
+            songsList.clear();
+            songsList.addAll((List<Song>) message.obj);
+            songAdapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_COLLECTCOURSE + 2000 + classId) {
             showInfo((String) message.obj);
-            presenter.getMusicList(classId);
+            if (type < 6) {
+                presenter.getMusicList(classId);
+            } else if (type == 11) {
+                presenter.getSpokenList(classId);
+            } else {
+                presenter.getReadList(classId);
+            }
         } else if (message.what == MethodCode.EVENT_CANCELCOLLECTION1 + 3000 + classId) {
             showInfo((String) message.obj);
-            presenter.getMusicList(classId);
+            if (type < 6) {
+                presenter.getMusicList(classId);
+            } else if (type == 11) {
+                presenter.getSpokenList(classId);
+            } else {
+                presenter.getReadList(classId);
+            }
         } else if (message.what == MethodCode.EVENT_JOINMATERIAL + 4000 + classId) {
             showInfo((String) message.obj);
-            presenter.getMusicList(classId);
+            if (type < 6) {
+                presenter.getMusicList(classId);
+            } else if (type == 11) {
+                presenter.getSpokenList(classId);
+            } else {
+                presenter.getReadList(classId);
+            }
         } else if (message.what == MethodCode.EVENT_CANCELMATERIAL + 5000 + classId) {
             showInfo((String) message.obj);
-            presenter.getMusicList(classId);
+            if (type < 6) {
+                presenter.getMusicList(classId);
+            } else if (type == 11) {
+                presenter.getSpokenList(classId);
+            } else {
+                presenter.getReadList(classId);
+            }
+        } else if (message.what == MethodCode.EVENT_GETSPOKENLIST + 8000 + classId) {
+            songsList.clear();
+            songsList.addAll((List<Song>) message.obj);
+            songAdapter.notifyDataSetChanged();
         }
     }
 

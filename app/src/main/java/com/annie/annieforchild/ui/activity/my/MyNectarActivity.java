@@ -7,29 +7,40 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.bean.nectar.MyNectar;
+import com.annie.annieforchild.bean.nectar.NectarBean;
 import com.annie.annieforchild.presenter.NectarPresenter;
 import com.annie.annieforchild.presenter.imp.NectarPresenterImp;
-import com.annie.annieforchild.ui.fragment.nectar.IncomeFragment;
-import com.annie.annieforchild.ui.fragment.nectar.OutcomeFragment;
+import com.annie.annieforchild.ui.adapter.MyNectarAdapter;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -38,15 +49,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by WangLei on 2018/3/7 0007
  */
 
-public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnClickListener, ViewPager.OnPageChangeListener {
+public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnClickListener {
     private ImageView myNectarBack, myNectarHelp;
     private CircleImageView myNectarHeadpic;
+    private XRecyclerView recycler;
     private TextView exchange, myNectarName, myNectarNum;
-    private AdvancedPagerSlidingTabStrip mTab;
-    private APSTSViewPager mVP;
-    private IncomeFragment incomeFragment;
-    private OutcomeFragment outcomeFragment;
-    private MyNectarFragmentAdapter fragmentAdapter;
+    private PopupWindow popupWindow;
+    private View popupView;
+    private int popupWidth, popupHeight;
+    private MyNectarAdapter adapter;
+    private List<NectarBean> lists;
     private NectarPresenter presenter;
     private UserInfo userInfo;
     private AlertHelper helper;
@@ -69,27 +81,47 @@ public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnC
         exchange = findViewById(R.id.exchange);
         myNectarName = findViewById(R.id.my_nectar_name);
         myNectarNum = findViewById(R.id.my_nectar_num);
-        mTab = findViewById(R.id.my_nectar_tab_layout);
-        mVP = findViewById(R.id.my_nectar_viewpager);
+        recycler = findViewById(R.id.my_nectar_recycler);
         myNectarBack.setOnClickListener(this);
+        myNectarHelp.setOnClickListener(this);
         exchange.setOnClickListener(this);
+
         if (getIntent() != null) {
             Bundle bundle = getIntent().getExtras();
             userInfo = (UserInfo) bundle.getSerializable("userinfo");
         }
+        popupWidth = Math.min(SystemUtils.window_width, SystemUtils.window_height) * 3 / 4;
+        popupHeight = Math.max(SystemUtils.window_width, SystemUtils.window_height) * 3 / 5;
+        popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_image, null, false);
+        popupWindow = new PopupWindow(popupView, popupWidth, popupHeight, false);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                getWindowGray(false);
+            }
+        });
+    }
+
+    private void initRecycler() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recycler.setLayoutManager(layoutManager);
+        recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        recycler.setPullRefreshEnabled(false);
+        recycler.setLoadingMoreEnabled(false);
+        recycler.setAdapter(adapter);
     }
 
     @Override
     protected void initData() {
+        lists = new ArrayList<>();
+        adapter = new MyNectarAdapter(this, lists);
+        initRecycler();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         initialize();
-        fragmentAdapter = new MyNectarFragmentAdapter(getSupportFragmentManager());
-        mVP.setOffscreenPageLimit(2);
-        mVP.setAdapter(fragmentAdapter);
-        fragmentAdapter.notifyDataSetChanged();
-        mTab.setViewPager(mVP);
-        mTab.setOnPageChangeListener(this);
+
         presenter = new NectarPresenterImp(this, this);
         presenter.initViewAndData();
         presenter.getNectar();
@@ -116,7 +148,8 @@ public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnC
                 break;
             case R.id.my_nectar_help:
                 //帮助
-
+                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                getWindowGray(true);
                 break;
             case R.id.exchange:
                 //兑换
@@ -127,21 +160,6 @@ public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnC
                 startActivity(intent);
                 break;
         }
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
     }
 
     /**
@@ -156,6 +174,9 @@ public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnC
         } else if (message.what == MethodCode.EVENT_GETNECTAR) {
             MyNectar myNectar = (MyNectar) message.obj;
             myNectarNum.setText(myNectar.getNectarTotal() + "花蜜");
+            lists.clear();
+            lists.addAll(myNectar.getNectarExchanges());
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -178,51 +199,14 @@ public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnC
         }
     }
 
-    class MyNectarFragmentAdapter extends FragmentStatePagerAdapter {
-
-        public MyNectarFragmentAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            if (position >= 0 && position < 2) {
-                switch (position) {
-                    case 0:
-                        if (null == incomeFragment) {
-                            incomeFragment = IncomeFragment.instance();
-                        }
-                        return incomeFragment;
-                    case 1:
-                        if (null == outcomeFragment) {
-                            outcomeFragment = OutcomeFragment.instance();
-                        }
-                        return outcomeFragment;
-                    default:
-                        break;
-                }
-            }
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            if (position >= 0 && position < 2) {
-                switch (position) {
-                    case 0:
-                        return "收入";
-                    case 1:
-                        return "支出";
-                    default:
-                        break;
-                }
-            }
-            return null;
+    private void getWindowGray(boolean tag) {
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        if (tag) {
+            layoutParams.alpha = 0.7f;
+            getWindow().setAttributes(layoutParams);
+        } else {
+            layoutParams.alpha = 1f;
+            getWindow().setAttributes(layoutParams);
         }
     }
 }

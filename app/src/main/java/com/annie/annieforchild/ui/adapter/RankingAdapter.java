@@ -63,13 +63,16 @@ public class RankingAdapter extends RecyclerView.Adapter<RankViewHolder> {
             rankViewHolder.rank_number.setVisibility(View.VISIBLE);
             rankViewHolder.rank_number.setText(lists.get(i).getRow_number() + "");
         }
-        Glide.with(context).load(lists.get(i).getAvatar()).into(rankViewHolder.headpic);
+        Glide.with(context).load(lists.get(i).getAvatar()).error(R.drawable.icon_system_photo).into(rankViewHolder.headpic);
         rankViewHolder.name.setText(lists.get(i).getName());
+        int second = Integer.parseInt(lists.get(i).getDuration());
         int duration = Integer.parseInt(lists.get(i).getDuration()) / 60;
         if (duration > 60) {
             int hour = duration / 60;
             int min = duration % 60;
             rankViewHolder.duration.setText(hour + "小时" + min + "分钟");
+        } else if (duration == 0) {
+            rankViewHolder.duration.setText(second + "秒");
         } else {
             rankViewHolder.duration.setText(duration + "分钟");
         }

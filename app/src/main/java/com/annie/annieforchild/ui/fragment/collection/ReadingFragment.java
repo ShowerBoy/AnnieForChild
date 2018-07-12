@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
@@ -33,6 +34,7 @@ import java.util.List;
 
 public class ReadingFragment extends BaseFragment implements CollectionView {
     private XRecyclerView readingRecycler;
+    private RelativeLayout emptyLayout;
     private CollectionPresenter presenter;
     private List<Collection> lists;
     private CollectionAdapter adapter;
@@ -70,7 +72,7 @@ public class ReadingFragment extends BaseFragment implements CollectionView {
             }
         });
         lists = new ArrayList<>();
-        adapter = new CollectionAdapter(getContext(), lists, type, new OnMyItemClickListener() {
+        adapter = new CollectionAdapter(getContext(), lists, type, 1, new OnMyItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 SystemUtils.GeneralDialog(getContext(), "取消收藏")
@@ -78,7 +80,7 @@ public class ReadingFragment extends BaseFragment implements CollectionView {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                presenter.cancelCollection(type, lists.get(position).getCourseId());
+                                presenter.cancelCollection(type, lists.get(position).getAudioSource(), lists.get(position).getCourseId());
                                 dialogInterface.dismiss();
                             }
                         })
@@ -98,6 +100,7 @@ public class ReadingFragment extends BaseFragment implements CollectionView {
     @Override
     protected void initView(View view) {
         readingRecycler = view.findViewById(R.id.collection_reading_recycler);
+        emptyLayout = view.findViewById(R.id.reading_empty_layout);
     }
 
     @Override
@@ -116,6 +119,11 @@ public class ReadingFragment extends BaseFragment implements CollectionView {
             lists.clear();
             lists.addAll((List<Collection>) message.obj);
             adapter.notifyDataSetChanged();
+            if (lists.size() == 0) {
+                emptyLayout.setVisibility(View.VISIBLE);
+            } else {
+                emptyLayout.setVisibility(View.GONE);
+            }
             readingRecycler.refreshComplete();
         } else if (message.what == MethodCode.EVENT_CANCELCOLLECTION2) {
             showInfo((String) message.obj);

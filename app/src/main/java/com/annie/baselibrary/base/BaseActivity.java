@@ -1,6 +1,9 @@
 package com.annie.baselibrary.base;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -8,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 
 
 import com.annie.annieforchild.Utils.ActivityCollector;
+import com.annie.annieforchild.Utils.broadcastrecevier.MyBroadCastRecevier;
+import com.annie.annieforchild.Utils.service.MyService;
 import com.annie.baselibrary.utils.ToastHelp;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,9 +31,19 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected P mPresenter;
     private Unbinder mUnbinder;
     private boolean register;
+    private MyBroadCastRecevier myBroadCastRecevier;
 
     public void setRegister(boolean register) {
         this.register = register;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        myBroadCastRecevier = new MyBroadCastRecevier();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("countdown");
+        registerReceiver(myBroadCastRecevier, intentFilter);
     }
 
     @Override
@@ -63,6 +78,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected abstract P getPresenter();
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(myBroadCastRecevier);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         ActivityCollector.removeActivity(this);
@@ -88,5 +109,21 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         startActivity(intent);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (newConfig.fontScale != 1)//非默认值
+            getResources();
+        super.onConfigurationChanged(newConfig);
+    }
 
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        if (res.getConfiguration().fontScale != 1) {//非默认值
+            Configuration newConfig = new Configuration();
+            newConfig.setToDefaults();//设置默认
+            res.updateConfiguration(newConfig, res.getDisplayMetrics());
+        }
+        return res;
+    }
 }

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="16dp">
 
     <RelativeLayout
         android:id="@+id/rankingList_more"
@@ -20,18 +21,18 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_ranking_earphone" />
+            android:src="@drawable/icon_ranking_earphone"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/ranklist_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/rank_earphone"
             android:text="磨耳朵排行榜"
             android:textColor="@color/text_black"
-            android:textSize="16sp" />
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/ranklist_more"
@@ -39,10 +40,11 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/ranklist_title"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:drawablePadding="5dp"
-            android:drawableRight="@drawable/icon_arrow_right2"
+            android:drawableRight="@drawable/icon_arrow_right_orange"
             android:text="更多"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_orange"
             android:textSize="14sp" />
     </RelativeLayout>
 
@@ -50,6 +52,7 @@
         android:id="@+id/ranking_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -68,10 +71,10 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/second_place"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="12dp" />
+                    android:layout_marginTop="17dp" />
 
                 <ImageView
                     android:id="@+id/silver"
@@ -108,7 +111,7 @@
                 android:layout_marginTop="2dp"
                 android:drawableLeft="@drawable/icon_like_f"
                 android:gravity="bottom"
-                android:paddingEnd="2dp"/>
+                android:paddingEnd="2dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -185,10 +188,10 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/third_place"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="12dp" />
+                    android:layout_marginTop="17dp" />
 
                 <ImageView
                     android:id="@+id/bronze"
@@ -225,7 +228,7 @@
                 android:layout_marginTop="2dp"
                 android:drawableLeft="@drawable/icon_like_f"
                 android:gravity="bottom"
-                android:paddingEnd="2dp"/>
+                android:paddingEnd="2dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -243,4 +246,8 @@
             android:src="@drawable/icon_empty_data" />
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/light_gray" />
 </LinearLayout>

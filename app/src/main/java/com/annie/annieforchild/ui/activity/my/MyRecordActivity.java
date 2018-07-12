@@ -90,6 +90,10 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
                                     public void onClick(DialogInterface dialog, int which) {
                                         presenter.deleteRecording(lists.get(position).getRecordingId());
                                         if (lists.get(position).getOrigin() == 0) {
+                                            File file1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/");
+                                            if (!file1.exists()) {
+                                                file1.mkdirs();
+                                            }
                                             File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + lists.get(position).getTitle() + ".pcm");
                                             if (file.exists()) {
                                                 file.delete();
@@ -191,4 +195,11 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 getResources().getDisplayMetrics());
     }
+
+    @Override
+    protected void onPause() {
+        adapter.stopAudio();
+        super.onPause();
+    }
+
 }

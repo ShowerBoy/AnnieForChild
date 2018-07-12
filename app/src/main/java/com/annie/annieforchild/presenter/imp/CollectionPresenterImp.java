@@ -57,9 +57,9 @@ public class CollectionPresenterImp extends BasePresenterImp implements Collecti
      * @param courseId
      */
     @Override
-    public void cancelCollection(int type, int courseId) {
+    public void cancelCollection(int type, int audioSource, int courseId) {
         collectionView.showLoad();
-        interactor.cancelCollection(type, courseId);
+        interactor.cancelCollection(type, audioSource, courseId);
     }
 
     @Override

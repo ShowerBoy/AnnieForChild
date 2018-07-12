@@ -2,6 +2,8 @@ package com.annie.annieforchild.bean.grindear;
 
 import com.annie.annieforchild.bean.Banner;
 import com.annie.annieforchild.bean.RecommendBean;
+import com.annie.annieforchild.bean.book.Book;
+import com.annie.annieforchild.bean.song.Song;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +16,25 @@ public class GrindEarData implements Serializable {
     private String listening100;
     private String animation100;
     private List<Banner> bannerList;
+    private List<Song> meiriyige;
+    private List<Song> meiriyishi;
     private List<RecommendBean> recommendList;
+
+    public List<Song> getMeiriyige() {
+        return meiriyige;
+    }
+
+    public void setMeiriyige(List<Song> meiriyige) {
+        this.meiriyige = meiriyige;
+    }
+
+    public List<Song> getMeiriyishi() {
+        return meiriyishi;
+    }
+
+    public void setMeiriyishi(List<Song> meiriyishi) {
+        this.meiriyishi = meiriyishi;
+    }
 
     public String getListening100() {
         return listening100;

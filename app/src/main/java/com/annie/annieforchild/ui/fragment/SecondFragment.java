@@ -94,48 +94,57 @@ public class SecondFragment extends BaseFragment implements SecondView, View.OnC
         switch (view.getId()) {
             case R.id.lesson_schedule:
                 //我的课表
-                if (SystemUtils.tag.equals("会员")) {
-                    intent.setClass(getContext(), ScheduleActivity.class);
-                    startActivity(intent);
-                } else {
+                if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
+                    return;
                 }
-
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    return;
+                }
+                intent.setClass(getContext(), ScheduleActivity.class);
+                startActivity(intent);
                 break;
             case R.id.lesson_course:
                 //我的课程
-                if (SystemUtils.tag.equals("会员")) {
-                    intent.setClass(getContext(), CourseActivity.class);
-                    startActivity(intent);
-                } else {
+                if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
+                    return;
                 }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    return;
+                }
+                intent.setClass(getContext(), CourseActivity.class);
+                startActivity(intent);
                 break;
             case R.id.lesson_textbook:
                 //我的教材
-                if (SystemUtils.tag.equals("会员")) {
-                    intent.setClass(getContext(), MaterialActivity.class);
-                    startActivity(intent);
-                } else {
+                if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
+                    return;
                 }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    return;
+                }
+                intent.setClass(getContext(), MaterialActivity.class);
+                startActivity(intent);
                 break;
             case R.id.follow_task_layout:
                 //随堂作业
-                if (SystemUtils.tag.equals("会员")) {
-                    intent.setClass(getContext(), FollowTaskActivity.class);
-                    startActivity(intent);
-                } else {
-                    SystemUtils.toLogin(getContext());
-                }
+                intent.setClass(getContext(), FollowTaskActivity.class);
+                startActivity(intent);
                 break;
             case R.id.series_task_layout:
                 //系列作业
-                showInfo("敬请期待");
+                intent.setClass(getContext(), FollowTaskActivity.class);
+                startActivity(intent);
                 break;
             case R.id.optional_task_layout:
                 //自选作业
-                showInfo("敬请期待");
+                intent.setClass(getContext(), FollowTaskActivity.class);
+                startActivity(intent);
                 break;
         }
     }

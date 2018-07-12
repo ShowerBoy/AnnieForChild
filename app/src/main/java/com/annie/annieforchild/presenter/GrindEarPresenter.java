@@ -2,6 +2,8 @@ package com.annie.annieforchild.presenter;
 
 import android.view.View;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2018/1/18 0018.
  */
@@ -13,15 +15,15 @@ public interface GrindEarPresenter {
 
     void getMyListening();
 
-    void collectCourse(int type, int courseId, int classId);
+    void collectCourse(int type, int audioSource, int courseId, int classId);
 
-    void cancelCollection(int type, int courseId, int classId);
+    void cancelCollection(int type, int audioSource, int courseId, int classId);
 
     void getMusicClasses();
 
     void getReadingClasses();
 
-    void getMusicList(int calssId);
+    void getMusicList(int classId);
 
     void commitDuration(String[] type, String[] duration);
 
@@ -29,7 +31,7 @@ public interface GrindEarPresenter {
 
     void getBookAudioData(int bookId, int pkType, String pkUsername);
 
-    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin);
+    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername);
 
     void getPkUsers(int bookId);
 
@@ -53,7 +55,21 @@ public interface GrindEarPresenter {
 
     void getMyReading();
 
-    void commitReading(String[] type, String[] duration);
+    void commitReading(String[] type, String[] duration, int books, int words);
 
     void getDurationStatistics(int timeType, int locationType);
+
+    void getReadList(int classId);
+
+    void getQrCode();
+
+    void getAnimationList(String title, int classId);
+
+    void getSpokenClasses();
+
+    void getSpokenList(int classId);
+
+    void commitBook(List<String> lists);
+
+    void DailyPunch();
 }

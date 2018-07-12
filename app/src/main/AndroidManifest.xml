@@ -49,6 +49,21 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:name">
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.annie.annieforchild.installapkdemo"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <!--元数据-->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+
         <!--高德地图key-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
@@ -58,6 +73,7 @@
 
         <activity
             android:name=".ui.activity.login.LoginActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity
             android:name=".ui.activity.GuideActivity"
@@ -73,53 +89,107 @@
             android:screenOrientation="portrait"
             android:taskAffinity="Logout.finish"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
-        <activity android:name=".ui.activity.Details" />
-        <activity android:name=".ui.activity.my.MyMessageActivity" />
+        <activity
+            android:name=".ui.activity.Details"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.MyMessageActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.my.ExchangeActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
-        <activity android:name=".ui.activity.my.AboutActivity" />
-        <activity android:name=".ui.activity.my.HelpActivity" />
+        <activity
+            android:name=".ui.activity.my.AboutActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.HelpActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.annie.annieforchild.ui.activity.my.SettingsActivity"
+            android:screenOrientation="portrait"
             android:taskAffinity="Logout.finish"></activity>
-        <activity android:name=".ui.activity.my.ToFriendActivity" />
+        <activity
+            android:name=".ui.activity.my.ToFriendActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.grindEar.GrindEarActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".ui.activity.grindEar.SingingActivity" />
-        <activity android:name=".ui.activity.reading.ReadingActivity" />
-        <activity android:name=".ui.activity.login.RegisterActivity" />
-        <activity android:name=".ui.activity.grindEar.RankingListActivity" />
-        <activity android:name=".ui.activity.my.GradeAchievementActivity" />
-        <activity android:name=".ui.activity.my.MyCollectionActivity" />
-        <activity android:name=".ui.activity.my.ChangePhoneActivity" />
+        <activity
+            android:name=".ui.activity.grindEar.SingingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.reading.ReadingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.login.RegisterActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.grindEar.RankingListActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.GradeAchievementActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.MyCollectionActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.ChangePhoneActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.child.BindStudentActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity
             android:name=".ui.activity.child.AddChildActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity
             android:name=".ui.activity.lesson.ScheduleActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".ui.activity.lesson.AddOnlineScheActivity" />
-        <activity android:name=".ui.activity.child.ModifyChildActivity" />
-        <activity android:name=".ui.activity.my.MyNectarActivity" />
-        <activity android:name=".ui.activity.my.MyCoinActivity" />
-        <activity android:name=".ui.activity.my.MyRecordActivity" />
-        <activity android:name=".ui.activity.lesson.TotalScheduleActivity" />
+        <activity
+            android:name=".ui.activity.lesson.AddOnlineScheActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.child.ModifyChildActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.MyNectarActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.MyCoinActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.MyRecordActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.lesson.TotalScheduleActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.grindEar.ListenSongActivity"
+            android:exported="true"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".ui.activity.grindEar.MyGrindEarActivity" />
-        <activity android:name=".ui.activity.lesson.CourseActivity" />
-        <activity android:name=".ui.activity.grindEar.ExerciseTestActivity" />
-        <activity android:name=".ui.activity.mains.TodayClockInActivity" />
+        <activity
+            android:name=".ui.activity.grindEar.MyGrindEarActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.lesson.CourseActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.grindEar.ExerciseTestActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.mains.TodayClockInActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.activity.my.WebActivity" />
-        <activity android:name=".ui.activity.login.ModifyPsdActivity" />
-        <activity android:name=".ui.activity.lesson.FollowTaskActivity" />
-        <activity android:name=".ui.activity.lesson.SongTaskActivity" />
+        <activity
+            android:name=".ui.activity.login.ModifyPsdActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.lesson.FollowTaskActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.lesson.SongTaskActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.pk.ExerciseActivity"
             android:screenOrientation="portrait"></activity>
@@ -142,14 +212,55 @@
         <activity
             android:name=".ui.activity.grindEar.InputActivity"
             android:screenOrientation="user"></activity>
-        <activity android:name=".ui.activity.GlobalSearchActivity" />
-        <activity android:name=".ui.activity.mains.EventActivity" />
-        <activity android:name=".ui.activity.mains.SquareActivity" />
-        <activity android:name=".ui.activity.mains.RankingActivity" />
-        <activity android:name=".ui.activity.reading.MyReadingActivity" />
-        <activity android:name=".ui.activity.my.MyExchangeActivity" />
-        <activity android:name=".ui.activity.grindEar.MyLevelActivity" />
-        <activity android:name=".ui.fragment.spoken.SpokenActivity" />
+        <activity
+            android:name=".ui.activity.GlobalSearchActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.mains.EventActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.mains.SquareActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.mains.RankingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.reading.MyReadingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.MyExchangeActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.grindEar.MyLevelActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.fragment.spoken.SpokenActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.grindEar.MeiriyiActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.QrCodeActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.VideoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".ui.activity.LeadActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.IntroductionActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.grindEar.InputBookActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.grindEar.InputSuccessActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.grindEar.CommitBookActivity"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name="com.annie.annieforchild.wxapi.WXEntryActivity"

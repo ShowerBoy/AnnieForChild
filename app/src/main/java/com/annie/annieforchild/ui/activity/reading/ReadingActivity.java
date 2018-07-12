@@ -13,10 +13,13 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.ReadingData;
+import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.grindEar.ListenSongActivity;
+import com.annie.annieforchild.ui.activity.grindEar.MeiriyiActivity;
 import com.annie.annieforchild.ui.activity.grindEar.MyGrindEarActivity;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.annieforchild.view.ReadingView;
@@ -47,6 +50,7 @@ public class ReadingActivity extends BaseActivity implements View.OnClickListene
     private List<SongClassify> feixugouClassifyList;
     private List<SongClassify> zhangjieClassifyList;
     private List<SongClassify> readClassifyList;
+    private List<Song> meiriyiduList;
     private AlertHelper helper;
     private Dialog dialog;
 
@@ -82,6 +86,7 @@ public class ReadingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
+        meiriyiduList = new ArrayList<>();
         huibenClassifyList = new ArrayList<>();
         xugouClassifyList = new ArrayList<>();
         feixugouClassifyList = new ArrayList<>();
@@ -109,9 +114,13 @@ public class ReadingActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.huiben_layout:
-                //儿歌绘本
+                //绘本
                 if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
                     return;
                 }
                 intent.setClass(this, ListenSongActivity.class);
@@ -122,9 +131,13 @@ public class ReadingActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.xugou_layout:
-                //虚构故事
+                //分级读物
                 if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
                     return;
                 }
                 intent.setClass(this, ListenSongActivity.class);
@@ -135,9 +148,13 @@ public class ReadingActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.feixugou_layout:
-                //非虚构
+                //桥梁书
                 if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
                     return;
                 }
                 intent.setClass(this, ListenSongActivity.class);
@@ -148,9 +165,13 @@ public class ReadingActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.zhangjie_layout:
-                //章节图书
+                //章节书
                 if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
                     return;
                 }
                 intent.setClass(this, ListenSongActivity.class);
@@ -166,6 +187,10 @@ public class ReadingActivity extends BaseActivity implements View.OnClickListene
                     SystemUtils.toLogin(this);
                     return;
                 }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
+                    return;
+                }
                 intent.setClass(this, MyReadingActivity.class);
                 startActivity(intent);
                 break;
@@ -175,15 +200,32 @@ public class ReadingActivity extends BaseActivity implements View.OnClickListene
                     SystemUtils.toLogin(this);
                     return;
                 }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
+                    return;
+                }
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle5 = new Bundle();
-                bundle5.putInt("type", 6);
+                bundle5.putInt("type", 10);
                 bundle5.putSerializable("ClassifyList", (Serializable) readClassifyList);
                 intent.putExtras(bundle5);
                 startActivity(intent);
                 break;
             case R.id.meiriyidu:
-
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
+                    return;
+                }
+                intent.setClass(this, MeiriyiActivity.class);
+                Bundle bundle6 = new Bundle();
+                bundle6.putString("title", "每日一读");
+                bundle6.putSerializable("list", (Serializable) meiriyiduList);
+                intent.putExtras(bundle6);
+                startActivity(intent);
                 break;
         }
     }
@@ -210,6 +252,10 @@ public class ReadingActivity extends BaseActivity implements View.OnClickListene
         } else if (message.what == MethodCode.EVENT_GETMUSICCLASSES10) {
             readClassifyList.clear();
             readClassifyList.addAll((List<SongClassify>) message.obj);
+        } else if (message.what == MethodCode.EVENT_GETREADING) {
+            ReadingData readingData = (ReadingData) message.obj;
+            meiriyiduList.clear();
+            meiriyiduList.addAll(readingData.getMeiriyidu());
         }
     }
 

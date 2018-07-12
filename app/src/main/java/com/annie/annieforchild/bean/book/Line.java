@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Line implements Serializable {
     private String enTitle;
     private String cnTitle;
-    private int page;
+    private String pageid;
     private int lineId;
     private float score;
     private int finished;
@@ -41,12 +41,12 @@ public class Line implements Serializable {
         this.cnTitle = cnTitle;
     }
 
-    public int getPage() {
-        return page;
+    public String getPageid() {
+        return pageid;
     }
 
-    public void setPage(int page) {
-        this.page = page;
+    public void setPageid(String pageid) {
+        this.pageid = pageid;
     }
 
     public int getLineId() {

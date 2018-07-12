@@ -47,6 +47,7 @@
             android:id="@+id/tingdonghua_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:padding="16dp">
 
             <ImageView
@@ -62,7 +63,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="16dp"
                 android:layout_toEndOf="@+id/input_tingdonghua"
-                android:text="听动画"
+                android:text="看动画"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
 
@@ -117,7 +118,8 @@
             android:id="@+id/jiqiren_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/input_jiqiren"
@@ -161,6 +163,7 @@
                 android:src="@drawable/icon_diandubi" />
 
             <TextView
+                android:id="@+id/diandubi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

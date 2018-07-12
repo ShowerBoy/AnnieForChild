@@ -70,12 +70,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChallengeActivity extends BaseActivity implements View.OnClickListener, SongView, PlatformActionListener, PopupWindow.OnDismissListener, OnCountFinishListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     private CircleProgressBar circleProgressBar;
-    private CircleImageView challengeImage;
+    private CircleImageView challengeImage, character1;
     private RecyclerView challengeList;
     private RelativeLayout pkResultLayout;
-    private ImageView challengeSpeak, pengyouquan, weixin, qq, qqzone, close, star1, star2, star3, star4, star5;
-    private Button tryAgain;
-    private FrameLayout frameLayout, continueBtn;
+    private ImageView challengeSpeak, pengyouquan, weixin, qq, qqzone, close, close2, star1, star2, star3, star4, star5;
+    private Button tryAgain, tryAgain2;
+    private FrameLayout frameLayout;
     private TextView quit;
     private Book book;
     private List<Line> lists;
@@ -92,8 +92,7 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
     private float score; //得分
     private int currentPage = 1; //当前页码
     private int currentLine = 1; //当前行号
-    private int totalLines; //当前页总行数
-    private int totalPages; //总页数
+    private int totalLines = 0; //当前页总行数
     private GrindEarPresenter presenter;
     private MediaPlayer mediaPlayer;
     private int width, height;
@@ -104,12 +103,14 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
     private int record_time = 0; //录音时长
     Runnable runnable;
     private Handler handler;
-    private PopupWindow popupWindow;
-    private View popupView;
+    private PopupWindow popupWindow, popupWindow2, popupWindow3;
+    private View popupView, popupView2, popupView3;
     private int popupWidth, popupHeight;
     private float star;
     private ShareUtils shareUtils;
     private int audioType, audioSource;
+    private boolean isEnd = false;
+    private int round = 0; //轮数
 
     {
         setRegister(true);
@@ -128,10 +129,8 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
         challengeImage = findViewById(R.id.challenge_image);
         challengeList = findViewById(R.id.challenge_list);
         quit = findViewById(R.id.challenge_quit);
-        continueBtn = findViewById(R.id.continue_btn);
         circleProgressBar.setOnClickListener(this);
         quit.setOnClickListener(this);
-        continueBtn.setOnClickListener(this);
         initTalkBtn();
 
         intent = getIntent();
@@ -156,12 +155,18 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
         popupWidth = Math.min(SystemUtils.window_width, SystemUtils.window_height) * 3 / 4;
         popupHeight = Math.max(SystemUtils.window_width, SystemUtils.window_height) * 3 / 5;
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_pk_win, null, false);
+        popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_pk_lose, null, false);
+        popupView3 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_change, null, false);
+        character1 = popupView3.findViewById(R.id.character_1);
+        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(character1);
         pengyouquan = popupView.findViewById(R.id.share_pengyouquan);
         weixin = popupView.findViewById(R.id.share_weixin);
         qq = popupView.findViewById(R.id.share_qq);
         qqzone = popupView.findViewById(R.id.share_qqzone);
         close = popupView.findViewById(R.id.close);
+        close2 = popupView2.findViewById(R.id.close2);
         tryAgain = popupView.findViewById(R.id.try_again);
+        tryAgain2 = popupView2.findViewById(R.id.try_again2);
         star1 = popupView.findViewById(R.id.pkstar_1);
         star2 = popupView.findViewById(R.id.pkstar_2);
         star3 = popupView.findViewById(R.id.pkstar_3);
@@ -169,15 +174,26 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
         star5 = popupView.findViewById(R.id.pkstar_5);
         pkResultLayout = popupView.findViewById(R.id.pkResult_layout);
         popupWindow = new PopupWindow(popupView, popupWidth, popupHeight, false);
+        popupWindow2 = new PopupWindow(popupView2, popupWidth, popupHeight, false);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.setOutsideTouchable(false);
         popupWindow.setOnDismissListener(this);
+        popupWindow2.setBackgroundDrawable(new ColorDrawable());
+        popupWindow2.setOutsideTouchable(false);
+        popupWindow2.setOnDismissListener(this);
         pengyouquan.setOnClickListener(this);
         weixin.setOnClickListener(this);
         qq.setOnClickListener(this);
         qqzone.setOnClickListener(this);
         close.setOnClickListener(this);
+        close2.setOnClickListener(this);
         tryAgain.setOnClickListener(this);
+        tryAgain2.setOnClickListener(this);
+        //
+        popupWindow3 = new PopupWindow(popupView3, popupWidth, popupHeight, false);
+        popupWindow3.setBackgroundDrawable(new ColorDrawable());
+        popupWindow3.setOutsideTouchable(false);
+        popupWindow3.setOnDismissListener(this);
     }
 
     private void initTalkBtn() {
@@ -208,21 +224,54 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
                 if (currentLine <= totalLines) {
                     refresh();
                 } else {
-                    currentLine = 1;
-                    if (currentPage == totalPages) {
-                        //挑战结束
-                        presenter.getPkResult(bookId, "", 1);
+                    if (round == 0) {
+                        round++;
+                        //TODO:互换角色
+                        popupWindow3.showAtLocation(popupView3, Gravity.CENTER, 0, 0);
+                        getWindowGray(true);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                popupWindow3.dismiss();
+                                getWindowGray(false);
+                                Round2();
+                            }
+                        }, 2000);
                     } else {
-                        continueBtn.setVisibility(View.VISIBLE);
+                        //挑战结束
+                        isEnd = true;
+                        round = 0;
                     }
+//                    currentLine = 1;
+//                    if (currentPage == totalPages) {
+
+
+//                        presenter.getPkResult(bookId, "", 1);
+//                    } else {
+//                        continueBtn.setVisibility(View.VISIBLE);
+//                    }
                 }
             }
         };
     }
 
+    private void Round2() {
+        currentLine = 1;
+        isClick = true;
+        for (int i = 0; i < lists.size(); i++) {
+            lists.get(i).setSelect(false);
+        }
+        lists.get(currentLine - 1).setSelect(true);
+//        challengeList.scrollToPosition(currentLine - 1);
+        challengeList.smoothScrollToPosition(currentLine - 1);
+        adapter.notifyDataSetChanged();
+        challengeSpeak.setImageResource(R.drawable.icon_speak_big);
+//        play(lists.get(currentLine - 1).getResourceUrl());
+    }
+
     @Override
     protected void initData() {
-        shareUtils = new ShareUtils(this);
+        shareUtils = new ShareUtils(this, this);
         lists = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
@@ -269,12 +318,30 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
                         if (currentLine <= totalLines) {
                             refresh();
                         } else {
-                            currentLine = 1;
-                            if (currentPage == totalPages) {
-                                presenter.getPkResult(bookId, "", 1);
+//                            currentLine = 1;
+//                            if (currentPage == totalPages) {
+                            if (round == 0) {
+                                round++;
+                                //TODO:互换角色
+                                popupWindow3.showAtLocation(popupView3, Gravity.CENTER, 0, 0);
+                                getWindowGray(true);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        popupWindow3.dismiss();
+                                        getWindowGray(false);
+                                        Round2();
+                                    }
+                                }, 2000);
                             } else {
-                                continueBtn.setVisibility(View.VISIBLE);
+                                //挑战结束
+                                isEnd = true;
+                                round = 0;
                             }
+//                                presenter.getPkResult(bookId, "", 1);
+//                            } else {
+//                                continueBtn.setVisibility(View.VISIBLE);
+//                            }
                         }
                     } else {
                         challengeSpeak.setImageResource(R.drawable.icon_stop_big);
@@ -289,33 +356,39 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.continue_btn:
-                currentPage++;
-                if (currentPage > totalPages) {
-                    showInfo("结束");
-                } else {
-                    continueBtn.setVisibility(View.GONE);
-                    nextPage();
-                }
+//                currentPage++;
+//                if (currentPage > totalPages) {
+//                    showInfo("结束");
+//                } else {
+//                    continueBtn.setVisibility(View.GONE);
+//                    nextPage();
+//                }
                 break;
             case R.id.share_pengyouquan:
-                shareUtils.shareWechatMoments("我得到了更高的成绩，你也一起来吧", "https://demoapi.anniekids.net/api/searchApi/index");
+                shareUtils.shareWechatMoments("我得到了更高的成绩，你也一起来吧", "安妮花教育", "https://demoapi.anniekids.net/api/searchApi/index");
                 break;
             case R.id.share_weixin:
-                shareUtils.shareWechat("我得到了更高的成绩，你也一起来吧", "https://demoapi.anniekids.net/api/searchApi/index");
+                shareUtils.shareWechat("我得到了更高的成绩，你也一起来吧", "安妮花教育", "https://demoapi.anniekids.net/api/searchApi/index");
                 break;
             case R.id.share_qq:
-                shareUtils.shareQQ("我得到了更高的成绩，你也一起来吧", "https://demoapi.anniekids.net/api/searchApi/index");
+                shareUtils.shareQQ("我得到了更高的成绩，你也一起来吧", "安妮花教育", "https://demoapi.anniekids.net/api/searchApi/index");
                 break;
             case R.id.share_qqzone:
-                shareUtils.shareQZone("我得到了更高的成绩，你也一起来吧", "https://demoapi.anniekids.net/api/searchApi/index");
+                shareUtils.shareQZone("我得到了更高的成绩，你也一起来吧", "安妮花教育", "https://demoapi.anniekids.net/api/searchApi/index");
                 break;
             case R.id.close:
                 popupWindow.dismiss();
+                break;
+            case R.id.close2:
+                popupWindow2.dismiss();
                 break;
             case R.id.try_again:
                 Intent intent = new Intent(this, ChallengeActivity.class);
                 intent.putExtra("bookId", bookId);
                 startActivity(intent);
+                finish();
+                break;
+            case R.id.try_again2:
                 finish();
                 break;
         }
@@ -348,21 +421,33 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
         if (message.what == MethodCode.EVENT_PK_CHALLENGE) {
             book = (Book) message.obj;
             lists.clear();
-            lists.addAll(book.getPageContent().get(currentPage - 1).getLineContent());
+            totalLines = 0;
+            for (int i = 0; i < book.getPageContent().size(); i++) {
+                lists.addAll(book.getPageContent().get(i).getLineContent());
+                totalLines = totalLines + book.getPageContent().get(i).getLineContent().size();
+            }
+
+//            lists.addAll(book.getPageContent().get(currentPage - 1).getLineContent());
             lists.get(0).setSelect(true);
-            totalLines = lists.size();
-            totalPages = book.getBookTotalPages();
+
+//            totalLines = lists.size();
+//            totalPages = book.getBookTotalPages();
             adapter.notifyDataSetChanged();
             countDownDialog.show();
         } else if (message.what == MethodCode.EVENT_GETPKRESULT) {
             PkResult pkResult = (PkResult) message.obj;
             initPopupData(pkResult);
+        } else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
+            if (isEnd) {
+                isEnd = false;
+                presenter.getPkResult(bookId, "", 1);
+            }
         }
     }
 
     private void initPopupData(PkResult pkResult) {
-        float a = Float.parseFloat(pkResult.getMyScore());
-        float b = Float.parseFloat(pkResult.getPkUserScore());
+        float a = Float.parseFloat(pkResult.getMyscore());
+        float b = Float.parseFloat(pkResult.getPkscore());
         star = a / b * 5f;
 
         BigDecimal bigDecimal = new BigDecimal(star);
@@ -455,7 +540,11 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
             star4.setImageResource(R.drawable.icon_pkstar_t);
             star5.setImageResource(R.drawable.icon_pkstar_t);
         }
-        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+        if (pkResult.getResult() == 0) {
+            popupWindow2.showAtLocation(popupView2, Gravity.CENTER, 0, 0);
+        } else {
+            popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+        }
         getWindowGray(true);
     }
 
@@ -464,6 +553,8 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
             lists.get(i).setSelect(false);
         }
         lists.get(currentLine - 1).setSelect(true);
+//        challengeList.scrollToPosition(currentLine - 1);
+        challengeList.smoothScrollToPosition(currentLine - 1);
         adapter.notifyDataSetChanged();
         play(lists.get(currentLine - 1).getResourceUrl());
     }
@@ -520,12 +611,12 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
                             score = finalResult.total_score;
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-                            presenter.uploadAudioResource(bookId, currentPage, audioType, audioSource, currentLine, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 1);
+                            presenter.uploadAudioResource(bookId, currentPage, audioType, audioSource, currentLine, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 1, "");
                         } else {
 //                        showInfo("解析结果为空");
                         }
                     }
-                    isClick = false;
+//                    isClick = false;
                 }
             }
 
@@ -596,7 +687,40 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onCompletion(MediaPlayer mp) {
         isClick = true;
-        challengeSpeak.setImageResource(R.drawable.icon_speak_big);
+        currentLine++;
+        if (currentLine > totalLines) {
+            if (round == 0) {
+                round++;
+                //TODO:互换角色
+                popupWindow3.showAtLocation(popupView3, Gravity.CENTER, 0, 0);
+                getWindowGray(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        popupWindow3.dismiss();
+                        getWindowGray(false);
+                        Round2();
+                    }
+                }, 2000);
+            } else {
+                //挑战结束
+                isEnd = true;
+                round = 0;
+                if (isEnd) {
+                    isEnd = false;
+                    presenter.getPkResult(bookId, "", 1);
+                }
+            }
+        } else {
+            for (int i = 0; i < lists.size(); i++) {
+                lists.get(i).setSelect(false);
+            }
+            lists.get(currentLine - 1).setSelect(true);
+//            challengeList.scrollToPosition(currentLine - 1);
+            challengeList.smoothScrollToPosition(currentLine - 1);
+            adapter.notifyDataSetChanged();
+            challengeSpeak.setImageResource(R.drawable.icon_speak_big);
+        }
     }
 
     @Override
@@ -631,7 +755,9 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
     public void onDismiss() {
         getWindowGray(false);
         isPlay = false;
-        finish();
+        if (isEnd) {
+            finish();
+        }
     }
 
     @Override

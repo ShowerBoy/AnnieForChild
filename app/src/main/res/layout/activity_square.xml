@@ -31,6 +31,7 @@
                 android:textColor="@color/text_black"
                 android:textSize="20sp" />
         </RelativeLayout>
+
         <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
             android:id="@+id/square_tab_layout"
             style="@style/pagertab_style"
@@ -41,6 +42,11 @@
             android:fillViewport="false">
 
         </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/light_gray" />
 
         <com.annie.annieforchild.Utils.views.APSTSViewPager
             android:id="@+id/square_viewpager"

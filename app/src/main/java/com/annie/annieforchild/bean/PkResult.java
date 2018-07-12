@@ -5,22 +5,31 @@ package com.annie.annieforchild.bean;
  */
 
 public class PkResult {
-    private String myScore;
-    private String pkUserScore;
+    private int result;
+    private String myscore;
+    private String pkscore;
 
-    public String getMyScore() {
-        return myScore;
+    public int getResult() {
+        return result;
     }
 
-    public void setMyScore(String myScore) {
-        this.myScore = myScore;
+    public void setResult(int result) {
+        this.result = result;
     }
 
-    public String getPkUserScore() {
-        return pkUserScore;
+    public String getMyscore() {
+        return myscore;
     }
 
-    public void setPkUserScore(String pkUserScore) {
-        this.pkUserScore = pkUserScore;
+    public void setMyscore(String myscore) {
+        this.myscore = myscore;
+    }
+
+    public String getPkscore() {
+        return pkscore;
+    }
+
+    public void setPkscore(String pkscore) {
+        this.pkscore = pkscore;
     }
 }

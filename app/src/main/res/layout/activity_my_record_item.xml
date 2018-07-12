@@ -9,9 +9,11 @@
         android:id="@+id/my_record_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="录音内容"
         android:textColor="@color/text_black"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/my_record_date"
@@ -27,8 +29,10 @@
         android:id="@+id/my_record_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/my_record_content"
         android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/my_record_content"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="(15秒）"
         android:textColor="@color/text_black"
         android:textSize="16sp" />

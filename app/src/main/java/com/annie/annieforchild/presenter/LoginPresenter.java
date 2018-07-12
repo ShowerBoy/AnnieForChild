@@ -9,4 +9,7 @@ public interface LoginPresenter {
     void login(String phone, String password, String loginTime);
 
     void globalSearch(String keyword);
+
+    void checkUpdate(int versionCode, String versionName);
+
 }

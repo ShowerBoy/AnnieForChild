@@ -24,7 +24,7 @@ import java.text.DecimalFormat;
 
 public class ThirdFragment extends BaseFragment implements View.OnClickListener {
     private String tag;
-    private RelativeLayout centerQuaryLayout;
+    private RelativeLayout centerQuaryLayout, mainpageLayout;
 
     public ThirdFragment() {
     }
@@ -40,7 +40,9 @@ public class ThirdFragment extends BaseFragment implements View.OnClickListener 
     @Override
     protected void initView(View view) {
         centerQuaryLayout = view.findViewById(R.id.center_quary_layout);
+        mainpageLayout = view.findViewById(R.id.main_page_layout);
         centerQuaryLayout.setOnClickListener(this);
+        mainpageLayout.setOnClickListener(this);
     }
 
     @Override
@@ -58,7 +60,15 @@ public class ThirdFragment extends BaseFragment implements View.OnClickListener 
                 Intent intent = new Intent(getContext(), WebActivity.class);
 //                intent.putExtra("url", SystemUtils.mainUrl + "Signin/jump?lng=" + lng + "&lat=" + lat);
                 intent.putExtra("url", SystemUtils.mainUrl + "Signin/CenterSearch?location=" + lng + "," + lat);
+                intent.putExtra("title", "中心查询");
                 getContext().startActivity(intent);
+                break;
+            case R.id.main_page_layout:
+                Intent intent1 = new Intent();
+                intent1.setClass(getContext(), WebActivity.class);
+                intent1.putExtra("url", "http://m.anniekids.org/");
+                intent1.putExtra("title", "手机官网");
+                startActivity(intent1);
                 break;
         }
     }
@@ -77,12 +87,13 @@ public class ThirdFragment extends BaseFragment implements View.OnClickListener 
                 return getLngAndLatWithNetwork();
             }
         } else {    //从网络获取经纬度
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
-            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if (location != null) {
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-            }
+//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
+//            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//            if (location != null) {
+//                latitude = location.getLatitude();
+//                longitude = location.getLongitude();
+//            }
+            return getLngAndLatWithNetwork();
         }
         return new DecimalFormat("0.000000").format(longitude) + "," + new DecimalFormat("0.000000").format(latitude);
     }
@@ -98,6 +109,10 @@ public class ThirdFragment extends BaseFragment implements View.OnClickListener 
             latitude = location.getLatitude();
             longitude = location.getLongitude();
         }
+        if (longitude == 0 && latitude == 0) {
+            longitude = 116.38;
+            latitude = 39.90;
+        }
         return longitude + "," + latitude;
     }
 
@@ -109,6 +124,7 @@ public class ThirdFragment extends BaseFragment implements View.OnClickListener 
         public void onStatusChanged(String provider, int status, Bundle extras) {
 
         }
+
 
         // Provider被enable时触发此函数，比如GPS被打开
         @Override

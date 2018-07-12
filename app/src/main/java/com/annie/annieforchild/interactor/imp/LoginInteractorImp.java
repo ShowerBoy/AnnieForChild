@@ -9,6 +9,7 @@ import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.bean.search.BookClassify;
+import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.interactor.LoginInteractor;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
@@ -32,27 +33,9 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         this.listener = listener;
     }
 
-//    @Override
-//    public void getMainAddress(String deviceId) {
-//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl, RequestMethod.POST);
-//        request.add("bitcode", SystemUtils.getVersionCode(context));
-//        request.add("system", "android");
-//        request.add("deviceId", deviceId);
-//        request.add("username", "");
-//        request.add("lastlogintime", "");
-//        request.setConnectTimeout(3000);
-//        addQueue(MethodCode.EVENT_MAIN, request);
-//        startQueue();
-//    }
-
     @Override
     public void login(String phone, String password, String loginTime) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.LOGIN, RequestMethod.POST);
-//        request.add("bitcode", SystemUtils.getVersionCode(context));
-//        request.add("system", "android");
-//        request.add("deviceId", SystemUtils.sn);
-//        request.add("username", SystemUtils.defaultUsername);
-//        request.add("lastlogintime", loginTime);
         request.add("phone", phone);
         request.add("password", password);
         addQueue(MethodCode.EVENT_LOGIN, request);
@@ -65,6 +48,16 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         request.add("token", SystemUtils.token);
         request.add("keyword", keyword);
         addQueue(MethodCode.EVENT_GLOBALSEARCH, request);
+        startQueue();
+    }
+
+    @Override
+    public void checkUpdate(int versionCode, String versionName) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.CHECKUPDATE, RequestMethod.POST);
+        request.add("versionCode", versionCode);
+        request.add("versionName", versionName);
+        request.add("type", "android");
+        addQueue(MethodCode.EVENT_CHECKUPDATE, request);
         startQueue();
     }
 
@@ -99,6 +92,10 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
                 String data = jsonObject.getString(MethodCode.DATA);
                 List<BookClassify> lists = JSON.parseArray(data, BookClassify.class);
                 listener.Success(what, lists);
+            } else if (what == MethodCode.EVENT_CHECKUPDATE) {
+                String data = jsonObject.getString(MethodCode.DATA);
+                UpdateBean updateBean = JSON.parseObject(data, UpdateBean.class);
+                listener.Success(what, updateBean);
             }
         }
     }

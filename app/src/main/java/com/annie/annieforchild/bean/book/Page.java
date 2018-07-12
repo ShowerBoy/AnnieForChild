@@ -8,7 +8,16 @@ import java.util.List;
 
 public class Page {
     private int page;
+    private String pageImage;
     private List<Line> lineContent;
+
+    public String getPageImage() {
+        return pageImage;
+    }
+
+    public void setPageImage(String pageImage) {
+        this.pageImage = pageImage;
+    }
 
     public int getPage() {
         return page;

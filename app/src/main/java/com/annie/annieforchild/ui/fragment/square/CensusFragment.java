@@ -180,7 +180,7 @@ public class CensusFragment extends BaseFragment implements SongView {
                 } else if (locationType == 4) {
                     axisX.setName("全国平均");
                 }
-                axisY.setName("单位时间：小时");
+                axisY.setName("单位时间：分钟");
             }
             axisX.setTextColor(R.color.black);
             axisY.setTextColor(R.color.black);
@@ -231,12 +231,18 @@ public class CensusFragment extends BaseFragment implements SongView {
         if (message.what == MethodCode.EVENT_GETDURATIONSTATISTICS) {
             DurationStatis durationStatis = (DurationStatis) message.obj;
             refresh(durationStatis);
-            grindFloat = grindhour + Float.parseFloat(format.format((float) (grindmin / 60)));
-            grindAveFloat = grindavehour + Float.parseFloat(format.format((float) (grindavemin / 60)));
-            readingFloat = readinghour + Float.parseFloat(format.format((float) (readingmin / 60)));
-            readingAveFloat = readingavehour + Float.parseFloat(format.format((float) (readingavemin / 60)));
-            spokenFloat = spokenhour + Float.parseFloat(format.format((float) (spokenmin / 60)));
-            spokenAveFloat = spokenavehour + Float.parseFloat(format.format((float) (spokenavemin / 60)));
+//            grindFloat = grindhour + Float.parseFloat(format.format((float) (grindmin / 60)));
+//            grindAveFloat = grindavehour + Float.parseFloat(format.format((float) (grindavemin / 60)));
+//            readingFloat = readinghour + Float.parseFloat(format.format((float) (readingmin / 60)));
+//            readingAveFloat = readingavehour + Float.parseFloat(format.format((float) (readingavemin / 60)));
+//            spokenFloat = spokenhour + Float.parseFloat(format.format((float) (spokenmin / 60)));
+//            spokenAveFloat = spokenavehour + Float.parseFloat(format.format((float) (spokenavemin / 60)));
+            grindFloat = grindhour * 60 + grindmin;
+            grindAveFloat = grindavehour * 60 + grindavemin;
+            readingFloat = readinghour * 60 + readingmin;
+            readingAveFloat = readingavehour * 60 + readingavemin;
+            spokenFloat = spokenhour * 60 + spokenmin;
+            spokenAveFloat = spokenavehour * 60 + spokenavemin;
             generateDefaultData();
         }
     }

@@ -6,13 +6,13 @@ package com.annie.annieforchild.bean.tongzhi;
  */
 
 public class Msgs {
-    String contents;
+    String title;
 
-    public String getContents() {
-        return contents;
+    public String getTitle() {
+        return title;
     }
 
-    public void setContents(String contents) {
-        this.contents = contents;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

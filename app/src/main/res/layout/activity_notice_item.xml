@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="95dp"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginTop="15dp"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp"
-    android:background="@drawable/relativelayout_back">
+    android:layout_marginTop="10dp"
+    android:background="@drawable/relativelayout_back"
+    android:paddingEnd="5dp"
+    android:paddingStart="5dp"
+    android:paddingBottom="10dp">
 
     <TextView
         android:id="@+id/notice_type"
         android:layout_width="50dp"
         android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/icon_green_back"
         android:gravity="center"
-        android:background="@drawable/icon_back"
-        android:layout_marginTop="15dp"
         android:text="系统"
-        android:textSize="12sp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/notice_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/notice_type"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/notice_type"
-        android:text="欢迎登陆安妮花"
-        android:maxEms="8"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/notice_type"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:singleLine="true"
+        android:text="欢迎登陆安妮花"
         android:textColor="@color/text_black"
         android:textSize="16sp" />
 
@@ -37,8 +41,9 @@
         android:id="@+id/notice_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/notice_title"
+        android:layout_alignBottom="@+id/notice_type"
+        android:layout_toEndOf="@+id/notice_type"
+        android:layout_marginStart="8dp"
         android:text="2018-02-27 10:00"
         android:textColor="@color/text_color"
         android:textSize="12sp" />
@@ -47,11 +52,10 @@
         android:id="@+id/notice_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/notice_type"
+        android:layout_alignStart="@+id/notice_title"
         android:layout_below="@+id/notice_title"
         android:layout_marginTop="10dp"
-        android:textSize="14sp"
-        android:textColor="@color/text_black"
         android:text="家长你好，欢迎注册安妮花，有何质问可查看帮助或者联系客服，客服电话:400-888-9988!"
-        android:maxLines="2"/>
+        android:textColor="@color/text_black"
+        android:textSize="14sp" />
 </RelativeLayout>

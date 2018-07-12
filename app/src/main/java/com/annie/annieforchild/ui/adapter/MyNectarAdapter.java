@@ -42,7 +42,11 @@ public class MyNectarAdapter extends RecyclerView.Adapter<MyNectarViewHolder> {
             if (second >= 60) {
                 holder.incomeTime.setText("（" + second / 60 + "分钟）");
             } else {
-                holder.incomeTime.setText("（" + second + "秒）");
+                if (second != 0) {
+                    holder.incomeTime.setText("（" + second + "秒）");
+                } else {
+                    holder.incomeTime.setText("");
+                }
             }
         } else {
             holder.incomeTime.setText("");

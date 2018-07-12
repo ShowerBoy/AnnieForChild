@@ -2,8 +2,12 @@ package com.annie.annieforchild.ui.activity.child;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,6 +24,7 @@ import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.presenter.ChildPresenter;
 import com.annie.annieforchild.presenter.imp.ChildPresenterImp;
 import com.annie.annieforchild.ui.activity.CameraActivity;
+import com.annie.annieforchild.ui.activity.my.QrCodeActivity;
 import com.annie.annieforchild.view.AddChildView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -93,6 +98,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
         detailQrcodeLayout.setOnClickListener(this);
         modifyChildBack.setOnClickListener(this);
         edit.setOnClickListener(this);
+
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
     }
@@ -164,19 +170,51 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
             case R.id.detail_name_layout:
                 if (isEdit) {
                     editText = new EditText(this);
-                    editText.setText(userInfo.getName());
+                    editText.setText(childName);
+                    editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
+                    editText.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            String strs = editText.getText().toString();
+                            String str = SystemUtils.stringFilter(strs.toString());
+                            if (!strs.equals(str)) {
+                                editText.setText(str);
+                                editText.setSelection(str.length());
+
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    });
+//                    SystemUtils.setEditTextInhibitInputSpeChat(editText);
                     SystemUtils.GeneralDialog(this, "修改姓名")
                             .setIcon(R.mipmap.ic_launcher_round)
                             .setView(editText)
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (editText.getText().toString() == null || editText.getText().toString().trim().length() == 0) {
+                                        SystemUtils.show(ModifyChildActivity.this, "姓名不得为空");
+                                        dialogInterface.dismiss();
+                                        return;
+                                    }
                                     childName = editText.getText().toString();
                                     detailName.setText(childName);
 //                                presenter.motifyChild(userInfo.getAvatar(), childName, userInfo.getSex(), userInfo.getBirthday());
                                     dialogInterface.dismiss();
                                 }
+
                             })
+
+
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -219,7 +257,8 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
                 }
                 break;
             case R.id.detail_qrcode_layout:
-
+                Intent intent = new Intent(this, QrCodeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.edit:
                 if (isEdit) {

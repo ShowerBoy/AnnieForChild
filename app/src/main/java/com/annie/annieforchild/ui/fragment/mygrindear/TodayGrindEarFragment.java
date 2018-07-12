@@ -1,8 +1,10 @@
 package com.annie.annieforchild.ui.fragment.mygrindear;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
@@ -11,6 +13,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.GrindTime;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
+import com.annie.annieforchild.ui.activity.grindEar.InputActivity;
 import com.annie.baselibrary.base.BaseFragment;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -23,8 +26,9 @@ import java.util.List;
  * Created by wanglei on 2018/4/11.
  */
 
-public class TodayGrindEarFragment extends BaseFragment {
+public class TodayGrindEarFragment extends BaseFragment implements View.OnClickListener {
     private TextView tingerge, tingshige, tingduihua, tingduwu, tingdonghua, tingmobao, jiqiren, diandubi, qita, total;
+    private RelativeLayout tingmobaoLayout, diandubiLayout, waibushebeiLayout;
     private List<GrindTime> lists;
     MyGrindEarBean bean;
 
@@ -54,6 +58,12 @@ public class TodayGrindEarFragment extends BaseFragment {
         diandubi = view.findViewById(R.id.today_diandubi_duration);
         qita = view.findViewById(R.id.today_qita_duration);
         total = view.findViewById(R.id.today_total_duration);
+        tingmobaoLayout = view.findViewById(R.id.tingmobao_relative);
+        diandubiLayout = view.findViewById(R.id.diandubi_relative);
+        waibushebeiLayout = view.findViewById(R.id.waibushebei_relative);
+        tingmobaoLayout.setOnClickListener(this);
+        diandubiLayout.setOnClickListener(this);
+        waibushebeiLayout.setOnClickListener(this);
     }
 
     @Override
@@ -161,6 +171,27 @@ public class TodayGrindEarFragment extends BaseFragment {
             total.setText(t_min + "分");
         } else {
             total.setText(t_hour + "小时" + t_min + "分");
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tingmobao_relative:
+                Intent intent1 = new Intent(getContext(), InputActivity.class);
+                intent1.putExtra("tag", "grindear");
+                startActivity(intent1);
+                break;
+            case R.id.diandubi_relative:
+                Intent intent2 = new Intent(getContext(), InputActivity.class);
+                intent2.putExtra("tag", "grindear");
+                startActivity(intent2);
+                break;
+            case R.id.waibushebei_relative:
+                Intent intent3 = new Intent(getContext(), InputActivity.class);
+                intent3.putExtra("tag", "grindear");
+                startActivity(intent3);
+                break;
         }
     }
 }

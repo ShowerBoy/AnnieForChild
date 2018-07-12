@@ -85,7 +85,7 @@ public class ToFriendActivity extends BaseActivity implements ViewInfo, View.OnC
 
     @Override
     protected void initData() {
-        shareUtils = new ShareUtils(this);
+        shareUtils = new ShareUtils(this, this);
         explain.setText("规则说明：" + "\n" + "分享“安妮花”给你的朋友，一起来阅读，" + "\n" + "与朋友各得50花蜜。");
         presenter = new MessagePresenterImp(this, this);
         presenter.initViewAndData();
@@ -104,16 +104,16 @@ public class ToFriendActivity extends BaseActivity implements ViewInfo, View.OnC
                 finish();
                 break;
             case R.id.tofriend_pengyouquan:
-                shareUtils.shareWechatMoments("推荐给你的朋友：中国孩子的英语启蒙路线图", shareUrl);
+                shareUtils.shareWechatMoments("推荐给你的朋友：中国孩子的英语启蒙路线图", "安妮花教育", shareUrl);
                 break;
             case R.id.tofriend_weixin:
-                shareUtils.shareWechat("推荐给你的朋友：中国孩子的英语启蒙路线图", shareUrl);
+                shareUtils.shareWechat("推荐给你的朋友：中国孩子的英语启蒙路线图", "安妮花教育", shareUrl);
                 break;
             case R.id.tofriend_qq:
-                shareUtils.shareQQ("推荐给你的朋友：中国孩子的英语启蒙路线图", shareUrl);
+                shareUtils.shareQQ("推荐给你的朋友：中国孩子的英语启蒙路线图", "安妮花教育", shareUrl);
                 break;
             case R.id.tofriend_qqzone:
-                shareUtils.shareQZone("推荐给你的朋友：中国孩子的英语启蒙路线图", shareUrl);
+                shareUtils.shareQZone("推荐给你的朋友：中国孩子的英语启蒙路线图", "安妮花教育", shareUrl);
                 break;
             case R.id.share:
                 getWindowGray(true);

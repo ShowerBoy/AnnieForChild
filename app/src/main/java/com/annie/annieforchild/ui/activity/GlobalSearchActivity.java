@@ -93,10 +93,11 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                         song.setBookName(lists.get(i).getBook().get(position - 1).getBookName());
                         Intent intent = new Intent(GlobalSearchActivity.this, PracticeActivity.class);
                         intent.putExtra("song", song);
+                        intent.putExtra("type", 0);
                         intent.putExtra("audioType", 3);
                         intent.putExtra("audioSource", 0);
                         startActivity(intent);
-                        finish();
+//                        finish();
                         break;
                     } else {
                         position = position - lists.get(i).getBook().size() - 1;

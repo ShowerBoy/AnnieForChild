@@ -3,25 +3,40 @@ package com.annie.annieforchild.presenter.imp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 
 import com.alibaba.fastjson.JSON;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.login.LoginBean;
 import com.annie.annieforchild.bean.login.MainBean;
+import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.bean.search.BookClassify;
 import com.annie.annieforchild.interactor.LoginInteractor;
 import com.annie.annieforchild.interactor.imp.LoginInteractorImp;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.view.LoginView;
+import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BasePresenterImp;
+import com.yanzhenjie.nohttp.Headers;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.download.DownloadListener;
+import com.yanzhenjie.nohttp.download.DownloadQueue;
+import com.yanzhenjie.nohttp.download.DownloadRequest;
 
 import org.greenrobot.eventbus.EventBus;
+import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
+import java.io.File;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 登陆
@@ -32,16 +47,25 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
     Activity activity;
     private Context context;
     private LoginView loginView;
+    private ViewInfo viewInfo;
     private LoginInteractor interactor;
+//    private Timer timer;
+//    private TimerTask task;
 
     public LoginPresenterImp(Context context, LoginView loginView) {
         this.context = context;
         this.loginView = loginView;
     }
 
+    public LoginPresenterImp(Context context, ViewInfo viewInfo) {
+        this.context = context;
+        this.viewInfo = viewInfo;
+    }
+
     @Override
     public void initViewAndData() {
         interactor = new LoginInteractorImp(context, this);
+        SystemUtils.timer = new Timer();
     }
 
 //    @Override
@@ -62,8 +86,15 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
     }
 
     @Override
+    public void checkUpdate(int versionCode, String versionName) {
+        interactor.checkUpdate(versionCode, versionName);
+    }
+
+    @Override
     public void Success(int what, Object result) {
-        loginView.dismissLoad();
+        if (loginView != null) {
+            loginView.dismissLoad();
+        }
         if (result != null) {
             if (what == MethodCode.EVENT_LOGIN) {
                 MainBean bean = (MainBean) result;
@@ -74,21 +105,21 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                 } else if (bean.getErrType() == 2) {
                     //升级
                     bean.save();
-                    SystemUtils.mainBean = bean;
-                    SystemUtils.GeneralDialog(context, "升级")
-                            .setMessage("检测到更新，升级吗？")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                }
-                            })
-                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            }).create().show();
+//                    SystemUtils.mainBean = bean;
+//                    SystemUtils.GeneralDialog(context, "升级")
+//                            .setMessage("检测到更新，升级吗？")
+//                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                                }
+//                            })
+//                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    dialogInterface.dismiss();
+//                                }
+//                            }).create().show();
                 } else if (bean.getErrType() == 4) {
                     //更新接口地址
                     List<MainBean> lists = DataSupport.findAll(MainBean.class);
@@ -115,6 +146,40 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                         bean1.save();
                         SystemUtils.token = bean1.getToken();
                         SystemUtils.defaultUsername = bean1.getDefaultUsername();
+                        if (bean1.getDefaultUsername().equals("")) {
+                            SystemUtils.childTag = 0;
+                            SystemUtils.isOnline = false;
+                        } else {
+                            SystemUtils.childTag = 1;
+                            SystemUtils.isOnline = true;
+                            //在线得花蜜
+                            SQLiteDatabase db = LitePal.getDatabase();
+//                            DataSupport.deleteAll(SigninBean.class);
+                            List<SigninBean> list = DataSupport.where("username = ?", SystemUtils.defaultUsername).find(SigninBean.class);
+//                            DataSupport.findBySQL("select * from Signin ")
+                            if (list != null && list.size() != 0) {
+                                SigninBean signinBean = list.get(list.size() - 1);
+                                String date = SystemUtils.netDate;
+                                if (!date.equals(signinBean.getDate())) {
+                                    if (SystemUtils.signinBean == null) {
+                                        SystemUtils.signinBean = new SigninBean();
+                                    }
+                                    SystemUtils.signinBean.setDate(date);
+                                    SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
+                                    SystemUtils.signinBean.setNectar(false);
+                                    SystemUtils.signinBean.save();
+                                } else {
+                                    SystemUtils.signinBean = signinBean;
+                                }
+                            } else {
+                                SystemUtils.signinBean = new SigninBean();
+                                String date = SystemUtils.netDate;
+                                SystemUtils.signinBean.setDate(date != null ? date : "");
+                                SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
+                                SystemUtils.signinBean.setNectar(false);
+                                SystemUtils.signinBean.save();
+                            }
+                        }
                         /**
                          * {@link LoginActivity#onEventMainThread(JTMessage)}
                          */
@@ -122,6 +187,29 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                         jtMessage.setWhat(MethodCode.EVENT_LOGIN);
                         jtMessage.setObj(bean1);
                         EventBus.getDefault().post(jtMessage);
+
+                        if (SystemUtils.isOnline) {
+                            if (!SystemUtils.signinBean.isNectar()) {
+                                SystemUtils.task = new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent();
+                                        intent.setAction("countdown");
+                                        context.sendBroadcast(intent);
+                                    }
+                                };
+                                Runnable runnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!SystemUtils.signinBean.isNectar()) {
+                                            SystemUtils.timer.schedule(SystemUtils.task, 120 * 1000);
+                                        }
+                                    }
+                                };
+                                SystemUtils.countDownThread = new Thread(runnable);
+                                SystemUtils.countDownThread.start();
+                            }
+                        }
                     }
                 }
             } else if (what == MethodCode.EVENT_GLOBALSEARCH) {
@@ -133,13 +221,35 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                 message.what = what;
                 message.obj = lists;
                 EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_CHECKUPDATE) {
+                UpdateBean updateBean = (UpdateBean) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.MainActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = updateBean;
+                EventBus.getDefault().post(message);
             }
         }
     }
 
     @Override
     public void Error(int what, String error) {
-        loginView.dismissLoad();
-        loginView.showInfo(error);
+        if (loginView != null) {
+            loginView.dismissLoad();
+            loginView.showInfo(error);
+        }
+        if (what == MethodCode.EVENT_LOGIN) {
+            /**
+             * {@link com.annie.annieforchild.ui.activity.GuideActivity#onMainEventThread(JTMessage)}
+             */
+            JTMessage message = new JTMessage();
+            message.what = MethodCode.EVENT_ERROR;
+            message.obj = error;
+            EventBus.getDefault().post(message);
+            SystemUtils.isOnline = false;
+        }
     }
+
 }

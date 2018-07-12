@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
@@ -33,9 +34,11 @@ import java.util.List;
 
 public class GrindEarFragment extends BaseFragment implements CollectionView {
     private XRecyclerView grindEarRecycler;
+    private RelativeLayout emptyLayout;
     private CollectionPresenter presenter;
     private List<Collection> lists;
     private CollectionAdapter adapter;
+    private int audioSource;
     private final int type = 1;
 
     {
@@ -50,6 +53,7 @@ public class GrindEarFragment extends BaseFragment implements CollectionView {
     @Override
     protected void initView(View view) {
         grindEarRecycler = view.findViewById(R.id.collection_grind_ear_recycler);
+        emptyLayout = view.findViewById(R.id.grindear_empty_layout);
     }
 
     @Override
@@ -80,7 +84,7 @@ public class GrindEarFragment extends BaseFragment implements CollectionView {
             }
         });
         lists = new ArrayList<>();
-        adapter = new CollectionAdapter(getContext(), lists, type, new OnMyItemClickListener() {
+        adapter = new CollectionAdapter(getContext(), lists, type, 0, new OnMyItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 SystemUtils.GeneralDialog(getContext(), "取消收藏")
@@ -88,7 +92,7 @@ public class GrindEarFragment extends BaseFragment implements CollectionView {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                presenter.cancelCollection(type, lists.get(position).getCourseId());
+                                presenter.cancelCollection(type, lists.get(position).getAudioSource(), lists.get(position).getCourseId());
                                 dialogInterface.dismiss();
                             }
                         })
@@ -116,6 +120,11 @@ public class GrindEarFragment extends BaseFragment implements CollectionView {
             lists.clear();
             lists.addAll((List<Collection>) message.obj);
             adapter.notifyDataSetChanged();
+            if (lists.size() == 0) {
+                emptyLayout.setVisibility(View.VISIBLE);
+            } else {
+                emptyLayout.setVisibility(View.GONE);
+            }
             grindEarRecycler.refreshComplete();
         } else if (message.what == MethodCode.EVENT_CANCELCOLLECTION1) {
             showInfo((String) message.obj);

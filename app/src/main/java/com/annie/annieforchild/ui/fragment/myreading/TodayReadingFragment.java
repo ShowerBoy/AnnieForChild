@@ -1,6 +1,8 @@
 package com.annie.annieforchild.ui.fragment.myreading;
 
+import android.content.Intent;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
@@ -8,6 +10,7 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.GrindTime;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
+import com.annie.annieforchild.ui.activity.grindEar.InputActivity;
 import com.annie.baselibrary.base.BaseFragment;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -20,8 +23,9 @@ import java.util.List;
  * Created by wanglei on 2018/6/1.
  */
 
-public class TodayReadingFragment extends BaseFragment {
+public class TodayReadingFragment extends BaseFragment implements View.OnClickListener {
     private TextView ergebuiben, xugougushi, feixugou, zhangjietushu, diandubi, qita, total;
+    private RelativeLayout zhizhishuLayout, qitashebeiLayout;
     private List<GrindTime> lists;
     private MyGrindEarBean bean;
 
@@ -48,6 +52,10 @@ public class TodayReadingFragment extends BaseFragment {
         diandubi = view.findViewById(R.id.today_read_diandubi_duration);
         qita = view.findViewById(R.id.today_read_qita_duration);
         total = view.findViewById(R.id.today_read_total_duration);
+        zhizhishuLayout = view.findViewById(R.id.zhizhishu_layout);
+        qitashebeiLayout = view.findViewById(R.id.qitashebei_layout);
+        zhizhishuLayout.setOnClickListener(this);
+        qitashebeiLayout.setOnClickListener(this);
     }
 
     @Override
@@ -134,6 +142,22 @@ public class TodayReadingFragment extends BaseFragment {
             total.setText(t_min + "分");
         } else {
             total.setText(t_hour + "小时" + t_min + "分");
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.zhizhishu_layout:
+                Intent intent1 = new Intent(getContext(), InputActivity.class);
+                intent1.putExtra("tag", "reading");
+                startActivity(intent1);
+                break;
+            case R.id.qitashebei_layout:
+                Intent intent2 = new Intent(getContext(), InputActivity.class);
+                intent2.putExtra("tag", "reading");
+                startActivity(intent2);
+                break;
         }
     }
 }

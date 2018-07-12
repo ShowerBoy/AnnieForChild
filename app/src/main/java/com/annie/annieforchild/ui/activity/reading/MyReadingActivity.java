@@ -48,7 +48,7 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
     private ImageView back, help;
     private CircleImageView headpic;
     private TextView level, sublevel;
-    private Button input;
+//    private Button input;
     private AdvancedPagerSlidingTabStrip mTab;
     private APSTSViewPager mVP;
     private TodayReadingFragment todayReadingFragment;
@@ -75,12 +75,12 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
         level = findViewById(R.id.my_reading_level);
         sublevel = findViewById(R.id.my_reading_sublevel);
         help = findViewById(R.id.my_reading_help);
-        input = findViewById(R.id.my_reading_input);
+//        input = findViewById(R.id.my_reading_input);
         mTab = findViewById(R.id.my_reading_tab);
         mVP = findViewById(R.id.my_reading_viewpager);
         back.setOnClickListener(this);
         help.setOnClickListener(this);
-        input.setOnClickListener(this);
+//        input.setOnClickListener(this);
     }
 
     @Override
@@ -120,11 +120,11 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
-            case R.id.my_reading_input:
-                Intent intent1 = new Intent(this, InputActivity.class);
-                intent1.putExtra("tag", "reading");
-                startActivity(intent1);
-                break;
+//            case R.id.my_reading_input:
+//                Intent intent1 = new Intent(this, InputActivity.class);
+//                intent1.putExtra("tag", "reading");
+//                startActivity(intent1);
+//                break;
         }
     }
 

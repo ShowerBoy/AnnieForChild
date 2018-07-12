@@ -44,8 +44,8 @@ import java.util.List;
  */
 
 public class InputActivity extends BaseActivity implements View.OnClickListener, SongView {
-    private TextView inputTingdonghua, inputTingmobao, inputJiqiren, inputDiandubi, inputQita, feedback;
-    private ImageView back;
+    private TextView inputTingdonghua, inputTingmobao, inputJiqiren, inputDiandubi, inputQita, feedback, diandubi;
+    private ImageView back, diandubiImage;
     private RelativeLayout tingdonghuaLayout, tingmobaoLayout, jiqirenLayout;
     private Button inputBtn;
     private PopupWindow popupWindow;
@@ -59,7 +59,8 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
     private AlertHelper helper;
     private Dialog dialog;
     private Intent intent;
-    private String tag;
+    private String tag; // grindear:磨耳朵  reading:阅读
+    private boolean input = false; //true:录入书名
 
     {
         setRegister(true);
@@ -76,13 +77,15 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
         inputTingmobao = findViewById(R.id.input_tingmobao_duration);
         inputJiqiren = findViewById(R.id.input_jiqiren_duration);
         inputDiandubi = findViewById(R.id.input_diandubi_duration);
+        diandubi = findViewById(R.id.diandubi);
         inputQita = findViewById(R.id.input_qita_duration);
         inputBtn = findViewById(R.id.input_btn);
         feedback = findViewById(R.id.input_feedback);
+        diandubiImage = findViewById(R.id.input_diandubi);
         back = findViewById(R.id.input_back);
-        tingdonghuaLayout = findViewById(R.id.tingdonghua_layout);
+//        tingdonghuaLayout = findViewById(R.id.tingdonghua_layout);
         tingmobaoLayout = findViewById(R.id.tingmobao_layout);
-        jiqirenLayout = findViewById(R.id.jiqiren_layout);
+//        jiqirenLayout = findViewById(R.id.jiqiren_layout);
         inputTingdonghua.setOnClickListener(this);
         inputTingmobao.setOnClickListener(this);
         inputJiqiren.setOnClickListener(this);
@@ -91,10 +94,9 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
         inputBtn.setOnClickListener(this);
         feedback.setOnClickListener(this);
         back.setOnClickListener(this);
-        tingdonghuaLayout.setOnClickListener(this);
+//        tingdonghuaLayout.setOnClickListener(this);
         tingmobaoLayout.setOnClickListener(this);
-        jiqirenLayout.setOnClickListener(this);
-
+//        jiqirenLayout.setOnClickListener(this);
         popup_contentView = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_item, null);
         popupList = popup_contentView.findViewById(R.id.popup_lists1);
         popupWindow = new PopupWindow(popup_contentView, ViewGroup.LayoutParams.WRAP_CONTENT, Utils.dp2px(this, 200), true);
@@ -107,16 +109,22 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
         tag = intent.getStringExtra("tag");
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-        types = new String[]{"animation", "mobao", "robot", "readingpen", "others"};
-        durations = new String[]{"0", "0", "0", "0", "0"};
+        types = new String[]{"mobao", "readingpen", "others"};
+        durations = new String[]{"0", "0", "0"};
         if (tag.equals("grindear")) {
-            tingdonghuaLayout.setVisibility(View.VISIBLE);
+            input = false;
+//            tingdonghuaLayout.setVisibility(View.VISIBLE);
             tingmobaoLayout.setVisibility(View.VISIBLE);
-            jiqirenLayout.setVisibility(View.VISIBLE);
+            diandubi.setText("点读笔");
+            inputDiandubi.setText("0分钟");
+            diandubiImage.setImageResource(R.drawable.icon_diandubi);
         } else {
-            tingdonghuaLayout.setVisibility(View.GONE);
+            input = true;
+//            tingdonghuaLayout.setVisibility(View.GONE);
             tingmobaoLayout.setVisibility(View.GONE);
-            jiqirenLayout.setVisibility(View.GONE);
+            diandubi.setText("纸质书");
+            inputDiandubi.setText("请录入");
+            diandubiImage.setImageResource(R.drawable.icon_zhizhishu);
         }
 
         presenter = new GrindEarPresenterImp(this, this);
@@ -124,27 +132,21 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
 
         popup_lists = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            popup_lists.add(new MaterialGroup(i + "", false));
+            popup_lists.add(new MaterialGroup(i + 1 + "", false));
         }
         adapter = new PopupAdapter(this, popup_lists);
         popupList.setAdapter(adapter);
         popupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (type.equals("听动画")) {
+                if (type.equals("听磨宝")) {
                     durations[0] = popup_lists.get(position).getTitle();
-                    inputTingdonghua.setText(popup_lists.get(position).getTitle() + "分钟");
-                } else if (type.equals("听磨宝")) {
-                    durations[1] = popup_lists.get(position).getTitle();
                     inputTingmobao.setText(popup_lists.get(position).getTitle() + "分钟");
-                } else if (type.equals("机器人")) {
-                    durations[2] = popup_lists.get(position).getTitle();
-                    inputJiqiren.setText(popup_lists.get(position).getTitle() + "分钟");
                 } else if (type.equals("点读笔")) {
-                    durations[3] = popup_lists.get(position).getTitle();
+                    durations[1] = popup_lists.get(position).getTitle();
                     inputDiandubi.setText(popup_lists.get(position).getTitle() + "分钟");
                 } else if (type.equals("其他")) {
-                    durations[4] = popup_lists.get(position).getTitle();
+                    durations[2] = popup_lists.get(position).getTitle();
                     inputQita.setText(popup_lists.get(position).getTitle() + "分钟");
                 }
                 popupWindow.dismiss();
@@ -182,9 +184,14 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
                 popupWindow.showAtLocation(popup_contentView, Gravity.CENTER, 0, 0);
                 break;
             case R.id.input_diandubi_duration:
-                type = "点读笔";
-                setBackGray(true);
-                popupWindow.showAtLocation(popup_contentView, Gravity.CENTER, 0, 0);
+                if (input) {
+                    Intent intent = new Intent(this, InputBookActivity.class);
+                    startActivity(intent);
+                } else {
+                    type = "点读笔";
+                    setBackGray(true);
+                    popupWindow.showAtLocation(popup_contentView, Gravity.CENTER, 0, 0);
+                }
                 break;
             case R.id.input_qita_duration:
                 type = "其他";
@@ -202,7 +209,7 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
                     if (tag.equals("grindear")) {
                         presenter.commitDuration(types, durations);
                     } else {
-                        presenter.commitReading(types, durations);
+                        presenter.commitReading(types, durations, 0, 0);
                     }
                 }
                 break;

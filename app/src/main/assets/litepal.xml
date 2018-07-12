@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <litepal>
     <dbname value="Annie"></dbname>
-    <version value="1"></version>
+    <version value="3"></version>
     <list>
         <mapping class="com.annie.annieforchild.bean.login.MainBean"></mapping>
         <mapping class="com.annie.annieforchild.bean.login.PhoneSN"></mapping>
         <mapping class="com.annie.annieforchild.bean.login.LoginBean"></mapping>
+        <mapping class="com.annie.annieforchild.bean.login.SigninBean"></mapping>
     </list>
 </litepal>

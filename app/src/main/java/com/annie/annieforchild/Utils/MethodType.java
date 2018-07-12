@@ -17,6 +17,7 @@ public class MethodType {
     final public static String COLLECTCOURSE = "collectCourse"; //收藏
     final public static String CHANGEPHONE = "changePhone"; //修改手机号
     final public static String RESETPASSWORD = "resetPassword"; //修改密码
+    final public static String CHECKUPDATE = "checkUpdate"; //检测更新
     final public static String GETNECTAR = "getNectar"; //我的花蜜
     final public static String UPLOADACATAR = "uploadAvatar"; //上传头像
     final public static String SETDEFAULTUSER = "setDefaultUser"; //设置默认学员
@@ -63,4 +64,10 @@ public class MethodType {
     final public static String EXCHANGEGOLD = "exchangeGold"; //兑换金币
     final public static String SHARETO = "shareTo"; //分享
     final public static String GETDURATIONSTATISICS = "getDurationStatistics"; //统计
+    final public static String GETREADLIST = "getReadList"; //获取阅读列表
+    final public static String GETQRCODE = "getQrCode"; //获取二维码
+    final public static String GETANIMATIONLIST = "getAnimationList"; //获取看动画
+    final public static String GETSPOKENLSIST = "getSpokenList"; //获取口语列表
+    final public static String COMMITBOOK = "commitBook"; //上传书名
+    final public static String DAILYPUNCH = "DailyPunch"; //在线送花蜜
 }

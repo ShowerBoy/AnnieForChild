@@ -5,8 +5,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +28,9 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.ChildPresenter;
+import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.ChildPresenterImp;
+import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
 import com.annie.annieforchild.ui.activity.CameraActivity;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.view.AddChildView;
@@ -38,6 +44,7 @@ import com.zhy.m.permission.PermissionGrant;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -62,8 +69,9 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
     private String sex = null, birth = null, headpic = null;
     private PopupWindow popupWindow;
     private SystemUtils systemUtils;
-    private Bitmap headbitmap = null;
+    private Bitmap headbitmap = null, bitmap = null;
     private ChildPresenter presenter;
+    private LoginPresenter presenter2;
     private AlertHelper helper;
     private Dialog dialog;
     private Intent intent;
@@ -100,9 +108,34 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
         addChild.setOnClickListener(this);
         addChild_back.setOnClickListener(this);
         bindStudent.setOnClickListener(this);
+//        SystemUtils.setEditTextInhibitInputSpeChat(childName);
+        childName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String strs = childName.getText().toString();
+                String str = SystemUtils.stringFilter(strs.toString());
+                if (!strs.equals(str)) {
+                    childName.setText(str);
+                    childName.setSelection(str.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         intent = getIntent();
+        /**
+         * {@link com.annie.annieforchild.ui.activity.login.RegisterActivity#onEventMainThread(JTMessage)}
+         */
         if (intent.getStringExtra("from").equals("register")) {
             pass.setVisibility(View.VISIBLE);
             tag = 0;
@@ -140,7 +173,9 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
             });
         }
         presenter = new ChildPresenterImp(this, this);
+        presenter2 = new LoginPresenterImp(this, this);
         presenter.initViewAndData();
+        presenter2.initViewAndData();
     }
 
     @Override
@@ -171,7 +206,17 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
             case R.id.add_child_btn:
                 //添加
                 if (isCorrect()) {
-                    presenter.addChild(headpic, childName.getText().toString(), sex, birth.replace("-", ""));
+                    if (headpic != null) {
+                        presenter.addChild(headpic, childName.getText().toString(), sex, birth.replace("-", ""));
+                    } else {
+                        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_system_photo);
+                        File files = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath);
+                        if (!files.exists()) {
+                            files.mkdirs();
+                        }
+                        File file = SystemUtils.saveBitmapFile(bitmap, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "photo.jpg");
+                        presenter.uploadHeadpic(10002, file.getAbsolutePath());
+                    }
                 } else {
                     SystemUtils.show(this, "输入有误，请重新输入");
                 }
@@ -185,7 +230,7 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
     }
 
     private boolean isCorrect() {
-        if (childName.getText().toString().equals("") || childName.getText().toString().contains(" ") || birth == null || sex == null || headpic == null) {
+        if (childName.getText().toString().equals("") || childName.getText().toString().contains(" ") || birth == null || sex == null) {
             return false;
         } else {
             return true;
@@ -211,7 +256,7 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
     protected void onImageSelect(Bitmap bitmap, String path) {
         headbitmap = bitmap;
         presenter.uploadHeadpic(10000, path);
-        SystemUtils.show(this, path);
+//        SystemUtils.show(this, path);
     }
 
     @Override
@@ -248,6 +293,12 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
             if ((String) message.obj != null) {
                 headpic = (String) message.obj;
                 childHeadPic.setImageBitmap(headbitmap);
+            }
+        } else if (message.what == MethodCode.EVENT_UPLOADAVATAR + 10002) {
+            if ((String) message.obj != null) {
+                headpic = (String) message.obj;
+                childHeadPic.setImageBitmap(bitmap);
+                presenter.addChild(headpic, childName.getText().toString(), sex, birth.replace("-", ""));
             }
         }
     }

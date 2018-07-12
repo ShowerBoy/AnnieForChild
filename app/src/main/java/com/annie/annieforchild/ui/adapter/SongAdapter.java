@@ -34,20 +34,22 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
     private Context context;
     private List<Song> lists;
     private GrindEarPresenter presenter;
-    private int type;
+    private int collectType;
     private int classId;
     private int audioType;
     private int audioSource;
+    private int type;
     private LayoutInflater inflater;
 
-    public SongAdapter(Context context, List<Song> lists, GrindEarPresenter presenter, int type, int classId, int audioType, int audioSource) {
+    public SongAdapter(Context context, List<Song> lists, GrindEarPresenter presenter, int collectType, int classId, int audioType, int audioSource, int type) {
         this.context = context;
         this.lists = lists;
         this.presenter = presenter;
-        this.type = type;
+        this.collectType = collectType;
         this.classId = classId;
         this.audioType = audioType;
         this.audioSource = audioSource;
+        this.type = type;
         inflater = LayoutInflater.from(context);
     }
 
@@ -92,6 +94,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(context, PracticeActivity.class);
                 intent.putExtra("song", lists.get(i));
+                intent.putExtra("type", type);
                 intent.putExtra("audioType", audioType);
                 intent.putExtra("audioSource", audioSource);
                 context.startActivity(intent);
@@ -101,9 +104,9 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
             @Override
             public void onClick(View v) {
                 if (lists.get(i).getIsCollected() == 0) {
-                    presenter.collectCourse(type, lists.get(i).getBookId(), classId);
+                    presenter.collectCourse(collectType, audioSource, lists.get(i).getBookId(), classId);
                 } else {
-                    presenter.cancelCollection(type, lists.get(i).getBookId(), classId);
+                    presenter.cancelCollection(collectType, audioSource, lists.get(i).getBookId(), classId);
                 }
             }
         });
@@ -120,7 +123,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
         songViewHolder.addCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //加入课程
+                //加入课表
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
                 String date = simpleDateFormat.format(new Date());
                 Material material = new Material();

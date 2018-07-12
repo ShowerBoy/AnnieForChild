@@ -1,6 +1,7 @@
 package com.annie.annieforchild.bean.song;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 儿歌
@@ -20,6 +21,24 @@ public class Song implements Serializable {
     private int totalPages;
     private int isCollected; //0：未收藏 1：已收藏
     private int isJoinMaterial; //0：未加入自选教材 1：已加入自选教材
+    private List<String> bookResourceUrl;
+    private String myResourceUrl;
+
+    public List<String> getBookResourceUrl() {
+        return bookResourceUrl;
+    }
+
+    public void setBookResourceUrl(List<String> bookResourceUrl) {
+        this.bookResourceUrl = bookResourceUrl;
+    }
+
+    public String getMyResourceUrl() {
+        return myResourceUrl;
+    }
+
+    public void setMyResourceUrl(String myResourceUrl) {
+        this.myResourceUrl = myResourceUrl;
+    }
 
     public float getLastScore() {
         return lastScore;

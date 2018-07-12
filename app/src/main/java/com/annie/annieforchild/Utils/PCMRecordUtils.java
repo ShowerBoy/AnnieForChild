@@ -20,7 +20,6 @@ import java.io.IOException;
  */
 
 public class PCMRecordUtils {
-    private Context context;
     private String filePath;
     private int sampleRate = 16000;
     private AudioRecord record;
@@ -34,8 +33,7 @@ public class PCMRecordUtils {
     File file;
     byte[] bytes;
 
-    public PCMRecordUtils(Context context, String filePath) {
-        this.context = context;
+    public PCMRecordUtils(String filePath) {
         this.filePath = filePath;
         init();
     }

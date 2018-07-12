@@ -111,6 +111,15 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
     @Override
     public void Error(int what, String error) {
         registerView.dismissLoad();
-        registerView.showInfo(error);
+//        registerView.showInfo(error);
+        if (what == MethodCode.EVENT_RESETPASSWORD) {
+            /**
+             * {@link com.annie.annieforchild.ui.activity.login.ModifyPsdActivity#onMainEventThread(JTMessage)}
+             */
+            JTMessage message = new JTMessage();
+            message.what = what;
+            message.obj = error;
+            EventBus.getDefault().post(message);
+        }
     }
 }

@@ -131,7 +131,7 @@ public class ExerciseTestActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
-        pcmRecordUtils = new PCMRecordUtils(this, filePath);
+        pcmRecordUtils = new PCMRecordUtils(filePath);
 
     }
 

@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/first_refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -98,29 +98,6 @@
                             android:padding="10dp">
 
                             <LinearLayout
-                                android:id="@+id/clock_in_layout"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/main_clock_in" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginTop="5dp"
-                                    android:text="今日打卡"
-                                    android:textColor="@color/text_black"
-                                    android:textSize="14sp" />
-                            </LinearLayout>
-
-                            <LinearLayout
                                 android:id="@+id/schedule_layout"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -190,6 +167,29 @@
                                     android:textColor="@color/text_black"
                                     android:textSize="14sp" />
 
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/clock_in_layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/main_clock_in" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text="今日统计"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -303,7 +303,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="1dp"
                         android:background="@color/light_gray" />
 
                     <RelativeLayout
@@ -353,7 +353,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="1dp"
                         android:background="@color/light_gray" />
 
                     <LinearLayout
@@ -396,7 +396,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <RelativeLayout
                             android:id="@+id/lesson_layout"
@@ -457,7 +458,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="1dp"
                         android:background="@color/light_gray" />
 
                     <LinearLayout
@@ -488,18 +489,10 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="10dp"
                                 android:layout_toEndOf="@+id/recommend_line"
-                                android:text="猜你喜欢"
+                                android:text="精品推荐"
                                 android:textColor="@color/text_black"
                                 android:textSize="18sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:text="全部"
-                                android:textColor="@color/text_orange"
-                                android:textSize="16sp" />
                         </RelativeLayout>
 
                         <TextView

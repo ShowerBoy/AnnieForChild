@@ -12,6 +12,7 @@ public class MethodCode {
     final public static String HOMEWORKAPI = "homeworkApi/";
     final public static String SEARCHAPI = "searchApi/";
     final public static String SQUAREAPI = "SquareApi/";
+    final public static String SIGNINAPI = "Signin/";
     final public static String ERRTYPE = "errType";
     final public static String ERRINFO = "errInfo";
     final public static String DATA = "data";
@@ -22,6 +23,7 @@ public class MethodCode {
     /**
      * EventBus
      */
+    final public static int EVENT_ERROR = -10;
     final public static int EVENT_MAIN = 0;
     final public static int EVENT_LOGIN = 1; //登陆
     final public static int EVENT_RGISTER = 2; //注册
@@ -38,6 +40,7 @@ public class MethodCode {
     final public static int EVENT_MYCOLLECTIONS3 = 13; //我的收藏——口语
     final public static int EVENT_CHANGEPHONE = 14; //修改手机号
     final public static int EVENT_GETNECTAR = 15; //我的花蜜
+    final public static int EVENT_CHECKUPDATE = 16; //检测更新
     final public static int EVENT_UPLOADAVATAR = 17; //上传头像
     final public static int EVENT_SETDEFAULEUSER = 18; //设置默认学员
     final public static int EVENT_GETMYMESSAGES = 19; //获取通知和群消息
@@ -97,4 +100,11 @@ public class MethodCode {
     final public static int EVENT_GETREADING = 73; //获取阅读
     final public static int EVENT_SHARETO = 74; //分享
     final public static int EVENT_GETDURATIONSTATISTICS = 75; //统计
+    final public static int EVENT_GETREADLIST = 76; //获取阅读列表
+    final public static int EVENT_GETQRCODE = 77; //获取二维码
+    final public static int EVENT_GETANIMATIONLIST = 78; //获取看动画
+    final public static int EVENT_GETSPOKENCLASSES = 79; //获取口语分类
+    final public static int EVENT_GETSPOKENLIST = 80; //获取口语列表
+    final public static int EVENT_COMMITBOOK = 81; //提交书名
+    final public static int EVENT_DAILYPUNCH = 82; //在线得花蜜
 }

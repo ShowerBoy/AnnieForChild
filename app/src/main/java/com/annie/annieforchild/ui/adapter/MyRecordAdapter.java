@@ -48,6 +48,7 @@ public class MyRecordAdapter extends BaseAdapter {
     private DataInputStream dis = null;
     private boolean tag = true;
     private String fileName;
+    int bufferSizeInBytes;
     File file;
 
     public MyRecordAdapter(Context context, List<Record> lists) {
@@ -147,7 +148,7 @@ public class MyRecordAdapter extends BaseAdapter {
             e.printStackTrace();
         }
         //最小缓存区
-        int bufferSizeInBytes = AudioTrack.getMinBufferSize(16000, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
+        bufferSizeInBytes = AudioTrack.getMinBufferSize(16000, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
         //创建AudioTrack对象   依次传入 :流类型、采样率（与采集的要一致）、音频通道（采集是IN 播放时OUT）、量化位数、最小缓冲区、模式
         player = new AudioTrack(AudioManager.STREAM_MUSIC, 16000, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSizeInBytes, AudioTrack.MODE_STREAM);
 
@@ -168,7 +169,10 @@ public class MyRecordAdapter extends BaseAdapter {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    player.write(data, 0, data.length);
+
+                    if (tag) {
+                        player.write(data, 0, data.length);
+                    }
 
                     if (i != bufferSizeInBytes) //表示读取完了
                     {
@@ -212,21 +216,19 @@ public class MyRecordAdapter extends BaseAdapter {
         }
     };
 
-//    @Override
-//    public MyRecordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        MyRecordViewHolder holder = null;
-//        holder = new MyRecordViewHolder(inflater.inflate(R.layout.activity_my_record_item, parent, false));
-//        return holder;
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(MyRecordViewHolder holder, int position) {
-//        holder.myRecordDate.setText(lists.get(position).getTime().substring(0, 4) + "-" + lists.get(position).getTime().substring(4, 6) + "-" + lists.get(position).getTime().substring(6, 8));
-//        holder.myRecordTime.setText("录音时长" + lists.get(position).getDuration() + "秒");
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return lists != null ? lists.size() : 0;
-//    }
+    public void stopAudio() {
+        if (player != null) {
+            tag = false;
+            isClick = true;
+            try {
+                player.stop();
+            } catch (IllegalStateException e) {
+                tag = false;
+                player = null;
+                player = new AudioTrack(AudioManager.STREAM_MUSIC, 16000, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSizeInBytes, AudioTrack.MODE_STREAM);
+                player.stop();
+            }
+            player.release();
+        }
+    }
 }

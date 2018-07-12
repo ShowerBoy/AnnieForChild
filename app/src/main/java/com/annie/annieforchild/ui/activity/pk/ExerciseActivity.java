@@ -26,6 +26,7 @@ import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.bumptech.glide.Glide;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -40,7 +41,7 @@ import java.util.List;
  */
 
 public class ExerciseActivity extends BaseActivity implements View.OnClickListener, SongView {
-    private ImageView back;
+    private ImageView back, pageImage;
     private TextView challenge, last, next, page;
     private XRecyclerView exerciseList;
     private List<Line> lists;
@@ -56,7 +57,7 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
     private boolean isLast = false;
     private boolean isNext = true;
     public static boolean isPlay;
-    private int audioType, audioSource;
+    private int audioType, audioSource, type;
 
     {
         setRegister(true);
@@ -75,6 +76,7 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
         last = findViewById(R.id.last_page);
         next = findViewById(R.id.next_page);
         page = findViewById(R.id.book_page);
+        pageImage = findViewById(R.id.page_image);
         back.setOnClickListener(this);
         challenge.setOnClickListener(this);
         last.setOnClickListener(this);
@@ -88,8 +90,15 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
         exerciseList.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         intent = getIntent();
         bookId = intent.getIntExtra("bookId", 0);
+        type = intent.getIntExtra("type", 0);
         audioType = intent.getIntExtra("audioType", 0);
         audioSource = intent.getIntExtra("audioSource", 3);
+
+        if (type != 1 || type != 3 || type != 5) {
+            pageImage.setVisibility(View.VISIBLE);
+        } else {
+            pageImage.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -148,12 +157,14 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
                         last.setTextColor(getResources().getColor(R.color.text_black));
                         next.setTextColor(getResources().getColor(R.color.text_orange));
                         isLast = false;
+                        isNext = true;
                     } else {
                         last.setTextColor(getResources().getColor(R.color.text_orange));
                         next.setTextColor(getResources().getColor(R.color.text_orange));
                         isNext = true;
                     }
                     page.setText(currentPage + "/" + totalPage);
+                    Glide.with(this).load(book.getPageContent().get(currentPage - 1).getPageImage()).into(pageImage);
                     refresh();
                 } else {
                     break;
@@ -166,12 +177,14 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
                         next.setTextColor(getResources().getColor(R.color.text_black));
                         last.setTextColor(getResources().getColor(R.color.text_orange));
                         isNext = false;
+                        isLast = true;
                     } else {
                         next.setTextColor(getResources().getColor(R.color.text_orange));
                         last.setTextColor(getResources().getColor(R.color.text_orange));
                         isLast = true;
                     }
                     page.setText(currentPage + "/" + totalPage);
+                    Glide.with(this).load(book.getPageContent().get(currentPage - 1).getPageImage()).into(pageImage);
                     refresh();
                 } else {
                     break;
@@ -199,6 +212,9 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
 
     private void initialize() {
         totalPage = book.getBookTotalPages();
+        if (type != 1 || type != 3 || type != 5) {
+            Glide.with(this).load(book.getPageContent().get(currentPage - 1).getPageImage()).into(pageImage);
+        }
         currentPage = 1;
         page.setText(currentPage + "/" + totalPage);
         if (totalPage == 1) {

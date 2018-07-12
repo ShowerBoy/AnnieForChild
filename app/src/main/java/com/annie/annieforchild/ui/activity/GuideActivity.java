@@ -1,9 +1,11 @@
 package com.annie.annieforchild.ui.activity;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
@@ -13,6 +15,7 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.login.LoginBean;
 import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.presenter.LoginPresenter;
@@ -22,11 +25,17 @@ import com.annie.annieforchild.view.LoginView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.annie.baselibrary.utils.NetUtils.NoHttpUtils;
+import com.yanzhenjie.nohttp.Headers;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.download.DownloadListener;
+import com.yanzhenjie.nohttp.download.DownloadQueue;
+import com.yanzhenjie.nohttp.download.DownloadRequest;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
@@ -49,6 +58,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
     private Dialog dialog;
     private SQLiteDatabase db;
 
+
     {
         setRegister(true);
     }
@@ -66,7 +76,6 @@ public class GuideActivity extends BaseActivity implements LoginView {
     @Override
     protected void initData() {
         db = LitePal.getDatabase();
-
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         presenter = new LoginPresenterImp(this, this);
@@ -105,6 +114,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
             psd = preferences.getString("psd", null);
             logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
             presenter.login(phone, psd, logintime);
+            SystemUtils.getNetTime();
         } else {
             Intent intent = new Intent(GuideActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -112,6 +122,11 @@ public class GuideActivity extends BaseActivity implements LoginView {
         }
     }
 
+    /**
+     * {@link LoginPresenterImp#Success(int, Object)}
+     *
+     * @param message
+     */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_LOGIN) {
@@ -123,20 +138,31 @@ public class GuideActivity extends BaseActivity implements LoginView {
             SystemUtils.phoneSN.setUsername(bean.getDefaultUsername());
             SystemUtils.phoneSN.setLastlogintime(logintime);
             SystemUtils.phoneSN.setSystem("android");
-            SystemUtils.phoneSN.setBitcode(SystemUtils.getVersionCode(this));
+            SystemUtils.phoneSN.setBitcode(SystemUtils.getVersionName(this));
             SystemUtils.phoneSN.save();
 
             editor.putString("phone", phone);
             editor.putString("psd", psd);
             editor.commit();
 
+            SystemUtils.phone = phone;
+
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("tag", "会员");
             SystemUtils.tag = "会员";
             startActivity(intent);
             finish();
+        } else if (message.what == MethodCode.EVENT_ERROR) {
+            editor.putString("phone", null);
+            editor.putString("psd", null);
+            editor.commit();
+
+            Intent intent = new Intent(GuideActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
+
 
     @Override
     protected BasePresenter getPresenter() {
@@ -160,5 +186,14 @@ public class GuideActivity extends BaseActivity implements LoginView {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+        timer = null;
+        task.cancel();
+        task = null;
     }
 }

@@ -30,7 +30,7 @@ import org.greenrobot.eventbus.Subscribe;
 public class ChangePhoneActivity extends BaseActivity implements RegisterView, View.OnClickListener {
     private ImageView changePhoneBack;
     private EditText newPhoneNumber, testCodeCp;
-    private TextView getTestCodeCp;
+    private TextView getTestCodeCp, currentPhone;
     private Button commitNewPhone;
     private CountDownTimer countDownTimer;
     private RegisterPresenter presenter;
@@ -53,6 +53,7 @@ public class ChangePhoneActivity extends BaseActivity implements RegisterView, V
         testCodeCp = findViewById(R.id.test_code_cp);
         getTestCodeCp = findViewById(R.id.get_test_code_cp);
         commitNewPhone = findViewById(R.id.commit_new_phone);
+        currentPhone = findViewById(R.id.current_phone);
         changePhoneBack.setOnClickListener(this);
         getTestCodeCp.setOnClickListener(this);
         commitNewPhone.setOnClickListener(this);
@@ -76,6 +77,7 @@ public class ChangePhoneActivity extends BaseActivity implements RegisterView, V
                 getTestCodeCp.setClickable(true);
             }
         };
+        currentPhone.setText("当前手机号：" + SystemUtils.phone);
     }
 
     @Override

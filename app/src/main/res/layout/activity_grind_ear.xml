@@ -115,30 +115,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/dialogue_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/icon_listendialogue" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="6dp"
-                        android:text="听对话"
-                        android:textColor="@color/text_black"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/picturebook_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -156,9 +132,33 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="6dp"
-                        android:text="听绘本"
+                        android:text="听故事"
                         android:textColor="@color/text_black"
                         android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/dialogue_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/icon_listendialogue" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="6dp"
+                        android:text="看动画"
+                        android:textColor="@color/text_black"
+                        android:textSize="14sp" />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -188,14 +188,11 @@
                         android:src="@drawable/image_grindear" />
                 </RelativeLayout>
 
-                <TextView
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/light_gray" />
-
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/i_want_grindear"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
@@ -247,7 +244,7 @@
                 android:paddingStart="12dp">
 
                 <ImageView
-                    android:id="@+id/meiriyshi"
+                    android:id="@+id/meiriyishi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"

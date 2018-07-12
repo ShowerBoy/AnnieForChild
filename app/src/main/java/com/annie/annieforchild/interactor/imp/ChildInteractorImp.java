@@ -92,7 +92,9 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
             if (what == MethodCode.EVENT_ADDCHILD) {
                 if (data != null) {
                     //请求成功
-                    listener.Success(what, "添加成功");
+                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                    String username = dataobj.getString("username");
+                    listener.Success(what, username);
                 } else {
                     listener.Error(what, "没有数据");
                 }

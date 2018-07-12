@@ -4,6 +4,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +22,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.RegisterPresenter;
 import com.annie.annieforchild.presenter.imp.RegisterPresenterImp;
 import com.annie.annieforchild.ui.activity.child.AddChildActivity;
+import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.view.RegisterView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -40,6 +44,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
     private RegisterPresenter presenter;
     private AlertHelper helper;
     private Dialog dialog;
+    private boolean isClick = false;
 
     {
         setRegister(true);
@@ -66,7 +71,37 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
         registerBack.setOnClickListener(this);
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
+        phone_number.addTextChangedListener(textWatcher);
+        test_code.addTextChangedListener(textWatcher);
+        password.addTextChangedListener(textWatcher);
+        confirm_password.addTextChangedListener(textWatcher);
     }
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (phone_number.getText().toString() != null && phone_number.getText().toString().length() > 0
+                    && test_code.getText().toString() != null && test_code.getText().toString().length() > 0
+                    && password.getText().toString() != null && password.getText().toString().length() > 0
+                    && confirm_password.getText().toString() != null && confirm_password.getText().toString().length() > 0) {
+                isClick = true;
+                nextBtn.setBackground(ContextCompat.getDrawable(RegisterActivity.this,R.drawable.login_btn_t));
+            } else {
+                isClick = false;
+                nextBtn.setBackground(ContextCompat.getDrawable(RegisterActivity.this,R.drawable.login_btn_f));
+            }
+        }
+    };
 
     @Override
     protected void initData() {
@@ -109,15 +144,18 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
                 break;
             case R.id.user_protocol:
                 //用户协议
-
+                Intent intent = new Intent(this, WebActivity.class);
+                intent.putExtra("title", "用户协议");
+                intent.putExtra("url", "https://demoapi.anniekids.net/api/ShareApi/UserRegistrationProtocol");
+                startActivity(intent);
                 break;
             case R.id.next_btn:
-//                Intent intent = new Intent(this, AddChildActivity.class);
-//                startActivity(intent);
-                if (ifNext()) {
-                    presenter.register(phone_number.getText().toString(), test_code.getText().toString(), password.getText().toString());
-                } else {
-                    showInfo("输入有误,请重新检查");
+                if (isClick) {
+                    if (ifNext()) {
+                        presenter.register(phone_number.getText().toString(), test_code.getText().toString(), password.getText().toString());
+                    } else {
+                        showInfo("输入有误,请重新检查");
+                    }
                 }
                 break;
             case R.id.register_back:

@@ -1,5 +1,6 @@
 package com.annie.annieforchild.ui.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,13 +27,18 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.bean.tongzhi.Msgs;
 import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.bean.song.Song;
+import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.MainPresenter;
+import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.presenter.imp.MainPresenterImp;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
+import com.annie.annieforchild.ui.activity.grindEar.ListenSongActivity;
+import com.annie.annieforchild.ui.activity.grindEar.MeiriyiActivity;
 import com.annie.annieforchild.ui.activity.lesson.CourseActivity;
 import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity;
 import com.annie.annieforchild.ui.activity.mains.EventActivity;
@@ -49,6 +55,7 @@ import com.daimajia.slider.library.SliderLayout;
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.crud.DataSupport;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,11 +77,13 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
     private LinearLayout clockInLayout, scheduleLayout, eventLayout, matchLayout, grindEar100, reading100, spoken100, word100;
     private List<TextView> msgText;
     private List<Song> recommend_list;
+    private List<SongClassify> spokenList;
     private View error;
     private String tag;
     private AlertHelper helper;
     private Dialog dialog;
     private MainPresenter presenter;
+    private GrindEarPresenter presenter2;
     private HashMap<Integer, String> file_maps;//轮播图图片map
     private int screenwidth;
 
@@ -89,12 +98,25 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
     @Override
     protected void initData() {
         recommend_list = new ArrayList<>();
+        spokenList = new ArrayList<>();
         msgText = new ArrayList<>();
         helper = new AlertHelper(getActivity());
         dialog = helper.LoadingDialog();
         Bundle bundle = getArguments();
         if (bundle != null) {
             tag = bundle.getString("tag");
+        }
+
+        if (tag.equals("游客")) {
+            wodekecheng.setVisibility(View.GONE);
+            lessonLayout.setVisibility(View.GONE);
+        } else {
+            wodekecheng.setVisibility(View.VISIBLE);
+            lessonLayout.setVisibility(View.VISIBLE);
+        }
+        if (SystemUtils.childTag == 0) {
+            wodekecheng.setVisibility(View.GONE);
+            lessonLayout.setVisibility(View.GONE);
         }
         file_maps = new HashMap<>();
 
@@ -106,11 +128,19 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
         managers.getDefaultDisplay().getMetrics(outMetrics);
         screenwidth = outMetrics.widthPixels;
         presenter = new MainPresenterImp(getContext(), this, screenwidth);
+        presenter2 = new GrindEarPresenterImp(getContext(), this);
         presenter.initViewAndData();
+        presenter2.initViewAndData();
         presenter.setMyCourseAdapter(myCourse_list);
         List<PhoneSN> list = DataSupport.findAll(PhoneSN.class);
 //        showInfo(list.size() + "==" + SystemUtils.phoneSN.toString());
         presenter.getHomeData(tag);
+        if (SystemUtils.childTag == 1) {
+            presenter2.getMusicList(-1);
+        }
+
+//        Dialog dialog = SystemUtils.CoundownDialog(getActivity());
+//        dialog.show();
     }
 
     @Override
@@ -156,8 +186,10 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
         first_refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                first_refresh_layout.setRefreshing(false);
-//                presenter.getHomeData(tag);
+                presenter.getHomeData(tag);
+                if (SystemUtils.childTag == 1) {
+                    presenter2.getMusicList(-1);
+                }
             }
         });
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
@@ -181,17 +213,21 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETHOMEDATA) {
+            if (first_refresh_layout.isRefreshing()) {
+                first_refresh_layout.setRefreshing(false);
+            }
             HomeData homeData = (HomeData) message.obj;
             List<Msgs> msgList = homeData.getMsgList();
             if (msgList.size() == 0) {
                 msgList = new ArrayList<>();
                 Msgs msgs = new Msgs();
-                msgs.setContents("暂无数据");
+                msgs.setTitle("暂无数据");
                 msgList.add(msgs);
             }
+            msgText.clear();
             for (int i = 0; i < msgList.size(); i++) {
                 TextView textView = new TextView(getContext());
-                textView.setText(msgList.get(i).getContents());
+                textView.setText(msgList.get(i).getTitle());
                 textView.setTextSize(14);
                 textView.setTextColor(getResources().getColor(R.color.text_black));
                 textView.setMaxEms(10);
@@ -199,16 +235,18 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                 textView.setEllipsize(TextUtils.TruncateAt.END);
                 msgText.add(textView);
             }
+            msgFlipper.removeAllViews();
             for (int i = 0; i < msgText.size(); i++) {
                 ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 msgFlipper.addView(msgText.get(i), params);
             }
-            if (first_refresh_layout.isRefreshing()) {
-                first_refresh_layout.setRefreshing(false);
-            }
+
             recommend_list.clear();
             recommend_list.addAll(homeData.getRecommendList());
             recommend_adapter.notifyDataSetChanged();
+        } else if (message.what == MethodCode.EVENT_GETSPOKENCLASSES) {
+            spokenList.clear();
+            spokenList.addAll((List<SongClassify>) message.obj);
         }
     }
 
@@ -232,20 +270,31 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                     SystemUtils.toLogin(getContext());
                     return;
                 }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
+                    return;
+                }
 //                intent.setClass(getContext(), TodayClockInActivity.class);
 //                startActivity(intent);
                 intent = new Intent(getContext(), WebActivity.class);
                 intent.putExtra("url", SystemUtils.mainUrl + "Signin/today?username=" + SystemUtils.defaultUsername);
+                intent.putExtra("title", "今日统计");
+
+
                 startActivity(intent);
                 break;
             case R.id.schedule_layout:
                 //我的课表
-                if (SystemUtils.tag.equals("会员")) {
-                    intent.setClass(getContext(), ScheduleActivity.class);
-                    startActivity(intent);
-                } else {
+                if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
+                    return;
                 }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
+                    return;
+                }
+                intent.setClass(getContext(), ScheduleActivity.class);
+                startActivity(intent);
                 break;
             case R.id.event_layout:
                 //精彩活动
@@ -254,6 +303,15 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                 break;
             case R.id.match_layout:
                 //广场
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+
+                    showInfo("请添加学员");
+                    return;
+                }
                 intent.setClass(getContext(), SquareActivity.class);
                 startActivity(intent);
                 break;
@@ -281,13 +339,27 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                intent.setClass(getContext(), SpokenActivity.class);
-                startActivity(intent);
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
+                    return;
+                }
+                if (spokenList.size() != 0) {
+                    intent.setClass(getContext(), ListenSongActivity.class);
+                    Bundle bundle5 = new Bundle();
+                    bundle5.putInt("type", 11);
+                    bundle5.putSerializable("ClassifyList", (Serializable) spokenList);
+                    intent.putExtras(bundle5);
+                    startActivity(intent);
+                }
                 break;
             case R.id.first_msg_layout:
                 //信息
                 if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
                     return;
                 }
                 intent.setClass(getContext(), MyMessageActivity.class);
@@ -297,6 +369,10 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                 //搜索
                 if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
                     return;
                 }
                 Intent intent2 = new Intent(getContext(), GlobalSearchActivity.class);
@@ -311,14 +387,24 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                     SystemUtils.toLogin(getContext());
                     return;
                 }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
+                    return;
+                }
                 Intent intent1 = new Intent(getContext(), WebActivity.class);
                 intent1.putExtra("url", SystemUtils.mainUrl + "Signin/index?username=" + SystemUtils.defaultUsername);
+                intent1.putExtra("title", "签到");
+                intent1.putExtra("share", 1);
                 startActivity(intent1);
                 break;
             case R.id.lesson_layout:
                 //我的课程
                 if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请添加学员");
                     return;
                 }
                 intent.setClass(getContext(), CourseActivity.class);
@@ -344,6 +430,7 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                 //我的课程推荐
                 intent.setClass(getContext(), WebActivity.class);
                 intent.putExtra("url", "https://mp.weixin.qq.com/s/Wtkns9YyzcmyNsnkgoFLMg");
+                intent.putExtra("title", "我的课程推荐");
                 startActivity(intent);
                 break;
         }

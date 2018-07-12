@@ -118,6 +118,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                                 SystemUtils.defaultUsername = null;
                                 SystemUtils.token = null;
                                 SystemUtils.phoneSN.save();
+                                SystemUtils.isOnline = false;
                                 dialog.dismiss();
                                 Intent intent2 = new Intent(SettingsActivity.this, LoginActivity.class);
                                 startActivity(intent2);

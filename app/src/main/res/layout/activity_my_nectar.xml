@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:src="@drawable/icon_explain" />
+                android:src="@drawable/icon_help" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/my_nectar_headpic"
@@ -90,24 +90,31 @@
 
         </RelativeLayout>
 
-        <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
-            android:id="@+id/my_nectar_tab_layout"
-            style="@style/pagertab_style"
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:id="@+id/my_nectar_recycler"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white"
-            android:fillViewport="false">
+            android:layout_height="match_parent">
 
-        </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
+        </com.jcodecraeer.xrecyclerview.XRecyclerView>
 
-        <com.annie.annieforchild.Utils.views.APSTSViewPager
-            android:id="@+id/my_nectar_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+        <!--<com.lhh.apst.library.AdvancedPagerSlidingTabStrip-->
+            <!--android:id="@+id/my_nectar_tab_layout"-->
+            <!--style="@style/pagertab_style"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="42dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:background="@color/white"-->
+            <!--android:fillViewport="false">-->
 
-        </com.annie.annieforchild.Utils.views.APSTSViewPager>
+        <!--</com.lhh.apst.library.AdvancedPagerSlidingTabStrip>-->
+
+        <!--<com.annie.annieforchild.Utils.views.APSTSViewPager-->
+            <!--android:id="@+id/my_nectar_viewpager"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@color/white">-->
+
+        <!--</com.annie.annieforchild.Utils.views.APSTSViewPager>-->
 
     </LinearLayout>
 

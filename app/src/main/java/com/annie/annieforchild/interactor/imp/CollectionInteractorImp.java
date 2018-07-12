@@ -49,11 +49,11 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
     }
 
     @Override
-    public void cancelCollection(int type, int courseId) {
+    public void cancelCollection(int type, int audioSource, int courseId) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.CANCELCOLLECTION, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
-
+        request.add("audioSource", audioSource);
         request.add("type", type);
         request.add("courseId", courseId);
         if (type == 1) {

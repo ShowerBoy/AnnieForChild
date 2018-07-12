@@ -83,7 +83,7 @@ public class ExchangeActivity extends BaseActivity implements ViewInfo, View.OnC
         Glide.with(this).load(userInfo.getAvatar()).into(headpic);
         name.setText(userInfo.getName());
         nectar.setText(userInfo.getNectar() != null ? userInfo.getNectar() + "花蜜" : "0花蜜");
-        coin.setText(userInfo.getGold() != null ? userInfo.getGold() + "金币" : "0金币");
+//        coin.setText(userInfo.getGold() != null ? userInfo.getGold() + "金币" : "0金币");
     }
 
     @Override

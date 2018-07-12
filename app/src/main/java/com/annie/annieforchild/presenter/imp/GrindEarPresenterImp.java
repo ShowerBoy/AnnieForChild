@@ -1,34 +1,45 @@
 package com.annie.annieforchild.presenter.imp;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.mtp.MtpConstants;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.bean.AnimationData;
 import com.annie.annieforchild.bean.AudioBean;
 import com.annie.annieforchild.bean.Banner;
 import com.annie.annieforchild.bean.PkResult;
+import com.annie.annieforchild.bean.ReadingData;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.grindear.GrindEarData;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
+import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.bean.material.MaterialGroup;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.interactor.GrindEarInteractor;
 import com.annie.annieforchild.interactor.imp.GrindEarInteractorImp;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
+import com.annie.annieforchild.ui.adapter.AnimationAdapter;
 import com.annie.annieforchild.ui.adapter.PopupAdapter;
+import com.annie.annieforchild.ui.adapter.viewHolder.CommitBookViewHolder;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.annieforchild.view.ReadingView;
 import com.annie.annieforchild.view.SongView;
+import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BasePresenterImp;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -47,12 +58,17 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     private Context context;
     private GrindEarView grindEarView;
     private SongView songView;
+    private ViewInfo viewInfo;
     private GrindEarInteractor interactor;
     private List<Banner> bannerList;
     private int classId;
     private int lineId;
     private int pkType;
     private HashMap<Integer, String> file_maps;
+
+    public GrindEarPresenterImp(Context context) {
+        this.context = context;
+    }
 
     public GrindEarPresenterImp(Context context, GrindEarView grindEarView) {
         this.context = context;
@@ -63,6 +79,12 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
         this.context = context;
         this.songView = songView;
     }
+
+    public GrindEarPresenterImp(Context context, ViewInfo viewInfo) {
+        this.context = context;
+        this.viewInfo = viewInfo;
+    }
+
 
     @Override
     public void initViewAndData() {
@@ -97,9 +119,9 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param courseId
      */
     @Override
-    public void collectCourse(int type, int courseId, int classId) {
+    public void collectCourse(int type, int audioSource, int courseId, int classId) {
         songView.showLoad();
-        interactor.collectCourse(type, courseId, classId);
+        interactor.collectCourse(type, audioSource, courseId, classId);
     }
 
     /**
@@ -109,9 +131,9 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param courseId
      */
     @Override
-    public void cancelCollection(int type, int courseId, int classId) {
+    public void cancelCollection(int type, int audioSource, int courseId, int classId) {
         songView.showLoad();
-        interactor.cancelCollection(type, courseId, classId);
+        interactor.cancelCollection(type, audioSource, courseId, classId);
     }
 
     /**
@@ -119,6 +141,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      */
     @Override
     public void getMusicClasses() {
+        grindEarView.showLoad();
         interactor.getMusicClasses();
     }
 
@@ -127,19 +150,24 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      */
     @Override
     public void getReadingClasses() {
+        grindEarView.showLoad();
         interactor.getReadingClasses();
     }
 
     /**
      * 获取某分类的儿歌列表
      *
-     * @param calssId
+     * @param classId
      */
     @Override
-    public void getMusicList(int calssId) {
-        songView.showLoad();
-        classId = calssId;
-        interactor.getMusicList(calssId);
+    public void getMusicList(int classId) {
+        if (classId == -1) {
+            getSpokenClasses();
+        } else {
+            songView.showLoad();
+            this.classId = classId;
+            interactor.getMusicList(classId);
+        }
     }
 
     /**
@@ -188,9 +216,9 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param score
      */
     @Override
-    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin) {
+    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername) {
         this.lineId = lineId;
-        interactor.uploadAudioResource(resourseId, page, audioType, audioSource, lineId, path, score, title, duration, origin);
+        interactor.uploadAudioResource(resourseId, page, audioType, audioSource, lineId, path, score, title, duration, origin, pkUsername);
     }
 
     /**
@@ -319,9 +347,9 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param duration
      */
     @Override
-    public void commitReading(String[] type, String[] duration) {
+    public void commitReading(String[] type, String[] duration, int books, int words) {
         songView.showLoad();
-        interactor.commitReading(type, duration);
+        interactor.commitReading(type, duration, books, words);
     }
 
     /**
@@ -336,27 +364,105 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
         interactor.getDurationStatistics(timeType, locationType);
     }
 
+    /**
+     * 获取阅读列表
+     *
+     * @param classId
+     */
+    @Override
+    public void getReadList(int classId) {
+        songView.showLoad();
+        this.classId = classId;
+        interactor.getReadList(classId);
+    }
+
+    /**
+     * 获取二维码
+     */
+    @Override
+    public void getQrCode() {
+        songView.showLoad();
+        interactor.getQrCode();
+    }
+
+    /**
+     * 获取看动画列表
+     *
+     * @param title
+     */
+    @Override
+    public void getAnimationList(String title, int classId) {
+        songView.showLoad();
+        this.classId = classId;
+        interactor.getAnimationList(title, classId);
+    }
+
+    @Override
+    public void getSpokenClasses() {
+        interactor.getSpokenClasses();
+    }
+
+    /**
+     * 获取口语列表
+     *
+     * @param classId
+     */
+    @Override
+    public void getSpokenList(int classId) {
+        songView.showLoad();
+        this.classId = classId;
+        interactor.getSpokenList(classId);
+    }
+
+    /**
+     * 添加书名
+     *
+     * @param lists
+     */
+    @Override
+    public void commitBook(List<String> lists) {
+        interactor.commitBook(lists);
+    }
+
+    /**
+     * 在线获取花蜜
+     */
+    @Override
+    public void DailyPunch() {
+        interactor.DailyPunch();
+    }
+
     private void initImageSlide() {
+        grindEarView.getImageSlide().removeAllSliders();
         for (int name : file_maps.keySet()) {
-            TextSliderView textSliderView = new TextSliderView(context);
-            textSliderView
-                    .description("")
-                    .image(file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(this);
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle().putInt("extra", name);
-            grindEarView.getImageSlide().addSlider(textSliderView);
+            DefaultSliderView defaultSliderView = new DefaultSliderView(context);
+//            TextSliderView textSliderView = new TextSliderView(context);
+//            textSliderView
+//                    .description("")
+//                    .image(file_maps.get(name))
+//                    .setScaleType(BaseSliderView.ScaleType.Fit)
+//                    .setOnSliderClickListener(this);
+//            textSliderView.bundle(new Bundle());
+//            textSliderView.getBundle().putInt("extra", name);
+//            grindEarView.getImageSlide().addSlider(textSliderView);
+            defaultSliderView.image(file_maps.get(name));
+            grindEarView.getImageSlide().addSlider(defaultSliderView);
         }
         grindEarView.getImageSlide().setPresetTransformer(SliderLayout.Transformer.DepthPage);
         grindEarView.getImageSlide().setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         grindEarView.getImageSlide().setCustomAnimation(new DescriptionAnimation());
         grindEarView.getImageSlide().setDuration(4000);
+        if (file_maps.size() == 1) {
+            grindEarView.getImageSlide().stopAutoCycle();
+        }
     }
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-        grindEarView.showInfo(slider.getBundle().getString("extra"));
+        /**
+         * Banner页点击
+         */
+//        grindEarView.showInfo(slider.getBundle().getString("extra"));
     }
 
     @Override
@@ -372,11 +478,19 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 GrindEarData grindEarData = (GrindEarData) result;
                 if (grindEarData.getBannerList() != null) {
                     bannerList = grindEarData.getBannerList();
+                    file_maps.clear();
                     for (int i = 0; i < bannerList.size(); i++) {
                         file_maps.put(i, bannerList.get(i).getImageUrl());
                     }
                     initImageSlide();
                 }
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = grindEarData;
+                EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES1) {
                 List<SongClassify> lists = (List<SongClassify>) result;
                 /**
@@ -476,6 +590,15 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 message.what = what;
                 message.obj = songList;
                 EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETREADLIST + 6000 + classId) {
+                List<Song> songList = (List<Song>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.song.ListenSongFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = songList;
+                EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_GETMYLISTENING) {
                 MyGrindEarBean bean = (MyGrindEarBean) result;
                 /**
@@ -550,24 +673,6 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_GETPKUSERS) {
                 List<UserInfo2> lists = (List<UserInfo2>) result;
-                //TODO:假数据
-//                lists.clear();
-//                UserInfo2 userInfo2 = new UserInfo2();
-//                userInfo2.setAvatar("http://pic.58pic.com/58pic/14/62/50/62558PICxm8_1024.jpg");
-//                userInfo2.setName("小明");
-//                UserInfo2 userInfo3 = new UserInfo2();
-//                userInfo3.setAvatar("http://pic.58pic.com/58pic/14/62/50/62558PICxm8_1024.jpg");
-//                userInfo3.setName("小明");
-//                UserInfo2 userInfo4 = new UserInfo2();
-//                userInfo4.setAvatar("http://pic.58pic.com/58pic/14/62/50/62558PICxm8_1024.jpg");
-//                userInfo4.setName("小明");
-//                UserInfo2 userInfo5 = new UserInfo2();
-//                userInfo5.setAvatar("http://pic.58pic.com/58pic/14/62/50/62558PICxm8_1024.jpg");
-//                userInfo5.setName("小明");
-//                lists.add(userInfo2);
-//                lists.add(userInfo3);
-//                lists.add(userInfo4);
-//                lists.add(userInfo5);
                 /**
                  * {@link com.annie.annieforchild.ui.activity.pk.PracticeActivity#onMainEventThread(JTMessage)}
                  */
@@ -647,19 +752,29 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 songView.showInfo((String) result);
                 /**
                  * {@link com.annie.annieforchild.ui.activity.grindEar.InputActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.InputBookActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = result;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_GETREADING) {
-                List<Banner> lists = (List<Banner>) result;
+                ReadingData readingData = (ReadingData) result;
+                List<Banner> lists = readingData.getBannerList();
                 if (lists.size() != 0) {
+                    file_maps.clear();
                     for (int i = 0; i < lists.size(); i++) {
                         file_maps.put(i, lists.get(i).getImageUrl());
                     }
                     initImageSlide();
                 }
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.reading.ReadingActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = readingData;
+                EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_GETDURATIONSTATISTICS) {
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.square.CensusFragment#onMainEventThread(JTMessage)}
@@ -668,6 +783,70 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 message.what = what;
                 message.obj = result;
                 EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETQRCODE) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.my.QrCodeActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETANIMATIONLIST + 7000 + classId) {
+                List<AnimationData> lists = (List<AnimationData>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.song.AnimationFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETSPOKENCLASSES) {
+                List<SongClassify> lists = (List<SongClassify>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.FirstFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETSPOKENLIST + 8000 + classId) {
+                List<Song> songList = (List<Song>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.song.ListenSongFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = songList;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_COMMITBOOK) {
+                /**
+                 *  {@link }
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_DAILYPUNCH) {
+                int res = (int) result;
+                if (res == 1) {
+//                    SystemUtils.show(context, res + "");
+                    Dialog dialog = SystemUtils.CoundownDialog((Activity) context);
+                    dialog.show();
+                    SystemUtils.setBackGray((Activity) context, true);
+                    SystemUtils.signinBean.setNectar(true);
+                    SystemUtils.signinBean.save();
+                } else {
+                    SystemUtils.signinBean.setNectar(true);
+                    SystemUtils.signinBean.save();
+                }
+                if (SystemUtils.timer != null) {
+                    SystemUtils.timer.cancel();
+                    SystemUtils.timer = null;
+                }
+                if (SystemUtils.task != null) {
+                    SystemUtils.task.cancel();
+                    SystemUtils.task = null;
+                }
             }
         }
     }
@@ -676,11 +855,15 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     public void Error(int what, String error) {
         if (grindEarView != null) {
             grindEarView.dismissLoad();
-            grindEarView.showInfo(error);
+//            grindEarView.showInfo(error);
         }
         if (songView != null) {
             songView.dismissLoad();
-            songView.showInfo(error);
+//            songView.showInfo(error);
+        }
+        if (viewInfo != null) {
+            viewInfo.dismissLoad();
+//            viewInfo.showInfo(error);
         }
     }
 }

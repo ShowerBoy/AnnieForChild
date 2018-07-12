@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="添加学员"
+                android:text="添加"
                 android:textColor="@color/text_black"
                 android:textSize="20sp" />
 
@@ -39,10 +39,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:visibility="gone"
                 android:text="跳过"
                 android:textColor="@color/text_black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -69,7 +69,7 @@
                     android:id="@+id/child_headpic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/photo" />
+                    android:src="@drawable/icon_system_photo" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -95,7 +95,8 @@
                 android:focusable="false"
                 android:hint="出生日期"
                 android:textColor="@color/text_black"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:theme="@style/MyEditText" />
 
             <EditText
                 android:id="@+id/name_add_child"
@@ -106,9 +107,11 @@
                 android:layout_marginBottom="12dp"
                 android:drawableLeft="@drawable/icon_people2"
                 android:drawablePadding="10dp"
-                android:hint="学员姓名"
+                android:hint="英文名/昵称"
+                android:maxLength="10"
                 android:textColor="@color/text_black"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:theme="@style/MyEditText" />
 
             <LinearLayout
                 android:id="@+id/layout_t1"

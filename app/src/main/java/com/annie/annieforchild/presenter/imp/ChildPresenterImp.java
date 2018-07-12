@@ -92,7 +92,7 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
         if (result != null) {
             if (what == MethodCode.EVENT_ADDCHILD) {
                 if (viewInfo.getTag() == 0) {
-                    viewInfo.showInfo((String) result);
+//                    viewInfo.showInfo((String) result);
                     /**
                      * {@link com.annie.annieforchild.ui.activity.child.AddChildActivity#onEventMainThread(JTMessage)}
                      */
@@ -101,6 +101,10 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
                     message.obj = result;
                     EventBus.getDefault().post(message);
                 } else {
+                    if (SystemUtils.childTag == 0) {
+                        SystemUtils.defaultUsername = (String) result;
+                        SystemUtils.childTag = 1;
+                    }
                     /**
                      * {@link com.annie.annieforchild.ui.activity.child.AddChildActivity#onEventMainThread(JTMessage)}
                      * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}

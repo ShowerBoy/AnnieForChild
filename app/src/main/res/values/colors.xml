@@ -18,6 +18,7 @@
     <color name="red">#ff0000</color>
     <color name="text_red">#E51C23</color>
     <color name="grey">#607D8B</color>
+    <color name="divider">#f2f2f2</color>
     <color name="text_color">#898989</color>
     <color name="text_light_color">#A1A1A1</color>
     <color name="light_gray">#F5F5F8</color>
@@ -26,6 +27,8 @@
     <color name="gray">#CECECE</color>
     <color name="text_orange">#FF8A0D</color>
     <color name="button_orange">#FF9800</color>
+    <color name="back_orange1">#ff871d</color>
+    <color name="back_orange2">#ff671d</color>
     <color name="card_back">#FFE6C9</color>
     <color name="icon_green">#4ED0AA</color>
     <color name="text_green">#259B24</color>

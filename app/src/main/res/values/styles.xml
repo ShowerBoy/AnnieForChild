@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:listDivider">@drawable/divider_bg</item>
     </style>
 
     <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
@@ -51,5 +52,17 @@
         <item name="android:backgroundDimEnabled">false</item><!--模糊-->
     </style>
 
+    <style name="coundown_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowBackground">@color/clarity</item><!--背景透明-->
+        <item name="android:backgroundDimEnabled">false</item><!--模糊-->
+    </style>
+
+    <style name="MyEditText" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlActivated">@color/gray</item>
+    </style>
 
 </resources>

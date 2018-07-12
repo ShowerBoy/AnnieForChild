@@ -16,6 +16,7 @@ import com.annie.annieforchild.ui.activity.mains.RankingActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.RankListViewHolder;
 import com.bumptech.glide.Glide;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -26,10 +27,12 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
     private Context context;
     private List<RankList> list;
     private LayoutInflater inflater;
+    private DecimalFormat format;
 
     public RankListAdapter(Context context, List<RankList> list) {
         this.context = context;
         this.list = list;
+        format = new DecimalFormat("0.0");
         inflater = LayoutInflater.from(context);
     }
 
@@ -74,8 +77,9 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                 }
                 for (int j = 0; j < lists.size(); j++) {
                     if (j == 0) {
-                        Glide.with(context).load(lists.get(j).getAvatar()).into(rankListViewHolder.first);
+                        Glide.with(context).load(lists.get(j).getAvatar()).error(R.drawable.icon_system_photo).into(rankListViewHolder.first);
                         rankListViewHolder.firstName.setText(lists.get(j).getName());
+                        int second = Integer.parseInt(lists.get(j).getDuration());
                         int min = Integer.parseInt(lists.get(j).getDuration()) / 60;
                         int hour = 0;
                         if (min > 60) {
@@ -83,7 +87,13 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             min = min % 60;
                         }
                         if (hour == 0) {
-                            rankListViewHolder.firstTime.setText(min + "分钟");
+                            if (min == 0) {
+//                                String minute = format.format(second / 60);
+                                rankListViewHolder.firstTime.setText(second + "秒");
+                            } else {
+                                min = Integer.parseInt(lists.get(j).getDuration()) / 60;
+                                rankListViewHolder.firstTime.setText(min + "分钟");
+                            }
                         } else {
                             rankListViewHolder.firstTime.setText(hour + "小时" + min + "分钟");
                         }
@@ -98,8 +108,9 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             rankListViewHolder.firstLike.setText(lists.get(j).getLikeCount() + "");
                         }
                     } else if (j == 1) {
-                        Glide.with(context).load(lists.get(j).getAvatar()).into(rankListViewHolder.second);
+                        Glide.with(context).load(lists.get(j).getAvatar()).error(R.drawable.icon_system_photo).into(rankListViewHolder.second);
                         rankListViewHolder.secondName.setText(lists.get(j).getName());
+                        int second = Integer.parseInt(lists.get(j).getDuration());
                         int min = Integer.parseInt(lists.get(j).getDuration()) / 60;
                         int hour = 0;
                         if (min > 60) {
@@ -107,7 +118,13 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             min = min % 60;
                         }
                         if (hour == 0) {
-                            rankListViewHolder.secondTime.setText(min + "分钟");
+                            if (min == 0) {
+//                                String minute = format.format(second / 60);
+                                rankListViewHolder.secondTime.setText(second + "秒");
+                            } else {
+                                min = Integer.parseInt(lists.get(j).getDuration()) / 60;
+                                rankListViewHolder.secondTime.setText(min + "分钟");
+                            }
                         } else {
                             rankListViewHolder.secondTime.setText(hour + "小时" + min + "分钟");
                         }
@@ -121,8 +138,9 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             rankListViewHolder.secondLike.setText(lists.get(j).getLikeCount() + "");
                         }
                     } else if (j == 2) {
-                        Glide.with(context).load(lists.get(j).getAvatar()).into(rankListViewHolder.third);
+                        Glide.with(context).load(lists.get(j).getAvatar()).error(R.drawable.icon_system_photo).into(rankListViewHolder.third);
                         rankListViewHolder.thirdName.setText(lists.get(j).getName());
+                        int second = Integer.parseInt(lists.get(j).getDuration());
                         int min = Integer.parseInt(lists.get(j).getDuration()) / 60;
                         int hour = 0;
                         if (min > 60) {
@@ -130,7 +148,13 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             min = min % 60;
                         }
                         if (hour == 0) {
-                            rankListViewHolder.thirdTime.setText(min + "分钟");
+                            if (min == 0) {
+//                                String minute = format.format(second / 60);
+                                rankListViewHolder.thirdTime.setText(second + "秒");
+                            } else {
+                                min = Integer.parseInt(lists.get(j).getDuration()) / 60;
+                                rankListViewHolder.thirdTime.setText(min + "分钟");
+                            }
                         } else {
                             rankListViewHolder.thirdTime.setText(hour + "小时" + min + "分钟");
                         }
@@ -180,8 +204,9 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                 }
                 for (int j = 0; j < lists.size(); j++) {
                     if (j == 0) {
-                        Glide.with(context).load(lists.get(j).getAvatar()).into(rankListViewHolder.first);
+                        Glide.with(context).load(lists.get(j).getAvatar()).error(R.drawable.icon_system_photo).into(rankListViewHolder.first);
                         rankListViewHolder.firstName.setText(lists.get(j).getName());
+                        int second = Integer.parseInt(lists.get(j).getDuration());
                         int min = Integer.parseInt(lists.get(j).getDuration()) / 60;
                         int hour = 0;
                         if (min > 60) {
@@ -189,7 +214,13 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             min = min % 60;
                         }
                         if (hour == 0) {
-                            rankListViewHolder.firstTime.setText(min + "分钟");
+                            if (min == 0) {
+//                                String minute = format.format(second / 60);
+                                rankListViewHolder.firstTime.setText(second + "秒");
+                            } else {
+                                min = Integer.parseInt(lists.get(j).getDuration()) / 60;
+                                rankListViewHolder.firstTime.setText(min + "分钟");
+                            }
                         } else {
                             rankListViewHolder.firstTime.setText(hour + "小时" + min + "分钟");
                         }
@@ -203,8 +234,9 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             rankListViewHolder.firstLike.setText(lists.get(j).getLikeCount() + "");
                         }
                     } else if (j == 1) {
-                        Glide.with(context).load(lists.get(j).getAvatar()).into(rankListViewHolder.second);
+                        Glide.with(context).load(lists.get(j).getAvatar()).error(R.drawable.icon_system_photo).into(rankListViewHolder.second);
                         rankListViewHolder.secondName.setText(lists.get(j).getName());
+                        int second = Integer.parseInt(lists.get(j).getDuration());
                         int min = Integer.parseInt(lists.get(j).getDuration()) / 60;
                         int hour = 0;
                         if (min > 60) {
@@ -212,7 +244,13 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             min = min % 60;
                         }
                         if (hour == 0) {
-                            rankListViewHolder.secondTime.setText(min + "分钟");
+                            if (min == 0) {
+//                                String minute = format.format(second / 60);
+                                rankListViewHolder.secondTime.setText(second + "秒");
+                            } else {
+                                min = Integer.parseInt(lists.get(j).getDuration()) / 60;
+                                rankListViewHolder.secondTime.setText(min + "分钟");
+                            }
                         } else {
                             rankListViewHolder.secondTime.setText(hour + "小时" + min + "分钟");
                         }
@@ -226,8 +264,9 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             rankListViewHolder.secondLike.setText(lists.get(j).getLikeCount() + "");
                         }
                     } else if (j == 2) {
-                        Glide.with(context).load(lists.get(j).getAvatar()).into(rankListViewHolder.third);
+                        Glide.with(context).load(lists.get(j).getAvatar()).error(R.drawable.icon_system_photo).into(rankListViewHolder.third);
                         rankListViewHolder.thirdName.setText(lists.get(j).getName());
+                        int second = Integer.parseInt(lists.get(j).getDuration());
                         int min = Integer.parseInt(lists.get(j).getDuration()) / 60;
                         int hour = 0;
                         if (min > 60) {
@@ -235,7 +274,13 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             min = min % 60;
                         }
                         if (hour == 0) {
-                            rankListViewHolder.thirdTime.setText(min + "分钟");
+                            if (min == 0) {
+//                                String minute = format.format(second / 60);
+                                rankListViewHolder.thirdTime.setText(second + "秒");
+                            } else {
+                                min = Integer.parseInt(lists.get(j).getDuration()) / 60;
+                                rankListViewHolder.thirdTime.setText(min + "分钟");
+                            }
                         } else {
                             rankListViewHolder.thirdTime.setText(hour + "小时" + min + "分钟");
                         }
@@ -285,8 +330,9 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                 }
                 for (int j = 0; j < lists.size(); j++) {
                     if (j == 0) {
-                        Glide.with(context).load(lists.get(j).getAvatar()).into(rankListViewHolder.first);
+                        Glide.with(context).load(lists.get(j).getAvatar()).error(R.drawable.icon_system_photo).into(rankListViewHolder.first);
                         rankListViewHolder.firstName.setText(lists.get(j).getName());
+                        int second = Integer.parseInt(lists.get(j).getDuration());
                         int min = Integer.parseInt(lists.get(j).getDuration()) / 60;
                         int hour = 0;
                         if (min > 60) {
@@ -294,7 +340,13 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             min = min % 60;
                         }
                         if (hour == 0) {
-                            rankListViewHolder.firstTime.setText(min + "分钟");
+                            if (min == 0) {
+//                                String minute = format.format(second / 60);
+                                rankListViewHolder.firstTime.setText(second + "秒");
+                            } else {
+                                min = Integer.parseInt(lists.get(j).getDuration()) / 60;
+                                rankListViewHolder.firstTime.setText(min + "分钟");
+                            }
                         } else {
                             rankListViewHolder.firstTime.setText(hour + "小时" + min + "分钟");
                         }
@@ -308,8 +360,9 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             rankListViewHolder.firstLike.setText(lists.get(j).getLikeCount() + "");
                         }
                     } else if (j == 1) {
-                        Glide.with(context).load(lists.get(j).getAvatar()).into(rankListViewHolder.second);
+                        Glide.with(context).load(lists.get(j).getAvatar()).error(R.drawable.icon_system_photo).into(rankListViewHolder.second);
                         rankListViewHolder.secondName.setText(lists.get(j).getName());
+                        int second = Integer.parseInt(lists.get(j).getDuration());
                         int min = Integer.parseInt(lists.get(j).getDuration()) / 60;
                         int hour = 0;
                         if (min > 60) {
@@ -317,7 +370,13 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             min = min % 60;
                         }
                         if (hour == 0) {
-                            rankListViewHolder.secondTime.setText(min + "分钟");
+                            if (min == 0) {
+//                                String minute = format.format(second / 60);
+                                rankListViewHolder.secondTime.setText(second + "秒");
+                            } else {
+                                min = Integer.parseInt(lists.get(j).getDuration()) / 60;
+                                rankListViewHolder.secondTime.setText(min + "分钟");
+                            }
                         } else {
                             rankListViewHolder.secondTime.setText(hour + "小时" + min + "分钟");
                         }
@@ -331,8 +390,9 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             rankListViewHolder.secondLike.setText(lists.get(j).getLikeCount() + "");
                         }
                     } else if (j == 2) {
-                        Glide.with(context).load(lists.get(j).getAvatar()).into(rankListViewHolder.third);
+                        Glide.with(context).load(lists.get(j).getAvatar()).error(R.drawable.icon_system_photo).into(rankListViewHolder.third);
                         rankListViewHolder.thirdName.setText(lists.get(j).getName());
+                        int second = Integer.parseInt(lists.get(j).getDuration());
                         int min = Integer.parseInt(lists.get(j).getDuration()) / 60;
                         int hour = 0;
                         if (min > 60) {
@@ -340,7 +400,13 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                             min = min % 60;
                         }
                         if (hour == 0) {
-                            rankListViewHolder.thirdTime.setText(min + "分钟");
+                            if (min == 0) {
+//                                String minute = format.format(second / 60);
+                                rankListViewHolder.thirdTime.setText(second + "秒");
+                            } else {
+                                min = Integer.parseInt(lists.get(j).getDuration()) / 60;
+                                rankListViewHolder.thirdTime.setText(min + "分钟");
+                            }
                         } else {
                             rankListViewHolder.thirdTime.setText(hour + "小时" + min + "分钟");
                         }

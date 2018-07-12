@@ -118,7 +118,8 @@
                 android:background="@drawable/login_btn_t"
                 android:text="录入"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
 
         </RelativeLayout>
 

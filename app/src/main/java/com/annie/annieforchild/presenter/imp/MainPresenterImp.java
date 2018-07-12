@@ -16,8 +16,10 @@ import com.annie.annieforchild.ui.adapter.MyCourseAdapter;
 import com.annie.annieforchild.view.MainView;
 import com.annie.baselibrary.base.BasePresenterImp;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,18 +51,21 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
     }
 
     private void initImageSlide() {
+        mainView.getImageSlide().removeAllSliders();
         for (int name : file_maps.keySet()) {
-            TextSliderView textSliderView = new TextSliderView(context);
-            textSliderView
-                    .description("")
-                    .image(file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(this);
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle().putInt("extra", name);
-            mainView.getImageSlide().addSlider(textSliderView);
+            DefaultSliderView defaultSliderView = new DefaultSliderView(context);
+//            TextSliderView textSliderView = new TextSliderView(context);
+//            textSliderView
+//                    .image(file_maps.get(name))
+//                    .setScaleType(BaseSliderView.ScaleType.Fit)
+//                    .setOnSliderClickListener(this);
+//            textSliderView.bundle(new Bundle());
+//            textSliderView.getBundle().putInt("extra", name);
+//            mainView.getImageSlide().addSlider(textSliderView);
+            defaultSliderView.image(file_maps.get(name));
+            mainView.getImageSlide().addSlider(defaultSliderView);
         }
-//        mainView.getImageSlide().setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
+        mainView.getImageSlide().setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
         mainView.getImageSlide().setPresetTransformer(SliderLayout.Transformer.DepthPage);
         mainView.getImageSlide().setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mainView.getImageSlide().setCustomAnimation(new DescriptionAnimation());
@@ -69,7 +74,7 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-        mainView.showInfo(bannerList.get(slider.getBundle().getInt("extra")).getUrl());
+//        mainView.showInfo(bannerList.get(slider.getBundle().getInt("extra")).getUrl());
     }
 
     @Override
@@ -82,7 +87,7 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
 
     @Override
     public void getHomeData(String tag) {
-        mainView.showLoad();
+//        mainView.showLoad();
         interactor.getHomeData(tag);
     }
 
@@ -99,6 +104,7 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
                 HomeData homeData = (HomeData) result;
                 if (homeData.getBannerList() != null) {
                     bannerList = homeData.getBannerList();
+                    file_maps.clear();
                     for (int i = 0; i < bannerList.size(); i++) {
                         file_maps.put(i, bannerList.get(i).getImageUrl());
                     }
@@ -125,5 +131,6 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
     @Override
     public void Error(int what, String error) {
         mainView.showInfo(error);
+        mainView.dismissLoad();
     }
 }

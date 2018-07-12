@@ -3,6 +3,7 @@ package com.annie.annieforchild.ui.fragment.material;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.MethodCode;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class OptionalMaterialFragment extends BaseFragment {
     private RecyclerView optionalRecycler;
+    private RelativeLayout emptyLayout;
     private List<Material> lists;
     private MaterialAdapter adapter;
 
@@ -58,7 +60,7 @@ public class OptionalMaterialFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         optionalRecycler = view.findViewById(R.id.optional_recycler);
-
+        emptyLayout = view.findViewById(R.id.optional_empty_layout);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         optionalRecycler.setLayoutManager(manager);
@@ -79,6 +81,11 @@ public class OptionalMaterialFragment extends BaseFragment {
         if (message.what == MethodCode.EVENT_MYTEACHINGMATERIALS) {
             lists.clear();
             lists.addAll((List<Material>) message.obj);
+            if (lists.size() == 0) {
+                emptyLayout.setVisibility(View.VISIBLE);
+            } else {
+                emptyLayout.setVisibility(View.GONE);
+            }
             adapter.notifyDataSetChanged();
         }
     }
