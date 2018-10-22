@@ -51,13 +51,13 @@ public class EventActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.event1:
                 Intent intent = new Intent(this, WebActivity.class);
-                intent.putExtra("url", "http://url.cn/5P3xT1A");
+                intent.putExtra("url", "https://demoapi.anniekids.net/api/ShareApi/yue100");
                 intent.putExtra("title", "阅读100挑战赛");
                 startActivity(intent);
                 break;
             case R.id.event2:
                 Intent intent2 = new Intent(this, WebActivity.class);
-                intent2.putExtra("url", "http://url.cn/5VRbbQ6");
+                intent2.putExtra("url", "https://demoapi.anniekids.net/api/ShareApi/Wonderactive");
                 intent2.putExtra("title", "小小声援者");
                 startActivity(intent2);
                 break;

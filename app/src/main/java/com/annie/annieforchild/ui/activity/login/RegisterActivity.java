@@ -1,9 +1,15 @@
 package com.annie.annieforchild.ui.activity.login;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,7 +22,9 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.RegisterPresenter;
@@ -27,6 +35,9 @@ import com.annie.annieforchild.view.RegisterView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.ashokvarma.bottomnavigation.utils.Utils;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -35,7 +46,7 @@ import org.greenrobot.eventbus.Subscribe;
  * Created by WangLei on 2018/1/22 0022
  */
 
-public class RegisterActivity extends BaseActivity implements RegisterView, View.OnClickListener {
+public class RegisterActivity extends BaseActivity implements RegisterView, OnCheckDoubleClick {
     private EditText phone_number, test_code, password, confirm_password;
     private TextView getTestCode, userProtocol;
     private ImageView registerBack;
@@ -44,7 +55,9 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
     private RegisterPresenter presenter;
     private AlertHelper helper;
     private Dialog dialog;
+    private String phone;
     private boolean isClick = false;
+    private CheckDoubleClickListener listener;
 
     {
         setRegister(true);
@@ -65,10 +78,11 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
         registerBack = findViewById(R.id.register_back);
         password = findViewById(R.id.register_password);
         confirm_password = findViewById(R.id.confirm_password);
-        getTestCode.setOnClickListener(this);
-        userProtocol.setOnClickListener(this);
-        nextBtn.setOnClickListener(this);
-        registerBack.setOnClickListener(this);
+        listener = new CheckDoubleClickListener(this);
+        getTestCode.setOnClickListener(listener);
+        userProtocol.setOnClickListener(listener);
+        nextBtn.setOnClickListener(listener);
+        registerBack.setOnClickListener(listener);
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         phone_number.addTextChangedListener(textWatcher);
@@ -95,10 +109,10 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
                     && password.getText().toString() != null && password.getText().toString().length() > 0
                     && confirm_password.getText().toString() != null && confirm_password.getText().toString().length() > 0) {
                 isClick = true;
-                nextBtn.setBackground(ContextCompat.getDrawable(RegisterActivity.this,R.drawable.login_btn_t));
+                nextBtn.setBackground(ContextCompat.getDrawable(RegisterActivity.this, R.drawable.login_btn_t));
             } else {
                 isClick = false;
-                nextBtn.setBackground(ContextCompat.getDrawable(RegisterActivity.this,R.drawable.login_btn_f));
+                nextBtn.setBackground(ContextCompat.getDrawable(RegisterActivity.this, R.drawable.login_btn_f));
             }
         }
     };
@@ -128,42 +142,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
         return null;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.get_test_code:
-                //获取验证码
-                if (!phone_number.getText().toString().equals("") && phone_number.getText().toString().length() == 11 && !phone_number.getText().toString().contains(" ") && phone_number.getText().toString().matches("[0-9]+")) {
-                    getTestCode.setClickable(false);
-                    countDownTimer.start();
-                    String phone = phone_number.getText().toString();
-                    presenter.getVerificationCode(phone, 1);
-                } else {
-                    SystemUtils.show(this, "请重新输入手机号");
-                }
-                break;
-            case R.id.user_protocol:
-                //用户协议
-                Intent intent = new Intent(this, WebActivity.class);
-                intent.putExtra("title", "用户协议");
-                intent.putExtra("url", "https://demoapi.anniekids.net/api/ShareApi/UserRegistrationProtocol");
-                startActivity(intent);
-                break;
-            case R.id.next_btn:
-                if (isClick) {
-                    if (ifNext()) {
-                        presenter.register(phone_number.getText().toString(), test_code.getText().toString(), password.getText().toString());
-                    } else {
-                        showInfo("输入有误,请重新检查");
-                    }
-                }
-                break;
-            case R.id.register_back:
-                finish();
-                break;
-        }
-    }
-
     private boolean ifNext() {
         if (phone_number.getText().toString().equals("") || phone_number.getText().toString().length() != 11 || phone_number.getText().toString().contains(" ") || test_code.getText().toString().contains(" ") || test_code.getText().toString().equals("")
                 || password.getText().toString().equals("") || confirm_password.getText().toString().equals("") || password.getText().toString().length() != confirm_password.getText().toString().length() || !password.getText().toString().equals(confirm_password.getText().toString())) {
@@ -182,6 +160,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
     public void onEventMainThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_RGISTER) {
             if (message.obj instanceof String) {
+                SystemUtils.phone = phone;
                 Intent intent = new Intent(this, AddChildActivity.class);
                 intent.putExtra("from", "register");
                 startActivity(intent);
@@ -213,5 +192,77 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
     protected void onResume() {
         super.onResume();
         phone_number.requestFocus();
+    }
+
+    @Override
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
+            case R.id.get_test_code:
+                //获取验证码
+                if (!phone_number.getText().toString().equals("") && phone_number.getText().toString().length() == 11 && !phone_number.getText().toString().contains(" ") && phone_number.getText().toString().matches("[0-9]+")) {
+                    getTestCode.setClickable(false);
+                    countDownTimer.start();
+                    phone = phone_number.getText().toString();
+                    presenter.getVerificationCode(phone, 1);
+                } else {
+                    SystemUtils.show(this, "请重新输入手机号");
+                }
+                break;
+            case R.id.user_protocol:
+                //用户协议
+                Intent intent = new Intent(this, WebActivity.class);
+                intent.putExtra("title", "用户协议");
+                intent.putExtra("url", "https://demoapi.anniekids.net/api/ShareApi/UserRegistrationProtocol");
+                startActivity(intent);
+                break;
+            case R.id.next_btn:
+                if (isClick) {
+                    if (ifNext()) {
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                                MPermissions.requestPermissions(this, 3, new String[]{
+                                        Manifest.permission.READ_EXTERNAL_STORAGE
+                                });
+                            } else {
+                                showInfo("无法正常使用安妮花，请开通存储权限！请设置");
+                                Intent localIntent = new Intent();
+                                localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                if (Build.VERSION.SDK_INT >= 9) {
+                                    localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                                    localIntent.setData(Uri.fromParts("package", getPackageName(), null));
+                                } else if (Build.VERSION.SDK_INT <= 8) {
+                                    localIntent.setAction(Intent.ACTION_VIEW);
+                                    localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
+                                    localIntent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
+                                }
+                                startActivity(localIntent);
+                            }
+                        } else {
+                            presenter.register(phone_number.getText().toString(), test_code.getText().toString(), password.getText().toString());
+                        }
+                    } else {
+                        showInfo("输入有误,请重新检查");
+                    }
+                }
+                break;
+            case R.id.register_back:
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @PermissionGrant(3)
+    public void requsetSuccess() {
+    }
+
+    @PermissionDenied(3)
+    public void requestDenied() {
+        Toast.makeText(this, "缺少权限！", Toast.LENGTH_SHORT).show();
     }
 }

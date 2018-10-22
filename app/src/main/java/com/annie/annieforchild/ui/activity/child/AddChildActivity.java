@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -24,7 +26,9 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.ChildPresenter;
@@ -55,7 +59,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by WangLei on 2018/1/23 0023
  */
 
-public class AddChildActivity extends CameraActivity implements AddChildView, View.OnClickListener, RadioGroup.OnCheckedChangeListener, OnDateSetListener {
+public class AddChildActivity extends CameraActivity implements AddChildView, OnCheckDoubleClick, RadioGroup.OnCheckedChangeListener, OnDateSetListener {
     private CircleImageView childHeadPic;
     private FrameLayout headPic_layout;
     private ImageView addChild_back;
@@ -75,6 +79,7 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
     private AlertHelper helper;
     private Dialog dialog;
     private Intent intent;
+    private CheckDoubleClickListener listener;
     private int tag; //来源标示附符 0：注册 1：个人中心添加
     long tenYears = 30L * 365 * 1000 * 60 * 60 * 24L;
     long oneYears = 5L * 365 * 1000 * 60 * 60 * 24L;
@@ -101,13 +106,14 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
         girl = findViewById(R.id.sex_girl);
         addChild = findViewById(R.id.add_child_btn);
         addChild_back = findViewById(R.id.add_child_back);
+        listener = new CheckDoubleClickListener(this);
         childSex.setOnCheckedChangeListener(this);
-        childBirth.setOnClickListener(this);
-        headPic_layout.setOnClickListener(this);
-        pass.setOnClickListener(this);
-        addChild.setOnClickListener(this);
-        addChild_back.setOnClickListener(this);
-        bindStudent.setOnClickListener(this);
+        childBirth.setOnClickListener(listener);
+        headPic_layout.setOnClickListener(listener);
+        pass.setOnClickListener(listener);
+        addChild.setOnClickListener(listener);
+        addChild_back.setOnClickListener(listener);
+        bindStudent.setOnClickListener(listener);
 //        SystemUtils.setEditTextInhibitInputSpeChat(childName);
         childName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -146,7 +152,7 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
     }
 
     /**
-     * 1980: 318332715660
+     *
      */
     @Override
     protected void initData() {
@@ -183,52 +189,6 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
         return null;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.pass:
-                //跳过
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.age_add_child:
-                //学员年龄
-                datePickerDialog.show(getSupportFragmentManager(), "year_month_day");
-                break;
-            case R.id.headPic_layout:
-                //头像
-                systemUtils.BuildCameraDialog().show();
-                break;
-            case R.id.add_child_back:
-                finish();
-                break;
-            case R.id.add_child_btn:
-                //添加
-                if (isCorrect()) {
-                    if (headpic != null) {
-                        presenter.addChild(headpic, childName.getText().toString(), sex, birth.replace("-", ""));
-                    } else {
-                        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_system_photo);
-                        File files = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath);
-                        if (!files.exists()) {
-                            files.mkdirs();
-                        }
-                        File file = SystemUtils.saveBitmapFile(bitmap, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "photo.jpg");
-                        presenter.uploadHeadpic(10002, file.getAbsolutePath());
-                    }
-                } else {
-                    SystemUtils.show(this, "输入有误，请重新输入");
-                }
-                break;
-            case R.id.bind_student:
-                //绑定已有学员
-//                Intent intent1 = new Intent(this, BindStudentActivity.class);
-//                startActivity(intent1);
-                break;
-        }
-    }
-
     private boolean isCorrect() {
         if (childName.getText().toString().equals("") || childName.getText().toString().contains(" ") || birth == null || sex == null) {
             return false;
@@ -241,8 +201,14 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         if (boy.getId() == i) {
             sex = "男";
+            if (headbitmap == null) {
+                childHeadPic.setImageResource(R.drawable.icon_system_headpic_boy);
+            }
         } else {
             sex = "女";
+            if (headbitmap == null) {
+                childHeadPic.setImageResource(R.drawable.icon_system_headpic_girl);
+            }
         }
     }
 
@@ -271,7 +237,7 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
 
     @PermissionDenied(2)
     public void requestDenied() {
-        Toast.makeText(this, "DENY ACCESS SDCARD!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "缺少权限！", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -298,7 +264,7 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
             if ((String) message.obj != null) {
                 headpic = (String) message.obj;
                 childHeadPic.setImageBitmap(bitmap);
-                presenter.addChild(headpic, childName.getText().toString(), sex, birth.replace("-", ""));
+                presenter.addChild(headpic, childName.getText().toString(), sex, birth.replace("-", ""), SystemUtils.phone);
             }
         }
     }
@@ -330,5 +296,103 @@ public class AddChildActivity extends CameraActivity implements AddChildView, Vi
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
+            case R.id.pass:
+                //跳过
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.age_add_child:
+                //学员年龄
+                datePickerDialog.show(getSupportFragmentManager(), "year_month_day");
+                break;
+            case R.id.headPic_layout:
+                //头像
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) ||
+                            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        MPermissions.requestPermissions(this, 1, new String[]{
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.READ_EXTERNAL_STORAGE
+                        });
+                    } else {
+                        showInfo("无法正常使用安妮花，请开通相关权限！请设置");
+                        Intent localIntent = new Intent();
+                        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        if (Build.VERSION.SDK_INT >= 9) {
+                            localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                            localIntent.setData(Uri.fromParts("package", getPackageName(), null));
+                        } else if (Build.VERSION.SDK_INT <= 8) {
+                            localIntent.setAction(Intent.ACTION_VIEW);
+                            localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
+                            localIntent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
+                        }
+                        startActivity(localIntent);
+                    }
+                } else {
+                    systemUtils.BuildCameraDialog().show();
+                }
+                break;
+            case R.id.add_child_back:
+                finish();
+                break;
+            case R.id.add_child_btn:
+                //添加
+                if (isCorrect()) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                            ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                            MPermissions.requestPermissions(this, 1, new String[]{
+                                    Manifest.permission.CAMERA,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE
+                            });
+                        } else {
+                            showInfo("无法正常使用安妮花，请开通相关权限！请设置");
+                            Intent localIntent = new Intent();
+                            localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            if (Build.VERSION.SDK_INT >= 9) {
+                                localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                                localIntent.setData(Uri.fromParts("package", getPackageName(), null));
+                            } else if (Build.VERSION.SDK_INT <= 8) {
+                                localIntent.setAction(Intent.ACTION_VIEW);
+                                localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
+                                localIntent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
+                            }
+                            startActivity(localIntent);
+                        }
+                    } else {
+                        if (headpic != null) {
+                            presenter.addChild(headpic, childName.getText().toString(), sex, birth.replace("-", ""), SystemUtils.phone);
+                        } else {
+                            if (sex.equals("男")) {
+                                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_system_headpic_boy);
+                            } else {
+                                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_system_headpic_girl);
+                            }
+                            File files = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath);
+                            if (!files.exists()) {
+                                files.mkdirs();
+                            }
+                            File file = SystemUtils.saveBitmapFile(bitmap, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "photo.jpg");
+                            presenter.uploadHeadpic(10002, file.getAbsolutePath());
+                        }
+                    }
+                } else {
+                    SystemUtils.show(this, "输入有误，请重新输入");
+                }
+                break;
+            case R.id.bind_student:
+                //绑定已有学员
+//                Intent intent1 = new Intent(this, BindStudentActivity.class);
+//                startActivity(intent1);
+                break;
+        }
     }
 }

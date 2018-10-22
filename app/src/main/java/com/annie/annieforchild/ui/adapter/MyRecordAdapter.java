@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.media.MediaPlayer;
 import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.annie.annieforchild.bean.Record;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyRecordViewHolder;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NoHttpUtils;
+import com.bumptech.glide.Glide;
 import com.yanzhenjie.nohttp.Headers;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.download.DownloadListener;
@@ -30,30 +32,41 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.microedition.khronos.opengles.GL;
 
 /**
  * 我的录音适配器
  * Created by WangLei on 2018/3/8 0008
  */
 
-public class MyRecordAdapter extends BaseAdapter {
+public class MyRecordAdapter extends BaseAdapter implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     private Context context;
     private List<Record> lists;
+    private List<String> urlList;
     private LayoutInflater inflater;
     private boolean isClick = true;
     private AudioTrack player;
+    private MediaPlayer mediaPlayer;
     private DownloadRequest downloadRequest;
     private DownloadQueue requestQueue;
+    private boolean isPlay = false; //是否播放录音
     private DataInputStream dis = null;
     private boolean tag = true;
     private String fileName;
+    private int currentSize = 0, totalSize;
     int bufferSizeInBytes;
     File file;
 
     public MyRecordAdapter(Context context, List<Record> lists) {
         this.context = context;
         this.lists = lists;
+        urlList = new ArrayList<>();
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnPreparedListener(this);
+        mediaPlayer.setOnCompletionListener(this);
         inflater = LayoutInflater.from(context);
         requestQueue = NoHttp.newDownloadQueue();
     }
@@ -83,26 +96,66 @@ public class MyRecordAdapter extends BaseAdapter {
         } else {
             holder = (MyRecordViewHolder) convertView.getTag();
         }
-        holder.myRecordContent.setText(lists.get(position).getTitle());
+        if (lists.get(position).getOrigin() == 0) {
+            holder.myRecordContent.setText(lists.get(position).getTitle() + "（" + lists.get(position).getDuration() + "秒）");
+        } else {
+            holder.myRecordContent.setText(lists.get(position).getTitle() + "（" + lists.get(position).getDuration() + "秒）");
+        }
         holder.myRecordDate.setText(lists.get(position).getTime().substring(0, 4) + "-" + lists.get(position).getTime().substring(4, 6) + "-" + lists.get(position).getTime().substring(6, 8));
-        holder.myRecordTime.setText("（" + lists.get(position).getDuration() + "秒）");
+//        holder.myRecordTime.setText("（" + lists.get(position).getDuration() + "秒）");
+        Glide.with(context).load(lists.get(position).getImageUrl()).error(R.drawable.image_recording_empty).into(holder.myRecordImage);
         holder.myRecordPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isClick) {
                     isClick = false;
                     if (lists.get(position).getOrigin() == 0) {
-                        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + lists.get(position).getTitle() + ".pcm");
-                        if (!file.exists()) {
-                            fileName = lists.get(position).getTitle();
-                            downloadRequest = NoHttp.createDownloadRequest(lists.get(position).getUrl(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/", lists.get(position).getTitle() + ".pcm", true, true);
-                            requestQueue.add(123, downloadRequest, downloadListener);
-                            requestQueue.start();
-                            return;
+                        String url = lists.get(position).getUrl().get(0);
+                        if (url.contains(".mp3")) {
+                            if (!isPlay) {
+                                urlList.clear();
+                                urlList.addAll(lists.get(position).getUrl());
+                                totalSize = urlList.size();
+                                currentSize = 0;
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        playUrl2(urlList.get(currentSize));
+                                    }
+                                }).start();
+                                isPlay = true;
+                            }
                         } else {
-                            tag = true;
-                            play(lists.get(position).getTitle(), file);
+                            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + lists.get(position).getTitle() + ".pcm");
+                            if (!file.exists()) {
+                                fileName = lists.get(position).getTitle();
+                                downloadRequest = NoHttp.createDownloadRequest(lists.get(position).getUrl().get(0), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/", lists.get(position).getTitle() + ".pcm", true, true);
+                                requestQueue.add(123, downloadRequest, downloadListener);
+                                requestQueue.start();
+                                return;
+                            } else {
+                                tag = true;
+                                play(lists.get(position).getTitle(), file);
+                            }
                         }
+
+                    } else if (lists.get(position).getOrigin() == 3) {
+                        if (!isPlay) {
+                            //
+                            urlList.clear();
+                            urlList.addAll(lists.get(position).getUrl());
+                            totalSize = urlList.size();
+                            currentSize = 0;
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    playUrl2(urlList.get(currentSize));
+                                }
+                            }).start();
+                            isPlay = true;
+                        }
+                    } else {
+                        isClick = true;
                     }
 //                    else if (lists.get(position).getOrigin() == 1) {
 //                        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + lists.get(position).getTitle() + ".pcm");
@@ -187,6 +240,26 @@ public class MyRecordAdapter extends BaseAdapter {
         }).start();
     }
 
+    private void playUrl2(String url) {
+        if (mediaPlayer == null) {
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setOnPreparedListener(this);
+            mediaPlayer.setOnCompletionListener(this);
+        }
+        try {
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(url);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+            isClick = true;
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            isClick = true;
+        }
+    }
+
+
     private DownloadListener downloadListener = new DownloadListener() {
         @Override
         public void onDownloadError(int i, Exception e) {
@@ -230,5 +303,41 @@ public class MyRecordAdapter extends BaseAdapter {
             }
             player.release();
         }
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
+        }
+        isPlay = false;
+    }
+
+    public void destoryAudio() {
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        currentSize++;
+        if (currentSize < totalSize) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    playUrl2(urlList.get(currentSize));
+                }
+            }).start();
+        } else {
+            isClick = true;
+            isPlay = false;
+        }
+    }
+
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        mediaPlayer.start();
     }
 }

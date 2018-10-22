@@ -17,6 +17,7 @@ import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,6 +54,7 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     @Override
     public void myRecordings() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGS, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.NEWMYRECORDINGS, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_MYRECORDINGS, request);
@@ -60,10 +62,12 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     }
 
     @Override
-    public void deleteRecording(int recordingId) {
+    public void deleteRecording(int recordingId, int origin) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETERECORDING, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.NEWDELETERECORDING, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
+        request.add("origin", origin);
         request.add("recordingId", recordingId);
         addQueue(MethodCode.EVENT_DELETERECORDING, request);
         startQueue();
@@ -136,7 +140,12 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
                 List<HelpBean> lists = JSON.parseArray(data, HelpBean.class);
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_MYRECORDINGS) {
-                List<Record> lists = JSON.parseArray(data, Record.class);
+                List<Record> lists;
+                if (data == null) {
+                    lists = new ArrayList<>();
+                } else {
+                    lists = JSON.parseArray(data, Record.class);
+                }
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_DELETERECORDING) {
                 listener.Success(what, "删除成功");

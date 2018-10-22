@@ -88,7 +88,7 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        presenter.deleteRecording(lists.get(position).getRecordingId());
+                                        presenter.deleteRecording(lists.get(position).getRecordingId(), lists.get(position).getOrigin());
                                         if (lists.get(position).getOrigin() == 0) {
                                             File file1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/");
                                             if (!file1.exists()) {
@@ -146,9 +146,9 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
         @Override
         public void create(SwipeMenu menu) {
             SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
-            deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+            deleteItem.setBackground(new ColorDrawable(Color.rgb(0xFF, 0x96, 0x19)));
             deleteItem.setWidth(dp2px(60));
-            deleteItem.setTitle("删除");
+            deleteItem.setIcon(R.drawable.icon_delete);
             deleteItem.setTitleSize(16);
             deleteItem.setTitleColor(Color.WHITE);
             menu.addMenuItem(deleteItem);
@@ -202,4 +202,9 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
         super.onPause();
     }
 
+    @Override
+    protected void onDestroy() {
+        adapter.destoryAudio();
+        super.onDestroy();
+    }
 }

@@ -53,6 +53,7 @@ public class SelectGrindEarFragment extends BaseFragment implements ScheduleView
     private Schedule schedule;
     private int currentGroup = 0;
     private int currentChild = 0;
+    private int audioSoure;
     private String date;
 
     {
@@ -91,6 +92,8 @@ public class SelectGrindEarFragment extends BaseFragment implements ScheduleView
                 bundle.putSerializable("material", lists.get(position));
                 bundle.putSerializable("schedule", schedule);
                 bundle.putString("date", date);
+                bundle.putInt("audioType", 0);
+                bundle.putInt("audioSource", audioSoure);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 getActivity().finish();
@@ -146,6 +149,17 @@ public class SelectGrindEarFragment extends BaseFragment implements ScheduleView
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 if (!groupList.get(groupPosition).isSelected()) {
+                    if (groupList.get(groupPosition).getTitle().equals("听儿歌")) {
+                        audioSoure = 1;
+                    } else if (groupList.get(groupPosition).getTitle().equals("听诗歌")) {
+                        audioSoure = 2;
+                    } else if (groupList.get(groupPosition).getTitle().equals("听故事")) {
+                        audioSoure = 4;
+                    } else if (groupList.get(groupPosition).getTitle().equals("我要唱歌")) {
+                        audioSoure = 9;
+                    } else {
+                        audioSoure = 0;
+                    }
                     for (int i = 0; i < groupList.size(); i++) {
                         groupList.get(i).setSelected(false);
                     }
@@ -195,6 +209,7 @@ public class SelectGrindEarFragment extends BaseFragment implements ScheduleView
             }
             //初始化选中第一项
             groupList.get(0).setSelected(true);
+            audioSoure = 1;
             lists.addAll(childList.get(0).get(0).getMaterialList());
             expandAdapter.notifyDataSetChanged();
             adapter.notifyDataSetChanged();

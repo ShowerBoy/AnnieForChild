@@ -16,6 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -26,7 +29,9 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.speech.util.Result;
@@ -68,9 +73,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by wanglei on 2018/4/3.
  */
 
-public class ChallengeActivity extends BaseActivity implements View.OnClickListener, SongView, PlatformActionListener, PopupWindow.OnDismissListener, OnCountFinishListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClick, SongView, PlatformActionListener, PopupWindow.OnDismissListener, OnCountFinishListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     private CircleProgressBar circleProgressBar;
-    private CircleImageView challengeImage, character1;
+    private CircleImageView challengeImage, computer, character1, character2;
     private RecyclerView challengeList;
     private RelativeLayout pkResultLayout;
     private ImageView challengeSpeak, pengyouquan, weixin, qq, qqzone, close, close2, star1, star2, star3, star4, star5;
@@ -108,9 +113,12 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
     private int popupWidth, popupHeight;
     private float star;
     private ShareUtils shareUtils;
+    private String imageUrl;
     private int audioType, audioSource;
     private boolean isEnd = false;
     private int round = 0; //轮数
+    private Animation leftToRight, rightToLeft;
+    private CheckDoubleClickListener listener;
 
     {
         setRegister(true);
@@ -127,17 +135,21 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
         challengeSpeak = findViewById(R.id.challenge_speak);
         circleProgressBar = findViewById(R.id.challenge_circleProgressBar);
         challengeImage = findViewById(R.id.challenge_image);
+        computer = findViewById(R.id.computer);
         challengeList = findViewById(R.id.challenge_list);
         quit = findViewById(R.id.challenge_quit);
-        circleProgressBar.setOnClickListener(this);
-        quit.setOnClickListener(this);
+        listener = new CheckDoubleClickListener(this);
+        circleProgressBar.setOnClickListener(listener);
+        quit.setOnClickListener(listener);
         initTalkBtn();
 
         intent = getIntent();
         bookId = intent.getIntExtra("bookId", 0);
         audioType = intent.getIntExtra("audioType", 0);
         audioSource = intent.getIntExtra("audioSource", 3);
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(challengeImage);
+        imageUrl = intent.getStringExtra("imageUrl");
+        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(challengeImage);
+        computer.setImageResource(R.drawable.icon_system_photo);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -158,7 +170,12 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
         popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_pk_lose, null, false);
         popupView3 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_change, null, false);
         character1 = popupView3.findViewById(R.id.character_1);
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(character1);
+        character2 = popupView3.findViewById(R.id.character_2);
+
+        initAnimation();
+
+        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(character1);
+        Glide.with(this).load(R.drawable.icon_system_photo).into(character2);
         pengyouquan = popupView.findViewById(R.id.share_pengyouquan);
         weixin = popupView.findViewById(R.id.share_weixin);
         qq = popupView.findViewById(R.id.share_qq);
@@ -181,19 +198,36 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
         popupWindow2.setBackgroundDrawable(new ColorDrawable());
         popupWindow2.setOutsideTouchable(false);
         popupWindow2.setOnDismissListener(this);
-        pengyouquan.setOnClickListener(this);
-        weixin.setOnClickListener(this);
-        qq.setOnClickListener(this);
-        qqzone.setOnClickListener(this);
-        close.setOnClickListener(this);
-        close2.setOnClickListener(this);
-        tryAgain.setOnClickListener(this);
-        tryAgain2.setOnClickListener(this);
+        pengyouquan.setOnClickListener(listener);
+        weixin.setOnClickListener(listener);
+        qq.setOnClickListener(listener);
+        qqzone.setOnClickListener(listener);
+        close.setOnClickListener(listener);
+        close2.setOnClickListener(listener);
+        tryAgain.setOnClickListener(listener);
+        tryAgain2.setOnClickListener(listener);
         //
         popupWindow3 = new PopupWindow(popupView3, popupWidth, popupHeight, false);
         popupWindow3.setBackgroundDrawable(new ColorDrawable());
         popupWindow3.setOutsideTouchable(false);
         popupWindow3.setOnDismissListener(this);
+    }
+
+    private void initAnimation() {
+        leftToRight = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 3f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f);
+        rightToLeft = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, -3f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f);
+        leftToRight.setDuration(2000);
+        rightToLeft.setDuration(2000);
+        leftToRight.setFillEnabled(true);
+        leftToRight.setFillAfter(true);
+        rightToLeft.setFillEnabled(true);
+        rightToLeft.setFillAfter(true);
     }
 
     private void initTalkBtn() {
@@ -228,6 +262,8 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
                         round++;
                         //TODO:互换角色
                         popupWindow3.showAtLocation(popupView3, Gravity.CENTER, 0, 0);
+                        character1.startAnimation(leftToRight);
+                        character2.startAnimation(rightToLeft);
                         getWindowGray(true);
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -266,6 +302,9 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
         challengeList.smoothScrollToPosition(currentLine - 1);
         adapter.notifyDataSetChanged();
         challengeSpeak.setImageResource(R.drawable.icon_speak_big);
+
+        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(computer);
+        challengeImage.setImageResource(R.drawable.icon_system_photo);
 //        play(lists.get(currentLine - 1).getResourceUrl());
     }
 
@@ -300,98 +339,6 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected BasePresenter getPresenter() {
         return null;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.challenge_circleProgressBar:
-                if (isClick) {
-                    if (isPlay) {
-                        timer.cancel();
-                        challengeSpeak.setImageResource(R.drawable.icon_speak_big_f);
-                        circleProgressBar.setProgress(0);
-                        isPlay = false;
-                        isClick = false;
-                        mIse.stopEvaluating();
-                        currentLine++;
-                        if (currentLine <= totalLines) {
-                            refresh();
-                        } else {
-//                            currentLine = 1;
-//                            if (currentPage == totalPages) {
-                            if (round == 0) {
-                                round++;
-                                //TODO:互换角色
-                                popupWindow3.showAtLocation(popupView3, Gravity.CENTER, 0, 0);
-                                getWindowGray(true);
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        popupWindow3.dismiss();
-                                        getWindowGray(false);
-                                        Round2();
-                                    }
-                                }, 2000);
-                            } else {
-                                //挑战结束
-                                isEnd = true;
-                                round = 0;
-                            }
-//                                presenter.getPkResult(bookId, "", 1);
-//                            } else {
-//                                continueBtn.setVisibility(View.VISIBLE);
-//                            }
-                        }
-                    } else {
-                        challengeSpeak.setImageResource(R.drawable.icon_stop_big);
-                        timer.start();
-                        isPlay = true;
-                        startRecord();
-                    }
-                }
-                break;
-            case R.id.challenge_quit:
-                isPlay = false;
-                finish();
-                break;
-            case R.id.continue_btn:
-//                currentPage++;
-//                if (currentPage > totalPages) {
-//                    showInfo("结束");
-//                } else {
-//                    continueBtn.setVisibility(View.GONE);
-//                    nextPage();
-//                }
-                break;
-            case R.id.share_pengyouquan:
-                shareUtils.shareWechatMoments("我得到了更高的成绩，你也一起来吧", "安妮花教育", "https://demoapi.anniekids.net/api/searchApi/index");
-                break;
-            case R.id.share_weixin:
-                shareUtils.shareWechat("我得到了更高的成绩，你也一起来吧", "安妮花教育", "https://demoapi.anniekids.net/api/searchApi/index");
-                break;
-            case R.id.share_qq:
-                shareUtils.shareQQ("我得到了更高的成绩，你也一起来吧", "安妮花教育", "https://demoapi.anniekids.net/api/searchApi/index");
-                break;
-            case R.id.share_qqzone:
-                shareUtils.shareQZone("我得到了更高的成绩，你也一起来吧", "安妮花教育", "https://demoapi.anniekids.net/api/searchApi/index");
-                break;
-            case R.id.close:
-                popupWindow.dismiss();
-                break;
-            case R.id.close2:
-                popupWindow2.dismiss();
-                break;
-            case R.id.try_again:
-                Intent intent = new Intent(this, ChallengeActivity.class);
-                intent.putExtra("bookId", bookId);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.try_again2:
-                finish();
-                break;
-        }
     }
 
     private void nextPage() {
@@ -434,9 +381,11 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
 //            totalPages = book.getBookTotalPages();
             adapter.notifyDataSetChanged();
             countDownDialog.show();
+
         } else if (message.what == MethodCode.EVENT_GETPKRESULT) {
             PkResult pkResult = (PkResult) message.obj;
             initPopupData(pkResult);
+//            presenter.fullrecording(pkResult.getMyscore(), bookId);
         } else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
             if (isEnd) {
                 isEnd = false;
@@ -541,8 +490,10 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
             star5.setImageResource(R.drawable.icon_pkstar_t);
         }
         if (pkResult.getResult() == 0) {
+            //失败
             popupWindow2.showAtLocation(popupView2, Gravity.CENTER, 0, 0);
         } else {
+            //成功
             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
         }
         getWindowGray(true);
@@ -611,7 +562,7 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
                             score = finalResult.total_score;
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-                            presenter.uploadAudioResource(bookId, currentPage, audioType, audioSource, currentLine, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 1, "");
+                            presenter.uploadAudioResource(bookId, currentPage, audioType, audioSource, currentLine, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 1, "", imageUrl);
                         } else {
 //                        showInfo("解析结果为空");
                         }
@@ -693,6 +644,8 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
                 round++;
                 //TODO:互换角色
                 popupWindow3.showAtLocation(popupView3, Gravity.CENTER, 0, 0);
+                character1.startAnimation(leftToRight);
+                character2.startAnimation(rightToLeft);
                 getWindowGray(true);
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -773,5 +726,101 @@ public class ChallengeActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onCancel(Platform platform, int i) {
         showInfo("取消分享");
+    }
+
+    @Override
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
+            case R.id.challenge_circleProgressBar:
+                if (isClick) {
+                    if (isPlay) {
+                        timer.cancel();
+                        challengeSpeak.setImageResource(R.drawable.icon_speak_big_f);
+                        circleProgressBar.setProgress(0);
+                        isPlay = false;
+                        isClick = false;
+                        mIse.stopEvaluating();
+                        currentLine++;
+                        if (currentLine <= totalLines) {
+                            refresh();
+                        } else {
+//                            currentLine = 1;
+//                            if (currentPage == totalPages) {
+                            if (round == 0) {
+                                round++;
+                                //TODO:互换角色
+                                popupWindow3.showAtLocation(popupView3, Gravity.CENTER, 0, 0);
+                                character1.startAnimation(leftToRight);
+                                character2.startAnimation(rightToLeft);
+                                getWindowGray(true);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        popupWindow3.dismiss();
+                                        getWindowGray(false);
+                                        Round2();
+                                    }
+                                }, 2000);
+                            } else {
+                                //挑战结束
+                                isEnd = true;
+                                round = 0;
+                            }
+//                                presenter.getPkResult(bookId, "", 1);
+//                            } else {
+//                                continueBtn.setVisibility(View.VISIBLE);
+//                            }
+                        }
+                    } else {
+                        challengeSpeak.setImageResource(R.drawable.icon_stop_big);
+                        timer.start();
+                        isPlay = true;
+                        startRecord();
+                    }
+                }
+                break;
+            case R.id.challenge_quit:
+                isPlay = false;
+                finish();
+                break;
+            case R.id.continue_btn:
+//                currentPage++;
+//                if (currentPage > totalPages) {
+//                    showInfo("结束");
+//                } else {
+//                    continueBtn.setVisibility(View.GONE);
+//                    nextPage();
+//                }
+                break;
+            case R.id.share_pengyouquan:
+                shareUtils.shareWechatMoments("我得到了更高的成绩，你也一起来吧", "安妮花教育", null, "https://demoapi.anniekids.net/api/searchApi/index");
+                break;
+            case R.id.share_weixin:
+                shareUtils.shareWechat("我得到了更高的成绩，你也一起来吧", "安妮花教育", null, "https://demoapi.anniekids.net/api/searchApi/index");
+                break;
+            case R.id.share_qq:
+                shareUtils.shareQQ("我得到了更高的成绩，你也一起来吧", "安妮花教育", null, "https://demoapi.anniekids.net/api/searchApi/index");
+                break;
+            case R.id.share_qqzone:
+                shareUtils.shareQZone("我得到了更高的成绩，你也一起来吧", "安妮花教育", null, "https://demoapi.anniekids.net/api/searchApi/index");
+                break;
+            case R.id.close:
+                popupWindow.dismiss();
+                finish();
+                break;
+            case R.id.close2:
+                popupWindow2.dismiss();
+                finish();
+                break;
+            case R.id.try_again:
+//                Intent intent = new Intent(this, ChallengeActivity.class);
+//                intent.putExtra("bookId", bookId);
+//                startActivity(intent);
+                finish();
+                break;
+            case R.id.try_again2:
+                finish();
+                break;
+        }
     }
 }

@@ -1,12 +1,13 @@
 package com.annie.annieforchild.bean.book;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by wanglei on 2018/4/17.
  */
 
-public class Page {
+public class Page implements Serializable{
     private int page;
     private String pageImage;
     private List<Line> lineContent;

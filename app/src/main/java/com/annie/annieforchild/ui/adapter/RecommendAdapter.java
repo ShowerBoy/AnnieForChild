@@ -75,6 +75,7 @@ public class RecommendAdapter extends BaseAdapter {
                 intent.putExtra("type", 0);
                 intent.putExtra("audioType", 3);
                 intent.putExtra("audioSource", 0);
+                intent.putExtra("collectType", 0);
                 context.startActivity(intent);
             }
         });

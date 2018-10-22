@@ -21,8 +21,62 @@ public class Song implements Serializable {
     private int totalPages;
     private int isCollected; //0：未收藏 1：已收藏
     private int isJoinMaterial; //0：未加入自选教材 1：已加入自选教材
+    private int Jurisdiction;
     private List<String> bookResourceUrl;
     private String myResourceUrl;
+    private int isusenectar;
+    private int nectar;
+    private int iskouyu;
+    private int ismoerduo;
+    private int isyuedu;
+
+    public int getIskouyu() {
+        return iskouyu;
+    }
+
+    public void setIskouyu(int iskouyu) {
+        this.iskouyu = iskouyu;
+    }
+
+    public int getIsmoerduo() {
+        return ismoerduo;
+    }
+
+    public void setIsmoerduo(int ismoerduo) {
+        this.ismoerduo = ismoerduo;
+    }
+
+    public int getIsyuedu() {
+        return isyuedu;
+    }
+
+    public void setIsyuedu(int isyuedu) {
+        this.isyuedu = isyuedu;
+    }
+
+    public int getJurisdiction() {
+        return Jurisdiction;
+    }
+
+    public void setJurisdiction(int jurisdiction) {
+        Jurisdiction = jurisdiction;
+    }
+
+    public int getIsusenectar() {
+        return isusenectar;
+    }
+
+    public void setIsusenectar(int isusenectar) {
+        this.isusenectar = isusenectar;
+    }
+
+    public int getNectar() {
+        return nectar;
+    }
+
+    public void setNectar(int nectar) {
+        this.nectar = nectar;
+    }
 
     public List<String> getBookResourceUrl() {
         return bookResourceUrl;

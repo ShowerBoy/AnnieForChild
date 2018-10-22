@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 public class TotalGrindEarFragment extends BaseFragment {
-    private TextView tingerge, tingshige, tingduihua, tingduwu, tingdonghua, tingmobao, jiqiren, diandubi, qita, total;
+    private TextView tingerge, tingshige, tinggushi, tingdonghua, huiben, fenjiduwu, qiaoliangshu, zhangjieshu, tingmobao, diandubi, qita, total, zuoye, tuijian, kouyu;
     private List<GrindTime> lists;
     MyGrindEarBean bean;
 
@@ -45,14 +45,19 @@ public class TotalGrindEarFragment extends BaseFragment {
     protected void initView(View view) {
         tingerge = view.findViewById(R.id.total_tingerge_duration);
         tingshige = view.findViewById(R.id.total_tingshige_duration);
-        tingduihua = view.findViewById(R.id.total_tingduihua_duration);
-        tingduwu = view.findViewById(R.id.total_tingduwu_duration);
         tingdonghua = view.findViewById(R.id.total_tingdonghua_duration);
+        tinggushi = view.findViewById(R.id.total_tingduwu_duration);
+        huiben = view.findViewById(R.id.total_huiben_duration);
+        fenjiduwu = view.findViewById(R.id.total_fenjiduwu_duration);
+        qiaoliangshu = view.findViewById(R.id.total_qiaoliangshu_duration);
+        zhangjieshu = view.findViewById(R.id.total_zhangjieshu_duration);
         tingmobao = view.findViewById(R.id.total_tingmobao_duration);
-        jiqiren = view.findViewById(R.id.total_jiqiren_duration);
         diandubi = view.findViewById(R.id.total_diandubi_duration);
         qita = view.findViewById(R.id.total_qita_duration);
         total = view.findViewById(R.id.total_total_duration);
+        zuoye = view.findViewById(R.id.total_zuoye_duration);
+        tuijian = view.findViewById(R.id.total_tuijian_duration);
+        kouyu = view.findViewById(R.id.total_kouyu_duration);
     }
 
     @Override
@@ -70,84 +75,136 @@ public class TotalGrindEarFragment extends BaseFragment {
         if (message.what == MethodCode.EVENT_GETMYLISTENING) {
             bean = (MyGrindEarBean) message.obj;
             lists.clear();
-            lists.addAll(bean.getHistoryList());
+            if (bean.getHistoryList() != null) {
+                lists.addAll(bean.getHistoryList());
+            } else {
+                lists.addAll(new ArrayList<>());
+            }
             refresh();
         }
     }
 
     private void refresh() {
         for (int i = 0; i < lists.size(); i++) {
-            GrindTime grindTime = lists.get(i);
-            int min = (int) Double.parseDouble(grindTime.getDuration()) / 60;
-            int hour = 0;
-            if (min > 60) {
-                hour = min / 60;
-                min = min % 60;
-            }
-            switch (grindTime.getType()) {
-                case "song":
-                    if (hour == 0) {
-                        tingerge.setText(min + "分");
-                    } else {
-                        tingerge.setText(hour + "小时" + min + "分");
+            if (lists.get(i) != null) {
+                GrindTime grindTime = lists.get(i);
+                int time = (int) Double.parseDouble(grindTime.getDuration());
+                int min = time / 60;
+                int remainder = time % 60;
+                int hour = 0;
+                if (min <= 0) {
+                    if (remainder > 0) {
+                        min = min + 1;
                     }
-                    break;
-                case "poetry":
-                    if (hour == 0) {
-                        tingshige.setText(min + "分");
-                    } else {
-                        tingshige.setText(hour + "小时" + min + "分");
+                } else {
+                    if (min > 60) {
+                        hour = min / 60;
+                        min = min % 60;
                     }
-                    break;
-                case "communicate":
-                    if (hour == 0) {
-                        tingduihua.setText(min + "分");
-                    } else {
-                        tingduihua.setText(hour + "小时" + min + "分");
+                    if (remainder > 0) {
+                        min = min + 1;
                     }
-                    break;
-                case "reading":
-                    if (hour == 0) {
-                        tingduwu.setText(min + "分");
-                    } else {
-                        tingduwu.setText(hour + "小时" + min + "分");
-                    }
-                    break;
-                case "animation":
-                    if (hour == 0) {
-                        tingdonghua.setText(min + "分");
-                    } else {
-                        tingdonghua.setText(hour + "小时" + min + "分");
-                    }
-                    break;
-                case "mobao":
-                    if (hour == 0) {
-                        tingmobao.setText(min + "分");
-                    } else {
-                        tingmobao.setText(hour + "小时" + min + "分");
-                    }
-                    break;
-                case "robot":
-                    if (hour == 0) {
-                        jiqiren.setText(min + "分");
-                    } else {
-                        jiqiren.setText(hour + "小时" + min + "分");
-                    }
-                    break;
-                case "readingpen":
-                    if (hour == 0) {
-                        diandubi.setText(min + "分");
-                    } else {
-                        diandubi.setText(hour + "小时" + min + "分");
-                    }
-                    break;
-                case "others":
-                    if (hour == 0) {
-                        qita.setText(min + "分");
-                    } else {
-                        qita.setText(hour + "小时" + min + "分");
-                    }
-                    break;
+                }
+                switch (grindTime.getType()) {
+                    case "0":
+                        if (hour == 0) {
+                            tuijian.setText(min + "分");
+                        } else {
+                            tuijian.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "1":
+                        if (hour == 0) {
+                            tingerge.setText(min + "分");
+                        } else {
+                            tingerge.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "2":
+                        if (hour == 0) {
+                            tingshige.setText(min + "分");
+                        } else {
+                            tingshige.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "3":
+                        if (hour == 0) {
+                            tingdonghua.setText(min + "分");
+                        } else {
+                            tingdonghua.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "4":
+                        if (hour == 0) {
+                            tinggushi.setText(min + "分");
+                        } else {
+                            tinggushi.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "5":
+                        if (hour == 0) {
+                            huiben.setText(min + "分");
+                        } else {
+                            huiben.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "6":
+                        if (hour == 0) {
+                            fenjiduwu.setText(min + "分");
+                        } else {
+                            fenjiduwu.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "7":
+                        if (hour == 0) {
+                            qiaoliangshu.setText(min + "分");
+                        } else {
+                            qiaoliangshu.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "8":
+                        if (hour == 0) {
+                            zhangjieshu.setText(min + "分");
+                        } else {
+                            zhangjieshu.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "10":
+                        if (hour == 0) {
+                            kouyu.setText(min + "分");
+                        } else {
+                            kouyu.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "12":
+                        if (hour == 0) {
+                            zuoye.setText(min + "分");
+                        } else {
+                            zuoye.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "mobao":
+                        if (hour == 0) {
+                            tingmobao.setText(min + "分");
+                        } else {
+                            tingmobao.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "readingpen":
+                        if (hour == 0) {
+                            diandubi.setText(min + "分");
+                        } else {
+                            diandubi.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                    case "others":
+                        if (hour == 0) {
+                            qita.setText(min + "分");
+                        } else {
+                            qita.setText(hour + "小时" + min + "分");
+                        }
+                        break;
+                }
             }
         }
         int t_min = (int) Double.parseDouble(bean.getHistoryTotalDuration()) / 60;

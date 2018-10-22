@@ -13,12 +13,13 @@ import com.annie.annieforchild.R;
 
 public class MyCourseViewHolder extends RecyclerView.ViewHolder {
 
-    public ImageView image_myCourse;
-    public TextView name_myCourse;
+    public ImageView image;
+    public TextView title, suggest;
 
     public MyCourseViewHolder(View itemView) {
         super(itemView);
-        image_myCourse = itemView.findViewById(R.id.image_myCourse);
-        name_myCourse = itemView.findViewById(R.id.name_myCourse);
+        image = itemView.findViewById(R.id.my_course_image);
+        title = itemView.findViewById(R.id.my_course_title);
+        suggest = itemView.findViewById(R.id.my_course_suggest);
     }
 }

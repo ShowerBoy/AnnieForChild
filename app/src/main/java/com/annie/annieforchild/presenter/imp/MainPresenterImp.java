@@ -1,18 +1,19 @@
 package com.annie.annieforchild.presenter.imp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.Banner;
-import com.annie.annieforchild.bean.course.Course2;
 import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.interactor.MainInteractor;
 import com.annie.annieforchild.interactor.imp.MainInteractorImp;
 import com.annie.annieforchild.presenter.MainPresenter;
-import com.annie.annieforchild.ui.adapter.MyCourseAdapter;
+import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.view.MainView;
 import com.annie.baselibrary.base.BasePresenterImp;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -21,6 +22,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -36,10 +38,9 @@ import java.util.List;
 public class MainPresenterImp extends BasePresenterImp implements MainPresenter, BaseSliderView.OnSliderClickListener {
     private Context context;
     private MainView mainView;
-    private MyCourseAdapter course_adapter;
     private MainInteractor interactor;
     //    private List<Course> myCourse_lists;
-    private List<Course2> myCourse_lists2;
+//    private List<Course2> myCourse_lists2;
     private List<Banner> bannerList; //banner列表
     private HashMap<Integer, String> file_maps;
     private int screenwidth;
@@ -62,6 +63,9 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
 //            textSliderView.bundle(new Bundle());
 //            textSliderView.getBundle().putInt("extra", name);
 //            mainView.getImageSlide().addSlider(textSliderView);
+            defaultSliderView.bundle(new Bundle());
+            defaultSliderView.getBundle().putInt("extra", name);
+            defaultSliderView.setOnSliderClickListener(this);
             defaultSliderView.image(file_maps.get(name));
             mainView.getImageSlide().addSlider(defaultSliderView);
         }
@@ -75,13 +79,22 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
     @Override
     public void onSliderClick(BaseSliderView slider) {
 //        mainView.showInfo(bannerList.get(slider.getBundle().getInt("extra")).getUrl());
+//        Uri uri = Uri.parse(bannerList.get(slider.getBundle().getInt("extra")).getUrl());
+//        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//        context.startActivity(intent);
+        if (!bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("")) {
+            Intent intent = new Intent(context, WebActivity.class);
+            intent.putExtra("url", bannerList.get(slider.getBundle().getInt("extra")).getUrl());
+            intent.putExtra("title", "活动");
+            context.startActivity(intent);
+        }
     }
 
     @Override
     public void initViewAndData() {
         file_maps = mainView.getFile_maps();
-        myCourse_lists2 = new ArrayList<>();
-        course_adapter = new MyCourseAdapter(context, screenwidth, myCourse_lists2);
+//        myCourse_lists2 = new ArrayList<>();
+//        course_adapter = new MyCourseAdapter(context, screenwidth, myCourse_lists2);
         interactor = new MainInteractorImp(context, this);
     }
 
@@ -93,7 +106,7 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
 
     @Override
     public void setMyCourseAdapter(RecyclerView recyclerView) {
-        recyclerView.setAdapter(course_adapter);
+
     }
 
     @Override
@@ -110,20 +123,18 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
                     }
                     initImageSlide();
                 }
-                if (homeData.getMsgList() != null || homeData.getRecommendList() != null) {
-                    /**
-                     * {@link com.annie.annieforchild.ui.fragment.FirstFragment#onMainEventThread(JTMessage)}
-                     */
-                    JTMessage message = new JTMessage();
-                    message.what = what;
-                    message.obj = homeData;
-                    EventBus.getDefault().post(message);
-                }
-                if (homeData.getMyCourseList() != null) {
-                    myCourse_lists2.clear();
-                    myCourse_lists2.addAll(homeData.getMyCourseList());
-                    course_adapter.notifyDataSetChanged();
-                }
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.FirstFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = homeData;
+                EventBus.getDefault().post(message);
+//                if (homeData.getMyCourseList() != null) {
+//                    myCourse_lists2.clear();
+//                    myCourse_lists2.addAll(homeData.getMyCourseList());
+//                    course_adapter.notifyDataSetChanged();
+//                }
             }
         }
     }
@@ -132,5 +143,12 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
     public void Error(int what, String error) {
         mainView.showInfo(error);
         mainView.dismissLoad();
+        /**
+         * {@link com.annie.annieforchild.ui.fragment.FirstFragment#onMainEventThread(JTMessage)}
+         */
+        JTMessage message = new JTMessage();
+        message.what = MethodCode.EVENT_ERROR;
+        message.obj = error;
+        EventBus.getDefault().post(message);
     }
 }

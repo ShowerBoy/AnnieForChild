@@ -13,6 +13,7 @@
 
     <color name="white">#FFFFFF</color>
     <color name="teal">#00796B</color>
+    <color name="skin">#EDE9E9</color>
     <color name="brown">#8D6E63</color>
     <color name="blue">#2196F3</color>
     <color name="red">#ff0000</color>
@@ -22,9 +23,10 @@
     <color name="text_color">#898989</color>
     <color name="text_light_color">#A1A1A1</color>
     <color name="light_gray">#F5F5F8</color>
-    <color name="light_gray2">#E0E0E0</color>
+    <color name="light_gray2">#EEEEEE</color>
     <color name="clarity_gray">#6F000000</color>
     <color name="gray">#CECECE</color>
+    <color name="relative_orange_back">#F8F3ED</color>
     <color name="text_orange">#FF8A0D</color>
     <color name="button_orange">#FF9800</color>
     <color name="back_orange1">#ff871d</color>

@@ -32,7 +32,7 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
 
     @Override
     public void getHomeData(String tag) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETHOMEDATA, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI  + MethodType.GETHOMEDATA, RequestMethod.POST);
         if (tag.equals("会员")) {
             request.add("username", SystemUtils.defaultUsername);
             request.add("token", SystemUtils.token);

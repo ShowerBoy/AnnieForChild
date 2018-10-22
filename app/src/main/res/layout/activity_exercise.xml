@@ -47,22 +47,44 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/page_image"
-                android:layout_width="match_parent"
-                android:layout_height="260dp"
-                android:scaleType="fitXY"
-                android:visibility="gone" />
-
-            <com.jcodecraeer.xrecyclerview.XRecyclerView
-                android:id="@+id/exercise_list"
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="6dp"
-                android:layout_above="@+id/page_layout"
-                android:layout_below="@+id/page_image">
+                android:layout_above="@+id/page_layout">
 
-            </com.jcodecraeer.xrecyclerview.XRecyclerView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/page_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="260dp"
+                        android:scaleType="fitCenter"
+                        android:visibility="gone" />
+
+                    <com.jcodecraeer.xrecyclerview.XRecyclerView
+                        android:id="@+id/exercise_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@+id/page_layout"
+                        android:layout_below="@+id/page_image"
+                        android:layout_marginTop="6dp">
+
+                    </com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+                    <ImageView
+                        android:id="@+id/exercise_empty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_empty_data"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
 
             <RelativeLayout
                 android:id="@+id/page_layout"
@@ -86,8 +108,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_toStartOf="@+id/book_page"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
                     android:text="上一页"
                     android:textColor="@color/text_black"
                     android:textSize="16sp" />
@@ -97,15 +123,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="10dp"
                     android:layout_toEndOf="@+id/book_page"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
                     android:text="下一页"
                     android:textColor="@color/text_orange"
                     android:textSize="16sp" />
             </RelativeLayout>
 
         </RelativeLayout>
-
 
     </LinearLayout>
 

@@ -44,7 +44,7 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
     }
 
     @Override
-    public void addChild(String headpic, String name, String sex, String birthday) {
+    public void addChild(String headpic, String name, String sex, String birthday, String phone) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.REGISTERUSER, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
@@ -52,6 +52,7 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
         request.add("name", name);
         request.add("sex", sex);
         request.add("birthday", birthday);
+        request.add("phone", phone);
         addQueue(MethodCode.EVENT_ADDCHILD, request);
         startQueue();
     }

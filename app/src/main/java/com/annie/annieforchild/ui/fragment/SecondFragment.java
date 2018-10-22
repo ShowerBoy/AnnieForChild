@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -9,11 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.ui.activity.lesson.CourseActivity;
-import com.annie.annieforchild.ui.activity.lesson.FollowTaskActivity;
+import com.annie.annieforchild.ui.activity.PhotoActivity;
 import com.annie.annieforchild.ui.activity.lesson.MaterialActivity;
 import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity;
+import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2;
+import com.annie.annieforchild.ui.activity.lesson.TaskActivity;
+import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.view.SecondView;
 import com.annie.baselibrary.base.BaseFragment;
 
@@ -24,13 +29,13 @@ import java.util.Calendar;
  * Created by WangLei on 2018/2/23 0023
  */
 
-public class SecondFragment extends BaseFragment implements SecondView, View.OnClickListener {
-    private ImageView lessonSchedule, lessonCourse, lessonTextbook;
-    private RelativeLayout followTaskLayout, seriesTaskLayout, optionalTaskLayout;
-    private TextView todayDate;
+public class SecondFragment extends BaseFragment implements SecondView, OnCheckDoubleClick {
+    private ImageView lessonSchedule, lessonCourse, lessonTextbook, lessonNetClass, imageView03;
+    //    private RelativeLayout followTaskLayout, seriesTaskLayout, optionalTaskLayout;
     private Calendar calendar;
     private String tag;
     private String week;
+    private CheckDoubleClickListener listener;
 
     @Override
     protected void initData() {
@@ -39,31 +44,6 @@ public class SecondFragment extends BaseFragment implements SecondView, View.OnC
         if (bundle != null) {
             tag = bundle.getString("tag");
         }
-        int w = calendar.get(Calendar.DAY_OF_WEEK);
-        switch (w) {
-            case 1:
-                week = "星期日";
-                break;
-            case 2:
-                week = "星期一";
-                break;
-            case 3:
-                week = "星期二";
-                break;
-            case 4:
-                week = "星期三";
-                break;
-            case 5:
-                week = "星期四";
-                break;
-            case 6:
-                week = "星期五";
-                break;
-            case 7:
-                week = "星期六";
-                break;
-        }
-        todayDate.setText((calendar.get(Calendar.MONTH) + 1) + "月" + calendar.get(Calendar.DAY_OF_MONTH) + "日" + "\n" + week);
     }
 
     @Override
@@ -71,82 +51,25 @@ public class SecondFragment extends BaseFragment implements SecondView, View.OnC
         lessonSchedule = view.findViewById(R.id.lesson_schedule);
         lessonCourse = view.findViewById(R.id.lesson_course);
         lessonTextbook = view.findViewById(R.id.lesson_textbook);
-        followTaskLayout = view.findViewById(R.id.follow_task_layout);
-        seriesTaskLayout = view.findViewById(R.id.series_task_layout);
-        optionalTaskLayout = view.findViewById(R.id.optional_task_layout);
-        todayDate = view.findViewById(R.id.today_date);
-        lessonSchedule.setOnClickListener(this);
-        lessonCourse.setOnClickListener(this);
-        lessonTextbook.setOnClickListener(this);
-        followTaskLayout.setOnClickListener(this);
-        seriesTaskLayout.setOnClickListener(this);
-        optionalTaskLayout.setOnClickListener(this);
+        lessonNetClass = view.findViewById(R.id.lesson_netclass);
+        imageView03 = view.findViewById(R.id.image_03);
+//        followTaskLayout = view.findViewById(R.id.follow_task_layout);
+//        seriesTaskLayout = view.findViewById(R.id.series_task_layout);
+//        optionalTaskLayout = view.findViewById(R.id.optional_task_layout);
+        listener = new CheckDoubleClickListener(this);
+        lessonSchedule.setOnClickListener(listener);
+        lessonCourse.setOnClickListener(listener);
+        lessonTextbook.setOnClickListener(listener);
+        lessonNetClass.setOnClickListener(listener);
+        imageView03.setOnClickListener(listener);
+//        followTaskLayout.setOnClickListener(listener);
+//        seriesTaskLayout.setOnClickListener(listener);
+//        optionalTaskLayout.setOnClickListener(listener);
     }
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_second_fragment;
-    }
-
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent();
-        switch (view.getId()) {
-            case R.id.lesson_schedule:
-                //我的课表
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请先添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), ScheduleActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.lesson_course:
-                //我的课程
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请先添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), CourseActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.lesson_textbook:
-                //我的教材
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请先添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), MaterialActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.follow_task_layout:
-                //随堂作业
-                intent.setClass(getContext(), FollowTaskActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.series_task_layout:
-                //系列作业
-                intent.setClass(getContext(), FollowTaskActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.optional_task_layout:
-                //自选作业
-                intent.setClass(getContext(), FollowTaskActivity.class);
-                startActivity(intent);
-                break;
-        }
     }
 
     @Override
@@ -162,5 +85,76 @@ public class SecondFragment extends BaseFragment implements SecondView, View.OnC
     @Override
     public void dismissLoad() {
 
+    }
+
+    @Override
+    public void onCheckDoubleClick(View view) {
+        Intent intent = new Intent();
+        switch (view.getId()) {
+            case R.id.lesson_schedule:
+                //我的课表
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), ScheduleActivity2.class);
+                startActivity(intent);
+                break;
+            case R.id.lesson_course:
+                //我的作业
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+//                intent.setClass(getContext(), CourseActivity.class);
+                intent.setClass(getContext(), TaskActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.lesson_textbook:
+                //我的教材
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), MaterialActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.image_03:
+//                SystemUtils.setBackGray(getActivity(), true);
+//                SystemUtils.getPhotoPopup(getContext(), "0").showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                intent.setClass(getContext(), PhotoActivity.class);
+                intent.putExtra("url", "0");
+                intent.putExtra("delete", "0");
+                startActivity(intent);
+                break;
+            case R.id.lesson_netclass:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), NetWorkActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

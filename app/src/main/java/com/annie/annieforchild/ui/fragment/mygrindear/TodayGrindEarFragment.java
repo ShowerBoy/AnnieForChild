@@ -27,7 +27,7 @@ import java.util.List;
  */
 
 public class TodayGrindEarFragment extends BaseFragment implements View.OnClickListener {
-    private TextView tingerge, tingshige, tingduihua, tingduwu, tingdonghua, tingmobao, jiqiren, diandubi, qita, total;
+    private TextView tingerge, tingshige, tinggushi, tingdonghua, huiben, fenjiduwu, qiaoliangshu, zhangjieshu, tingmobao, diandubi, qita, total, zuoye, tuijian, kouyu;
     private RelativeLayout tingmobaoLayout, diandubiLayout, waibushebeiLayout;
     private List<GrindTime> lists;
     MyGrindEarBean bean;
@@ -50,15 +50,22 @@ public class TodayGrindEarFragment extends BaseFragment implements View.OnClickL
     protected void initView(View view) {
         tingerge = view.findViewById(R.id.today_tingerge_duration);
         tingshige = view.findViewById(R.id.today_tingshige_duration);
-        tingduihua = view.findViewById(R.id.today_tingduihua_duration);
-        tingduwu = view.findViewById(R.id.today_tingduwu_duration);
         tingdonghua = view.findViewById(R.id.today_tingdonghua_duration);
+        tinggushi = view.findViewById(R.id.today_tingduwu_duration);
+        huiben = view.findViewById(R.id.today_huiben_duration);
+        fenjiduwu = view.findViewById(R.id.today_fenjiduwu_duration);
+        qiaoliangshu = view.findViewById(R.id.today_qiaoliangshu_duration);
+        zhangjieshu = view.findViewById(R.id.today_zhangjieshu_duration);
+        zuoye = view.findViewById(R.id.today_zuoye_duration);
+        tuijian = view.findViewById(R.id.today_tuijian_duration);
+        kouyu = view.findViewById(R.id.today_kouyu_duration);
+
         tingmobao = view.findViewById(R.id.today_tingmobao_duration);
-        jiqiren = view.findViewById(R.id.today_jiqiren_duration);
         diandubi = view.findViewById(R.id.today_diandubi_duration);
         qita = view.findViewById(R.id.today_qita_duration);
         total = view.findViewById(R.id.today_total_duration);
         tingmobaoLayout = view.findViewById(R.id.tingmobao_relative);
+
         diandubiLayout = view.findViewById(R.id.diandubi_relative);
         waibushebeiLayout = view.findViewById(R.id.waibushebei_relative);
         tingmobaoLayout.setOnClickListener(this);
@@ -81,7 +88,11 @@ public class TodayGrindEarFragment extends BaseFragment implements View.OnClickL
         if (message.what == MethodCode.EVENT_GETMYLISTENING) {
             bean = (MyGrindEarBean) message.obj;
             lists.clear();
-            lists.addAll(bean.getTodayList());
+            if (bean.getTodayList() != null) {
+                lists.addAll(bean.getTodayList());
+            } else {
+                lists.addAll(new ArrayList<>());
+            }
             refresh();
         }
     }
@@ -89,46 +100,99 @@ public class TodayGrindEarFragment extends BaseFragment implements View.OnClickL
     private void refresh() {
         for (int i = 0; i < lists.size(); i++) {
             GrindTime grindTime = lists.get(i);
-            int min = (int) Double.parseDouble(grindTime.getDuration()) / 60;
+            int time = (int) Double.parseDouble(grindTime.getDuration());
+            int min = time / 60;
+            int remainder = time % 60;
             int hour = 0;
-            if (min > 60) {
-                hour = min / 60;
-                min = min % 60;
+            if (min <= 0) {
+                if (remainder > 0) {
+                    min = min + 1;
+                }
+            } else {
+                if (min > 60) {
+                    hour = min / 60;
+                    min = min % 60;
+                }
+                if (remainder > 0) {
+                    min = min + 1;
+                }
             }
             switch (grindTime.getType()) {
-                case "song":
+                case "0":
+                    if (hour == 0) {
+                        tuijian.setText(min + "分");
+                    } else {
+                        tuijian.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "1":
                     if (hour == 0) {
                         tingerge.setText(min + "分");
                     } else {
                         tingerge.setText(hour + "小时" + min + "分");
                     }
                     break;
-                case "poetry":
+                case "2":
                     if (hour == 0) {
                         tingshige.setText(min + "分");
                     } else {
                         tingshige.setText(hour + "小时" + min + "分");
                     }
                     break;
-                case "communicate":
-                    if (hour == 0) {
-                        tingduihua.setText(min + "分");
-                    } else {
-                        tingduihua.setText(hour + "小时" + min + "分");
-                    }
-                    break;
-                case "reading":
-                    if (hour == 0) {
-                        tingduwu.setText(min + "分");
-                    } else {
-                        tingduwu.setText(hour + "小时" + min + "分");
-                    }
-                    break;
-                case "animation":
+                case "3":
                     if (hour == 0) {
                         tingdonghua.setText(min + "分");
                     } else {
                         tingdonghua.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "4":
+                    if (hour == 0) {
+                        tinggushi.setText(min + "分");
+                    } else {
+                        tinggushi.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "5":
+                    if (hour == 0) {
+                        huiben.setText(min + "分");
+                    } else {
+                        huiben.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "6":
+                    if (hour == 0) {
+                        fenjiduwu.setText(min + "分");
+                    } else {
+                        fenjiduwu.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "7":
+                    if (hour == 0) {
+                        qiaoliangshu.setText(min + "分");
+                    } else {
+                        qiaoliangshu.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "8":
+                    if (hour == 0) {
+                        zhangjieshu.setText(min + "分");
+                    } else {
+                        zhangjieshu.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "10":
+                    if (hour == 0) {
+                        kouyu.setText(min + "分");
+                    } else {
+                        kouyu.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "12":
+                    if (hour == 0) {
+                        zuoye.setText(min + "分");
+                    } else {
+                        zuoye.setText(hour + "小时" + min + "分");
                     }
                     break;
                 case "mobao":
@@ -136,13 +200,6 @@ public class TodayGrindEarFragment extends BaseFragment implements View.OnClickL
                         tingmobao.setText(min + "分");
                     } else {
                         tingmobao.setText(hour + "小时" + min + "分");
-                    }
-                    break;
-                case "robot":
-                    if (hour == 0) {
-                        jiqiren.setText(min + "分");
-                    } else {
-                        jiqiren.setText(hour + "小时" + min + "分");
                     }
                     break;
                 case "readingpen":

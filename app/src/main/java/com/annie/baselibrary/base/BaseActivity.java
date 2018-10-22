@@ -1,10 +1,14 @@
 package com.annie.baselibrary.base;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.broadcastrecevier.MyBroadCastRecevier;
-import com.annie.annieforchild.Utils.service.MyService;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.baselibrary.utils.ToastHelp;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,11 +31,13 @@ import butterknife.Unbinder;
  */
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity {
-
     protected P mPresenter;
     private Unbinder mUnbinder;
     private boolean register;
+    public MusicService musicService;
+    private MusicConnection myConnection = new MusicConnection();
     private MyBroadCastRecevier myBroadCastRecevier;
+    private Intent intent;
 
     public void setRegister(boolean register) {
         this.register = register;
@@ -61,6 +67,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }
         initView();
         initData();
+        if (musicService == null) {
+            //首次播放绑定服务
+            intent = new Intent(this, MusicService.class);
+            bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
+            startService(intent);
+        }
     }
 
     @Override
@@ -94,6 +106,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.detach();
         }
+        unbindService(myConnection);
+        stopService(intent);
     }
 
     protected void showDialogTip(int id) {
@@ -125,5 +139,19 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             res.updateConfiguration(newConfig, res.getDisplayMetrics());
         }
         return res;
+    }
+
+    private class MusicConnection implements ServiceConnection {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MyBinder myBinder = (MusicService.MyBinder) service;
+            musicService = myBinder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            myConnection = null;
+        }
     }
 }

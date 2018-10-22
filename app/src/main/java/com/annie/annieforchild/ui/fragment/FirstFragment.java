@@ -3,12 +3,15 @@ package com.annie.annieforchild.ui.fragment;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -23,8 +26,11 @@ import android.widget.ViewFlipper;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.song.SongClassify;
@@ -35,21 +41,25 @@ import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.MainPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.presenter.imp.MainPresenterImp;
+import com.annie.annieforchild.ui.activity.CalendarActivity;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
+import com.annie.annieforchild.ui.activity.MainActivity;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.grindEar.ListenSongActivity;
-import com.annie.annieforchild.ui.activity.grindEar.MeiriyiActivity;
-import com.annie.annieforchild.ui.activity.lesson.CourseActivity;
-import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity;
-import com.annie.annieforchild.ui.activity.mains.EventActivity;
+import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2;
+import com.annie.annieforchild.ui.activity.mains.BankBookActivity;
 import com.annie.annieforchild.ui.activity.mains.SquareActivity;
 import com.annie.annieforchild.ui.activity.my.MyMessageActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
+import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
+import com.annie.annieforchild.ui.activity.pk.ChallengeActivity;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
+import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
-import com.annie.annieforchild.ui.adapter.RecommendAdapter;
-import com.annie.annieforchild.ui.fragment.spoken.SpokenActivity;
+import com.annie.annieforchild.ui.adapter.NetWorkAdapter;
 import com.annie.annieforchild.view.MainView;
 import com.annie.baselibrary.base.BaseFragment;
+import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.SliderLayout;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -65,19 +75,19 @@ import java.util.List;
  * Created by WangLei on 2018/1/12
  */
 
-public class FirstFragment extends BaseFragment implements MainView, View.OnClickListener, SearchView.OnQueryTextListener {
+public class FirstFragment extends BaseFragment implements MainView, OnCheckDoubleClick, SearchView.OnQueryTextListener {
     private SwipeRefreshLayout first_refresh_layout;
-    private RelativeLayout firstMsgLayout, searchLayout, lessonLayout;
-    private GridView recommendGrid;
-    private RecommendAdapter recommend_adapter;
+    private RelativeLayout firstMsgLayout, searchLayout, meiriyigeLayout, meiriyishiLayout, meiriyiduLayout;
+    private AnimationDrawable musicBtn;
+    //    private GridView recommendGrid;
+//    private RecommendAdapter recommend_adapter;
+    private TextView moreMoerduo, moreReading, moreSpoken, moerduoText1, moerduoText2, moerduoText3, readingText1, readingText2, readingText3, spokenText1, spokenText2, spokenText3, meiriyigeText, meiriyigeCount, meiriyishiText, meiriyishiCount, meiriyiduText, meiriyiduCount, grindText, readingText, speakingText;
     private SliderLayout imageSlide;
-    private ImageView signImage, grindEarLayout, readingLayout, spokenLayout, wodekecheng;
-    private ViewFlipper msgFlipper;
-    private RecyclerView myCourse_list;
-    private LinearLayout clockInLayout, scheduleLayout, eventLayout, matchLayout, grindEar100, reading100, spoken100, word100;
-    private List<TextView> msgText;
-    private List<Song> recommend_list;
-    private List<SongClassify> spokenList;
+    private ImageView signImage, grindEarLayout, readingLayout, spokenLayout, moerduoImage1, moerduoImage2, moerduoImage3, readingImage1, readingImage2, readingImage3, spokenImage1, spokenImage2, spokenImage3, meiriyigeImage, meiriyishiImage, meiriyiduImage, grindLock1, grindLock2, grindLock3, readingLock1, readingLock2, readingLock3, speakingLock1, speakingLock2, speakingLock3, meiriyigeLock, meiriyishiLock, meiriyiduLock, freeImage1, freeImage2, freeImage3;
+    private LinearLayout clockInLayout, scheduleLayout, eventLayout, matchLayout, iWantLayout, moerduoLinear, readingLinear, speakingLinear;
+    private List<Song> moerduoList, readingList, speakingList, freeList;
+    public static List<SongClassify> spokenList;
+    private Song meiriyige, meiriyishi, meiriyidu;
     private View error;
     private String tag;
     private AlertHelper helper;
@@ -86,6 +96,8 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
     private GrindEarPresenter presenter2;
     private HashMap<Integer, String> file_maps;//轮播图图片map
     private int screenwidth;
+    private CheckDoubleClickListener listener;
+    private int classId = -10000;
 
     {
         setRegister(true);
@@ -97,9 +109,11 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
 
     @Override
     protected void initData() {
-        recommend_list = new ArrayList<>();
         spokenList = new ArrayList<>();
-        msgText = new ArrayList<>();
+        moerduoList = new ArrayList<>();
+        readingList = new ArrayList<>();
+        speakingList = new ArrayList<>();
+        freeList = new ArrayList<>();
         helper = new AlertHelper(getActivity());
         dialog = helper.LoadingDialog();
         Bundle bundle = getArguments();
@@ -107,21 +121,10 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
             tag = bundle.getString("tag");
         }
 
-        if (tag.equals("游客")) {
-            wodekecheng.setVisibility(View.GONE);
-            lessonLayout.setVisibility(View.GONE);
-        } else {
-            wodekecheng.setVisibility(View.VISIBLE);
-            lessonLayout.setVisibility(View.VISIBLE);
-        }
-        if (SystemUtils.childTag == 0) {
-            wodekecheng.setVisibility(View.GONE);
-            lessonLayout.setVisibility(View.GONE);
-        }
         file_maps = new HashMap<>();
 
-        recommend_adapter = new RecommendAdapter(getContext(), recommend_list);
-        recommendGrid.setAdapter(recommend_adapter);
+//        recommend_adapter = new RecommendAdapter(getContext(), recommend_list);
+//        recommendGrid.setAdapter(recommend_adapter);
 
         WindowManager managers = getActivity().getWindowManager();
         DisplayMetrics outMetrics = new DisplayMetrics();
@@ -131,7 +134,6 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
         presenter2 = new GrindEarPresenterImp(getContext(), this);
         presenter.initViewAndData();
         presenter2.initViewAndData();
-        presenter.setMyCourseAdapter(myCourse_list);
         List<PhoneSN> list = DataSupport.findAll(PhoneSN.class);
 //        showInfo(list.size() + "==" + SystemUtils.phoneSN.toString());
         presenter.getHomeData(tag);
@@ -147,42 +149,107 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
     protected void initView(View view) {
         first_refresh_layout = view.findViewById(R.id.first_refresh_layout);
         imageSlide = view.findViewById(R.id.image_slide);
-        myCourse_list = view.findViewById(R.id.myCourse_list);
-        firstMsgLayout = view.findViewById(R.id.first_msg_layout);
+//        firstMsgLayout = view.findViewById(R.id.first_msg_layout);
         searchLayout = view.findViewById(R.id.search_layout);
-        recommendGrid = view.findViewById(R.id.recommendGrid);
+//        recommendGrid = view.findViewById(R.id.recommendGrid);
         clockInLayout = view.findViewById(R.id.clock_in_layout);
         scheduleLayout = view.findViewById(R.id.schedule_layout);
+        speakingText = view.findViewById(R.id.speaking_textline);
+        grindText = view.findViewById(R.id.grind_textline);
+        readingText = view.findViewById(R.id.reading_textline);
         eventLayout = view.findViewById(R.id.event_layout);
         matchLayout = view.findViewById(R.id.match_layout);
         grindEarLayout = view.findViewById(R.id.grind_ear_layout);
         readingLayout = view.findViewById(R.id.reading_layout);
         spokenLayout = view.findViewById(R.id.spoken_layout);
         signImage = view.findViewById(R.id.sign_image);
-        msgFlipper = view.findViewById(R.id.msg_flipper);
-        lessonLayout = view.findViewById(R.id.lesson_layout);
+//        msgFlipper = view.findViewById(R.id.msg_flipper);
         error = view.findViewById(R.id.network_error_layout);
-        grindEar100 = view.findViewById(R.id.grind_ear100_layout);
-        reading100 = view.findViewById(R.id.reading100_layout);
-        spoken100 = view.findViewById(R.id.spoken100_layout);
-        word100 = view.findViewById(R.id.word100_layout);
-        wodekecheng = view.findViewById(R.id.wodekecheng);
-        clockInLayout.setOnClickListener(this);
-        scheduleLayout.setOnClickListener(this);
-        eventLayout.setOnClickListener(this);
-        matchLayout.setOnClickListener(this);
-        firstMsgLayout.setOnClickListener(this);
-        grindEarLayout.setOnClickListener(this);
-        readingLayout.setOnClickListener(this);
-        spokenLayout.setOnClickListener(this);
-        signImage.setOnClickListener(this);
-        searchLayout.setOnClickListener(this);
-        lessonLayout.setOnClickListener(this);
-        grindEar100.setOnClickListener(this);
-        reading100.setOnClickListener(this);
-        spoken100.setOnClickListener(this);
-        word100.setOnClickListener(this);
-        wodekecheng.setOnClickListener(this);
+        moreMoerduo = view.findViewById(R.id.more_moerduo);
+        moreReading = view.findViewById(R.id.more_reading);
+        moreSpoken = view.findViewById(R.id.more_spoken);
+        moerduoText1 = view.findViewById(R.id.main_moerduo_text1);
+        moerduoText2 = view.findViewById(R.id.main_moerduo_text2);
+        moerduoText3 = view.findViewById(R.id.main_moerduo_text3);
+        readingText1 = view.findViewById(R.id.main_reading_text1);
+        readingText2 = view.findViewById(R.id.main_reading_text2);
+        readingText3 = view.findViewById(R.id.main_reading_text3);
+        spokenText1 = view.findViewById(R.id.main_spoken_text1);
+        spokenText2 = view.findViewById(R.id.main_spoken_text2);
+        spokenText3 = view.findViewById(R.id.main_spoken_text3);
+        moerduoImage1 = view.findViewById(R.id.main_moerduo_image1);
+        moerduoImage2 = view.findViewById(R.id.main_moerduo_image2);
+        moerduoImage3 = view.findViewById(R.id.main_moerduo_image3);
+        readingImage1 = view.findViewById(R.id.main_reading_image1);
+        readingImage2 = view.findViewById(R.id.main_reading_image2);
+        readingImage3 = view.findViewById(R.id.main_reading_image3);
+        spokenImage1 = view.findViewById(R.id.main_spoken_image1);
+        spokenImage2 = view.findViewById(R.id.main_spoken_image2);
+        spokenImage3 = view.findViewById(R.id.main_spoken_image3);
+        meiriyigeImage = view.findViewById(R.id.main_meiriyige_image);
+        meiriyigeCount = view.findViewById(R.id.main_meiriyige_count);
+        meiriyigeText = view.findViewById(R.id.main_meiriyige_text);
+        meiriyishiImage = view.findViewById(R.id.main_meiriyishi_image);
+        meiriyishiText = view.findViewById(R.id.main_meiriyishi_text);
+        meiriyishiCount = view.findViewById(R.id.main_meiriyishi_count);
+        meiriyiduImage = view.findViewById(R.id.main_meiriyidu_image);
+        meiriyiduText = view.findViewById(R.id.main_meiriyidu_text);
+        meiriyiduCount = view.findViewById(R.id.main_meiriyidu_count);
+        meiriyigeLayout = view.findViewById(R.id.meiriyige_layout);
+        meiriyishiLayout = view.findViewById(R.id.meiriyishi_layout);
+        meiriyiduLayout = view.findViewById(R.id.meiriyidu_layout);
+        iWantLayout = view.findViewById(R.id.i_want_layout);
+        grindLock1 = view.findViewById(R.id.main_grindear_lock1);
+        grindLock2 = view.findViewById(R.id.main_grindear_lock2);
+        grindLock3 = view.findViewById(R.id.main_grindear_lock3);
+        readingLock1 = view.findViewById(R.id.main_reading_lock1);
+        readingLock2 = view.findViewById(R.id.main_reading_lock2);
+        readingLock3 = view.findViewById(R.id.main_reading_lock3);
+        speakingLock1 = view.findViewById(R.id.main_speaking_lock1);
+        speakingLock2 = view.findViewById(R.id.main_speaking_lock2);
+        speakingLock3 = view.findViewById(R.id.main_speaking_lock3);
+        meiriyigeLock = view.findViewById(R.id.main_meiriyige_lock);
+        meiriyishiLock = view.findViewById(R.id.main_meiriyishi_lock);
+        meiriyiduLock = view.findViewById(R.id.main_meiriyidu_lock);
+        freeImage1 = view.findViewById(R.id.main_free_image1);
+        freeImage2 = view.findViewById(R.id.main_free_image2);
+        freeImage3 = view.findViewById(R.id.main_free_image3);
+        moerduoLinear = view.findViewById(R.id.moerduo_linear);
+        readingLinear = view.findViewById(R.id.reading_linear);
+        speakingLinear = view.findViewById(R.id.speaking_linear);
+        listener = new CheckDoubleClickListener(this);
+        moerduoImage1.setOnClickListener(listener);
+        moerduoImage2.setOnClickListener(listener);
+        moerduoImage3.setOnClickListener(listener);
+        readingImage1.setOnClickListener(listener);
+        readingImage2.setOnClickListener(listener);
+        readingImage3.setOnClickListener(listener);
+        spokenImage1.setOnClickListener(listener);
+        spokenImage2.setOnClickListener(listener);
+        spokenImage3.setOnClickListener(listener);
+        freeImage1.setOnClickListener(listener);
+        freeImage2.setOnClickListener(listener);
+        freeImage3.setOnClickListener(listener);
+        meiriyigeLayout.setOnClickListener(listener);
+        meiriyishiLayout.setOnClickListener(listener);
+        meiriyiduLayout.setOnClickListener(listener);
+        moreMoerduo.setOnClickListener(listener);
+        moreReading.setOnClickListener(listener);
+        moreSpoken.setOnClickListener(listener);
+
+        clockInLayout.setOnClickListener(listener);
+        scheduleLayout.setOnClickListener(listener);
+        eventLayout.setOnClickListener(listener);
+        matchLayout.setOnClickListener(listener);
+//        firstMsgLayout.setOnClickListener(this);
+        grindEarLayout.setOnClickListener(listener);
+        readingLayout.setOnClickListener(listener);
+        spokenLayout.setOnClickListener(listener);
+        signImage.setOnClickListener(listener);
+        searchLayout.setOnClickListener(listener);
+        musicBtn = (AnimationDrawable) signImage.getDrawable();
+        musicBtn.setOneShot(false);
+
         first_refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -192,12 +259,15 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                 }
             }
         });
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        myCourse_list.setLayoutManager(manager);
         searchLayout.setFocusable(true);
         searchLayout.setFocusableInTouchMode(true);
         searchLayout.requestFocus();
+
+        if (MusicService.isPlay) {
+            musicBtn.start();
+        } else {
+            musicBtn.stop();
+        }
     }
 
     @Override
@@ -217,36 +287,241 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
                 first_refresh_layout.setRefreshing(false);
             }
             HomeData homeData = (HomeData) message.obj;
-            List<Msgs> msgList = homeData.getMsgList();
-            if (msgList.size() == 0) {
-                msgList = new ArrayList<>();
-                Msgs msgs = new Msgs();
-                msgs.setTitle("暂无数据");
-                msgList.add(msgs);
+            moerduoList.clear();
+            moerduoList.addAll(homeData.getMoerduo() != null ? homeData.getMoerduo() : new ArrayList<>());
+            readingList.clear();
+            readingList.addAll(homeData.getReading() != null ? homeData.getReading() : new ArrayList<>());
+            speakingList.clear();
+            speakingList.addAll(homeData.getSpeaking() != null ? homeData.getSpeaking() : new ArrayList<>());
+            freeList.clear();
+            freeList.addAll(homeData.getFreelist());
+            meiriyige = homeData.getMeiriyige();
+            meiriyishi = homeData.getMeiriyishi();
+            meiriyidu = homeData.getMeiriyidu();
+            initial();
+            if (SystemUtils.childTag == 0) {
+                iWantLayout.setVisibility(View.GONE);
+            } else {
+                iWantLayout.setVisibility(View.VISIBLE);
             }
-            msgText.clear();
-            for (int i = 0; i < msgList.size(); i++) {
-                TextView textView = new TextView(getContext());
-                textView.setText(msgList.get(i).getTitle());
-                textView.setTextSize(14);
-                textView.setTextColor(getResources().getColor(R.color.text_black));
-                textView.setMaxEms(10);
-                textView.setSingleLine(true);
-                textView.setEllipsize(TextUtils.TruncateAt.END);
-                msgText.add(textView);
-            }
-            msgFlipper.removeAllViews();
-            for (int i = 0; i < msgText.size(); i++) {
-                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                msgFlipper.addView(msgText.get(i), params);
-            }
+//            msgFlipper.removeAllViews();
+//            for (int i = 0; i < msgText.size(); i++) {
+//                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//                msgFlipper.addView(msgText.get(i), params);
+//            }
 
-            recommend_list.clear();
-            recommend_list.addAll(homeData.getRecommendList());
-            recommend_adapter.notifyDataSetChanged();
+//            recommend_list.clear();
+//            recommend_list.addAll(homeData.getRecommendList());
+//            recommend_adapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_GETSPOKENCLASSES) {
             spokenList.clear();
             spokenList.addAll((List<SongClassify>) message.obj);
+        } else if (message.what == MethodCode.EVENT_ERROR) {
+            if (first_refresh_layout.isRefreshing()) {
+                first_refresh_layout.setRefreshing(false);
+            }
+        } else if (message.what == MethodCode.EVENT_UNLOCKBOOK + 9000 + classId) {
+            showInfo((String) message.obj);
+            presenter.getHomeData(tag);
+            if (SystemUtils.childTag == 1) {
+                presenter2.getMusicList(-1);
+            }
+        } else if (message.what == MethodCode.EVENT_MUSIC) {
+            if (musicBtn != null) {
+                if ((boolean) (message.obj)) {
+                    musicBtn.start();
+                } else {
+                    musicBtn.stop();
+                }
+            }
+        }
+    }
+
+    private void initial() {
+//        if (freeList.size() == 3) {
+//            Glide.with(this).load(freeList.get(0).getBookImageUrl()).into(freeImage1);
+//            Glide.with(this).load(freeList.get(1).getBookImageUrl()).into(freeImage2);
+//            Glide.with(this).load(freeList.get(2).getBookImageUrl()).into(freeImage3);
+//            freeText1.setText(freeList.get(0).getBookName());
+//            freeText2.setText(freeList.get(1).getBookName());
+//            freeText3.setText(freeList.get(2).getBookName());
+//        } else {
+//            freeImage1.setVisibility(View.GONE);
+//            freeImage2.setVisibility(View.GONE);
+//            freeImage3.setVisibility(View.GONE);
+//            freeText1.setVisibility(View.GONE);
+//            freeText2.setVisibility(View.GONE);
+//            freeText3.setVisibility(View.GONE);
+//        }
+        if (moerduoList.size() == 3) {
+            grindText.setVisibility(View.VISIBLE);
+            moerduoLinear.setVisibility(View.VISIBLE);
+            Glide.with(this).load(moerduoList.get(0).getBookImageUrl()).into(moerduoImage1);
+            Glide.with(this).load(moerduoList.get(1).getBookImageUrl()).into(moerduoImage2);
+            Glide.with(this).load(moerduoList.get(2).getBookImageUrl()).into(moerduoImage3);
+            moerduoText1.setText(moerduoList.get(0).getBookName());
+            moerduoText2.setText(moerduoList.get(1).getBookName());
+            moerduoText3.setText(moerduoList.get(2).getBookName());
+
+            if (moerduoList.get(0).getJurisdiction() == 0) {
+                grindLock1.setVisibility(View.VISIBLE);
+                if (moerduoList.get(0).getIsusenectar() == 0) {
+                    grindLock1.setImageResource(R.drawable.icon_lock_book_f);
+                } else {
+                    grindLock1.setImageResource(R.drawable.icon_lock_book_t);
+                }
+            } else {
+                grindLock1.setVisibility(View.GONE);
+            }
+            if (moerduoList.get(1).getJurisdiction() == 0) {
+                grindLock2.setVisibility(View.VISIBLE);
+                if (moerduoList.get(1).getIsusenectar() == 0) {
+                    grindLock2.setImageResource(R.drawable.icon_lock_book_f);
+                } else {
+                    grindLock2.setImageResource(R.drawable.icon_lock_book_t);
+                }
+            } else {
+                grindLock2.setVisibility(View.GONE);
+            }
+            if (moerduoList.get(2).getJurisdiction() == 0) {
+                grindLock3.setVisibility(View.VISIBLE);
+                if (moerduoList.get(2).getIsusenectar() == 0) {
+                    grindLock3.setImageResource(R.drawable.icon_lock_book_f);
+                } else {
+                    grindLock3.setImageResource(R.drawable.icon_lock_book_t);
+                }
+            } else {
+                grindLock3.setVisibility(View.GONE);
+            }
+        } else {
+            grindText.setVisibility(View.GONE);
+            moerduoLinear.setVisibility(View.GONE);
+        }
+        if (readingList.size() == 3) {
+            readingText.setVisibility(View.VISIBLE);
+            readingLinear.setVisibility(View.VISIBLE);
+            Glide.with(this).load(readingList.get(0).getBookImageUrl()).into(readingImage1);
+            Glide.with(this).load(readingList.get(1).getBookImageUrl()).into(readingImage2);
+            Glide.with(this).load(readingList.get(2).getBookImageUrl()).into(readingImage3);
+            readingText1.setText(readingList.get(0).getBookName());
+            readingText2.setText(readingList.get(1).getBookName());
+            readingText3.setText(readingList.get(2).getBookName());
+            if (readingList.get(0).getJurisdiction() == 0) {
+                readingLock1.setVisibility(View.VISIBLE);
+                if (readingList.get(0).getIsusenectar() == 0) {
+                    readingLock1.setImageResource(R.drawable.icon_lock_book_f);
+                } else {
+                    readingLock1.setImageResource(R.drawable.icon_lock_book_t);
+                }
+            } else {
+                readingLock1.setVisibility(View.GONE);
+            }
+            if (readingList.get(1).getJurisdiction() == 0) {
+                readingLock2.setVisibility(View.VISIBLE);
+                if (readingList.get(1).getIsusenectar() == 0) {
+                    readingLock2.setImageResource(R.drawable.icon_lock_book_f);
+                } else {
+                    readingLock2.setImageResource(R.drawable.icon_lock_book_t);
+                }
+            } else {
+                readingLock2.setVisibility(View.GONE);
+            }
+            if (readingList.get(2).getJurisdiction() == 0) {
+                readingLock3.setVisibility(View.VISIBLE);
+                if (readingList.get(2).getIsusenectar() == 0) {
+                    readingLock3.setImageResource(R.drawable.icon_lock_book_f);
+                } else {
+                    readingLock3.setImageResource(R.drawable.icon_lock_book_t);
+                }
+            } else {
+                readingLock3.setVisibility(View.GONE);
+            }
+        } else {
+            readingText.setVisibility(View.GONE);
+            readingLinear.setVisibility(View.GONE);
+        }
+        if (speakingList.size() == 3) {
+            speakingLinear.setVisibility(View.VISIBLE);
+            speakingText.setVisibility(View.VISIBLE);
+            Glide.with(this).load(speakingList.get(0).getBookImageUrl()).into(spokenImage1);
+            Glide.with(this).load(speakingList.get(1).getBookImageUrl()).into(spokenImage2);
+            Glide.with(this).load(speakingList.get(2).getBookImageUrl()).into(spokenImage3);
+            spokenText1.setText(speakingList.get(0).getBookName());
+            spokenText2.setText(speakingList.get(1).getBookName());
+            spokenText3.setText(speakingList.get(2).getBookName());
+            if (speakingList.get(0).getJurisdiction() == 0) {
+                speakingLock1.setVisibility(View.VISIBLE);
+                if (speakingList.get(0).getIsusenectar() == 0) {
+                    speakingLock1.setImageResource(R.drawable.icon_lock_book_f);
+                } else {
+                    speakingLock1.setImageResource(R.drawable.icon_lock_book_t);
+                }
+            } else {
+                speakingLock1.setVisibility(View.GONE);
+            }
+            if (speakingList.get(1).getJurisdiction() == 0) {
+                speakingLock2.setVisibility(View.VISIBLE);
+                if (speakingList.get(1).getIsusenectar() == 0) {
+                    speakingLock2.setImageResource(R.drawable.icon_lock_book_f);
+                } else {
+                    speakingLock2.setImageResource(R.drawable.icon_lock_book_t);
+                }
+            } else {
+                speakingLock2.setVisibility(View.GONE);
+            }
+            if (speakingList.get(2).getJurisdiction() == 0) {
+                speakingLock3.setVisibility(View.VISIBLE);
+                if (speakingList.get(2).getIsusenectar() == 0) {
+                    speakingLock3.setImageResource(R.drawable.icon_lock_book_f);
+                } else {
+                    speakingLock3.setImageResource(R.drawable.icon_lock_book_t);
+                }
+            } else {
+                speakingLock3.setVisibility(View.GONE);
+            }
+        } else {
+            speakingLinear.setVisibility(View.GONE);
+            speakingText.setVisibility(View.GONE);
+        }
+        Glide.with(this).load(meiriyige.getBookImageUrl()).into(meiriyigeImage);
+        Glide.with(this).load(meiriyishi.getBookImageUrl()).into(meiriyishiImage);
+        Glide.with(this).load(meiriyidu.getBookImageUrl()).into(meiriyiduImage);
+        meiriyigeText.setText(meiriyige.getBookName());
+        meiriyigeCount.setText(meiriyige.getCount() + "次阅读");
+        meiriyishiText.setText(meiriyishi.getBookName());
+        meiriyishiCount.setText(meiriyishi.getCount() + "次阅读");
+        meiriyiduText.setText(meiriyidu.getBookName());
+        meiriyiduCount.setText(meiriyidu.getCount() + "次阅读");
+
+        if (meiriyige.getJurisdiction() == 0) {
+            meiriyigeLock.setVisibility(View.VISIBLE);
+            if (meiriyige.getIsusenectar() == 0) {
+                meiriyigeLock.setImageResource(R.drawable.icon_lock_book_f);
+            } else {
+                meiriyigeLock.setImageResource(R.drawable.icon_lock_book_t);
+            }
+        } else {
+            meiriyigeLock.setVisibility(View.GONE);
+        }
+        if (meiriyishi.getJurisdiction() == 0) {
+            meiriyishiLock.setVisibility(View.VISIBLE);
+            if (meiriyishi.getIsusenectar() == 0) {
+                meiriyishiLock.setImageResource(R.drawable.icon_lock_book_f);
+            } else {
+                meiriyishiLock.setImageResource(R.drawable.icon_lock_book_t);
+            }
+        } else {
+            meiriyishiLock.setVisibility(View.GONE);
+        }
+        if (meiriyidu.getJurisdiction() == 0) {
+            meiriyiduLock.setVisibility(View.VISIBLE);
+            if (meiriyidu.getIsusenectar() == 0) {
+                meiriyiduLock.setImageResource(R.drawable.icon_lock_book_f);
+            } else {
+                meiriyiduLock.setImageResource(R.drawable.icon_lock_book_t);
+            }
+        } else {
+            meiriyiduLock.setVisibility(View.GONE);
         }
     }
 
@@ -258,182 +533,6 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
     @Override
     public HashMap<Integer, String> getFile_maps() {
         return file_maps;
-    }
-
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent();
-        switch (view.getId()) {
-            case R.id.clock_in_layout:
-                //今日打卡
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-//                intent.setClass(getContext(), TodayClockInActivity.class);
-//                startActivity(intent);
-                intent = new Intent(getContext(), WebActivity.class);
-                intent.putExtra("url", SystemUtils.mainUrl + "Signin/today?username=" + SystemUtils.defaultUsername);
-                intent.putExtra("title", "今日统计");
-
-
-                startActivity(intent);
-                break;
-            case R.id.schedule_layout:
-                //我的课表
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), ScheduleActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.event_layout:
-                //精彩活动
-                intent.setClass(getContext(), EventActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.match_layout:
-                //广场
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), SquareActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.grind_ear_layout:
-                //磨耳朵
-//                if (SystemUtils.tag.equals("游客")) {
-//                    SystemUtils.toLogin(getContext());
-//                    return;
-//                }
-                intent.setClass(getContext(), GrindEarActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.reading_layout:
-                //阅读
-//                if (SystemUtils.tag.equals("游客")) {
-//                    SystemUtils.toLogin(getContext());
-//                    return;
-//                }
-                intent.setClass(getContext(), ReadingActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.spoken_layout:
-                //口语
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                if (spokenList.size() != 0) {
-                    intent.setClass(getContext(), ListenSongActivity.class);
-                    Bundle bundle5 = new Bundle();
-                    bundle5.putInt("type", 11);
-                    bundle5.putSerializable("ClassifyList", (Serializable) spokenList);
-                    intent.putExtras(bundle5);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.first_msg_layout:
-                //信息
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), MyMessageActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.search_layout:
-                //搜索
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                Intent intent2 = new Intent(getContext(), GlobalSearchActivity.class);
-                startActivity(intent2);
-                break;
-            case R.id.sign_image:
-                //右上角签到
-                //TODO:
-//                Intent intent1 = new Intent(getContext(), ExerciseTestActivity.class);
-//                startActivity(intent1);
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                Intent intent1 = new Intent(getContext(), WebActivity.class);
-                intent1.putExtra("url", SystemUtils.mainUrl + "Signin/index?username=" + SystemUtils.defaultUsername);
-                intent1.putExtra("title", "签到");
-                intent1.putExtra("share", 1);
-                startActivity(intent1);
-                break;
-            case R.id.lesson_layout:
-                //我的课程
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), CourseActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.grind_ear100_layout:
-                //磨耳朵100
-
-                break;
-            case R.id.reading100_layout:
-                //阅读100
-
-                break;
-            case R.id.spoken100_layout:
-                //口语100
-
-                break;
-            case R.id.word100_layout:
-                //单词100
-
-                break;
-            case R.id.wodekecheng:
-                //我的课程推荐
-                intent.setClass(getContext(), WebActivity.class);
-                intent.putExtra("url", "https://mp.weixin.qq.com/s/Wtkns9YyzcmyNsnkgoFLMg");
-                intent.putExtra("title", "我的课程推荐");
-                startActivity(intent);
-                break;
-        }
     }
 
     @Override
@@ -464,6 +563,394 @@ public class FirstFragment extends BaseFragment implements MainView, View.OnClic
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onCheckDoubleClick(View view) {
+        Intent intent = new Intent();
+        switch (view.getId()) {
+            case R.id.clock_in_layout:
+                //存折
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+//                intent = new Intent(getContext(), WebActivity.class);
+//                intent.putExtra("url", SystemUtils.mainUrl + "Signin/today?username=" + SystemUtils.defaultUsername);
+//                intent.putExtra("title", "今日统计");
+                intent.setClass(getContext(), BankBookActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.schedule_layout:
+                //我的课表
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), ScheduleActivity2.class);
+                startActivity(intent);
+                break;
+            case R.id.event_layout:
+                //网课
+//                intent.setClass(getContext(), NetWorkActivity.class);
+//                startActivity(intent);
+                ((MainActivity) getActivity()).changeFragment(1);
+                break;
+            case R.id.match_layout:
+                //广场
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), SquareActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.grind_ear_layout:
+                //磨耳朵
+//                if (SystemUtils.tag.equals("游客")) {
+//                    SystemUtils.toLogin(getContext());
+//                    return;
+//                }
+                intent.setClass(getContext(), GrindEarActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.reading_layout:
+                //阅读
+//                if (SystemUtils.tag.equals("游客")) {
+//                    SystemUtils.toLogin(getContext());
+//                    return;
+//                }
+                intent.setClass(getContext(), ReadingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.spoken_layout:
+                //口语
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                if (spokenList.size() != 0) {
+                    intent.setClass(getContext(), ListenSongActivity.class);
+                    Bundle bundle5 = new Bundle();
+                    bundle5.putInt("type", 11);
+                    bundle5.putSerializable("ClassifyList", (Serializable) spokenList);
+                    intent.putExtras(bundle5);
+                    startActivity(intent);
+                } else {
+                    showInfo("请稍后");
+                }
+                break;
+            case R.id.search_layout:
+                //搜索
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                Intent intent2 = new Intent(getContext(), GlobalSearchActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.sign_image:
+                //右上角签到
+                //TODO:
+
+                Intent intent1 = new Intent(getContext(), MusicPlayActivity.class);
+                startActivity(intent1);
+
+//                Uri uri = Uri.parse("http://m.anniekids.org/1.html");
+//                Intent intent1 = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(intent1);
+
+//                Intent intent1 = new Intent(getContext(), WebActivity.class);
+//                intent1.putExtra("url", "http://m.anniekids.org/1.html");
+//                intent1.putExtra("title", "我的课程推荐");
+//                startActivity(intent1);
+
+//                Intent intent1 = new Intent(getContext(), CalendarActivity.class);
+//                startActivity(intent1);
+
+
+//                if (SystemUtils.tag.equals("游客")) {
+//                    SystemUtils.toLogin(getContext());
+//                    return;
+//                }
+//                if (SystemUtils.childTag == 0) {
+//                    SystemUtils.toAddChild(getContext());
+//                    return;
+//                }
+//                Intent intent1 = new Intent(getContext(), WebActivity.class);
+//                intent1.putExtra("url", SystemUtils.mainUrl + "Signin/index?username=" + SystemUtils.defaultUsername);
+//                intent1.putExtra("title", "签到");
+//                intent1.putExtra("share", 1);
+//                startActivity(intent1);
+                break;
+            case R.id.more_moerduo:
+                //我要磨耳朵更多
+                intent.setClass(getContext(), GrindEarActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.more_reading:
+                //我要阅读更多
+                intent.setClass(getContext(), ReadingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.more_spoken:
+                //我要练口语更多
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                if (spokenList.size() != 0) {
+                    intent.setClass(getContext(), ListenSongActivity.class);
+                    Bundle bundle5 = new Bundle();
+                    bundle5.putInt("type", 11);
+                    bundle5.putSerializable("ClassifyList", (Serializable) spokenList);
+                    intent.putExtras(bundle5);
+                    startActivity(intent);
+                } else {
+                    showInfo("请稍后");
+                }
+                break;
+            case R.id.main_free_image1:
+                intent = new Intent(getContext(), PracticeActivity.class);
+                intent.putExtra("song", freeList.get(0));
+                intent.putExtra("type", 0);
+                intent.putExtra("audioType", 0);
+                intent.putExtra("audioSource", 0);
+                startActivity(intent);
+                break;
+            case R.id.main_free_image2:
+                intent = new Intent(getContext(), PracticeActivity.class);
+                intent.putExtra("song", freeList.get(1));
+                intent.putExtra("type", 0);
+                intent.putExtra("audioType", 0);
+                intent.putExtra("audioSource", 0);
+                startActivity(intent);
+                break;
+            case R.id.main_free_image3:
+                intent = new Intent(getContext(), PracticeActivity.class);
+                intent.putExtra("song", freeList.get(2));
+                intent.putExtra("type", 0);
+                intent.putExtra("audioType", 0);
+                intent.putExtra("audioSource", 0);
+                startActivity(intent);
+                break;
+            case R.id.main_moerduo_image1:
+                if (moerduoList.get(0).getJurisdiction() == 0) {
+                    if (moerduoList.get(0).getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(getActivity(), true);
+                        SystemUtils.getSuggestPopup(getContext(), "需要" + moerduoList.get(0).getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter2, -1, moerduoList.get(0).getNectar(), moerduoList.get(0).getBookName(), moerduoList.get(0).getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    intent = new Intent(getContext(), PracticeActivity.class);
+                    intent.putExtra("song", moerduoList.get(0));
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", 0);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.main_moerduo_image2:
+                if (moerduoList.get(1).getJurisdiction() == 0) {
+                    if (moerduoList.get(1).getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(getActivity(), true);
+                        SystemUtils.getSuggestPopup(getContext(), "需要" + moerduoList.get(1).getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter2, -1, moerduoList.get(1).getNectar(), moerduoList.get(1).getBookName(), moerduoList.get(1).getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    intent = new Intent(getContext(), PracticeActivity.class);
+                    intent.putExtra("song", moerduoList.get(1));
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", 0);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.main_moerduo_image3:
+                if (moerduoList.get(2).getJurisdiction() == 0) {
+                    if (moerduoList.get(2).getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(getActivity(), true);
+                        SystemUtils.getSuggestPopup(getContext(), "需要" + moerduoList.get(2).getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter2, -1, moerduoList.get(2).getNectar(), moerduoList.get(2).getBookName(), moerduoList.get(2).getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    intent = new Intent(getContext(), PracticeActivity.class);
+                    intent.putExtra("song", moerduoList.get(2));
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", 0);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.main_reading_image1:
+                if (readingList.get(0).getJurisdiction() == 0) {
+                    if (readingList.get(0).getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(getActivity(), true);
+                        SystemUtils.getSuggestPopup(getContext(), "需要" + readingList.get(0).getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter2, -1, readingList.get(0).getNectar(), readingList.get(0).getBookName(), readingList.get(0).getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    intent = new Intent(getContext(), PracticeActivity.class);
+                    intent.putExtra("song", readingList.get(0));
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", 1);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.main_reading_image2:
+                if (readingList.get(1).getJurisdiction() == 0) {
+                    if (readingList.get(1).getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(getActivity(), true);
+                        SystemUtils.getSuggestPopup(getContext(), "需要" + readingList.get(1).getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter2, -1, readingList.get(1).getNectar(), readingList.get(1).getBookName(), readingList.get(1).getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    intent = new Intent(getContext(), PracticeActivity.class);
+                    intent.putExtra("song", readingList.get(1));
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", 1);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.main_reading_image3:
+                if (readingList.get(2).getJurisdiction() == 0) {
+                    if (readingList.get(2).getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(getActivity(), true);
+                        SystemUtils.getSuggestPopup(getContext(), "需要" + readingList.get(2).getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter2, -1, readingList.get(2).getNectar(), readingList.get(2).getBookName(), readingList.get(2).getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    intent = new Intent(getContext(), PracticeActivity.class);
+                    intent.putExtra("song", readingList.get(2));
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", 1);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.main_spoken_image1:
+                if (speakingList.get(0).getJurisdiction() == 0) {
+                    if (speakingList.get(0).getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(getActivity(), true);
+                        SystemUtils.getSuggestPopup(getContext(), "需要" + speakingList.get(0).getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter2, -1, speakingList.get(0).getNectar(), speakingList.get(0).getBookName(), speakingList.get(0).getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    intent = new Intent(getContext(), PracticeActivity.class);
+                    intent.putExtra("song", speakingList.get(0));
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", 0);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.main_spoken_image2:
+                if (speakingList.get(1).getJurisdiction() == 0) {
+                    if (speakingList.get(1).getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(getActivity(), true);
+                        SystemUtils.getSuggestPopup(getContext(), "需要" + speakingList.get(1).getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter2, -1, speakingList.get(1).getNectar(), speakingList.get(1).getBookName(), speakingList.get(1).getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    intent = new Intent(getContext(), PracticeActivity.class);
+                    intent.putExtra("song", speakingList.get(1));
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", 0);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.main_spoken_image3:
+                if (speakingList.get(2).getJurisdiction() == 0) {
+                    if (speakingList.get(2).getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(getActivity(), true);
+                        SystemUtils.getSuggestPopup(getContext(), "需要" + speakingList.get(2).getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter2, -1, speakingList.get(2).getNectar(), speakingList.get(2).getBookName(), speakingList.get(2).getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    intent = new Intent(getContext(), PracticeActivity.class);
+                    intent.putExtra("song", speakingList.get(2));
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", 0);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.meiriyige_layout:
+                if (meiriyige.getJurisdiction() == 0) {
+                    if (meiriyige.getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(getActivity(), true);
+                        SystemUtils.getSuggestPopup(getContext(), "需要" + meiriyige.getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter2, -1, meiriyige.getNectar(), meiriyige.getBookName(), meiriyige.getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    intent = new Intent(getContext(), PracticeActivity.class);
+                    intent.putExtra("song", meiriyige);
+                    intent.putExtra("type", 1);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 1);
+                    intent.putExtra("bookType", 0);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.meiriyishi_layout:
+                if (meiriyishi.getJurisdiction() == 0) {
+                    if (meiriyishi.getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(getActivity(), true);
+                        SystemUtils.getSuggestPopup(getContext(), "需要" + meiriyishi.getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter2, -1, meiriyishi.getNectar(), meiriyishi.getBookName(), meiriyishi.getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    intent = new Intent(getContext(), PracticeActivity.class);
+                    intent.putExtra("song", meiriyishi);
+                    intent.putExtra("type", 1);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 1);
+                    intent.putExtra("bookType", 1);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.meiriyidu_layout:
+                if (meiriyidu.getJurisdiction() == 0) {
+                    if (meiriyidu.getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(getActivity(), true);
+                        SystemUtils.getSuggestPopup(getContext(), "需要" + meiriyidu.getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter2, -1, meiriyidu.getNectar(), meiriyidu.getBookName(), meiriyidu.getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    intent = new Intent(getContext(), PracticeActivity.class);
+                    intent.putExtra("song", meiriyidu);
+                    intent.putExtra("type", 1);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 1);
+                    intent.putExtra("bookType", 1);
+                    startActivity(intent);
+                }
+                break;
         }
     }
 }

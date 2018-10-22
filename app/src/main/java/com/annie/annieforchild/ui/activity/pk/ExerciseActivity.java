@@ -13,7 +13,10 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
+import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
 import com.annie.annieforchild.bean.AudioBean;
 import com.annie.annieforchild.bean.Exercise;
 import com.annie.annieforchild.bean.JTMessage;
@@ -36,12 +39,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * pk——练习
+ * pk——练习(弃用)
  * Created by wanglei on 2018/3/30.
  */
 
-public class ExerciseActivity extends BaseActivity implements View.OnClickListener, SongView {
-    private ImageView back, pageImage;
+public class ExerciseActivity extends BaseActivity implements OnCheckDoubleClick, SongView {
+    private ImageView back, pageImage, empty;
     private TextView challenge, last, next, page;
     private XRecyclerView exerciseList;
     private List<Line> lists;
@@ -50,6 +53,7 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
     private GrindEarPresenter presenter;
     private Intent intent;
     private int bookId;
+    private String imageUrl;
     private AlertHelper helper;
     private Dialog dialog;
     private int currentPage = 1;
@@ -57,7 +61,9 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
     private boolean isLast = false;
     private boolean isNext = true;
     public static boolean isPlay;
-    private int audioType, audioSource, type;
+    private int audioType, audioSource;
+    private String title;
+    private CheckDoubleClickListener listener;
 
     {
         setRegister(true);
@@ -77,12 +83,15 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
         next = findViewById(R.id.next_page);
         page = findViewById(R.id.book_page);
         pageImage = findViewById(R.id.page_image);
-        back.setOnClickListener(this);
-        challenge.setOnClickListener(this);
-        last.setOnClickListener(this);
-        next.setOnClickListener(this);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
+        empty = findViewById(R.id.exercise_empty);
+        listener = new CheckDoubleClickListener(this);
+        back.setOnClickListener(listener);
+        challenge.setOnClickListener(listener);
+        last.setOnClickListener(listener);
+        next.setOnClickListener(listener);
+        RecyclerLinearLayoutManager manager = new RecyclerLinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
+        manager.setScrollEnabled(false);
         exerciseList.setLayoutManager(manager);
         exerciseList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         exerciseList.setPullRefreshEnabled(false);
@@ -90,11 +99,12 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
         exerciseList.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         intent = getIntent();
         bookId = intent.getIntExtra("bookId", 0);
-        type = intent.getIntExtra("type", 0);
         audioType = intent.getIntExtra("audioType", 0);
         audioSource = intent.getIntExtra("audioSource", 3);
+        imageUrl = intent.getStringExtra("imageUrl");
+        title = intent.getStringExtra("title");
 
-        if (type != 1 || type != 3 || type != 5) {
+        if (audioSource != 1 || audioSource != 3 || audioSource != 9) {
             pageImage.setVisibility(View.VISIBLE);
         } else {
             pageImage.setVisibility(View.GONE);
@@ -109,7 +119,7 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
 
-        adapter = new ExerciseAdapter(this, lists, bookId, presenter, audioType, audioSource, new OnRecyclerItemClickListener() {
+        adapter = new ExerciseAdapter(this, title, lists, bookId, presenter, audioType, audioSource, imageUrl, 1, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 int positon = exerciseList.getChildAdapterPosition(view);
@@ -138,61 +148,6 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
         return null;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.exercise_back:
-                finish();
-                break;
-            case R.id.go_to_challenge:
-                Intent intent = new Intent(this, ChallengeActivity.class);
-                intent.putExtra("bookId", bookId);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.last_page:
-                if (isLast) {
-                    currentPage--;
-                    if (currentPage == 1) {
-                        last.setTextColor(getResources().getColor(R.color.text_black));
-                        next.setTextColor(getResources().getColor(R.color.text_orange));
-                        isLast = false;
-                        isNext = true;
-                    } else {
-                        last.setTextColor(getResources().getColor(R.color.text_orange));
-                        next.setTextColor(getResources().getColor(R.color.text_orange));
-                        isNext = true;
-                    }
-                    page.setText(currentPage + "/" + totalPage);
-                    Glide.with(this).load(book.getPageContent().get(currentPage - 1).getPageImage()).into(pageImage);
-                    refresh();
-                } else {
-                    break;
-                }
-                break;
-            case R.id.next_page:
-                if (isNext) {
-                    currentPage++;
-                    if (currentPage == totalPage) {
-                        next.setTextColor(getResources().getColor(R.color.text_black));
-                        last.setTextColor(getResources().getColor(R.color.text_orange));
-                        isNext = false;
-                        isLast = true;
-                    } else {
-                        next.setTextColor(getResources().getColor(R.color.text_orange));
-                        last.setTextColor(getResources().getColor(R.color.text_orange));
-                        isLast = true;
-                    }
-                    page.setText(currentPage + "/" + totalPage);
-                    Glide.with(this).load(book.getPageContent().get(currentPage - 1).getPageImage()).into(pageImage);
-                    refresh();
-                } else {
-                    break;
-                }
-                break;
-        }
-    }
-
     /**
      * {@link GrindEarPresenterImp#Success(int, Object)}
      *
@@ -202,7 +157,9 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_PK_EXERCISE) {
             book = (Book) message.obj;
-            initialize();
+            if (book != null) {
+                initialize();
+            }
         } else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
             AudioBean bean = (AudioBean) message.obj;
             book.getPageContent().get(currentPage).getLineContent().get(bean.getLineId()).setMyResourceUrl(bean.getResourceUrl());
@@ -211,8 +168,13 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initialize() {
+        if (book.getBookTotalPages() == 0 || book.getPageContent().size() == 0) {
+            empty.setVisibility(View.VISIBLE);
+        } else {
+            empty.setVisibility(View.GONE);
+        }
         totalPage = book.getBookTotalPages();
-        if (type != 1 || type != 3 || type != 5) {
+        if (audioSource != 1 || audioSource != 3 || audioSource != 9) {
             Glide.with(this).load(book.getPageContent().get(currentPage - 1).getPageImage()).into(pageImage);
         }
         currentPage = 1;
@@ -263,6 +225,61 @@ public class ExerciseActivity extends BaseActivity implements View.OnClickListen
         super.onDestroy();
         if (adapter != null) {
             adapter.stopMedia();
+        }
+    }
+
+    @Override
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
+            case R.id.exercise_back:
+                finish();
+                break;
+            case R.id.go_to_challenge:
+                Intent intent = new Intent(this, ChallengeActivity.class);
+                intent.putExtra("bookId", bookId);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.last_page:
+                if (isLast) {
+                    currentPage--;
+                    if (currentPage == 1) {
+                        last.setTextColor(getResources().getColor(R.color.text_black));
+                        next.setTextColor(getResources().getColor(R.color.text_orange));
+                        isLast = false;
+                        isNext = true;
+                    } else {
+                        last.setTextColor(getResources().getColor(R.color.text_orange));
+                        next.setTextColor(getResources().getColor(R.color.text_orange));
+                        isNext = true;
+                    }
+                    page.setText(currentPage + "/" + totalPage);
+                    Glide.with(this).load(book.getPageContent().get(currentPage - 1).getPageImage()).into(pageImage);
+                    refresh();
+                } else {
+                    break;
+                }
+                break;
+            case R.id.next_page:
+                if (isNext) {
+                    currentPage++;
+                    if (currentPage == totalPage) {
+                        next.setTextColor(getResources().getColor(R.color.text_black));
+                        last.setTextColor(getResources().getColor(R.color.text_orange));
+                        isNext = false;
+                        isLast = true;
+                    } else {
+                        next.setTextColor(getResources().getColor(R.color.text_orange));
+                        last.setTextColor(getResources().getColor(R.color.text_orange));
+                        isLast = true;
+                    }
+                    page.setText(currentPage + "/" + totalPage);
+                    Glide.with(this).load(book.getPageContent().get(currentPage - 1).getPageImage()).into(pageImage);
+                    refresh();
+                } else {
+                    break;
+                }
+                break;
         }
     }
 }

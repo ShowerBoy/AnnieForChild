@@ -2,11 +2,9 @@ package com.annie.annieforchild.presenter.imp;
 
 import android.content.Context;
 
-import com.alibaba.fastjson.JSON;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.ClassList;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.course.Course;
 import com.annie.annieforchild.bean.course.OnlineCourse;
 import com.annie.annieforchild.bean.material.Material;
 import com.annie.annieforchild.bean.schedule.TotalSchedule;
@@ -19,8 +17,6 @@ import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BasePresenterImp;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -55,6 +51,7 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
         interactor.mySchedule(date);
     }
 
+
     @Override
     public void getMaterialClass(int type) {
         interactor.getMaterialClass(type);
@@ -70,9 +67,9 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
      * @param end
      */
     @Override
-    public void addSchedule(int materialId, String startDate, int totalDays, String start, String end) {
+    public void addSchedule(int materialId, String startDate, int totalDays, String start, String end, int audioType, int audioSource) {
         scheduleView.showLoad();
-        interactor.addSchedule(materialId, startDate, totalDays, start, end);
+        interactor.addSchedule(materialId, startDate, totalDays, start, end, audioType, audioSource);
     }
 
     /**
@@ -139,6 +136,17 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
         interactor.myTeachingMaterials();
     }
 
+    @Override
+    public void myCalendar(String date) {
+//        scheduleView.showLoad();
+        interactor.myCalendar(date);
+    }
+
+    @Override
+    public void monthCalendar(String date) {
+        interactor.monthCalendar(date);
+    }
+
 
     @Override
     public void Success(int what, Object result) {
@@ -147,8 +155,7 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
             if (what == MethodCode.EVENT_MYSCHEDULE) {
                 TotalSchedule totalSchedule = (TotalSchedule) result;
                 /**
-                 * {@link OfflineScheduleFragment#onMainEventThread(JTMessage)}
-                 * {@link OnlineScheduleFragment#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -185,7 +192,8 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
             } else if (what == MethodCode.EVENT_ADDSCHEDULE) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity#onMainEventThread(JTMessage)}
-                 * {@link com.annie.annieforchild.ui.activity.lesson.ScheduleActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.lesson.TaskDetailsActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -202,7 +210,7 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_DELETESCHEDULE) {
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.lesson.ScheduleActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -230,6 +238,24 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
                 List<Material> lists = (List<Material>) result;
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.material.OptionalMaterialFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_MYCALENDAR) {
+                List<String> lists = (List<String>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_MONTHCALENDAR) {
+                List<TotalSchedule> lists = (List<TotalSchedule>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;

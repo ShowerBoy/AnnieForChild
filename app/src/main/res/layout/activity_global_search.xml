@@ -6,41 +6,105 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <!--<ImageView-->
-            <!--android:id="@+id/global_back"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_marginStart="10dp"-->
-            <!--android:src="@drawable/ic_arrow_left2" />-->
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/global_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_arrow_left2" />
 
         <android.support.v7.widget.SearchView
             android:id="@+id/global_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/global_back"
+            android:layout_toStartOf="@+id/global_high_search"
             app:iconifiedByDefault="false">
 
         </android.support.v7.widget.SearchView>
 
-        <ListView
-            android:id="@+id/search_listView"
+        <TextView
+            android:id="@+id/global_high_search"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:visibility="gone">
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="6dp"
+            android:text="高级搜索"
+            android:textColor="@color/text_orange"
+            android:textSize="16sp" />
+    </RelativeLayout>
 
-        </ListView>
+    <LinearLayout
+        android:id="@+id/history_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="2dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:text="历史搜索"
+            android:textColor="@color/text_color"
+            android:textSize="15sp" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/history_flexbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap">
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <TextView
+            android:id="@+id/clear_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:text="清空历史记录"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/light_gray2" />
     </LinearLayout>
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/search_recycler"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:id="@+id/search_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+        </com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+        <ImageView
+            android:id="@+id/empty_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_empty_data"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
 </LinearLayout>

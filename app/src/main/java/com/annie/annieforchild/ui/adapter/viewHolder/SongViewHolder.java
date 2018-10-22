@@ -17,7 +17,7 @@ import com.annie.annieforchild.bean.book.Line;
 public class SongViewHolder extends RecyclerView.ViewHolder {
     public TextView songName, songCount, collect, addMaterial, addCourse;
     public LinearLayout songdoLayout;
-    public ImageView songImage;
+    public ImageView songImage, lock;
     public RelativeLayout songDetail;
 
     public SongViewHolder(View itemView) {
@@ -30,5 +30,6 @@ public class SongViewHolder extends RecyclerView.ViewHolder {
         songImage = itemView.findViewById(R.id.song_image);
         songDetail = itemView.findViewById(R.id.song_detail);
         songdoLayout = itemView.findViewById(R.id.songdo_layout);
+        lock = itemView.findViewById(R.id.song_lock);
     }
 }

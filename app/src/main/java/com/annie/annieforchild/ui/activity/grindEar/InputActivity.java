@@ -20,7 +20,9 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.material.MaterialGroup;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
@@ -43,10 +45,10 @@ import java.util.List;
  * Created by wanglei on 2018/4/11.
  */
 
-public class InputActivity extends BaseActivity implements View.OnClickListener, SongView {
-    private TextView inputTingdonghua, inputTingmobao, inputJiqiren, inputDiandubi, inputQita, feedback, diandubi;
+public class InputActivity extends BaseActivity implements OnCheckDoubleClick, SongView {
+    private TextView inputTingmobao, inputDiandubi, inputQita, feedback, diandubi, inputXiaomobao;
     private ImageView back, diandubiImage;
-    private RelativeLayout tingdonghuaLayout, tingmobaoLayout, jiqirenLayout;
+    private RelativeLayout tingdonghuaLayout, tingmobaoLayout, xiaomobaoLayout;
     private Button inputBtn;
     private PopupWindow popupWindow;
     private List<MaterialGroup> popup_lists;
@@ -59,8 +61,9 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
     private AlertHelper helper;
     private Dialog dialog;
     private Intent intent;
-    private String tag; // grindear:磨耳朵  reading:阅读
+    private String tag; // grindear:磨耳朵  reading:阅读  speaking:口语
     private boolean input = false; //true:录入书名
+    private CheckDoubleClickListener listener;
 
     {
         setRegister(true);
@@ -73,30 +76,27 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initView() {
-        inputTingdonghua = findViewById(R.id.input_tingdonghua_duration);
         inputTingmobao = findViewById(R.id.input_tingmobao_duration);
-        inputJiqiren = findViewById(R.id.input_jiqiren_duration);
         inputDiandubi = findViewById(R.id.input_diandubi_duration);
+        inputXiaomobao = findViewById(R.id.input_xiaomobao_duration);
+        xiaomobaoLayout = findViewById(R.id.xiaomobao_layout);
         diandubi = findViewById(R.id.diandubi);
         inputQita = findViewById(R.id.input_qita_duration);
         inputBtn = findViewById(R.id.input_btn);
         feedback = findViewById(R.id.input_feedback);
         diandubiImage = findViewById(R.id.input_diandubi);
+
         back = findViewById(R.id.input_back);
-//        tingdonghuaLayout = findViewById(R.id.tingdonghua_layout);
         tingmobaoLayout = findViewById(R.id.tingmobao_layout);
-//        jiqirenLayout = findViewById(R.id.jiqiren_layout);
-        inputTingdonghua.setOnClickListener(this);
-        inputTingmobao.setOnClickListener(this);
-        inputJiqiren.setOnClickListener(this);
-        inputDiandubi.setOnClickListener(this);
-        inputQita.setOnClickListener(this);
-        inputBtn.setOnClickListener(this);
-        feedback.setOnClickListener(this);
-        back.setOnClickListener(this);
-//        tingdonghuaLayout.setOnClickListener(this);
-        tingmobaoLayout.setOnClickListener(this);
-//        jiqirenLayout.setOnClickListener(this);
+        listener = new CheckDoubleClickListener(this);
+        inputTingmobao.setOnClickListener(listener);
+        inputDiandubi.setOnClickListener(listener);
+        inputXiaomobao.setOnClickListener(listener);
+        inputQita.setOnClickListener(listener);
+        inputBtn.setOnClickListener(listener);
+        feedback.setOnClickListener(listener);
+        back.setOnClickListener(listener);
+        tingmobaoLayout.setOnClickListener(listener);
         popup_contentView = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_item, null);
         popupList = popup_contentView.findViewById(R.id.popup_lists1);
         popupWindow = new PopupWindow(popup_contentView, ViewGroup.LayoutParams.WRAP_CONTENT, Utils.dp2px(this, 200), true);
@@ -109,22 +109,35 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
         tag = intent.getStringExtra("tag");
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-        types = new String[]{"mobao", "readingpen", "others"};
-        durations = new String[]{"0", "0", "0"};
+//        types = new String[]{"mobao", "xiaomobao", "readingpen", "others"};
+//        durations = new String[]{"0", "0", "0", "0"};
         if (tag.equals("grindear")) {
             input = false;
-//            tingdonghuaLayout.setVisibility(View.VISIBLE);
+            types = new String[]{"mobao", "xiaomobao", "readingpen", "others"};
+            durations = new String[]{"0", "0", "0", "0"};
             tingmobaoLayout.setVisibility(View.VISIBLE);
+            xiaomobaoLayout.setVisibility(View.VISIBLE);
             diandubi.setText("点读笔");
             inputDiandubi.setText("0分钟");
             diandubiImage.setImageResource(R.drawable.icon_diandubi);
-        } else {
+        } else if (tag.equals("reading")) {
             input = true;
-//            tingdonghuaLayout.setVisibility(View.GONE);
+            types = new String[]{"others"};
+            durations = new String[]{"0"};
             tingmobaoLayout.setVisibility(View.GONE);
+            xiaomobaoLayout.setVisibility(View.GONE);
             diandubi.setText("纸质书");
             inputDiandubi.setText("请录入");
             diandubiImage.setImageResource(R.drawable.icon_zhizhishu);
+        } else {
+            input = false;
+            types = new String[]{"readingpen", "others"};
+            durations = new String[]{"0", "0"};
+            tingmobaoLayout.setVisibility(View.GONE);
+            xiaomobaoLayout.setVisibility(View.GONE);
+            diandubi.setText("点读笔");
+            inputDiandubi.setText("0分钟");
+            diandubiImage.setImageResource(R.drawable.icon_diandubi);
         }
 
         presenter = new GrindEarPresenterImp(this, this);
@@ -139,16 +152,35 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
         popupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (type.equals("听磨宝")) {
-                    durations[0] = popup_lists.get(position).getTitle();
-                    inputTingmobao.setText(popup_lists.get(position).getTitle() + "分钟");
-                } else if (type.equals("点读笔")) {
-                    durations[1] = popup_lists.get(position).getTitle();
-                    inputDiandubi.setText(popup_lists.get(position).getTitle() + "分钟");
-                } else if (type.equals("其他")) {
-                    durations[2] = popup_lists.get(position).getTitle();
-                    inputQita.setText(popup_lists.get(position).getTitle() + "分钟");
+                if (tag.equals("grindear")) {
+                    if (type.equals("听磨宝")) {
+                        durations[0] = popup_lists.get(position).getTitle();
+                        inputTingmobao.setText(popup_lists.get(position).getTitle() + "分钟");
+                    } else if (type.equals("小磨宝")) {
+                        durations[1] = popup_lists.get(position).getTitle();
+                        inputXiaomobao.setText(popup_lists.get(position).getTitle() + "分钟");
+                    } else if (type.equals("点读笔")) {
+                        durations[2] = popup_lists.get(position).getTitle();
+                        inputDiandubi.setText(popup_lists.get(position).getTitle() + "分钟");
+                    } else if (type.equals("其他")) {
+                        durations[3] = popup_lists.get(position).getTitle();
+                        inputQita.setText(popup_lists.get(position).getTitle() + "分钟");
+                    }
+                } else if (tag.equals("reading")) {
+                    if (type.equals("其他")) {
+                        durations[0] = popup_lists.get(position).getTitle();
+                        inputQita.setText(popup_lists.get(position).getTitle() + "分钟");
+                    }
+                } else {
+                    if (type.equals("点读笔")) {
+                        durations[0] = popup_lists.get(position).getTitle();
+                        inputDiandubi.setText(popup_lists.get(position).getTitle() + "分钟");
+                    } else if (type.equals("其他")) {
+                        durations[1] = popup_lists.get(position).getTitle();
+                        inputQita.setText(popup_lists.get(position).getTitle() + "分钟");
+                    }
                 }
+
                 popupWindow.dismiss();
             }
         });
@@ -165,21 +197,63 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
         return null;
     }
 
+    private void setBackGray(boolean tag) {
+        if (tag) {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.alpha = 0.7f;
+            getWindow().setAttributes(layoutParams);
+        } else {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.alpha = 1f;
+            getWindow().setAttributes(layoutParams);
+        }
+    }
+
+    /**
+     * {@link GrindEarPresenterImp#Success(int, Object)}
+     *
+     * @param message
+     */
+    @Subscribe
+    public void onMainEventThread(JTMessage message) {
+        if (message.what == MethodCode.EVENT_COMMITDURATION) {
+            finish();
+        } else if (message.what == MethodCode.EVENT_COMMITREADING) {
+            finish();
+        } else if (message.what == MethodCode.EVENT_COMMITSPEAKING) {
+            finish();
+        }
+    }
+
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.input_tingdonghua_duration:
-                type = "听动画";
-                setBackGray(true);
-                popupWindow.showAtLocation(popup_contentView, Gravity.CENTER, 0, 0);
-                break;
+    public void showInfo(String info) {
+        Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoad() {
+        if (dialog != null && !dialog.isShowing()) {
+            dialog.show();
+        }
+    }
+
+    @Override
+    public void dismissLoad() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
             case R.id.input_tingmobao_duration:
                 type = "听磨宝";
                 setBackGray(true);
                 popupWindow.showAtLocation(popup_contentView, Gravity.CENTER, 0, 0);
                 break;
-            case R.id.input_jiqiren_duration:
-                type = "机器人";
+            case R.id.input_xiaomobao_duration:
+                type = "小磨宝";
                 setBackGray(true);
                 popupWindow.showAtLocation(popup_contentView, Gravity.CENTER, 0, 0);
                 break;
@@ -208,8 +282,10 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
                 if (b) {
                     if (tag.equals("grindear")) {
                         presenter.commitDuration(types, durations);
-                    } else {
+                    } else if (tag.equals("reading")) {
                         presenter.commitReading(types, durations, 0, 0);
+                    } else {
+                        presenter.commitSpeaking(types, durations);
                     }
                 }
                 break;
@@ -220,51 +296,6 @@ public class InputActivity extends BaseActivity implements View.OnClickListener,
             case R.id.input_back:
                 finish();
                 break;
-        }
-    }
-
-    private void setBackGray(boolean tag) {
-        if (tag) {
-            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-            layoutParams.alpha = 0.7f;
-            getWindow().setAttributes(layoutParams);
-        } else {
-            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-            layoutParams.alpha = 1f;
-            getWindow().setAttributes(layoutParams);
-        }
-    }
-
-    /**
-     * {@link GrindEarPresenterImp#Success(int, Object)}
-     *
-     * @param message
-     */
-    @Subscribe
-    public void onMainEventThread(JTMessage message) {
-        if (message.what == MethodCode.EVENT_COMMITDURATION) {
-            finish();
-        } else if (message.what == MethodCode.EVENT_COMMITREADING) {
-            finish();
-        }
-    }
-
-    @Override
-    public void showInfo(String info) {
-        Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showLoad() {
-        if (dialog != null && !dialog.isShowing()) {
-            dialog.show();
-        }
-    }
-
-    @Override
-    public void dismissLoad() {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
         }
     }
 }

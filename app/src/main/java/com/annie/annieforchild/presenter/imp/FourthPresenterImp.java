@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
@@ -65,8 +68,8 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                setDefaultUser(lists.get(position).getUsername());
                                 SystemUtils.getNetTime();
+                                setDefaultUser(lists.get(position).getUsername());
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -80,27 +83,26 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
 
             @Override
             public void onItemLongClick(View view) {
-                position = fourthView.getMemberRecycler().getChildAdapterPosition(view);
-                if (lists.get(position).getUsername().equals(SystemUtils.defaultUsername)) {
-                    fourthView.showInfo("默认学员不能删除！");
-                    return;
-                }
-                SystemUtils.GeneralDialog(context, "删除学员")
-                        .setMessage("是否删除当前选中学员？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                setDefaultUser(lists.get(position).getUsername());
-                                deleteUsername(lists.get(position).getUsername());
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .show();
+//                position = fourthView.getMemberRecycler().getChildAdapterPosition(view);
+//                if (lists.get(position).getUsername().equals(SystemUtils.defaultUsername)) {
+//                    fourthView.showInfo("默认学员不能删除！");
+//                    return;
+//                }
+//                SystemUtils.GeneralDialog(context, "删除学员")
+//                        .setMessage("是否删除当前选中学员？")
+//                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                deleteUsername(lists.get(position).getUsername());
+//                            }
+//                        })
+//                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                dialogInterface.dismiss();
+//                            }
+//                        })
+//                        .show();
             }
         });
         fourthView.getMemberRecycler().setAdapter(adapter);
@@ -142,6 +144,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
 //        interactor.getUserList();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void Success(int what, Object result) {
         fourthView.dismissLoad();
@@ -161,6 +164,9 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 lists.addAll((List<UserInfo2>) result);
                 adapter.notifyDataSetChanged();
             } else if (what == MethodCode.EVENT_SETDEFAULEUSER) {
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
                 SystemUtils.defaultUsername = lists.get(position).getUsername();
                 getUserInfo();
                 fourthView.showInfo((String) result);

@@ -47,6 +47,7 @@ public class ListenSongFragment extends BaseFragment implements SongView {
     }
 
     public ListenSongFragment() {
+
     }
 
     public static ListenSongFragment instance(int classId, String title, int audioType, int audioSource, int type) {
@@ -79,12 +80,16 @@ public class ListenSongFragment extends BaseFragment implements SongView {
         } else {
             collectType = 2;
         }
-        songAdapter = new SongAdapter(getContext(), songsList, presenter, collectType, classId, audioType, audioSource, type);
-        initRecycler();
+
         if (type == 3) {
 //            presenter.getAnimationList(title);
         } else if (type == 11) {
             presenter.getSpokenList(classId);
+            if (title.equals("动画口语")) {
+                audioSource = 13;
+            } else if (title.equals("日常口语")) {
+                audioSource = 14;
+            }
         } else {
             if (type < 6) {
                 presenter.getMusicList(classId);
@@ -92,7 +97,8 @@ public class ListenSongFragment extends BaseFragment implements SongView {
                 presenter.getReadList(classId);
             }
         }
-
+        songAdapter = new SongAdapter(getContext(), songsList, presenter, collectType, classId, audioType, audioSource, type);
+        initRecycler();
     }
 
     @Override
@@ -172,6 +178,15 @@ public class ListenSongFragment extends BaseFragment implements SongView {
             songsList.clear();
             songsList.addAll((List<Song>) message.obj);
             songAdapter.notifyDataSetChanged();
+        } else if (message.what == MethodCode.EVENT_UNLOCKBOOK + 9000 + classId) {
+            showInfo((String) message.obj);
+            if (type < 6) {
+                presenter.getMusicList(classId);
+            } else if (type == 11) {
+                presenter.getSpokenList(classId);
+            } else {
+                presenter.getReadList(classId);
+            }
         }
     }
 

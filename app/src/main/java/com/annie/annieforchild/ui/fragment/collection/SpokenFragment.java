@@ -72,7 +72,7 @@ public class SpokenFragment extends BaseFragment implements CollectionView {
             }
         });
         lists = new ArrayList<>();
-        adapter = new CollectionAdapter(getContext(), lists, type, 2, new OnMyItemClickListener() {
+        adapter = new CollectionAdapter(getContext(), lists, type, 2, 3, 0, new OnMyItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 SystemUtils.GeneralDialog(getContext(), "取消收藏")

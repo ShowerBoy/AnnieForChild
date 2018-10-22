@@ -8,8 +8,6 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.interactor.CollectionInteractor;
 import com.annie.annieforchild.interactor.imp.CollectionInteractorImp;
 import com.annie.annieforchild.presenter.CollectionPresenter;
-import com.annie.annieforchild.ui.adapter.CollectionAdapter;
-import com.annie.annieforchild.view.CollectionView;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BasePresenterImp;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -90,6 +88,14 @@ public class CollectionPresenterImp extends BasePresenterImp implements Collecti
                 message.what = what;
                 message.obj = result;
                 EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_MYCOLLECTIONS0) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.collection.OtherFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_CANCELCOLLECTION1) {
                 collectionView.dismissLoad();
                 /**
@@ -112,6 +118,15 @@ public class CollectionPresenterImp extends BasePresenterImp implements Collecti
                 collectionView.dismissLoad();
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.collection.SpokenFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_CANCELCOLLECTION0) {
+                collectionView.dismissLoad();
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.collection.OtherFragment#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;

@@ -29,6 +29,7 @@ import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
+import com.annie.annieforchild.ui.fragment.DakaFragment;
 import com.annie.annieforchild.ui.fragment.FirstFragment;
 import com.annie.annieforchild.ui.fragment.FourthFragment;
 import com.annie.annieforchild.ui.fragment.SecondFragment;
@@ -136,7 +137,11 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
         Bundle bundle4 = new Bundle();
         bundle4.putString("tag", tag);
         fourthFragment.setArguments(bundle4);
-        return new BaseFragment[]{firstFragment, secondFragment, thirdFragment, fourthFragment};
+        DakaFragment dakaFragment = new DakaFragment();
+        Bundle bundle5 = new Bundle();
+        bundle5.putString("tag", tag);
+        dakaFragment.setArguments(bundle5);
+        return new BaseFragment[]{firstFragment, secondFragment, dakaFragment, thirdFragment, fourthFragment};
     }
 
 //    @Override
@@ -146,27 +151,27 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
 
     @Override
     protected String[] getText() {
-        return new String[]{"首页", "课业", "发现", "我的"};
+        return new String[]{"首页", "路线图", "打卡", "发现", "我的"};
     }
 
     @Override
     protected int[] getActive_icons() {
-        return new int[]{R.drawable.icon_main_t, R.drawable.icon_lesson_t, R.drawable.icon_discover_t, R.drawable.icon_my_t};
+        return new int[]{R.drawable.icon_main_t, R.drawable.icon_lesson_t, R.drawable.icon_daka_t, R.drawable.icon_discover_t, R.drawable.icon_my_t};
     }
 
     @Override
     protected int[] getInactive_icons() {
-        return new int[]{R.drawable.icon_main_f, R.drawable.icon_lesson_f, R.drawable.icon_discover_f, R.drawable.icon_my_f};
+        return new int[]{R.drawable.icon_main_f, R.drawable.icon_lesson_f, R.drawable.icon_daka_f, R.drawable.icon_discover_f, R.drawable.icon_my_f};
     }
 
     @Override
     protected int[] getActive_Color() {
-        return new int[]{R.color.text_orange, R.color.text_orange, R.color.text_orange, R.color.text_orange};
+        return new int[]{R.color.text_orange, R.color.text_orange, R.color.text_orange, R.color.text_orange, R.color.text_orange};
     }
 
     @Override
     protected int[] getInactive_Color() {
-        return new int[]{R.color.navigation_bar_color, R.color.navigation_bar_color, R.color.navigation_bar_color, R.color.navigation_bar_color};
+        return new int[]{R.color.navigation_bar_color, R.color.navigation_bar_color, R.color.navigation_bar_color, R.color.navigation_bar_color, R.color.navigation_bar_color};
     }
 
     @Override
@@ -186,7 +191,7 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
 
     @PermissionDenied(1)
     public void requestDenied() {
-        Toast.makeText(this, "DENY ACCESS SDCARD!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "缺少权限!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

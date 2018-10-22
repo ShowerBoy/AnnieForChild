@@ -3,6 +3,8 @@ package com.annie.annieforchild.ui.activity.my;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.login.LoginBean;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.activity.login.ModifyPsdActivity;
@@ -102,9 +105,16 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             case R.id.logout:
                 SystemUtils.GeneralDialog(this, "退出登陆")
                         .setMessage("是否退出登录?")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("确定", new DialogInterface
+                                .OnClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                if (MusicService.isPlay) {
+                                    MusicService.stop();
+                                }
+                                MusicService.musicTitle = null;
+                                MusicService.musicImageUrl = null;
                                 SharedPreferences preferences = getSharedPreferences("userInfo", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.remove("phone");

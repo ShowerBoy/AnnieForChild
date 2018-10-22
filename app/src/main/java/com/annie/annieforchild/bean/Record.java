@@ -1,5 +1,7 @@
 package com.annie.annieforchild.bean;
 
+import java.util.List;
+
 /**
  * 录音
  * Created by WangLei on 2018/3/8 0008
@@ -7,11 +9,28 @@ package com.annie.annieforchild.bean;
 
 public class Record {
     private int recordingId;
-    private String url;
+    private List<String> url;
     private String time;
     private String duration;
     private String title;
+    private String imageUrl;
     private int origin;
+
+    public List<String> getUrl() {
+        return url;
+    }
+
+    public void setUrl(List<String> url) {
+        this.url = url;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public int getOrigin() {
         return origin;
@@ -35,14 +54,6 @@ public class Record {
 
     public void setRecordingId(int recordingId) {
         this.recordingId = recordingId;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getTime() {

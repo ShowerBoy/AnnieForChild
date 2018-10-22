@@ -18,7 +18,7 @@ public class GrindEarData implements Serializable {
     private List<Banner> bannerList;
     private List<Song> meiriyige;
     private List<Song> meiriyishi;
-    private List<RecommendBean> recommendList;
+    private List<Song> recommendlist;
 
     public List<Song> getMeiriyige() {
         return meiriyige;
@@ -60,11 +60,11 @@ public class GrindEarData implements Serializable {
         this.bannerList = bannerList;
     }
 
-    public List<RecommendBean> getRecommendList() {
-        return recommendList;
+    public List<Song> getRecommendlist() {
+        return recommendlist;
     }
 
-    public void setRecommendList(List<RecommendBean> recommendList) {
-        this.recommendList = recommendList;
+    public void setRecommendlist(List<Song> recommendlist) {
+        this.recommendlist = recommendlist;
     }
 }

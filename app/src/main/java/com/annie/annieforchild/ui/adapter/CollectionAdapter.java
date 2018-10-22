@@ -29,14 +29,16 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewHolder
     private Context context;
     private LayoutInflater inflater;
     private List<Collection> lists;
-    private int type, audioType;
+    private int type, audioType, collectType, bookType;
     private OnMyItemClickListener listener;
 
-    public CollectionAdapter(Context context, List<Collection> lists, int type, int audioType, OnMyItemClickListener listener) {
+    public CollectionAdapter(Context context, List<Collection> lists, int type, int audioType, int collectType, int bookType, OnMyItemClickListener listener) {
         this.context = context;
         this.lists = lists;
         this.audioType = audioType;
         this.type = type;
+        this.collectType = collectType;
+        this.bookType = bookType;
         this.listener = listener;
         inflater = LayoutInflater.from(context);
     }
@@ -72,11 +74,16 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewHolder
                     song.setBookName(lists.get(position).getName());
                     song.setBookImageUrl(lists.get(position).getImageUrl());
                     song.setBookId(lists.get(position).getCourseId());
+                    song.setIsmoerduo(lists.get(position).getIsmoerduo());
+                    song.setIsyuedu(lists.get(position).getIsyuedu());
+                    song.setIskouyu(lists.get(position).getIskouyu());
                     Intent intent = new Intent(context, PracticeActivity.class);
                     intent.putExtra("song", song);
                     intent.putExtra("type", type);
                     intent.putExtra("audioType", audioType);
                     intent.putExtra("audioSource", lists.get(position).getAudioSource());
+                    intent.putExtra("collectType", collectType);
+                    intent.putExtra("bookType", bookType);
                     context.startActivity(intent);
                 }
             }

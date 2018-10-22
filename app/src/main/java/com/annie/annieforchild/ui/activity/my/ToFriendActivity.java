@@ -104,16 +104,16 @@ public class ToFriendActivity extends BaseActivity implements ViewInfo, View.OnC
                 finish();
                 break;
             case R.id.tofriend_pengyouquan:
-                shareUtils.shareWechatMoments("推荐给你的朋友：中国孩子的英语启蒙路线图", "安妮花教育", shareUrl);
+                shareUtils.shareWechatMoments("推荐给你的朋友：中国孩子的英语启蒙路线图", "安妮花教育", null, shareUrl);
                 break;
             case R.id.tofriend_weixin:
-                shareUtils.shareWechat("推荐给你的朋友：中国孩子的英语启蒙路线图", "安妮花教育", shareUrl);
+                shareUtils.shareWechat("推荐给你的朋友：中国孩子的英语启蒙路线图", "安妮花教育", null, shareUrl);
                 break;
             case R.id.tofriend_qq:
-                shareUtils.shareQQ("推荐给你的朋友：中国孩子的英语启蒙路线图", "安妮花教育", shareUrl);
+                shareUtils.shareQQ("推荐给你的朋友：中国孩子的英语启蒙路线图", "安妮花教育", null, shareUrl);
                 break;
             case R.id.tofriend_qqzone:
-                shareUtils.shareQZone("推荐给你的朋友：中国孩子的英语启蒙路线图", "安妮花教育", shareUrl);
+                shareUtils.shareQZone("推荐给你的朋友：中国孩子的英语启蒙路线图", "安妮花教育", null, shareUrl);
                 break;
             case R.id.share:
                 getWindowGray(true);

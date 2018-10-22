@@ -84,7 +84,7 @@ public class GrindEarFragment extends BaseFragment implements CollectionView {
             }
         });
         lists = new ArrayList<>();
-        adapter = new CollectionAdapter(getContext(), lists, type, 0, new OnMyItemClickListener() {
+        adapter = new CollectionAdapter(getContext(), lists, type, 0, 1, 0, new OnMyItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 SystemUtils.GeneralDialog(getContext(), "取消收藏")

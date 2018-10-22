@@ -5,9 +5,18 @@ package com.annie.annieforchild.bean;
  */
 
 public class AudioBean {
+    private int page;
     private int lineId;
     private String resourceUrl;
     private String pageResourceUrl;
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
 
     public int getLineId() {
         return lineId;

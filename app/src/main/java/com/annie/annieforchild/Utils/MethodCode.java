@@ -10,9 +10,12 @@ public class MethodCode {
     final public static String PERSONAPI = "personApi/";
     final public static String HOMEPAGEAPI = "homepageApi/";
     final public static String HOMEWORKAPI = "homeworkApi/";
-    final public static String SEARCHAPI = "searchApi/";
+    final public static String SEARCHAPI = "SearchApi/";
     final public static String SQUAREAPI = "SquareApi/";
+    final public static String NETCLASSAPI = "NetclassApi/";
     final public static String SIGNINAPI = "Signin/";
+    final public static String TASKAPI = "TaskApi/";
+    final public static String SHAREAPI = "ShareApi/";
     final public static String ERRTYPE = "errType";
     final public static String ERRINFO = "errInfo";
     final public static String DATA = "data";
@@ -24,6 +27,11 @@ public class MethodCode {
      * EventBus
      */
     final public static int EVENT_ERROR = -10;
+    final public static int EVENT_PAGEPLAY = -30;
+    final public static int EVENT_MUSICPLAY = -20;
+    final public static int EVENT_ADDRESS = -5;
+    final public static int EVENT_PLAYING = -4;
+    final public static int EVENT_MUSIC = -3;
     final public static int EVENT_MAIN = 0;
     final public static int EVENT_LOGIN = 1; //登陆
     final public static int EVENT_RGISTER = 2; //注册
@@ -107,4 +115,36 @@ public class MethodCode {
     final public static int EVENT_GETSPOKENLIST = 80; //获取口语列表
     final public static int EVENT_COMMITBOOK = 81; //提交书名
     final public static int EVENT_DAILYPUNCH = 82; //在线得花蜜
+    final public static int EVENT_IWANTLISTEN = 83; //我要
+    final public static int EVENT_ACCESSBOOK = 84; //访问书籍
+    final public static int EVENT_UPLOADAUDIOTIME = 85; //上传音频时长
+    final public static int EVENT_MYCALENDAR = 86; //
+    final public static int EVENT_MONTHCALENDAR = 87; //当月课程
+    final public static int EVENT_MYPERIOD = 88; //课时核对
+    final public static int EVENT_SUGGESTPERIOD = 89; //课时提异
+    final public static int EVENT_MYTASK = 90; //我的作业
+    final public static int EVENT_TASKDETAILS = 91; //作业详情
+    final public static int EVENT_COMPLETETASK = 92; //完成作业
+    final public static int EVENT_UPLOADTASKIMAGE = 93; //提交作业图片
+    final public static int EVENT_SELECT = 94; //选择图片
+    final public static int EVENT_SUBMITTASK = 95; //提交作业
+    final public static int EVENT_CLOCKINSHARE = 96; //打卡分享
+    final public static int EVENT_GETCARDDETAIL = 97; //打卡详情
+    final public static int EVENT_SHARESUCCESS = 98; //打卡分享成功
+    final public static int EVENT_GETMYSPEAKING = 99; //口语存折
+    final public static int EVENT_GETTAGS = 100; //
+    final public static int EVENT_GETTAGBOOK = 101; //
+    final public static int EVENT_COMMITSPEAKING = 102; //口语录入
+    final public static int EVENT_UNLOCKBOOK = 103; //花蜜解锁
+    final public static int EVENT_GETNETHOMEDATA = 104; //网课首页
+    final public static int EVENT_GETNETSUGGEST = 105; //网课购买页
+    final public static int EVENT_GETMYNETCLASS = 106; //我的网课
+    final public static int EVENT_CONFIRMORDER = 107; //订单确认
+    final public static int EVENT_GETMYADDRESS = 108; //我的收货地址
+    final public static int EVENT_ADDADDRESS = 109; //添加收货地址
+    final public static int EVENT_EDITADDRESS = 110; //修改收货地址
+    final public static int EVENT_DELETEADDRESS = 111; //删除收货地址
+    final public static int EVENT_BUYNETCLASS = 112; //购买网课
+    final public static int EVENT_MYCOLLECTIONS0 = 113; //我的收藏——其他
+    final public static int EVENT_CANCELCOLLECTION0 = 114; //取消收藏——其他
 }

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.material.Material;
 import com.annie.annieforchild.ui.adapter.viewHolder.MaterialViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnMyItemClickListener;
@@ -37,12 +39,18 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialViewHolder> {
         MaterialViewHolder holder;
         View view = inflater.inflate(R.layout.activity_material_item, viewGroup, false);
         holder = new MaterialViewHolder(view);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                listener.onItemClick(v);
+//            }
+//        });
+        holder.itemView.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
             @Override
-            public void onClick(View v) {
-                listener.onItemClick(v);
+            public void onCheckDoubleClick(View view) {
+                listener.onItemClick(view);
             }
-        });
+        }));
         return holder;
     }
 

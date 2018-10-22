@@ -55,6 +55,7 @@ public class SelectReadingFragment extends BaseFragment implements ScheduleView 
     private int currentGroup = 0;
     private int currentChild = 0;
     private String date;
+    private int audioSoure;
 
     {
         setRegister(true);
@@ -91,6 +92,8 @@ public class SelectReadingFragment extends BaseFragment implements ScheduleView 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("material", lists.get(position));
                 bundle.putString("date", date);
+                bundle.putInt("audioType", 1);
+                bundle.putInt("audioSource", audioSoure);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 getActivity().finish();
@@ -146,6 +149,19 @@ public class SelectReadingFragment extends BaseFragment implements ScheduleView 
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 if (!groupList.get(groupPosition).isSelected()) {
+                    if (groupList.get(groupPosition).getTitle().equals("绘本")) {
+                        audioSoure = 5;
+                    } else if (groupList.get(groupPosition).getTitle().equals("分级读物")) {
+                        audioSoure = 6;
+                    } else if (groupList.get(groupPosition).getTitle().equals("桥梁书")) {
+                        audioSoure = 7;
+                    } else if (groupList.get(groupPosition).getTitle().equals("章节书")) {
+                        audioSoure = 8;
+                    } else if (groupList.get(groupPosition).getTitle().equals("我要朗读")) {
+                        audioSoure = 9;
+                    } else {
+                        audioSoure = 11;
+                    }
                     for (int i = 0; i < groupList.size(); i++) {
                         groupList.get(i).setSelected(false);
                     }
@@ -195,6 +211,7 @@ public class SelectReadingFragment extends BaseFragment implements ScheduleView 
             }
             //初始化选中第一项
             groupList.get(0).setSelected(true);
+            audioSoure = 5;
             lists.addAll(childList.get(0).get(0).getMaterialList());
             expandAdapter.notifyDataSetChanged();
             adapter.notifyDataSetChanged();

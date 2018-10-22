@@ -5,9 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
@@ -57,7 +59,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
     private AlertHelper helper;
     private Dialog dialog;
     private SQLiteDatabase db;
-
+    public String TAG = "GuideActivity";
 
     {
         setRegister(true);
@@ -71,6 +73,39 @@ public class GuideActivity extends BaseActivity implements LoginView {
     @Override
     protected void initView() {
         NoHttpUtils.init(this);
+
+        Uri uri = getIntent().getData();
+        if (uri != null) {
+            // 完整的url信息
+            String url = uri.toString();
+            Log.i(TAG, "url:" + uri);
+
+            // scheme部分
+            String scheme = uri.getScheme();
+            Log.i(TAG, "scheme:" + scheme);
+
+            // host部分
+            String host = uri.getHost();
+            Log.i(TAG, "host:" + host);
+
+            // port部分
+            int port = uri.getPort();
+            Log.i(TAG, "port:" + port);
+
+            // 访问路劲
+            String path = uri.getPath();
+            Log.i(TAG, "path:" + path);
+
+            List<String> pathSegments = uri.getPathSegments();
+
+            // Query部分
+            String query = uri.getQuery();
+            Log.i(TAG, "query:" + query);
+
+            //获取指定参数值
+            String success = uri.getQueryParameter("success");
+            Log.i(TAG, "success:" + success);
+        }
     }
 
     @Override
@@ -113,8 +148,8 @@ public class GuideActivity extends BaseActivity implements LoginView {
             phone = preferences.getString("phone", null);
             psd = preferences.getString("psd", null);
             logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
-            presenter.login(phone, psd, logintime);
             SystemUtils.getNetTime();
+            presenter.login(phone, psd, logintime);
         } else {
             Intent intent = new Intent(GuideActivity.this, LoginActivity.class);
             startActivity(intent);

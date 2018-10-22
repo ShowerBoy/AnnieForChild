@@ -57,7 +57,7 @@ public class PkUserPopupAdapter extends BaseAdapter {
         } else {
             holder = (PkUserViewHolder) convertView.getTag();
         }
-        if (lists.get(position).getAvatar()!=null){
+        if (lists.get(position).getAvatar() != null) {
             Glide.with(context).load(lists.get(position).getAvatar()).into(holder.headpic);
         }
         holder.name.setText(lists.get(position).getName());

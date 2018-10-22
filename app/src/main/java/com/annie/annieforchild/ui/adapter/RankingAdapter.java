@@ -44,17 +44,17 @@ public class RankingAdapter extends RecyclerView.Adapter<RankViewHolder> {
     public void onBindViewHolder(RankViewHolder rankViewHolder, int i) {
         if (i == 0) {
             rankViewHolder.medal.setVisibility(View.VISIBLE);
-            rankViewHolder.medal.setImageResource(R.drawable.icon_gold_medal);
+            rankViewHolder.medal.setImageResource(R.drawable.icon_medal_1);
             rankViewHolder.hexagon.setVisibility(View.GONE);
             rankViewHolder.rank_number.setVisibility(View.GONE);
         } else if (i == 1) {
             rankViewHolder.medal.setVisibility(View.VISIBLE);
-            rankViewHolder.medal.setImageResource(R.drawable.icon_silver_medal);
+            rankViewHolder.medal.setImageResource(R.drawable.icon_medal_2);
             rankViewHolder.hexagon.setVisibility(View.GONE);
             rankViewHolder.rank_number.setVisibility(View.GONE);
         } else if (i == 2) {
             rankViewHolder.medal.setVisibility(View.VISIBLE);
-            rankViewHolder.medal.setImageResource(R.drawable.icon_bronze_medal);
+            rankViewHolder.medal.setImageResource(R.drawable.icon_medal_3);
             rankViewHolder.hexagon.setVisibility(View.GONE);
             rankViewHolder.rank_number.setVisibility(View.GONE);
         } else {

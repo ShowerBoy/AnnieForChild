@@ -19,7 +19,9 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.material.Material;
@@ -49,7 +51,7 @@ import java.util.List;
  * Created by WangLei on 2018/3/2 0002
  */
 
-public class AddOnlineScheActivity extends BaseActivity implements View.OnClickListener, OnDateSetListener, ScheduleView {
+public class AddOnlineScheActivity extends BaseActivity implements OnCheckDoubleClick, OnDateSetListener, ScheduleView {
     private ImageView back, scheduleImage;
     private RelativeLayout scheduleStart, scheduleDays, scheduleTime;
     private Button addSchedule;
@@ -73,10 +75,12 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
     PopupWindow popupWindow;
     View popup_contentView;
     long thirtyYears = 30L * 365 * 1000 * 60 * 60 * 24L;
-    long oneYears = 1L * 365 * 1000 * 60 * 60 * 24L;
+    long oneYears = 0L * 365 * 1000 * 60 * 60 * 24L;
     private AlertHelper helper;
     private Dialog dialog;
     private String date;
+    private int audioType, audioSource;
+    private CheckDoubleClickListener listener;
 
     {
         setRegister(true);
@@ -100,11 +104,12 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
         scheduleTime = findViewById(R.id.schedule_time_layout);
         addSchedule = findViewById(R.id.add_online_schedule);
         title = findViewById(R.id.add_title);
-        back.setOnClickListener(this);
-        scheduleStart.setOnClickListener(this);
-        scheduleDays.setOnClickListener(this);
-        scheduleTime.setOnClickListener(this);
-        addSchedule.setOnClickListener(this);
+        listener = new CheckDoubleClickListener(this);
+        back.setOnClickListener(listener);
+        scheduleStart.setOnClickListener(listener);
+        scheduleDays.setOnClickListener(listener);
+        scheduleTime.setOnClickListener(listener);
+        addSchedule.setOnClickListener(listener);
         popup_lists = new ArrayList<>();
         popupWindow = new PopupWindow(popup_contentView, ViewGroup.LayoutParams.MATCH_PARENT, Utils.dp2px(this, 200), true);
         popup_contentView = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_item, null);
@@ -182,6 +187,8 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
             } else {
                 date = bundle.getString("date");
             }
+            audioType = bundle.getInt("audioType");
+            audioSource = bundle.getInt("audioSource");
         }
         Glide.with(this).load(material.getImageUrl()).into(scheduleImage);
         scheduleName.setText(material.getName());
@@ -208,44 +215,44 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
         return null;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.add_online_schedule_back:
-                finish();
-                break;
-            case R.id.schedule_start_layout:
-                //设置开始时间
-                datePickerDialog.show(getSupportFragmentManager(), "year_month_day");
-                break;
-            case R.id.schedule_days_layout:
-                //重复天数
-//                popupWindow.showAsDropDown(scheduleDays);
-                getWindowGray(true);
-                popupWindow.showAtLocation(popup_contentView, Gravity.BOTTOM, 0, 0);
-                break;
-            case R.id.schedule_time_layout:
-                //每天开始结束时间
-                timePickerDialog1.show(getSupportFragmentManager(), "hour:minute1");
-                break;
-            case R.id.add_online_schedule:
-                //加入课表
-                if (startDate != null && !startDate.equals("")) {
-                    if (startTime != null && !startTime.equals("") && endTime != null && !endTime.equals("")) {
-                        if (title.getText().equals("加入课表")) {
-                            presenter.addSchedule(material.getMaterialId(), startDate, totalDays, startTime, endTime);
-                        } else {
-                            presenter.editSchedule(schedule.getScheduleId(), material.getMaterialId(), startDate, totalDays, startTime, endTime);
-                        }
-                    } else {
-                        showInfo("请设置每天学习时间");
-                    }
-                } else {
-                    showInfo("请选择课表开始时间");
-                }
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.add_online_schedule_back:
+//                finish();
+//                break;
+//            case R.id.schedule_start_layout:
+//                //设置开始时间
+//                datePickerDialog.show(getSupportFragmentManager(), "year_month_day");
+//                break;
+//            case R.id.schedule_days_layout:
+//                //重复天数
+////                popupWindow.showAsDropDown(scheduleDays);
+//                getWindowGray(true);
+//                popupWindow.showAtLocation(popup_contentView, Gravity.BOTTOM, 0, 0);
+//                break;
+//            case R.id.schedule_time_layout:
+//                //每天开始结束时间
+//                timePickerDialog1.show(getSupportFragmentManager(), "hour:minute1");
+//                break;
+//            case R.id.add_online_schedule:
+//                //加入课表
+//                if (startDate != null && !startDate.equals("")) {
+//                    if (startTime != null && !startTime.equals("") && endTime != null && !endTime.equals("")) {
+//                        if (title.getText().equals("加入课表")) {
+//                            presenter.addSchedule(material.getMaterialId(), startDate, totalDays, startTime, endTime, audioType, audioSource);
+//                        } else {
+//                            presenter.editSchedule(schedule.getScheduleId(), material.getMaterialId(), startDate, totalDays, startTime, endTime);
+//                        }
+//                    } else {
+//                        showInfo("请设置每天学习时间");
+//                    }
+//                } else {
+//                    showInfo("请选择课表开始时间");
+//                }
+//                break;
+//        }
+//    }
 
     @Override
     public void onDateSet(TimePickerDialog PickerDialog, long l) {
@@ -253,9 +260,16 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
             startDate = sf1.format(new Date(l)).replace("-", "");
             scheduleStartText.setText(sf1.format(new Date(l)));
         } else if (PickerDialog.getTag().equals("hour:minute1")) {
-            startTime = sf2.format(new Date(l));
-            PickerDialog.dismiss();
-            timePickerDialog2.show(getSupportFragmentManager(), "hour:minute2");
+            String newTime = sf2.format(new Date(l)).replace(":", "");
+            String nowTime = sf2.format(new Date()).replace(":", "");
+            if (Integer.parseInt(newTime) < Integer.parseInt(nowTime)) {
+                showInfo("所选时间不能超过当前时间");
+                PickerDialog.dismiss();
+            } else {
+                startTime = sf2.format(new Date(l));
+                PickerDialog.dismiss();
+                timePickerDialog2.show(getSupportFragmentManager(), "hour:minute2");
+            }
         } else if (PickerDialog.getTag().equals("hour:minute2")) {
             endTime = sf2.format(new Date(l));
             int end1 = Integer.parseInt(endTime.split(":")[0]);
@@ -324,6 +338,45 @@ public class AddOnlineScheActivity extends BaseActivity implements View.OnClickL
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
+            case R.id.add_online_schedule_back:
+                finish();
+                break;
+            case R.id.schedule_start_layout:
+                //设置开始时间
+                datePickerDialog.show(getSupportFragmentManager(), "year_month_day");
+                break;
+            case R.id.schedule_days_layout:
+                //重复天数
+//                popupWindow.showAsDropDown(scheduleDays);
+                getWindowGray(true);
+                popupWindow.showAtLocation(popup_contentView, Gravity.BOTTOM, 0, 0);
+                break;
+            case R.id.schedule_time_layout:
+                //每天开始结束时间
+                timePickerDialog1.show(getSupportFragmentManager(), "hour:minute1");
+                break;
+            case R.id.add_online_schedule:
+                //加入课表
+                if (startDate != null && !startDate.equals("")) {
+                    if (startTime != null && !startTime.equals("") && endTime != null && !endTime.equals("")) {
+                        if (title.getText().equals("加入课表")) {
+                            presenter.addSchedule(material.getMaterialId(), startDate, totalDays, startTime, endTime, audioType, audioSource);
+                        } else {
+                            presenter.editSchedule(schedule.getScheduleId(), material.getMaterialId(), startDate, totalDays, startTime, endTime);
+                        }
+                    } else {
+                        showInfo("请设置每天学习时间");
+                    }
+                } else {
+                    showInfo("请选择课表开始时间");
+                }
+                break;
         }
     }
 }

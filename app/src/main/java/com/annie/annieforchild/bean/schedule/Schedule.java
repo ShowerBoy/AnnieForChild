@@ -12,7 +12,44 @@ public class Schedule implements Serializable {
     private String stop;
     private int scheduleId;
     private String detail;
+    private String bookImageUrl;
+    private int audioType;
+    private int audioSource;
+    private int bookId;
+
     private int type; //1:线上 2:线下
+
+    public int getAudioType() {
+        return audioType;
+    }
+
+    public void setAudioType(int audioType) {
+        this.audioType = audioType;
+    }
+
+    public int getAudioSource() {
+        return audioSource;
+    }
+
+    public void setAudioSource(int audioSource) {
+        this.audioSource = audioSource;
+    }
+
+    public String getBookImageUrl() {
+        return bookImageUrl;
+    }
+
+    public void setBookImageUrl(String bookImageUrl) {
+        this.bookImageUrl = bookImageUrl;
+    }
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
+    }
 
     public int getType() {
         return type;

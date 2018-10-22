@@ -14,13 +14,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/top_tab_back"
-            android:padding="10dp">
+            android:background="@color/top_tab_back">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="PK"
                 android:textColor="@color/text_black"
                 android:textSize="20sp" />
@@ -42,7 +43,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/player1"
+                android:id="@+id/player2"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/photo"
@@ -52,7 +53,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/player2"
+                android:id="@+id/player1"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/photo"

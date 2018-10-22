@@ -19,6 +19,7 @@ import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
+import com.annie.annieforchild.ui.activity.speaking.MySpeakingActivity;
 import com.annie.annieforchild.ui.adapter.SongAdapter;
 import com.annie.annieforchild.ui.fragment.song.AnimationFragment;
 import com.annie.annieforchild.ui.fragment.song.ListenSongFragment;
@@ -127,7 +128,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
                 audioType = 1;
                 audioSource = 11;
             } else if (type == 11) {
-                listenTitle.setText("口语");
+                listenTitle.setText("地道说");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
                 audioType = 2;
                 audioSource = 10;

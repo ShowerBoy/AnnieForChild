@@ -80,6 +80,7 @@ public abstract class QuickNavigationBarActivity extends BaseActivity implements
                         .addItem(new BottomNavigationItem(active_icons[1], texts[1]).setActiveColorResource(active_colors[1]).setInActiveColorResource(inactive_colors[1]))
                         .addItem(new BottomNavigationItem(active_icons[2], texts[2]).setActiveColorResource(active_colors[2]).setInActiveColorResource(inactive_colors[2]))
                         .addItem(new BottomNavigationItem(active_icons[3], texts[3]).setActiveColorResource(active_colors[3]).setInActiveColorResource(inactive_colors[3]))
+                        .addItem(new BottomNavigationItem(active_icons[4], texts[4]).setActiveColorResource(active_colors[4]).setInActiveColorResource(inactive_colors[4]))
                         .setFirstSelectedPosition(0)
                         .initialise();
             }
@@ -95,6 +96,7 @@ public abstract class QuickNavigationBarActivity extends BaseActivity implements
                         .addItem(new BottomNavigationItem(active_icons[1], texts[1]).setInactiveIcon(ContextCompat.getDrawable(this, inactive_icons[1])).setActiveColorResource(active_colors[1]).setInActiveColorResource(inactive_colors[1]))
                         .addItem(new BottomNavigationItem(active_icons[2], texts[2]).setInactiveIcon(ContextCompat.getDrawable(this, inactive_icons[2])).setActiveColorResource(active_colors[2]).setInActiveColorResource(inactive_colors[2]))
                         .addItem(new BottomNavigationItem(active_icons[3], texts[3]).setInactiveIcon(ContextCompat.getDrawable(this, inactive_icons[3])).setActiveColorResource(active_colors[3]).setInActiveColorResource(inactive_colors[3]))
+                        .addItem(new BottomNavigationItem(active_icons[4], texts[4]).setInactiveIcon(ContextCompat.getDrawable(this, inactive_icons[4])).setActiveColorResource(active_colors[4]).setInActiveColorResource(inactive_colors[4]))
                         .setFirstSelectedPosition(0)
                         .initialise();
             }
@@ -197,5 +199,9 @@ public abstract class QuickNavigationBarActivity extends BaseActivity implements
     protected abstract int[] getInactive_Color();//获取未选中时颜色
 
     protected abstract int getPlan();//获取方案
+
+    public void changeFragment(int position) {
+        bottomNavigationBar.selectTab(position);
+    }
 
 }

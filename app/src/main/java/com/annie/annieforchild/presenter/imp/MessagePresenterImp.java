@@ -57,9 +57,9 @@ public class MessagePresenterImp extends BasePresenterImp implements MessagePres
     }
 
     @Override
-    public void deleteRecording(int recordingId) {
+    public void deleteRecording(int recordingId, int origin) {
         viewInfo.showLoad();
-        interactor.deleteRecording(recordingId);
+        interactor.deleteRecording(recordingId, origin);
     }
 
     @Override

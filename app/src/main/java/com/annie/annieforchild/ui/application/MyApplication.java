@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.application;
 
 import com.annie.baselibrary.utils.Utils;
+import com.baidu.mobstat.StatService;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.mob.MobSDK;
@@ -23,7 +24,9 @@ public class MyApplication extends LitePalApplication {
         Utils.init(this);
         initJpush();
         MobSDK.init(this);
+        StatService.start(this);
     }
+
 
     private void initJpush() {
         JPushInterface.setDebugMode(true);

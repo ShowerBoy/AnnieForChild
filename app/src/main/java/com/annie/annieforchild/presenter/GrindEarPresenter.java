@@ -31,7 +31,7 @@ public interface GrindEarPresenter {
 
     void getBookAudioData(int bookId, int pkType, String pkUsername);
 
-    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername);
+    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl);
 
     void getPkUsers(int bookId);
 
@@ -72,4 +72,36 @@ public interface GrindEarPresenter {
     void commitBook(List<String> lists);
 
     void DailyPunch();
+
+    void iWantListen(int type);
+
+    void accessBook(int bookId);
+
+    void uploadAudioTime(int origin, int audioType, int audioSource, int resourseId, int duration);
+
+    void myPeriod();
+
+    void suggestPeriod(int periodid);
+
+    void myTask();
+
+    void taskDetails(int taskid);
+
+    void completeTask(int taskid, int likes, int listen, int homeworkid);
+
+    void uploadTaskImage(int taskid, List<String> path);
+
+    void submitTask(int taskid, String remarks);
+
+    void clockinShare(int type, int bookid);
+
+    void getCardDetail();
+
+    void shareSuccess(int moerduo, int yuedu, int kouyu);
+
+    void getMySpeaking();
+
+    void commitSpeaking(String[] type, String[] duration);
+
+    void unlockBook(int nectar, String bookname, int bookid, int classId);
 }

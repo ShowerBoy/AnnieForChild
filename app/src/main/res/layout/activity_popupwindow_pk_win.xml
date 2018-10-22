@@ -19,8 +19,9 @@
     <LinearLayout
         android:id="@+id/share_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="1dp"
         android:layout_alignParentBottom="true"
+        android:visibility="invisible"
         android:layout_marginBottom="12dp"
         android:orientation="horizontal">
 
@@ -59,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/share_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="26dp"
         android:background="@drawable/icon_orange_btn"
         android:text="再来一局"
         android:textColor="@color/white"

@@ -13,7 +13,7 @@ import com.annie.annieforchild.R;
 
 public class MyRecordViewHolder extends RecyclerView.ViewHolder {
     public TextView myRecordContent, myRecordDate, myRecordTime;
-    public ImageView myRecordPlay;
+    public ImageView myRecordPlay,myRecordImage;
 
     public MyRecordViewHolder(View itemView) {
         super(itemView);
@@ -21,5 +21,6 @@ public class MyRecordViewHolder extends RecyclerView.ViewHolder {
         myRecordDate = itemView.findViewById(R.id.my_record_date);
         myRecordTime = itemView.findViewById(R.id.my_record_time);
         myRecordPlay = itemView.findViewById(R.id.my_record_play);
+        myRecordImage=itemView.findViewById(R.id.my_record_image);
     }
 }

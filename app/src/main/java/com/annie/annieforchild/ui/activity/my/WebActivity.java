@@ -1,12 +1,16 @@
 package com.annie.annieforchild.ui.activity.my;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -14,6 +18,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
@@ -34,6 +39,7 @@ import cn.sharesdk.framework.PlatformActionListener;
 
 public class WebActivity extends BaseActivity implements View.OnClickListener, PlatformActionListener {
     private WebView webView;
+    private RelativeLayout titleLayout;
     private ImageView back, share, pengyouquan, weixin, qq, qqzone;
     private Intent mIntent;
     private TextView title;
@@ -44,6 +50,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
     private View v;
     private ShareUtils shareUtils;
     private int shareTag = 0;
+    private int aabb;
 
     @Override
     protected int getLayoutId() {
@@ -56,6 +63,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         title = findViewById(R.id.web_title);
         back = findViewById(R.id.web_back);
         share = findViewById(R.id.web_share);
+        titleLayout = findViewById(R.id.title_layout);
         back.setOnClickListener(this);
         share.setOnClickListener(this);
         popupWindow = new PopupWindow(this);
@@ -81,26 +89,53 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         });
     }
 
+    @SuppressLint("JavascriptInterface")
     @Override
     protected void initData() {
         webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setLoadsImagesAutomatically(true);
+
+
         mIntent = getIntent();
+
         if (mIntent != null) {
             url = mIntent.getStringExtra("url");
             titleText = mIntent.getStringExtra("title");
             shareTag = mIntent.getIntExtra("share", 0);
+            aabb = mIntent.getIntExtra("aabb", 0);
+        }
+        if (aabb == 1) {
+            titleLayout.setVisibility(View.GONE);
         }
         title.setText(titleText);
         if (url != null) {
             webView.loadUrl(url);
+            webView.getSettings().setUseWideViewPort(true);
+            webView.getSettings().setLoadWithOverviewMode(true);
+            webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    view.loadUrl(url);
+//                    view.loadUrl(url);
+                    Intent intent1 = new Intent();
+                    intent1.setClass(WebActivity.this, WebActivity.class);
+                    intent1.putExtra("url", url);
+                    intent1.putExtra("title", "手机官网");
+                    intent1.putExtra("aabb", 1);
+                    startActivity(intent1);
                     return true;
+                }
+
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    super.onPageStarted(view, url, favicon);
+                }
+
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    super.onPageFinished(view, url);
                 }
             });
         }
@@ -128,16 +163,16 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                 popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
                 break;
             case R.id.tofriend_pengyouquan:
-                shareUtils.shareWechatMoments("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", "https://demoapi.anniekids.net/api/Signin/share?username=" + SystemUtils.defaultUsername);
+                shareUtils.shareWechatMoments("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + SystemUtils.defaultUsername);
                 break;
             case R.id.tofriend_weixin:
-                shareUtils.shareWechat("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", "https://demoapi.anniekids.net/api/Signin/share?username=" + SystemUtils.defaultUsername);
+                shareUtils.shareWechat("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + SystemUtils.defaultUsername);
                 break;
             case R.id.tofriend_qq:
-                shareUtils.shareQQ("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", "https://demoapi.anniekids.net/api/Signin/share?username=" + SystemUtils.defaultUsername);
+                shareUtils.shareQQ("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + SystemUtils.defaultUsername);
                 break;
             case R.id.tofriend_qqzone:
-                shareUtils.shareQZone("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", "https://demoapi.anniekids.net/api/Signin/share?username=" + SystemUtils.defaultUsername);
+                shareUtils.shareQZone("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + SystemUtils.defaultUsername);
                 break;
         }
     }

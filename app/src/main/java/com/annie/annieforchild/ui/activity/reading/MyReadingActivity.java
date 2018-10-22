@@ -25,6 +25,7 @@ import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.grindEar.InputActivity;
 import com.annie.annieforchild.ui.activity.grindEar.MyGrindEarActivity;
 import com.annie.annieforchild.ui.activity.grindEar.MyLevelActivity;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
 import com.annie.annieforchild.ui.fragment.mygrindear.TodayGrindEarFragment;
 import com.annie.annieforchild.ui.fragment.mygrindear.TotalGrindEarFragment;
 import com.annie.annieforchild.ui.fragment.myreading.TodayReadingFragment;
@@ -45,10 +46,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class MyReadingActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, SongView {
-    private ImageView back, help;
+    private ImageView back, help, music;
     private CircleImageView headpic;
-    private TextView level, sublevel;
-//    private Button input;
+    private TextView level, sublevel, name;
+    //    private Button input;
     private AdvancedPagerSlidingTabStrip mTab;
     private APSTSViewPager mVP;
     private TodayReadingFragment todayReadingFragment;
@@ -75,12 +76,13 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
         level = findViewById(R.id.my_reading_level);
         sublevel = findViewById(R.id.my_reading_sublevel);
         help = findViewById(R.id.my_reading_help);
-//        input = findViewById(R.id.my_reading_input);
+        name = findViewById(R.id.my_reading_name);
+        music = findViewById(R.id.my_reading_music);
         mTab = findViewById(R.id.my_reading_tab);
         mVP = findViewById(R.id.my_reading_viewpager);
         back.setOnClickListener(this);
         help.setOnClickListener(this);
-//        input.setOnClickListener(this);
+        music.setOnClickListener(this);
     }
 
     @Override
@@ -97,6 +99,7 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
         presenter.initViewAndData();
         presenter.getMyReading();
         Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(headpic);
+        name.setText(SystemUtils.userInfo.getName());
     }
 
     @Override
@@ -120,11 +123,10 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
-//            case R.id.my_reading_input:
-//                Intent intent1 = new Intent(this, InputActivity.class);
-//                intent1.putExtra("tag", "reading");
-//                startActivity(intent1);
-//                break;
+            case R.id.my_reading_music:
+                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+                startActivity(intent1);
+                break;
         }
     }
 
@@ -205,6 +207,7 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
                         return "累计存折";
                     default:
                         break;
+
                 }
             }
             return null;
@@ -212,6 +215,7 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
+
     public void showInfo(String info) {
         Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
     }

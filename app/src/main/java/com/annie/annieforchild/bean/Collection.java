@@ -14,6 +14,33 @@ public class Collection implements Serializable {
     private int audioSource;
     private int type;
     private String animationUrl;
+    private int iskouyu;
+    private int ismoerduo;
+    private int isyuedu;
+
+    public int getIskouyu() {
+        return iskouyu;
+    }
+
+    public void setIskouyu(int iskouyu) {
+        this.iskouyu = iskouyu;
+    }
+
+    public int getIsmoerduo() {
+        return ismoerduo;
+    }
+
+    public void setIsmoerduo(int ismoerduo) {
+        this.ismoerduo = ismoerduo;
+    }
+
+    public int getIsyuedu() {
+        return isyuedu;
+    }
+
+    public void setIsyuedu(int isyuedu) {
+        this.isyuedu = isyuedu;
+    }
 
     public String getAnimationUrl() {
         return animationUrl;

@@ -1,41 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="65dp"
+    android:layout_height="95dp"
     android:background="@color/white"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/my_record_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="录音内容"
-        android:textColor="@color/text_black"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/my_record_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/my_record_content"
-        android:layout_marginTop="3dp"
-        android:text="2018-03-08"
-        android:textColor="@color/text_color"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/my_record_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/my_record_content"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="(15秒）"
-        android:textColor="@color/text_black"
-        android:textSize="16sp" />
+    <ImageView
+        android:id="@+id/my_record_image"
+        android:layout_width="60dp"
+        android:layout_height="75dp"
+        android:layout_alignParentStart="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/image_recording_empty" />
 
     <ImageView
         android:id="@+id/my_record_play"
@@ -43,6 +19,52 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="3dp"
-        android:src="@drawable/icon_play" />
+        android:layout_marginEnd="6dp"
+        android:src="@drawable/icon_replay" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/my_record_image"
+        android:layout_toStartOf="@+id/my_record_play">
+
+        <TextView
+            android:id="@+id/my_record_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="录音内容(15秒）"
+            android:textColor="@color/text_black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/my_record_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/my_record_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:text="2018-03-08"
+            android:textColor="@color/text_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/my_record_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(15秒）"
+            android:textColor="@color/text_black"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
 </RelativeLayout>

@@ -6,9 +6,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -22,7 +25,9 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UpdateBean;
@@ -60,7 +65,7 @@ import java.util.UUID;
  * Created by WangLei on 2018/1/22 0022
  */
 
-public class LoginActivity extends BaseActivity implements LoginView, View.OnClickListener {
+public class LoginActivity extends BaseActivity implements LoginView, OnCheckDoubleClick {
     private EditText phoneNumber, password;
     private TextView register, youke, forgetPsd;
     private Button loginBtn;
@@ -75,6 +80,7 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     private SharedPreferences.Editor editor;
     private Calendar calendar;
     String logintime, phone, psd;
+    private CheckDoubleClickListener listener;
 
     {
         setRegister(true);
@@ -93,10 +99,11 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
         phoneNumber = findViewById(R.id.phoneNumber);
         password = findViewById(R.id.password);
         forgetPsd = findViewById(R.id.forget_psd);
-        register.setOnClickListener(this);
-        youke.setOnClickListener(this);
-        loginBtn.setOnClickListener(this);
-        forgetPsd.setOnClickListener(this);
+        listener = new CheckDoubleClickListener(this);
+        register.setOnClickListener(listener);
+        youke.setOnClickListener(listener);
+        loginBtn.setOnClickListener(listener);
+        forgetPsd.setOnClickListener(listener);
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
 
@@ -114,15 +121,18 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
         calendar = Calendar.getInstance();
         presenter = new LoginPresenterImp(this, this);
         tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        presenter.initViewAndData();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             MPermissions.requestPermissions(this, 0, new String[]{
                     Manifest.permission.READ_PHONE_STATE,
                     Manifest.permission.CAMERA,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.RECORD_AUDIO,
                     Manifest.permission.ACCESS_COARSE_LOCATION
             });
         } else {
@@ -150,7 +160,6 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
             SystemUtils.phoneSN.save();
         }
 
-        presenter.initViewAndData();
         List<MainBean> lists = DataSupport.findAll(MainBean.class);
         if (lists != null && lists.size() != 0) {
             SystemUtils.mainBean = lists.get(lists.size() - 1);
@@ -165,8 +174,8 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
             phone = preferences.getString("phone", null);
             psd = preferences.getString("psd", null);
             logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
-            presenter.login(phone, psd, logintime);
             SystemUtils.getNetTime();
+            presenter.login(phone, psd, logintime);
         }
     }
 
@@ -181,6 +190,7 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
 //            showInfo("EventBus:" + message.getObj().toString());
         } else if (message.what == MethodCode.EVENT_LOGIN) {
 //            showInfo("登陆成功:" + SystemUtils.token);
+            doit();
             LoginBean bean = (LoginBean) message.obj;
 //            List<PhoneSN> list = DataSupport.findAll(PhoneSN.class);
 //            PhoneSN phoneSN = list.get(list.size() - 1);
@@ -219,40 +229,6 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
         return null;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.register:
-                Intent intent1 = new Intent(this, RegisterActivity.class);
-                startActivity(intent1);
-                break;
-            case R.id.youke:
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("tag", "游客");
-                SystemUtils.tag = "游客";
-                SystemUtils.childTag = 0;
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.login_btn:
-                if (check()) {
-                    logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
-                    phone = phoneNumber.getText().toString();
-                    psd = password.getText().toString();
-                    presenter.login(phone, psd, logintime);
-                } else {
-                    showInfo("手机号或密码填写有误");
-                }
-                break;
-            case R.id.forget_psd:
-                Intent intent2 = new Intent(this, ModifyPsdActivity.class);
-                intent2.putExtra("title", "忘记密码");
-                startActivity(intent2);
-                break;
-        }
-    }
-
-
     private boolean check() {
         if (phoneNumber.getText().toString().equals("") && phoneNumber.getText().toString().contains(" ") || password.getText().toString().equals("")) {
             return false;
@@ -274,7 +250,20 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
 
     @PermissionDenied(0)
     public void requestDenied() {
-        Toast.makeText(this, "DENY ACCESS SDCARD!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "缺少权限!", Toast.LENGTH_SHORT).show();
+    }
+
+    @PermissionGrant(1)
+    public void requestLoginSuccess() {
+        logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
+        phone = phoneNumber.getText().toString();
+        psd = password.getText().toString();
+        presenter.login(phone, psd, logintime);
+    }
+
+    @PermissionDenied(1)
+    public void requestLoginDenied() {
+        Toast.makeText(this, "缺少权限!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -307,4 +296,68 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
         super.onDestroy();
     }
 
+    @Override
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
+            case R.id.register:
+                Intent intent1 = new Intent(this, RegisterActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.youke:
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("tag", "游客");
+                SystemUtils.tag = "游客";
+                SystemUtils.childTag = 0;
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.login_btn:
+                if (check()) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED ||
+                            ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                            ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                            ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
+                            MPermissions.requestPermissions(this, 1, new String[]{
+                                    Manifest.permission.READ_PHONE_STATE,
+                                    Manifest.permission.CAMERA,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.RECORD_AUDIO,
+                                    Manifest.permission.ACCESS_COARSE_LOCATION
+                            });
+                        } else {
+                            showInfo("无法正常使用安妮花，请开通相关权限！请设置");
+                            Intent localIntent = new Intent();
+                            localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            if (Build.VERSION.SDK_INT >= 9) {
+                                localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                                localIntent.setData(Uri.fromParts("package", getPackageName(), null));
+                            } else if (Build.VERSION.SDK_INT <= 8) {
+                                localIntent.setAction(Intent.ACTION_VIEW);
+                                localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
+                                localIntent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
+                            }
+                            startActivity(localIntent);
+                        }
+                    } else {
+                        logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
+                        phone = phoneNumber.getText().toString();
+                        psd = password.getText().toString();
+                        presenter.login(phone, psd, logintime);
+                    }
+                } else {
+                    showInfo("手机号或密码填写有误");
+                }
+                break;
+            case R.id.forget_psd:
+                Intent intent2 = new Intent(this, ModifyPsdActivity.class);
+                intent2.putExtra("title", "忘记密码");
+                startActivity(intent2);
+                break;
+        }
+    }
 }

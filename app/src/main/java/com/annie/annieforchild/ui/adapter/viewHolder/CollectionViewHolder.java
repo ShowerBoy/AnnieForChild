@@ -13,8 +13,8 @@ import com.annie.annieforchild.R;
  */
 
 public class CollectionViewHolder extends RecyclerView.ViewHolder {
-    public ImageView collection_image, uncollect;
-    public TextView collection_name;
+    public ImageView collection_image;
+    public TextView collection_name, uncollect;
     public RelativeLayout total;
 
     public CollectionViewHolder(View itemView) {

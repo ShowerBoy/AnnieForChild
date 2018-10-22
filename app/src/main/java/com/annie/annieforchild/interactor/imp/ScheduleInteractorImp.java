@@ -8,13 +8,9 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.ClassList;
-import com.annie.annieforchild.bean.course.Course;
 import com.annie.annieforchild.bean.course.OnlineCourse;
-import com.annie.annieforchild.bean.grindear.GrindEarData;
 import com.annie.annieforchild.bean.material.Material;
-import com.annie.annieforchild.bean.schedule.Schedule;
 import com.annie.annieforchild.bean.schedule.TotalSchedule;
-import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.interactor.ScheduleInteractor;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
@@ -40,10 +36,13 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
     @Override
     public void mySchedule(String date) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYSCHEDULE, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.NEWMYSCHEDULE, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         request.add("date", date);
         addQueue(MethodCode.EVENT_MYSCHEDULE, request);
+
+
         startQueue();
     }
 
@@ -64,7 +63,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
     }
 
     @Override
-    public void addSchedule(int materialId, String startDate, int totalDays, String start, String end) {
+    public void addSchedule(int materialId, String startDate, int totalDays, String start, String end, int audioType, int audioSource) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.ADDSCHEDULE, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
@@ -73,6 +72,8 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("totalDays", totalDays);
         request.add("start", start);
         request.add("stop", end);
+        request.add("audioType", audioType);
+        request.add("audioSource", audioSource);
         addQueue(MethodCode.EVENT_ADDSCHEDULE, request);
         startQueue();
     }
@@ -141,6 +142,26 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
     }
 
     @Override
+    public void myCalendar(String date) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYCALENDAR, RequestMethod.POST);
+        request.add("token", SystemUtils.token);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("date", date);
+        addQueue(MethodCode.EVENT_MYCALENDAR, request);
+        startQueue();
+    }
+
+    @Override
+    public void monthCalendar(String date) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MONTHCALENDAR, RequestMethod.POST);
+        request.add("token", SystemUtils.token);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("date", date);
+        addQueue(MethodCode.EVENT_MONTHCALENDAR, request);
+        startQueue();
+    }
+
+    @Override
     protected void onNetWorkStart(int what) {
 
     }
@@ -190,6 +211,12 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
                 JSONObject dataObj = jsonObject.getJSONObject(MethodCode.DATA);
                 String optional = dataObj.getString("optional");
                 List<Material> lists = JSON.parseArray(optional, Material.class);
+                listener.Success(what, lists);
+            } else if (what == MethodCode.EVENT_MYCALENDAR) {
+                List<String> lists = JSON.parseArray(data, String.class);
+                listener.Success(what, lists);
+            } else if (what == MethodCode.EVENT_MONTHCALENDAR) {
+                List<TotalSchedule> lists = JSON.parseArray(data, TotalSchedule.class);
                 listener.Success(what, lists);
             }
         }

@@ -40,52 +40,74 @@ public class ShareUtils {
         file = SystemUtils.saveBitmapFile(bitmap, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "app_icon.jpg");
     }
 
-    public void shareWechat(String title, String text, String url) {
+    public void shareWechat(String title, String text, String imageUrl, String url) {
         Platform platform = ShareSDK.getPlatform(Wechat.NAME);
         Platform.ShareParams shareParams = new Platform.ShareParams();
         shareParams.setText(text);
         shareParams.setTitle(title);
         shareParams.setUrl(url);
-        shareParams.setImagePath(file.getAbsolutePath());
         shareParams.setImagePath(null);
+//        shareParams.setImagePath(file.getAbsolutePath());
+//        shareParams.setImagePath(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+        if (imageUrl == null) {
+            shareParams.setImageUrl(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+        } else {
+            shareParams.setImageUrl(imageUrl);
+        }
         shareParams.setShareType(Platform.SHARE_WEBPAGE);
         platform.setPlatformActionListener(listener);
         platform.share(shareParams);
     }
 
-    public void shareWechatMoments(String title, String text, String url) {
+    public void shareWechatMoments(String title, String text, String imageUrl, String url) {
         Platform platform = ShareSDK.getPlatform(WechatMoments.NAME);
         Platform.ShareParams shareParams = new Platform.ShareParams();
         shareParams.setText(text);
         shareParams.setTitle(title);
         shareParams.setUrl(url);
-        shareParams.setImagePath(file.getAbsolutePath());
         shareParams.setImagePath(null);
+//        shareParams.setImagePath(file.getAbsolutePath());
+//        shareParams.setImagePath(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+        if (imageUrl == null) {
+            shareParams.setImageUrl(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+        } else {
+            shareParams.setImageUrl(imageUrl);
+        }
         shareParams.setShareType(Platform.SHARE_WEBPAGE);
         platform.setPlatformActionListener(listener);
         platform.share(shareParams);
     }
 
-    public void shareQQ(String title, String text, String url) {
+    public void shareQQ(String title, String text, String imageUrl, String url) {
         Platform platform = ShareSDK.getPlatform(QQ.NAME);
         Platform.ShareParams shareParams = new Platform.ShareParams();
         shareParams.setText(text);
         shareParams.setTitle(title);
         shareParams.setTitleUrl(url);
-        shareParams.setImagePath(file.getAbsolutePath());
+//        shareParams.setImagePath(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+        if (imageUrl == null) {
+            shareParams.setImageUrl(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+        } else {
+            shareParams.setImageUrl(imageUrl);
+        }
         shareParams.setShareType(Platform.SHARE_WEBPAGE);
         platform.setPlatformActionListener(listener);
         platform.share(shareParams);
     }
 
-    public void shareQZone(String title, String text, String url) {
+    public void shareQZone(String title, String text, String imageUrl, String url) {
         Platform platform = ShareSDK.getPlatform(QZone.NAME);
         Platform.ShareParams shareParams = new Platform.ShareParams();
         shareParams.setText(text);
         shareParams.setTitle(title);
         shareParams.setUrl(url);
         shareParams.setTitleUrl(url);
-        shareParams.setImagePath(file.getAbsolutePath());
+//        shareParams.setImagePath(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+        if (imageUrl == null) {
+            shareParams.setImageUrl(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+        } else {
+            shareParams.setImageUrl(imageUrl);
+        }
         platform.setPlatformActionListener(listener);
         shareParams.setShareType(Platform.SHARE_WEBPAGE);
         platform.share(shareParams);

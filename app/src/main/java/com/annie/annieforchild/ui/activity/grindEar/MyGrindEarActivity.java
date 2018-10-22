@@ -23,6 +23,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
 import com.annie.annieforchild.ui.fragment.mygrindear.TodayGrindEarFragment;
 import com.annie.annieforchild.ui.fragment.mygrindear.TotalGrindEarFragment;
 import com.annie.annieforchild.view.GrindEarView;
@@ -42,10 +43,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class MyGrindEarActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, SongView {
-    private ImageView back, help;
+    private ImageView back, help, music;
     private CircleImageView headpic;
-    private TextView level, sublevel;
-//    private Button input;
+    private TextView level, sublevel, name;
     private AdvancedPagerSlidingTabStrip mTab;
     private APSTSViewPager mVP;
     private TodayGrindEarFragment todayGrindEarFragment;
@@ -72,11 +72,14 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
         help = findViewById(R.id.my_grind_ear_help);
         level = findViewById(R.id.my_grind_ear_level);
         sublevel = findViewById(R.id.my_grind_ear_sublevel);
+        music = findViewById(R.id.my_grind_music);
 //        input = findViewById(R.id.input);
+        name = findViewById(R.id.my_grind_ear_name);
         mTab = findViewById(R.id.my_grind_ear_tab);
         mVP = findViewById(R.id.my_grind_ear_viewpager);
         back.setOnClickListener(this);
         help.setOnClickListener(this);
+        music.setOnClickListener(this);
 //        input.setOnClickListener(this);
     }
 
@@ -94,6 +97,7 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
         presenter.initViewAndData();
         presenter.getMyListening();
         Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(headpic);
+        name.setText(SystemUtils.userInfo.getName());
     }
 
     @Override
@@ -123,6 +127,10 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
 //                intent1.putExtra("tag", "grindear");
 //                startActivity(intent1);
 //                break;
+            case R.id.my_grind_music:
+                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+                startActivity(intent1);
+                break;
         }
     }
 

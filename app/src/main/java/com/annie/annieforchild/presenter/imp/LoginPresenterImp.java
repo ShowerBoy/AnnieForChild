@@ -11,11 +11,15 @@ import com.alibaba.fastjson.JSON;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.SearchTag;
+import com.annie.annieforchild.bean.Tags;
 import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.login.LoginBean;
 import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.bean.search.BookClassify;
+import com.annie.annieforchild.bean.search.Books;
+import com.annie.annieforchild.bean.search.SearchContent;
 import com.annie.annieforchild.interactor.LoginInteractor;
 import com.annie.annieforchild.interactor.imp.LoginInteractorImp;
 import com.annie.annieforchild.presenter.LoginPresenter;
@@ -34,6 +38,7 @@ import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,6 +54,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
     private LoginView loginView;
     private ViewInfo viewInfo;
     private LoginInteractor interactor;
+    private List<Tags> ageList, functionList, themeList, typeList, seriesList;
 //    private Timer timer;
 //    private TimerTask task;
 
@@ -65,6 +71,11 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
     @Override
     public void initViewAndData() {
         interactor = new LoginInteractorImp(context, this);
+        ageList = new ArrayList<>();
+        functionList = new ArrayList<>();
+        themeList = new ArrayList<>();
+        typeList = new ArrayList<>();
+        seriesList = new ArrayList<>();
         SystemUtils.timer = new Timer();
     }
 
@@ -80,14 +91,94 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
     }
 
     @Override
-    public void globalSearch(String keyword) {
+    public void globalSearch(String keyword, int page) {
         loginView.showLoad();
-        interactor.globalSearch(keyword);
+        interactor.globalSearch(keyword, page);
     }
 
     @Override
     public void checkUpdate(int versionCode, String versionName) {
         interactor.checkUpdate(versionCode, versionName);
+    }
+
+    @Override
+    public void getTags() {
+        interactor.getTags();
+    }
+
+    @Override
+    public void getTagBook(List<Tags> ageList, List<Tags> functionList, List<Tags> themeList, List<Tags> typeList, List<Tags> seriesList, int page) {
+        loginView.showLoad();
+        interactor.getTagBook(ageList, functionList, themeList, typeList, seriesList, page);
+    }
+
+    @Override
+    public void addTags(int i, Tags tags) {
+        if (i == 0) {
+            if (ageList.contains(tags)) {
+                ageList.remove(tags);
+            } else {
+                ageList.add(tags);
+            }
+        } else if (i == 1) {
+            if (functionList.contains(tags)) {
+                functionList.remove(tags);
+            } else {
+                functionList.add(tags);
+            }
+        } else if (i == 2) {
+            if (themeList.contains(tags)) {
+                themeList.remove(tags);
+            } else {
+                themeList.add(tags);
+            }
+        } else if (i == 3) {
+            if (typeList.contains(tags)) {
+                typeList.remove(tags);
+            } else {
+                typeList.add(tags);
+            }
+        } else if (i == 4) {
+            if (seriesList.contains(tags)) {
+                seriesList.remove(tags);
+            } else {
+                seriesList.add(tags);
+            }
+        }
+    }
+
+    @Override
+    public void clearTags() {
+        ageList.clear();
+        functionList.clear();
+        themeList.clear();
+        typeList.clear();
+        seriesList.clear();
+    }
+
+    @Override
+    public List<Tags> getAgeList() {
+        return ageList;
+    }
+
+    @Override
+    public List<Tags> getFunctionList() {
+        return functionList;
+    }
+
+    @Override
+    public List<Tags> getThemeList() {
+        return themeList;
+    }
+
+    @Override
+    public List<Tags> getTypeList() {
+        return typeList;
+    }
+
+    @Override
+    public List<Tags> getSeriesList() {
+        return seriesList;
     }
 
     @Override
@@ -160,16 +251,19 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                             if (list != null && list.size() != 0) {
                                 SigninBean signinBean = list.get(list.size() - 1);
                                 String date = SystemUtils.netDate;
-                                if (!date.equals(signinBean.getDate())) {
-                                    if (SystemUtils.signinBean == null) {
-                                        SystemUtils.signinBean = new SigninBean();
+                                if (date != null) {
+
+                                    if (!date.equals(signinBean.getDate())) {
+                                        if (SystemUtils.signinBean == null) {
+                                            SystemUtils.signinBean = new SigninBean();
+                                        }
+                                        SystemUtils.signinBean.setDate(date);
+                                        SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
+                                        SystemUtils.signinBean.setNectar(false);
+                                        SystemUtils.signinBean.save();
+                                    } else {
+                                        SystemUtils.signinBean = signinBean;
                                     }
-                                    SystemUtils.signinBean.setDate(date);
-                                    SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
-                                    SystemUtils.signinBean.setNectar(false);
-                                    SystemUtils.signinBean.save();
-                                } else {
-                                    SystemUtils.signinBean = signinBean;
                                 }
                             } else {
                                 SystemUtils.signinBean = new SigninBean();
@@ -189,6 +283,14 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                         EventBus.getDefault().post(jtMessage);
 
                         if (SystemUtils.isOnline) {
+                            if (SystemUtils.signinBean == null) {
+                                SystemUtils.signinBean = new SigninBean();
+                                String date = SystemUtils.netDate;
+                                SystemUtils.signinBean.setDate(date != null ? date : "");
+                                SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
+                                SystemUtils.signinBean.setNectar(false);
+                                SystemUtils.signinBean.save();
+                            }
                             if (!SystemUtils.signinBean.isNectar()) {
                                 SystemUtils.task = new TimerTask() {
                                     @Override
@@ -213,13 +315,13 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                     }
                 }
             } else if (what == MethodCode.EVENT_GLOBALSEARCH) {
-                List<BookClassify> lists = (List<BookClassify>) result;
+                SearchContent searchContent = (SearchContent) result;
                 /**
                  * {@link com.annie.annieforchild.ui.activity.GlobalSearchActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
-                message.obj = lists;
+                message.obj = searchContent;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_CHECKUPDATE) {
                 UpdateBean updateBean = (UpdateBean) result;
@@ -229,6 +331,24 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = updateBean;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETTAGS) {
+                List<SearchTag> lists = (List<SearchTag>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.GlobalSearchActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETTAGBOOK) {
+                SearchContent searchContent = (SearchContent) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.GlobalSearchActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = searchContent;
                 EventBus.getDefault().post(message);
             }
         }
@@ -251,5 +371,4 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
             SystemUtils.isOnline = false;
         }
     }
-
 }

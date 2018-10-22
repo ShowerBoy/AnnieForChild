@@ -96,7 +96,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
         } else if (holder instanceof MemberViewHolder) {
-            Glide.with(context).load(lists.get(position).getAvatar()).into(((MemberViewHolder) holder).headpic);
+            Glide.with(context).load(lists.get(position).getAvatar()).error(R.drawable.icon_system_photo).into(((MemberViewHolder) holder).headpic);
             ((MemberViewHolder) holder).name.setText(lists.get(position).getName());
         }
     }

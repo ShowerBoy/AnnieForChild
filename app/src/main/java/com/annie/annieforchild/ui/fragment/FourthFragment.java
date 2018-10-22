@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
@@ -30,6 +32,7 @@ import com.annie.annieforchild.ui.activity.my.MyCollectionActivity;
 import com.annie.annieforchild.ui.activity.my.MyExchangeActivity;
 import com.annie.annieforchild.ui.activity.my.MyMessageActivity;
 import com.annie.annieforchild.ui.activity.my.MyNectarActivity;
+import com.annie.annieforchild.ui.activity.my.MyPeriodActivity;
 import com.annie.annieforchild.ui.activity.my.MyRecordActivity;
 import com.annie.annieforchild.ui.activity.my.SettingsActivity;
 import com.annie.annieforchild.ui.activity.my.ToFriendActivity;
@@ -50,8 +53,8 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  * Created by WangLei on 2018/1/12 0012
  */
 
-public class FourthFragment extends BaseFragment implements FourthView, View.OnClickListener {
-    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, aboutLayout, collectionLayout;
+public class FourthFragment extends BaseFragment implements FourthView, OnCheckDoubleClick {
+    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, aboutLayout, collectionLayout, periodLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout nectarLayout, levelLayout, recordLayout;
     private ImageView settings, sexIcon, headpic_back;
@@ -63,6 +66,7 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
     private AlertHelper helper;
     private Dialog dialog;
     private String tag; //身份标示
+    private CheckDoubleClickListener listener;
 
     {
         setRegister(true);
@@ -120,17 +124,20 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
         recordLayout = view.findViewById(R.id.record_layout);
         headpic_back = view.findViewById(R.id.headpic_back);
         swipeRefreshLayout = view.findViewById(R.id.fourth_swipeRefresh);
-        myMsgLayout.setOnClickListener(this);
-        toFriendLayout.setOnClickListener(this);
-        myExchangeLayout.setOnClickListener(this);
-        helpLayout.setOnClickListener(this);
-        aboutLayout.setOnClickListener(this);
-        userHeadpic.setOnClickListener(this);
-        settings.setOnClickListener(this);
-        collectionLayout.setOnClickListener(this);
-        nectarLayout.setOnClickListener(this);
-        recordLayout.setOnClickListener(this);
-        levelLayout.setOnClickListener(this);
+        periodLayout = view.findViewById(R.id.my_period_layout);
+        listener = new CheckDoubleClickListener(this);
+        myMsgLayout.setOnClickListener(listener);
+        toFriendLayout.setOnClickListener(listener);
+        myExchangeLayout.setOnClickListener(listener);
+        helpLayout.setOnClickListener(listener);
+        aboutLayout.setOnClickListener(listener);
+        userHeadpic.setOnClickListener(listener);
+        settings.setOnClickListener(listener);
+        collectionLayout.setOnClickListener(listener);
+        nectarLayout.setOnClickListener(listener);
+        recordLayout.setOnClickListener(listener);
+        levelLayout.setOnClickListener(listener);
+        periodLayout.setOnClickListener(listener);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         member_layout.setLayoutManager(manager);
@@ -141,170 +148,6 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
     @Override
     protected int getLayoutId() {
         return R.layout.activity_fourth_fragment;
-    }
-
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent();
-        switch (view.getId()) {
-            case R.id.user_headpic:
-                //头像
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请先添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), ModifyChildActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("userinfo", userInfo);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                break;
-            case R.id.settings:
-                //设置
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                intent.setClass(getContext(), SettingsActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.my_msg_layout:
-                //我的信息
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请先添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), MyMessageActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.to_friend_layout:
-                //推荐好友
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请先添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), ToFriendActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.my_exchange_layout:
-                //我的兑换
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请先添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), MyExchangeActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.collection_layout:
-                //我的收藏
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请先添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), MyCollectionActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.help_layout:
-                //帮助与反馈
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请先添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), HelpActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.about_layout:
-                //关于
-                intent.setClass(getContext(), AboutActivity.class);
-                startActivity(intent);
-//                intent.setClass(getContext(), WebActivity.class);
-//                intent.putExtra("url", "http://m.anniekids.org/");
-//                intent.putExtra("title", "关于");
-//                startActivity(intent);
-                break;
-            case R.id.user_level_layout:
-                //等级成就
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请先添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), GradeAchievementActivity.class);
-                intent.putExtra("userinfo", userInfo);
-                startActivity(intent);
-                break;
-            case R.id.nectar_layout:
-                //我的花蜜
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请先添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), MyNectarActivity.class);
-                Bundle bundle2 = new Bundle();
-                bundle2.putSerializable("userinfo", userInfo);
-                intent.putExtras(bundle2);
-                startActivity(intent);
-                break;
-//            case R.id.coin_layout:
-//                //我的金币
-//                if (tag.equals("游客")) {
-//                    SystemUtils.toLogin(getContext());
-//                    return;
-//                }
-//                intent.setClass(getContext(), MyCoinActivity.class);
-//                Bundle bundle3 = new Bundle();
-//                bundle3.putSerializable("userinfo", userInfo);
-//                intent.putExtras(bundle3);
-//                startActivity(intent);
-//                break;
-            case R.id.record_layout:
-                //我的录音
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请先添加学员");
-                    return;
-                }
-                intent.setClass(getContext(), MyRecordActivity.class);
-                Bundle bundle4 = new Bundle();
-                bundle4.putSerializable("userinfo", userInfo);
-                intent.putExtras(bundle4);
-                startActivity(intent);
-                break;
-        }
     }
 
     /**
@@ -488,15 +331,15 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
         int day = Integer.parseInt(birthday.substring(6, 8));
         Calendar calendar = Calendar.getInstance();
         int year2 = calendar.get(Calendar.YEAR);
-        int month2 = calendar.get(Calendar.MONTH);
+        int month2 = calendar.get(Calendar.MONTH) + 1;
         int day2 = calendar.get(Calendar.DAY_OF_MONTH);
         int old = year2 - year;
-        if (month < month2) {
+        if (month > month2) {
             return old - 1;
-        } else if (month > month2) {
+        } else if (month < month2) {
             return old;
         } else {
-            if (day < day2) {
+            if (day > day2) {
                 return old - 1;
             } else {
                 return old;
@@ -509,5 +352,189 @@ public class FourthFragment extends BaseFragment implements FourthView, View.OnC
         return member_layout;
     }
 
+    @Override
+    public void onCheckDoubleClick(View view) {
+        Intent intent = new Intent();
+        switch (view.getId()) {
+            case R.id.user_headpic:
+                //头像
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+//                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), ModifyChildActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("userinfo", userInfo);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
+            case R.id.settings:
+                //设置
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.my_period_layout:
+                //课时核对
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), MyPeriodActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.my_msg_layout:
+                //我的信息
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), MyMessageActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.to_friend_layout:
+                //推荐好友
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), ToFriendActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.my_exchange_layout:
+                //我的兑换
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), MyExchangeActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.collection_layout:
+                //我的收藏
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), MyCollectionActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.help_layout:
+                //帮助与反馈
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), HelpActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.about_layout:
+                //关于
+                intent.setClass(getContext(), AboutActivity.class);
+                startActivity(intent);
+//                intent.setClass(getContext(), WebActivity.class);
+//                intent.putExtra("url", "http://m.anniekids.org/");
+//                intent.putExtra("title", "关于");
+//                startActivity(intent);
+                break;
+            case R.id.user_level_layout:
+                //等级成就
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), GradeAchievementActivity.class);
+                intent.putExtra("userinfo", userInfo);
+                startActivity(intent);
+                break;
+            case R.id.nectar_layout:
+                //我的花蜜
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), MyNectarActivity.class);
+                Bundle bundle2 = new Bundle();
+                bundle2.putSerializable("userinfo", userInfo);
+                intent.putExtras(bundle2);
+                startActivity(intent);
+                break;
+//            case R.id.coin_layout:
+//                //我的金币
+//                if (tag.equals("游客")) {
+//                    SystemUtils.toLogin(getContext());
+//                    return;
+//                }
+//                intent.setClass(getContext(), MyCoinActivity.class);
+//                Bundle bundle3 = new Bundle();
+//                bundle3.putSerializable("userinfo", userInfo);
+//                intent.putExtras(bundle3);
+//                startActivity(intent);
+//                break;
+            case R.id.record_layout:
+                //我的录音
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), MyRecordActivity.class);
+                Bundle bundle4 = new Bundle();
+                bundle4.putSerializable("userinfo", userInfo);
+                intent.putExtras(bundle4);
+                startActivity(intent);
+                break;
+        }
+    }
 }
 

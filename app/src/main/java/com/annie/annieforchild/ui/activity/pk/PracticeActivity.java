@@ -1,11 +1,12 @@
 package com.annie.annieforchild.ui.activity.pk;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -17,54 +18,63 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.pcm2mp3.RecorderAndPlayUtil;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.bean.UserInfo2;
+import com.annie.annieforchild.bean.material.Material;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
+import com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity;
 import com.annie.annieforchild.ui.adapter.PkUserPopupAdapter;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.ashokvarma.bottomnavigation.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.example.lamemp3.MP3Recorder;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 歌曲pk,练习,挑战
  * Created by wanglei on 2018/3/31.
  */
 
-public class PracticeActivity extends BaseActivity implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, View.OnClickListener, SongView, PopupWindow.OnDismissListener {
-    private ImageView back, practiceImage, star1, star2, star3, star4, star5;
-    private TextView practiceTitle, practiceBtn, challengeBtn, pkBtn, randomMatch, preview, speak, play;
-    private LinearLayout practiceLayout, practice3btn;
+public class PracticeActivity extends BaseActivity implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, OnCheckDoubleClick, SongView, PopupWindow.OnDismissListener {
+    private ImageView back, menu, menuCollectImg, menuAddmaterialImg, practiceRecording, bookReadBtn, bookRead, bookBg;
+    private CircleImageView practiceImage;
+    private TextView practiceTitle, practiceBtn, challengeBtn, pkBtn, randomMatch, speak, play, menuCollectText, menuAddmaterialText;
+    private LinearLayout practiceLayout, practice3btn, addTimetable, collect, addMaterial;
+    private FrameLayout musicFrame;
     private List<UserInfo2> pkUserList;
-    private PopupWindow popupWindow;
-    private View popupView;
+    private PopupWindow popupWindow, popupWindow2;
+    private View popupView, popupView2;
     private GridView popupGrid;
     private PkUserPopupAdapter popupAdapter;
     private GrindEarPresenter presenter;
@@ -75,7 +85,7 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
     private int popupWidth;
     private AlertHelper helper;
     private Dialog dialog;
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer, mediaPlayer2;
     private float star;
     private int audioType, audioSource, type;
     private boolean isClick = true;
@@ -86,8 +96,13 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
     private boolean isPlay = false; //是否播放录音
     private Handler handler = new Handler();
     private int isFinish = 0; //播放列表标识
+    private int collectType; //收藏 1：磨耳朵 2：阅读 3：口语 0：其他
     private boolean tag = true; //播放列表是否播放完毕
     private boolean tag2 = true;
+    private int bookType; //视频0或书籍1
+    private boolean is_click = false;
+    private CheckDoubleClickListener listener;
+    private int classId = 0;
     Runnable runnable;
 
     {
@@ -103,37 +118,67 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
     protected void initView() {
         back = findViewById(R.id.practice_back);
         practiceImage = findViewById(R.id.practice_image);
-        star1 = findViewById(R.id.star1);
-        star2 = findViewById(R.id.star2);
-        star3 = findViewById(R.id.star3);
-        star4 = findViewById(R.id.star4);
-        star5 = findViewById(R.id.star5);
+        menu = findViewById(R.id.practice_menu);
+        musicFrame = findViewById(R.id.music_frame);
+        bookReadBtn = findViewById(R.id.book_type);
+        bookRead = findViewById(R.id.book_read);
+        bookBg = findViewById(R.id.book_bg);
+//        star1 = findViewById(R.id.star1);
+//        star2 = findViewById(R.id.star2);
+//        star3 = findViewById(R.id.star3);
+//        star4 = findViewById(R.id.star4);
+//        star5 = findViewById(R.id.star5);
         practiceTitle = findViewById(R.id.practice_title);
         practiceBtn = findViewById(R.id.practice_btn);
         challengeBtn = findViewById(R.id.challenge_btn);
+        practiceRecording = findViewById(R.id.practice_recording);
         pkBtn = findViewById(R.id.pk_btn);
         practiceLayout = findViewById(R.id.practice_layout);
         practice3btn = findViewById(R.id.practice_3btn);
-        preview = findViewById(R.id.practice_preview);
         speak = findViewById(R.id.practice_speak);
         play = findViewById(R.id.practice_play);
-        back.setOnClickListener(this);
-        practiceBtn.setOnClickListener(this);
-        challengeBtn.setOnClickListener(this);
-        pkBtn.setOnClickListener(this);
-        preview.setOnClickListener(this);
-        speak.setOnClickListener(this);
-        play.setOnClickListener(this);
+        listener = new CheckDoubleClickListener(this);
+        back.setOnClickListener(listener);
+        practiceBtn.setOnClickListener(listener);
+        challengeBtn.setOnClickListener(listener);
+        pkBtn.setOnClickListener(listener);
+        speak.setOnClickListener(listener);
+        play.setOnClickListener(listener);
+        musicFrame.setOnClickListener(listener);
+        menu.setOnClickListener(listener);
+        practiceRecording.setOnClickListener(listener);
 
         popupWidth = Math.min(SystemUtils.window_width, SystemUtils.window_height) * 3 / 4;
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_item2, null, false);
+        popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_practice_menu_item, null, false);
         popupWindow = new PopupWindow(popupView, popupWidth, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow2 = new PopupWindow(this);
         popupGrid = popupView.findViewById(R.id.popup_grid);
         randomMatch = popupView.findViewById(R.id.random_match);
-        randomMatch.setOnClickListener(this);
+        randomMatch.setOnClickListener(listener);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.setOutsideTouchable(false);
         popupWindow.setOnDismissListener(this);
+        popupWindow2.setContentView(popupView2);
+        popupWindow2.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.clarity)));
+        popupWindow2.setOutsideTouchable(true);
+        popupWindow2.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                getWindowGray(false);
+            }
+        });
+
+        addTimetable = popupView2.findViewById(R.id.menu_add_timetable);
+        collect = popupView2.findViewById(R.id.menu_collect);
+        addMaterial = popupView2.findViewById(R.id.menu_add_material);
+        menuCollectImg = popupView2.findViewById(R.id.menu_collect_image);
+        menuCollectText = popupView2.findViewById(R.id.menu_collect_text);
+        menuAddmaterialImg = popupView2.findViewById(R.id.menu_add_material_image);
+        menuAddmaterialText = popupView2.findViewById(R.id.menu_add_material_text);
+        addTimetable.setOnClickListener(listener);
+        collect.setOnClickListener(listener);
+        addMaterial.setOnClickListener(listener);
 
         popupGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -142,6 +187,7 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
                 Intent intent = new Intent(PracticeActivity.this, pkActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("bookId", song.getBookId());
+                bundle.putString("imageUrl", song.getBookImageUrl());
                 bundle.putString("pkUserName", pkUserList.get(position).getUsername());
                 bundle.putString("avatar", pkUserList.get(position).getAvatar());
                 intent.putExtras(bundle);
@@ -213,13 +259,19 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         mediaPlayer = new MediaPlayer();
+        mediaPlayer2 = new MediaPlayer();
         mediaPlayer.setOnPreparedListener(this);
+        mediaPlayer2.setOnPreparedListener(this);
         mediaPlayer.setOnCompletionListener(this);
+        mediaPlayer2.setOnCompletionListener(this);
         /**
          * {@link com.annie.annieforchild.ui.activity.GlobalSearchActivity}
          * {@link com.annie.annieforchild.ui.adapter.RecommendAdapter}
          * {@link com.annie.annieforchild.ui.adapter.SongAdapter}
          * {@link com.annie.annieforchild.ui.adapter.CollectionAdapter}
+         * {@link com.annie.annieforchild.ui.fragment.FirstFragment}
+         * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity}
+         * {@link com.annie.annieforchild.ui.activity.reading.ReadingActivity}
          */
         intent = getIntent();
         if (intent != null) {
@@ -227,132 +279,75 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
             type = intent.getIntExtra("type", 0);
             audioType = intent.getIntExtra("audioType", 3);
             audioSource = intent.getIntExtra("audioSource", 0);
+            collectType = intent.getIntExtra("collectType", 0);
+            bookType = intent.getIntExtra("bookType", 0);
         }
 
-        if (audioSource == 9) {
+        if (bookType == 0) {
+            practiceImage.setVisibility(View.VISIBLE);
+            bookReadBtn.setVisibility(View.VISIBLE);
+            bookRead.setVisibility(View.GONE);
+            Glide.with(this).load(song.getBookImageUrl()).into(practiceImage);
+            bookBg.setVisibility(View.GONE);
+        } else {
+            practiceImage.setVisibility(View.GONE);
+            bookReadBtn.setVisibility(View.GONE);
+            bookRead.setVisibility(View.VISIBLE);
+            Glide.with(this).load(song.getBookImageUrl()).into(bookRead);
+            bookBg.setVisibility(View.VISIBLE);
+        }
+
+        if (audioSource == 7 || audioSource == 8 || audioSource == 9) {
             practice3btn.setVisibility(View.GONE);
         } else {
             practice3btn.setVisibility(View.VISIBLE);
         }
 
-        if (audioSource == 7 || audioSource == 8) {
-            practice3btn.setVisibility(View.GONE);
+        if (audioSource == 8) {
+            practiceRecording.setVisibility(View.GONE);
         } else {
-            practice3btn.setVisibility(View.VISIBLE);
+            practiceRecording.setVisibility(View.VISIBLE);
         }
 
         popupAdapter = new PkUserPopupAdapter(this, pkUserList);
+
         popupGrid.setAdapter(popupAdapter);
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
-        Glide.with(this).load(song.getBookImageUrl()).into(practiceImage);
         practiceTitle.setText(song.getBookName());
         presenter.getBookScore(song.getBookId());
+
+        presenter.accessBook(song.getBookId());
     }
 
     private void refresh() {
         if (song != null) {
             Glide.with(this).load(song.getBookImageUrl()).into(practiceImage);
             practiceTitle.setText(song.getBookName());
-            float a = song.getLastScore();
-            float b = song.getTotalScore();
-            star = a / b * 5f;
-
-            BigDecimal bigDecimal = new BigDecimal(star);
-            star = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-            String abc = star + "";
-            String[] ddd = abc.split("\\.");
-            if (ddd[0].equals("0")) {
-                int v = Integer.parseInt(ddd[1]);
-                if (v > 4) {
-                    star1.setImageResource(R.drawable.icon_star_t);
-                    star2.setImageResource(R.drawable.icon_star_f);
-                    star3.setImageResource(R.drawable.icon_star_f);
-                    star4.setImageResource(R.drawable.icon_star_f);
-                    star5.setImageResource(R.drawable.icon_star_f);
-                } else {
-                    if (v == 0) {
-                        star1.setImageResource(R.drawable.icon_star_f);
-                    } else {
-                        star1.setImageResource(R.drawable.icon_star_h);
-                    }
-                    star2.setImageResource(R.drawable.icon_star_f);
-                    star3.setImageResource(R.drawable.icon_star_f);
-                    star4.setImageResource(R.drawable.icon_star_f);
-                    star5.setImageResource(R.drawable.icon_star_f);
-                }
-            } else if (ddd[0].equals("1")) {
-                int v = Integer.parseInt(ddd[1]);
-                if (v > 4) {
-                    star1.setImageResource(R.drawable.icon_star_t);
-                    star2.setImageResource(R.drawable.icon_star_t);
-                    star3.setImageResource(R.drawable.icon_star_f);
-                    star4.setImageResource(R.drawable.icon_star_f);
-                    star5.setImageResource(R.drawable.icon_star_f);
-                } else {
-                    star1.setImageResource(R.drawable.icon_star_t);
-                    star2.setImageResource(R.drawable.icon_star_h);
-                    star3.setImageResource(R.drawable.icon_star_f);
-                    star4.setImageResource(R.drawable.icon_star_f);
-                    star5.setImageResource(R.drawable.icon_star_f);
-                }
-            } else if (ddd[0].equals("2")) {
-                int v = Integer.parseInt(ddd[1]);
-                if (v > 4) {
-                    star1.setImageResource(R.drawable.icon_star_t);
-                    star2.setImageResource(R.drawable.icon_star_t);
-                    star3.setImageResource(R.drawable.icon_star_t);
-                    star4.setImageResource(R.drawable.icon_star_f);
-                    star5.setImageResource(R.drawable.icon_star_f);
-                } else {
-                    star1.setImageResource(R.drawable.icon_star_t);
-                    star2.setImageResource(R.drawable.icon_star_t);
-                    star3.setImageResource(R.drawable.icon_star_h);
-                    star4.setImageResource(R.drawable.icon_star_f);
-                    star5.setImageResource(R.drawable.icon_star_f);
-                }
-            } else if (ddd[0].equals("3")) {
-                int v = Integer.parseInt(ddd[1]);
-                if (v > 4) {
-                    star1.setImageResource(R.drawable.icon_star_t);
-                    star2.setImageResource(R.drawable.icon_star_t);
-                    star3.setImageResource(R.drawable.icon_star_t);
-                    star4.setImageResource(R.drawable.icon_star_t);
-                    star5.setImageResource(R.drawable.icon_star_f);
-                } else {
-                    star1.setImageResource(R.drawable.icon_star_t);
-                    star2.setImageResource(R.drawable.icon_star_t);
-                    star3.setImageResource(R.drawable.icon_star_t);
-                    star4.setImageResource(R.drawable.icon_star_h);
-                    star5.setImageResource(R.drawable.icon_star_f);
-                }
-            } else if (ddd[0].equals("4")) {
-                int v = Integer.parseInt(ddd[1]);
-                if (v > 4) {
-                    star1.setImageResource(R.drawable.icon_star_t);
-                    star2.setImageResource(R.drawable.icon_star_t);
-                    star3.setImageResource(R.drawable.icon_star_t);
-                    star4.setImageResource(R.drawable.icon_star_t);
-                    star5.setImageResource(R.drawable.icon_star_t);
-                } else {
-                    star1.setImageResource(R.drawable.icon_star_t);
-                    star2.setImageResource(R.drawable.icon_star_t);
-                    star3.setImageResource(R.drawable.icon_star_t);
-                    star4.setImageResource(R.drawable.icon_star_t);
-                    star5.setImageResource(R.drawable.icon_star_h);
-                }
-            } else if (ddd[0].equals("5")) {
-                star1.setImageResource(R.drawable.icon_star_t);
-                star2.setImageResource(R.drawable.icon_star_t);
-                star3.setImageResource(R.drawable.icon_star_t);
-                star4.setImageResource(R.drawable.icon_star_t);
-                star5.setImageResource(R.drawable.icon_star_t);
-            }
             if (song1 != null) {
                 if (song1.getMyResourceUrl() != null && !song1.getMyResourceUrl().equals("")) {
-                    play.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.icon_play2_t), null, null, null);
+//                    play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_play2_t), null, null);
+//                    play.setTextColor(getResources().getColor(R.color.text_orange));
                 } else {
-                    play.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.icon_play2_f), null, null, null);
+//                    play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_play2_f), null, null);
+//                    play.setTextColor(getResources().getColor(R.color.text_color));
+                }
+            }
+
+            if (song1 != null) {
+                if (song1.getIsCollected() == 0) {
+                    menuCollectImg.setImageResource(R.drawable.icon_song_uncollect);
+                    menuCollectText.setText("收藏        ");
+                } else {
+                    menuCollectImg.setImageResource(R.drawable.icon_song_collect);
+                    menuCollectText.setText("已收藏      ");
+                }
+                if (song1.getIsJoinMaterial() == 0) {
+                    menuAddmaterialImg.setImageResource(R.drawable.icon_add_material_f);
+                    menuAddmaterialText.setText("加入教材");
+                } else {
+                    menuAddmaterialImg.setImageResource(R.drawable.icon_add_material_t);
+                    menuAddmaterialText.setText("已加入教材");
                 }
             }
         }
@@ -363,170 +358,10 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
         return null;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.practice_back:
-                finish();
-                break;
-            case R.id.practice_btn:
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                Intent intent = new Intent(this, ExerciseActivity.class);
-                intent.putExtra("bookId", song.getBookId());
-                intent.putExtra("type", type);
-                intent.putExtra("audioType", audioType);
-                intent.putExtra("audioSource", audioSource);
-                startActivity(intent);
-                break;
-            case R.id.challenge_btn:
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                Intent intent1 = new Intent(this, ChallengeActivity.class);
-                intent1.putExtra("bookId", song.getBookId());
-                intent1.putExtra("audioType", audioType);
-                intent1.putExtra("audioSource", audioSource);
-                startActivity(intent1);
-                break;
-            case R.id.pk_btn:
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                presenter.getPkUsers(song.getBookId());
-//                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-                break;
-            case R.id.random_match:
-                if (pkUserList != null && pkUserList.size() != 0) {
-                    Random random = new Random();
-                    int position = random.nextInt(pkUserList.size());
-                    popupWindow.dismiss();
-                    Intent intent2 = new Intent(PracticeActivity.this, pkActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("bookId", song.getBookId());
-                    bundle.putString("pkUserName", pkUserList.get(position).getUsername());
-                    bundle.putString("avatar", pkUserList.get(position).getAvatar());
-                    bundle.putInt("type", type);
-                    bundle.putInt("audioType", audioType);
-                    bundle.putInt("audioSource", audioSource);
-                    intent2.putExtras(bundle);
-                    startActivity(intent2);
-                } else {
-                    showInfo("没有pk用户");
-                }
-                break;
-            case R.id.practice_preview:
-                if (isClick) {
-                    if (!isRecord) {
-                        if (isPlay) {
-                            preview.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.icon_preview2), null, null, null);
-                            preview.setText("听歌");
-                            try {
-                                mediaPlayer.pause();
-                                mediaPlayer.stop();
-                                mediaPlayer.seekTo(0);
-                            } catch (IllegalStateException e) {
-                                e.printStackTrace();
-                            }
-                            isPlay = false;
-                            tag = false;
-                        } else {
-                            if (song1 != null && song1.getBookResourceUrl() != null) {
-//                                isClick = false;
-                                isPlay = true;
-                                preview.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.icon_stop2), null, null, null);
-                                preview.setText("停止");
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        tag = true;
-                                        isFinish = 0;
-                                        while (tag) {
-                                            if (tag2) {
-                                                if (isFinish < resourUrl_list.size()) {
-                                                    playUrl(resourUrl_list.get(isFinish));
-                                                    tag2 = false;
-                                                } else {
-                                                    tag2 = true;
-                                                    tag = false;
-                                                    Message message = new Message();
-                                                    myHandler.sendMessage(message);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }).start();
-                            }
-                        }
-                    }
-                }
-                break;
-            case R.id.practice_speak:
-                if (isClick) {
-                    if (!isPlay) {
-                        if (isRecord) {
-                            showInfo("录音结束");
-                            isRecord = false;
-                            speak.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.icon_speak2), null, null, null);
-                            initRecording();
-                            mRecorderUtil.stopRecording();
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    presenter.uploadAudioResource(song.getBookId(), 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + song1.getBookName() + ".mp3", 0f, song1.getBookName(), record_time, 3, "");
-                                }
-                            }, 1000);
-                        } else {
-                            showInfo("录音开始");
-                            isRecord = true;
-                            record_time = 0;
-                            handler.postDelayed(runnable, 1000);
-                            speak.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.icon_stop2), null, null, null);
-                            mRecorderUtil.startRecording(song.getBookName());
-                        }
-                    }
-                }
-                break;
-            case R.id.practice_play:
-                if (isClick) {
-                    if (!isRecord) {
-                        if (song1 != null && song1.getMyResourceUrl() != null) {
-                            isClick = false;
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    playUrl(song1.getMyResourceUrl());
-                                }
-                            }).start();
-                        }
-                    }
-                }
-                break;
-        }
-    }
-
     Handler myHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            preview.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(PracticeActivity.this, R.drawable.icon_preview2), null, null, null);
-            preview.setText("听歌");
         }
     };
 
@@ -545,13 +380,30 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
             resourUrl_list.clear();
             resourUrl_list.addAll(song1.getBookResourceUrl());
             refresh();
+            is_click = true;
         } else if (message.what == MethodCode.EVENT_GETPKUSERS) {
             pkUserList.clear();
             pkUserList.addAll((List<UserInfo2>) message.obj);
-            popupAdapter.notifyDataSetChanged();
-            popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-            getWindowGray(true);
+            if (pkUserList.size() == 0) {
+                showInfo("没有pk用户");
+            } else {
+                popupAdapter.notifyDataSetChanged();
+                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                getWindowGray(true);
+            }
         } else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
+            presenter.getBookScore(song.getBookId());
+        } else if (message.what == MethodCode.EVENT_COLLECTCOURSE + 2000 + classId) {
+            showInfo((String) message.obj);
+            presenter.getBookScore(song.getBookId());
+        } else if (message.what == MethodCode.EVENT_CANCELCOLLECTION1 + 3000 + classId) {
+            showInfo((String) message.obj);
+            presenter.getBookScore(song.getBookId());
+        } else if (message.what == MethodCode.EVENT_JOINMATERIAL + 4000 + classId) {
+            showInfo((String) message.obj);
+            presenter.getBookScore(song.getBookId());
+        } else if (message.what == MethodCode.EVENT_CANCELMATERIAL + 5000 + classId) {
+            showInfo((String) message.obj);
             presenter.getBookScore(song.getBookId());
         }
     }
@@ -572,6 +424,363 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
         } catch (IllegalStateException e) {
             e.printStackTrace();
             isClick = true;
+        }
+    }
+
+    private void playUrl2(String url) {
+        if (mediaPlayer2 == null) {
+            mediaPlayer2 = new MediaPlayer();
+            mediaPlayer2.setOnPreparedListener(this);
+            mediaPlayer2.setOnCompletionListener(this);
+        }
+        try {
+            mediaPlayer2.reset();
+            mediaPlayer2.setDataSource(url);
+            mediaPlayer2.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+            isClick = true;
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            isClick = true;
+        }
+    }
+
+    private void initRecording() {
+//        mDialogManager.dismissDialog();
+        mRecorderUtil.stopRecording();
+        mRecorderUtil.getRecorderPath();
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
+            case R.id.practice_back:
+                finish();
+                break;
+            case R.id.practice_btn:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
+                Intent intent = new Intent(this, ExerciseActivity2.class);
+                intent.putExtra("bookId", song.getBookId());
+                intent.putExtra("imageUrl", song.getBookImageUrl());
+                intent.putExtra("audioType", audioType);
+                intent.putExtra("audioSource", audioSource);
+                intent.putExtra("title", song.getBookName());
+                startActivity(intent);
+                break;
+            case R.id.challenge_btn:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
+                Intent intent1 = new Intent(this, ChallengeActivity.class);
+                intent1.putExtra("bookId", song.getBookId());
+                intent1.putExtra("imageUrl", song.getBookImageUrl());
+                intent1.putExtra("audioType", audioType);
+                intent1.putExtra("audioSource", audioSource);
+                startActivity(intent1);
+                break;
+            case R.id.pk_btn:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
+                presenter.getPkUsers(song.getBookId());
+//                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                break;
+            case R.id.random_match:
+                if (pkUserList != null && pkUserList.size() != 0) {
+                    Random random = new Random();
+                    int position = random.nextInt(pkUserList.size());
+                    popupWindow.dismiss();
+                    Intent intent2 = new Intent(PracticeActivity.this, pkActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("bookId", song.getBookId());
+                    bundle.putString("pkUserName", pkUserList.get(position).getUsername());
+                    bundle.putString("avatar", pkUserList.get(position).getAvatar());
+                    bundle.putString("imageUrl", song.getBookImageUrl());
+                    bundle.putInt("audioType", audioType);
+                    bundle.putInt("audioSource", audioSource);
+                    intent2.putExtras(bundle);
+                    startActivity(intent2);
+                } else {
+                    showInfo("没有pk用户");
+                }
+                break;
+            case R.id.practice_speak:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
+                if (isClick) {
+                    if (!isPlay) {
+                        if (isRecord) {
+                            showInfo("录音结束");
+                            isRecord = false;
+                            speak.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_speak2), null, null);
+                            initRecording();
+                            mRecorderUtil.stopRecording();
+                            if (record_time <= 0) {
+                                showInfo("时长不能为零");
+                                break;
+                            }
+                            //延迟1秒上传
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    presenter.uploadAudioResource(song.getBookId(), 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + song1.getBookName() + ".mp3", 0f, song1.getBookName(), record_time, 3, "", song.getBookImageUrl());
+                                }
+                            }, 1000);
+                        } else {
+                            showInfo("录音开始");
+                            isRecord = true;
+                            record_time = 0;
+                            handler.postDelayed(runnable, 1000);
+                            speak.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_stop2), null, null);
+                            mRecorderUtil.startRecording(song.getBookName());
+                        }
+                    }
+                }
+                break;
+            case R.id.practice_play:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
+                if (isClick) {
+                    if (!isRecord) {
+                        if (isPlay) {
+                            play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_play2_t), null, null);
+                            try {
+                                mediaPlayer2.pause();
+                                mediaPlayer2.stop();
+                                mediaPlayer2.seekTo(0);
+                            } catch (IllegalStateException e) {
+                                e.printStackTrace();
+                            }
+                            isPlay = false;
+                        } else {
+                            if (song1 != null && song1.getMyResourceUrl() != null) {
+//                                isClick = false;
+                                isPlay = true;
+                                play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_stop2), null, null);
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        playUrl2(song1.getMyResourceUrl());
+                                    }
+                                }).start();
+                            }
+                        }
+                    }
+                }
+                break;
+            case R.id.music_frame:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (isClick) {
+                    if (!isRecord) {
+                        if (MusicService.isPlay) {
+                            if (bookType == 0) {
+                                if (song1 != null && song1.getBookName() != null) {
+                                    if (MusicService.musicTitle.equals(song1.getBookName())) {
+                                        Intent intent2 = new Intent(this, MusicPlayActivity.class);
+                                        startActivity(intent2);
+                                    } else {
+                                        if (resourUrl_list.size() != 0) {
+                                            MusicService.stop();
+                                            Intent intent2 = new Intent(this, MusicPlayActivity.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putSerializable("list", (Serializable) resourUrl_list);
+                                            bundle.putString("name", song1.getBookName());
+                                            bundle.putString("image", song1.getBookImageUrl());
+                                            bundle.putInt("origin", 3);
+                                            bundle.putInt("audioType", audioType);
+                                            bundle.putInt("audioSource", audioSource);
+                                            bundle.putInt("resourceId", song.getBookId());
+                                            intent2.putExtras(bundle);
+                                            startActivity(intent2);
+                                        }
+                                    }
+                                }
+                            } else {
+                                MusicService.stop();
+                                Intent intent3 = new Intent(this, BookPlayActivity2.class);
+                                intent3.putExtra("bookId", song.getBookId());
+                                intent3.putExtra("imageUrl", song.getBookImageUrl());
+                                intent3.putExtra("audioType", audioType);
+                                intent3.putExtra("audioSource", audioSource);
+                                intent3.putExtra("title", song.getBookName());
+                                startActivity(intent3);
+                            }
+                        } else {
+                            if (bookType == 0) {
+                                if (song1 != null && resourUrl_list.size() != 0) {
+                                    Intent intent2 = new Intent(this, MusicPlayActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("list", (Serializable) resourUrl_list);
+                                    bundle.putString("name", song1.getBookName());
+                                    bundle.putString("image", song1.getBookImageUrl());
+                                    bundle.putInt("origin", 3);
+                                    bundle.putInt("audioType", audioType);
+                                    bundle.putInt("audioSource", audioSource);
+                                    bundle.putInt("resourceId", song.getBookId());
+                                    intent2.putExtras(bundle);
+                                    startActivity(intent2);
+                                }
+                            } else {
+                                Intent intent3 = new Intent(this, BookPlayActivity2.class);
+                                intent3.putExtra("bookId", song.getBookId());
+                                intent3.putExtra("imageUrl", song.getBookImageUrl());
+                                intent3.putExtra("audioType", audioType);
+                                intent3.putExtra("audioSource", audioSource);
+                                intent3.putExtra("title", song.getBookName());
+                                startActivity(intent3);
+                            }
+                        }
+                    }
+                }
+                break;
+            case R.id.practice_menu:
+                if (is_click) {
+                    getWindowGray(true);
+                    popupWindow2.showAsDropDown(menu);
+                }
+                break;
+            case R.id.menu_add_timetable:
+                //加入课表
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+//                if (MusicService.isPlay) {
+//                    MusicService.stop();
+//                }
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                String date = simpleDateFormat.format(new Date());
+                Material material = new Material();
+                material.setImageUrl(song.getBookImageUrl());
+                material.setMaterialId(song.getBookId());
+                material.setName(song.getBookName());
+                Intent intent3 = new Intent(this, AddOnlineScheActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("material", material);
+                bundle.putString("date", date);
+                intent3.putExtras(bundle);
+                startActivity(intent3);
+                popupWindow2.dismiss();
+                break;
+            case R.id.menu_collect:
+                //收藏
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (song1 != null) {
+                    if (song1.getIsCollected() == 0) {
+                        presenter.collectCourse(collectType, audioSource, song.getBookId(), classId);
+                        popupWindow2.dismiss();
+                    } else {
+                        presenter.cancelCollection(collectType, audioSource, song.getBookId(), classId);
+                        popupWindow2.dismiss();
+                    }
+                }
+                break;
+            case R.id.menu_add_material:
+                //加入教材
+                if (SystemUtils.tag.equals("游客")) {
+
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (song1 != null) {
+                    if (song1.getIsJoinMaterial() == 0) {
+                        presenter.joinMaterial(song.getBookId(), classId);
+                        popupWindow2.dismiss();
+                    } else {
+                        presenter.cancelMaterial(song.getBookId(), classId);
+                        popupWindow2.dismiss();
+                    }
+                }
+                break;
+            case R.id.practice_recording:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
+                Intent intent4 = new Intent(this, RecordingActivity.class);
+                intent4.putExtra("bookId", song.getBookId());
+                intent4.putExtra("bookName", song1.getBookName());
+                intent4.putExtra("bookImageUrl", song.getBookImageUrl());
+                intent4.putExtra("audioType", audioType);
+                intent4.putExtra("audioSource", audioSource);
+                intent4.putExtra("myresourceUrl", song1.getMyResourceUrl());
+                startActivity(intent4);
+                break;
         }
     }
 
@@ -612,21 +821,25 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        mediaPlayer.start();
+        if (mp == mediaPlayer) {
+            mediaPlayer.start();
+        } else {
+            mediaPlayer2.start();
+        }
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        isClick = true;
-        isPlay = false;
-        isFinish++;
-        tag2 = true;
-    }
-
-    private void initRecording() {
-//        mDialogManager.dismissDialog();
-        mRecorderUtil.stopRecording();
-        mRecorderUtil.getRecorderPath();
+        if (mp == mediaPlayer) {
+            isClick = true;
+            isPlay = false;
+            isFinish++;
+            tag2 = true;
+        } else {
+            isClick = true;
+            isPlay = false;
+            play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_play2_t), null, null);
+        }
     }
 
     @Override
@@ -647,6 +860,9 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
             }
             mediaPlayer.release();
             mediaPlayer = null;
+        }
+        if (handler != null && runnable != null) {
+            handler.removeCallbacks(runnable);
         }
         super.onDestroy();
     }

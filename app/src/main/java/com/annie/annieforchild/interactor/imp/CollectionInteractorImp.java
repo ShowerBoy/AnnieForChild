@@ -36,7 +36,6 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYCOLLECTIONS, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
-
         request.add("type", type);
         if (type == 1) {
             addQueue(MethodCode.EVENT_MYCOLLECTIONS1, request);
@@ -44,6 +43,8 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
             addQueue(MethodCode.EVENT_MYCOLLECTIONS2, request);
         } else if (type == 3) {
             addQueue(MethodCode.EVENT_MYCOLLECTIONS3, request);
+        } else {
+            addQueue(MethodCode.EVENT_MYCOLLECTIONS0, request);
         }
         startQueue();
     }
@@ -62,6 +63,8 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
             addQueue(MethodCode.EVENT_CANCELCOLLECTION2, request);
         } else if (type == 3) {
             addQueue(MethodCode.EVENT_CANCELCOLLECTION3, request);
+        } else {
+            addQueue(MethodCode.EVENT_CANCELCOLLECTION0, request);
         }
         startQueue();
     }
@@ -95,11 +98,16 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
             } else if (what == MethodCode.EVENT_MYCOLLECTIONS3) {
                 List<Collection> lists = JSON.parseArray(data, Collection.class);
                 listener.Success(what, lists);
+            } else if (what == MethodCode.EVENT_MYCOLLECTIONS0) {
+                List<Collection> lists = JSON.parseArray(data, Collection.class);
+                listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_CANCELCOLLECTION1) {
                 listener.Success(what, "取消收藏成功");
             } else if (what == MethodCode.EVENT_CANCELCOLLECTION2) {
                 listener.Success(what, "取消收藏成功");
             } else if (what == MethodCode.EVENT_CANCELCOLLECTION3) {
+                listener.Success(what, "取消收藏成功");
+            } else if (what == MethodCode.EVENT_CANCELCOLLECTION0) {
                 listener.Success(what, "取消收藏成功");
             }
         }

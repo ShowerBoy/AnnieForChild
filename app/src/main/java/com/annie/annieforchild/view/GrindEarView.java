@@ -13,6 +13,4 @@ public interface GrindEarView extends ViewInfo {
     SliderLayout getImageSlide();
 
     HashMap<Integer, String> getFile_maps();
-
-    void setPictureUrl(String listening, String animation);
 }

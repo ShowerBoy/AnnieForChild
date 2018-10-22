@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.ui.fragment.collection.GrindEarFragment;
+import com.annie.annieforchild.ui.fragment.collection.OtherFragment;
 import com.annie.annieforchild.ui.fragment.collection.ReadingFragment;
 import com.annie.annieforchild.ui.fragment.collection.SpokenFragment;
 import com.annie.baselibrary.base.BaseActivity;
@@ -28,6 +29,7 @@ public class MyCollectionActivity extends BaseActivity implements View.OnClickLi
     private GrindEarFragment grindEarFragment;
     private ReadingFragment readingFragment;
     private SpokenFragment spokenFragment;
+    private OtherFragment otherFragment;
     private CollectionFragmentAdapter fragmentAdapter;
 
     @Override
@@ -46,7 +48,7 @@ public class MyCollectionActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initData() {
         fragmentAdapter = new CollectionFragmentAdapter(getSupportFragmentManager());
-        mVP.setOffscreenPageLimit(3);
+        mVP.setOffscreenPageLimit(4);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
         mSlidingTab.setViewPager(mVP);
@@ -90,7 +92,7 @@ public class MyCollectionActivity extends BaseActivity implements View.OnClickLi
 
         @Override
         public Fragment getItem(int position) {
-            if (position >= 0 && position < 3) {
+            if (position >= 0 && position < 4) {
                 switch (position) {
                     case 0:
                         if (null == grindEarFragment) {
@@ -107,6 +109,11 @@ public class MyCollectionActivity extends BaseActivity implements View.OnClickLi
                             spokenFragment = SpokenFragment.instance();
                         }
                         return spokenFragment;
+                    case 3:
+                        if (null == otherFragment) {
+                            otherFragment = OtherFragment.instance();
+                        }
+                        return otherFragment;
                     default:
                         break;
                 }
@@ -116,19 +123,21 @@ public class MyCollectionActivity extends BaseActivity implements View.OnClickLi
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position >= 0 && position < 3) {
+            if (position >= 0 && position < 4) {
                 switch (position) {
                     case 0:
                         return "磨耳朵";
                     case 1:
-                        return "阅读";
+                        return "流利读";
                     case 2:
-                        return "口语";
+                        return "地道说";
+                    case 3:
+                        return "其他";
                     default:
                         break;
                 }

@@ -49,7 +49,6 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
     public void setDefaultUser(String defaultUser) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.SETDEFAULTUSER, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
-
         request.add("defaultUser", defaultUser);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_SETDEFAULEUSER, request);
@@ -61,7 +60,6 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETEUSERNAME, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
-
         request.add("deleteUsername", deleteUsername);
         addQueue(MethodCode.EVENT_DELETEUSERNAME, request);
         startQueue();

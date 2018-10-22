@@ -9,7 +9,7 @@ public interface ScheduleInteractor {
 
     void getMaterialClass(int type);
 
-    void addSchedule(int materialId, String startDate, int totalDays, String start, String end);
+    void addSchedule(int materialId, String startDate, int totalDays, String start, String end, int audioType, int audioSource);
 
     void totalSchedule(String startDate, String endDate);
 
@@ -22,4 +22,8 @@ public interface ScheduleInteractor {
     void myCoursesOffline();
 
     void myTeachingMaterials();
+
+    void myCalendar(String date);
+
+    void monthCalendar(String date);
 }

@@ -21,7 +21,7 @@ public class UserInfo implements Serializable {
     private String qrCode;
     private String school;
     private String experience;
-    private int status;
+    private int status; //0：线下 1：线上
 
     public String getExperience() {
         return experience;

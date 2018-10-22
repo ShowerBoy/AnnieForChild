@@ -1,198 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/top_tab_back"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:paddingTop="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="课业"
-            android:textColor="@color/text_black"
-            android:textSize="20sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="12dp"
-        android:paddingStart="12dp">
-
-        <ImageView
-            android:id="@+id/lesson_schedule"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/lesson_my_schedule" />
-
-        <TextView
-            android:id="@+id/today_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="14dp"
-            android:text="2月21日\n星期二"
-            android:textColor="@color/text_black"
-            android:textSize="13sp" />
-    </RelativeLayout>
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-12dp"
-        android:orientation="horizontal"
-        android:paddingEnd="12dp"
-        android:paddingStart="12dp">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/top_tab_back"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="路线图"
+                android:textColor="@color/text_black"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp">
+
+            <ImageView
+                android:id="@+id/lesson_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:src="@drawable/lesson_my_schedule" />
+
+            <ImageView
+                android:id="@+id/lesson_netclass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:src="@drawable/lesson_my_netclass"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp">
+
+            <ImageView
+                android:id="@+id/lesson_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:src="@drawable/lesson_my_course" />
+
+            <ImageView
+                android:id="@+id/lesson_textbook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:src="@drawable/lesson_my_textbook" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="26dp"
+            android:background="@color/light_gray" />
 
         <ImageView
-            android:id="@+id/lesson_course"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
-            android:layout_weight="1"
-            android:src="@drawable/lesson_my_course" />
+            android:layout_marginTop="26dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/route_pic_01" />
 
         <ImageView
-            android:id="@+id/lesson_textbook"
-            android:layout_width="wrap_content"
+            android:id="@+id/image_03"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_weight="1"
-            android:src="@drawable/lesson_my_textbook" />
+            android:layout_marginTop="12dp"
+            android:src="@drawable/route_pic_03" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/route_pic_02" />
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/follow_task_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="6dp"-->
+        <!--android:background="@color/white"-->
+        <!--android:paddingBottom="12dp"-->
+        <!--android:paddingEnd="12dp"-->
+        <!--android:paddingStart="16dp"-->
+        <!--android:paddingTop="12dp">-->
+
+        <!--<ImageView-->
+        <!--android:id="@+id/follow_task"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:src="@drawable/follow_task" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_toEndOf="@+id/follow_task"-->
+        <!--android:text="随堂作业"-->
+        <!--android:textColor="@color/text_black"-->
+        <!--android:textSize="18sp" />-->
+
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:src="@drawable/icon_arrow_right2" />-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/series_task_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:paddingBottom="12dp"-->
+        <!--android:paddingEnd="12dp"-->
+        <!--android:paddingStart="16dp"-->
+        <!--android:paddingTop="12dp">-->
+
+        <!--<ImageView-->
+        <!--android:id="@+id/series_task"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:src="@drawable/series_task" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_toEndOf="@+id/series_task"-->
+        <!--android:text="系列作业"-->
+        <!--android:textColor="@color/text_black"-->
+        <!--android:textSize="18sp" />-->
+
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:src="@drawable/icon_arrow_right2" />-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/optional_task_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:paddingBottom="12dp"-->
+        <!--android:paddingEnd="12dp"-->
+        <!--android:paddingStart="16dp"-->
+        <!--android:paddingTop="12dp">-->
+
+        <!--<ImageView-->
+        <!--android:id="@+id/optional_task"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:src="@drawable/optional_task" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_toEndOf="@+id/optional_task"-->
+        <!--android:text="自选作业"-->
+        <!--android:textColor="@color/text_black"-->
+        <!--android:textSize="18sp" />-->
+
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:src="@drawable/icon_arrow_right2" />-->
+        <!--</RelativeLayout>-->
+
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="我的作业"
-        android:textColor="@color/text_black"
-        android:textSize="22sp"
-        android:textStyle="bold" />
-
-    <RelativeLayout
-        android:id="@+id/follow_task_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:background="@color/white"
-        android:paddingBottom="12dp"
-        android:paddingEnd="12dp"
-        android:paddingStart="16dp"
-        android:paddingTop="12dp">
-
-        <ImageView
-            android:id="@+id/follow_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/follow_task" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/follow_task"
-            android:text="随堂作业"
-            android:textColor="@color/text_black"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/icon_arrow_right2" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/series_task_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingBottom="12dp"
-        android:paddingEnd="12dp"
-        android:paddingStart="16dp"
-        android:paddingTop="12dp">
-
-        <ImageView
-            android:id="@+id/series_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/series_task" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/series_task"
-            android:text="系列作业"
-            android:textColor="@color/text_black"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/icon_arrow_right2" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/optional_task_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingBottom="12dp"
-        android:paddingEnd="12dp"
-        android:paddingStart="16dp"
-        android:paddingTop="12dp">
-
-        <ImageView
-            android:id="@+id/optional_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/optional_task" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/optional_task"
-            android:text="自选作业"
-            android:textColor="@color/text_black"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/icon_arrow_right2" />
-    </RelativeLayout>
-
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

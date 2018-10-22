@@ -91,6 +91,8 @@ public class SelectSpokenFragment extends BaseFragment implements ScheduleView {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("material", lists.get(position));
                 bundle.putString("date", date);
+                bundle.putInt("audioType", 2);
+                bundle.putInt("audioSource", 10);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 getActivity().finish();

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.search.BookClassify;
+import com.annie.annieforchild.bean.search.Books;
 import com.annie.annieforchild.ui.adapter.viewHolder.SearchViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
@@ -20,13 +21,13 @@ import java.util.List;
  * Created by wanglei on 2018/5/4.
  */
 
-public class SearchAdapter extends SimpleSectionedAdapter<SearchViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     private Context context;
-    private List<BookClassify> lists;
+    private List<Books> lists;
     private LayoutInflater inflater;
     private OnRecyclerItemClickListener listener;
 
-    public SearchAdapter(Context context, List<BookClassify> lists, OnRecyclerItemClickListener listener) {
+    public SearchAdapter(Context context, List<Books> lists, OnRecyclerItemClickListener listener) {
         this.context = context;
         this.lists = lists;
         this.listener = listener;
@@ -34,17 +35,7 @@ public class SearchAdapter extends SimpleSectionedAdapter<SearchViewHolder> {
     }
 
     @Override
-    protected int getSectionCount() {
-        return lists != null ? lists.size() : 0;
-    }
-
-    @Override
-    protected int getItemCountForSection(int i) {
-        return lists != null ? lists.get(i).getBook().size() : 0;
-    }
-
-    @Override
-    protected SearchViewHolder onCreateItemViewHolder(ViewGroup viewGroup, int i) {
+    public SearchViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         SearchViewHolder holder;
         View view = inflater.inflate(R.layout.activity_search_item, viewGroup, false);
         holder = new SearchViewHolder(view);
@@ -65,13 +56,60 @@ public class SearchAdapter extends SimpleSectionedAdapter<SearchViewHolder> {
     }
 
     @Override
-    protected void onBindItemViewHolder(SearchViewHolder holder, int i, int i1) {
-        Glide.with(context).load(lists.get(i).getBook().get(i1).getBookImageUrl()).into(holder.imageView);
-        holder.textView.setText(lists.get(i).getBook().get(i1).getBookName());
+    public void onBindViewHolder(SearchViewHolder holder, int i) {
+        holder.textView.setText(lists.get(i).getBookName());
+
+        Glide.with(context).load(lists.get(i).getBookImageUrl()).into(holder.imageView);
+        if (lists.get(i).getAnimationUrl() != null) {
+            holder.grindTag.setVisibility(View.GONE);
+            holder.readingTag.setVisibility(View.GONE);
+            holder.speakingTag.setVisibility(View.GONE);
+            holder.tag.setVisibility(View.GONE);
+            if (lists.get(i).getJurisdiction() == 0) {
+                holder.lock.setVisibility(View.VISIBLE);
+                holder.lock.setImageResource(R.drawable.icon_lock_book_f);
+            } else {
+                holder.lock.setVisibility(View.GONE);
+            }
+        } else {
+            holder.tag.setVisibility(View.VISIBLE);
+            if (lists.get(i).getIsmoerduo() == 0) {
+                holder.grindTag.setVisibility(View.GONE);
+            } else {
+                holder.grindTag.setVisibility(View.VISIBLE);
+            }
+            if (lists.get(i).getIsyuedu() == 0) {
+                holder.readingTag.setVisibility(View.GONE);
+            } else {
+                holder.readingTag.setVisibility(View.VISIBLE);
+            }
+            if (lists.get(i).getIskouyu() == 0) {
+                holder.speakingTag.setVisibility(View.GONE);
+            } else {
+                holder.speakingTag.setVisibility(View.VISIBLE);
+            }
+            if (lists.get(i).getJurisdiction() == 0) {
+                holder.lock.setVisibility(View.VISIBLE);
+                if (lists.get(i).getIsusenectar() == 0) {
+                    holder.lock.setImageResource(R.drawable.icon_lock_book_f);
+                } else {
+                    holder.lock.setImageResource(R.drawable.icon_lock_book_t);
+                }
+            } else {
+                holder.lock.setVisibility(View.GONE);
+            }
+        }
+        if (lists.get(i).getTag() == null || lists.get(i).getTag().trim().length() == 0) {
+            holder.tag.setVisibility(View.GONE);
+        } else {
+            holder.tag.setVisibility(View.VISIBLE);
+            holder.tag.setText(lists.get(i).getTag());
+        }
     }
 
     @Override
-    protected String getSectionHeaderTitle(int i) {
-        return lists != null ? lists.get(i).getClassifyName() : "";
+    public int getItemCount() {
+        return lists.size();
     }
+
 }

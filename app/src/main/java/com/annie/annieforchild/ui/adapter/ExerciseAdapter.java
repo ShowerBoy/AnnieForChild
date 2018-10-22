@@ -27,6 +27,7 @@ import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.activity.grindEar.ExerciseTestActivity;
 import com.annie.annieforchild.ui.activity.pk.ExerciseActivity;
+import com.annie.annieforchild.ui.activity.pk.ExerciseActivity2;
 import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.iflytek.cloud.EvaluatorListener;
@@ -54,30 +55,36 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
     private LayoutInflater inflater;
     private GrindEarPresenter presenter;
     private OnRecyclerItemClickListener listener;
-
-    private static String TAG = ExerciseActivity.class.getSimpleName();
     private SpeechEvaluator mIse;
     private String results;
     private MediaPlayer mediaPlayer;
     private int bookId;
     private AudioTrack player;
     private DataInputStream dis = null;
-    private boolean isSpeakReady = true;
-    private boolean isClick = true;
+    private boolean isSpeakReady = true; //我的录音播放控制
+    private boolean isClick = true, isPlay = false, isRecordPlay = false;
     private int record_time = 0; //录音时长
+    private int duration;
+    private String imageUrl;
     private boolean isRecording = false; //录音状态
     String fileName;
     private Handler handler = new Handler();
     Runnable runnable;
     private int audioType, audioSource;
+    private String title;
+    private ExerciseViewHolder holder;
+    private int key; //0：书籍阅读 1：练习
 
-    public ExerciseAdapter(Context context, List<Line> lists, int bookId, GrindEarPresenter presenter, int audioType, int audioSource, OnRecyclerItemClickListener listener) {
+    public ExerciseAdapter(Context context, String title, List<Line> lists, int bookId, GrindEarPresenter presenter, int audioType, int audioSource, String imageUrl, int key, OnRecyclerItemClickListener listener) {
         this.context = context;
+        this.title = title;
         this.lists = lists;
         this.bookId = bookId;
         this.presenter = presenter;
         this.audioType = audioType;
         this.audioSource = audioSource;
+        this.imageUrl = imageUrl;
+        this.key = key;
         this.listener = listener;
         inflater = LayoutInflater.from(context);
         initData();
@@ -91,13 +98,17 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
             @Override
             public void onClick(View v) {
 //                fileName = lists.get(i).getPage() + "-" + lists.get(i).getLineId() + "-" + lists.get(i).getEnTitle().replace(".", "");
-                listener.onItemClick(v);
+                if (isClick) {
+                    listener.onItemClick(v);
+                }
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                listener.onItemLongClick(v);
+                if (isClick) {
+                    listener.onItemLongClick(v);
+                }
                 return true;
             }
         });
@@ -106,84 +117,135 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
 
     @Override
     public void onBindViewHolder(ExerciseViewHolder exerciseViewHolder, int i) {
-        if (lists.get(i).isSelect()) {
-            exerciseViewHolder.exerciseLayout.setVisibility(View.VISIBLE);
-            exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_black));
-            fileName = lists.get(i).getEnTitle().replace(".", "");
-        } else {
+        holder = exerciseViewHolder;
+        if (key == 0) {
             exerciseViewHolder.exerciseLayout.setVisibility(View.GONE);
-            exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_color));
-        }
-
-        String fileName = lists.get(i).getEnTitle().replace(".", "");
-        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm");
-        if (file.exists()) {
-            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
-        } else {
-            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big_f);
-        }
-//        if (lists.get(i).getMyResourceUrl() != null && lists.get(i).getMyResourceUrl().length() != 0 && !lists.get(i).getMyResourceUrl().equals("")) {
-//            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
-//        } else {
-//            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big_f);
-//        }
-        exerciseViewHolder.textView.setText(lists.get(i).getEnTitle());
-        exerciseViewHolder.exercise_score.setText(lists.get(i).getScore() + "");
-        exerciseViewHolder.preview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isClick) {
-                    isClick = false;
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            playUrl(lists.get(i).getResourceUrl());
-                        }
-                    }).start();
-                }
+            if (lists.get(i).isSelect()) {
+                exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_orange));
+            } else {
+                exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_color));
             }
-        });
-        exerciseViewHolder.speak.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isClick) {
+            exerciseViewHolder.textView.setText(lists.get(i).getEnTitle());
+        } else {
+            if (lists.get(i).isSelect()) {
+                exerciseViewHolder.exerciseLayout.setVisibility(View.VISIBLE);
+                exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_black));
+                fileName = lists.get(i).getEnTitle().replace(".", "") + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
+            } else {
+                exerciseViewHolder.exerciseLayout.setVisibility(View.GONE);
+                exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_color));
+            }
+
+//            String fileName = lists.get(i).getEnTitle().replace(".", "") + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
+            String fileName2 = lists.get(i).getEnTitle().replace(".", "") + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName2 + ".pcm");
+            if (file.exists()) {
+                exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
+            } else {
+                exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big_f);
+            }
+            exerciseViewHolder.textView.setText(lists.get(i).getEnTitle());
+            exerciseViewHolder.exercise_score.setText(lists.get(i).getScore() + "");
+            exerciseViewHolder.preview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isClick) {
+                        if (isPlay) {
+                            if (mediaPlayer != null) {
+                                try {
+                                    mediaPlayer.pause();
+                                    mediaPlayer.stop();
+                                    mediaPlayer.seekTo(0);
+                                } catch (IllegalStateException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            isPlay = false;
+                        } else {
+                            isPlay = true;
+                            isClick = false;
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    playUrl(lists.get(i).getResourceUrl());
+                                }
+                            }).start();
+                        }
+                    } else {
+                        if (isPlay) {
+                            if (mediaPlayer != null) {
+                                try {
+                                    if (mediaPlayer.isPlaying()) {
+                                        mediaPlayer.pause();
+                                        mediaPlayer.stop();
+                                        mediaPlayer.seekTo(0);
+                                    }
+                                } catch (IllegalStateException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            isPlay = false;
+                            isClick = true;
+
+                        }
+                    }
+                }
+            });
+            exerciseViewHolder.speak.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 //                    isClick = false;
                     if (isRecording) {
+                        ExerciseActivity2.viewPager.setNoFocus(false);
                         isRecording = false;
                         mIse.stopEvaluating();
+                        isClick = true;
                     } else {
-                        isRecording = true;
-                        SystemUtils.show(context, "说话开始");
-//                        exerciseViewHolder.speak.setImageResource(R.drawable.icon_stop_medium);
-//                        fileName = lists.get(i).getPage() + "-" + lists.get(i).getLineId() + "-" + lists.get(i).getEnTitle().replace(".", "");
-                        setParams(fileName);
-                        if (mIse == null) {
-                            isClick = true;
-                            return;
+                        if (isClick) {
+                            isClick = false;
+                            ExerciseActivity2.viewPager.setNoFocus(true);
+                            isRecording = true;
+                            SystemUtils.show(context, "说话开始");
+                            setParams(fileName);
+                            if (mIse == null) {
+                                isClick = true;
+                                return;
+                            }
+                            EvaluatorListener evaluatorListener = getEvaluatorListener(exerciseViewHolder, i);
+                            int ret = mIse.startEvaluating(lists.get(i).getEnTitle(), null, evaluatorListener);
                         }
-                        EvaluatorListener evaluatorListener = getEvaluatorListener(exerciseViewHolder, i);
-                        int ret = mIse.startEvaluating(lists.get(i).getEnTitle(), null, evaluatorListener);
                     }
-
-
                 }
-            }
-        });
-        exerciseViewHolder.play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isClick) {
-                    isClick = false;
-//                    if (lists.get(i).getMyResourceUrl() != null && lists.get(i).getMyResourceUrl().length() != 0) {
-//                        playUrl(lists.get(i).getMyResourceUrl());
-//                    } else {
-//                        isClick = true;
-//                    }
-                    isSpeakReady = true;
-                    play();
+            });
+            exerciseViewHolder.play.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isClick) {
+                        if (isRecordPlay) {
+                            //停止播放
+                            isClick = true;
+                            isRecordPlay = false;
+                            isSpeakReady = false;
+                            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
+                        } else {
+                            //开始播放
+                            isClick = false;
+                            isRecordPlay = true;
+                            isSpeakReady = true;
+                            play(exerciseViewHolder);
+                            exerciseViewHolder.play.setImageResource(R.drawable.icon_stop_medium);
+                        }
+                    } else {
+                        if (isRecordPlay) {
+                            isClick = true;
+                            isRecordPlay = false;
+                            isSpeakReady = false;
+                            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
+                        }
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
@@ -223,7 +285,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
         mIse.setParameter(SpeechConstant.ISE_CATEGORY, "read_sentence"); // 设置需要评测的类型
         mIse.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
         mIse.setParameter(SpeechConstant.VAD_BOS, "5000"); // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理
-        mIse.setParameter(SpeechConstant.VAD_EOS, "1800"); // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
+        mIse.setParameter(SpeechConstant.VAD_EOS, "5000"); // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
         mIse.setParameter(SpeechConstant.KEY_SPEECH_TIMEOUT, "-1"); // 语音输入超时时间，即用户最多可以连续说多长时间；
         mIse.setParameter(SpeechConstant.RESULT_LEVEL, "complete");// 设置结果等级（中文仅支持complete）
         mIse.setParameter(SpeechConstant.SAMPLE_RATE, "16000");
@@ -249,6 +311,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
 
                     SystemUtils.show(context, "说话结束");
                     isRecording = false;
+                    ExerciseActivity2.viewPager.setNoFocus(false);
                     viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
 
                     if (!TextUtils.isEmpty(results)) {
@@ -261,7 +324,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
                             lists.get(i).setScore(score);
-                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm", score, fileName, record_time, 0, "");
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm", score, title + "（练习）", record_time, 0, "", imageUrl);
                         } else {
 //                        showInfo("解析结果为空");
                         }
@@ -289,7 +352,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
             @Override
             public void onBeginOfSpeech() {
                 // 此回调表示：sdk内部录音机已经准备好了，用户可以开始语音输入
-                Log.d(TAG, "evaluator begin");
+//                Log.d(TAG, "evaluator begin");
                 record_time = 0;
                 isRecording = true;
                 handler.postDelayed(runnable, 1000);
@@ -299,7 +362,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
             @Override
             public void onEndOfSpeech() {
                 // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
-                Log.d(TAG, "evaluator stoped");
+//                Log.d(TAG, "evaluator stoped");
                 isRecording = false;
                 viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
             }
@@ -322,7 +385,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
         return evaluatorListener;
     }
 
-    public void play() {
+    public void play(ExerciseViewHolder exerciseViewHolder) {
         try {
             //从音频文件中读取声音
 //            SystemUtils.show(context, fileName);
@@ -370,6 +433,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                         player.stop();//停止播放
                         player.release();//释放资源
                         isClick = true;
+                        exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
                         break;
                     }
                 }
@@ -387,13 +451,42 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
         }
     }
 
+    //停止播放我的录音
+    public void stopRecordPlay() {
+        if (isRecordPlay) {
+            isClick = true;
+            isRecordPlay = false;
+            isSpeakReady = false;
+            for (int i = 0; i < lists.size(); i++) {
+                lists.get(i).setSelect(false);
+            }
+            notifyDataSetChanged();
+        }
+    }
+
+    public void stopRecord() {
+        if (isRecording) {
+            mIse.stopEvaluating();
+        }
+    }
+
     @Override
     public void onPrepared(MediaPlayer mp) {
+        duration = mediaPlayer.getDuration() / 1000;
         mediaPlayer.start();
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
         isClick = true;
+        presenter.uploadAudioTime(0, audioType, audioSource, bookId, duration);
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public void setMediaPlayer(MediaPlayer mediaPlayer) {
+        this.mediaPlayer = mediaPlayer;
     }
 }

@@ -2,8 +2,12 @@ package com.annie.annieforchild.ui.activity.grindEar;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,17 +16,27 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.grindear.GrindEarData;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
+import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
+import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
+import com.annie.annieforchild.ui.adapter.GrindEarAdapter;
+import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.daimajia.slider.library.SliderLayout;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -36,22 +50,25 @@ import java.util.List;
  * Created by WangLei on 2018/1/18 0018
  */
 
-public class GrindEarActivity extends BaseActivity implements GrindEarView, View.OnClickListener {
-    private ImageView grindEarBack, meiriyishi, meiriyige, iWantGrindEar, iWantSing, grindEarCheck;
+public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCheckDoubleClick {
+    private RecyclerView recycler;
+    private AnimationDrawable musicBtn;
+    private ImageView grindEarBack, iWantGrindEar, iWantSing, music;
     private SliderLayout grindEarSlide;
-    private LinearLayout songLayout, poetryLayout, dialogueLayout, picturebookLayout;
-    private String listeningUrl, animationUrl;
+    private LinearLayout songLayout, poetryLayout, dialogueLayout, picturebookLayout, accompLayout;
     private AlertHelper helper;
     private Dialog dialog;
     private GrindEarPresenterImp presenter;
+    private GrindEarAdapter adapter;
     private List<SongClassify> songClassifyList;
     private List<SongClassify> poetryClassifyList;
     private List<SongClassify> dialogueClassifyList;
     private List<SongClassify> picturebookClassifyList;
     private List<SongClassify> singClassifyList;
-    private List<Song> meiriyishiList;
-    private List<Song> meiriyigeList;
+    private List<Song> lists;
     private HashMap<Integer, String> file_maps;//轮播图图片map
+    private CheckDoubleClickListener listener;
+    private int classId = -12000;
 
     {
         setRegister(true);
@@ -67,33 +84,42 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
         grindEarBack = findViewById(R.id.grind_ear_back);
         grindEarSlide = findViewById(R.id.grind_ear_slide);
         iWantGrindEar = findViewById(R.id.i_want_grindear);
-//        listening100 = findViewById(R.id.listening100);
-//        animation100 = findViewById(R.id.animation100);
-        meiriyishi = findViewById(R.id.meiriyishi);
-        meiriyige = findViewById(R.id.meiriyige);
+        music = findViewById(R.id.grind_music);
+        recycler = findViewById(R.id.recommend_recycler);
 
         iWantSing = findViewById(R.id.i_want_sing);
         songLayout = findViewById(R.id.song_layout);
         poetryLayout = findViewById(R.id.poetry_layout);
         dialogueLayout = findViewById(R.id.dialogue_layout);
         picturebookLayout = findViewById(R.id.picturebook_layout);
-        grindEarCheck = findViewById(R.id.grind_ear_check);
-        iWantGrindEar.setOnClickListener(this);
-        iWantSing.setOnClickListener(this);
-        grindEarBack.setOnClickListener(this);
-        songLayout.setOnClickListener(this);
-        poetryLayout.setOnClickListener(this);
-        dialogueLayout.setOnClickListener(this);
-        picturebookLayout.setOnClickListener(this);
-        grindEarCheck.setOnClickListener(this);
-        meiriyishi.setOnClickListener(this);
-        meiriyige.setOnClickListener(this);
+        accompLayout = findViewById(R.id.accomp_layout);
+        listener = new CheckDoubleClickListener(this);
+        iWantGrindEar.setOnClickListener(listener);
+        iWantSing.setOnClickListener(listener);
+        grindEarBack.setOnClickListener(listener);
+        songLayout.setOnClickListener(listener);
+        poetryLayout.setOnClickListener(listener);
+        dialogueLayout.setOnClickListener(listener);
+        picturebookLayout.setOnClickListener(listener);
+        accompLayout.setOnClickListener(listener);
+        music.setOnClickListener(listener);
+
+        musicBtn = (AnimationDrawable) music.getDrawable();
+        musicBtn.setOneShot(false);
+        if (MusicService.isPlay) {
+            musicBtn.start();
+        } else {
+            musicBtn.stop();
+        }
+
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recycler.setLayoutManager(layoutManager);
     }
 
     @Override
     protected void initData() {
-        meiriyishiList = new ArrayList<>();
-        meiriyigeList = new ArrayList<>();
+        lists = new ArrayList<>();
         songClassifyList = new ArrayList<>();
         poetryClassifyList = new ArrayList<>();
         dialogueClassifyList = new ArrayList<>();
@@ -101,6 +127,32 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
         singClassifyList = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
+        adapter = new GrindEarAdapter(this, lists, new OnRecyclerItemClickListener() {
+            @Override
+            public void onItemClick(View view) {
+                int position = recycler.getChildAdapterPosition(view);
+                if (lists.get(position).getJurisdiction() == 0) {
+                    if (lists.get(position).getIsusenectar() == 1) {
+                        SystemUtils.setBackGray(GrindEarActivity.this, true);
+                        SystemUtils.getSuggestPopup(GrindEarActivity.this, "需要" + lists.get(position).getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter, -1, lists.get(position).getNectar(), lists.get(position).getBookName(), lists.get(position).getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else {
+                    Intent intent = new Intent(GrindEarActivity.this, PracticeActivity.class);
+                    intent.putExtra("song", lists.get(position));
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", 0);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onItemLongClick(View view) {
+
+            }
+        });
+        recycler.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         file_maps = new HashMap<>();
@@ -111,159 +163,6 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
         presenter.getMusicClasses();
     }
 
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent();
-        switch (view.getId()) {
-            case R.id.i_want_grindear:
-                //我的磨耳朵
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(this, MyGrindEarActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.i_want_sing:
-                //我要唱歌
-//                intent.setClass(this, SingingActivity.class);
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(this, ListenSongActivity.class);
-                Bundle bundle1 = new Bundle();
-                bundle1.putInt("type", 5);
-                bundle1.putSerializable("ClassifyList", (Serializable) singClassifyList);
-                intent.putExtras(bundle1);
-                startActivity(intent);
-                break;
-            case R.id.grind_ear_back:
-                finish();
-                break;
-            case R.id.grind_ear_check:
-                //榜单
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(this, RankingListActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.song_layout:
-                //听儿歌
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(this, ListenSongActivity.class);
-                Bundle bundle2 = new Bundle();
-                bundle2.putInt("type", 1);
-                bundle2.putSerializable("ClassifyList", (Serializable) songClassifyList);
-                intent.putExtras(bundle2);
-                startActivity(intent);
-                break;
-            case R.id.poetry_layout:
-                //听诗歌
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(this, ListenSongActivity.class);
-                Bundle bundle6 = new Bundle();
-                bundle6.putInt("type", 2);
-                bundle6.putSerializable("ClassifyList", (Serializable) poetryClassifyList);
-                intent.putExtras(bundle6);
-                startActivity(intent);
-                break;
-            case R.id.dialogue_layout:
-                //看动画
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(this, ListenSongActivity.class);
-                Bundle bundle3 = new Bundle();
-                bundle3.putInt("type", 3);
-                bundle3.putSerializable("ClassifyList", (Serializable) dialogueClassifyList);
-                intent.putExtras(bundle3);
-                startActivity(intent);
-                break;
-            case R.id.picturebook_layout:
-                //听故事
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(this, ListenSongActivity.class);
-                Bundle bundle4 = new Bundle();
-                bundle4.putInt("type", 4);
-                bundle4.putSerializable("ClassifyList", (Serializable) picturebookClassifyList);
-                intent.putExtras(bundle4);
-                startActivity(intent);
-                break;
-            case R.id.meiriyishi:
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(this, MeiriyiActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("title", "每日一诗");
-                bundle.putSerializable("list", (Serializable) meiriyishiList);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                break;
-            case R.id.meiriyige:
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    showInfo("请添加学员");
-                    return;
-                }
-                intent.setClass(this, MeiriyiActivity.class);
-                Bundle bundle5 = new Bundle();
-                bundle5.putString("title", "每日一歌");
-                bundle5.putSerializable("list", (Serializable) meiriyigeList);
-                intent.putExtras(bundle5);
-                startActivity(intent);
-                break;
-        }
-    }
 
     /**
      * {@link GrindEarPresenterImp#Success(int, Object)}
@@ -289,10 +188,21 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
             singClassifyList.addAll((List<SongClassify>) message.obj);
         } else if (message.what == MethodCode.EVENT_GETLISTENING) {
             GrindEarData grindEarData = (GrindEarData) message.obj;
-            meiriyishiList.clear();
-            meiriyigeList.clear();
-            meiriyishiList.addAll(grindEarData.getMeiriyishi());
-            meiriyigeList.addAll(grindEarData.getMeiriyige());
+            lists.clear();
+            lists.addAll(grindEarData.getRecommendlist());
+            adapter.notifyDataSetChanged();
+        } else if (message.what == MethodCode.EVENT_UNLOCKBOOK + 9000 + classId) {
+            showInfo((String) message.obj);
+            presenter.getListening();
+            presenter.getMusicClasses();
+        } else if (message.what == MethodCode.EVENT_MUSIC) {
+            if (musicBtn != null) {
+                if ((boolean) (message.obj)) {
+                    musicBtn.start();
+                }else{
+                    musicBtn.stop();
+                }
+            }
         }
     }
 
@@ -331,9 +241,132 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, View
     }
 
     @Override
-    public void setPictureUrl(String listening, String animation) {
-        this.listeningUrl = listening;
-        this.animationUrl = animation;
+    public void onCheckDoubleClick(View view) {
+        Intent intent = new Intent();
+        switch (view.getId()) {
+            case R.id.i_want_grindear:
+                //我的磨耳朵
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                intent.setClass(this, MyGrindEarActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.i_want_sing:
+                //我要唱歌
+//                intent.setClass(this, SingingActivity.class);
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putInt("type", 5);
+                bundle1.putSerializable("ClassifyList", (Serializable) singClassifyList);
+                intent.putExtras(bundle1);
+                startActivity(intent);
+                break;
+            case R.id.grind_ear_back:
+                finish();
+                break;
+            case R.id.song_layout:
+                //听儿歌
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle2 = new Bundle();
+                bundle2.putInt("type", 1);
+                bundle2.putSerializable("ClassifyList", (Serializable) songClassifyList);
+                intent.putExtras(bundle2);
+                startActivity(intent);
+                break;
+            case R.id.poetry_layout:
+                //听诗歌
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle6 = new Bundle();
+                bundle6.putInt("type", 2);
+                bundle6.putSerializable("ClassifyList", (Serializable) poetryClassifyList);
+                intent.putExtras(bundle6);
+                startActivity(intent);
+                break;
+            case R.id.dialogue_layout:
+                //看动画
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle3 = new Bundle();
+                bundle3.putInt("type", 3);
+                bundle3.putSerializable("ClassifyList", (Serializable) dialogueClassifyList);
+                intent.putExtras(bundle3);
+                startActivity(intent);
+                break;
+            case R.id.picturebook_layout:
+                //听故事
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle4 = new Bundle();
+                bundle4.putInt("type", 4);
+                bundle4.putSerializable("ClassifyList", (Serializable) picturebookClassifyList);
+                intent.putExtras(bundle4);
+                startActivity(intent);
+                break;
+            case R.id.accomp_layout:
+                //伴奏
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle5 = new Bundle();
+                bundle5.putInt("type", 5);
+                bundle5.putSerializable("ClassifyList", (Serializable) singClassifyList);
+                intent.putExtras(bundle5);
+                startActivity(intent);
+                break;
+            case R.id.grind_music:
+                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+                startActivity(intent1);
+                break;
+        }
     }
-
 }

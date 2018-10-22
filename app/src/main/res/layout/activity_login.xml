@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/register"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/icon_logo" />
+        android:src="@drawable/icon_aboutme" />
 
     <TextView
         android:id="@+id/youke"

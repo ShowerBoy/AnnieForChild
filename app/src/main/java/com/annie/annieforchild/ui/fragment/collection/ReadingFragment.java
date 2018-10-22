@@ -72,7 +72,7 @@ public class ReadingFragment extends BaseFragment implements CollectionView {
             }
         });
         lists = new ArrayList<>();
-        adapter = new CollectionAdapter(getContext(), lists, type, 1, new OnMyItemClickListener() {
+        adapter = new CollectionAdapter(getContext(), lists, type, 1, 2, 1, new OnMyItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 SystemUtils.GeneralDialog(getContext(), "取消收藏")

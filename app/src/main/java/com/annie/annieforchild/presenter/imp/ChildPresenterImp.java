@@ -66,9 +66,9 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
      * @param birthday
      */
     @Override
-    public void addChild(String headpic, String name, String sex, String birthday) {
+    public void addChild(String headpic, String name, String sex, String birthday, String phone) {
         viewInfo.showLoad();
-        interactor.addChild(headpic, name, sex, birthday);
+        interactor.addChild(headpic, name, sex, birthday,phone);
     }
 
     /**

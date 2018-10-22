@@ -142,7 +142,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
                 detailSex.setText(childSex);
             }
             detailName.setText(userInfo.getName());
-            Glide.with(this).load(userInfo.getAvatar()).into(modify_headpic);
+            Glide.with(this).load(userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(modify_headpic);
             if (userInfo.getBirthday() != null) {
                 if (!userInfo.getBirthday().equals("") && userInfo.getBirthday().length() != 0) {
                     detailBirthday.setText(userInfo.getBirthday().substring(0, 4) + "-" + userInfo.getBirthday().substring(4, 6) + "-" + userInfo.getBirthday().substring(6, 8));
@@ -315,7 +315,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
     protected void onImageSelect(Bitmap bitmap, String path) {
         headbitmap = bitmap;
         presenter.uploadHeadpic(10001, path);
-        SystemUtils.show(this, path);
+//        SystemUtils.show(this, path);
     }
 
     @Override

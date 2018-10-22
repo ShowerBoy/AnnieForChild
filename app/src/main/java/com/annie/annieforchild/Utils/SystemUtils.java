@@ -14,27 +14,43 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.UserInfo;
+import com.annie.annieforchild.bean.book.Line;
+import com.annie.annieforchild.bean.login.HistoryRecord;
 import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.bean.login.SigninBean;
+import com.annie.annieforchild.bean.song.Song;
+import com.annie.annieforchild.presenter.GrindEarPresenter;
+import com.annie.annieforchild.ui.activity.CameraActivity;
+import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
+import com.annie.annieforchild.ui.activity.child.AddChildActivity;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
+import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
+import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.application.MyApplication;
+import com.bumptech.glide.Glide;
+//import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -48,6 +64,8 @@ import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
@@ -66,19 +84,26 @@ public class SystemUtils {
     public static String recordPath = "/record/"; //录制音频地址
     public static MainBean mainBean; //第一次启动获取的接口对象
     public static PhoneSN phoneSN; //登陆时产生的phoneSN
-    public static UserInfo userInfo;//用户对象
+    public static UserInfo userInfo; //用户对象
+    public static List<HistoryRecord> historyRecordList; //历史纪录
     public static SigninBean signinBean; //在线得花蜜
     public static String token; //token
     public static String defaultUsername; //默认学员编号
     public static String phone; //手机号
     public static String sn; //设备sn号
-    public static String tag; //会员标识
+    public static String tag = "游客"; //会员标识
     public static String netDate; //网络时间
     public static Thread countDownThread; //倒计时两分钟线程
+    public static boolean playAll = false; //播放全文
+    public static int currentPage = 0; //当前播放页
+    public static int totalPage; //总播放页
+    public static int currentLine = 0; //当前播放行
+    public static boolean isPlaying = false; //是否播放
+    public static boolean isCurrentPage = false; //是否时当前页播放状态
     public static Timer timer;
     public static TimerTask task;
     public static boolean isOnline = false; //是否在线
-//    public static boolean isGetNectar = false; //今天是否得到过花蜜
+    //    public static boolean isGetNectar = false; //今天是否得到过花蜜
     public static int childTag; //有无学员标识 0:无 1:有
     public static int window_width;
     public static int window_height;
@@ -99,6 +124,12 @@ public class SystemUtils {
     public static void toLogin(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("tag", "游客登陆");
+        context.startActivity(intent);
+    }
+
+    public static void toAddChild(Context context) {
+        Intent intent = new Intent(context, AddChildActivity.class);
+        intent.putExtra("from", "other");
         context.startActivity(intent);
     }
 
@@ -134,6 +165,185 @@ public class SystemUtils {
         });
         dialog.setCancelable(false);
         return dialog;
+    }
+
+    /**
+     * photoView弹出框
+     * @param context
+     * @param url
+     * @return
+     */
+//    public static PopupWindow getPhotoPopup(Context context, String url) {
+//        PhotoView photoView = new PhotoView(context);
+//        popupWindow = new PopupWindow(context);
+//        popupView = LayoutInflater.from(context).inflate(R.layout.activity_photo, null, false);
+//        photoView = popupView.findViewById(R.id.photoView);
+//        if (url.equals("0")) {
+//            Glide.with(context).load(R.drawable.route_pic_03).into(photoView);
+//        } else {
+//            Glide.with(context).load(url).into(photoView);
+//        }
+//        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
+//        popupWindow.setOutsideTouchable(true);
+//        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                SystemUtils.setBackGray((Activity) context, false);
+//            }
+//        });
+//        popupWindow.setContentView(popupView);
+//        return popupWindow;
+//    }
+
+    /**
+     * 课时备注
+     *
+     * @param context
+     * @param message
+     * @return
+     */
+    public static PopupWindow getHintPopup(Context context, String message) {
+        TextView textView = new TextView(context);
+        TextView textView2 = new TextView(context);
+        popupWindow = new PopupWindow(context);
+        popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_hint, null, false);
+        textView = popupView.findViewById(R.id.popup_confirm_btn);
+        textView2 = popupView.findViewById(R.id.period_remarks);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        textView2.setText(message);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemUtils.setBackGray((Activity) context, false);
+            }
+        });
+        popupWindow.setContentView(popupView);
+        return popupWindow;
+    }
+
+    /**
+     * 课时提议
+     *
+     * @param context
+     * @return
+     */
+    public static PopupWindow getSuggestPopup(Context context, String title, String text1, String text2, GrindEarPresenter presenter, int periodid, int nectar, String bookname, int bookid, int classId) {
+        TextView textView = new TextView(context);
+        TextView textView2 = new TextView(context);
+        TextView titleText = new TextView(context);
+        popupWindow = new PopupWindow(context);
+        popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_suggest, null, false);
+        textView = popupView.findViewById(R.id.suggest_confirm_btn);
+        textView2 = popupView.findViewById(R.id.suggest_cancel_btn);
+        titleText = popupView.findViewById(R.id.suggest_text);
+        titleText.setText(title);
+        textView.setText(text1);
+        textView2.setText(text2);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (periodid == -1) {
+                    presenter.unlockBook(nectar, bookname, bookid, classId);
+                } else {
+                    presenter.suggestPeriod(periodid);
+                }
+                popupWindow.dismiss();
+            }
+        });
+        textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemUtils.setBackGray((Activity) context, false);
+            }
+        });
+        popupWindow.setContentView(popupView);
+        return popupWindow;
+    }
+
+    /**
+     * practiceActivity分类
+     *
+     * @param context
+     * @return
+     */
+    public static PopupWindow getBookPopup(Context context, Song song, int type, int audioType, int audioSource, int collectType, String tag) {
+        TextView textView = new TextView(context);
+        TextView textView2 = new TextView(context);
+        popupWindow = new PopupWindow(context);
+        popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_search, null, false);
+        textView = popupView.findViewById(R.id.iwantgrind_btn);
+        textView2 = popupView.findViewById(R.id.iwantreading_btn);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PracticeActivity.class);
+                intent.putExtra("song", song);
+                intent.putExtra("type", type);
+                intent.putExtra("audioType", audioType);
+                intent.putExtra("audioSource", audioSource);
+                intent.putExtra("collectType", collectType);
+                intent.putExtra("bookType", 0);
+                context.startActivity(intent);
+                popupWindow.dismiss();
+            }
+        });
+        textView2.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v) {
+                if (tag.equals("校园生活故事1") || tag.equals("校园生活故事2") || tag.equals("神奇树屋")) {
+                    if (MusicService.isPlay) {
+                        MusicService.stop();
+                    }
+                    Intent intent = new Intent(context, BookPlayActivity2.class);
+                    intent.putExtra("bookId", song.getBookId());
+                    intent.putExtra("imageUrl", song.getBookImageUrl());
+                    intent.putExtra("audioType", 3);
+                    intent.putExtra("audioSource", 8);
+                    intent.putExtra("title", song.getBookName());
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(context, PracticeActivity.class);
+                    intent.putExtra("song", song);
+                    intent.putExtra("type", type);
+                    intent.putExtra("audioType", audioType);
+                    intent.putExtra("audioSource", audioSource);
+                    intent.putExtra("collectType", collectType);
+                    intent.putExtra("bookType", 1);
+                    context.startActivity(intent);
+                }
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemUtils.setBackGray((Activity) context, false);
+            }
+        });
+        popupWindow.setContentView(popupView);
+        return popupWindow;
     }
 
     /**
@@ -324,7 +534,7 @@ public class SystemUtils {
     }
 
     public static String stringFilter2(String str) throws PatternSyntaxException {
-        String regEx = "[^0-9]";//只允许字母、数字和汉字
+        String regEx = "[^0-9]";//只允许数字
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(str);
         return m.replaceAll("").trim();
@@ -374,5 +584,45 @@ public class SystemUtils {
         }
     }
 
+    /**
+     * 获取未来 第 past 天的日期
+     *
+     * @param past
+     * @return
+     */
+    public static String getFetureDate(int past) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + past);
+        Date today = calendar.getTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String result = format.format(today);
+        return result;
+    }
+
+    /**
+     * 获取过去第几天的日期
+     *
+     * @param past
+     * @return
+     */
+    public static String getPastDate(int past) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - past);
+        Date today = calendar.getTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String result = format.format(today);
+        return result;
+    }
+
+
+    public static int pixelToDp(Context context, int pixel) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return pixel < 0 ? pixel : Math.round(pixel / displayMetrics.density);
+    }
+
+    public static int dpToPixel(Context context, int dp) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return dp < 0 ? dp : Math.round(dp * displayMetrics.density);
+    }
 
 }

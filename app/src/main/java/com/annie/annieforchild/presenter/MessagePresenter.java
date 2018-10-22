@@ -13,7 +13,7 @@ public interface MessagePresenter {
 
     void myRecordings();
 
-    void deleteRecording(int recordingId);
+    void deleteRecording(int recordingId, int origin);
 
     void feedback(String content);
 

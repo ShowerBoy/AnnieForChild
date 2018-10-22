@@ -47,8 +47,13 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
 
     @Override
     public void register(String phone, String code, String password) {
-        registerView.showLoad();
-        interactor.register(phone, code, password, serial_number);
+        if (serial_number == null) {
+            registerView.showInfo("请输入正确的验证码");
+        } else {
+            registerView.showLoad();
+            interactor.register(phone, code, password, serial_number);
+        }
+
     }
 
     @Override
@@ -120,6 +125,8 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
             message.what = what;
             message.obj = error;
             EventBus.getDefault().post(message);
+        } else if (what == MethodCode.EVENT_RGISTER) {
+            registerView.showInfo(error);
         }
     }
 }

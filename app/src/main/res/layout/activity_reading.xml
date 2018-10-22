@@ -12,8 +12,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/top_tab_back"
-            android:padding="10dp">
+            android:background="@color/top_tab_back">
 
             <ImageView
                 android:id="@+id/reading_back"
@@ -21,16 +20,27 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="6dp"
+                android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_arrow_left2" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="阅读"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="流利读"
                 android:textColor="@color/text_black"
                 android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/reading_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/music_list" />
 
         </RelativeLayout>
 
@@ -46,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:background="@color/light_gray"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
@@ -155,12 +165,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -194,52 +204,28 @@
 
             </LinearLayout>
 
-            <RelativeLayout
+            <TextView
                 android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:background="@color/white"
-                android:padding="10dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:text="阅读推荐"
+                android:textColor="@color/text_black"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="6dp"
-                    android:text="为你推荐"
-                    android:textColor="@color/text_black"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/reading_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:text="更多"
-                    android:textColor="@color/text_orange"
-                    android:textSize="16sp" />
-            </RelativeLayout>
-
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/reading_recommend_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:background="@color/white"
-                android:orientation="horizontal"
-                android:paddingBottom="6dp"
-                android:paddingEnd="12dp"
-                android:paddingStart="12dp">
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp"
+                android:background="@color/white">
 
-                <ImageView
-                    android:id="@+id/meiriyidu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/image_meiriyidu" />
-            </LinearLayout>
-
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
 
     </LinearLayout>

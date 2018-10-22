@@ -7,7 +7,7 @@ package com.annie.annieforchild.interactor;
 public interface ChildInteractor {
     void uploadHeadpic(String path);
 
-    void addChild(String headpic, String name, String sex, String birthday);
+    void addChild(String headpic, String name, String sex, String birthday, String phone);
 
     void motifyChild(String avatar, String name, String sex, String birthday);
 }

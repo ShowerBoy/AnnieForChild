@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.RegisterPresenter;
@@ -29,7 +31,7 @@ import org.greenrobot.eventbus.Subscribe;
  * Created by wanglei on 2018/3/26.
  */
 
-public class ModifyPsdActivity extends BaseActivity implements RegisterView, View.OnClickListener {
+public class ModifyPsdActivity extends BaseActivity implements RegisterView, OnCheckDoubleClick {
     private Button confirm;
     private ImageView back;
     private TextView title, getTestCode2;
@@ -39,6 +41,7 @@ public class ModifyPsdActivity extends BaseActivity implements RegisterView, Vie
     private AlertHelper helper;
     private Dialog dialog;
     private Intent intent;
+    private CheckDoubleClickListener listener;
 
     {
         setRegister(true);
@@ -59,9 +62,10 @@ public class ModifyPsdActivity extends BaseActivity implements RegisterView, Vie
         testCode2 = findViewById(R.id.test_code2);
         getTestCode2 = findViewById(R.id.get_test_code2);
         phoneNumber2 = findViewById(R.id.phone_number2);
-        getTestCode2.setOnClickListener(this);
-        confirm.setOnClickListener(this);
-        back.setOnClickListener(this);
+        listener = new CheckDoubleClickListener(this);
+        getTestCode2.setOnClickListener(listener);
+        confirm.setOnClickListener(listener);
+        back.setOnClickListener(listener);
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
     }
@@ -107,31 +111,31 @@ public class ModifyPsdActivity extends BaseActivity implements RegisterView, Vie
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.modify_psd_back:
-                finish();
-                break;
-            case R.id.get_test_code2:
-                if (!phoneNumber2.getText().toString().equals("") && phoneNumber2.getText().toString().length() == 11 && !phoneNumber2.getText().toString().contains(" ") && phoneNumber2.getText().toString().matches("[0-9]+")) {
-                    getTestCode2.setClickable(false);
-                    countDownTimer.start();
-                    String phone = phoneNumber2.getText().toString();
-                    presenter.getVerificationCode(phone, 2);
-                } else {
-                    SystemUtils.show(this, "请重新输入手机号");
-                }
-                break;
-            case R.id.next_btn2:
-                if (ifNext()) {
-                    presenter.resetPassword(phoneNumber2.getText().toString(), testCode2.getText().toString(), modifyPsd.getText().toString(), presenter.getSerial_number());
-                } else {
-                    showInfo("输入有误,请重新检查");
-                }
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.modify_psd_back:
+//                finish();
+//                break;
+//            case R.id.get_test_code2:
+//                if (!phoneNumber2.getText().toString().equals("") && phoneNumber2.getText().toString().length() == 11 && !phoneNumber2.getText().toString().contains(" ") && phoneNumber2.getText().toString().matches("[0-9]+")) {
+//                    getTestCode2.setClickable(false);
+//                    countDownTimer.start();
+//                    String phone = phoneNumber2.getText().toString();
+//                    presenter.getVerificationCode(phone, 2);
+//                } else {
+//                    SystemUtils.show(this, "请重新输入手机号");
+//                }
+//                break;
+//            case R.id.next_btn2:
+//                if (ifNext()) {
+//                    presenter.resetPassword(phoneNumber2.getText().toString(), testCode2.getText().toString(), modifyPsd.getText().toString(), presenter.getSerial_number());
+//                } else {
+//                    showInfo("输入有误,请重新检查");
+//                }
+//                break;
+//        }
+//    }
 
     private boolean ifNext() {
         if (phoneNumber2.getText().toString().equals("") || phoneNumber2.getText().toString().length() != 11 || phoneNumber2.getText().toString().contains(" ") || testCode2.getText().toString().contains(" ") || testCode2.getText().toString().equals("")
@@ -165,5 +169,31 @@ public class ModifyPsdActivity extends BaseActivity implements RegisterView, Vie
     protected void onResume() {
         super.onResume();
         phoneNumber2.requestFocus();
+    }
+
+    @Override
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
+            case R.id.modify_psd_back:
+                finish();
+                break;
+            case R.id.get_test_code2:
+                if (!phoneNumber2.getText().toString().equals("") && phoneNumber2.getText().toString().length() == 11 && !phoneNumber2.getText().toString().contains(" ") && phoneNumber2.getText().toString().matches("[0-9]+")) {
+                    getTestCode2.setClickable(false);
+                    countDownTimer.start();
+                    String phone = phoneNumber2.getText().toString();
+                    presenter.getVerificationCode(phone, 2);
+                } else {
+                    SystemUtils.show(this, "请重新输入手机号");
+                }
+                break;
+            case R.id.next_btn2:
+                if (ifNext()) {
+                    presenter.resetPassword(phoneNumber2.getText().toString(), testCode2.getText().toString(), modifyPsd.getText().toString(), presenter.getSerial_number());
+                } else {
+                    showInfo("输入有误,请重新检查");
+                }
+                break;
+        }
     }
 }

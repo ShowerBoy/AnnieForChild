@@ -24,7 +24,7 @@ import java.util.List;
  */
 
 public class TodayReadingFragment extends BaseFragment implements View.OnClickListener {
-    private TextView ergebuiben, xugougushi, feixugou, zhangjietushu, diandubi, qita, total;
+    private TextView tingerge, tingshige, tinggushi, zuoye, huiben, fenjiduwu, qiaoliangshu, zhangjieshu, diandubi, qita, total, tuijian;
     private RelativeLayout zhizhishuLayout, qitashebeiLayout;
     private List<GrindTime> lists;
     private MyGrindEarBean bean;
@@ -45,10 +45,16 @@ public class TodayReadingFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initView(View view) {
-        ergebuiben = view.findViewById(R.id.today_ergehuiben_duration);
-        xugougushi = view.findViewById(R.id.today_xugougushi_duration);
-        feixugou = view.findViewById(R.id.today_feixugou_duration);
-        zhangjietushu = view.findViewById(R.id.today_zhangjietushu_duration);
+        tingerge = view.findViewById(R.id.today_read_tingerge_duration);
+        tingshige = view.findViewById(R.id.today_read_tingshige_duration);
+        zuoye = view.findViewById(R.id.today_read_zuoye_duration);
+        tinggushi = view.findViewById(R.id.today_read_tingduwu_duration);
+        huiben = view.findViewById(R.id.today_read_huiben_duration);
+        fenjiduwu = view.findViewById(R.id.today_read_fenjiduwu_duration);
+        qiaoliangshu = view.findViewById(R.id.today_read_qiaoliangshu_duration);
+        zhangjieshu = view.findViewById(R.id.today_read_zhangjieshu_duration);
+        tuijian = view.findViewById(R.id.today_read_tuijian_duration);
+
         diandubi = view.findViewById(R.id.today_read_diandubi_duration);
         qita = view.findViewById(R.id.today_read_qita_duration);
         total = view.findViewById(R.id.today_read_total_duration);
@@ -73,7 +79,12 @@ public class TodayReadingFragment extends BaseFragment implements View.OnClickLi
         if (message.what == MethodCode.EVENT_GETMYREADING) {
             bean = (MyGrindEarBean) message.obj;
             lists.clear();
-            lists.addAll(bean.getTodayList());
+            if (bean.getTodayList() != null) {
+                lists.addAll(bean.getTodayList());
+            } else {
+                lists.addAll(new ArrayList<>());
+            }
+
             refresh();
         }
     }
@@ -81,39 +92,85 @@ public class TodayReadingFragment extends BaseFragment implements View.OnClickLi
     private void refresh() {
         for (int i = 0; i < lists.size(); i++) {
             GrindTime grindTime = lists.get(i);
-            int min = (int) Double.parseDouble(grindTime.getDuration()) / 60;
+            int time = (int) Double.parseDouble(grindTime.getDuration());
+            int min = time / 60;
+            int remainder = time % 60;
             int hour = 0;
-            if (min > 60) {
-                hour = min / 60;
-                min = min % 60;
+            if (min <= 0) {
+                if (remainder > 0) {
+                    min = min + 1;
+                }
+            } else {
+                if (min > 60) {
+                    hour = min / 60;
+                    min = min % 60;
+                }
+                if (remainder > 0) {
+                    min = min + 1;
+                }
             }
             switch (grindTime.getType()) {
-                case "pictureBook":
+                case "0":
                     if (hour == 0) {
-                        ergebuiben.setText(min + "分");
+                        tuijian.setText(min + "分");
                     } else {
-                        ergebuiben.setText(hour + "小时" + min + "分");
+                        tuijian.setText(hour + "小时" + min + "分");
                     }
                     break;
-                case "fictionStory":
+                case "1":
                     if (hour == 0) {
-                        xugougushi.setText(min + "分");
+                        tingerge.setText(min + "分");
                     } else {
-                        xugougushi.setText(hour + "小时" + min + "分");
+                        tingerge.setText(hour + "小时" + min + "分");
                     }
                     break;
-                case "nonfictionStory":
+                case "2":
                     if (hour == 0) {
-                        feixugou.setText(min + "分");
+                        tingshige.setText(min + "分");
                     } else {
-                        feixugou.setText(hour + "小时" + min + "分");
+                        tingshige.setText(hour + "小时" + min + "分");
                     }
                     break;
-                case "chapterBook":
+                case "12":
                     if (hour == 0) {
-                        zhangjietushu.setText(min + "分");
+                        zuoye.setText(min + "分");
                     } else {
-                        zhangjietushu.setText(hour + "小时" + min + "分");
+                        zuoye.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "4":
+                    if (hour == 0) {
+                        tinggushi.setText(min + "分");
+                    } else {
+                        tinggushi.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "5":
+                    if (hour == 0) {
+                        huiben.setText(min + "分");
+                    } else {
+                        huiben.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "6":
+                    if (hour == 0) {
+                        fenjiduwu.setText(min + "分");
+                    } else {
+                        fenjiduwu.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "7":
+                    if (hour == 0) {
+                        qiaoliangshu.setText(min + "分");
+                    } else {
+                        qiaoliangshu.setText(hour + "小时" + min + "分");
+                    }
+                    break;
+                case "8":
+                    if (hour == 0) {
+                        zhangjieshu.setText(min + "分");
+                    } else {
+                        zhangjieshu.setText(hour + "小时" + min + "分");
                     }
                     break;
                 case "readingpen":

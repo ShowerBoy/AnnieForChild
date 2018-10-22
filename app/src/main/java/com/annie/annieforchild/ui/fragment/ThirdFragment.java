@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.baselibrary.base.BaseFragment;
@@ -22,9 +24,10 @@ import java.text.DecimalFormat;
  * Created by WangLei on 2018/1/12 0012
  */
 
-public class ThirdFragment extends BaseFragment implements View.OnClickListener {
+public class ThirdFragment extends BaseFragment implements OnCheckDoubleClick {
     private String tag;
     private RelativeLayout centerQuaryLayout, mainpageLayout;
+    private CheckDoubleClickListener listener;
 
     public ThirdFragment() {
     }
@@ -41,8 +44,9 @@ public class ThirdFragment extends BaseFragment implements View.OnClickListener 
     protected void initView(View view) {
         centerQuaryLayout = view.findViewById(R.id.center_quary_layout);
         mainpageLayout = view.findViewById(R.id.main_page_layout);
-        centerQuaryLayout.setOnClickListener(this);
-        mainpageLayout.setOnClickListener(this);
+        listener = new CheckDoubleClickListener(this);
+        centerQuaryLayout.setOnClickListener(listener);
+        mainpageLayout.setOnClickListener(listener);
     }
 
     @Override
@@ -50,28 +54,28 @@ public class ThirdFragment extends BaseFragment implements View.OnClickListener 
         return R.layout.activity_third_fragment;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.center_quary_layout:
-                String aaa = getLngAndLat(getContext());
-                String lng = aaa.split(",")[0].trim();
-                String lat = aaa.split(",")[1].trim();
-                Intent intent = new Intent(getContext(), WebActivity.class);
-//                intent.putExtra("url", SystemUtils.mainUrl + "Signin/jump?lng=" + lng + "&lat=" + lat);
-                intent.putExtra("url", SystemUtils.mainUrl + "Signin/CenterSearch?location=" + lng + "," + lat);
-                intent.putExtra("title", "中心查询");
-                getContext().startActivity(intent);
-                break;
-            case R.id.main_page_layout:
-                Intent intent1 = new Intent();
-                intent1.setClass(getContext(), WebActivity.class);
-                intent1.putExtra("url", "http://m.anniekids.org/");
-                intent1.putExtra("title", "手机官网");
-                startActivity(intent1);
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.center_quary_layout:
+//                String aaa = getLngAndLat(getContext());
+//                String lng = aaa.split(",")[0].trim();
+//                String lat = aaa.split(",")[1].trim();
+//                Intent intent = new Intent(getContext(), WebActivity.class);
+////                intent.putExtra("url", SystemUtils.mainUrl + "Signin/jump?lng=" + lng + "&lat=" + lat);
+//                intent.putExtra("url", SystemUtils.mainUrl + "Signin/CenterSearch?location=" + lng + "," + lat);
+//                intent.putExtra("title", "中心查询");
+//                getContext().startActivity(intent);
+//                break;
+//            case R.id.main_page_layout:
+//                Intent intent1 = new Intent();
+//                intent1.setClass(getContext(), WebActivity.class);
+//                intent1.putExtra("url", "http://m.anniekids.org/");
+//                intent1.putExtra("title", "手机官网");
+//                startActivity(intent1);
+//                break;
+//        }
+//    }
 
     @SuppressLint("MissingPermission")
     private String getLngAndLat(Context context) {
@@ -143,4 +147,27 @@ public class ThirdFragment extends BaseFragment implements View.OnClickListener 
         public void onLocationChanged(Location location) {
         }
     };
+
+    @Override
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
+            case R.id.center_quary_layout:
+                String aaa = getLngAndLat(getContext());
+                String lng = aaa.split(",")[0].trim();
+                String lat = aaa.split(",")[1].trim();
+                Intent intent = new Intent(getContext(), WebActivity.class);
+//                intent.putExtra("url", SystemUtils.mainUrl + "Signin/jump?lng=" + lng + "&lat=" + lat);
+                intent.putExtra("url", SystemUtils.mainUrl + "Signin/CenterSearch?location=" + lng + "," + lat);
+                intent.putExtra("title", "中心查询");
+                getContext().startActivity(intent);
+                break;
+            case R.id.main_page_layout:
+                Intent intent1 = new Intent();
+                intent1.setClass(getContext(), WebActivity.class);
+                intent1.putExtra("url", "http://m.anniekids.org/");
+                intent1.putExtra("title", "手机官网");
+                startActivity(intent1);
+                break;
+        }
+    }
 }

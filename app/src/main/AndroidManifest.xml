@@ -39,6 +39,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
 
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:name=".ui.application.MyApplication"
@@ -69,7 +72,48 @@
             android:name="com.amap.api.v2.apikey"
             android:value="06a5f30bf7bf1262ab0bdbfed1afa540"></meta-data>
 
+
+        <!-- 您从百度网站获取的APP KEY，根据实际您的APP申请的APP_KEY进行修改 -->
+        <meta-data
+            android:name="BaiduMobAd_STAT_ID"
+            android:value="10105d44ff" /> <!-- abcd1234 -->
+        <!-- 渠道商编号 -->
+        <meta-data
+            android:name="BaiduMobAd_CHANNEL"
+            android:value="Baidu Market" />
+        <!-- 是否开启错误日志统计，默认为false -->
+        <meta-data
+            android:name="BaiduMobAd_EXCEPTION_LOG"
+            android:value="true" />
+        <!-- 日志发送策略，可选值：APP_START、ONCE_A_DAY、SET_TIME_INTERVAL，默认为APP_START -->
+        <meta-data
+            android:name="BaiduMobAd_SEND_STRATEGY"
+            android:value="APP_START" />
+        <!-- 日志发送策略 为SET_TIME_INTERVAL时，需设定时间间隔(取消下行注释)。取值为1-24的整数，默认为1 -->
+        <!-- <meta-data android:name="BaiduMobAd_TIME_INTERVAL" android:value="2" /> -->
+        <!-- 日志仅在wifi网络下发送，默认为false -->
+        <meta-data
+            android:name="BaiduMobAd_ONLY_WIFI"
+            android:value="false" />
+        <!-- 是否获取基站位置信息 ,默认为true -->
+        <meta-data
+            android:name="BaiduMobAd_CELL_LOCATION"
+            android:value="true" />
+        <!-- 是否获取GPS位置信息，默认为true -->
+        <meta-data
+            android:name="BaiduMobAd_GPS_LOCATION"
+            android:value="true" />
+        <!-- 是否获取WIFI位置信息，默认为true -->
+        <meta-data
+            android:name="BaiduMobAd_WIFI_LOCATION"
+            android:value="true" />
+
+
         <service android:name="com.amap.api.location.APSService"></service>
+
+        <service
+            android:name=".Utils.service.MusicService"
+            android:enabled="true"></service>
 
         <activity
             android:name=".ui.activity.login.LoginActivity"
@@ -77,11 +121,24 @@
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity
             android:name=".ui.activity.GuideActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="host1"
+                    android:path="/path1"
+                    android:port="8080"
+                    android:scheme="scheme1" />
             </intent-filter>
         </activity>
         <activity
@@ -172,13 +229,7 @@
             android:name=".ui.activity.grindEar.MyGrindEarActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".ui.activity.lesson.CourseActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
             android:name=".ui.activity.grindEar.ExerciseTestActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".ui.activity.mains.TodayClockInActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.activity.my.WebActivity" />
         <activity
@@ -260,6 +311,67 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.grindEar.CommitBookActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.mains.IWantListenActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.pk.MusicPlayActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.CalendarActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.lesson.ScheduleActivity2"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.lesson.TaskActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.MyPeriodActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.lesson.TaskDetailsActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.PhotoActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.speaking.MySpeakingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.pk.RecordingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.mains.BankBookActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.NetWorkActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.NetSuggestActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.MyCourseActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.ConfirmOrderActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.MyAddressActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.AddAddressActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.pk.BookPlayActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.pk.BookPlayActivity2"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.pk.ExerciseActivity2"
             android:screenOrientation="portrait"></activity>
 
         <activity

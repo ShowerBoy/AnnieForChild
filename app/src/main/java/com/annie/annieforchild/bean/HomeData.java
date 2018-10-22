@@ -1,6 +1,5 @@
 package com.annie.annieforchild.bean;
 
-import com.annie.annieforchild.bean.course.Course2;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.tongzhi.Msgs;
 
@@ -14,16 +13,20 @@ import java.util.List;
 
 public class HomeData implements Serializable {
     private List<Banner> bannerList;
-    private List<Msgs> msgList;
-    private List<Course2> myCourseList;
-    private List<Song> recommendList;
+    private List<Song> moerduo;
+    private List<Song> reading;
+    private List<Song> speaking;
+    private List<Song> freelist;
+    private Song meiriyige;
+    private Song meiriyishi;
+    private Song meiriyidu;
 
-    public List<Msgs> getMsgList() {
-        return msgList;
+    public List<Song> getFreelist() {
+        return freelist;
     }
 
-    public void setMsgList(List<Msgs> msgList) {
-        this.msgList = msgList;
+    public void setFreelist(List<Song> freelist) {
+        this.freelist = freelist;
     }
 
     public List<Banner> getBannerList() {
@@ -34,19 +37,51 @@ public class HomeData implements Serializable {
         this.bannerList = bannerList;
     }
 
-    public List<Course2> getMyCourseList() {
-        return myCourseList;
+    public List<Song> getMoerduo() {
+        return moerduo;
     }
 
-    public void setMyCourseList(List<Course2> myCourseList) {
-        this.myCourseList = myCourseList;
+    public void setMoerduo(List<Song> moerduo) {
+        this.moerduo = moerduo;
     }
 
-    public List<Song> getRecommendList() {
-        return recommendList;
+    public List<Song> getReading() {
+        return reading;
     }
 
-    public void setRecommendList(List<Song> recommendList) {
-        this.recommendList = recommendList;
+    public void setReading(List<Song> reading) {
+        this.reading = reading;
+    }
+
+    public List<Song> getSpeaking() {
+        return speaking;
+    }
+
+    public void setSpeaking(List<Song> speaking) {
+        this.speaking = speaking;
+    }
+
+    public Song getMeiriyige() {
+        return meiriyige;
+    }
+
+    public void setMeiriyige(Song meiriyige) {
+        this.meiriyige = meiriyige;
+    }
+
+    public Song getMeiriyishi() {
+        return meiriyishi;
+    }
+
+    public void setMeiriyishi(Song meiriyishi) {
+        this.meiriyishi = meiriyishi;
+    }
+
+    public Song getMeiriyidu() {
+        return meiriyidu;
+    }
+
+    public void setMeiriyidu(Song meiriyidu) {
+        this.meiriyidu = meiriyidu;
     }
 }
