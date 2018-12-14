@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/daka_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/top_tab_back"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="打卡"
+                        android:textColor="@color/text_black"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/relative_orange"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:id="@+id/yingyucunzhe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我的英语存折"
+                        android:textColor="@color/text_black"
+                        android:textSize="20sp" />
+
+                    <LinearLayout
+                        android:id="@+id/dakalinear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/yingyucunzhe"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="开户"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/openaccount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="29"
+                            android:textColor="@color/text_orange"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="天"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/dakalinear"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_toEndOf="@+id/dakalinear"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="累计打卡"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/accounttotal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="180"
+                            android:textColor="@color/text_orange"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="天"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/dakalinear2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/dakalinear"
+                        android:layout_marginTop="2dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="累计存入"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/totaldays"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="2000小时 20分钟"
+                            android:textColor="@color/text_orange"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/dakalinear2"
+                        android:layout_marginTop="3dp"
+                        android:text="（由于计算引起的误差忽略不计）"
+                        android:textSize="10sp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <FrameLayout
+                            android:id="@+id/listening_frame"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_daka_listening" />
+
+                            <ImageView
+                                android:id="@+id/moerduo_yidaka"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/icon_yidaka"
+                                android:visibility="gone" />
+                        </FrameLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_toEndOf="@+id/listening_frame"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="今日磨耳朵"
+                                android:textColor="@color/text_black"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/today_moerduo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="1小时30分钟"
+                                android:textColor="@color/text_black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/total_moerduo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="累计时长：200小时20分钟"
+                                android:textColor="@color/text_color"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/add_moerduo"
+                                android:layout_width="65dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
+                                android:background="@drawable/icon_orange_btn2"
+                                android:gravity="center"
+                                android:paddingBottom="6dp"
+                                android:paddingEnd="8dp"
+                                android:paddingStart="8dp"
+                                android:paddingTop="6dp"
+                                android:text="录入存折"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/goto_moerduo"
+                                android:layout_width="65dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:background="@drawable/icon_green_btn"
+                                android:gravity="center"
+                                android:paddingBottom="6dp"
+                                android:paddingEnd="8dp"
+                                android:paddingStart="8dp"
+                                android:paddingTop="6dp"
+                                android:text="去磨耳朵"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@color/light_gray2" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp">
+
+                        <FrameLayout
+                            android:id="@+id/reading_frame"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_daka_reading" />
+
+                            <ImageView
+                                android:id="@+id/reading_yidaka"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/icon_yidaka"
+                                android:visibility="gone" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_toEndOf="@+id/reading_frame"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="今日阅读"
+                                android:textColor="@color/text_black"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/today_reading"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="1小时30分钟"
+                                android:textColor="@color/text_black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/total_reading"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="累计时长：200小时20分钟"
+                                android:textColor="@color/text_color"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/add_reading"
+                                android:layout_width="65dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
+                                android:background="@drawable/icon_orange_btn2"
+                                android:gravity="center"
+                                android:paddingBottom="6dp"
+                                android:paddingEnd="8dp"
+                                android:paddingStart="8dp"
+                                android:paddingTop="6dp"
+                                android:text="录入存折"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/goto_reading"
+                                android:layout_width="65dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:background="@drawable/icon_green_btn"
+                                android:gravity="center"
+                                android:paddingBottom="6dp"
+                                android:paddingEnd="8dp"
+                                android:paddingStart="8dp"
+                                android:paddingTop="6dp"
+                                android:text="去阅读"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@color/light_gray2" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp">
+
+                        <FrameLayout
+                            android:id="@+id/speaking_frame"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_daka_speaking" />
+
+                            <ImageView
+                                android:id="@+id/speaking_yidaka"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/icon_yidaka"
+                                android:visibility="gone" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_toEndOf="@+id/speaking_frame"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="今日口语"
+                                android:textColor="@color/text_black"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/today_speaking"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="1小时30分钟"
+                                android:textColor="@color/text_black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/total_speaking"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="累计时长：200小时20分钟"
+                                android:textColor="@color/text_color"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/add_speaking"
+                                android:layout_width="65dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
+                                android:background="@drawable/icon_orange_btn2"
+                                android:gravity="center"
+                                android:paddingBottom="6dp"
+                                android:paddingEnd="8dp"
+                                android:paddingStart="8dp"
+                                android:paddingTop="6dp"
+                                android:text="录入存折"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/goto_speaking"
+                                android:layout_width="65dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:background="@drawable/icon_green_btn"
+                                android:gravity="center"
+                                android:paddingBottom="6dp"
+                                android:paddingEnd="8dp"
+                                android:paddingStart="8dp"
+                                android:paddingTop="6dp"
+                                android:text="去口语"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/daka_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="26dp"
+                android:background="@drawable/icon_daka_btn"
+                android:gravity="center"
+                android:text="点我打卡"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/daka_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-40dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_daka_bg" />
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>
+

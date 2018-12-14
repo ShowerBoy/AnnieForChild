@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/skin"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/top_tab_back">
+
+            <ImageView
+                android:id="@+id/task_details_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_arrow_left2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="作业详情"
+                android:textColor="@color/text_black"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/relativelayout_back"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/task_details_tit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="课堂反馈"
+                android:textColor="@color/text_black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/task_details_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_details_tit"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text=""
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/relativelayout_back"
+            android:paddingTop="16dp">
+
+            <TextView
+                android:id="@+id/task_details_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:text="家庭作业"
+                android:textColor="@color/text_black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/task_details_advice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_details_homework"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:text="教师建议"
+                android:textColor="@color/text_black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/task_details_suggest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_details_advice"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text=""
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/task_details_homework_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_details_suggest"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="作业列表"
+                android:textColor="@color/text_black"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/task_details_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_details_homework_list"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/task_details_parents_remarks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_details_recycler"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="家长备注"
+                android:textColor="@color/text_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/task_details_remarks"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/task_details_parents_remarks"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:background="@null"
+                android:gravity="top|start"
+                android:hint="请输入备注"
+                android:text=""
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/task_details_upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_details_remarks"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="上传作业图片"
+                android:textColor="@color/text_black"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/upload_task_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_details_upload"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="6dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <Button
+                android:id="@+id/submit_task"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/upload_task_recycler"
+                android:layout_marginEnd="-26dp"
+                android:layout_marginStart="-26dp"
+                android:background="@drawable/icon_orange_btn"
+                android:text="提交作业"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

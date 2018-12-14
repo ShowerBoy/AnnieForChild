@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/drawable_corner">
+
+        <ImageView
+            android:id="@+id/grind_ear_recommend_image"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="2dp"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/grind_ear_recommend_lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/icon_lock_book_f"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/grind_ear_recommend_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:maxLines="2"
+        android:textColor="@color/text_black"
+        android:textSize="14sp" />
+
+</LinearLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/search_back_image"
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/back_white" />
+
+    <TextView
+        android:id="@+id/iwantgrind_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/iwantreading_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/orange_backg2"
+        android:drawableStart="@drawable/icon_search_listen"
+        android:gravity="center"
+        android:paddingEnd="30dp"
+        android:paddingStart="30dp"
+        android:text="我要听"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/iwantreading_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/search_back_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="26dp"
+        android:background="@drawable/orange_backg2"
+        android:drawableStart="@drawable/icon_search_reading"
+        android:gravity="center"
+        android:paddingEnd="30dp"
+        android:paddingStart="30dp"
+        android:text="我要读"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+</RelativeLayout>

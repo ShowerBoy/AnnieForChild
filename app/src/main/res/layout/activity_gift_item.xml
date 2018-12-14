@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp">
+
+    <CheckBox
+        android:id="@+id/gift_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:button="@drawable/order_checkbox" />
+
+    <TextView
+        android:id="@+id/gift_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/gift_check"
+        android:text="礼包A"
+        android:textColor="@color/text_black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/gift_item_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/gift_item_title"
+        android:layout_below="@+id/gift_item_title"
+        android:layout_marginTop="6dp"
+        android:text="礼包A礼包A礼包A礼包A礼包A礼包A礼包A"
+        android:textColor="@color/text_color"
+        android:textSize="16sp" />
+</RelativeLayout>

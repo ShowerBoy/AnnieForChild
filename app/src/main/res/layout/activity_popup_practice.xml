@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/practice_back_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/back_white" />
+
+    <TextView
+        android:id="@+id/practice_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="您确定要提异吗？"
+        android:textColor="@color/text_black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/practice_confirm_btn"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
+        android:layout_above="@+id/practice_cancel_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/orange_backg2"
+        android:gravity="center"
+        android:text="发出提异"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/practice_cancel_btn"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
+        android:layout_alignBottom="@+id/practice_back_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/orange_backg2"
+        android:gravity="center"
+        android:text="再想想"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+</RelativeLayout>

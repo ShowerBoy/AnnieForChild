@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top_tab_back">
+
+        <ImageView
+            android:id="@+id/network_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_arrow_left2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="网课"
+            android:textColor="@color/text_black"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/network_slide"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:layout_marginTop="1dp">
+
+    </com.daimajia.slider.library.SliderLayout>
+
+    <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
+        android:id="@+id/net_tab_layout"
+        style="@style/pagertab_style"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:fillViewport="false">
+
+    </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
+
+    <com.annie.annieforchild.Utils.views.APSTSViewPager
+        android:id="@+id/net_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:background="@color/white">
+
+    </com.annie.annieforchild.Utils.views.APSTSViewPager>
+
+    <!--<ImageView-->
+    <!--android:id="@+id/image_slider"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="180dp"-->
+    <!--android:scaleType="fitXY"/>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:padding="10dp">-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/howto_layout"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:src="@drawable/icon_howto" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/consult_layout"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:src="@drawable/icon_consult" />-->
+    <!--</LinearLayout>-->
+
+    <!--<android.support.v7.widget.RecyclerView-->
+    <!--android:id="@+id/net_recycler"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--</android.support.v7.widget.RecyclerView>-->
+
+</LinearLayout>

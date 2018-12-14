@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/details_relative"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#EDE9E9"
+    android:paddingBottom="6dp"
+    android:paddingEnd="12dp"
+    android:paddingStart="12dp"
+    android:paddingTop="6dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/icon_my_course_bg"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/net_details_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="6dp"
+            android:text="第一周"
+            android:textColor="@color/text_black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/net_details_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/textview_orange_back"
+            android:paddingBottom="2dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="2dp"
+            android:text="磨耳朵A"
+            android:textColor="@color/text_orange"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/net_details_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_below="@+id/net_details_week"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/lesson_grind_ear" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/net_details_image"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/net_details_image"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lesson_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/relative_orange"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp"
+                    android:text="lesson 6"
+                    android:textColor="@color/text_black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/lesson_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/relative_orange"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp"
+                    android:text="lesson 7"
+                    android:textColor="@color/text_black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lesson_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/relative_orange"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp"
+                    android:text="lesson 8"
+                    android:textColor="@color/text_black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/lesson_4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/relative_orange"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp"
+                    android:text="lesson 9"
+                    android:textColor="@color/text_black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
