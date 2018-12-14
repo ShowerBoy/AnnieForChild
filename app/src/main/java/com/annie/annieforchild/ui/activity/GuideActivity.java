@@ -76,9 +76,11 @@ public class GuideActivity extends BaseActivity implements LoginView {
 
         Uri uri = getIntent().getData();
         if (uri != null) {
+            SystemUtils.uri = uri;
             // 完整的url信息
             String url = uri.toString();
             Log.i(TAG, "url:" + uri);
+
 
             // scheme部分
             String scheme = uri.getScheme();
@@ -105,6 +107,15 @@ public class GuideActivity extends BaseActivity implements LoginView {
             //获取指定参数值
             String success = uri.getQueryParameter("success");
             Log.i(TAG, "success:" + success);
+
+            String bookid = uri.getQueryParameter("bookid");
+            String bookType = uri.getQueryParameter("booktype");
+            if (bookid != null) {
+
+            }
+//            SystemUtils.show(this, "url:" + url + "=== bookid:" + bookid + "=== booktype:" + bookType);
+        } else {
+            SystemUtils.uri = null;
         }
     }
 

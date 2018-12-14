@@ -178,6 +178,8 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
             presenter.getUserInfo();
         } else if (message.what == MethodCode.EVENT_COMMITREADING) {
             presenter.getUserInfo();
+        } else if (message.what == MethodCode.EVENT_PAY) {
+            presenter.getUserInfo();
         }
 //        else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
 //            presenter.getUserInfo();

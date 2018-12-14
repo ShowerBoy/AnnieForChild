@@ -18,6 +18,7 @@ import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -216,7 +217,12 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
                 List<String> lists = JSON.parseArray(data, String.class);
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_MONTHCALENDAR) {
-                List<TotalSchedule> lists = JSON.parseArray(data, TotalSchedule.class);
+                List<TotalSchedule> lists;
+                if (data == null) {
+                    lists = new ArrayList<>();
+                } else {
+                    lists = JSON.parseArray(data, TotalSchedule.class);
+                }
                 listener.Success(what, lists);
             }
         }

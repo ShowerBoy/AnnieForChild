@@ -5,6 +5,8 @@ import com.baidu.mobstat.StatService;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.mob.MobSDK;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yanzhenjie.nohttp.NoHttp;
 
 import org.litepal.LitePalApplication;
@@ -16,6 +18,7 @@ import cn.jpush.android.api.JPushInterface;
  */
 
 public class MyApplication extends LitePalApplication {
+
     @Override
     public void onCreate() {
         super.onCreate();

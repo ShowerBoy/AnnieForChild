@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,17 +69,18 @@ import java.util.List;
 
 public class GlobalSearchActivity extends BaseActivity implements LoginView, View.OnClickListener {
     private SearchView searchView;
-    private EditText editText;
+    private EditText editText, hintText;
     private LinearLayout historyLinear;
+    private RelativeLayout highSearchLayout;
     private FlexboxLayout historyFlexbox;
-    private TextView clearHistory, highSearch, confirm, chongzhi;
-    private ImageView back, empty;
+    private TextView clearHistory, confirm, chongzhi, back;
+    private ImageView empty;
     private XRecyclerView recycler;
     private RecyclerView tagRecycler;
     private LoginPresenter presenter;
     private GrindEarPresenter presenter2;
     private PopupWindow popupWindow;
-    private View popupView;
+    private View popupView, underLine;
     private List<Books> lists;
     private List<SearchTag> tagLists;
     private TagAdapter tagAdapter;
@@ -88,7 +90,7 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
     private SearchContent searchContent;
     private String keyword;
     private int page = 1;
-    private int tag; //0:关键字搜索 1:高级搜索
+    private int tag, startLeft; //0:关键字搜索 1:高级搜索
     Filter filter;
     private int classId = -11000;
 
@@ -109,12 +111,19 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
         historyFlexbox = findViewById(R.id.history_flexbox);
         historyLinear = findViewById(R.id.history_linear);
         clearHistory = findViewById(R.id.clear_history);
-        highSearch = findViewById(R.id.global_high_search);
+//        highSearch = findViewById(R.id.global_high_search);
+        underLine = searchView.findViewById(R.id.search_plate);
+
+        highSearchLayout = findViewById(R.id.high_search_layout);
         empty = findViewById(R.id.empty_data);
         editText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        editText.setTextSize(16);
         back.setOnClickListener(this);
-        highSearch.setOnClickListener(this);
+//        highSearch.setOnClickListener(this);
         clearHistory.setOnClickListener(this);
+        highSearchLayout.setOnClickListener(this);
+        underLine.setBackgroundColor(getResources().getColor(R.color.divider));
+//        underLine.setVisibility(View.GONE);
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -145,6 +154,7 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
         });
         recycler.setLayoutManager(manager);
 
+        startLeft = Math.min(SystemUtils.window_width, SystemUtils.window_height) * 1 / 4;
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_global_search, null, false);
         confirm = popupView.findViewById(R.id.global_search_queding);
         chongzhi = popupView.findViewById(R.id.global_search_chongzhi);
@@ -155,7 +165,7 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
         manager1.setOrientation(LinearLayoutManager.VERTICAL);
         tagRecycler.setLayoutManager(manager1);
 
-        popupWindow = new PopupWindow(popupView, Math.min(SystemUtils.window_width, SystemUtils.window_height) * 4 / 5, Math.max(SystemUtils.window_width, SystemUtils.window_height) * 5 / 6, false);
+        popupWindow = new PopupWindow(popupView, Math.min(SystemUtils.window_width, SystemUtils.window_height) * 4 / 5, LinearLayout.LayoutParams.MATCH_PARENT, false);
         popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.clarity)));
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
@@ -219,7 +229,7 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                             SystemUtils.setBackGray(GlobalSearchActivity.this, true);
                             SystemUtils.getBookPopup(GlobalSearchActivity.this, song, 0, 3, 0, 0, lists.get(position).getTag()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
                         } else {
-                            if (lists.get(position).getIsyuedu() == 1) {
+                            if (lists.get(position).getIsyuedu() == 1 || lists.get(position).getIskouyu() == 1) {
                                 if (lists.get(position).getTag().equals("校园生活故事1") || lists.get(position).getTag().equals("校园生活故事2") || lists.get(position).getTag().equals("神奇树屋")) {
                                     if (MusicService.isPlay) {
                                         MusicService.stop();
@@ -227,7 +237,7 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                                     Intent intent = new Intent(GlobalSearchActivity.this, BookPlayActivity2.class);
                                     intent.putExtra("bookId", song.getBookId());
                                     intent.putExtra("imageUrl", song.getBookImageUrl());
-                                    intent.putExtra("audioType", 3);
+                                    intent.putExtra("audioType", 2);
                                     intent.putExtra("audioSource", 8);
                                     intent.putExtra("title", song.getBookName());
                                     startActivity(intent);
@@ -235,7 +245,7 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                                     Intent intent = new Intent(GlobalSearchActivity.this, PracticeActivity.class);
                                     intent.putExtra("song", song);
                                     intent.putExtra("type", 0);
-                                    intent.putExtra("audioType", 3);
+                                    intent.putExtra("audioType", 2);
                                     intent.putExtra("collectType", 0);
                                     intent.putExtra("bookType", 1);
                                     intent.putExtra("audioSource", 0);
@@ -367,18 +377,18 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                         })
                         .show();
                 break;
-            case R.id.global_high_search:
-                for (int i = 0; i < tagLists.size(); i++) {
-                    List<Tags> list = tagLists.get(i).getList();
-                    for (int j = 0; j < list.size(); j++) {
-                        list.get(j).setSelect(false);
-                    }
-                }
-                presenter.clearTags();
-                tagAdapter.notifyDataSetChanged();
-                SystemUtils.setBackGray(GlobalSearchActivity.this, true);
-                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-                break;
+//            case R.id.global_high_search:
+//                for (int i = 0; i < tagLists.size(); i++) {
+//                    List<Tags> list = tagLists.get(i).getList();
+//                    for (int j = 0; j < list.size(); j++) {
+//                        list.get(j).setSelect(false);
+//                    }
+//                }
+//                presenter.clearTags();
+//                tagAdapter.notifyDataSetChanged();
+//                SystemUtils.setBackGray(GlobalSearchActivity.this, true);
+//                popupWindow.showAtLocation(popupView, Gravity.CENTER, startLeft, 0);
+//                break;
             case R.id.global_search_queding:
                 if (presenter.getAgeList().size() == 0
                         && presenter.getFunctionList().size() == 0
@@ -403,11 +413,24 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                 presenter.clearTags();
                 tagAdapter.notifyDataSetChanged();
                 break;
+            case R.id.high_search_layout:
+                for (int i = 0; i < tagLists.size(); i++) {
+                    List<Tags> list = tagLists.get(i).getList();
+                    for (int j = 0; j < list.size(); j++) {
+                        list.get(j).setSelect(false);
+                    }
+                }
+                presenter.clearTags();
+                tagAdapter.notifyDataSetChanged();
+                SystemUtils.setBackGray(GlobalSearchActivity.this, true);
+                popupWindow.showAtLocation(popupView, Gravity.CENTER, startLeft, 0);
+                break;
         }
     }
 
     private void refreshFlexBoxLayout() {
-        historyLinear.setVisibility(View.VISIBLE);
+//        historyLinear.setVisibility(View.VISIBLE);
+        historyLinear.setVisibility(View.GONE);
         historyFlexbox.removeAllViews();
         int listSize = SystemUtils.historyRecordList.size();
         for (int i = 0; i < listSize; i++) {
@@ -451,6 +474,7 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
         } else if (message.what == MethodCode.EVENT_GETTAGBOOK) {
 //            List<Books> lists = (List<SearchTag>) message.obj;
             searchContent = (SearchContent) message.obj;
+            historyLinear.setVisibility(View.GONE);
             if (searchContent.getContent() != null) {
                 recycler.setVisibility(View.VISIBLE);
                 empty.setVisibility(View.GONE);

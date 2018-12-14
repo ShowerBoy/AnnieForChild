@@ -22,6 +22,24 @@ public class UserInfo implements Serializable {
     private String school;
     private String experience;
     private int status; //0：线下 1：线上
+    private int isnetstudent; //是否是网课学员 0:不是 1:是
+    private int isfirstbuy; //是否是第一次购买 0:不是 1:是
+
+    public int getIsfirstbuy() {
+        return isfirstbuy;
+    }
+
+    public void setIsfirstbuy(int isfirstbuy) {
+        this.isfirstbuy = isfirstbuy;
+    }
+
+    public int getIsnetstudent() {
+        return isnetstudent;
+    }
+
+    public void setIsnetstudent(int isnetstudent) {
+        this.isnetstudent = isnetstudent;
+    }
 
     public String getExperience() {
         return experience;

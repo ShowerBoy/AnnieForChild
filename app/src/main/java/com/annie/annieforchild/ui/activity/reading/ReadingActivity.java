@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
+import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.grindEar.ListenSongActivity;
 import com.annie.annieforchild.ui.activity.grindEar.MyGrindEarActivity;
@@ -55,7 +57,7 @@ import java.util.List;
 public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick, GrindEarView {
     private RecyclerView recycler;
     private AnimationDrawable musicBtn;
-    private ImageView readingBack, myLevel, letsReading, music;
+    private ImageView readingBack, myLevel, letsReading, music, search;
     private SliderLayout readingSlide;
     private LinearLayout huibenLayout, xugouLayout, feixugouLayout, zhangjieLayout;
     private HashMap<Integer, String> file_maps;//轮播图图片map
@@ -93,6 +95,7 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
         myLevel = findViewById(R.id.my_level);
         letsReading = findViewById(R.id.lets_reading);
         music = findViewById(R.id.reading_music);
+        search = findViewById(R.id.reading_search);
         recycler = findViewById(R.id.reading_recommend_recycler);
         listener = new CheckDoubleClickListener(this);
         readingBack.setOnClickListener(listener);
@@ -103,6 +106,7 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
         myLevel.setOnClickListener(listener);
         letsReading.setOnClickListener(listener);
         music.setOnClickListener(listener);
+        search.setOnClickListener(listener);
 
         musicBtn = (AnimationDrawable) music.getDrawable();
         musicBtn.setOneShot(false);
@@ -115,6 +119,7 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(layoutManager);
+        recycler.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -142,7 +147,7 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                     Intent intent = new Intent(ReadingActivity.this, PracticeActivity.class);
                     intent.putExtra("song", lists.get(position));
                     intent.putExtra("type", 0);
-                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioType", 1);
                     intent.putExtra("audioSource", 0);
                     intent.putExtra("bookType", 1);
                     startActivity(intent);
@@ -201,7 +206,7 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
             if (musicBtn != null) {
                 if ((boolean) (message.obj)) {
                     musicBtn.start();
-                }else{
+                } else {
                     musicBtn.stop();
                 }
             }
@@ -346,6 +351,10 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
             case R.id.reading_music:
                 Intent intent1 = new Intent(this, MusicPlayActivity.class);
                 startActivity(intent1);
+                break;
+            case R.id.reading_search:
+                Intent intent2 = new Intent(this, GlobalSearchActivity.class);
+                startActivity(intent2);
                 break;
         }
     }

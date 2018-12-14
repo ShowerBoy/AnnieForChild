@@ -88,7 +88,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
                 audioType = 0;
                 audioSource = 2;
             } else if (type == 3) {
-                listenTitle.setText("看动画");
+                listenTitle.setText("听对话");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
                 audioType = 0;
                 audioSource = 3;
@@ -127,11 +127,36 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
                 audioType = 1;
                 audioSource = 11;
+            } else if (type == 0) {
+                listenTitle.setText("看动画");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 0;
+                audioSource = 0;
             } else if (type == 11) {
-                listenTitle.setText("地道说");
+                listenTitle.setText("绘本口语");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
                 audioType = 2;
-                audioSource = 10;
+                audioSource = 13;
+            } else if (type == 12) {
+                listenTitle.setText("主题口语");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 2;
+                audioSource = 14;
+            } else if (type == 13) {
+                listenTitle.setText("交际口语");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 2;
+                audioSource = 15;
+            } else if (type == 14) {
+                listenTitle.setText("动画口语");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 2;
+                audioSource = 16;
+            } else if (type == 15) {
+                listenTitle.setText("项目演讲");
+                lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
+                audioType = 2;
+                audioSource = 17;
             }
         }
 
@@ -212,7 +237,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
 
         @Override
         public Fragment getItem(int position) {
-            if (type == 3) {
+            if (type == 0) {
                 if (bool[position]) {
                     return fragments2.get(position);
                 } else {

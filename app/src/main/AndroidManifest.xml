@@ -141,6 +141,32 @@
                     android:scheme="scheme1" />
             </intent-filter>
         </activity>
+        <!-- 支付宝 -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+
+        <!-- 微信支付 -->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:taskAffinity="Pay.finish"></activity>
+        <!--<activity-->
+        <!--android:name="com.annie.annieforchild.wxapi.WXEntryActivity"-->
+        <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+        <!--android:exported="true"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
+
         <activity
             android:name="com.annie.annieforchild.ui.activity.MainActivity"
             android:screenOrientation="portrait"
@@ -351,13 +377,15 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.net.NetSuggestActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:taskAffinity="Pay.finish"></activity>
         <activity
             android:name=".ui.activity.my.MyCourseActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.net.ConfirmOrderActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:taskAffinity="Pay.finish"></activity>
         <activity
             android:name=".ui.activity.net.MyAddressActivity"
             android:screenOrientation="portrait"></activity>
@@ -373,13 +401,24 @@
         <activity
             android:name=".ui.activity.pk.ExerciseActivity2"
             android:screenOrientation="portrait"></activity>
-
         <activity
-            android:name="com.annie.annieforchild.wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:name=".ui.activity.net.NetDetailsActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.LessonActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.GiftActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.speaking.SpeakingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.XiangXueActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.pk.ReleaseSuccessActivity"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

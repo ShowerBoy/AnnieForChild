@@ -27,19 +27,15 @@ public class MethodType {
     final public static String GETHELP = "getDocumentations"; //帮助文档
     final public static String CANCELCOLLECTION = "cancelCollection"; //取消收藏
     final public static String MYRECORDINGS = "myRecordings"; //我的录音
-    final public static String NEWMYRECORDINGS = "newmyRecordings"; //我的录音
     final public static String DELETERECORDING = "deleteRecording"; //删除录音
-    final public static String NEWDELETERECORDING = "newdeleteRecording"; //删除录音
     final public static String EXCHANGERECORDING = "nectarExchangeRecording"; //花蜜兑换记录
     final public static String GETHOMEDATA = "getHomeData"; //获取首页信息
     final public static String GETCARDDETAIL = "getCardDetail"; //今日打卡详情
     final public static String GETLISTENING = "getListening"; //获取磨耳朵信息
     final public static String GETMYLISTENING = "getMyListening"; //获取我的磨耳朵
-    final public static String NEWGETMYLISTENING = "newgetMyListening";
     final public static String GETMUSICCLASSES = "getMusicClasses"; //获取儿歌分类
     final public static String GETMUSICLIST = "getMusicList"; //获取儿歌列表
     final public static String MYSCHEDULE = "mySchedule"; //我的课表
-    final public static String NEWMYSCHEDULE = "newmySchedule"; //我的课表
     final public static String ADDSCHEDULE = "addSchedule"; //添加课表
     final public static String EDITSCHEDULE = "editSchedule"; //编辑课表
     final public static String DELETESCHEDULE = "deleteSchedule"; //删除课表
@@ -51,7 +47,6 @@ public class MethodType {
     final public static String GETPKUSERS = "getPkUsers"; //获取pk对象
     final public static String GETALLMATERIALLIST = "getAllMaterialList"; //获取所有教材
     final public static String GLOBALSEARCH = "globalSearch"; //全局搜索
-    final public static String GLOBALSEARCHTEST = "globalSearchtest"; //全局搜索
     final public static String GETPKRESULT = "getPkResult"; //获取PK结果
     final public static String MYCOURSESONLINE = "myCoursesOnline"; //获取我的线上课程
     final public static String MYCOURSESOFFLINE = "myCoursesOffline"; //获取我的线下课程
@@ -64,7 +59,6 @@ public class MethodType {
     final public static String LIKESTUDENT = "likeStudent"; //点赞
     final public static String CANCELLIKESTUDENT = "cancelLikeStudent"; //取消点赞
     final public static String GETMYREADING = "getMyReading"; //阅读存折
-    final public static String NEWGETMYREADING = "newgetMyReading";
     final public static String COMMITREADING = "commitReading"; //阅读时长录入
     final public static String GETREADING = "getReading"; //获取阅读接口
     final public static String EXCHANGEGOLD = "exchangeGold"; //兑换金币
@@ -93,7 +87,6 @@ public class MethodType {
     final public static String GETMYSPEAKING = "getMySpeaking"; //口语存折
     final public static String GETTAGS = "GetTags"; //
     final public static String GETTAGBOOK = "GetTagBook"; //
-    final public static String GETTAGBOOKTEST = "GetTagBooktest"; //
     final public static String COMMITSPEAKING = "commitSpeaking"; //口语录入
     final public static String UNLOCKBOOK = "unlockBook"; //花蜜解锁
     final public static String GETNETHOMEDATA = "getNetHomeData"; //网课首页
@@ -104,5 +97,15 @@ public class MethodType {
     final public static String ADDADDRESS = "addAddress"; //添加收货地址
     final public static String EDITADDRESS = "editAddress"; //修改收货地址
     final public static String DELETEADDRESS = "deleteAddress"; //删除收货地址
-    final public static String BUYNETCLASS = "buyNetClass"; //购买网课
+    final public static String BUYNETWORK = "buyNetWork"; //购买网课
+    final public static String GETNETDETAILS = "getNetDetails"; //网课详情
+    final public static String GETLESSON = "getLesson"; //网课列表
+    final public static String GETSPEAKING = "getSpeaking"; //口语首页
+    final public static String GETRELEASE = "getRelease"; //发布页面
+    final public static String RELEASEBOOK = "releaseBook"; //发布
+    final public static String RELEASESUCCESS = "releaseSuccess"; //发布成功
+    final public static String PLAYTIMES = "playtimes"; //
+    final public static String ADDLIKES = "addlikes"; //
+    final public static String CANCELLIKES = "Cancellikes"; //
+    final public static String SHARECOIN = "shareCoin"; //
 }

@@ -61,7 +61,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="5dp"
                                 android:layout_toEndOf="@+id/search_icon"
-                                android:text="请输入教材名称"
+                                android:text="请输入名称"
                                 android:textColor="@color/text_color"
                                 android:textSize="14sp" />
 
@@ -132,14 +132,14 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/main_route" />
+                                    android:src="@drawable/main_route2" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="5dp"
-                                    android:text="路线图"
+                                    android:text="路线"
                                     android:textColor="@color/text_black"
                                     android:textSize="14sp" />
 
@@ -517,7 +517,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
                                             android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f" />
+                                            android:src="@drawable/icon_lock_book_f"
+                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -562,7 +563,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
                                             android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f" />
+                                            android:src="@drawable/icon_lock_book_f"
+                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -605,7 +607,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
                                             android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f" />
+                                            android:src="@drawable/icon_lock_book_f"
+                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -713,7 +716,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
                                             android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f" />
+                                            android:src="@drawable/icon_lock_book_f"
+                                            android:visibility="gone" />
                                     </RelativeLayout>
 
 
@@ -759,7 +763,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
                                             android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f" />
+                                            android:src="@drawable/icon_lock_book_f"
+                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -802,7 +807,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
                                             android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f" />
+                                            android:src="@drawable/icon_lock_book_f"
+                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -909,7 +915,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
                                             android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f" />
+                                            android:src="@drawable/icon_lock_book_f"
+                                            android:visibility="gone" />
                                     </RelativeLayout>
 
 
@@ -955,7 +962,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
                                             android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f" />
+                                            android:src="@drawable/icon_lock_book_f"
+                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -998,7 +1006,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
                                             android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f" />
+                                            android:src="@drawable/icon_lock_book_f"
+                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -1086,7 +1095,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentEnd="true"
                                     android:layout_alignParentTop="true"
-                                    android:src="@drawable/icon_lock_book_f" />
+                                    android:src="@drawable/icon_lock_book_f"
+                                    android:visibility="gone" />
                             </RelativeLayout>
 
                             <TextView
@@ -1186,7 +1196,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentEnd="true"
                                     android:layout_alignParentTop="true"
-                                    android:src="@drawable/icon_lock_book_f" />
+                                    android:src="@drawable/icon_lock_book_f"
+                                    android:visibility="gone" />
                             </RelativeLayout>
 
                             <TextView
@@ -1286,7 +1297,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentEnd="true"
                                     android:layout_alignParentTop="true"
-                                    android:src="@drawable/icon_lock_book_f" />
+                                    android:src="@drawable/icon_lock_book_f"
+                                    android:visibility="gone" />
                             </RelativeLayout>
 
                             <TextView

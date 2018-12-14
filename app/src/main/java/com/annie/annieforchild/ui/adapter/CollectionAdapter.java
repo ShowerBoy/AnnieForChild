@@ -63,7 +63,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewHolder
         holder.total.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (lists.get(position).getAudioSource() == 3) {
+                if (lists.get(position).getAudioSource() == 100) {
                     Intent intent = new Intent(context, VideoActivity.class);
                     intent.putExtra("url", lists.get(position).getAnimationUrl());
                     intent.putExtra("imageUrl", lists.get(position).getImageUrl());

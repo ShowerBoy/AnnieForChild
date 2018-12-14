@@ -26,7 +26,7 @@ public class HttpConnect {
     }
 
     public HttpConnect() {
-        this.queue = NoHttp.newRequestQueue(5);
+        this.queue = NoHttp.newRequestQueue(6);
     }
 
     void setResponseListener(NetWorkImp responseListener) {

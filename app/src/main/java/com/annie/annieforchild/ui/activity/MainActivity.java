@@ -16,6 +16,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -27,8 +28,10 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.login.SigninBean;
+import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
+import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.fragment.DakaFragment;
 import com.annie.annieforchild.ui.fragment.FirstFragment;
 import com.annie.annieforchild.ui.fragment.FourthFragment;
@@ -49,6 +52,7 @@ import com.zhy.m.permission.PermissionGrant;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.util.List;
 
 public class MainActivity extends QuickNavigationBarActivity implements ViewInfo {
     TelephonyManager tm;
@@ -111,7 +115,47 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
         if (!file4.exists()) {
             file4.mkdirs();
         }
+        SystemUtils.initSoundPool(this);
 
+        if (SystemUtils.uri != null && SystemUtils.defaultUsername != null) {
+            String bookid = SystemUtils.uri.getQueryParameter("bookid");
+            //0:磨耳朵 1： 流利读 2：动画
+            String bookType = SystemUtils.uri.getQueryParameter("booktype");
+            String bookname = SystemUtils.uri.getQueryParameter("bookname");
+            String bookurl = SystemUtils.uri.getQueryParameter("bookurl");
+            String animationurl = SystemUtils.uri.getQueryParameter("animationurl");
+//            SystemUtils.show(this, bookid + "===" + bookType + "===" + bookname + "===" + bookurl);
+            if (bookid != null && bookType != null) {
+                Song song = new Song();
+                song.setBookId(Integer.parseInt(bookid));
+                song.setBookName(bookname);
+                song.setBookImageUrl(bookurl);
+                if (bookType.equals("0")) {
+                    Intent intent = new Intent(this, PracticeActivity.class);
+                    intent.putExtra("song", song);
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", 0);
+                    startActivity(intent);
+                } else if (bookType.equals("1")) {
+                    Intent intent = new Intent(this, PracticeActivity.class);
+                    intent.putExtra("song", song);
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", 1);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", 1);
+                    startActivity(intent);
+                } else if (bookType.equals("2")) {
+                    Intent intent = new Intent(this, VideoActivity.class);
+                    intent.putExtra("url", animationurl);
+                    intent.putExtra("imageUrl", bookurl);
+                    intent.putExtra("name", bookname);
+                    intent.putExtra("id", bookid);
+                    startActivity(intent);
+                }
+            }
+        }
     }
 
     @Override

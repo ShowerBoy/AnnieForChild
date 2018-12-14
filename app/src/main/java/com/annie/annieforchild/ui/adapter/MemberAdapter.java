@@ -76,6 +76,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
             return holder;
+
         }
         return null;
     }

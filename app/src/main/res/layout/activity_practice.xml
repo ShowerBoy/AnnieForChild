@@ -1,236 +1,303 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/white">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/top_tab_back">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/practice_back"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_arrow_left2" />
+                android:background="@color/top_tab_back">
+
+                <ImageView
+                    android:id="@+id/practice_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/ic_arrow_left2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="练习"
+                    android:textColor="@color/text_black"
+                    android:textSize="20sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/practice_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/icon_book_menu" />
+            </RelativeLayout>
 
             <TextView
+                android:id="@+id/practice_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="练习"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="26dp"
+                android:maxLines="2"
+                android:text="Twinkle,twinkle little star"
                 android:textColor="@color/text_black"
-                android:textSize="20sp"
-                android:visibility="invisible" />
+                android:textSize="20sp" />
 
-            <ImageView
-                android:id="@+id/practice_menu"
+            <FrameLayout
+                android:id="@+id/music_frame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/icon_book_menu" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/practice_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="26dp"
-            android:singleLine="true"
-            android:text="Twinkle,twinkle little star"
-            android:textColor="@color/text_black"
-            android:textSize="20sp" />
-
-        <FrameLayout
-            android:id="@+id/music_frame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="26dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/practice_image"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/lesson_grind_ear" />
+                android:layout_marginTop="26dp">
 
-            <ImageView
-                android:id="@+id/book_type"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/practice_image"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/lesson_grind_ear"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/book_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_book_play"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/book_read"
+                    android:layout_width="190dp"
+                    android:layout_height="190dp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/lesson_grind_ear"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/book_bg"
+                    android:layout_width="190dp"
+                    android:layout_height="190dp"
+                    android:src="@drawable/icon_book_bg"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/book_behind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+                    android:src="@drawable/icon_book_behind"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/star_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/icon_book_play" />
-
-            <ImageView
-                android:id="@+id/book_read"
-                android:layout_width="190dp"
-                android:layout_height="190dp"
                 android:layout_gravity="center_horizontal"
-                android:scaleType="fitCenter"
-                android:visibility="gone"
-                android:src="@drawable/lesson_grind_ear" />
+                android:layout_marginTop="46dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/book_bg"
-                android:layout_width="190dp"
-                android:layout_height="190dp"
-                android:visibility="gone"
-                android:src="@drawable/icon_book_bg" />
-        </FrameLayout>
+                <ImageView
+                    android:id="@+id/star1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/icon_star_f" />
 
-        <LinearLayout
-            android:id="@+id/star_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="46dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
+                <ImageView
+                    android:id="@+id/star2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/icon_star_f" />
 
-            <ImageView
-                android:id="@+id/star1"
+                <ImageView
+                    android:id="@+id/star3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/icon_star_f" />
+
+                <ImageView
+                    android:id="@+id/star4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/icon_star_f" />
+
+                <ImageView
+                    android:id="@+id/star5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/icon_star_f" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/practice_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:src="@drawable/icon_star_f" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="26dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/practice_speak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/icon_speak2"
+                    android:gravity="center_vertical"
+                    android:text="录音"
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/practice_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="26dp"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/icon_play2_f"
+                    android:gravity="center_vertical"
+                    android:text="回放"
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
             <ImageView
-                android:id="@+id/star2"
+                android:id="@+id/practice_recording"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:src="@drawable/icon_star_f" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/icon_recording_btn" />
 
-            <ImageView
-                android:id="@+id/star3"
+            <LinearLayout
+                android:id="@+id/practice_3btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:src="@drawable/icon_star_f" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="66dp"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/star4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:src="@drawable/icon_star_f" />
+                <TextView
+                    android:id="@+id/practice_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:drawablePadding="6dp"
+                    android:drawableTop="@drawable/icon_test_btn"
+                    android:gravity="center"
+                    android:text="练习"
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp" />
 
-            <ImageView
-                android:id="@+id/star5"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/challenge_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="36dp"
+                    android:layout_marginStart="36dp"
+                    android:drawablePadding="6dp"
+                    android:drawableTop="@drawable/icon_challenge_btn_btn"
+                    android:gravity="center"
+                    android:text="挑战"
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/pk_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:drawablePadding="6dp"
+                    android:drawableTop="@drawable/icon_pk_btn"
+                    android:gravity="center"
+                    android:text="PK"
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/practice_back_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:src="@drawable/icon_star_f" />
+                android:layout_marginTop="16dp"
+                android:background="@color/divider"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/practice_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
+
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginEnd="16dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@color/text_color" />-->
+
+                    <TextView
+                        android:id="@+id/practice_people"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/text_color"
+                        android:textSize="14sp" />
+
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginStart="16dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@color/text_color" />-->
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/practice_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/practice_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="26dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/practice_speak"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
-                android:drawableTop="@drawable/icon_speak2"
-                android:gravity="center_vertical"
-                android:text="录音"
-                android:textColor="@color/text_color"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/practice_play"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="26dp"
-                android:drawablePadding="5dp"
-                android:drawableTop="@drawable/icon_play2_f"
-                android:gravity="center_vertical"
-                android:text="回放"
-                android:textColor="@color/text_color"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/practice_recording"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="26dp"
-            android:src="@drawable/icon_recording_btn" />
-
-        <LinearLayout
-            android:id="@+id/practice_3btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="66dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/practice_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:drawablePadding="6dp"
-                android:drawableTop="@drawable/icon_test_btn"
-                android:gravity="center"
-                android:text="练习"
-                android:textColor="@color/text_color"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/challenge_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:drawablePadding="6dp"
-                android:drawableTop="@drawable/icon_challenge_btn_btn"
-                android:gravity="center"
-                android:text="挑战"
-                android:textColor="@color/text_color"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/pk_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:drawablePadding="6dp"
-                android:drawableTop="@drawable/icon_pk_btn"
-                android:gravity="center"
-                android:text="PK"
-                android:textColor="@color/text_color"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.NestedScrollView>

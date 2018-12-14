@@ -8,5 +8,6 @@
         <mapping class="com.annie.annieforchild.bean.login.LoginBean"></mapping>
         <mapping class="com.annie.annieforchild.bean.login.SigninBean"></mapping>
         <mapping class="com.annie.annieforchild.bean.login.HistoryRecord"></mapping>
+        <!--<mapping class="com.annie.annieforchild.bean.song.Song"></mapping>-->
     </list>
 </litepal>

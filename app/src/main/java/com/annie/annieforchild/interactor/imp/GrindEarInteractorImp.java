@@ -17,9 +17,11 @@ import com.annie.annieforchild.bean.DurationStatis;
 import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.bean.PkResult;
 import com.annie.annieforchild.bean.ReadingData;
+import com.annie.annieforchild.bean.ShareBean;
 import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.book.Book;
+import com.annie.annieforchild.bean.book.Release;
 import com.annie.annieforchild.bean.grindear.GrindEarData;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
 import com.annie.annieforchild.bean.period.MyPeriod;
@@ -29,6 +31,7 @@ import com.annie.annieforchild.bean.rank.SquareRankList;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.bean.task.Task;
+import com.annie.annieforchild.bean.task.TaskBean;
 import com.annie.annieforchild.bean.task.TaskDetails;
 import com.annie.annieforchild.interactor.GrindEarInteractor;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
@@ -74,7 +77,6 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getMyListening() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMYLISTENING, RequestMethod.POST);
-//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.NEWGETMYLISTENING, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETMYLISTENING, request);
@@ -129,11 +131,16 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request5.add("username", SystemUtils.defaultUsername);
         request5.add("token", SystemUtils.token);
         request5.add("type", 5);
+        FastJsonRequest request6 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
+        request6.add("username", SystemUtils.defaultUsername);
+        request6.add("token", SystemUtils.token);
+        request6.add("type", 3);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES1, request1);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES2, request2);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES3, request3);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES4, request4);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES5, request5);
+        addQueue(MethodCode.EVENT_GETMUSICCLASSES11, request6);
         startQueue();
     }
 
@@ -195,11 +202,12 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     }
 
     @Override
-    public void getBookScore(int bookId) {
+    public void getBookScore(int bookId, int record) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKSCORE, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         request.add("bookId", bookId);
+        request.add("record", record);
         addQueue(MethodCode.EVENT_GETBOOKSCORE, request);
         startQueue();
     }
@@ -220,7 +228,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     }
 
     @Override
-    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl) {
+    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid) {
         File file = new File(path);
         FileBinary fileBinary = new FileBinary(file);
         //如果时长小于1秒算成1秒
@@ -241,6 +249,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("imageUrl", imageUrl);
         request.add("duration", duration);
         request.add("origin", origin);
+        request.add("animationCode", animationCode);
+        request.add("homeworkid", homeworkid);
         if (origin == 2) {
             request.add("pkUsername", pkUsername);
         }
@@ -356,7 +366,6 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getMyReading() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMYREADING, RequestMethod.POST);
-//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.NEWGETMYREADING, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETMYREADING, request);
@@ -424,11 +433,36 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
 
     @Override
     public void getSpokenClasses() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
-        request.add("type", -1);
-        addQueue(MethodCode.EVENT_GETSPOKENCLASSES, request);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
+//        request.add("username", SystemUtils.defaultUsername);
+//        request.add("token", SystemUtils.token);
+//        request.add("type", -1);
+        FastJsonRequest request1 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
+        request1.add("username", SystemUtils.defaultUsername);
+        request1.add("token", SystemUtils.token);
+        request1.add("type", 11);
+        FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
+        request2.add("username", SystemUtils.defaultUsername);
+        request2.add("token", SystemUtils.token);
+        request2.add("type", 12);
+        FastJsonRequest request3 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
+        request3.add("username", SystemUtils.defaultUsername);
+        request3.add("token", SystemUtils.token);
+        request3.add("type", 13);
+        FastJsonRequest request4 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
+        request4.add("username", SystemUtils.defaultUsername);
+        request4.add("token", SystemUtils.token);
+        request4.add("type", 14);
+        FastJsonRequest request5 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
+        request5.add("username", SystemUtils.defaultUsername);
+        request5.add("token", SystemUtils.token);
+        request5.add("type", 15);
+//        addQueue(MethodCode.EVENT_GETSPOKENCLASSES, request);
+        addQueue(MethodCode.EVENT_GETSPOKENCLASSES1, request1);
+        addQueue(MethodCode.EVENT_GETSPOKENCLASSES2, request2);
+        addQueue(MethodCode.EVENT_GETSPOKENCLASSES3, request3);
+        addQueue(MethodCode.EVENT_GETSPOKENCLASSES4, request4);
+        addQueue(MethodCode.EVENT_GETSPOKENCLASSES5, request5);
         startQueue();
     }
 
@@ -652,6 +686,86 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         startQueue();
     }
 
+    @Override
+    public void getSpeaking() {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETSPEAKING, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        addQueue(MethodCode.EVENT_GETSPEAKING, request);
+        startQueue();
+    }
+
+    @Override
+    public void getRelease(int bookId) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETRELEASE, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("bookid", bookId);
+        addQueue(MethodCode.EVENT_GETRELEASE, request);
+        startQueue();
+    }
+
+    @Override
+    public void ReleaseBook(int bookId) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.RELEASEBOOK, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("bookid", bookId);
+        addQueue(MethodCode.EVENT_RELEASEBOOK, request);
+        startQueue();
+    }
+
+    @Override
+    public void releaseSuccess(int bookId) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.RELEASESUCCESS, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("bookid", bookId);
+        addQueue(MethodCode.EVENT_RELEASESUCCESS, request);
+        startQueue();
+    }
+
+    @Override
+    public void playtimes(int id) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.PLAYTIMES, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("id", id);
+        addQueue(MethodCode.EVENT_PLAYTIMES, request);
+        startQueue();
+    }
+
+    @Override
+    public void addlikes(int id) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.ADDLIKES, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("id", id);
+        addQueue(MethodCode.EVENT_ADDLIKES, request);
+        startQueue();
+    }
+
+    @Override
+    public void cancellikes(int id) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.CANCELLIKES, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("id", id);
+        addQueue(MethodCode.EVENT_CANCELLIKES, request);
+        startQueue();
+    }
+
+    @Override
+    public void shareCoin(int record, int type) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SHAREAPI + MethodType.SHARECOIN, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("record", record);
+        request.add("type", type);
+        addQueue(MethodCode.EVENT_SHARECOIN, request);
+        startQueue();
+    }
+
 
     @Override
     protected void onNetWorkStart(int what) {
@@ -706,11 +820,24 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES10) {
                 List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
                 listener.Success(what, classifyList);
+            } else if (what == MethodCode.EVENT_GETMUSICCLASSES11) {
+                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                listener.Success(what, classifyList);
             } else if (what == MethodCode.EVENT_GETMUSICLIST + 1000 + classId) {
-                List<Song> songList = JSON.parseArray(data, Song.class);
+                List<Song> songList;
+                if (data != null) {
+                    songList = JSON.parseArray(data, Song.class);
+                } else {
+                    songList = new ArrayList<>();
+                }
                 listener.Success(what, songList);
             } else if (what == MethodCode.EVENT_GETREADLIST + 6000 + classId) {
-                List<Song> songList = JSON.parseArray(data, Song.class);
+                List<Song> songList;
+                if (data != null) {
+                    songList = JSON.parseArray(data, Song.class);
+                } else {
+                    songList = new ArrayList<>();
+                }
                 listener.Success(what, songList);
             } else if (what == MethodCode.EVENT_GETMYLISTENING) {
                 MyGrindEarBean bean = JSON.parseObject(data, MyGrindEarBean.class);
@@ -777,7 +904,12 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
                 listener.Success(what, classifyList);
             } else if (what == MethodCode.EVENT_GETSPOKENLIST + 8000 + classId) {
-                List<Song> songList = JSON.parseArray(data, Song.class);
+                List<Song> songList;
+                if (data != null) {
+                    songList = JSON.parseArray(data, Song.class);
+                } else {
+                    songList = new ArrayList<>();
+                }
                 listener.Success(what, songList);
             } else if (what == MethodCode.EVENT_COMMITBOOK) {
                 listener.Success(what, "录入成功");
@@ -803,11 +935,11 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             } else if (what == MethodCode.EVENT_SUGGESTPERIOD) {
                 listener.Success(what, "提异成功");
             } else if (what == MethodCode.EVENT_MYTASK) {
-                List<Task> lists = JSON.parseArray(data, Task.class);
-                if (lists == null) {
-                    lists = new ArrayList<>();
+                TaskBean taskBean = JSON.parseObject(data, TaskBean.class);
+                if (taskBean == null) {
+                    taskBean = new TaskBean();
                 }
-                listener.Success(what, lists);
+                listener.Success(what, taskBean);
             } else if (what == MethodCode.EVENT_TASKDETAILS) {
                 TaskDetails taskDetails = JSON.parseObject(data, TaskDetails.class);
                 listener.Success(what, taskDetails);
@@ -818,9 +950,10 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             } else if (what == MethodCode.EVENT_SUBMITTASK) {
                 listener.Success(what, "提交成功");
             } else if (what == MethodCode.EVENT_CLOCKINSHARE) {
-                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
-                String url = dataobj.getString("url");
-                listener.Success(what, url);
+                ShareBean shareBean = JSON.parseObject(data, ShareBean.class);
+//                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+//                String url = dataobj.getString("url");
+                listener.Success(what, shareBean);
             } else if (what == MethodCode.EVENT_GETCARDDETAIL) {
                 ClockIn clockIn = JSON.parseObject(data, ClockIn.class);
                 listener.Success(what, clockIn);
@@ -835,6 +968,42 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
                 String result = dataobj.getString("result");
                 listener.Success(what, result);
+            } else if (what == MethodCode.EVENT_GETSPEAKING) {
+                ReadingData readingData = JSON.parseObject(data, ReadingData.class);
+                listener.Success(what, readingData);
+            } else if (what == MethodCode.EVENT_GETSPOKENCLASSES1) {
+                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                listener.Success(what, classifyList);
+            } else if (what == MethodCode.EVENT_GETSPOKENCLASSES2) {
+                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                listener.Success(what, classifyList);
+            } else if (what == MethodCode.EVENT_GETSPOKENCLASSES3) {
+                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                listener.Success(what, classifyList);
+            } else if (what == MethodCode.EVENT_GETSPOKENCLASSES4) {
+                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                listener.Success(what, classifyList);
+            } else if (what == MethodCode.EVENT_GETSPOKENCLASSES5) {
+                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                listener.Success(what, classifyList);
+            } else if (what == MethodCode.EVENT_GETRELEASE) {
+                Release release = JSON.parseObject(data, Release.class);
+                listener.Success(what, release);
+            } else if (what == MethodCode.EVENT_RELEASEBOOK) {
+                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                int result = dataobj.getInteger("result");
+                listener.Success(what, result);
+            } else if (what == MethodCode.EVENT_RELEASESUCCESS) {
+                Release release = JSON.parseObject(data, Release.class);
+                listener.Success(what, release);
+            } else if (what == MethodCode.EVENT_PLAYTIMES) {
+
+            } else if (what == MethodCode.EVENT_ADDLIKES) {
+                listener.Success(what, "点赞成功");
+            } else if (what == MethodCode.EVENT_CANCELLIKES) {
+                listener.Success(what, "取消点赞");
+            } else if (what == MethodCode.EVENT_SHARECOIN) {
+                listener.Success(what, jsonString);
             }
         }
     }

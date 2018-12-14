@@ -18,6 +18,7 @@ import com.annie.annieforchild.ui.activity.lesson.MaterialActivity;
 import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity;
 import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2;
 import com.annie.annieforchild.ui.activity.lesson.TaskActivity;
+import com.annie.annieforchild.ui.activity.my.MyCourseActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.view.SecondView;
 import com.annie.baselibrary.base.BaseFragment;
@@ -152,7 +153,7 @@ public class SecondFragment extends BaseFragment implements SecondView, OnCheckD
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
-                intent.setClass(getContext(), NetWorkActivity.class);
+                intent.setClass(getContext(), MyCourseActivity.class);
                 startActivity(intent);
                 break;
         }

@@ -1,5 +1,10 @@
 package com.annie.annieforchild.bean.song;
 
+import com.annie.annieforchild.bean.book.Release;
+import com.annie.annieforchild.bean.book.ReleaseBean;
+
+import org.litepal.crud.DataSupport;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -24,11 +29,29 @@ public class Song implements Serializable {
     private int Jurisdiction;
     private List<String> bookResourceUrl;
     private String myResourceUrl;
+    private String recordCount;
+    private List<ReleaseBean> recordList;
     private int isusenectar;
     private int nectar;
     private int iskouyu;
     private int ismoerduo;
     private int isyuedu;
+
+    public String getRecordCount() {
+        return recordCount;
+    }
+
+    public void setRecordCount(String recordCount) {
+        this.recordCount = recordCount;
+    }
+
+    public List<ReleaseBean> getRecordList() {
+        return recordList;
+    }
+
+    public void setRecordList(List<ReleaseBean> recordList) {
+        this.recordList = recordList;
+    }
 
     public int getIskouyu() {
         return iskouyu;

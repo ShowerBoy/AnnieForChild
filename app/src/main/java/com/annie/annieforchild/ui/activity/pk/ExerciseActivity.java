@@ -61,7 +61,7 @@ public class ExerciseActivity extends BaseActivity implements OnCheckDoubleClick
     private boolean isLast = false;
     private boolean isNext = true;
     public static boolean isPlay;
-    private int audioType, audioSource;
+    private int audioType, audioSource, homeworkid;
     private String title;
     private CheckDoubleClickListener listener;
 
@@ -103,6 +103,8 @@ public class ExerciseActivity extends BaseActivity implements OnCheckDoubleClick
         audioSource = intent.getIntExtra("audioSource", 3);
         imageUrl = intent.getStringExtra("imageUrl");
         title = intent.getStringExtra("title");
+        homeworkid = intent.getIntExtra("homeworkid", 0);
+
 
         if (audioSource != 1 || audioSource != 3 || audioSource != 9) {
             pageImage.setVisibility(View.VISIBLE);
@@ -119,7 +121,7 @@ public class ExerciseActivity extends BaseActivity implements OnCheckDoubleClick
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
 
-        adapter = new ExerciseAdapter(this, title, lists, bookId, presenter, audioType, audioSource, imageUrl, 1, new OnRecyclerItemClickListener() {
+        adapter = new ExerciseAdapter(this, this, title, lists, bookId, presenter, audioType, audioSource, imageUrl, 1, homeworkid, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 int positon = exerciseList.getChildAdapterPosition(view);

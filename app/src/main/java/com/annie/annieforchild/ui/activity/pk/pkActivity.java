@@ -116,6 +116,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
     private int audioType, audioSource;
     private boolean isEnd = false;
     private int round = 0; //轮数
+    private int homeworkid;
     private Animation leftToRight, rightToLeft;
     private CheckDoubleClickListener listener;
 
@@ -150,6 +151,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         avatar = bundle.getString("avatar");
         audioType = bundle.getInt("audioType", 0);
         audioSource = bundle.getInt("audioSource", 3);
+        homeworkid = bundle.getInt("homeworkid", 0);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -260,7 +262,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                 pkSpeak.setImageResource(R.drawable.icon_speak_big_f);
                 circleProgressBar.setProgress(0);
                 isPlay = false;
-                mIse.stopEvaluating();
+
                 currentLine++;
                 if (currentLine <= totalLines) {
                     refresh();
@@ -286,6 +288,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                         round = 0;
                     }
                 }
+                mIse.stopEvaluating();
             }
         };
     }
@@ -347,13 +350,13 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         refresh();
     }
 
-    private void startRecord() {
+    private void startRecord(int position) {
         fileName = lists.get(currentLine - 1).getEnTitle().replace(".", "");
         setParams(fileName);
         if (mIse == null) {
             return;
         }
-        EvaluatorListener evaluatorListener = getEvaluatorListener();
+        EvaluatorListener evaluatorListener = getEvaluatorListener(position);
         int ret = mIse.startEvaluating(lists.get(currentLine - 1).getEnTitle(), null, evaluatorListener);
     }
 
@@ -375,7 +378,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         //mIse.setParameter(SpeechConstant.AUDIO_SOURCE,"-1");
     }
 
-    private EvaluatorListener getEvaluatorListener() {
+    private EvaluatorListener getEvaluatorListener(int position) {
         EvaluatorListener evaluatorListener = null;
         evaluatorListener = new EvaluatorListener() {
             @Override
@@ -395,7 +398,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
 //                            showInfo(score + "");
-                            presenter.uploadAudioResource(bookId, currentPage, audioType, audioSource, currentLine, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".pcm", score, fileName, record_time, 2, pkUserName, imageUrl);
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".pcm", score, fileName, record_time, 2, pkUserName, imageUrl, 0, homeworkid);
                         } else {
 //                        showInfo("解析结果为空");
                         }
@@ -645,7 +648,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                         circleProgressBar.setProgress(0);
                         isPlay = false;
                         isClick = false;
-                        mIse.stopEvaluating();
+
                         currentLine++;
                         if (currentLine <= totalLines) {
                             refresh();
@@ -671,11 +674,12 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                                 round = 0;
                             }
                         }
+                        mIse.stopEvaluating();
                     } else {
                         pkSpeak.setImageResource(R.drawable.icon_stop_big);
                         timer.start();
                         isPlay = true;
-                        startRecord();
+                        startRecord(currentLine);
                     }
                 }
                 break;

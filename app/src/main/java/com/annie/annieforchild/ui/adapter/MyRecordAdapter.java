@@ -6,6 +6,8 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +49,7 @@ public class MyRecordAdapter extends BaseAdapter implements MediaPlayer.OnPrepar
     private List<Record> lists;
     private List<String> urlList;
     private LayoutInflater inflater;
-    private boolean isClick = true;
+    //    private boolean isClick = true;
     private AudioTrack player;
     private MediaPlayer mediaPlayer;
     private DownloadRequest downloadRequest;
@@ -56,7 +58,9 @@ public class MyRecordAdapter extends BaseAdapter implements MediaPlayer.OnPrepar
     private DataInputStream dis = null;
     private boolean tag = true;
     private String fileName;
-    private int currentSize = 0, totalSize;
+    MyRecordViewHolder finalHolder;
+    private int currentSize = 0, totalSize, currentPos = -2;
+    //    private MyRecordViewHolder holder;
     int bufferSizeInBytes;
     File file;
 
@@ -88,7 +92,7 @@ public class MyRecordAdapter extends BaseAdapter implements MediaPlayer.OnPrepar
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        MyRecordViewHolder holder;
+        MyRecordViewHolder holder = null;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.activity_my_record_item, parent, false);
             holder = new MyRecordViewHolder(convertView);
@@ -104,44 +108,23 @@ public class MyRecordAdapter extends BaseAdapter implements MediaPlayer.OnPrepar
         holder.myRecordDate.setText(lists.get(position).getTime().substring(0, 4) + "-" + lists.get(position).getTime().substring(4, 6) + "-" + lists.get(position).getTime().substring(6, 8));
 //        holder.myRecordTime.setText("（" + lists.get(position).getDuration() + "秒）");
         Glide.with(context).load(lists.get(position).getImageUrl()).error(R.drawable.image_recording_empty).into(holder.myRecordImage);
+        MyRecordViewHolder finalHolder1 = holder;
         holder.myRecordPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isClick) {
-                    isClick = false;
-                    if (lists.get(position).getOrigin() == 0) {
-                        String url = lists.get(position).getUrl().get(0);
-                        if (url.contains(".mp3")) {
-                            if (!isPlay) {
-                                urlList.clear();
-                                urlList.addAll(lists.get(position).getUrl());
-                                totalSize = urlList.size();
-                                currentSize = 0;
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        playUrl2(urlList.get(currentSize));
-                                    }
-                                }).start();
-                                isPlay = true;
-                            }
-                        } else {
-                            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + lists.get(position).getTitle() + ".pcm");
-                            if (!file.exists()) {
-                                fileName = lists.get(position).getTitle();
-                                downloadRequest = NoHttp.createDownloadRequest(lists.get(position).getUrl().get(0), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/", lists.get(position).getTitle() + ".pcm", true, true);
-                                requestQueue.add(123, downloadRequest, downloadListener);
-                                requestQueue.start();
-                                return;
-                            } else {
-                                tag = true;
-                                play(lists.get(position).getTitle(), file);
-                            }
-                        }
-
-                    } else if (lists.get(position).getOrigin() == 3) {
+                if (isPlay) {
+                    if (currentPos != position) {
+                        return;
+                    }
+                }
+//                if (isClick) {
+                finalHolder = finalHolder1;
+//                    isClick = false;
+                if (lists.get(position).getOrigin() == 0) {
+                    String url = lists.get(position).getUrl().get(0);
+                    if (url.contains(".mp3")) {
+                        //mp3
                         if (!isPlay) {
-                            //
                             urlList.clear();
                             urlList.addAll(lists.get(position).getUrl());
                             totalSize = urlList.size();
@@ -152,31 +135,78 @@ public class MyRecordAdapter extends BaseAdapter implements MediaPlayer.OnPrepar
                                     playUrl2(urlList.get(currentSize));
                                 }
                             }).start();
+                            finalHolder.myRecordPlay.setImageResource(R.drawable.icon_stop);
+                            currentPos = position;
                             isPlay = true;
+                        } else {
+                            try {
+                                mediaPlayer.pause();
+                                mediaPlayer.stop();
+                                mediaPlayer.seekTo(0);
+                            } catch (IllegalStateException e) {
+                                e.printStackTrace();
+                            }
+                            finalHolder.myRecordPlay.setImageResource(R.drawable.icon_stop);
+                            isPlay = false;
                         }
                     } else {
-                        isClick = true;
+                        //pcm
+                        if (!isPlay) {
+                            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + lists.get(position).getTitle() + ".pcm");
+                            if (!file.exists()) {
+                                currentPos = position;
+                                fileName = lists.get(position).getTitle();
+                                downloadRequest = NoHttp.createDownloadRequest(lists.get(position).getUrl().get(0), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/", lists.get(position).getTitle() + ".pcm", true, true);
+                                requestQueue.add(123, downloadRequest, downloadListener);
+                                requestQueue.start();
+                                return;
+                            } else {
+                                tag = true;
+                                currentPos = position;
+                                isPlay = true;
+                                finalHolder.myRecordPlay.setImageResource(R.drawable.icon_stop);
+                                play(lists.get(position).getTitle(), file);
+                            }
+                        } else {
+                            tag = false;
+                            player.stop();//停止播放
+                            player.release();//释放资源
+                            isPlay = false;
+                            finalHolder.myRecordPlay.setImageResource(R.drawable.icon_replay);
+                        }
                     }
-//                    else if (lists.get(position).getOrigin() == 1) {
-//                        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + lists.get(position).getTitle() + ".pcm");
-//                        if (!file.exists()) {
-//                            isClick = true;
-//                            return;
-//                        } else {
-//                            tag = true;
-//                            play(lists.get(position).getTitle(), file);
-//                        }
-//                    } else if (lists.get(position).getOrigin() == 2) {
-//                        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + lists.get(position).getTitle() + ".pcm");
-//                        if (!file.exists()) {
-//                            isClick = true;
-//                            return;
-//                        } else {
-//                            tag = true;
-//                            play(lists.get(position).getTitle(), file);
-//                        }
-//                    }
+                } else if (lists.get(position).getOrigin() == 3 || lists.get(position).getOrigin() == 4) {
+                    if (!isPlay) {
+                        //
+                        urlList.clear();
+                        urlList.addAll(lists.get(position).getUrl());
+                        totalSize = urlList.size();
+                        currentSize = 0;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                playUrl2(urlList.get(currentSize));
+                            }
+                        }).start();
+                        finalHolder.myRecordPlay.setImageResource(R.drawable.icon_stop);
+                        currentPos = position;
+                        isPlay = true;
+                    } else {
+                        try {
+                            mediaPlayer.pause();
+                            mediaPlayer.stop();
+                            mediaPlayer.seekTo(0);
+                        } catch (IllegalStateException e) {
+                            e.printStackTrace();
+                        }
+                        finalHolder.myRecordPlay.setImageResource(R.drawable.icon_stop);
+                        isPlay = false;
+                    }
+                } else {
+//                        isClick = true;
                 }
+//                }
+                notifyDataSetChanged();
             }
         });
         return convertView;
@@ -232,13 +262,24 @@ public class MyRecordAdapter extends BaseAdapter implements MediaPlayer.OnPrepar
                         tag = false;
                         player.stop();//停止播放
                         player.release();//释放资源
-                        isClick = true;
+                        isPlay = false;
+//                        isClick = true;
+                        handler.sendEmptyMessage(0);
                         break;
                     }
                 }
             }
         }).start();
     }
+
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            finalHolder.myRecordPlay.setImageResource(R.drawable.icon_replay);
+        }
+    };
 
     private void playUrl2(String url) {
         if (mediaPlayer == null) {
@@ -252,10 +293,10 @@ public class MyRecordAdapter extends BaseAdapter implements MediaPlayer.OnPrepar
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
-            isClick = true;
+//            isClick = true;
         } catch (IllegalStateException e) {
             e.printStackTrace();
-            isClick = true;
+//            isClick = true;
         }
     }
 
@@ -263,7 +304,7 @@ public class MyRecordAdapter extends BaseAdapter implements MediaPlayer.OnPrepar
     private DownloadListener downloadListener = new DownloadListener() {
         @Override
         public void onDownloadError(int i, Exception e) {
-            isClick = true;
+//            isClick = true;
         }
 
         @Override
@@ -278,21 +319,22 @@ public class MyRecordAdapter extends BaseAdapter implements MediaPlayer.OnPrepar
 
         @Override
         public void onFinish(int i, String s) {
-            isClick = true;
+//            isClick = true;
             tag = true;
+            isPlay = true;
             play(fileName, file);
         }
 
         @Override
         public void onCancel(int i) {
-            isClick = true;
+//            isClick = true;
         }
     };
 
     public void stopAudio() {
         if (player != null) {
             tag = false;
-            isClick = true;
+//            isClick = true;
             try {
                 player.stop();
             } catch (IllegalStateException e) {
@@ -330,8 +372,11 @@ public class MyRecordAdapter extends BaseAdapter implements MediaPlayer.OnPrepar
                 }
             }).start();
         } else {
-            isClick = true;
+//            isClick = true;
             isPlay = false;
+            if (finalHolder != null) {
+                finalHolder.myRecordPlay.setImageResource(R.drawable.icon_replay);
+            }
         }
     }
 

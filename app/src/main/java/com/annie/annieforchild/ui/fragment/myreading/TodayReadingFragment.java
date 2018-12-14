@@ -76,17 +76,17 @@ public class TodayReadingFragment extends BaseFragment implements View.OnClickLi
      */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-        if (message.what == MethodCode.EVENT_GETMYREADING) {
-            bean = (MyGrindEarBean) message.obj;
-            lists.clear();
-            if (bean.getTodayList() != null) {
-                lists.addAll(bean.getTodayList());
-            } else {
-                lists.addAll(new ArrayList<>());
-            }
-
-            refresh();
-        }
+//        if (message.what == MethodCode.EVENT_GETMYREADING) {
+//            bean = (MyGrindEarBean) message.obj;
+//            lists.clear();
+//            if (bean.getTodayList() != null) {
+//                lists.addAll(bean.getTodayList());
+//            } else {
+//                lists.addAll(new ArrayList<>());
+//            }
+//
+//            refresh();
+//        }
     }
 
     private void refresh() {

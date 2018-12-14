@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,12 +25,14 @@ import com.annie.annieforchild.Utils.speech.util.Result;
 import com.annie.annieforchild.Utils.speech.util.XmlResultParser;
 import com.annie.annieforchild.bean.Exercise;
 import com.annie.annieforchild.bean.book.Line;
+import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.activity.grindEar.ExerciseTestActivity;
 import com.annie.annieforchild.ui.activity.pk.ExerciseActivity;
 import com.annie.annieforchild.ui.activity.pk.ExerciseActivity2;
 import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
+import com.annie.annieforchild.view.SongView;
 import com.iflytek.cloud.EvaluatorListener;
 import com.iflytek.cloud.EvaluatorResult;
 import com.iflytek.cloud.SpeechConstant;
@@ -51,6 +54,7 @@ import java.util.List;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     private Context context;
+    private SongView songView;
     private List<Line> lists;
     private LayoutInflater inflater;
     private GrindEarPresenter presenter;
@@ -64,9 +68,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
     private boolean isSpeakReady = true; //我的录音播放控制
     private boolean isClick = true, isPlay = false, isRecordPlay = false;
     private int record_time = 0; //录音时长
-    private int duration;
+    private int duration, homeworkid;
     private String imageUrl;
-    private boolean isRecording = false; //录音状态
+    public static boolean isRecording = false; //录音状态
     String fileName;
     private Handler handler = new Handler();
     Runnable runnable;
@@ -75,8 +79,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
     private ExerciseViewHolder holder;
     private int key; //0：书籍阅读 1：练习
 
-    public ExerciseAdapter(Context context, String title, List<Line> lists, int bookId, GrindEarPresenter presenter, int audioType, int audioSource, String imageUrl, int key, OnRecyclerItemClickListener listener) {
+    public ExerciseAdapter(Context context, SongView songView, String title, List<Line> lists, int bookId, GrindEarPresenter presenter, int audioType, int audioSource, String imageUrl, int key, int homeworkid, OnRecyclerItemClickListener listener) {
         this.context = context;
+        this.songView = songView;
         this.title = title;
         this.lists = lists;
         this.bookId = bookId;
@@ -85,6 +90,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
         this.audioSource = audioSource;
         this.imageUrl = imageUrl;
         this.key = key;
+        this.homeworkid = homeworkid;
         this.listener = listener;
         inflater = LayoutInflater.from(context);
         initData();
@@ -159,11 +165,14 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                                 } catch (IllegalStateException e) {
                                     e.printStackTrace();
                                 }
+                                exerciseViewHolder.preview.setImageResource(R.drawable.icon_preview_big);
                             }
                             isPlay = false;
                         } else {
                             isPlay = true;
                             isClick = false;
+                            exerciseViewHolder.preview.setImageResource(R.drawable.icon_stop_medium);
+                            holder = exerciseViewHolder;
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -179,6 +188,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                                         mediaPlayer.pause();
                                         mediaPlayer.stop();
                                         mediaPlayer.seekTo(0);
+                                        exerciseViewHolder.preview.setImageResource(R.drawable.icon_preview_big);
                                     }
                                 } catch (IllegalStateException e) {
                                     e.printStackTrace();
@@ -186,7 +196,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                             }
                             isPlay = false;
                             isClick = true;
-
                         }
                     }
                 }
@@ -196,10 +205,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                 public void onClick(View v) {
 //                    isClick = false;
                     if (isRecording) {
-                        ExerciseActivity2.viewPager.setNoFocus(false);
-                        isRecording = false;
+                        songView.showLoad();
+//                        ExerciseActivity2.viewPager.setNoFocus(false);
+//                        isRecording = false;
                         mIse.stopEvaluating();
-                        isClick = true;
+//                        isClick = true;
                     } else {
                         if (isClick) {
                             isClick = false;
@@ -212,7 +222,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                                 return;
                             }
                             EvaluatorListener evaluatorListener = getEvaluatorListener(exerciseViewHolder, i);
-                            int ret = mIse.startEvaluating(lists.get(i).getEnTitle(), null, evaluatorListener);
+                            int ret = mIse.startEvaluating(lists.get(i).getEnTitle().replace("_", "").trim(), null, evaluatorListener);
                         }
                     }
                 }
@@ -221,28 +231,31 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                 @Override
                 public void onClick(View v) {
                     if (isClick) {
-                        if (isRecordPlay) {
-                            //停止播放
-                            isClick = true;
-                            isRecordPlay = false;
-                            isSpeakReady = false;
-                            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
-                        } else {
-                            //开始播放
-                            isClick = false;
-                            isRecordPlay = true;
-                            isSpeakReady = true;
-                            play(exerciseViewHolder);
-                            exerciseViewHolder.play.setImageResource(R.drawable.icon_stop_medium);
-                        }
-                    } else {
-                        if (isRecordPlay) {
-                            isClick = true;
-                            isRecordPlay = false;
-                            isSpeakReady = false;
-                            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
+                        if (!isPlay) {
+                            if (isRecordPlay) {
+                                //停止播放
+                                isClick = true;
+                                isRecordPlay = false;
+                                isSpeakReady = false;
+                                exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
+                            } else {
+                                //开始播放
+                                isClick = false;
+                                isRecordPlay = true;
+                                isSpeakReady = true;
+                                play(exerciseViewHolder);
+                                exerciseViewHolder.play.setImageResource(R.drawable.icon_stop_medium);
+                            }
                         }
                     }
+//                    else {
+//                        if (isRecordPlay) {
+//                            isClick = true;
+//                            isRecordPlay = false;
+//                            isSpeakReady = false;
+//                            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
+//                        }
+//                    }
                 }
             });
         }
@@ -324,12 +337,13 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
                             lists.get(i).setScore(score);
-                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm", score, title + "（练习）", record_time, 0, "", imageUrl);
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm", score, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid);
                         } else {
 //                        showInfo("解析结果为空");
                         }
                     }
                     isClick = true;
+//                    songView.showLoad();
                     notifyDataSetChanged();
                 }
             }
@@ -346,6 +360,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                 } else {
 //                Log.d(TAG, "evaluator over");
                 }
+//                songView.showLoad();
                 isClick = true;
             }
 
@@ -363,8 +378,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
             public void onEndOfSpeech() {
                 // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
 //                Log.d(TAG, "evaluator stoped");
-                isRecording = false;
-                viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
+//                isRecording = false;
+//                songView.showLoad();
             }
 
             @Override
@@ -479,8 +494,23 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
     @Override
     public void onCompletion(MediaPlayer mp) {
         isClick = true;
+        isPlay = false;
+        //TODO:
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                handler2.sendEmptyMessage(0);
+            }
+        }).start();
         presenter.uploadAudioTime(0, audioType, audioSource, bookId, duration);
     }
+
+    Handler handler2 = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            holder.preview.setImageResource(R.drawable.icon_preview_big);
+        }
+    };
 
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;

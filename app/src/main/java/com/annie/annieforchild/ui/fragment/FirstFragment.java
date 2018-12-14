@@ -44,18 +44,19 @@ import com.annie.annieforchild.presenter.imp.MainPresenterImp;
 import com.annie.annieforchild.ui.activity.CalendarActivity;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.MainActivity;
+import com.annie.annieforchild.ui.activity.XiangXueActivity;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.grindEar.ListenSongActivity;
 import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2;
 import com.annie.annieforchild.ui.activity.mains.BankBookActivity;
 import com.annie.annieforchild.ui.activity.mains.SquareActivity;
-import com.annie.annieforchild.ui.activity.my.MyMessageActivity;
-import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
+import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
 import com.annie.annieforchild.ui.activity.pk.ChallengeActivity;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
+import com.annie.annieforchild.ui.activity.speaking.SpeakingActivity;
 import com.annie.annieforchild.ui.adapter.NetWorkAdapter;
 import com.annie.annieforchild.view.MainView;
 import com.annie.baselibrary.base.BaseFragment;
@@ -249,7 +250,6 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
         searchLayout.setOnClickListener(listener);
         musicBtn = (AnimationDrawable) signImage.getDrawable();
         musicBtn.setOneShot(false);
-
         first_refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -269,6 +269,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
             musicBtn.stop();
         }
     }
+
 
     @Override
     protected int getLayoutId() {
@@ -638,24 +639,26 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                 break;
             case R.id.spoken_layout:
                 //口语
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    SystemUtils.toAddChild(getContext());
-                    return;
-                }
-                if (spokenList.size() != 0) {
-                    intent.setClass(getContext(), ListenSongActivity.class);
-                    Bundle bundle5 = new Bundle();
-                    bundle5.putInt("type", 11);
-                    bundle5.putSerializable("ClassifyList", (Serializable) spokenList);
-                    intent.putExtras(bundle5);
-                    startActivity(intent);
-                } else {
-                    showInfo("请稍后");
-                }
+//                if (SystemUtils.tag.equals("游客")) {
+//                    SystemUtils.toLogin(getContext());
+//                    return;
+//                }
+//                if (SystemUtils.childTag == 0) {
+//                    SystemUtils.toAddChild(getContext());
+//                    return;
+//                }
+//                if (spokenList.size() != 0) {
+//                    intent.setClass(getContext(), ListenSongActivity.class);
+//                    Bundle bundle5 = new Bundle();
+//                    bundle5.putInt("type", 11);
+//                    bundle5.putSerializable("ClassifyList", (Serializable) spokenList);
+//                    intent.putExtras(bundle5);
+//                    startActivity(intent);
+//                } else {
+//                    showInfo("请稍后");
+//                }
+                intent.setClass(getContext(), SpeakingActivity.class);
+                startActivity(intent);
                 break;
             case R.id.search_layout:
                 //搜索
@@ -673,11 +676,16 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
             case R.id.sign_image:
                 //右上角签到
                 //TODO:
-
+//                SystemUtils.setBackGray(getActivity(), true);
+//                SystemUtils.getNectarCongratulation(getActivity(), 1).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
                 Intent intent1 = new Intent(getContext(), MusicPlayActivity.class);
                 startActivity(intent1);
 
+//                Intent intent1 = new Intent(getContext(), XiangXueActivity.class);
+//                startActivity(intent1);
+
 //                Uri uri = Uri.parse("http://m.anniekids.org/1.html");
+
 //                Intent intent1 = new Intent(Intent.ACTION_VIEW, uri);
 //                startActivity(intent1);
 
@@ -716,24 +724,26 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                 break;
             case R.id.more_spoken:
                 //我要练口语更多
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    SystemUtils.toAddChild(getContext());
-                    return;
-                }
-                if (spokenList.size() != 0) {
-                    intent.setClass(getContext(), ListenSongActivity.class);
-                    Bundle bundle5 = new Bundle();
-                    bundle5.putInt("type", 11);
-                    bundle5.putSerializable("ClassifyList", (Serializable) spokenList);
-                    intent.putExtras(bundle5);
-                    startActivity(intent);
-                } else {
-                    showInfo("请稍后");
-                }
+                intent.setClass(getContext(), SpeakingActivity.class);
+                startActivity(intent);
+//                if (SystemUtils.tag.equals("游客")) {
+//                    SystemUtils.toLogin(getContext());
+//                    return;
+//                }
+//                if (SystemUtils.childTag == 0) {
+//                    SystemUtils.toAddChild(getContext());
+//                    return;
+//                }
+//                if (spokenList.size() != 0) {
+//                    intent.setClass(getContext(), ListenSongActivity.class);
+//                    Bundle bundle5 = new Bundle();
+//                    bundle5.putInt("type", 11);
+//                    bundle5.putSerializable("ClassifyList", (Serializable) spokenList);
+//                    intent.putExtras(bundle5);
+//                    startActivity(intent);
+//                } else {
+//                    showInfo("请稍后");
+//                }
                 break;
             case R.id.main_free_image1:
                 intent = new Intent(getContext(), PracticeActivity.class);
@@ -867,7 +877,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent.putExtra("type", 0);
                     intent.putExtra("audioType", 0);
                     intent.putExtra("audioSource", 0);
-                    intent.putExtra("bookType", 0);
+                    intent.putExtra("bookType", 1);
                     startActivity(intent);
                 }
                 break;
@@ -883,7 +893,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent.putExtra("type", 0);
                     intent.putExtra("audioType", 0);
                     intent.putExtra("audioSource", 0);
-                    intent.putExtra("bookType", 0);
+                    intent.putExtra("bookType", 1);
                     startActivity(intent);
                 }
                 break;
@@ -899,7 +909,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent.putExtra("type", 0);
                     intent.putExtra("audioType", 0);
                     intent.putExtra("audioSource", 0);
-                    intent.putExtra("bookType", 0);
+                    intent.putExtra("bookType", 1);
                     startActivity(intent);
                 }
                 break;
@@ -929,7 +939,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent = new Intent(getContext(), PracticeActivity.class);
                     intent.putExtra("song", meiriyishi);
                     intent.putExtra("type", 1);
-                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioType", 1);
                     intent.putExtra("audioSource", 1);
                     intent.putExtra("bookType", 1);
                     startActivity(intent);
@@ -945,7 +955,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent = new Intent(getContext(), PracticeActivity.class);
                     intent.putExtra("song", meiriyidu);
                     intent.putExtra("type", 1);
-                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioType", 1);
                     intent.putExtra("audioSource", 1);
                     intent.putExtra("bookType", 1);
                     startActivity(intent);

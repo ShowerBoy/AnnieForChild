@@ -60,16 +60,22 @@ public abstract class BasePresenterImp<V extends BaseView, M extends BaseModelIm
     }
 
     public void showDialog(int what) {
-        getView().showLoading();
+        if (getView() != null) {
+            getView().showLoading();
+        }
     }
 
     public void cancelDialog(int what) {
-        getView().hideLoading();
+        if (getView() != null) {
+            getView().hideLoading();
+        }
     }
 
 
     public void Error(int what, String error) {
 //        cancelDialog(what);
-        getView().showInfo(error);
+        if (getView() != null) {
+            getView().showInfo(error);
+        }
     }
 }

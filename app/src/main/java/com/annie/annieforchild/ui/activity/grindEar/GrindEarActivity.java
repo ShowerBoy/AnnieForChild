@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,9 +54,9 @@ import java.util.List;
 public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCheckDoubleClick {
     private RecyclerView recycler;
     private AnimationDrawable musicBtn;
-    private ImageView grindEarBack, iWantGrindEar, iWantSing, music;
+    private ImageView grindEarBack, iWantGrindEar, iWantSing, music, search;
     private SliderLayout grindEarSlide;
-    private LinearLayout songLayout, poetryLayout, dialogueLayout, picturebookLayout, accompLayout;
+    private LinearLayout songLayout, poetryLayout, picturebookLayout, accompLayout, dialogueLayout, animationLayout;
     private AlertHelper helper;
     private Dialog dialog;
     private GrindEarPresenterImp presenter;
@@ -65,6 +66,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
     private List<SongClassify> dialogueClassifyList;
     private List<SongClassify> picturebookClassifyList;
     private List<SongClassify> singClassifyList;
+    private List<SongClassify> animationClassifyList;
     private List<Song> lists;
     private HashMap<Integer, String> file_maps;//轮播图图片map
     private CheckDoubleClickListener listener;
@@ -86,13 +88,14 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
         iWantGrindEar = findViewById(R.id.i_want_grindear);
         music = findViewById(R.id.grind_music);
         recycler = findViewById(R.id.recommend_recycler);
-
+        animationLayout = findViewById(R.id.animation_layout);
         iWantSing = findViewById(R.id.i_want_sing);
         songLayout = findViewById(R.id.song_layout);
         poetryLayout = findViewById(R.id.poetry_layout);
         dialogueLayout = findViewById(R.id.dialogue_layout);
         picturebookLayout = findViewById(R.id.picturebook_layout);
         accompLayout = findViewById(R.id.accomp_layout);
+        search = findViewById(R.id.grind_ear_search);
         listener = new CheckDoubleClickListener(this);
         iWantGrindEar.setOnClickListener(listener);
         iWantSing.setOnClickListener(listener);
@@ -102,7 +105,9 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
         dialogueLayout.setOnClickListener(listener);
         picturebookLayout.setOnClickListener(listener);
         accompLayout.setOnClickListener(listener);
+        animationLayout.setOnClickListener(listener);
         music.setOnClickListener(listener);
+        search.setOnClickListener(listener);
 
         musicBtn = (AnimationDrawable) music.getDrawable();
         musicBtn.setOneShot(false);
@@ -115,6 +120,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(layoutManager);
+        recycler.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -125,6 +131,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
         dialogueClassifyList = new ArrayList<>();
         picturebookClassifyList = new ArrayList<>();
         singClassifyList = new ArrayList<>();
+        animationClassifyList = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         adapter = new GrindEarAdapter(this, lists, new OnRecyclerItemClickListener() {
@@ -178,14 +185,17 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
             poetryClassifyList.clear();
             poetryClassifyList.addAll((List<SongClassify>) message.obj);
         } else if (message.what == MethodCode.EVENT_GETMUSICCLASSES3) {
-            dialogueClassifyList.clear();
-            dialogueClassifyList.addAll((List<SongClassify>) message.obj);
+            animationClassifyList.clear();
+            animationClassifyList.addAll((List<SongClassify>) message.obj);
         } else if (message.what == MethodCode.EVENT_GETMUSICCLASSES4) {
             picturebookClassifyList.clear();
             picturebookClassifyList.addAll((List<SongClassify>) message.obj);
         } else if (message.what == MethodCode.EVENT_GETMUSICCLASSES5) {
             singClassifyList.clear();
             singClassifyList.addAll((List<SongClassify>) message.obj);
+        } else if (message.what == MethodCode.EVENT_GETMUSICCLASSES11) {
+            dialogueClassifyList.clear();
+            dialogueClassifyList.addAll((List<SongClassify>) message.obj);
         } else if (message.what == MethodCode.EVENT_GETLISTENING) {
             GrindEarData grindEarData = (GrindEarData) message.obj;
             lists.clear();
@@ -199,7 +209,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
             if (musicBtn != null) {
                 if ((boolean) (message.obj)) {
                     musicBtn.start();
-                }else{
+                } else {
                     musicBtn.stop();
                 }
             }
@@ -312,7 +322,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 intent.putExtras(bundle6);
                 startActivity(intent);
                 break;
-            case R.id.dialogue_layout:
+            case R.id.animation_layout:
                 //看动画
                 if (SystemUtils.tag.equals("游客")) {
                     SystemUtils.toLogin(this);
@@ -324,8 +334,8 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 }
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle3 = new Bundle();
-                bundle3.putInt("type", 3);
-                bundle3.putSerializable("ClassifyList", (Serializable) dialogueClassifyList);
+                bundle3.putInt("type", 0);
+                bundle3.putSerializable("ClassifyList", (Serializable) animationClassifyList);
                 intent.putExtras(bundle3);
                 startActivity(intent);
                 break;
@@ -363,10 +373,32 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 intent.putExtras(bundle5);
                 startActivity(intent);
                 break;
+            case R.id.dialogue_layout:
+                //听对话
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle7 = new Bundle();
+                bundle7.putInt("type", 3);
+                bundle7.putSerializable("ClassifyList", (Serializable) dialogueClassifyList);
+                intent.putExtras(bundle7);
+                startActivity(intent);
+                break;
             case R.id.grind_music:
                 Intent intent1 = new Intent(this, MusicPlayActivity.class);
                 startActivity(intent1);
                 break;
+            case R.id.grind_ear_search:
+                Intent intent2 = new Intent(this, GlobalSearchActivity.class);
+                startActivity(intent2);
+                break;
         }
+
     }
 }

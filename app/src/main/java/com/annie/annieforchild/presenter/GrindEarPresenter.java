@@ -27,11 +27,11 @@ public interface GrindEarPresenter {
 
     void commitDuration(String[] type, String[] duration);
 
-    void getBookScore(int bookId);
+    void getBookScore(int bookId, int record);
 
     void getBookAudioData(int bookId, int pkType, String pkUsername);
 
-    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl);
+    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid);
 
     void getPkUsers(int bookId);
 
@@ -104,4 +104,20 @@ public interface GrindEarPresenter {
     void commitSpeaking(String[] type, String[] duration);
 
     void unlockBook(int nectar, String bookname, int bookid, int classId);
+
+    void getSpeaking();
+
+    void getRelease(int bookId);
+
+    void ReleaseBook(int bookId);
+
+    void releaseSuccess(int bookId);
+
+    void playTimes(int id);
+
+    void addlikes(int id);
+
+    void cancellikes(int id);
+
+    void shareCoin(int record, int type);
 }

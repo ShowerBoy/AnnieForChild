@@ -121,32 +121,31 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
                         SystemUtils.getSuggestPopup(context, "需要" + lists.get(i).getNectar() + "花蜜才能解锁哦", "解锁", "取消", presenter, -1, lists.get(i).getNectar(), lists.get(i).getBookName(), lists.get(i).getBookId(), classId).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
                     }
                 } else {
-                    if (audioSource == 8) {
-                        if (MusicService.isPlay) {
-                            MusicService.stop();
-                        }
-                        Intent intent = new Intent(context, BookPlayActivity2.class);
-                        intent.putExtra("bookId", lists.get(i).getBookId());
-                        intent.putExtra("imageUrl", lists.get(i).getBookImageUrl());
-                        intent.putExtra("audioType", audioType);
-                        intent.putExtra("audioSource", audioSource);
-                        intent.putExtra("title", lists.get(i).getBookName());
-                        context.startActivity(intent);
-                    } else {
+//                    if (audioSource == 8) {
+//                        if (MusicService.isPlay) {
+//                            MusicService.stop();
+//                        }
+//                        Intent intent = new Intent(context, BookPlayActivity2.class);
+//                        intent.putExtra("bookId", lists.get(i).getBookId());
+//                        intent.putExtra("imageUrl", lists.get(i).getBookImageUrl());
+//                        intent.putExtra("audioType", audioType);
+//                        intent.putExtra("audioSource", audioSource);
+//                        intent.putExtra("title", lists.get(i).getBookName());
+//                        context.startActivity(intent);
+//                    } else {
                         Intent intent = new Intent(context, PracticeActivity.class);
                         intent.putExtra("song", lists.get(i));
                         intent.putExtra("type", type);
                         intent.putExtra("audioType", audioType);
                         intent.putExtra("audioSource", audioSource);
                         intent.putExtra("collectType", collectType);
-                        if (audioType == 1) {
+                        if (audioType == 1 || audioType == 2) {
                             intent.putExtra("bookType", 1);
                         } else {
                             intent.putExtra("bookType", 0);
                         }
                         context.startActivity(intent);
-                    }
-
+//                    }
                 }
             }
         }));

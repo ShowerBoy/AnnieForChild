@@ -3,6 +3,7 @@ package com.annie.annieforchild.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -65,6 +68,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -79,8 +83,8 @@ import java.util.regex.PatternSyntaxException;
 public class SystemUtils {
     //    public static String mainUrl = "https://appapi.anniekids.net/api/"; //获取接口对象地址（正式）
     public static String mainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（测试）
-    public static String mainUrl2 = "https://demoapi.anniekids.net/api/HomepageApi/test"; //（测试）
 
+    public static final String APP_ID = "wxcce6f37c8f2e3dc7"; //微信支付
     public static String recordPath = "/record/"; //录制音频地址
     public static MainBean mainBean; //第一次启动获取的接口对象
     public static PhoneSN phoneSN; //登陆时产生的phoneSN
@@ -99,7 +103,7 @@ public class SystemUtils {
     public static int totalPage; //总播放页
     public static int currentLine = 0; //当前播放行
     public static boolean isPlaying = false; //是否播放
-    public static boolean isCurrentPage = false; //是否时当前页播放状态
+    public static boolean isCurrentPage = false; //是否是当前页播放状态
     public static Timer timer;
     public static TimerTask task;
     public static boolean isOnline = false; //是否在线
@@ -107,11 +111,14 @@ public class SystemUtils {
     public static int childTag; //有无学员标识 0:无 1:有
     public static int window_width;
     public static int window_height;
+    public static Uri uri;
     Activity activity;
     final public static int SELECT_CAMER = 0;
     final public static int SELECT_PICTURE = 1;
     public static PopupWindow popupWindow;
     public static View popupView;
+    public static HashMap<Integer, Integer> animMusicMap;
+    public static SoundPool animPool;
 
     public SystemUtils(Activity activity) {
         this.activity = activity;
@@ -131,6 +138,22 @@ public class SystemUtils {
         Intent intent = new Intent(context, AddChildActivity.class);
         intent.putExtra("from", "other");
         context.startActivity(intent);
+    }
+
+    public static void initSoundPool(Context context) {
+        animMusicMap = new HashMap<>();
+        animPool = new SoundPool(11, AudioManager.STREAM_MUSIC, 0);
+        animMusicMap.put(1, animPool.load(context, R.raw.amazing, 1));
+        animMusicMap.put(2, animPool.load(context, R.raw.awesome, 1));
+        animMusicMap.put(3, animPool.load(context, R.raw.bingo, 1));
+        animMusicMap.put(4, animPool.load(context, R.raw.excellent, 1));
+        animMusicMap.put(5, animPool.load(context, R.raw.good_observation, 1));
+        animMusicMap.put(6, animPool.load(context, R.raw.good_try, 1));
+        animMusicMap.put(7, animPool.load(context, R.raw.great, 1));
+        animMusicMap.put(8, animPool.load(context, R.raw.great_job, 1));
+        animMusicMap.put(9, animPool.load(context, R.raw.nice_going, 1));
+        animMusicMap.put(10, animPool.load(context, R.raw.super1, 1));
+        animMusicMap.put(11, animPool.load(context, R.raw.coin, 1));
     }
 
 
@@ -196,6 +219,39 @@ public class SystemUtils {
 //    }
 
     /**
+     * 恭喜获得花蜜
+     *
+     * @return
+     */
+    public static PopupWindow getNectarCongratulation(Context context, int count) {
+        TextView textView = new TextView(context);
+        ImageView close = new ImageView(context);
+        popupWindow = new PopupWindow(context);
+        popupView = LayoutInflater.from(context).inflate(R.layout.activity_nectar_congratulation, null, false);
+        textView = popupView.findViewById(R.id.nectar_text);
+        close = popupView.findViewById(R.id.nectar_close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        textView.setText("获得 " + (count * 2) + " 花蜜奖励");
+        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
+        popupWindow.setAnimationStyle(R.style.pop_in_animation);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemUtils.setBackGray((Activity) context, false);
+            }
+        });
+        popupWindow.setContentView(popupView);
+        return popupWindow;
+    }
+
+    /**
      * 课时备注
      *
      * @param context
@@ -216,6 +272,38 @@ public class SystemUtils {
             }
         });
         textView2.setText(message);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemUtils.setBackGray((Activity) context, false);
+            }
+        });
+        popupWindow.setContentView(popupView);
+        return popupWindow;
+    }
+
+    /**
+     * 网课礼包
+     *
+     * @param context
+     * @return
+     */
+    public static PopupWindow getGiftPopup(Context context, String title, String content, String remarks) {
+        TextView textView = new TextView(context);
+        TextView textView2 = new TextView(context);
+        TextView textView3 = new TextView(context);
+        popupWindow = new PopupWindow(context);
+        popupView = LayoutInflater.from(context).inflate(R.layout.activity_gift_popup, null, false);
+        textView = popupView.findViewById(R.id.gift_title);
+        textView2 = popupView.findViewById(R.id.gift_content);
+        textView3 = popupView.findViewById(R.id.gift_remarks);
+
+        textView.setText(title);
+        textView2.setText(content);
+        textView3.setText(remarks);
         popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);

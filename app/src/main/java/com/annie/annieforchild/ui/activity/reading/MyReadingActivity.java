@@ -137,12 +137,12 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
      */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-        if (message.what == MethodCode.EVENT_GETMYREADING) {
-            bean = (MyGrindEarBean) message.obj;
-            refresh(bean);
-        } else if (message.what == MethodCode.EVENT_COMMITREADING) {
-            presenter.getMyReading();
-        }
+//        if (message.what == MethodCode.EVENT_GETMYREADING) {
+//            bean = (MyGrindEarBean) message.obj;
+//            refresh(bean);
+//        } else if (message.what == MethodCode.EVENT_COMMITREADING) {
+//            presenter.getMyReading();
+//        }
     }
 
     private void refresh(MyGrindEarBean bean) {

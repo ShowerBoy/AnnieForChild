@@ -3,6 +3,7 @@ package com.annie.annieforchild.bean.grindear;
 import com.annie.annieforchild.bean.Banner;
 import com.annie.annieforchild.bean.RecommendBean;
 import com.annie.annieforchild.bean.book.Book;
+import com.annie.annieforchild.bean.radio.RadioBean;
 import com.annie.annieforchild.bean.song.Song;
 
 import java.io.Serializable;
@@ -15,10 +16,19 @@ import java.util.List;
 public class GrindEarData implements Serializable {
     private String listening100;
     private String animation100;
+    private RadioBean radio;
     private List<Banner> bannerList;
     private List<Song> meiriyige;
     private List<Song> meiriyishi;
     private List<Song> recommendlist;
+
+    public RadioBean getRadio() {
+        return radio;
+    }
+
+    public void setRadio(RadioBean radio) {
+        this.radio = radio;
+    }
 
     public List<Song> getMeiriyige() {
         return meiriyige;

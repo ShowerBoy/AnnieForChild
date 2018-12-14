@@ -114,7 +114,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
     private float star;
     private ShareUtils shareUtils;
     private String imageUrl;
-    private int audioType, audioSource;
+    private int audioType, audioSource, homeworkid;
     private boolean isEnd = false;
     private int round = 0; //轮数
     private Animation leftToRight, rightToLeft;
@@ -148,6 +148,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         audioType = intent.getIntExtra("audioType", 0);
         audioSource = intent.getIntExtra("audioSource", 3);
         imageUrl = intent.getStringExtra("imageUrl");
+        homeworkid = intent.getIntExtra("homeworkid", 0);
         Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(challengeImage);
         computer.setImageResource(R.drawable.icon_system_photo);
 
@@ -278,14 +279,6 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                         isEnd = true;
                         round = 0;
                     }
-//                    currentLine = 1;
-//                    if (currentPage == totalPages) {
-
-
-//                        presenter.getPkResult(bookId, "", 1);
-//                    } else {
-//                        continueBtn.setVisibility(View.VISIBLE);
-//                    }
                 }
             }
         };
@@ -348,13 +341,13 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         refresh();
     }
 
-    private void startRecord() {
+    private void startRecord(int position) {
         fileName = lists.get(currentLine - 1).getEnTitle().replace(".", "");
         setParams(fileName);
         if (mIse == null) {
             return;
         }
-        EvaluatorListener evaluatorListener = getEvaluatorListener();
+        EvaluatorListener evaluatorListener = getEvaluatorListener(position);
         int ret = mIse.startEvaluating(lists.get(currentLine - 1).getEnTitle(), null, evaluatorListener);
     }
 
@@ -374,7 +367,6 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                 totalLines = totalLines + book.getPageContent().get(i).getLineContent().size();
             }
 
-//            lists.addAll(book.getPageContent().get(currentPage - 1).getLineContent());
             lists.get(0).setSelect(true);
 
 //            totalLines = lists.size();
@@ -543,7 +535,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         //mIse.setParameter(SpeechConstant.AUDIO_SOURCE,"-1");
     }
 
-    private EvaluatorListener getEvaluatorListener() {
+    private EvaluatorListener getEvaluatorListener(int position) {
         EvaluatorListener evaluatorListener = null;
         evaluatorListener = new EvaluatorListener() {
             @Override
@@ -562,7 +554,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                             score = finalResult.total_score;
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-                            presenter.uploadAudioResource(bookId, currentPage, audioType, audioSource, currentLine, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 1, "", imageUrl);
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 1, "", imageUrl, 0, homeworkid);
                         } else {
 //                        showInfo("解析结果为空");
                         }
@@ -740,6 +732,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                         isPlay = false;
                         isClick = false;
                         mIse.stopEvaluating();
+
                         currentLine++;
                         if (currentLine <= totalLines) {
                             refresh();
@@ -766,16 +759,12 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                                 isEnd = true;
                                 round = 0;
                             }
-//                                presenter.getPkResult(bookId, "", 1);
-//                            } else {
-//                                continueBtn.setVisibility(View.VISIBLE);
-//                            }
                         }
                     } else {
                         challengeSpeak.setImageResource(R.drawable.icon_stop_big);
                         timer.start();
                         isPlay = true;
-                        startRecord();
+                        startRecord(currentLine);
                     }
                 }
                 break;

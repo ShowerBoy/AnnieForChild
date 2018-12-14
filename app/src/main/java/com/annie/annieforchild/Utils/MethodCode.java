@@ -8,7 +8,7 @@ package com.annie.annieforchild.Utils;
 public class MethodCode {
     final public static String SYSTEMAPI = "systemApi/";
     final public static String PERSONAPI = "personApi/";
-    final public static String HOMEPAGEAPI = "homepageApi/";
+    final public static String HOMEPAGEAPI = "HomepageApi/";
     final public static String HOMEWORKAPI = "homeworkApi/";
     final public static String SEARCHAPI = "SearchApi/";
     final public static String SQUAREAPI = "SquareApi/";
@@ -26,7 +26,11 @@ public class MethodCode {
     /**
      * EventBus
      */
+    final public static int EVENT_VISIBILITY = -60;
+    final public static int EVENT_GONE = -80;
     final public static int EVENT_ERROR = -10;
+    final public static int EVENT_PAY = -50;
+    final public static int EVENT_PRACTICE = -40;
     final public static int EVENT_PAGEPLAY = -30;
     final public static int EVENT_MUSICPLAY = -20;
     final public static int EVENT_ADDRESS = -5;
@@ -64,7 +68,7 @@ public class MethodCode {
     final public static int EVENT_GETLISTENING = 29; //获取磨耳朵信息
     final public static int EVENT_GETMUSICCLASSES1 = 30; //获取儿歌分类
     final public static int EVENT_GETMUSICCLASSES2 = 31; //获取诗歌分类
-    final public static int EVENT_GETMUSICCLASSES3 = 32; //获取对话分类
+    final public static int EVENT_GETMUSICCLASSES3 = 32; //获取动画分类
     final public static int EVENT_GETMUSICCLASSES4 = 33; //获取绘本分类
     final public static int EVENT_GETMUSICCLASSES5 = 34; //获取我要唱歌分类
     final public static int EVENT_GETMUSICLIST = 35; //获取儿歌列表
@@ -144,7 +148,23 @@ public class MethodCode {
     final public static int EVENT_ADDADDRESS = 109; //添加收货地址
     final public static int EVENT_EDITADDRESS = 110; //修改收货地址
     final public static int EVENT_DELETEADDRESS = 111; //删除收货地址
-    final public static int EVENT_BUYNETCLASS = 112; //购买网课
+    final public static int EVENT_BUYNETWORK = 112; //购买网课
     final public static int EVENT_MYCOLLECTIONS0 = 113; //我的收藏——其他
     final public static int EVENT_CANCELCOLLECTION0 = 114; //取消收藏——其他
+    final public static int EVENT_GETNETDETAILS = 115; //网课详情
+    final public static int EVENT_GETLESSON = 116; //网课列表
+    final public static int EVENT_GETMUSICCLASSES11 = 117; //获取听对话分类
+    final public static int EVENT_GETSPOKENCLASSES1 = 118; //
+    final public static int EVENT_GETSPOKENCLASSES2 = 119; //
+    final public static int EVENT_GETSPOKENCLASSES3 = 120; //
+    final public static int EVENT_GETSPOKENCLASSES4 = 121; //
+    final public static int EVENT_GETSPOKENCLASSES5 = 122; //
+    final public static int EVENT_GETSPEAKING = 123; //
+    final public static int EVENT_GETRELEASE = 124; //
+    final public static int EVENT_RELEASEBOOK = 125; //
+    final public static int EVENT_RELEASESUCCESS = 126; //
+    final public static int EVENT_PLAYTIMES = 127; //
+    final public static int EVENT_ADDLIKES = 128; //
+    final public static int EVENT_CANCELLIKES = 129; //
+    final public static int EVENT_SHARECOIN = 130; //
 }

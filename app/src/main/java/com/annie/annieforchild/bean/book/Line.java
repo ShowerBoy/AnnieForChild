@@ -15,7 +15,16 @@ public class Line implements Serializable {
     private int finished;
     private String resourceUrl;
     private String myResourceUrl;
+    private String pkResourceUrl;
     private boolean isSelect = false;
+
+    public String getPkResourceUrl() {
+        return pkResourceUrl;
+    }
+
+    public void setPkResourceUrl(String pkResourceUrl) {
+        this.pkResourceUrl = pkResourceUrl;
+    }
 
     public boolean isSelect() {
         return isSelect;
