@@ -67,12 +67,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="26dp">
+                android:layout_marginTop="30dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/practice_image"
-                    android:layout_width="170dp"
-                    android:layout_height="170dp"
+                    android:layout_width="190dp"
+                    android:layout_height="190dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/lesson_grind_ear"
                     android:visibility="visible" />
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/icon_book_play"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/book_read"
@@ -106,6 +106,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|bottom"
+                    android:src="@drawable/icon_book_behind"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/song_behind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:layout_marginBottom="3dp"
                     android:src="@drawable/icon_book_behind"
                     android:visibility="gone" />
             </FrameLayout>

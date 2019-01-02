@@ -8,40 +8,22 @@ import java.util.List;
  */
 
 public class RadioBean implements Serializable {
-    private List<RadioTag> age;
-    private List<RadioTag> function;
-    private List<RadioTag> theme;
-    private List<RadioTag> type;
+    private String title;
+    private List<RadioTag> list;
 
-    public List<RadioTag> getAge() {
-        return age;
+    public String getTitle() {
+        return title;
     }
 
-    public void setAge(List<RadioTag> age) {
-        this.age = age;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public List<RadioTag> getFunction() {
-        return function;
+    public List<RadioTag> getList() {
+        return list;
     }
 
-    public void setFunction(List<RadioTag> function) {
-        this.function = function;
-    }
-
-    public List<RadioTag> getTheme() {
-        return theme;
-    }
-
-    public void setTheme(List<RadioTag> theme) {
-        this.theme = theme;
-    }
-
-    public List<RadioTag> getType() {
-        return type;
-    }
-
-    public void setType(List<RadioTag> type) {
-        this.type = type;
+    public void setList(List<RadioTag> list) {
+        this.list = list;
     }
 }

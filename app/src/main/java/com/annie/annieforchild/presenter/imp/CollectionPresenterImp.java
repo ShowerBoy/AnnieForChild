@@ -67,6 +67,7 @@ public class CollectionPresenterImp extends BasePresenterImp implements Collecti
             if (what == MethodCode.EVENT_MYCOLLECTIONS1) {
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.collection.GrindEarFragment#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;

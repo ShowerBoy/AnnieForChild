@@ -27,6 +27,7 @@ public class MethodCode {
      * EventBus
      */
     final public static int EVENT_VISIBILITY = -60;
+    final public static int EVENT_NECTAR = -70;
     final public static int EVENT_GONE = -80;
     final public static int EVENT_ERROR = -10;
     final public static int EVENT_PAY = -50;
@@ -167,4 +168,7 @@ public class MethodCode {
     final public static int EVENT_ADDLIKES = 128; //
     final public static int EVENT_CANCELLIKES = 129; //
     final public static int EVENT_SHARECOIN = 130; //
+    final public static int EVENT_GETRADIO = 131; //
+    final public static int EVENT_GETLYRIC = 132; //
+    final public static int EVENT_LUCKDRAW = 133; //
 }

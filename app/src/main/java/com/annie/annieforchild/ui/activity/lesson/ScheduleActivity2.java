@@ -258,7 +258,11 @@ public class ScheduleActivity2 extends BaseActivity implements OnDateSelectedLis
             date = (String) message.obj2;
             presenter.myCalendar(date);
         } else if (message.what == MethodCode.EVENT_ADDSCHEDULE) {
-            presenter.getScheduleDetails(date);
+            if (recycler2.getVisibility() == View.VISIBLE) {
+                presenter.monthCalendar(sf.format(new Date()).replace("-", ""));
+            } else {
+                presenter.getScheduleDetails(date);
+            }
         } else if (message.what == MethodCode.EVENT_MONTHCALENDAR) {
             List<TotalSchedule> list = (List<TotalSchedule>) message.obj;
             if (list != null && list.size() != 0) {

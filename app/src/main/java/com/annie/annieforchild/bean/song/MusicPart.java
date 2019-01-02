@@ -9,7 +9,25 @@ import java.io.Serializable;
 public class MusicPart implements Serializable {
     private String musicUrl;
     private String name;
+    private int bookId;
+    private String imageUrl;
     private boolean isPlaying = false;
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String getMusicUrl() {
         return musicUrl;

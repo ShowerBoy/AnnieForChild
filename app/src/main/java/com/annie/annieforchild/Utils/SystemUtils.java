@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.service.MusicService;
+import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.login.HistoryRecord;
@@ -55,6 +56,8 @@ import com.annie.annieforchild.ui.application.MyApplication;
 import com.bumptech.glide.Glide;
 //import com.github.chrisbanes.photoview.PhotoView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -66,6 +69,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -119,6 +123,7 @@ public class SystemUtils {
     public static View popupView;
     public static HashMap<Integer, Integer> animMusicMap;
     public static SoundPool animPool;
+    public static List<Song> playLists; //最近播放列表
 
     public SystemUtils(Activity activity) {
         this.activity = activity;
@@ -140,7 +145,21 @@ public class SystemUtils {
         context.startActivity(intent);
     }
 
+    public static void addPlayLists(Song song) {
+        if (playLists == null) {
+            playLists = new ArrayList<>();
+        }
+
+        if (playLists.size() < 20) {
+            playLists.add(song);
+        } else {
+            playLists.remove(19);
+            playLists.add(song);
+        }
+    }
+
     public static void initSoundPool(Context context) {
+        playLists = new ArrayList<>();
         animMusicMap = new HashMap<>();
         animPool = new SoundPool(11, AudioManager.STREAM_MUSIC, 0);
         animMusicMap.put(1, animPool.load(context, R.raw.amazing, 1));
@@ -191,32 +210,48 @@ public class SystemUtils {
     }
 
     /**
-     * photoView弹出框
+     * 花蜜弹出框
+     *
      * @param context
-     * @param url
      * @return
      */
-//    public static PopupWindow getPhotoPopup(Context context, String url) {
-//        PhotoView photoView = new PhotoView(context);
-//        popupWindow = new PopupWindow(context);
-//        popupView = LayoutInflater.from(context).inflate(R.layout.activity_photo, null, false);
-//        photoView = popupView.findViewById(R.id.photoView);
-//        if (url.equals("0")) {
-//            Glide.with(context).load(R.drawable.route_pic_03).into(photoView);
-//        } else {
-//            Glide.with(context).load(url).into(photoView);
-//        }
-//        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
-//        popupWindow.setOutsideTouchable(true);
-//        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//            @Override
-//            public void onDismiss() {
-//                SystemUtils.setBackGray((Activity) context, false);
-//            }
-//        });
-//        popupWindow.setContentView(popupView);
-//        return popupWindow;
-//    }
+    public static PopupWindow getNectarPopup(Context context, int type) {
+        ImageView imageView = new ImageView(context);
+        popupWindow = new PopupWindow(context);
+        popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_nectar, null, false);
+        imageView = popupView.findViewById(R.id.nectar_image);
+        if (type == 0) {
+            imageView.setImageResource(R.drawable.luckydraw_pic_1);
+        } else if (type == 1) {
+            imageView.setImageResource(R.drawable.luckydraw_pic_2);
+        } else if (type == 2) {
+            imageView.setImageResource(R.drawable.luckydraw_pic_5);
+        } else if (type == 3) {
+            imageView.setImageResource(R.drawable.luckydraw_pic_10);
+        } else if (type == 4) {
+            imageView.setImageResource(R.drawable.luckydraw_pic_20);
+        } else if (type == 5) {
+            imageView.setImageResource(R.drawable.luckydraw_pic_again);
+        } else if (type == 6) {
+            imageView.setImageResource(R.drawable.luckydraw_pic_boom);
+        }
+        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setAnimationStyle(R.style.pop_in_animation);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemUtils.setBackGray((Activity) context, false);
+                JTMessage message = new JTMessage();
+                message.what = MethodCode.EVENT_NECTAR;
+                message.obj = type;
+                EventBus.getDefault().post(message);
+            }
+        });
+        popupWindow.setContentView(popupView);
+        return popupWindow;
+    }
 
     /**
      * 恭喜获得花蜜

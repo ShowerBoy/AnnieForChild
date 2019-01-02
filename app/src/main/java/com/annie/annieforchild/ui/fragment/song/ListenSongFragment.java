@@ -52,7 +52,6 @@ public class ListenSongFragment extends BaseFragment implements SongView {
 
     }
 
-
     public static ListenSongFragment instance(int classId, String title, int audioType, int audioSource, int type) {
         ListenSongFragment fragment = new ListenSongFragment();
         Bundle bundle = new Bundle();

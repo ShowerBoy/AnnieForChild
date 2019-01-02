@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/luckdraw_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/luckydraw_bg" />
+
+    <ImageView
+        android:id="@+id/luckdraw_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/luckdraw_bg"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="45dp"
+        android:src="@drawable/luckydraw_icon_close" />
+
+    <ImageView
+        android:id="@+id/luckdraw_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="195dp"
+        android:src="@drawable/luckydraw_button_start" />
+
+    <LinearLayout
+        android:id="@+id/share_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/luckdraw_bg"
+        android:layout_alignEnd="@+id/luckdraw_bg"
+        android:layout_alignStart="@+id/luckdraw_bg"
+        android:orientation="horizontal"
+        android:paddingBottom="16dp"
+        android:paddingEnd="6dp"
+        android:paddingStart="6dp"
+        android:paddingTop="12dp">
+
+        <ImageView
+            android:id="@+id/share_daka_pengyouquan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/icon_pengyouquan" />
+
+        <ImageView
+            android:id="@+id/share_daka_weixin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/icon_weixin" />
+
+        <ImageView
+            android:id="@+id/share_daka_qq"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/icon_qq" />
+
+        <ImageView
+            android:id="@+id/share_daka_qqzone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/icon_qqzone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/share_linear"
+        android:layout_alignEnd="@+id/luckdraw_bg"
+        android:layout_alignStart="@+id/luckdraw_bg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享我的录音" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+5金币"
+            android:textColor="@color/text_orange" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="分享到朋友圈" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="金币翻倍"
+            android:textColor="@color/text_orange" />
+    </LinearLayout>
+</RelativeLayout>

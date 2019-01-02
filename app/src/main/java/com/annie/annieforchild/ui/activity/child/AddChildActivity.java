@@ -143,10 +143,11 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
          * {@link com.annie.annieforchild.ui.activity.login.RegisterActivity#onEventMainThread(JTMessage)}
          */
         if (intent.getStringExtra("from").equals("register")) {
-            pass.setVisibility(View.VISIBLE);
+            //判断是不是第一次进来
+//            pass.setVisibility(View.VISIBLE);
             tag = 0;
         } else {
-            pass.setVisibility(View.GONE);
+//            pass.setVisibility(View.GONE);
             tag = 1;
         }
     }

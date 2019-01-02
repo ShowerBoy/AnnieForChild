@@ -42,6 +42,7 @@
         android:layout_below="@+id/menu_add_timetable"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <ImageView

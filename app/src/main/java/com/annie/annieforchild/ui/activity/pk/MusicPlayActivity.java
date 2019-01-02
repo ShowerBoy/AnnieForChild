@@ -1,5 +1,6 @@
 package com.annie.annieforchild.ui.activity.pk;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
@@ -42,8 +44,12 @@ import com.annie.annieforchild.bean.ShareBean;
 import com.annie.annieforchild.bean.song.MusicPart;
 import com.annie.annieforchild.bean.song.MusicSong;
 import com.annie.annieforchild.bean.song.Song;
+import com.annie.annieforchild.presenter.CollectionPresenter;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
+import com.annie.annieforchild.presenter.imp.CollectionPresenterImp;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
+import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
+import com.annie.annieforchild.ui.adapter.LyricAdapter;
 import com.annie.annieforchild.ui.adapter.MusicListAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
@@ -55,6 +61,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -68,23 +75,25 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class MusicPlayActivity extends BaseActivity implements SongView, OnCheckDoubleClick, SeekBar.OnSeekBarChangeListener, PopupWindow.OnDismissListener, PlatformActionListener {
-    private ImageView back, last, next, list, loop, addList, share, pengyouquan, weixin, qq, qqzone;
-    public static ImageView play;
-    private TextView name, shareCancel;
-    public static TextView start, end;
+    private ImageView back, last, next, list, loop, addList, share, pengyouquan, weixin, qq, qqzone, lyric, record, clarity;
+    private LottieAnimationView animationView;
+    public static ImageView play, collect;
+    private TextView shareCancel, anwaRadio, coinCount, popupTitle;
+    public static TextView start, end, name;
     public static SeekBar seekBar;
-    private CircleImageView image;
+    public static CircleImageView image;
     public static ObjectAnimator animation;
     private Intent intent;
     private Bundle bundle;
-    private List<String> musicList;
-    private List<Song> songList; //默认播放列表
+    private List<Song> musicList; //默认播放列表
     //    private List<MusicPart> musicPartList;
     private PopupWindow popupWindow;
     private View popupView;
     private RecyclerView musicRecycler;
+    public static RecyclerView lyricRecycler;
+    private LyricAdapter lyricAdapter;
     public static MusicListAdapter adapter;
-    private int origin, audioType, audioSource, resourceId;
+    private int origin, audioType, audioSource, resourceId, isCollect, musicPosition;
     public static final int STATE_PLAYING = 1;//正在播放
     public static final int STATE_PAUSE = 2;//暂停
     public static final int STATE_STOP = 3;//停止
@@ -100,8 +109,11 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
     private ShareUtils shareUtils;
     private PopupWindow popupWindow2;
     private View popupView2;
-    private String url;
-    public static MusicSong musicSong;
+    private String url, myResourceUrl;
+    private List<String> lyricList;
+    private int homeworkid;
+    public static boolean isLyric = false;
+    private int classId = 0, collectType, shareType;
 
     {
         setRegister(true);
@@ -127,6 +139,13 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         loop = findViewById(R.id.music_loop);
         share = findViewById(R.id.music_share);
         addList = findViewById(R.id.music_add_list);
+        collect = findViewById(R.id.music_collected);
+        lyric = findViewById(R.id.music_lyric);
+        record = findViewById(R.id.music_record);
+        anwaRadio = findViewById(R.id.anwa_radio);
+        clarity = findViewById(R.id.music_play_clarity);
+        animationView = findViewById(R.id.music_play_animation);
+        lyricRecycler = findViewById(R.id.lyric_recycler);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
         list.setOnClickListener(listener);
@@ -137,64 +156,50 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         share.setOnClickListener(listener);
         loop.setOnClickListener(listener);
         addList.setOnClickListener(listener);
+        collect.setOnClickListener(listener);
+        lyric.setOnClickListener(listener);
+        record.setOnClickListener(listener);
+        anwaRadio.setOnClickListener(listener);
         seekBar.setOnSeekBarChangeListener(this);
         seekBar.setEnabled(true);
         setAnimation();
         intent = getIntent();
         bundle = intent.getExtras();
-        if (bundle != null) {
-            musicTitle = bundle.getString("name");
-            musicImageUrl = bundle.getString("image");
-            musicList = (List<String>) bundle.getSerializable("list");
-            origin = bundle.getInt("origin");
-            audioType = bundle.getInt("audioType");
-            audioSource = bundle.getInt("audioSource");
-            resourceId = bundle.getInt("resourceId");
-            name.setText(musicTitle);
-            Glide.with(this).load(musicImageUrl).into(image);
-            MusicService.setMusicTitle(musicTitle, musicImageUrl, origin, audioType, audioSource, resourceId);
-            MusicService.setMusicList(musicList);
-        } else {
-            name.setText(MusicService.musicTitle);
-            Glide.with(this).load(MusicService.musicImageUrl).into(image);
-            if (MusicService.end != null) {
-                end.setText(MusicService.end);
-            }
-            if (MusicService.start != null) {
-                start.setText(MusicService.start);
-            }
-        }
-        if (MusicService.musicTitle == null) {
-            Glide.with(this).load(R.drawable.image_music_empty).into(image);
-            seekBar.setEnabled(false);
-            isClick = false;
-        }
+        musicList = new ArrayList<>();
+
 
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_music_item, null, false);
+        popupTitle = popupView.findViewById(R.id.popup_title);
         musicRecycler = popupView.findViewById(R.id.music_list_recycler);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         musicRecycler.setLayoutManager(manager);
+        LinearLayoutManager manager2 = new LinearLayoutManager(this);
+        manager2.setOrientation(LinearLayoutManager.VERTICAL);
+        lyricRecycler.setLayoutManager(manager2);
         popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, Math.max(SystemUtils.window_width, SystemUtils.window_height) * 2 / 5, false);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.setOutsideTouchable(true);
         popupWindow.setOnDismissListener(this);
 
         popupWindow2 = new PopupWindow(this);
-        popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_share_daka_item, null, false);
+        popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_share_daka_item2, null, false);
+        coinCount = popupView2.findViewById(R.id.coin_count);
         pengyouquan = popupView2.findViewById(R.id.share_daka_pengyouquan);
         weixin = popupView2.findViewById(R.id.share_daka_weixin);
         qq = popupView2.findViewById(R.id.share_daka_qq);
         qqzone = popupView2.findViewById(R.id.share_daka_qqzone);
-        shareCancel = popupView2.findViewById(R.id.daka_share_cancel);
+        shareCancel = popupView2.findViewById(R.id.daka_share_cancel2);
         pengyouquan.setOnClickListener(listener);
         weixin.setOnClickListener(listener);
         qq.setOnClickListener(listener);
         qqzone.setOnClickListener(listener);
         shareCancel.setOnClickListener(listener);
+        coinCount.setText("分享+2金币");
         popupWindow2.setContentView(popupView2);
         popupWindow2.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.clarity)));
         popupWindow2.setOutsideTouchable(false);
+        popupWindow2.setFocusable(true);
         popupWindow2.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -202,13 +207,87 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
             }
         });
         shareUtils = new ShareUtils(this, this);
+
+        if (bundle != null) {
+            musicTitle = bundle.getString("name");
+            musicImageUrl = bundle.getString("image");
+            myResourceUrl = bundle.getString("myResourceUrl");
+            musicList = (List<Song>) bundle.getSerializable("list");
+            origin = bundle.getInt("origin");
+            audioType = bundle.getInt("audioType", 0);
+            audioSource = bundle.getInt("audioSource", 0);
+            resourceId = bundle.getInt("resourceId");
+            isCollect = bundle.getInt("isCollect");
+            musicPosition = bundle.getInt("musicPosition");
+            collectType = bundle.getInt("collectType", 0);
+            homeworkid = bundle.getInt("homeworkid");
+            MusicService.type = bundle.getString("type");
+            name.setText(musicTitle);
+            if (isCollect == 0) {
+                collect.setImageResource(R.drawable.icon_player_collection_f);
+            } else {
+                collect.setImageResource(R.drawable.icon_player_collection_t);
+            }
+            Glide.with(this).load(musicImageUrl).into(image);
+            MusicService.setMusicTitle(musicTitle, musicImageUrl, origin, audioType, audioSource, resourceId, isCollect, collectType, this);
+            if (musicList != null) {
+                MusicService.setMusicList(musicList);
+            }
+            MusicService.setMusicPosition(musicPosition);
+            lyricRecycler.setVisibility(View.GONE);
+            if (MusicService.type != null) {
+                if (MusicService.type.equals("radio")) {
+                    popupTitle.setText("电台");
+                } else if (MusicService.type.equals("collection")) {
+                    popupTitle.setText("收藏");
+                } else if (MusicService.type.equals("recently")) {
+                    popupTitle.setText("最近");
+                }
+            } else {
+                popupTitle.setText("");
+            }
+
+        } else {
+            name.setText(MusicService.musicTitle);
+            if (MusicService.musicIsCollect == 0) {
+                collect.setImageResource(R.drawable.icon_player_collection_f);
+            } else {
+                collect.setImageResource(R.drawable.icon_player_collection_t);
+            }
+            Glide.with(this).load(MusicService.musicImageUrl).into(image);
+            if (MusicService.end != null) {
+                end.setText(MusicService.end);
+            }
+            if (MusicService.start != null) {
+                start.setText(MusicService.start);
+            }
+            if (MusicService.type != null) {
+                if (MusicService.type.equals("radio")) {
+                    popupTitle.setText("电台");
+                } else if (MusicService.type.equals("collection")) {
+                    popupTitle.setText("收藏");
+                } else if (MusicService.type.equals("recently")) {
+                    popupTitle.setText("最近");
+                }
+            } else {
+                popupTitle.setText("");
+            }
+        }
+        if (MusicService.musicTitle == null) {
+            Glide.with(this).load(R.drawable.image_music_empty).into(image);
+            seekBar.setEnabled(false);
+            isClick = false;
+            popupTitle.setText("");
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("name", bundle.getString("name"));
-        outState.putString("image", bundle.getString("image"));
+        if (bundle != null) {
+            outState.putString("name", bundle.getString("name"));
+            outState.putString("image", bundle.getString("image"));
+        }
     }
 
     @Override
@@ -230,46 +309,11 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
 
     @Override
     protected void initData() {
-        songList = new ArrayList<>();
+        lyricList = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
-        //初始化播放列表
-//        if (SystemUtils.defaultUsername != null) {
-//            List<MusicSong> lists = DataSupport.where("username = ?", SystemUtils.defaultUsername).find(MusicSong.class);
-//            if (lists != null && lists.size() != 0) {
-//                MusicSong musicSong1 = null;
-//                for (int i = 0; i < lists.size(); i++) {
-//                    if (lists.get(i).getUsername().equals(SystemUtils.defaultUsername)) {
-//                        musicSong1 = lists.get(i);
-//
-//                    }
-//                }
-//                if (musicSong1 != null) {
-//                    musicSong = musicSong1;
-//                } else {
-//                    //第一次初始化播放列表
-//                    if (SystemUtils.defaultUsername != null) {
-//                        MusicSong musicSong2 = new MusicSong();
-//                        musicSong2.setUsername(SystemUtils.defaultUsername);
-//                        List<Song> list = new ArrayList<>();
-//                        musicSong2.setList(list);
-//                        musicSong2.save();
-//                        musicSong = musicSong2;
-//                    }
-//                }
-//            } else {
-//                //第一次初始化播放列表
-//                MusicSong musicSong3 = new MusicSong();
-//                musicSong3.setUsername(SystemUtils.defaultUsername);
-//                List<Song> list = new ArrayList<>();
-//                musicSong3.setList(list);
-//                musicSong3.save();
-//                musicSong = musicSong3;
-//            }
-//        }
-        //
         adapter = new MusicListAdapter(this, MusicService.musicPartList, new OnRecyclerItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -280,6 +324,11 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                         MusicService.stop();
                     }
                     MusicService.listTag = position;
+                    if (isLyric) {
+                        isLyric = false;
+                        image.setVisibility(View.VISIBLE);
+                        lyricRecycler.setVisibility(View.GONE);
+                    }
                     MusicService.play();
                 }
             }
@@ -290,18 +339,21 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
             }
         });
         musicRecycler.setAdapter(adapter);
+
+        lyricAdapter = new LyricAdapter(this, lyricList);
+        lyricRecycler.setAdapter(lyricAdapter);
         if (MusicService.isPlay) {
-            play.setImageResource(R.drawable.icon_music_pause);
+            play.setImageResource(R.drawable.icon_music_pause_big);
             animation.start();
             state = STATE_PLAYING;
         } else {
             if (MusicService.musicList != null && MusicService.musicList.size() != 0) {
                 //自动播放
-                play.setImageResource(R.drawable.icon_music_pause);
+                play.setImageResource(R.drawable.icon_music_pause_big);
 //                if (animation.isRunning()){
 //
 //                }
-                animation.start();
+//                animation.start();
                 musicService.play();
                 state = STATE_PLAYING;
                 //TODO:
@@ -324,7 +376,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         args = 0;
         animation.resume();
         animation.pause();
-        play.setImageResource(R.drawable.icon_music_play);
+        play.setImageResource(R.drawable.icon_music_play_big);
         start.setText(MusicService.start);
         seekBar.setProgress(MusicService.pos);
     }
@@ -433,7 +485,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                         song.setBookId(resourceId);
                         song.setBookName(musicTitle);
                         song.setBookImageUrl(musicImageUrl);
-                        song.setBookResourceUrl(musicList);
+                        song.setPath(musicList.get(MusicService.listTag).getPath());
                         song_list.add(song);
                         MusicSong musicSong = new MusicSong();
                         musicSong.setUsername(SystemUtils.defaultUsername);
@@ -448,7 +500,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                 }
                 if (state == STATE_STOP) {
                     //播放
-                    play.setImageResource(R.drawable.icon_music_pause);
+                    play.setImageResource(R.drawable.icon_music_pause_big);
 //                    animation.start();
                     musicService.play();
                     state = STATE_PLAYING;
@@ -460,12 +512,12 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
 //                    adapter.notifyDataSetChanged();
                 } else if (state == STATE_PLAYING) {
                     //暂停播放
-                    play.setImageResource(R.drawable.icon_music_play);
+                    play.setImageResource(R.drawable.icon_music_play_big);
                     animation.pause();
                     musicService.pause();
                     state = STATE_PAUSE;
                 } else if (state == STATE_PAUSE) {
-                    play.setImageResource(R.drawable.icon_music_pause);
+                    play.setImageResource(R.drawable.icon_music_pause_big);
                     animation.resume();
                     musicService.play();
                     state = STATE_PLAYING;
@@ -484,6 +536,11 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                         MusicService.listTag--;
                         MusicService.pos = 0;
                         MusicService.play();
+                        if (isLyric) {
+                            isLyric = false;
+                            image.setVisibility(View.VISIBLE);
+                            lyricRecycler.setVisibility(View.GONE);
+                        }
                     }
                 }
                 break;
@@ -500,6 +557,11 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                         MusicService.listTag++;
                         MusicService.pos = 0;
                         MusicService.play();
+                        if (isLyric) {
+                            isLyric = false;
+                            image.setVisibility(View.VISIBLE);
+                            lyricRecycler.setVisibility(View.GONE);
+                        }
                     }
                 }
                 break;
@@ -520,31 +582,94 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                 if (!isClick) {
                     return;
                 }
-                presenter.clockinShare(2, resourceId);
+                presenter.clockinShare(2, MusicService.musicResourceId);
                 getWindowGray(true);
                 popupWindow2.showAtLocation(popupView2, Gravity.CENTER, 0, 0);
                 break;
+            case R.id.music_collected:
+                //收藏
+                if (MusicService.musicTitle == null || MusicService.musicTitle.length() == 0) {
+                    return;
+                }
+                if (MusicService.musicIsCollect == 0) {
+                    presenter.collectCourse(collectType, MusicService.musicAudioSource, MusicService.musicResourceId, classId);
+                } else {
+                    presenter.cancelCollection(collectType, MusicService.musicAudioSource, MusicService.musicResourceId, classId);
+                }
+                break;
+            case R.id.music_lyric:
+                //歌词
+                if (MusicService.musicTitle == null || MusicService.musicTitle.length() == 0) {
+                    return;
+                }
+                if (isLyric) {
+                    isLyric = false;
+                    image.setVisibility(View.VISIBLE);
+                    lyricRecycler.setVisibility(View.GONE);
+                } else {
+                    isLyric = true;
+                    presenter.getLyric(MusicService.musicList.get(MusicService.listTag).getBookId());
+                    image.setVisibility(View.GONE);
+                    lyricRecycler.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.music_record:
+                //录音
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
+                if (MusicService.musicTitle == null || MusicService.musicTitle.length() == 0) {
+                    return;
+                }
+                Intent intent = new Intent(this, RecordingActivity.class);
+                intent.putExtra("bookId", MusicService.musicResourceId);
+                intent.putExtra("bookName", MusicService.musicTitle);
+                intent.putExtra("bookImageUrl", MusicService.musicImageUrl);
+                intent.putExtra("audioType", MusicService.musicAudioType);
+                intent.putExtra("audioSource", MusicService.musicAudioSource);
+                intent.putExtra("resourceUrl", MusicService.musicList.get(MusicService.listTag).getPath());
+                intent.putExtra("myResourceUrl", myResourceUrl);
+                intent.putExtra("homeworkid", homeworkid);
+                startActivity(intent);
+                break;
+            case R.id.anwa_radio:
+                Intent intent1 = new Intent(this, GrindEarActivity.class);
+                startActivity(intent1);
+                finish();
+                break;
             case R.id.share_daka_pengyouquan:
+                shareType = 0;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareWechatMoments("我家宝宝" + SystemUtils.userInfo.getName() + "正在听《" + musicTitle + "》", "海量资源磨耳朵来安妮花APP", musicImageUrl, url);
+                    shareUtils.shareWechatMoments("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + MusicService.musicTitle + "》", "安娃电台喊你磨耳朵啦...", MusicService.musicImageUrl, url);
                 }
                 break;
             case R.id.share_daka_weixin:
+                shareType = 1;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareWechat("我家宝宝" + SystemUtils.userInfo.getName() + "正在听《" + musicTitle + "》", "海量资源磨耳朵来安妮花APP", musicImageUrl, url);
+                    shareUtils.shareWechat("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + MusicService.musicTitle + "》", "安娃电台喊你磨耳朵啦...", MusicService.musicImageUrl, url);
                 }
                 break;
             case R.id.share_daka_qq:
+                shareType = 2;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareQQ("我家宝宝" + SystemUtils.userInfo.getName() + "正在听《" + musicTitle + "》", "海量资源磨耳朵来安妮花APP", musicImageUrl, url);
+                    shareUtils.shareQQ("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + MusicService.musicTitle + "》", "安娃电台喊你磨耳朵啦...", MusicService.musicImageUrl, url);
                 }
                 break;
             case R.id.share_daka_qqzone:
+                shareType = 3;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareQZone("我家宝宝" + SystemUtils.userInfo.getName() + "正在听《" + musicTitle + "》", "海量资源磨耳朵来安妮花APP", musicImageUrl, url);
+                    shareUtils.shareQZone("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + MusicService.musicTitle + "》", "安娃电台喊你磨耳朵啦...", MusicService.musicImageUrl, url);
                 }
                 break;
-            case R.id.daka_share_cancel:
+            case R.id.daka_share_cancel2:
                 popupWindow2.dismiss();
                 break;
         }
@@ -555,6 +680,54 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         if (message.what == MethodCode.EVENT_CLOCKINSHARE) {
             ShareBean shareBean = (ShareBean) message.obj;
             url = shareBean.getUrl();
+        } else if (message.what == MethodCode.EVENT_GETLYRIC) {
+            lyricList.clear();
+            lyricList.addAll((List<String>) message.obj);
+            lyricAdapter.notifyDataSetChanged();
+        } else if (message.what == MethodCode.EVENT_COLLECTCOURSE + 2000 + classId) {
+            showInfo((String) message.obj);
+            collect.setImageResource(R.drawable.icon_player_collection_t);
+            MusicService.setMusicCollect(1);
+        } else if (message.what == MethodCode.EVENT_CANCELCOLLECTION1 + 3000 + classId) {
+            showInfo((String) message.obj);
+            collect.setImageResource(R.drawable.icon_player_collection_f);
+            MusicService.setMusicCollect(0);
+        } else if (message.what == MethodCode.EVENT_SHARECOIN) {
+            animationView.setVisibility(View.VISIBLE);
+            clarity.setVisibility(View.VISIBLE);
+            if (shareType == 0) {
+                animationView.setImageAssetsFolder("coin4/");
+                animationView.setAnimation("coin4.json");
+            } else {
+                animationView.setImageAssetsFolder("coin2/");
+                animationView.setAnimation("coin2.json");
+            }
+            animationView.addAnimatorListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    animationView.setVisibility(View.GONE);
+                    clarity.setVisibility(View.GONE);
+                    animation.cancel();
+                    animation.clone();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            animationView.loop(false);
+            animationView.playAnimation();
+            SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
         }
     }
 
@@ -574,6 +747,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
         showInfo("分享成功");
         popupWindow2.dismiss();
+        presenter.shareCoin(1, shareType);
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.SongViewHolder;
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -133,18 +135,20 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
 //                        intent.putExtra("title", lists.get(i).getBookName());
 //                        context.startActivity(intent);
 //                    } else {
-                        Intent intent = new Intent(context, PracticeActivity.class);
-                        intent.putExtra("song", lists.get(i));
-                        intent.putExtra("type", type);
-                        intent.putExtra("audioType", audioType);
-                        intent.putExtra("audioSource", audioSource);
-                        intent.putExtra("collectType", collectType);
-                        if (audioType == 1 || audioType == 2) {
-                            intent.putExtra("bookType", 1);
-                        } else {
-                            intent.putExtra("bookType", 0);
-                        }
-                        context.startActivity(intent);
+                    Intent intent = new Intent(context, PracticeActivity.class);
+                    intent.putExtra("song", lists.get(i));
+                    intent.putExtra("songList", (Serializable) lists);
+                    intent.putExtra("type", type);
+                    intent.putExtra("audioType", audioType);
+                    intent.putExtra("audioSource", audioSource);
+                    intent.putExtra("collectType", collectType);
+                    intent.putExtra("musicPosition", i);
+                    if (audioType == 1 || audioType == 2) {
+                        intent.putExtra("bookType", 1);
+                    } else {
+                        intent.putExtra("bookType", 0);
+                    }
+                    context.startActivity(intent);
 //                    }
                 }
             }

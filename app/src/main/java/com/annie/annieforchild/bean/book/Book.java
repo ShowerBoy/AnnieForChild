@@ -10,7 +10,25 @@ import java.util.List;
 
 public class Book implements Serializable {
     private int bookTotalPages;
+    private String path;
+    private String myResourceUrl;
     private List<Page> pageContent;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getMyResourceUrl() {
+        return myResourceUrl;
+    }
+
+    public void setMyResourceUrl(String myResourceUrl) {
+        this.myResourceUrl = myResourceUrl;
+    }
 
     public int getBookTotalPages() {
         return bookTotalPages;

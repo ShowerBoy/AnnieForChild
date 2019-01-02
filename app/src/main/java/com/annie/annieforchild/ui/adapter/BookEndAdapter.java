@@ -74,7 +74,7 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
     @Override
     public void onBindViewHolder(BookEndViewHolder bookEndViewHolder, int i) {
 //        holder = bookEndViewHolder;
-        Glide.with(context).load(lists.get(i).getRecordImageUrl()).into(bookEndViewHolder.headpic);
+        Glide.with(context).load(lists.get(i).getRecordImageUrl()).error(R.drawable.icon_system_headpic).into(bookEndViewHolder.headpic);
         bookEndViewHolder.name.setText(lists.get(i).getRecordName());
         bookEndViewHolder.age.setText(lists.get(i).getRecordAge() + "岁");
         bookEndViewHolder.date.setText(lists.get(i).getRecordDate());

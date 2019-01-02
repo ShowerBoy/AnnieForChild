@@ -116,4 +116,10 @@ public interface GrindEarInteractor {
     void cancellikes(int id);
 
     void shareCoin(int record, int type);
+
+    void getRadio(String type, int radioid);
+
+    void getLyric(int bookid);
+
+    void luckDraw(int nectar);
 }

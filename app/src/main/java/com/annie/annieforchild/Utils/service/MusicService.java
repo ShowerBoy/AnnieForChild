@@ -1,6 +1,8 @@
 package com.annie.annieforchild.Utils.service;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -10,18 +12,26 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.view.View;
+import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.song.MusicPart;
+import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
+import com.annie.annieforchild.view.SongView;
+import com.bumptech.glide.Glide;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
+import java.net.ProtocolException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -35,7 +45,7 @@ public class MusicService extends Service {
     public static MediaPlayer mediaPlayer; //声明操作媒体的对象
     public static int pos = 0; //记录播放的位置
     public static boolean isPlay; //false:未播放 true:播放中
-    public static List<String> musicList; //播放列表
+    public static List<Song> musicList; //播放列表
     public static List<MusicPart> musicPartList; //
     public static String musicTitle = null; //播放曲名
     public static String musicImageUrl = null; //播放图片
@@ -46,10 +56,14 @@ public class MusicService extends Service {
     public static boolean singleLoop = false; //是否单曲循环
     public static Timer mTimer = new Timer();
     public static TimerTask task;
-    public static int musicOrigin, musicAudioType, musicAudioSource, musicResourceId;
+    public static int musicOrigin, musicAudioType, musicAudioSource, musicResourceId, musicCollectType;
     public static int musicDuration; //总时长(秒)
     public static int duration = 0; //播放时长(时长自增)
+    public static int musicIsCollect; //是否收藏
+    public static boolean listVisibility = false; //列表显示或隐藏
+    public static String type = null;  //radio,collection,recently
     private static GrindEarPresenter presenter;
+    public static SongView musicSongView;
 
     public class MyBinder extends Binder {
         public MusicService getService() {
@@ -101,6 +115,11 @@ public class MusicService extends Service {
                         listTag = 0;
                         pos = 0;
                         play();
+                        if (MusicPlayActivity.isLyric) {
+                            MusicPlayActivity.isLyric = false;
+                            MusicPlayActivity.image.setVisibility(View.VISIBLE);
+                            MusicPlayActivity.lyricRecycler.setVisibility(View.GONE);
+                        }
                     } else {
                         if (duration > 0) {
                             presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
@@ -108,9 +127,13 @@ public class MusicService extends Service {
                         }
                         pos = 0;
                         play();
+                        if (MusicPlayActivity.isLyric) {
+                            MusicPlayActivity.isLyric = false;
+                            MusicPlayActivity.image.setVisibility(View.VISIBLE);
+                            MusicPlayActivity.lyricRecycler.setVisibility(View.GONE);
+                        }
                     }
                 }
-
             }
         });
         mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
@@ -123,6 +146,8 @@ public class MusicService extends Service {
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+//                musicSongView.dismissLoad();
+                MusicPlayActivity.animation.start();
                 musicDuration = mediaPlayer.getDuration() / 1000;
                 int second = musicDuration % 60;
                 String sss;
@@ -137,45 +162,68 @@ public class MusicService extends Service {
                 MusicPlayActivity.start.setText(start);
                 mediaPlayer.start();
                 MusicPlayActivity.animation.start();
-                MusicPlayActivity.play.setImageResource(R.drawable.icon_music_pause);
+                MusicPlayActivity.play.setImageResource(R.drawable.icon_music_pause_big);
                 MusicPlayActivity.animation.start();
+                MusicPlayActivity.name.setText(musicPartList.get(listTag).getName());
+                if (musicList.get(listTag).getIsCollected() == 0) {
+                    MusicPlayActivity.collect.setImageResource(R.drawable.icon_player_collection_f);
+                } else {
+                    MusicPlayActivity.collect.setImageResource(R.drawable.icon_player_collection_t);
+                }
+                Glide.with(MusicService.this).load(musicPartList.get(listTag).getImageUrl()).into(MusicPlayActivity.image);
                 //TODO:
-//                for (int i = 0; i < musicPartList.size(); i++) {
-//                    musicPartList.get(i).setPlaying(false);
-//                }
-//                musicPartList.get(MusicService.listTag).setPlaying(true);
-//                MusicPlayActivity.adapter.notifyDataSetChanged();
+                setMusicTitle(musicPartList.get(listTag).getName(), musicPartList.get(listTag).getImageUrl(), musicOrigin, musicAudioType, musicAudioSource, musicPartList.get(listTag).getBookId(), musicList.get(listTag).getIsCollected(), musicCollectType, musicSongView);
+                for (int i = 0; i < musicPartList.size(); i++) {
+                    musicPartList.get(i).setPlaying(false);
+                }
+                musicPartList.get(MusicService.listTag).setPlaying(true);
+                MusicPlayActivity.adapter.notifyDataSetChanged();
             }
         });
         presenter = new GrindEarPresenterImp(this);
         presenter.initViewAndData();
     }
 
-    public static void setMusicList(List<String> list) {
+    public static void setMusicPosition(int musicPosition) {
+        if (musicNum != 0) {
+            listTag = musicPosition;
+        }
+    }
+
+    public static void setMusicList(List<Song> list) {
+        if (musicList == null) {
+            musicList = new ArrayList<>();
+        }
         pos = 0;
         musicList.clear();
         musicList.addAll(list);
         musicNum = musicList.size();
-        if (musicNum != 0) {
-            listTag = 0;
+        musicPartList.clear();
+        for (int i = 0; i < musicList.size(); i++) {
+            MusicPart musicPart = new MusicPart();
+            musicPart.setName(musicList.get(i).getBookName());
+            musicPart.setBookId(musicList.get(i).getBookId());
+            musicPart.setImageUrl(musicList.get(i).getBookImageUrl());
+            musicPart.setMusicUrl(musicList.get(i).getPath());
+            musicPartList.add(musicPart);
         }
-//        musicPartList.clear();
-//        for (int i = 0; i < musicList.size(); i++) {
-//            MusicPart musicPart = new MusicPart();
-//            musicPart.setName(musicTitle);
-//
-//            musicPart.setMusicUrl(musicList.get(i));
-//            musicPartList.add(musicPart);
-//        }
     }
 
-    public static void setMusicTitle(String title, String imageUrl, int origin, int audioType, int audioSource, int resourceId) {
+    public static void setMusicTitle(String title, String imageUrl, int origin, int audioType, int audioSource, int resourceId, int isCollect, int collectType, SongView songView) {
         musicTitle = title;
         musicImageUrl = imageUrl;
         musicOrigin = origin;
         musicAudioType = audioType;
         musicAudioSource = audioSource;
         musicResourceId = resourceId;
+        musicIsCollect = isCollect;
+        musicCollectType = collectType;
+        musicSongView = songView;
+    }
+
+    public static void setMusicCollect(int isCollect) {
+        musicIsCollect = isCollect;
+        MusicService.musicList.get(listTag).setIsCollected(isCollect);
     }
 
     //用于开始播放的方法
@@ -183,9 +231,13 @@ public class MusicService extends Service {
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
             if (pos != 0) {
                 //根据指定位置进行播放
+//                MusicPlayActivity.animation.start();
                 mediaPlayer.seekTo(pos);
                 mediaPlayer.start();
             } else {
+//                if (musicSongView != null) {
+//                    musicSongView.showLoad();
+//                }
 //                MusicPlayActivity.showLoad();
                 //首次或从头播放，并显示通知
 //                    notificationManager.notify(200, notification);
@@ -194,13 +246,14 @@ public class MusicService extends Service {
 //                mediaPlayer.start();
                 try {
                     mediaPlayer.reset();
-                    mediaPlayer.setDataSource(musicList.get(listTag));
+                    mediaPlayer.setDataSource(musicList.get(listTag).getPath());
                     mediaPlayer.prepareAsync();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
+
             }
             if (task != null) {
                 task.cancel();
@@ -245,7 +298,7 @@ public class MusicService extends Service {
             message.obj = false;
             EventBus.getDefault().post(message);
 
-            MusicPlayActivity.play.setImageResource(R.drawable.icon_music_play);
+            MusicPlayActivity.play.setImageResource(R.drawable.icon_music_play_big);
             MusicPlayActivity.animation.pause();
             if (duration > 0) {
                 presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
@@ -258,14 +311,25 @@ public class MusicService extends Service {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static void stop() {
         if (mediaPlayer != null) {
+            mediaPlayer.pause();
             mediaPlayer.stop();
+//            mediaPlayer.seekTo(0);
             pos = 0; //停止后播放位置置为0
             isPlay = false;
+            //
+            Song song = new Song();
+            song.setBookId(musicPartList.get(listTag).getBookId());
+            song.setBookName(musicPartList.get(listTag).getName());
+            song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());
+            song.setPath(musicPartList.get(listTag).getMusicUrl());
+            song.setIsCollected(musicList.get(listTag).getIsCollected());
+            SystemUtils.addPlayLists(song);
+
             JTMessage message = new JTMessage();
             message.what = MethodCode.EVENT_MUSIC;
             message.obj = false;
             EventBus.getDefault().post(message);
-            MusicPlayActivity.play.setImageResource(R.drawable.icon_music_play);
+            MusicPlayActivity.play.setImageResource(R.drawable.icon_music_play_big);
             MusicPlayActivity.animation.resume();
             MusicPlayActivity.animation.pause();
             if (duration > 0) {

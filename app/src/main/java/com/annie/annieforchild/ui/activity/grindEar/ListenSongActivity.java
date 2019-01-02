@@ -98,7 +98,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
                 audioType = 0;
                 audioSource = 4;
             } else if (type == 5) {
-                listenTitle.setText("卡拉OK");
+                listenTitle.setText("伴奏");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
                 audioType = 0;
                 audioSource = 9;

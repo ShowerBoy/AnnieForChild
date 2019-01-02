@@ -136,7 +136,7 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                 Intent intent = new Intent(SpeakingActivity.this, PracticeActivity.class);
                 intent.putExtra("song", lists.get(position));
                 intent.putExtra("type", 0);
-                intent.putExtra("audioType", 1);
+                intent.putExtra("audioType", 2);
                 intent.putExtra("audioSource", 0);
                 intent.putExtra("bookType", 1);
                 startActivity(intent);

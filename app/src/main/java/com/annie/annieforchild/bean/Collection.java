@@ -17,6 +17,24 @@ public class Collection implements Serializable {
     private int iskouyu;
     private int ismoerduo;
     private int isyuedu;
+    private String path;
+    private int isCollected;
+
+    public int getIsCollected() {
+        return isCollected;
+    }
+
+    public void setIsCollected(int isCollected) {
+        this.isCollected = isCollected;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public int getIskouyu() {
         return iskouyu;

@@ -35,6 +35,7 @@ public class MethodType {
     final public static String GETMYLISTENING = "getMyListening"; //获取我的磨耳朵
     final public static String GETMUSICCLASSES = "getMusicClasses"; //获取儿歌分类
     final public static String GETMUSICLIST = "getMusicList"; //获取儿歌列表
+    final public static String GETMUSICLISTTEST = "getMusicListtest"; //获取儿歌列表
     final public static String MYSCHEDULE = "mySchedule"; //我的课表
     final public static String ADDSCHEDULE = "addSchedule"; //添加课表
     final public static String EDITSCHEDULE = "editSchedule"; //编辑课表
@@ -108,4 +109,7 @@ public class MethodType {
     final public static String ADDLIKES = "addlikes"; //
     final public static String CANCELLIKES = "Cancellikes"; //
     final public static String SHARECOIN = "shareCoin"; //
+    final public static String GETRADIO = "getRadio"; //
+    final public static String GETLYRIC = "getLyric"; //
+    final public static String LUCKDRAW = "luckDraw"; //
 }

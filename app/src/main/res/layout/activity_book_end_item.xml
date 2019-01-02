@@ -9,7 +9,7 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/photo" />
+        android:src="@drawable/icon_system_headpic" />
 
     <TextView
         android:id="@+id/book_end_name"

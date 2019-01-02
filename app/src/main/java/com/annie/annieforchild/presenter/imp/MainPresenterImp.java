@@ -100,7 +100,6 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
 
     @Override
     public void getHomeData(String tag) {
-//        mainView.showLoad();
         interactor.getHomeData(tag);
     }
 

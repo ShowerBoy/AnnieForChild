@@ -114,7 +114,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
         moerduoList = new ArrayList<>();
         readingList = new ArrayList<>();
         speakingList = new ArrayList<>();
-        freeList = new ArrayList<>();
+//        freeList = new ArrayList<>();
         helper = new AlertHelper(getActivity());
         dialog = helper.LoadingDialog();
         Bundle bundle = getArguments();
@@ -200,18 +200,6 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
         meiriyishiLayout = view.findViewById(R.id.meiriyishi_layout);
         meiriyiduLayout = view.findViewById(R.id.meiriyidu_layout);
         iWantLayout = view.findViewById(R.id.i_want_layout);
-        grindLock1 = view.findViewById(R.id.main_grindear_lock1);
-        grindLock2 = view.findViewById(R.id.main_grindear_lock2);
-        grindLock3 = view.findViewById(R.id.main_grindear_lock3);
-        readingLock1 = view.findViewById(R.id.main_reading_lock1);
-        readingLock2 = view.findViewById(R.id.main_reading_lock2);
-        readingLock3 = view.findViewById(R.id.main_reading_lock3);
-        speakingLock1 = view.findViewById(R.id.main_speaking_lock1);
-        speakingLock2 = view.findViewById(R.id.main_speaking_lock2);
-        speakingLock3 = view.findViewById(R.id.main_speaking_lock3);
-        meiriyigeLock = view.findViewById(R.id.main_meiriyige_lock);
-        meiriyishiLock = view.findViewById(R.id.main_meiriyishi_lock);
-        meiriyiduLock = view.findViewById(R.id.main_meiriyidu_lock);
         freeImage1 = view.findViewById(R.id.main_free_image1);
         freeImage2 = view.findViewById(R.id.main_free_image2);
         freeImage3 = view.findViewById(R.id.main_free_image3);
@@ -294,8 +282,8 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
             readingList.addAll(homeData.getReading() != null ? homeData.getReading() : new ArrayList<>());
             speakingList.clear();
             speakingList.addAll(homeData.getSpeaking() != null ? homeData.getSpeaking() : new ArrayList<>());
-            freeList.clear();
-            freeList.addAll(homeData.getFreelist());
+//            freeList.clear();
+//            freeList.addAll(homeData.getFreelist());
             meiriyige = homeData.getMeiriyige();
             meiriyishi = homeData.getMeiriyishi();
             meiriyidu = homeData.getMeiriyidu();
@@ -339,21 +327,6 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
     }
 
     private void initial() {
-//        if (freeList.size() == 3) {
-//            Glide.with(this).load(freeList.get(0).getBookImageUrl()).into(freeImage1);
-//            Glide.with(this).load(freeList.get(1).getBookImageUrl()).into(freeImage2);
-//            Glide.with(this).load(freeList.get(2).getBookImageUrl()).into(freeImage3);
-//            freeText1.setText(freeList.get(0).getBookName());
-//            freeText2.setText(freeList.get(1).getBookName());
-//            freeText3.setText(freeList.get(2).getBookName());
-//        } else {
-//            freeImage1.setVisibility(View.GONE);
-//            freeImage2.setVisibility(View.GONE);
-//            freeImage3.setVisibility(View.GONE);
-//            freeText1.setVisibility(View.GONE);
-//            freeText2.setVisibility(View.GONE);
-//            freeText3.setVisibility(View.GONE);
-//        }
         if (moerduoList.size() == 3) {
             grindText.setVisibility(View.VISIBLE);
             moerduoLinear.setVisibility(View.VISIBLE);
@@ -364,36 +337,6 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
             moerduoText2.setText(moerduoList.get(1).getBookName());
             moerduoText3.setText(moerduoList.get(2).getBookName());
 
-            if (moerduoList.get(0).getJurisdiction() == 0) {
-                grindLock1.setVisibility(View.VISIBLE);
-                if (moerduoList.get(0).getIsusenectar() == 0) {
-                    grindLock1.setImageResource(R.drawable.icon_lock_book_f);
-                } else {
-                    grindLock1.setImageResource(R.drawable.icon_lock_book_t);
-                }
-            } else {
-                grindLock1.setVisibility(View.GONE);
-            }
-            if (moerduoList.get(1).getJurisdiction() == 0) {
-                grindLock2.setVisibility(View.VISIBLE);
-                if (moerduoList.get(1).getIsusenectar() == 0) {
-                    grindLock2.setImageResource(R.drawable.icon_lock_book_f);
-                } else {
-                    grindLock2.setImageResource(R.drawable.icon_lock_book_t);
-                }
-            } else {
-                grindLock2.setVisibility(View.GONE);
-            }
-            if (moerduoList.get(2).getJurisdiction() == 0) {
-                grindLock3.setVisibility(View.VISIBLE);
-                if (moerduoList.get(2).getIsusenectar() == 0) {
-                    grindLock3.setImageResource(R.drawable.icon_lock_book_f);
-                } else {
-                    grindLock3.setImageResource(R.drawable.icon_lock_book_t);
-                }
-            } else {
-                grindLock3.setVisibility(View.GONE);
-            }
         } else {
             grindText.setVisibility(View.GONE);
             moerduoLinear.setVisibility(View.GONE);
@@ -407,36 +350,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
             readingText1.setText(readingList.get(0).getBookName());
             readingText2.setText(readingList.get(1).getBookName());
             readingText3.setText(readingList.get(2).getBookName());
-            if (readingList.get(0).getJurisdiction() == 0) {
-                readingLock1.setVisibility(View.VISIBLE);
-                if (readingList.get(0).getIsusenectar() == 0) {
-                    readingLock1.setImageResource(R.drawable.icon_lock_book_f);
-                } else {
-                    readingLock1.setImageResource(R.drawable.icon_lock_book_t);
-                }
-            } else {
-                readingLock1.setVisibility(View.GONE);
-            }
-            if (readingList.get(1).getJurisdiction() == 0) {
-                readingLock2.setVisibility(View.VISIBLE);
-                if (readingList.get(1).getIsusenectar() == 0) {
-                    readingLock2.setImageResource(R.drawable.icon_lock_book_f);
-                } else {
-                    readingLock2.setImageResource(R.drawable.icon_lock_book_t);
-                }
-            } else {
-                readingLock2.setVisibility(View.GONE);
-            }
-            if (readingList.get(2).getJurisdiction() == 0) {
-                readingLock3.setVisibility(View.VISIBLE);
-                if (readingList.get(2).getIsusenectar() == 0) {
-                    readingLock3.setImageResource(R.drawable.icon_lock_book_f);
-                } else {
-                    readingLock3.setImageResource(R.drawable.icon_lock_book_t);
-                }
-            } else {
-                readingLock3.setVisibility(View.GONE);
-            }
+
         } else {
             readingText.setVisibility(View.GONE);
             readingLinear.setVisibility(View.GONE);
@@ -450,36 +364,36 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
             spokenText1.setText(speakingList.get(0).getBookName());
             spokenText2.setText(speakingList.get(1).getBookName());
             spokenText3.setText(speakingList.get(2).getBookName());
-            if (speakingList.get(0).getJurisdiction() == 0) {
-                speakingLock1.setVisibility(View.VISIBLE);
-                if (speakingList.get(0).getIsusenectar() == 0) {
-                    speakingLock1.setImageResource(R.drawable.icon_lock_book_f);
-                } else {
-                    speakingLock1.setImageResource(R.drawable.icon_lock_book_t);
-                }
-            } else {
-                speakingLock1.setVisibility(View.GONE);
-            }
-            if (speakingList.get(1).getJurisdiction() == 0) {
-                speakingLock2.setVisibility(View.VISIBLE);
-                if (speakingList.get(1).getIsusenectar() == 0) {
-                    speakingLock2.setImageResource(R.drawable.icon_lock_book_f);
-                } else {
-                    speakingLock2.setImageResource(R.drawable.icon_lock_book_t);
-                }
-            } else {
-                speakingLock2.setVisibility(View.GONE);
-            }
-            if (speakingList.get(2).getJurisdiction() == 0) {
-                speakingLock3.setVisibility(View.VISIBLE);
-                if (speakingList.get(2).getIsusenectar() == 0) {
-                    speakingLock3.setImageResource(R.drawable.icon_lock_book_f);
-                } else {
-                    speakingLock3.setImageResource(R.drawable.icon_lock_book_t);
-                }
-            } else {
-                speakingLock3.setVisibility(View.GONE);
-            }
+//            if (speakingList.get(0).getJurisdiction() == 0) {
+//                speakingLock1.setVisibility(View.VISIBLE);
+//                if (speakingList.get(0).getIsusenectar() == 0) {
+//                    speakingLock1.setImageResource(R.drawable.icon_lock_book_f);
+//                } else {
+//                    speakingLock1.setImageResource(R.drawable.icon_lock_book_t);
+//                }
+//            } else {
+//                speakingLock1.setVisibility(View.GONE);
+//            }
+//            if (speakingList.get(1).getJurisdiction() == 0) {
+//                speakingLock2.setVisibility(View.VISIBLE);
+//                if (speakingList.get(1).getIsusenectar() == 0) {
+//                    speakingLock2.setImageResource(R.drawable.icon_lock_book_f);
+//                } else {
+//                    speakingLock2.setImageResource(R.drawable.icon_lock_book_t);
+//                }
+//            } else {
+//                speakingLock2.setVisibility(View.GONE);
+//            }
+//            if (speakingList.get(2).getJurisdiction() == 0) {
+//                speakingLock3.setVisibility(View.VISIBLE);
+//                if (speakingList.get(2).getIsusenectar() == 0) {
+//                    speakingLock3.setImageResource(R.drawable.icon_lock_book_f);
+//                } else {
+//                    speakingLock3.setImageResource(R.drawable.icon_lock_book_t);
+//                }
+//            } else {
+//                speakingLock3.setVisibility(View.GONE);
+//            }
         } else {
             speakingLinear.setVisibility(View.GONE);
             speakingText.setVisibility(View.GONE);
@@ -493,37 +407,6 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
         meiriyishiCount.setText(meiriyishi.getCount() + "次阅读");
         meiriyiduText.setText(meiriyidu.getBookName());
         meiriyiduCount.setText(meiriyidu.getCount() + "次阅读");
-
-        if (meiriyige.getJurisdiction() == 0) {
-            meiriyigeLock.setVisibility(View.VISIBLE);
-            if (meiriyige.getIsusenectar() == 0) {
-                meiriyigeLock.setImageResource(R.drawable.icon_lock_book_f);
-            } else {
-                meiriyigeLock.setImageResource(R.drawable.icon_lock_book_t);
-            }
-        } else {
-            meiriyigeLock.setVisibility(View.GONE);
-        }
-        if (meiriyishi.getJurisdiction() == 0) {
-            meiriyishiLock.setVisibility(View.VISIBLE);
-            if (meiriyishi.getIsusenectar() == 0) {
-                meiriyishiLock.setImageResource(R.drawable.icon_lock_book_f);
-            } else {
-                meiriyishiLock.setImageResource(R.drawable.icon_lock_book_t);
-            }
-        } else {
-            meiriyishiLock.setVisibility(View.GONE);
-        }
-        if (meiriyidu.getJurisdiction() == 0) {
-            meiriyiduLock.setVisibility(View.VISIBLE);
-            if (meiriyidu.getIsusenectar() == 0) {
-                meiriyiduLock.setImageResource(R.drawable.icon_lock_book_f);
-            } else {
-                meiriyiduLock.setImageResource(R.drawable.icon_lock_book_t);
-            }
-        } else {
-            meiriyiduLock.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -745,30 +628,30 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
 //                    showInfo("请稍后");
 //                }
                 break;
-            case R.id.main_free_image1:
-                intent = new Intent(getContext(), PracticeActivity.class);
-                intent.putExtra("song", freeList.get(0));
-                intent.putExtra("type", 0);
-                intent.putExtra("audioType", 0);
-                intent.putExtra("audioSource", 0);
-                startActivity(intent);
-                break;
-            case R.id.main_free_image2:
-                intent = new Intent(getContext(), PracticeActivity.class);
-                intent.putExtra("song", freeList.get(1));
-                intent.putExtra("type", 0);
-                intent.putExtra("audioType", 0);
-                intent.putExtra("audioSource", 0);
-                startActivity(intent);
-                break;
-            case R.id.main_free_image3:
-                intent = new Intent(getContext(), PracticeActivity.class);
-                intent.putExtra("song", freeList.get(2));
-                intent.putExtra("type", 0);
-                intent.putExtra("audioType", 0);
-                intent.putExtra("audioSource", 0);
-                startActivity(intent);
-                break;
+//            case R.id.main_free_image1:
+//                intent = new Intent(getContext(), PracticeActivity.class);
+//                intent.putExtra("song", freeList.get(0));
+//                intent.putExtra("type", 0);
+//                intent.putExtra("audioType", 0);
+//                intent.putExtra("audioSource", 0);
+//                startActivity(intent);
+//                break;
+//            case R.id.main_free_image2:
+//                intent = new Intent(getContext(), PracticeActivity.class);
+//                intent.putExtra("song", freeList.get(1));
+//                intent.putExtra("type", 0);
+//                intent.putExtra("audioType", 0);
+//                intent.putExtra("audioSource", 0);
+//                startActivity(intent);
+//                break;
+//            case R.id.main_free_image3:
+//                intent = new Intent(getContext(), PracticeActivity.class);
+//                intent.putExtra("song", freeList.get(2));
+//                intent.putExtra("type", 0);
+//                intent.putExtra("audioType", 0);
+//                intent.putExtra("audioSource", 0);
+//                startActivity(intent);
+//                break;
             case R.id.main_moerduo_image1:
                 if (moerduoList.get(0).getJurisdiction() == 0) {
                     if (moerduoList.get(0).getIsusenectar() == 1) {
@@ -782,6 +665,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent.putExtra("audioType", 0);
                     intent.putExtra("audioSource", 0);
                     intent.putExtra("bookType", 0);
+                    intent.putExtra("collectType", 1);
                     startActivity(intent);
                 }
                 break;
@@ -798,6 +682,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent.putExtra("audioType", 0);
                     intent.putExtra("audioSource", 0);
                     intent.putExtra("bookType", 0);
+                    intent.putExtra("collectType", 1);
                     startActivity(intent);
                 }
                 break;
@@ -814,6 +699,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent.putExtra("audioType", 0);
                     intent.putExtra("audioSource", 0);
                     intent.putExtra("bookType", 0);
+                    intent.putExtra("collectType", 1);
                     startActivity(intent);
                 }
                 break;
@@ -875,7 +761,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent = new Intent(getContext(), PracticeActivity.class);
                     intent.putExtra("song", speakingList.get(0));
                     intent.putExtra("type", 0);
-                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioType", 2);
                     intent.putExtra("audioSource", 0);
                     intent.putExtra("bookType", 1);
                     startActivity(intent);
@@ -891,7 +777,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent = new Intent(getContext(), PracticeActivity.class);
                     intent.putExtra("song", speakingList.get(1));
                     intent.putExtra("type", 0);
-                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioType", 2);
                     intent.putExtra("audioSource", 0);
                     intent.putExtra("bookType", 1);
                     startActivity(intent);
@@ -907,7 +793,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent = new Intent(getContext(), PracticeActivity.class);
                     intent.putExtra("song", speakingList.get(2));
                     intent.putExtra("type", 0);
-                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioType", 2);
                     intent.putExtra("audioSource", 0);
                     intent.putExtra("bookType", 1);
                     startActivity(intent);
@@ -926,6 +812,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent.putExtra("audioType", 0);
                     intent.putExtra("audioSource", 1);
                     intent.putExtra("bookType", 0);
+                    intent.putExtra("collectType", 1);
                     startActivity(intent);
                 }
                 break;
@@ -955,7 +842,7 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                     intent = new Intent(getContext(), PracticeActivity.class);
                     intent.putExtra("song", meiriyidu);
                     intent.putExtra("type", 1);
-                    intent.putExtra("audioType", 1);
+                    intent.putExtra("audioType", 2);
                     intent.putExtra("audioSource", 1);
                     intent.putExtra("bookType", 1);
                     startActivity(intent);

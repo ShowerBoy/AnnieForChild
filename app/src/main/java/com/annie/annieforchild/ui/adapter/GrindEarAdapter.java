@@ -49,7 +49,7 @@ public class GrindEarAdapter extends RecyclerView.Adapter<GrindEarViewHolder> {
     @Override
     public void onBindViewHolder(GrindEarViewHolder grindEarViewHolder, int i) {
         grindEarViewHolder.recommentText.setText(lists.get(i).getBookName());
-        Glide.with(context).load(lists.get(i).getBookImageUrl()).into(grindEarViewHolder.recommentImage);
+        Glide.with(context).load(lists.get(i).getBookImageUrl()).error(R.drawable.icon_system_photo).into(grindEarViewHolder.recommentImage);
         ;
         if (lists.get(i).getJurisdiction() == 0) {
             grindEarViewHolder.lock.setVisibility(View.GONE);

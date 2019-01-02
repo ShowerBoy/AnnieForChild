@@ -15,6 +15,7 @@ import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,16 +92,32 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
         } else {
             if (what == MethodCode.EVENT_MYCOLLECTIONS1) {
                 List<Collection> lists = JSON.parseArray(data, Collection.class);
-                listener.Success(what, lists);
+                if (lists != null && lists.size() != 0) {
+                    listener.Success(what, lists);
+                } else {
+                    listener.Success(what, new ArrayList<Collection>());
+                }
             } else if (what == MethodCode.EVENT_MYCOLLECTIONS2) {
                 List<Collection> lists = JSON.parseArray(data, Collection.class);
-                listener.Success(what, lists);
+                if (lists != null && lists.size() != 0) {
+                    listener.Success(what, lists);
+                } else {
+                    listener.Success(what, new ArrayList<Collection>());
+                }
             } else if (what == MethodCode.EVENT_MYCOLLECTIONS3) {
                 List<Collection> lists = JSON.parseArray(data, Collection.class);
-                listener.Success(what, lists);
+                if (lists != null && lists.size() != 0) {
+                    listener.Success(what, lists);
+                } else {
+                    listener.Success(what, new ArrayList<Collection>());
+                }
             } else if (what == MethodCode.EVENT_MYCOLLECTIONS0) {
                 List<Collection> lists = JSON.parseArray(data, Collection.class);
-                listener.Success(what, lists);
+                if (lists != null && lists.size() != 0) {
+                    listener.Success(what, lists);
+                } else {
+                    listener.Success(what, new ArrayList<Collection>());
+                }
             } else if (what == MethodCode.EVENT_CANCELCOLLECTION1) {
                 listener.Success(what, "取消收藏成功");
             } else if (what == MethodCode.EVENT_CANCELCOLLECTION2) {

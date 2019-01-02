@@ -1,7 +1,10 @@
 package com.annie.annieforchild.ui.activity.pk;
 
+import android.animation.Animator;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Environment;
@@ -14,10 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
@@ -39,12 +45,14 @@ import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.example.lamemp3.MP3Recorder;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -55,20 +63,26 @@ import cn.sharesdk.framework.PlatformActionListener;
  */
 
 public class RecordingActivity extends BaseActivity implements SongView, OnCheckDoubleClick, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, PlatformActionListener {
-    private ImageView back, share, recordBtn, pengyouquan, weixin, qq, qqzone, recordPlay;
-    private TextView title, shareCancel;
+    private ImageView back, share, pengyouquan, weixin, qq, qqzone, animationPic, preview, record, play, luckStart, clarity, shareCancel, luckdrawBg, pengyouquan2, weixin2, qq2, qqzone2;
+    private TextView title, shareCancel2, coinCount;
+    private LinearLayout recordPreview, recordBtn, recordPlay, recordingLayout;
+    private AnimationDrawable animationDrawable;
+    private RelativeLayout luckDrawLayout;
     private RecyclerView recycler;
+    private LottieAnimationView animationView, coinAnimationView;
     private GrindEarPresenter presenter;
     private CheckDoubleClickListener listener;
     private RecorderAndPlayUtil mRecorderUtil = null;
-    private MediaPlayer mediaPlayer2;
+    private MediaPlayer mediaPlayer, mediaPlayer2;
     private static final String DIR = "LAME/mp3/";
     private boolean isRecord = false;
     private int record_time = 0; //录音时长
+    private int duration = 0;
     private boolean isClick = true;
-    private boolean isPlay = false; //是否播放录音
+    private boolean isRecordPlay = false; //是否播放录音
+    private boolean isPlay = false; //是否播放
     private int bookId, audioSource, audioType;
-    private String myresourceUrl, bookName, bookImageUrl, url;
+    private String resourceUrl = "", myResourceUrl = "", bookName, bookImageUrl, url;
     private Intent intent;
     private Book book;
     private List<Line> lists;
@@ -79,8 +93,12 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
     private Handler handler = new Handler();
     private Runnable runnable;
     private int homeworkid;
+    private Random random;
     private PopupWindow popupWindow;
     private View popupView;
+    private int animationCode = -1, shareType, type;
+    private boolean tag = true;
+    private PopupWindow popupWindow2;
 
     {
         setRegister(true);
@@ -96,34 +114,65 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
         back = findViewById(R.id.recording_back);
         share = findViewById(R.id.recording_share);
         title = findViewById(R.id.recording_title);
+        recordPreview = findViewById(R.id.recording_preview);
         recordBtn = findViewById(R.id.recording_record);
         recordPlay = findViewById(R.id.recording_play);
+        animationPic = findViewById(R.id.record_animation);
         recycler = findViewById(R.id.recording_recycler);
+        preview = findViewById(R.id.recording_record_preview);
+        record = findViewById(R.id.recording_record_record);
+        play = findViewById(R.id.recording_record_play);
+        clarity = findViewById(R.id.recording_clarity);
+        animationView = findViewById(R.id.lottie_animation);
+        luckDrawLayout = findViewById(R.id.luckdraw_layout);
+        luckdrawBg = findViewById(R.id.luckdraw_bg);
+        recordingLayout = findViewById(R.id.recording_layout);
+        coinAnimationView = findViewById(R.id.coin_animation);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
         share.setOnClickListener(listener);
         recordBtn.setOnClickListener(listener);
         recordPlay.setOnClickListener(listener);
+        recordPreview.setOnClickListener(listener);
+        animationPic.setOnClickListener(listener);
 
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recycler.setLayoutManager(manager);
-
-        popupWindow = new PopupWindow(this);
-        popupView = LayoutInflater.from(this).inflate(R.layout.activity_share_daka_item, null, false);
-        pengyouquan = popupView.findViewById(R.id.share_daka_pengyouquan);
-        weixin = popupView.findViewById(R.id.share_daka_weixin);
-        qq = popupView.findViewById(R.id.share_daka_qq);
-        qqzone = popupView.findViewById(R.id.share_daka_qqzone);
-        shareCancel = popupView.findViewById(R.id.daka_share_cancel);
+        pengyouquan = findViewById(R.id.share_daka_pengyouquan);
+        weixin = findViewById(R.id.share_daka_weixin);
+        qq = findViewById(R.id.share_daka_qq);
+        qqzone = findViewById(R.id.share_daka_qqzone);
+        shareCancel = findViewById(R.id.luckdraw_close);
+        luckStart = findViewById(R.id.luckdraw_start);
         pengyouquan.setOnClickListener(listener);
         weixin.setOnClickListener(listener);
         qq.setOnClickListener(listener);
         qqzone.setOnClickListener(listener);
         shareCancel.setOnClickListener(listener);
+        luckStart.setOnClickListener(listener);
+
+//        animationDrawable = (AnimationDrawable) luckdrawBg.getDrawable();
+//        animationDrawable.setOneShot(true);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        recycler.setLayoutManager(manager);
+
+        popupWindow = new PopupWindow(this);
+        popupView = LayoutInflater.from(this).inflate(R.layout.activity_share_daka_item2, null, false);
+        pengyouquan2 = popupView.findViewById(R.id.share_daka_pengyouquan);
+        weixin2 = popupView.findViewById(R.id.share_daka_weixin);
+        qq2 = popupView.findViewById(R.id.share_daka_qq);
+        qqzone2 = popupView.findViewById(R.id.share_daka_qqzone);
+        shareCancel2 = popupView.findViewById(R.id.daka_share_cancel2);
+        coinCount = popupView.findViewById(R.id.coin_count);
+        pengyouquan2.setOnClickListener(listener);
+        weixin2.setOnClickListener(listener);
+        qq2.setOnClickListener(listener);
+        qqzone2.setOnClickListener(listener);
+        shareCancel2.setOnClickListener(listener);
+        coinCount.setText("分享+5金币");
         popupWindow.setContentView(popupView);
         popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.clarity)));
         popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -138,25 +187,32 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         lists = new ArrayList<>();
+        mediaPlayer = new MediaPlayer();
         mediaPlayer2 = new MediaPlayer();
+        mediaPlayer.setOnPreparedListener(this);
         mediaPlayer2.setOnPreparedListener(this);
+        mediaPlayer.setOnCompletionListener(this);
         mediaPlayer2.setOnCompletionListener(this);
         intent = getIntent();
         if (intent != null) {
             bookId = intent.getIntExtra("bookId", 0);
             audioSource = intent.getIntExtra("audioSource", 0);
             audioType = intent.getIntExtra("audioType", 0);
-            myresourceUrl = intent.getStringExtra("myresourceUrl");
+//            resourceUrl = intent.getStringExtra("resourceUrl");
+//            myResourceUrl = intent.getStringExtra("myResourceUrl");
             bookName = intent.getStringExtra("bookName");
             bookImageUrl = intent.getStringExtra("bookImageUrl");
             homeworkid = intent.getIntExtra("homeworkid", homeworkid);
             title.setText(bookName);
-            if (myresourceUrl != null && myresourceUrl.length() != 0) {
-                recordPlay.setImageResource(R.drawable.icon_play_recording_t);
-            } else {
-                recordPlay.setImageResource(R.drawable.icon_unplay_recording);
-            }
+//            if (myResourceUrl != null && myResourceUrl.length() != 0) {
+//                play.setImageResource(R.drawable.icon_book_play2);
+//            } else {
+//                play.setImageResource(R.drawable.icon_book_play2_f);
+//            }
         }
+        random = new Random();
+//        animationCode = random.nextInt(10) + 1;
+//        initAnimation(animationCode);
         adapter = new ChallengeAdapter(this, lists);
         recycler.setAdapter(adapter);
         presenter = new GrindEarPresenterImp(this, this);
@@ -225,6 +281,47 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
         mRecorderUtil.getRecorderPath();
     }
 
+    private void initAnimation(int animationCode) {
+        switch (animationCode) {
+            case 0:
+                animationPic.setImageResource(R.drawable.icon_book_bee);
+                break;
+            case 1:
+                animationPic.setImageResource(R.drawable.icon_animation_amazing);
+                break;
+            case 2:
+                animationPic.setImageResource(R.drawable.icon_animation_awesome);
+                break;
+            case 3:
+                animationPic.setImageResource(R.drawable.icon_animation_bingo);
+                break;
+            case 4:
+                animationPic.setImageResource(R.drawable.icon_animation_excellent);
+                break;
+            case 5:
+                animationPic.setImageResource(R.drawable.icon_animation_good_observation);
+                break;
+            case 6:
+                animationPic.setImageResource(R.drawable.icon_animation_good_try);
+                break;
+            case 7:
+                animationPic.setImageResource(R.drawable.icon_animation_great);
+                break;
+            case 8:
+                animationPic.setImageResource(R.drawable.icon_animation_great_job);
+                break;
+            case 9:
+                animationPic.setImageResource(R.drawable.icon_animation_nice_going);
+                break;
+            case 10:
+                animationPic.setImageResource(R.drawable.icon_animation_super);
+                break;
+            default:
+
+                break;
+        }
+    }
+
     @Override
     protected BasePresenter getPresenter() {
         return null;
@@ -252,15 +349,31 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
+            isRecord = false;
             AudioBean bean = (AudioBean) message.obj;
             if (bean != null) {
                 if (bean.getResourceUrl() != null) {
-                    myresourceUrl = bean.getResourceUrl();
-                    recordPlay.setImageResource(R.drawable.icon_play_recording_t);
+                    myResourceUrl = bean.getResourceUrl();
+                    play.setImageResource(R.drawable.icon_book_play2);
                 }
+                presenter.clockinShare(3, bookId);
+                animationCode = random.nextInt(10) + 1;
+                setClarity(true);
+                setLottieAnimation(animationCode);
             }
         } else if (message.what == MethodCode.EVENT_PK_CHALLENGE) {
             book = (Book) message.obj;
+            if (book.getPath() != null) {
+                resourceUrl = book.getPath();
+            }
+            if (book.getMyResourceUrl() != null) {
+                myResourceUrl = book.getMyResourceUrl();
+            }
+            if (myResourceUrl != null && myResourceUrl.length() != 0) {
+                play.setImageResource(R.drawable.icon_book_play2);
+            } else {
+                play.setImageResource(R.drawable.icon_book_play2_f);
+            }
             lists.clear();
             for (int i = 0; i < book.getPageContent().size(); i++) {
                 lists.addAll(book.getPageContent().get(i).getLineContent());
@@ -269,6 +382,77 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
         } else if (message.what == MethodCode.EVENT_CLOCKINSHARE) {
             ShareBean shareBean = (ShareBean) message.obj;
             url = shareBean.getUrl();
+        } else if (message.what == MethodCode.EVENT_NECTAR) {
+//            popupView.setVisibility(View.VISIBLE);
+            int type = (int) message.obj;
+            if (type == 5) {
+                luckStart.setVisibility(View.VISIBLE);
+            } else if (type == 6) {
+//                luckStart.setVisibility(View.GONE);
+            } else if (type == 0) {
+//                luckStart.setVisibility(View.GONE);
+                presenter.luckDraw(1);
+            } else if (type == 1) {
+//                luckStart.setVisibility(View.GONE);
+                presenter.luckDraw(2);
+            } else if (type == 2) {
+//                luckStart.setVisibility(View.GONE);
+                presenter.luckDraw(5);
+            } else if (type == 3) {
+//                luckStart.setVisibility(View.GONE);
+                presenter.luckDraw(10);
+            } else if (type == 4) {
+//                luckStart.setVisibility(View.GONE);
+                presenter.luckDraw(20);
+            }
+        } else if (message.what == MethodCode.EVENT_SHARECOIN) {
+            if (popupWindow.isShowing()) {
+                popupWindow.dismiss();
+            }
+            showLuckDrawLayout(false);
+            if (shareType == 0) {
+                coinAnimationView.setImageAssetsFolder("coin10/");
+                coinAnimationView.setAnimation("coin10.json");
+//                animationView.loop(false);
+//                animationView.playAnimation();
+            } else {
+                coinAnimationView.setImageAssetsFolder("coin5/");
+                coinAnimationView.setAnimation("coin5.json");
+//                animationView.loop(false);
+//                animationView.playAnimation();
+            }
+            coinAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    coinAnimationView.setVisibility(View.GONE);
+                    setClarity(false);
+                    showLuckDrawLayout(false);
+                    animation.cancel();
+                    animation.clone();
+//                    animationView.clearColorFilters();
+//                    animationView.reverseAnimation();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+//                    animationView.setVisibility(View.GONE);
+//                    showLuckDrawLayout(false);
+//                    setClarity(false);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            coinAnimationView.loop(false);
+            coinAnimationView.playAnimation();
+            coinAnimationView.setVisibility(View.VISIBLE);
+            SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
         }
     }
 
@@ -276,13 +460,19 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
             case R.id.recording_back:
+                if (!isClick) {
+                    return;
+                }
                 finish();
                 break;
             case R.id.recording_share:
                 //录音分享
+                if (!isClick) {
+                    return;
+                }
                 if (!isPlay) {
                     if (!isRecord) {
-                        if (myresourceUrl != null && myresourceUrl.length() != 0) {
+                        if (myResourceUrl != null && myResourceUrl.length() != 0) {
                             presenter.clockinShare(3, bookId);
                             getWindowGray(true);
                             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
@@ -290,25 +480,74 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                     }
                 }
                 break;
+            case R.id.recording_preview:
+                if (!isClick) {
+                    return;
+                }
+                if (isRecordPlay) {
+                    return;
+                }
+                if (isRecord) {
+                    return;
+                }
+                if (!isPlay) {
+                    if (resourceUrl == null || resourceUrl.length() == 0) {
+                        return;
+                    }
+                    try {
+                        if (mediaPlayer.isPlaying()) {
+                            mediaPlayer.pause();
+                            mediaPlayer.stop();
+                            mediaPlayer.seekTo(0);
+                        }
+                    } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                    }
+                    preview.setImageResource(R.drawable.icon_book_stop);
+                    isPlay = true;
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            playUrl(resourceUrl);
+                        }
+                    }).start();
+                } else {
+                    try {
+                        if (mediaPlayer.isPlaying()) {
+                            mediaPlayer.pause();
+                            mediaPlayer.stop();
+                            mediaPlayer.seekTo(0);
+                        }
+                    } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                    }
+                    preview.setImageResource(R.drawable.icon_book_preview2);
+                    isPlay = false;
+                }
+                break;
             case R.id.recording_record:
+                if (isRecordPlay) {
+                    return;
+                }
                 if (isClick) {
                     if (!isPlay) {
                         if (isRecord) {
                             showInfo("录音结束");
-                            isRecord = false;
-                            recordBtn.setImageResource(R.drawable.icon_recording_t);
+//                            isRecord = false;
+                            record.setImageResource(R.drawable.icon_book_record2);
 //                            speak.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_speak2), null, null);
                             initRecording();
                             mRecorderUtil.stopRecording();
-                            if (record_time <= 0) {
-                                showInfo("时长不能为零");
+                            if (record_time <= 20) {
+                                showInfo("录音时长过短，至少超过20s");
+                                isRecord = false;
                                 break;
                             }
                             //延迟1秒上传
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    presenter.uploadAudioResource(bookId, 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + bookName + ".mp3", 0f, bookName, record_time, 3, "", bookImageUrl, 0, homeworkid);
+                                    presenter.uploadAudioResource(bookId, 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + bookName + ".mp3", 0f, bookName, record_time, 3, "", bookImageUrl, animationCode, homeworkid);
                                 }
                             }, 1000);
                         } else {
@@ -316,19 +555,20 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                             isRecord = true;
                             record_time = 0;
                             handler.postDelayed(runnable, 1000);
-                            recordBtn.setImageResource(R.drawable.icon_recording_f);
-//                            speak.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_stop2), null, null);
+                            record.setImageResource(R.drawable.icon_book_stop);
                             mRecorderUtil.startRecording(bookName);
                         }
                     }
                 }
                 break;
             case R.id.recording_play:
+                if (isPlay) {
+                    return;
+                }
                 if (isClick) {
                     if (!isRecord) {
-                        if (isPlay) {
-                            recordPlay.setImageResource(R.drawable.icon_play_recording_t);
-//                            play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_play2_t), null, null);
+                        if (isRecordPlay) {
+                            play.setImageResource(R.drawable.icon_book_play2);
                             try {
                                 mediaPlayer2.pause();
                                 mediaPlayer2.stop();
@@ -336,17 +576,15 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                             } catch (IllegalStateException e) {
                                 e.printStackTrace();
                             }
-                            isPlay = false;
+                            isRecordPlay = false;
                         } else {
-                            if (myresourceUrl != null && myresourceUrl.length() != 0) {
-//                                isClick = false;
-                                isPlay = true;
-                                recordPlay.setImageResource(R.drawable.icon_play_recording_f);
-//                                play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_stop2), null, null);
+                            if (myResourceUrl != null && myResourceUrl.length() != 0) {
+                                isRecordPlay = true;
+                                play.setImageResource(R.drawable.icon_book_stop);
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        playUrl2(myresourceUrl);
+                                        playUrl2(myResourceUrl);
                                     }
                                 }).start();
                             }
@@ -354,29 +592,127 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                     }
                 }
                 break;
+            case R.id.luckdraw_start:
+                luckStart.setVisibility(View.GONE);
+                luckdrawBg.setImageResource(R.drawable.luck_draw);
+                animationDrawable = (AnimationDrawable) luckdrawBg.getDrawable();
+                animationDrawable.setOneShot(true);
+                animationDrawable.start();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        type = random.nextInt(7);
+                        SystemUtils.setBackGray(RecordingActivity.this, true);
+                        popupWindow2 = SystemUtils.getNectarPopup(RecordingActivity.this, type);
+                        popupWindow2.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                SystemUtils.setBackGray(RecordingActivity.this, false);
+                                JTMessage message = new JTMessage();
+                                message.what = MethodCode.EVENT_NECTAR;
+                                message.obj = type;
+                                EventBus.getDefault().post(message);
+                            }
+                        });
+                        popupWindow2.showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                popupWindow2.dismiss();
+                            }
+                        }, 2000);
+                    }
+                }, 1500);
+                break;
             case R.id.share_daka_pengyouquan:
+                shareType = 0;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareWechatMoments("快来听，我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花流利读" + bookName, "安妮花-定制专属于Ta的英语路线图", null, url);
+                    shareUtils.shareWechatMoments("分享我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花的英文录音《" + bookName + "》，一起加入磨耳朵", "安妮花-磨耳朵 流利读 地道说", null, url);
                 }
                 break;
             case R.id.share_daka_weixin:
+                shareType = 1;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareWechat("快来听，我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花流利读" + bookName, "安妮花-定制专属于Ta的英语路线图", null, url);
+                    shareUtils.shareWechat("分享我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花的英文录音《" + bookName + "》，一起加入磨耳朵", "安妮花-磨耳朵 流利读 地道说", null, url);
                 }
                 break;
             case R.id.share_daka_qq:
+                shareType = 2;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareQQ("快来听，我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花流利读" + bookName, "安妮花-定制专属于Ta的英语路线图", null, url);
+                    shareUtils.shareQQ("分享我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花的英文录音《" + bookName + "》，一起加入磨耳朵", "安妮花-磨耳朵 流利读 地道说", null, url);
                 }
                 break;
             case R.id.share_daka_qqzone:
+                shareType = 3;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareQZone("快来听，我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花流利读" + bookName, "安妮花-定制专属于Ta的英语路线图", null, url);
+                    shareUtils.shareQZone("分享我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花的英文录音《" + bookName + "》，一起加入磨耳朵", "安妮花-磨耳朵 流利读 地道说", null, url);
                 }
                 break;
-            case R.id.daka_share_cancel:
+            case R.id.luckdraw_close:
+                setClarity(false);
+                showLuckDrawLayout(false);
+                break;
+            case R.id.daka_share_cancel2:
                 popupWindow.dismiss();
                 break;
+            case R.id.record_animation:
+                switch (animationCode) {
+                    case 1:
+                        SystemUtils.animPool.play(SystemUtils.animMusicMap.get(animationCode), 1, 1, 0, 0, 1);
+                        break;
+                    case 2:
+                        SystemUtils.animPool.play(SystemUtils.animMusicMap.get(animationCode), 1, 1, 0, 0, 1);
+                        break;
+                    case 3:
+                        SystemUtils.animPool.play(SystemUtils.animMusicMap.get(animationCode), 1, 1, 0, 0, 1);
+                        break;
+                    case 4:
+                        SystemUtils.animPool.play(SystemUtils.animMusicMap.get(animationCode), 1, 1, 0, 0, 1);
+                        break;
+                    case 5:
+                        SystemUtils.animPool.play(SystemUtils.animMusicMap.get(animationCode), 1, 1, 0, 0, 1);
+                        break;
+                    case 6:
+                        SystemUtils.animPool.play(SystemUtils.animMusicMap.get(animationCode), 1, 1, 0, 0, 1);
+                        break;
+                    case 7:
+                        SystemUtils.animPool.play(SystemUtils.animMusicMap.get(animationCode), 1, 1, 0, 0, 1);
+                        break;
+                    case 8:
+                        SystemUtils.animPool.play(SystemUtils.animMusicMap.get(animationCode), 1, 1, 0, 0, 1);
+                        break;
+                    case 9:
+                        SystemUtils.animPool.play(SystemUtils.animMusicMap.get(animationCode), 1, 1, 0, 0, 1);
+                        break;
+                    case 10:
+                        SystemUtils.animPool.play(SystemUtils.animMusicMap.get(animationCode), 1, 1, 0, 0, 1);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+        }
+    }
+
+    private void showLuckDrawLayout(boolean tag) {
+        if (tag) {
+//            setClarity(true);
+            clarity.setVisibility(View.VISIBLE);
+            luckDrawLayout.setVisibility(View.VISIBLE);
+        } else {
+            luckDrawLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private void playUrl(String url) {
+        try {
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(url);
+            mediaPlayer.prepareAsync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
     }
 
@@ -402,44 +738,126 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
     @Override
     public void onCompletion(MediaPlayer mp) {
         isClick = true;
-        isPlay = false;
         if (mp == mediaPlayer2) {
-            recordPlay.setImageResource(R.drawable.icon_play_recording_t);
+            isRecordPlay = false;
+            play.setImageResource(R.drawable.icon_book_play2);
+        } else {
+            isPlay = false;
+            preview.setImageResource(R.drawable.icon_book_preview2);
         }
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        mediaPlayer2.start();
+        if (mp == mediaPlayer) {
+            duration = mediaPlayer.getDuration() / 1000;
+            mediaPlayer.start();
+        } else {
+            mediaPlayer2.start();
+        }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mediaPlayer2 != null) {
-            mediaPlayer2.pause();
+    private void setClarity(boolean tag) {
+        if (tag) {
+            clarity.setVisibility(View.VISIBLE);
+            isClick = false;
+//            recordingLayout.setOnClickListener(null);
+        } else {
+            clarity.setVisibility(View.GONE);
+            isClick = true;
+//            recordingLayout.setOnClickListener(listener);
         }
-        if (mRecorderUtil != null) {
-            mRecorderUtil.stopRecording();
-        }
-        isClick = true;
-        isPlay = false;
     }
 
-    @Override
-    protected void onDestroy() {
-        if (mediaPlayer2 != null) {
-            if (mediaPlayer2.isPlaying()) {
-                mediaPlayer2.stop();
+    private void setLottieAnimation(int animationCode) {
+//        if (animationView.isAnimating()) {
+//            return;
+//        }
+
+        switch (animationCode) {
+            case 1:
+                animationView.setImageAssetsFolder("amazing/");
+                animationView.setAnimation("amazing.json");
+                break;
+            case 2:
+                animationView.setImageAssetsFolder("awesome/");
+                animationView.setAnimation("awesome.json");
+                break;
+            case 3:
+                animationView.setImageAssetsFolder("bingo/");
+                animationView.setAnimation("bingo.json");
+                break;
+            case 4:
+                animationView.setImageAssetsFolder("excellent/");
+                animationView.setAnimation("excellent.json");
+                break;
+            case 5:
+                animationView.setImageAssetsFolder("good_observation/");
+                animationView.setAnimation("good_observation.json");
+                break;
+            case 6:
+                animationView.setImageAssetsFolder("good_try/");
+                animationView.setAnimation("good_try.json");
+                break;
+            case 7:
+                animationView.setImageAssetsFolder("great/");
+                animationView.setAnimation("great.json");
+                break;
+            case 8:
+                animationView.setImageAssetsFolder("great_job/");
+                animationView.setAnimation("great_job.json");
+                break;
+            case 9:
+                animationView.setImageAssetsFolder("nice_going/");
+                animationView.setAnimation("nice_going.json");
+                break;
+            case 10:
+                animationView.setImageAssetsFolder("super/");
+                animationView.setAnimation("super.json");
+                break;
+        }
+
+        animationView.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
             }
-            mediaPlayer2.release();
-            mediaPlayer2 = null;
-        }
-        if (handler != null && runnable != null) {
-            handler.removeCallbacks(runnable);
-        }
-        super.onDestroy();
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+//                if (isLuckDraw) {
+                setClarity(true);
+                initAnimation(animationCode);
+                animationView.setVisibility(View.GONE);
+//                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                showLuckDrawLayout(true);
+//                animationView.cancelAnimation();
+                animation.cancel();
+                animation.clone();
+//                    isLuckDraw = false;
+//                } else {
+//                    setClarity(false);
+//                    animationView.setVisibility(View.GONE);
+//                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+//                setClarity(false);
+//                animationView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animationView.loop(false);
+        animationView.playAnimation();
+        animationView.setVisibility(View.VISIBLE);
+        SystemUtils.animPool.play(SystemUtils.animMusicMap.get(animationCode), 1, 1, 0, 0, 1);
     }
+
 
     private void getWindowGray(boolean tag) {
         if (tag) {
@@ -456,18 +874,58 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
     @Override
     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
         showInfo("分享成功");
-        popupWindow.dismiss();
+        presenter.shareCoin(0, shareType);
+//        popupWindow.dismiss();
     }
 
     @Override
     public void onError(Platform platform, int i, Throwable throwable) {
         showInfo("分享取消");
-        popupWindow.dismiss();
+//        popupWindow.dismiss();
     }
 
     @Override
     public void onCancel(Platform platform, int i) {
         showInfo("分享取消");
-        popupWindow.dismiss();
+//        popupWindow.dismiss();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mediaPlayer2 != null) {
+            mediaPlayer2.pause();
+        }
+        if (mRecorderUtil != null) {
+            mRecorderUtil.stopRecording();
+        }
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
+        }
+        isClick = true;
+        isPlay = false;
+        isRecordPlay = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mediaPlayer2 != null) {
+            if (mediaPlayer2.isPlaying()) {
+                mediaPlayer2.stop();
+            }
+            mediaPlayer2.release();
+            mediaPlayer2 = null;
+        }
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+        if (handler != null && runnable != null) {
+            handler.removeCallbacks(runnable);
+        }
+        super.onDestroy();
     }
 }

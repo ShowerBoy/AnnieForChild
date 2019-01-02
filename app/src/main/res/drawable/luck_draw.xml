@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/luckdraw_01" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_03" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_01" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_05" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_01" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_06" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_01" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_08" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_01" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_10" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_01" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_12" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_01" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_14" android:duration="100"/>
+    <item android:drawable="@drawable/luckdraw_01" android:duration="100"/>
+</animation-list>

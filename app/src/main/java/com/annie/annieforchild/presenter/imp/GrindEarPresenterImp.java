@@ -615,6 +615,23 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
         interactor.shareCoin(record, type);
     }
 
+    @Override
+    public void getRadio(String type, int radioid) {
+        grindEarView.showLoad();
+        interactor.getRadio(type, radioid);
+    }
+
+    @Override
+    public void getLyric(int bookid) {
+        songView.showLoad();
+        interactor.getLyric(bookid);
+    }
+
+    @Override
+    public void luckDraw(int nectar) {
+        interactor.luckDraw(nectar);
+    }
+
     private void initImageSlide() {
         grindEarView.getImageSlide().removeAllSliders();
         for (int name : file_maps.keySet()) {
@@ -861,6 +878,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_COLLECTCOURSE + 2000 + classId) {
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.song.ListenSongFragment#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.pk.MusicPlayActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -1283,6 +1301,24 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETRADIO) {
+                List<Song> lists = (List<Song>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETLYRIC) {
+                List<String> lists = (List<String>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.pk.MusicPlayActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
                 EventBus.getDefault().post(message);
             }
         }

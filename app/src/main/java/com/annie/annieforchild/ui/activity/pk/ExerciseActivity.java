@@ -105,7 +105,6 @@ public class ExerciseActivity extends BaseActivity implements OnCheckDoubleClick
         title = intent.getStringExtra("title");
         homeworkid = intent.getIntExtra("homeworkid", 0);
 
-
         if (audioSource != 1 || audioSource != 3 || audioSource != 9) {
             pageImage.setVisibility(View.VISIBLE);
         } else {

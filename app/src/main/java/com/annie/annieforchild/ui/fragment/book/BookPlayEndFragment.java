@@ -63,7 +63,7 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
     private List<Song> recommendList;
     private CheckDoubleClickListener listener;
     private List<String> urlList;
-    private int bookId;
+    private int bookId, audioType;
     private AlertHelper helper;
     private Dialog dialog;
     private Release release;
@@ -102,6 +102,7 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
             imageUrl = bundle.getString("imageUrl");
             bookId = bundle.getInt("bookId");
             bookName = bundle.getString("bookName");
+            audioType = bundle.getInt("audioType", 1);
             Glide.with(getContext()).load(imageUrl).into(bookImage);
         }
         mediaPlayer = new MediaPlayer();
@@ -118,7 +119,7 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
                 Intent intent = new Intent(getContext(), PracticeActivity.class);
                 intent.putExtra("song", recommendList.get(position));
                 intent.putExtra("type", 0);
-                intent.putExtra("audioType", 1);
+                intent.putExtra("audioType", audioType);
                 intent.putExtra("audioSource", 0);
                 intent.putExtra("bookType", 1);
                 startActivity(intent);
@@ -197,6 +198,7 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
                 intent.putExtra("bookId", bookId);
                 intent.putExtra("bookName", bookName);
                 intent.putExtra("imageUrl", imageUrl);
+                intent.putExtra("audioType",audioType);
                 startActivity(intent);
                 getActivity().finish();
             } else {

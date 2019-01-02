@@ -229,7 +229,7 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                             SystemUtils.setBackGray(GlobalSearchActivity.this, true);
                             SystemUtils.getBookPopup(GlobalSearchActivity.this, song, 0, 3, 0, 0, lists.get(position).getTag()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
                         } else {
-                            if (lists.get(position).getIsyuedu() == 1 || lists.get(position).getIskouyu() == 1) {
+                            if (lists.get(position).getIsyuedu() == 1) {
                                 if (lists.get(position).getTag().equals("校园生活故事1") || lists.get(position).getTag().equals("校园生活故事2") || lists.get(position).getTag().equals("神奇树屋")) {
                                     if (MusicService.isPlay) {
                                         MusicService.stop();
@@ -251,13 +251,22 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                                     intent.putExtra("audioSource", 0);
                                     startActivity(intent);
                                 }
+                            } else if (lists.get(position).getIskouyu() == 1) {
+                                Intent intent = new Intent(GlobalSearchActivity.this, PracticeActivity.class);
+                                intent.putExtra("song", song);
+                                intent.putExtra("type", 0);
+                                intent.putExtra("audioType", 2);
+                                intent.putExtra("audioSource", 0);
+                                intent.putExtra("collectType", 0);
+                                intent.putExtra("bookType", 1);
+                                startActivity(intent);
                             } else {
                                 Intent intent = new Intent(GlobalSearchActivity.this, PracticeActivity.class);
                                 intent.putExtra("song", song);
                                 intent.putExtra("type", 0);
-                                intent.putExtra("audioType", 3);
+                                intent.putExtra("audioType", 0);
                                 intent.putExtra("audioSource", 0);
-                                intent.putExtra("collectType", 0);
+                                intent.putExtra("collectType", 1);
                                 intent.putExtra("bookType", 0);
                                 startActivity(intent);
                             }

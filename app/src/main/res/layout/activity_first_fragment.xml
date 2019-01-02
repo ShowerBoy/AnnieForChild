@@ -497,28 +497,20 @@
                                     android:orientation="vertical">
 
                                     <RelativeLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="120dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="100dp"
                                         android:layout_gravity="center_horizontal"
                                         android:background="@drawable/drawable_corner">
 
                                         <ImageView
                                             android:id="@+id/main_moerduo_image1"
-                                            android:layout_width="match_parent"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="110dp"
                                             android:layout_centerInParent="true"
                                             android:layout_marginEnd="2dp"
                                             android:layout_marginStart="2dp"
                                             android:scaleType="fitCenter" />
 
-                                        <ImageView
-                                            android:id="@+id/main_grindear_lock1"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f"
-                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -543,28 +535,20 @@
                                     android:orientation="vertical">
 
                                     <RelativeLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="120dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="100dp"
                                         android:layout_gravity="center_horizontal"
                                         android:background="@drawable/drawable_corner">
 
                                         <ImageView
                                             android:id="@+id/main_moerduo_image2"
-                                            android:layout_width="match_parent"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="110dp"
                                             android:layout_centerInParent="true"
                                             android:layout_marginEnd="2dp"
                                             android:layout_marginStart="2dp"
                                             android:scaleType="fitCenter" />
 
-                                        <ImageView
-                                            android:id="@+id/main_grindear_lock2"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f"
-                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -587,28 +571,20 @@
                                     android:orientation="vertical">
 
                                     <RelativeLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="120dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="100dp"
                                         android:layout_gravity="center_horizontal"
                                         android:background="@drawable/drawable_corner">
 
                                         <ImageView
                                             android:id="@+id/main_moerduo_image3"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="110dp"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:layout_centerInParent="true"
                                             android:layout_marginEnd="2dp"
                                             android:layout_marginStart="2dp"
                                             android:scaleType="fitCenter" />
 
-                                        <ImageView
-                                            android:id="@+id/main_grindear_lock3"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f"
-                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -697,7 +673,7 @@
 
                                     <RelativeLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="120dp"
+                                        android:layout_height="100dp"
                                         android:layout_gravity="center_horizontal"
                                         android:background="@drawable/drawable_corner">
 
@@ -710,14 +686,6 @@
                                             android:layout_marginStart="2dp"
                                             android:scaleType="fitCenter" />
 
-                                        <ImageView
-                                            android:id="@+id/main_reading_lock1"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f"
-                                            android:visibility="gone" />
                                     </RelativeLayout>
 
 
@@ -744,7 +712,7 @@
 
                                     <RelativeLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="120dp"
+                                        android:layout_height="100dp"
                                         android:layout_gravity="center_horizontal"
                                         android:background="@drawable/drawable_corner">
 
@@ -754,17 +722,7 @@
                                             android:layout_height="110dp"
                                             android:layout_centerInParent="true"
                                             android:layout_marginEnd="2dp"
-                                            android:layout_marginStart="2dp"
-                                            android:scaleType="fitCenter" />
-
-                                        <ImageView
-                                            android:id="@+id/main_reading_lock2"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f"
-                                            android:visibility="gone" />
+                                            android:layout_marginStart="2dp"/>
                                     </RelativeLayout>
 
                                     <TextView
@@ -788,7 +746,7 @@
 
                                     <RelativeLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="120dp"
+                                        android:layout_height="100dp"
                                         android:layout_gravity="center_horizontal"
                                         android:background="@drawable/drawable_corner">
 
@@ -801,14 +759,6 @@
                                             android:layout_marginStart="2dp"
                                             android:scaleType="fitCenter" />
 
-                                        <ImageView
-                                            android:id="@+id/main_reading_lock3"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f"
-                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -896,7 +846,7 @@
 
                                     <RelativeLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="120dp"
+                                        android:layout_height="100dp"
                                         android:layout_gravity="center_horizontal"
                                         android:background="@drawable/drawable_corner">
 
@@ -909,14 +859,6 @@
                                             android:layout_marginStart="2dp"
                                             android:scaleType="fitCenter" />
 
-                                        <ImageView
-                                            android:id="@+id/main_speaking_lock1"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f"
-                                            android:visibility="gone" />
                                     </RelativeLayout>
 
 
@@ -943,7 +885,7 @@
 
                                     <RelativeLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="120dp"
+                                        android:layout_height="100dp"
                                         android:layout_gravity="center_horizontal"
                                         android:background="@drawable/drawable_corner">
 
@@ -956,14 +898,6 @@
                                             android:layout_marginStart="2dp"
                                             android:scaleType="fitCenter" />
 
-                                        <ImageView
-                                            android:id="@+id/main_speaking_lock2"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f"
-                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -987,7 +921,7 @@
 
                                     <RelativeLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="120dp"
+                                        android:layout_height="100dp"
                                         android:layout_gravity="center_horizontal"
                                         android:background="@drawable/drawable_corner">
 
@@ -1000,14 +934,6 @@
                                             android:layout_marginStart="2dp"
                                             android:scaleType="fitCenter" />
 
-                                        <ImageView
-                                            android:id="@+id/main_speaking_lock3"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentTop="true"
-                                            android:src="@drawable/icon_lock_book_f"
-                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <TextView
@@ -1077,8 +1003,8 @@
 
                             <RelativeLayout
                                 android:id="@+id/meiriyige_relative"
-                                android:layout_width="90dp"
-                                android:layout_height="100dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:background="@drawable/drawable_corner">
 
@@ -1089,14 +1015,6 @@
                                     android:layout_centerInParent="true"
                                     android:scaleType="fitCenter" />
 
-                                <ImageView
-                                    android:id="@+id/main_meiriyige_lock"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_alignParentTop="true"
-                                    android:src="@drawable/icon_lock_book_f"
-                                    android:visibility="gone" />
                             </RelativeLayout>
 
                             <TextView
@@ -1178,8 +1096,8 @@
 
                             <RelativeLayout
                                 android:id="@+id/meiriyishi_relative"
-                                android:layout_width="90dp"
-                                android:layout_height="100dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:background="@drawable/drawable_corner">
 
@@ -1190,14 +1108,6 @@
                                     android:layout_centerInParent="true"
                                     android:scaleType="fitCenter" />
 
-                                <ImageView
-                                    android:id="@+id/main_meiriyishi_lock"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_alignParentTop="true"
-                                    android:src="@drawable/icon_lock_book_f"
-                                    android:visibility="gone" />
                             </RelativeLayout>
 
                             <TextView
@@ -1279,8 +1189,8 @@
 
                             <RelativeLayout
                                 android:id="@+id/meiriyidu_relative"
-                                android:layout_width="90dp"
-                                android:layout_height="100dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:background="@drawable/drawable_corner">
 
@@ -1291,14 +1201,6 @@
                                     android:layout_centerInParent="true"
                                     android:scaleType="fitCenter" />
 
-                                <ImageView
-                                    android:id="@+id/main_meiriyidu_lock"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_alignParentTop="true"
-                                    android:src="@drawable/icon_lock_book_f"
-                                    android:visibility="gone" />
                             </RelativeLayout>
 
                             <TextView

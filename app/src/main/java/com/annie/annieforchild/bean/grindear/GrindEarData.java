@@ -16,17 +16,17 @@ import java.util.List;
 public class GrindEarData implements Serializable {
     private String listening100;
     private String animation100;
-    private RadioBean radio;
+    private List<RadioBean> radio;
     private List<Banner> bannerList;
     private List<Song> meiriyige;
     private List<Song> meiriyishi;
     private List<Song> recommendlist;
 
-    public RadioBean getRadio() {
+    public List<RadioBean> getRadio() {
         return radio;
     }
 
-    public void setRadio(RadioBean radio) {
+    public void setRadio(List<RadioBean> radio) {
         this.radio = radio;
     }
 

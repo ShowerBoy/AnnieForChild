@@ -177,6 +177,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getMusicList(int classId) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICLIST, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICLISTTEST, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         request.add("classId", classId);
@@ -766,6 +767,37 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         startQueue();
     }
 
+    @Override
+    public void getRadio(String type, int radioid) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETRADIO, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("radioid", radioid);
+        request.add("type", type);
+        addQueue(MethodCode.EVENT_GETRADIO, request);
+        startQueue();
+    }
+
+    @Override
+    public void getLyric(int bookid) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETLYRIC, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("bookid", bookid);
+        addQueue(MethodCode.EVENT_GETLYRIC, request);
+        startQueue();
+    }
+
+    @Override
+    public void luckDraw(int nectar) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.LUCKDRAW, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("nectar", nectar);
+        addQueue(MethodCode.EVENT_LUCKDRAW, request);
+        startQueue();
+    }
+
 
     @Override
     protected void onNetWorkStart(int what) {
@@ -1004,6 +1036,14 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 listener.Success(what, "取消点赞");
             } else if (what == MethodCode.EVENT_SHARECOIN) {
                 listener.Success(what, jsonString);
+            } else if (what == MethodCode.EVENT_GETRADIO) {
+                List<Song> lists = JSON.parseArray(data, Song.class);
+                listener.Success(what, lists);
+            } else if (what == MethodCode.EVENT_GETLYRIC) {
+                List<String> lists = JSON.parseArray(data, String.class);
+                listener.Success(what, lists);
+            } else if (what == MethodCode.EVENT_LUCKDRAW) {
+
             }
         }
     }

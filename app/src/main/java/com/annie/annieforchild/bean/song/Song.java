@@ -1,5 +1,8 @@
 package com.annie.annieforchild.bean.song;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.annie.annieforchild.bean.book.Release;
 import com.annie.annieforchild.bean.book.ReleaseBean;
 
@@ -36,6 +39,15 @@ public class Song implements Serializable {
     private int iskouyu;
     private int ismoerduo;
     private int isyuedu;
+    private String path;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public String getRecordCount() {
         return recordCount;
@@ -188,4 +200,5 @@ public class Song implements Serializable {
     public void setIsJoinMaterial(int isJoinMaterial) {
         this.isJoinMaterial = isJoinMaterial;
     }
+
 }

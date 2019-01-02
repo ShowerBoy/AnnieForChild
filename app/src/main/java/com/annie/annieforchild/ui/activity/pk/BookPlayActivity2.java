@@ -123,6 +123,7 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, View.On
         bundle.putInt("bookId", bookId);
         bundle.putString("bookName", title);
         bundle.putInt("homeworkid", homeworkid);
+        bundle.putInt("audioType", audioType);
         bookTitle.setText(title);
         bookPlayEndFragment.setArguments(bundle);
         presenter = new GrindEarPresenterImp(this, this);
@@ -237,7 +238,6 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, View.On
                 releaseList.add(new ReleaseUrl(false, new ArrayList<>(), ""));
             }
         }
-
     }
 
     @Override
