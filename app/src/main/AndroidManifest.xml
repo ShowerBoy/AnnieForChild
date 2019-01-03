@@ -419,6 +419,9 @@
         <activity
             android:name=".ui.activity.pk.ReleaseSuccessActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.mains.HomePageActivity"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

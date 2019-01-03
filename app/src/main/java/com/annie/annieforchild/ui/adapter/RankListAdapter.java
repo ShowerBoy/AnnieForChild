@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.alibaba.fastjson.serializer.ListSerializer;
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.rank.Rank;
 import com.annie.annieforchild.bean.rank.RankList;
 import com.annie.annieforchild.ui.activity.mains.RankingActivity;
@@ -442,6 +444,24 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
                     intent.putExtra("resourceType", 3);
                     context.startActivity(intent);
                 }
+            }
+        });
+        rankListViewHolder.first.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        rankListViewHolder.second.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        rankListViewHolder.third.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

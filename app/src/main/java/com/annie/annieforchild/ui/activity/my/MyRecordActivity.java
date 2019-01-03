@@ -5,8 +5,10 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Environment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,12 +18,15 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.views.APSTSViewPager;
+import com.annie.annieforchild.Utils.views.LazyViewPager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.Record;
 import com.annie.annieforchild.presenter.MessagePresenter;
 import com.annie.annieforchild.presenter.imp.MessagePresenterImp;
 import com.annie.annieforchild.ui.adapter.MyNectarAdapter;
 import com.annie.annieforchild.ui.adapter.MyRecordAdapter;
+import com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -31,6 +36,7 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -43,12 +49,16 @@ import java.util.List;
  * Created by WangLei on 2018/3/8 0008
  */
 
-public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnClickListener {
+public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnClickListener, ViewPager.OnPageChangeListener {
     private ImageView myRecordBack;
+    private AdvancedPagerSlidingTabStrip mSlidingTab;
+    private APSTSViewPager mVP;
     private SwipeMenuListView myRecordRecycler;
     private List<Record> lists;
     private MyRecordAdapter adapter;
     private MessagePresenter presenter;
+    private MyReleaseFragment fragment1, fragment2, fragment3, fragment4, fragment5;
+    private MyRecordFragmentAdapter fragmentAdapter;
     private AlertHelper helper;
     private Dialog dialog;
 
@@ -65,13 +75,21 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
     protected void initView() {
         myRecordBack = findViewById(R.id.my_record_back);
         myRecordRecycler = findViewById(R.id.my_record_recycler);
+        mSlidingTab = findViewById(R.id.my_record_tab_layout);
+        mVP = findViewById(R.id.my_record_viewpager);
+        fragmentAdapter = new MyRecordFragmentAdapter(getSupportFragmentManager());
+        mVP.setOffscreenPageLimit(5);
+        mVP.setAdapter(fragmentAdapter);
+        fragmentAdapter.notifyDataSetChanged();
+        mSlidingTab.setViewPager(mVP);
+        mSlidingTab.setOnPageChangeListener(this);
         myRecordBack.setOnClickListener(this);
-        helper = new AlertHelper(this);
-        dialog = helper.LoadingDialog();
     }
 
     @Override
     protected void initData() {
+        helper = new AlertHelper(this);
+        dialog = helper.LoadingDialog();
         presenter = new MessagePresenterImp(this, this);
         presenter.initViewAndData();
         lists = new ArrayList<>();
@@ -206,5 +224,89 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
     protected void onDestroy() {
         adapter.destoryAudio();
         super.onDestroy();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    class MyRecordFragmentAdapter extends FragmentStatePagerAdapter {
+
+        public MyRecordFragmentAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position >= 0 && position < 5) {
+                switch (position) {
+                    case 0:
+                        if (null == fragment1) {
+                            fragment1 = MyReleaseFragment.instance(position);
+                        }
+                        return fragment1;
+                    case 1:
+                        if (null == fragment2) {
+                            fragment2 = MyReleaseFragment.instance(position);
+                        }
+                        return fragment2;
+                    case 2:
+                        if (null == fragment3) {
+                            fragment3 = MyReleaseFragment.instance(position);
+                        }
+                        return fragment3;
+                    case 3:
+                        if (null == fragment4) {
+                            fragment4 = MyReleaseFragment.instance(position);
+                        }
+                        return fragment4;
+                    case 4:
+                        if (null == fragment5) {
+                            fragment5 = MyReleaseFragment.instance(position);
+                        }
+                        return fragment5;
+                    default:
+                        break;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position >= 0 && position < 5) {
+                switch (position) {
+                    case 0:
+                        return "我的录音";
+                    case 1:
+                        return "我的发布";
+                    case 2:
+                        return "我的练习";
+                    case 3:
+                        return "我的挑战";
+                    case 4:
+                        return "我的pk";
+                    default:
+                        break;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 5;
+        }
     }
 }

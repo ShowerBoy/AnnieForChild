@@ -46,7 +46,7 @@ import java.util.List;
  * Created by wanglei on 2018/9/22.
  */
 
-public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick, GrindEarView ,ViewPager.OnPageChangeListener{
+public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick, GrindEarView, ViewPager.OnPageChangeListener {
     private RecyclerView recycler;
     private SliderLayout sliderLayout;
     private AdvancedPagerSlidingTabStrip mTab;
@@ -93,6 +93,7 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
 
     @Override
     protected void initData() {
+        lists = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         file_maps = new HashMap<>();
@@ -132,10 +133,10 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETNETHOMEDATA) {
-//            NetWork netWork = (NetWork) message.obj;
+            NetWork netWork = (NetWork) message.obj;
 //            lists.clear();
 //            lists.addAll(netWork.getNetList());
-//            adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_PAY) {
             presenter.getNetHomeData();
         }

@@ -31,6 +31,7 @@ import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
+import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.fragment.DakaFragment;
 import com.annie.annieforchild.ui.fragment.FirstFragment;
@@ -116,43 +117,48 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
             file4.mkdirs();
         }
         SystemUtils.initSoundPool(this);
-
         if (SystemUtils.uri != null && SystemUtils.defaultUsername != null) {
-            String bookid = SystemUtils.uri.getQueryParameter("bookid");
-            //0:磨耳朵 1： 流利读 2：动画
-            String bookType = SystemUtils.uri.getQueryParameter("booktype");
-            String bookname = SystemUtils.uri.getQueryParameter("bookname");
-            String bookurl = SystemUtils.uri.getQueryParameter("bookurl");
-            String animationurl = SystemUtils.uri.getQueryParameter("animationurl");
+            String tag = SystemUtils.uri.getQueryParameter("tag");
+            if (tag != null && tag.equals("moerduo")) {
+                Intent intent = new Intent(this, GrindEarActivity.class);
+                startActivity(intent);
+            } else {
+                String bookid = SystemUtils.uri.getQueryParameter("bookid");
+                //0:磨耳朵 1： 流利读 2：动画
+                String bookType = SystemUtils.uri.getQueryParameter("booktype");
+                String bookname = SystemUtils.uri.getQueryParameter("bookname");
+                String bookurl = SystemUtils.uri.getQueryParameter("bookurl");
+                String animationurl = SystemUtils.uri.getQueryParameter("animationurl");
 //            SystemUtils.show(this, bookid + "===" + bookType + "===" + bookname + "===" + bookurl);
-            if (bookid != null && bookType != null) {
-                Song song = new Song();
-                song.setBookId(Integer.parseInt(bookid));
-                song.setBookName(bookname);
-                song.setBookImageUrl(bookurl);
-                if (bookType.equals("0")) {
-                    Intent intent = new Intent(this, PracticeActivity.class);
-                    intent.putExtra("song", song);
-                    intent.putExtra("type", 0);
-                    intent.putExtra("audioType", 0);
-                    intent.putExtra("audioSource", 0);
-                    intent.putExtra("bookType", 0);
-                    startActivity(intent);
-                } else if (bookType.equals("1")) {
-                    Intent intent = new Intent(this, PracticeActivity.class);
-                    intent.putExtra("song", song);
-                    intent.putExtra("type", 0);
-                    intent.putExtra("audioType", 1);
-                    intent.putExtra("audioSource", 0);
-                    intent.putExtra("bookType", 1);
-                    startActivity(intent);
-                } else if (bookType.equals("2")) {
-                    Intent intent = new Intent(this, VideoActivity.class);
-                    intent.putExtra("url", animationurl);
-                    intent.putExtra("imageUrl", bookurl);
-                    intent.putExtra("name", bookname);
-                    intent.putExtra("id", bookid);
-                    startActivity(intent);
+                if (bookid != null && bookType != null) {
+                    Song song = new Song();
+                    song.setBookId(Integer.parseInt(bookid));
+                    song.setBookName(bookname);
+                    song.setBookImageUrl(bookurl);
+                    if (bookType.equals("0")) {
+                        Intent intent = new Intent(this, PracticeActivity.class);
+                        intent.putExtra("song", song);
+                        intent.putExtra("type", 0);
+                        intent.putExtra("audioType", 0);
+                        intent.putExtra("audioSource", 0);
+                        intent.putExtra("bookType", 0);
+                        startActivity(intent);
+                    } else if (bookType.equals("1")) {
+                        Intent intent = new Intent(this, PracticeActivity.class);
+                        intent.putExtra("song", song);
+                        intent.putExtra("type", 0);
+                        intent.putExtra("audioType", 1);
+                        intent.putExtra("audioSource", 0);
+                        intent.putExtra("bookType", 1);
+                        startActivity(intent);
+                    } else if (bookType.equals("2")) {
+                        Intent intent = new Intent(this, VideoActivity.class);
+                        intent.putExtra("url", animationurl);
+                        intent.putExtra("imageUrl", bookurl);
+                        intent.putExtra("name", bookname);
+                        intent.putExtra("id", bookid);
+                        startActivity(intent);
+                    }
                 }
             }
         }

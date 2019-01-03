@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ReleaseBean implements Serializable {
     private int id;
+    private String username;
     private String recordName;
     private String recordPlayTimes;
     private String recordDate;
@@ -17,6 +18,14 @@ public class ReleaseBean implements Serializable {
     private int recordAge;
     private int islike;
     private List<String> recordUrl;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public int getIslike() {
         return islike;
