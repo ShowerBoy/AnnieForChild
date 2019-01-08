@@ -171,4 +171,7 @@ public class MethodCode {
     final public static int EVENT_GETRADIO = 131; //
     final public static int EVENT_GETLYRIC = 132; //
     final public static int EVENT_LUCKDRAW = 133; //
+    final public static int EVENT_GETHOMEPAGE = 134; //
+    final public static int EVENT_GETPRODUCTIONLIST = 135; //
+    final public static int EVENT_CANCELRELEASE = 136; //
 }

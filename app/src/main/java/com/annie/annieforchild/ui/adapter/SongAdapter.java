@@ -72,7 +72,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
 
     @Override
     public void onBindViewHolder(SongViewHolder songViewHolder, int i) {
-        Glide.with(context).load(lists.get(i).getBookImageUrl()).error(R.drawable.image_recording_empty).into(songViewHolder.songImage);
+        Glide.with(context).load(lists.get(i).getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(songViewHolder.songImage);
         songViewHolder.songName.setText(lists.get(i).getBookName());
         songViewHolder.songCount.setText(lists.get(i).getCount() + "");
         if (lists.get(i).getIsCollected() == 0) {

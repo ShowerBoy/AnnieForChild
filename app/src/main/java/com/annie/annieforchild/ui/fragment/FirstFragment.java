@@ -1,28 +1,20 @@
 package com.annie.annieforchild.ui.fragment;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
@@ -41,23 +33,17 @@ import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.MainPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.presenter.imp.MainPresenterImp;
-import com.annie.annieforchild.ui.activity.CalendarActivity;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.MainActivity;
-import com.annie.annieforchild.ui.activity.XiangXueActivity;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
-import com.annie.annieforchild.ui.activity.grindEar.ListenSongActivity;
 import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2;
 import com.annie.annieforchild.ui.activity.mains.BankBookActivity;
 import com.annie.annieforchild.ui.activity.mains.SquareActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
-import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
-import com.annie.annieforchild.ui.activity.pk.ChallengeActivity;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
 import com.annie.annieforchild.ui.activity.speaking.SpeakingActivity;
-import com.annie.annieforchild.ui.adapter.NetWorkAdapter;
 import com.annie.annieforchild.view.MainView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.bumptech.glide.Glide;
@@ -330,9 +316,9 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
         if (moerduoList.size() == 3) {
             grindText.setVisibility(View.VISIBLE);
             moerduoLinear.setVisibility(View.VISIBLE);
-            Glide.with(this).load(moerduoList.get(0).getBookImageUrl()).into(moerduoImage1);
-            Glide.with(this).load(moerduoList.get(1).getBookImageUrl()).into(moerduoImage2);
-            Glide.with(this).load(moerduoList.get(2).getBookImageUrl()).into(moerduoImage3);
+            Glide.with(this).load(moerduoList.get(0).getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(moerduoImage1);
+            Glide.with(this).load(moerduoList.get(1).getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(moerduoImage2);
+            Glide.with(this).load(moerduoList.get(2).getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(moerduoImage3);
             moerduoText1.setText(moerduoList.get(0).getBookName());
             moerduoText2.setText(moerduoList.get(1).getBookName());
             moerduoText3.setText(moerduoList.get(2).getBookName());
@@ -344,9 +330,9 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
         if (readingList.size() == 3) {
             readingText.setVisibility(View.VISIBLE);
             readingLinear.setVisibility(View.VISIBLE);
-            Glide.with(this).load(readingList.get(0).getBookImageUrl()).into(readingImage1);
-            Glide.with(this).load(readingList.get(1).getBookImageUrl()).into(readingImage2);
-            Glide.with(this).load(readingList.get(2).getBookImageUrl()).into(readingImage3);
+            Glide.with(this).load(readingList.get(0).getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(readingImage1);
+            Glide.with(this).load(readingList.get(1).getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(readingImage2);
+            Glide.with(this).load(readingList.get(2).getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(readingImage3);
             readingText1.setText(readingList.get(0).getBookName());
             readingText2.setText(readingList.get(1).getBookName());
             readingText3.setText(readingList.get(2).getBookName());
@@ -358,9 +344,9 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
         if (speakingList.size() == 3) {
             speakingLinear.setVisibility(View.VISIBLE);
             speakingText.setVisibility(View.VISIBLE);
-            Glide.with(this).load(speakingList.get(0).getBookImageUrl()).into(spokenImage1);
-            Glide.with(this).load(speakingList.get(1).getBookImageUrl()).into(spokenImage2);
-            Glide.with(this).load(speakingList.get(2).getBookImageUrl()).into(spokenImage3);
+            Glide.with(this).load(speakingList.get(0).getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(spokenImage1);
+            Glide.with(this).load(speakingList.get(1).getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(spokenImage2);
+            Glide.with(this).load(speakingList.get(2).getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(spokenImage3);
             spokenText1.setText(speakingList.get(0).getBookName());
             spokenText2.setText(speakingList.get(1).getBookName());
             spokenText3.setText(speakingList.get(2).getBookName());
@@ -398,9 +384,9 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
             speakingLinear.setVisibility(View.GONE);
             speakingText.setVisibility(View.GONE);
         }
-        Glide.with(this).load(meiriyige.getBookImageUrl()).into(meiriyigeImage);
-        Glide.with(this).load(meiriyishi.getBookImageUrl()).into(meiriyishiImage);
-        Glide.with(this).load(meiriyidu.getBookImageUrl()).into(meiriyiduImage);
+        Glide.with(this).load(meiriyige.getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(meiriyigeImage);
+        Glide.with(this).load(meiriyishi.getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(meiriyishiImage);
+        Glide.with(this).load(meiriyidu.getBookImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(meiriyiduImage);
         meiriyigeText.setText(meiriyige.getBookName());
         meiriyigeCount.setText(meiriyige.getCount() + "次阅读");
         meiriyishiText.setText(meiriyishi.getBookName());

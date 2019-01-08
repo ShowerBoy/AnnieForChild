@@ -14,6 +14,7 @@ import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.rank.Rank;
 import com.annie.annieforchild.bean.rank.RankList;
+import com.annie.annieforchild.ui.activity.mains.HomePageActivity;
 import com.annie.annieforchild.ui.activity.mains.RankingActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.RankListViewHolder;
 import com.bumptech.glide.Glide;
@@ -449,19 +450,43 @@ public class RankListAdapter extends RecyclerView.Adapter<RankListViewHolder> {
         rankListViewHolder.first.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, HomePageActivity.class);
+                if (i == 0) {
+                    intent.putExtra("username", list.get(0).getListeningList().get(0).getUsername());
+                } else if (i == 1) {
+                    intent.putExtra("username", list.get(0).getReadingList().get(0).getUsername());
+                } else if (i == 2) {
+                    intent.putExtra("username", list.get(0).getSpeakingList().get(0).getUsername());
+                }
+                context.startActivity(intent);
             }
         });
         rankListViewHolder.second.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, HomePageActivity.class);
+                if (i == 0) {
+                    intent.putExtra("username", list.get(0).getListeningList().get(1).getUsername());
+                } else if (i == 1) {
+                    intent.putExtra("username", list.get(0).getReadingList().get(1).getUsername());
+                } else if (i == 2) {
+                    intent.putExtra("username", list.get(0).getSpeakingList().get(1).getUsername());
+                }
+                context.startActivity(intent);
             }
         });
         rankListViewHolder.third.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, HomePageActivity.class);
+                if (i == 0) {
+                    intent.putExtra("username", list.get(0).getListeningList().get(2).getUsername());
+                } else if (i == 1) {
+                    intent.putExtra("username", list.get(0).getReadingList().get(2).getUsername());
+                } else if (i == 2) {
+                    intent.putExtra("username", list.get(0).getSpeakingList().get(2).getUsername());
+                }
+                context.startActivity(intent);
             }
         });
     }

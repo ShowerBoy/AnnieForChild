@@ -33,6 +33,8 @@ import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
+import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
+import com.annie.annieforchild.ui.activity.speaking.SpeakingActivity;
 import com.annie.annieforchild.ui.fragment.DakaFragment;
 import com.annie.annieforchild.ui.fragment.FirstFragment;
 import com.annie.annieforchild.ui.fragment.FourthFragment;
@@ -119,9 +121,17 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
         SystemUtils.initSoundPool(this);
         if (SystemUtils.uri != null && SystemUtils.defaultUsername != null) {
             String tag = SystemUtils.uri.getQueryParameter("tag");
-            if (tag != null && tag.equals("moerduo")) {
-                Intent intent = new Intent(this, GrindEarActivity.class);
-                startActivity(intent);
+            if (tag != null) {
+                if (tag.equals("moerduo")) {
+                    Intent intent = new Intent(this, GrindEarActivity.class);
+                    startActivity(intent);
+                } else if (tag.equals("yuedu")) {
+                    Intent intent = new Intent(this, ReadingActivity.class);
+                    startActivity(intent);
+                } else if (tag.equals("kouyu")) {
+                    Intent intent = new Intent(this, SpeakingActivity.class);
+                    startActivity(intent);
+                }
             } else {
                 String bookid = SystemUtils.uri.getQueryParameter("bookid");
                 //0:磨耳朵 1： 流利读 2：动画

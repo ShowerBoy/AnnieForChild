@@ -122,4 +122,14 @@ public interface GrindEarInteractor {
     void getLyric(int bookid);
 
     void luckDraw(int nectar);
+
+    void getHomepage(String otherusername);
+
+    void getProductionList(int page, String otherusername);
+
+    void myRecordings(int type, int page);
+
+    void deleteRecording(int recordingId, int origin, int tag);
+
+    void cancelRelease(int bookid, int tag);
 }

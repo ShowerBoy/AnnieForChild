@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="36dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/menu_collect"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="26dp"
         android:orientation="horizontal">
 
         <ImageView

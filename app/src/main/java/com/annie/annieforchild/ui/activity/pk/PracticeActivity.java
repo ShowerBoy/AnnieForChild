@@ -289,6 +289,7 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
          * {@link com.annie.annieforchild.ui.fragment.FirstFragment}
          * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity}
          * {@link com.annie.annieforchild.ui.activity.reading.ReadingActivity}
+         * {@link com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment}
          */
         intent = getIntent();
         if (intent != null) {

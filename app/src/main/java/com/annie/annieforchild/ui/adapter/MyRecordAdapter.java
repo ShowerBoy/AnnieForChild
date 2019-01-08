@@ -8,7 +8,6 @@ import android.media.MediaPlayer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +15,14 @@ import android.widget.BaseAdapter;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.Record;
+import com.annie.annieforchild.bean.record.Record;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyRecordViewHolder;
-import com.annie.annieforchild.ui.application.MyApplication;
-import com.annie.baselibrary.utils.NetUtils.NoHttpUtils;
 import com.bumptech.glide.Glide;
 import com.yanzhenjie.nohttp.Headers;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.download.DownloadListener;
 import com.yanzhenjie.nohttp.download.DownloadQueue;
 import com.yanzhenjie.nohttp.download.DownloadRequest;
-import com.yanzhenjie.nohttp.rest.RequestQueue;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -36,8 +32,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.microedition.khronos.opengles.GL;
 
 /**
  * 我的录音适配器

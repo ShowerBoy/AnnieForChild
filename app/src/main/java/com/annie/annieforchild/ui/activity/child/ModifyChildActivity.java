@@ -113,7 +113,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
                 .setThemeColor(R.color.black)
                 .setTitleStringId("日期选择")
                 .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setMaxMillseconds(System.currentTimeMillis() + oneYears)
+                .setMaxMillseconds(System.currentTimeMillis())
                 .setCurrentMillseconds(System.currentTimeMillis())
                 .setWheelItemTextSize(16)
                 .setCallBack(this)

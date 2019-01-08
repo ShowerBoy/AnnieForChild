@@ -59,7 +59,7 @@ public class AnimationAdapter extends RecyclerView.Adapter<AnimationViewHolder> 
 
     @Override
     public void onBindViewHolder(AnimationViewHolder animationViewHolder, int i) {
-        Glide.with(context).load(lists.get(i).getAnimationImageUrl()).error(R.drawable.image_recording_empty).into(animationViewHolder.image);
+        Glide.with(context).load(lists.get(i).getAnimationImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(animationViewHolder.image);
         animationViewHolder.title.setText(lists.get(i).getAnimationName());
         if (lists.get(i).getIsCollected() == 0) {
             animationViewHolder.collect.setTextColor(context.getResources().getColor(R.color.text_color));

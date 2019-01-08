@@ -1,54 +1,47 @@
 package com.annie.annieforchild.interactor.imp;
 
 import android.content.Context;
-import android.provider.MediaStore;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.AnimationData;
 import com.annie.annieforchild.bean.AudioBean;
-import com.annie.annieforchild.bean.Banner;
 import com.annie.annieforchild.bean.ClockIn;
 import com.annie.annieforchild.bean.DurationStatis;
-import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.bean.PkResult;
 import com.annie.annieforchild.bean.ReadingData;
+import com.annie.annieforchild.bean.record.Record;
 import com.annie.annieforchild.bean.ShareBean;
-import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Release;
 import com.annie.annieforchild.bean.grindear.GrindEarData;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
-import com.annie.annieforchild.bean.period.MyPeriod;
 import com.annie.annieforchild.bean.period.PeriodBean;
+import com.annie.annieforchild.bean.rank.Hpbean;
+import com.annie.annieforchild.bean.rank.ProductionBean;
 import com.annie.annieforchild.bean.rank.RankList;
 import com.annie.annieforchild.bean.rank.SquareRankList;
+import com.annie.annieforchild.bean.record.RecordBean;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
-import com.annie.annieforchild.bean.task.Task;
 import com.annie.annieforchild.bean.task.TaskBean;
 import com.annie.annieforchild.bean.task.TaskDetails;
 import com.annie.annieforchild.interactor.GrindEarInteractor;
+import com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
-import com.annie.baselibrary.utils.NetUtils.request.JsonArrayRequest;
-import com.yanzhenjie.nohttp.Binary;
 import com.yanzhenjie.nohttp.FileBinary;
 import com.yanzhenjie.nohttp.RequestMethod;
-import com.yanzhenjie.nohttp.rest.JsonObjectRequest;
 import com.yanzhenjie.nohttp.rest.Response;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 磨耳朵
@@ -59,6 +52,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     private Context context;
     private RequestListener listener;
     private int classId;
+    private int type;
 
     public GrindEarInteractorImp(Context context, RequestListener listener) {
         this.context = context;
@@ -798,6 +792,64 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         startQueue();
     }
 
+    @Override
+    public void getHomepage(String otherusername) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETHOMEPAGE, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("otherusername", otherusername);
+        addQueue(MethodCode.EVENT_GETHOMEPAGE, request);
+        startQueue();
+    }
+
+    @Override
+    public void getProductionList(int page, String otherusername) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETPRODUCTIONLIST, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("otherusername", otherusername);
+        request.add("page", page);
+        addQueue(MethodCode.EVENT_GETPRODUCTIONLIST, request);
+        startQueue();
+    }
+
+    @Override
+    public void myRecordings(int type, int page) {
+        this.type = type;
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGSTEST, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("type", type);
+        request.add("page", page);
+        addQueue(MethodCode.EVENT_MYRECORDINGS + 10000 + type, request);
+        startQueue();
+    }
+
+    @Override
+    public void deleteRecording(int recordingId, int origin, int tag) {
+        this.type = tag;
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETERECORDING, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETERECORDINGTEST, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("origin", origin);
+        request.add("recordingId", recordingId);
+        addQueue(MethodCode.EVENT_DELETERECORDING + 30000 + type, request);
+        startQueue();
+    }
+
+    @Override
+    public void cancelRelease(int bookid, int tag) {
+        this.type = tag;
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.CANCELRELEASE, RequestMethod.POST);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", SystemUtils.token);
+        request.add("bookid", bookid);
+        addQueue(MethodCode.EVENT_CANCELRELEASE + 20000 + type, request);
+        startQueue();
+    }
+
 
     @Override
     protected void onNetWorkStart(int what) {
@@ -1044,6 +1096,22 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_LUCKDRAW) {
 
+            } else if (what == MethodCode.EVENT_GETHOMEPAGE) {
+                Hpbean hpbean = JSON.parseObject(data, Hpbean.class);
+                listener.Success(what, hpbean);
+            } else if (what == MethodCode.EVENT_GETPRODUCTIONLIST) {
+                ProductionBean productionBean = JSON.parseObject(data, ProductionBean.class);
+                listener.Success(what, productionBean);
+            } else if (what == MethodCode.EVENT_MYRECORDINGS + 10000 + type) {
+                RecordBean recordBean = JSON.parseObject(data, RecordBean.class);
+                if (recordBean == null) {
+                    recordBean = new RecordBean();
+                }
+                listener.Success(what, recordBean);
+            } else if (what == MethodCode.EVENT_DELETERECORDING + 30000 + type) {
+                listener.Success(what, "删除成功");
+            } else if (what == MethodCode.EVENT_CANCELRELEASE + 20000 + type) {
+                listener.Success(what, "取消发布成功");
             }
         }
     }

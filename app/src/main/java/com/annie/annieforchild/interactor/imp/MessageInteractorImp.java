@@ -8,7 +8,7 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.HelpBean;
-import com.annie.annieforchild.bean.Record;
+import com.annie.annieforchild.bean.record.Record;
 import com.annie.annieforchild.bean.tongzhi.MyNotice;
 import com.annie.annieforchild.interactor.MessageInteractor;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;

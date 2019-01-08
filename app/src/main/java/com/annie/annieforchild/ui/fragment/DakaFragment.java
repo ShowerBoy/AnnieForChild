@@ -35,6 +35,7 @@ import com.annie.annieforchild.ui.activity.mains.BankBookActivity;
 import com.annie.annieforchild.ui.activity.reading.MyReadingActivity;
 import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
 import com.annie.annieforchild.ui.activity.speaking.MySpeakingActivity;
+import com.annie.annieforchild.ui.activity.speaking.SpeakingActivity;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseFragment;
 
@@ -199,24 +200,8 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 startActivity(intent);
                 break;
             case R.id.goto_speaking:
-                if (SystemUtils.tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (SystemUtils.childTag == 0) {
-                    SystemUtils.toAddChild(getContext());
-                    return;
-                }
-                if (FirstFragment.spokenList.size() != 0) {
-                    intent.setClass(getContext(), ListenSongActivity.class);
-                    Bundle bundle5 = new Bundle();
-                    bundle5.putInt("type", 11);
-                    bundle5.putSerializable("ClassifyList", (Serializable) FirstFragment.spokenList);
-                    intent.putExtras(bundle5);
-                    startActivity(intent);
-                } else {
-                    showInfo("请稍后");
-                }
+                intent.setClass(getContext(), SpeakingActivity.class);
+                startActivity(intent);
                 break;
             case R.id.daka_btn:
                 if (SystemUtils.tag.equals("游客")) {

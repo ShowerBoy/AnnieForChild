@@ -19,6 +19,9 @@ import com.annie.annieforchild.bean.grindear.GrindEarData;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
 import com.annie.annieforchild.bean.period.PeriodBean;
+import com.annie.annieforchild.bean.rank.Hpbean;
+import com.annie.annieforchild.bean.rank.ProductionBean;
+import com.annie.annieforchild.bean.record.RecordBean;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.bean.task.Task;
@@ -58,6 +61,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     private int lineId;
     private int pkType;
     private int page;
+    private int type;
     private HashMap<Integer, String> file_maps;
 
     public GrindEarPresenterImp(Context context) {
@@ -543,7 +547,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
 
     @Override
     public void getCardDetail() {
-        songView.showLoad();
+//        songView.showLoad();
         interactor.getCardDetail();
     }
 
@@ -630,6 +634,38 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     @Override
     public void luckDraw(int nectar) {
         interactor.luckDraw(nectar);
+    }
+
+    @Override
+    public void getHomepage(String otherusername) {
+        songView.showLoad();
+        interactor.getHomepage(otherusername);
+    }
+
+    @Override
+    public void getProdutionList(int page, String otherusername) {
+//        songView.showLoad();
+        interactor.getProductionList(page, otherusername);
+    }
+
+    @Override
+    public void myRecordings(int type, int page) {
+        this.type = type;
+        interactor.myRecordings(type, page);
+    }
+
+    @Override
+    public void deleteRecording(int recordingId, int origin, int tag) {
+        this.type = tag;
+        songView.showLoad();
+        interactor.deleteRecording(recordingId, origin, tag);
+    }
+
+    @Override
+    public void cancelRelease(int bookid, int tag) {
+        songView.showLoad();
+        type = tag;
+        interactor.cancelRelease(bookid, tag);
     }
 
     private void initImageSlide() {
@@ -945,6 +981,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_LIKESTUDENT) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.mains.RankingActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.mains.HomePageActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -953,6 +990,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_CANCELLIKESTUDENT) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.mains.RankingActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.mains.HomePageActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -1281,6 +1319,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_ADDLIKES) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.pk.PracticeActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.mains.HomePageActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -1289,6 +1328,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_CANCELLIKES) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.pk.PracticeActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.mains.HomePageActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -1319,6 +1359,49 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETHOMEPAGE) {
+                Hpbean hpbean = (Hpbean) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.mains.HomePageActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = hpbean;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETPRODUCTIONLIST) {
+                ProductionBean productionBean = (ProductionBean) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.mains.HomePageActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = productionBean;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_MYRECORDINGS + 10000 + type) {
+                RecordBean recordBean = (RecordBean) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = recordBean;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_DELETERECORDING + 30000 + type) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_CANCELRELEASE + 20000 + type) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
                 EventBus.getDefault().post(message);
             }
         }

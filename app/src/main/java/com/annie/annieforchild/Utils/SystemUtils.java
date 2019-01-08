@@ -707,6 +707,29 @@ public class SystemUtils {
         }
     }
 
+    public static String secToHour(int second) {
+        String time;
+        int min = second / 60;
+        int remainder = second % 60;
+        int hour = min / 60;
+        if (min <= 0) {
+            if (second == 0) {
+                //0s
+                time = "0小时0分钟";
+            } else {
+                //0-59s
+                time = "0小时1分钟";
+            }
+        } else {
+            if (remainder > 0) {
+                min = min + 1;
+            }
+            min = min - hour * 60;
+            time = hour + "小时" + min + "分钟";
+        }
+        return time;
+    }
+
     /**
      * 获取未来 第 past 天的日期
      *

@@ -46,7 +46,7 @@ public class RadioItemAdapter extends RecyclerView.Adapter<RadioItemViewHolder> 
 
     @Override
     public void onBindViewHolder(RadioItemViewHolder radioItemViewHolder, int i) {
-        Glide.with(context).load(lists.get(i).getRadioImageUrl()).into(radioItemViewHolder.image);
+        Glide.with(context).load(lists.get(i).getRadioImageUrl()).placeholder(R.drawable.image_loading).error(R.drawable.image_loading).into(radioItemViewHolder.image);
         radioItemViewHolder.title.setText(lists.get(i).getRadioTitle());
     }
 

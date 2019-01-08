@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="95dp"
-    android:background="@color/white"
-    android:padding="10dp">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/my_record_image"
-        android:layout_width="60dp"
+    <FrameLayout
+        android:id="@+id/record_frame"
+        android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_alignParentStart="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/image_recording_empty" />
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/my_record_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/image_loading" />
+
+        <TextView
+            android:id="@+id/target"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:background="@color/clarity_black"
+            android:paddingEnd="3dp"
+            android:paddingStart="3dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+    </FrameLayout>
 
     <ImageView
         android:id="@+id/my_record_play"
@@ -19,15 +40,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="6dp"
+        android:layout_marginEnd="16dp"
         android:src="@drawable/icon_replay" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginEnd="6dp"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/my_record_image"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/record_frame"
         android:layout_toStartOf="@+id/my_record_play">
 
         <TextView
@@ -36,25 +58,51 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="3dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="录音内容(15秒）"
             android:textColor="@color/text_black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/my_release_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/my_record_content"
+            android:layout_below="@+id/my_record_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/my_record_playTimes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="122次播放"
+                android:textColor="@color/text_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/my_record_likeTimes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="122次赞"
+                android:textColor="@color/text_color"
+                android:textSize="12sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/my_record_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/my_record_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_alignStart="@+id/my_record_content"
+            android:layout_below="@+id/my_release_layout"
+            android:layout_marginTop="3dp"
             android:text="2018-03-08"
             android:textColor="@color/text_color"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/my_record_time"
@@ -62,9 +110,15 @@
             android:layout_height="wrap_content"
             android:text="(15秒）"
             android:textColor="@color/text_black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:visibility="gone" />
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/record_frame"
+        android:layout_marginTop="12dp"
+        android:background="@color/gray" />
 
 </RelativeLayout>

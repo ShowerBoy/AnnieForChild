@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.book.Release;
 import com.annie.annieforchild.bean.book.ReleaseBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
+import com.annie.annieforchild.ui.activity.mains.HomePageActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.BookEndViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.ui.fragment.book.BookPlayEndFragment;
@@ -178,6 +180,14 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
                     } else {
                         presenter.cancellikes(lists.get(i).getId());
                     }
+                }
+            });
+            bookEndViewHolder.headpic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, HomePageActivity.class);
+                    intent.putExtra("username", lists.get(i).getUsername());
+                    context.startActivity(intent);
                 }
             });
         } else {
