@@ -8,6 +8,7 @@ import android.content.Context;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.views.CountDownDialog;
 import com.annie.annieforchild.ui.interfaces.OnCountFinishListener;
+import com.annie.baselibrary.base.BaseActivity;
 
 /**
  * 提示框工具类

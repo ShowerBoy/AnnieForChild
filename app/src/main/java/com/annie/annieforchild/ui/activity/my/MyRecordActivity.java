@@ -34,6 +34,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
@@ -51,7 +52,7 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
     public static APSTSViewPager mVP;
     private SwipeMenuListView myRecordRecycler;
     private List<Record> lists;
-//    private MyRecordAdapter adapter;
+    //    private MyRecordAdapter adapter;
     //    private MessagePresenter presenter;
     private MyReleaseFragment fragment1, fragment2, fragment3, fragment4, fragment5;
     private MyRecordFragmentAdapter fragmentAdapter;
@@ -220,7 +221,10 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
 
     @Override
     public void onPageSelected(int position) {
-
+        JTMessage message = new JTMessage();
+        message.what = MethodCode.EVENT_STOPPLAY;
+        message.obj = 0;
+        EventBus.getDefault().post(message);
     }
 
     @Override
@@ -240,27 +244,27 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
                 switch (position) {
                     case 0:
                         if (null == fragment1) {
-                            fragment1 = MyReleaseFragment.instance(position);
+                            fragment1 = MyReleaseFragment.instance(1);
                         }
                         return fragment1;
                     case 1:
                         if (null == fragment2) {
-                            fragment2 = MyReleaseFragment.instance(position);
+                            fragment2 = MyReleaseFragment.instance(0);
                         }
                         return fragment2;
                     case 2:
                         if (null == fragment3) {
-                            fragment3 = MyReleaseFragment.instance(position);
+                            fragment3 = MyReleaseFragment.instance(2);
                         }
                         return fragment3;
                     case 3:
                         if (null == fragment4) {
-                            fragment4 = MyReleaseFragment.instance(position);
+                            fragment4 = MyReleaseFragment.instance(3);
                         }
                         return fragment4;
                     case 4:
                         if (null == fragment5) {
-                            fragment5 = MyReleaseFragment.instance(position);
+                            fragment5 = MyReleaseFragment.instance(4);
                         }
                         return fragment5;
                     default:
@@ -275,9 +279,9 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
             if (position >= 0 && position < 5) {
                 switch (position) {
                     case 0:
-                        return "我的录音";
-                    case 1:
                         return "我的发布";
+                    case 1:
+                        return "我的录音";
                     case 2:
                         return "我的练习";
                     case 3:

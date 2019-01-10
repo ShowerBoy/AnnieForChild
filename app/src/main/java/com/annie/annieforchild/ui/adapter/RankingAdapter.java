@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.rank.Rank;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
+import com.annie.annieforchild.ui.activity.mains.HomePageActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.RankViewHolder;
 import com.bumptech.glide.Glide;
 
@@ -93,6 +95,14 @@ public class RankingAdapter extends RecyclerView.Adapter<RankViewHolder> {
                 } else {
                     presenter.cancelLikeStudent(lists.get(i).getUsername());
                 }
+            }
+        });
+        rankViewHolder.headpic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HomePageActivity.class);
+                intent.putExtra("username", lists.get(i).getUsername());
+                context.startActivity(intent);
             }
         });
     }

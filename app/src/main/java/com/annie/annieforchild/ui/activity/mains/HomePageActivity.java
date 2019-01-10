@@ -23,9 +23,12 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.rank.Hpbean;
 import com.annie.annieforchild.bean.rank.Production;
 import com.annie.annieforchild.bean.rank.ProductionBean;
+import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
+import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.ProductionAdapter;
+import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -147,7 +150,29 @@ public class HomePageActivity extends BaseActivity implements SongView, OnCheckD
         if (intent != null) {
             otherUsername = intent.getStringExtra("username");
         }
-        adapter = new ProductionAdapter(this, lists, presenter);
+        adapter = new ProductionAdapter(this, lists, presenter, new OnRecyclerItemClickListener() {
+            @Override
+            public void onItemClick(View view) {
+                int position = recycler.getChildAdapterPosition(view);
+                Intent intent = new Intent(HomePageActivity.this, PracticeActivity.class);
+                Song song = new Song();
+                song.setBookId(lists.get(position - 1).getBookId());
+                song.setBookImageUrl(lists.get(position - 1).getBookImageUrl());
+                song.setBookName(lists.get(position - 1).getBookName());
+                intent.putExtra("song", song);
+                intent.putExtra("type", 0);
+                intent.putExtra("audioType", 1);
+                intent.putExtra("audioSource", 0);
+                intent.putExtra("collectType", 2);
+                intent.putExtra("bookType", 1);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View view) {
+
+            }
+        });
         recycler.setAdapter(adapter);
         presenter.getHomepage(otherUsername);
         presenter.getProdutionList(page, otherUsername);

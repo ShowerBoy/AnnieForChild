@@ -17,7 +17,16 @@ public class Record {
     private String playCount;
     private String likeCount;
     private int audioType;
+    private int audioSource;
     private int origin;
+
+    public int getAudioSource() {
+        return audioSource;
+    }
+
+    public void setAudioSource(int audioSource) {
+        this.audioSource = audioSource;
+    }
 
     public String getPlayCount() {
         return playCount;

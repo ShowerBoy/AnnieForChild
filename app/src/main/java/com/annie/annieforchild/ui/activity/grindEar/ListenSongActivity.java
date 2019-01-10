@@ -15,10 +15,13 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
+import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
+import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
 import com.annie.annieforchild.ui.activity.speaking.MySpeakingActivity;
 import com.annie.annieforchild.ui.adapter.SongAdapter;
 import com.annie.annieforchild.ui.fragment.song.AnimationFragment;
@@ -26,6 +29,8 @@ import com.annie.annieforchild.ui.fragment.song.ListenSongFragment;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,7 +136,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
                 listenTitle.setText("看动画");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
                 audioType = 0;
-                audioSource = 0;
+                audioSource = 100;
             } else if (type == 11) {
                 listenTitle.setText("绘本口语");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
@@ -268,5 +273,14 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
         public int getCount() {
             return lists.size();
         }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        JTMessage message = new JTMessage();
+        message.what = MethodCode.EVENT_LOADING;
+        message.obj = 0;
+        EventBus.getDefault().post(message);
     }
 }

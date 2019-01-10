@@ -54,7 +54,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  */
 
 public class FourthFragment extends BaseFragment implements FourthView, OnCheckDoubleClick {
-    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, aboutLayout, collectionLayout, periodLayout;
+    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout nectarLayout, levelLayout, recordLayout;
     private ImageView settings, sexIcon, headpic_back;
@@ -123,6 +123,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         levelLayout = view.findViewById(R.id.user_level_layout);
         recordLayout = view.findViewById(R.id.record_layout);
         headpic_back = view.findViewById(R.id.headpic_back);
+        myRecordLayout = view.findViewById(R.id.my_record_layout);
         swipeRefreshLayout = view.findViewById(R.id.fourth_swipeRefresh);
         periodLayout = view.findViewById(R.id.my_period_layout);
         listener = new CheckDoubleClickListener(this);
@@ -138,6 +139,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         recordLayout.setOnClickListener(listener);
         levelLayout.setOnClickListener(listener);
         periodLayout.setOnClickListener(listener);
+        myRecordLayout.setOnClickListener(listener);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         member_layout.setLayoutManager(manager);
@@ -521,6 +523,23 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
 //                break;
             case R.id.record_layout:
                 //我的录音
+//                if (tag.equals("游客")) {
+//                    SystemUtils.toLogin(getContext());
+//                    return;
+//                }
+//                if (SystemUtils.childTag == 0) {
+//                    showInfo("请先添加学员");
+//                    SystemUtils.toAddChild(getContext());
+//                    return;
+//                }
+//                intent.setClass(getContext(), MyRecordActivity.class);
+//                Bundle bundle4 = new Bundle();
+//                bundle4.putSerializable("userinfo", userInfo);
+//                intent.putExtras(bundle4);
+//                startActivity(intent);
+                break;
+            case R.id.my_record_layout:
+                //我的作品
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;

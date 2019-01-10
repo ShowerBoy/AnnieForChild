@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class RankingActivity extends BaseActivity implements View.OnClickListene
     private TextView title;
     private ImageView back;
     private CircleImageView headpic;
+    private RelativeLayout myLayout;
     private TextView name, rank, address;
     private RecyclerView recycler;
     private Spinner rangeSpinner, timeSpinner;
@@ -77,7 +79,9 @@ public class RankingActivity extends BaseActivity implements View.OnClickListene
         name = findViewById(R.id.rankingList_name);
         rank = findViewById(R.id.rankingList_rank);
         address = findViewById(R.id.rankingList_address);
+        myLayout = findViewById(R.id.my_ranklist_layout);
         back.setOnClickListener(this);
+        myLayout.setOnClickListener(this);
         initRecycler();
     }
 
@@ -161,6 +165,11 @@ public class RankingActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.rankingList_back:
                 finish();
+                break;
+            case R.id.my_ranklist_layout:
+                Intent intent = new Intent(this, HomePageActivity.class);
+                intent.putExtra("username", SystemUtils.defaultUsername);
+                startActivity(intent);
                 break;
         }
     }

@@ -51,6 +51,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/my_ranklist_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -72,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/rankingList_headpic"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             android:layout_toEndOf="@+id/rankingList_headpic"
             android:textColor="@color/white"

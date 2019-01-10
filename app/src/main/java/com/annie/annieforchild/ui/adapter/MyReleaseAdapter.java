@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.record.Record;
 import com.annie.annieforchild.ui.activity.my.MyRecordActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyReleaseViewHolder;
@@ -34,6 +35,7 @@ public class MyReleaseAdapter extends RecyclerView.Adapter<MyReleaseViewHolder> 
     private MyReleaseViewHolder holder;
     private int currentSize = 0, totalSize, currentPos = -2;
     private int tag;
+    private Thread thread;
 
     public MyReleaseAdapter(Context context, List<Record> lists, int tag, OnRecyclerItemClickListener listener) {
         this.context = context;
@@ -97,27 +99,31 @@ public class MyReleaseAdapter extends RecyclerView.Adapter<MyReleaseViewHolder> 
                     }
                 }
 //                if (isClick) {
-                holder = finalHolder1;
+
                 if (!isPlay) {
+                    holder = finalHolder1;
                     urlList.clear();
                     urlList.addAll(lists.get(position).getUrl());
                     totalSize = urlList.size();
                     currentSize = 0;
-                    new Thread(new Runnable() {
+                    currentPos = position;
+                    thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
                             playUrl2(urlList.get(currentSize));
                         }
-                    }).start();
+                    });
+                    thread.start();
                     MyRecordActivity.mVP.setNoFocus(true);
                     holder.myRecordPlay.setImageResource(R.drawable.icon_stop);
-                    currentPos = position;
                     isPlay = true;
                 } else {
                     try {
+//                        if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
                         mediaPlayer.stop();
                         mediaPlayer.seekTo(0);
+//                        }
                     } catch (IllegalStateException e) {
                         e.printStackTrace();
                     }
@@ -157,12 +163,12 @@ public class MyReleaseAdapter extends RecyclerView.Adapter<MyReleaseViewHolder> 
     public void onCompletion(MediaPlayer mp) {
         currentSize++;
         if (currentSize < totalSize) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    playUrl2(urlList.get(currentSize));
-                }
-            }).start();
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+            playUrl2(urlList.get(currentSize));
+//                }
+//            }).start();
         } else {
 //            isClick = true;
             isPlay = false;
@@ -175,13 +181,28 @@ public class MyReleaseAdapter extends RecyclerView.Adapter<MyReleaseViewHolder> 
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        mediaPlayer.start();
+        if (isPlay) {
+            mediaPlayer.start();
+        }
     }
 
 
     public void stopAudio() {
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) {
+                mediaPlayer.pause();
+                mediaPlayer.stop();
+                if (holder != null) {
+                    holder.myRecordPlay.setImageResource(R.drawable.icon_replay);
+                }
+            }
+        }
+    }
+
+    public void releaseAudio() {
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.pause();
                 mediaPlayer.stop();
                 if (holder != null) {
                     holder.myRecordPlay.setImageResource(R.drawable.icon_replay);

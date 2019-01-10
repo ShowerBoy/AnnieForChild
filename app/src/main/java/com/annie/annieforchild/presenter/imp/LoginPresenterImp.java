@@ -304,6 +304,16 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                                     @Override
                                     public void run() {
                                         if (!SystemUtils.signinBean.isNectar()) {
+                                            if (SystemUtils.task == null) {
+                                                SystemUtils.task = new TimerTask() {
+                                                    @Override
+                                                    public void run() {
+                                                        Intent intent = new Intent();
+                                                        intent.setAction("countdown");
+                                                        context.sendBroadcast(intent);
+                                                    }
+                                                };
+                                            }
                                             SystemUtils.timer.schedule(SystemUtils.task, 120 * 1000);
                                         }
                                     }

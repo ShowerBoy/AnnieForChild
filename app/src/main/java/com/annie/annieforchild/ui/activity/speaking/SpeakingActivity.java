@@ -178,6 +178,7 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle2 = new Bundle();
                 bundle2.putInt("type", 11);
@@ -194,6 +195,7 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle3 = new Bundle();
                 bundle3.putInt("type", 12);
@@ -210,6 +212,7 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle4 = new Bundle();
                 bundle4.putInt("type", 13);
@@ -226,6 +229,7 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle5 = new Bundle();
                 bundle5.putInt("type", 14);
@@ -242,6 +246,7 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle6 = new Bundle();
                 bundle6.putInt("type", 15);
@@ -283,6 +288,8 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
         } else if (message.what == MethodCode.EVENT_GETSPOKENCLASSES5) {
             yanjiangSpeakingList.clear();
             yanjiangSpeakingList.addAll((List<SongClassify>) message.obj);
+        } else if (message.what == MethodCode.EVENT_LOADING) {
+            dismissLoad();
         }
     }
 

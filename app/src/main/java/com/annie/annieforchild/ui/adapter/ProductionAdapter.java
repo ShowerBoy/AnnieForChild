@@ -13,6 +13,7 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.rank.Production;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.adapter.viewHolder.ProductionViewHolder;
+import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
@@ -36,12 +37,14 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
     private boolean isPlay = false;
     private int currentPlayPosition;
     private ProductionViewHolder holder;
+    private OnRecyclerItemClickListener listener;
     private int position;
 
-    public ProductionAdapter(Context context, List<Production> lists, GrindEarPresenter presenter) {
+    public ProductionAdapter(Context context, List<Production> lists, GrindEarPresenter presenter, OnRecyclerItemClickListener listener) {
         this.context = context;
         this.lists = lists;
         this.presenter = presenter;
+        this.listener = listener;
         inflater = LayoutInflater.from(context);
         urlList = new ArrayList<>();
         mediaPlayer = new MediaPlayer();
@@ -53,6 +56,12 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
     public ProductionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         ProductionViewHolder holder = null;
         holder = new ProductionViewHolder(inflater.inflate(R.layout.activity_production_item, viewGroup, false));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(v);
+            }
+        });
         return holder;
     }
 

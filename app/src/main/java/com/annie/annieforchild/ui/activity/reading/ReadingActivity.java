@@ -34,6 +34,7 @@ import com.annie.annieforchild.ui.activity.grindEar.MyGrindEarActivity;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.GrindEarAdapter;
+import com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.annieforchild.view.ReadingView;
@@ -210,6 +211,8 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                     musicBtn.stop();
                 }
             }
+        } else if (message.what == MethodCode.EVENT_LOADING) {
+            dismissLoad();
         }
     }
 
@@ -260,6 +263,7 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle1 = new Bundle();
                 bundle1.putInt("type", 6);
@@ -277,6 +281,7 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle2 = new Bundle();
                 bundle2.putInt("type", 7);
@@ -294,6 +299,7 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle3 = new Bundle();
                 bundle3.putInt("type", 8);
@@ -311,6 +317,7 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle4 = new Bundle();
                 bundle4.putInt("type", 9);
@@ -341,6 +348,7 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle5 = new Bundle();
                 bundle5.putInt("type", 10);

@@ -26,6 +26,7 @@ import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -71,6 +72,12 @@ public class MyReleaseFragment extends BaseFragment implements SongView {
         adapter = new MyReleaseAdapter(getContext(), lists, tag, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
+//                if (adapter.isPlay()) {
+                JTMessage message = new JTMessage();
+                message.what = MethodCode.EVENT_STOPPLAY;
+                message.obj = 0;
+                EventBus.getDefault().post(message);
+//                }
                 int position = recycler.getChildAdapterPosition(view);
                 Intent intent = new Intent(getContext(), PracticeActivity.class);
                 Song song = new Song();
@@ -94,14 +101,14 @@ public class MyReleaseFragment extends BaseFragment implements SongView {
                     intent.putExtra("song", song);
                     intent.putExtra("type", 0);
                     intent.putExtra("audioType", 1);
-                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("audioSource", lists.get(position - 1).getAudioSource());
                     intent.putExtra("collectType", 2);
                     intent.putExtra("bookType", 1);
                 } else {
                     intent.putExtra("song", song);
                     intent.putExtra("type", 0);
                     intent.putExtra("audioType", 0);
-                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("audioSource", lists.get(position - 1).getAudioSource());
                     intent.putExtra("collectType", 1);
                     intent.putExtra("bookType", 0);
                 }
@@ -197,13 +204,13 @@ public class MyReleaseFragment extends BaseFragment implements SongView {
             if (recordBean != null) {
                 if (recordBean.getList() != null && recordBean.getList().size() != 0) {
                     empty.setVisibility(View.GONE);
-                    recycler.setVisibility(View.VISIBLE);
+//                    recycler.setVisibility(View.VISIBLE);
                     totalPage = recordBean.getTotalPage();
                     lists.addAll(recordBean.getList());
                     adapter.notifyDataSetChanged();
                 } else {
                     empty.setVisibility(View.VISIBLE);
-                    recycler.setVisibility(View.GONE);
+//                    recycler.setVisibility(View.GONE);
                 }
             } else {
                 empty.setVisibility(View.VISIBLE);
@@ -217,6 +224,11 @@ public class MyReleaseFragment extends BaseFragment implements SongView {
             showInfo((String) message.obj);
             lists.remove(cancelPosition);
             adapter.notifyDataSetChanged();
+        } else if (message.what == MethodCode.EVENT_STOPPLAY) {
+            if (adapter.isPlay()) {
+                adapter.stopAudio();
+                adapter.setPlay(false);
+            }
         }
     }
 
@@ -247,7 +259,7 @@ public class MyReleaseFragment extends BaseFragment implements SongView {
     @Override
     public void onDestroy() {
         if (adapter != null) {
-            adapter.stopAudio();
+            adapter.releaseAudio();
         }
         super.onDestroy();
     }

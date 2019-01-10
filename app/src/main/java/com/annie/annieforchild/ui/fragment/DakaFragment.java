@@ -29,7 +29,6 @@ import com.annie.annieforchild.bean.ShareBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
-import com.annie.annieforchild.ui.activity.grindEar.ListenSongActivity;
 import com.annie.annieforchild.ui.activity.grindEar.MyGrindEarActivity;
 import com.annie.annieforchild.ui.activity.mains.BankBookActivity;
 import com.annie.annieforchild.ui.activity.reading.MyReadingActivity;

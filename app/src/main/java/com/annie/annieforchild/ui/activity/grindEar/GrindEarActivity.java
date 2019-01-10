@@ -299,6 +299,8 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
             } else {
                 showInfo("暂无收藏");
             }
+        } else if (message.what == MethodCode.EVENT_LOADING) {
+            dismissLoad();
         }
     }
 
@@ -365,6 +367,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle1 = new Bundle();
                 bundle1.putInt("type", 5);
@@ -385,6 +388,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle2 = new Bundle();
                 bundle2.putInt("type", 1);
@@ -402,6 +406,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle6 = new Bundle();
                 bundle6.putInt("type", 2);
@@ -419,6 +424,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle3 = new Bundle();
                 bundle3.putInt("type", 0);
@@ -436,6 +442,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle4 = new Bundle();
                 bundle4.putInt("type", 4);
@@ -453,6 +460,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle5 = new Bundle();
                 bundle5.putInt("type", 5);
@@ -470,6 +478,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle7 = new Bundle();
                 bundle7.putInt("type", 3);

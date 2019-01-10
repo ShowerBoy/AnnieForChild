@@ -1,5 +1,6 @@
 package com.annie.baselibrary.base;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
