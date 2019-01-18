@@ -11,7 +11,7 @@ public class NetBean implements Serializable {
     private String teacherName;
     private String teacherQrcode;
     private List<NetClass> list;
-    private List<String> imageList;
+    private ExperienceImageList imageList;
 
     public String getTeacherName() {
         return teacherName;
@@ -37,11 +37,11 @@ public class NetBean implements Serializable {
         this.list = list;
     }
 
-    public List<String> getImageList() {
+    public ExperienceImageList getImageList() {
         return imageList;
     }
 
-    public void setImageList(List<String> imageList) {
+    public void setImageList(ExperienceImageList imageList) {
         this.imageList = imageList;
     }
 }

@@ -27,5 +27,13 @@ public interface NetWorkPresenter {
 
     void getNetDetails(int netid);
 
-    void getLesson(int lessonid);
+    void getLesson(String lessonid);
+
+    void buySuccess();
+
+    void getNetExpDetails(int netid);
+
+    void getNetPreheatConsult(String lessonid);
+
+    void getListeningAndReading(String week,String classid);
 }

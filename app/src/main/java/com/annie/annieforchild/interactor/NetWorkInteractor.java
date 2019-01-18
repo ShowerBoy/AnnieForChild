@@ -25,5 +25,13 @@ public interface NetWorkInteractor {
 
     void getNetDetails(int netid);
 
-    void getLesson(int lessonid);
+    void getNetExpDetails(int netid);
+
+    void getLesson(String lessonid);
+
+    void buySuccess();
+
+    void getNetPreheatConsult(String lessonid);
+
+    void getListeningAndReading(String week,String classid);
 }

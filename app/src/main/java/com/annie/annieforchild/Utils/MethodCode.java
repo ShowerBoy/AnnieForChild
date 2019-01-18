@@ -174,7 +174,13 @@ public class MethodCode {
     final public static int EVENT_GETRADIO = 131; //
     final public static int EVENT_GETLYRIC = 132; //
     final public static int EVENT_LUCKDRAW = 133; //
-    final public static int EVENT_GETHOMEPAGE = 134; //
-    final public static int EVENT_GETPRODUCTIONLIST = 135; //
-    final public static int EVENT_CANCELRELEASE = 136; //
+    final public static int EVENT_GETHOMEPAGE = 138; //
+    final public static int EVENT_GETPRODUCTIONLIST = 139; //
+    final public static int EVENT_CANCELRELEASE = 140; //
+
+
+    final public static int EVENT_BUYSUCCESS = 137; //网课购买成功
+    final public static int EVENT_GETNETEXPDETAILS = 134; //体验课具体内容详情
+    final public static int EVENT_GETPREHEATCONSULT = 135; //预热课
+    final public static int EVENT_GETLISTENANDREAD = 136; //泛听泛读
 }

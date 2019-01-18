@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+		<style>
+			html,
+			body {
+				background-color: #ffffff;
+				height: 100%;
+				margin: 0px;
+				padding: 0px;
+				border: 0px #E8F1D9 solid;
+				font-size: 14px;
+				color: #454545;
+			}
+			
+			.text {
+				padding-left: 20px;
+				font-size: 16px;
+				padding-top: 12px;
+				padding-bottom: 12px;
+				background-image: url(img/icon_arrow_down.png);
+				background-size: 13px 8px;
+				background-repeat: no-repeat;
+				background-position-x: right;
+				background-position-y: center;
+				margin-right: 12px;
+				padding-right: 10px;
+			}
+			
+			.out_li {
+				border-bottom: #f5f5f5 solid 1px;
+			}
+			
+			
+			.inside_ul {
+				margin-left: 5px;
+				margin-top: 5px;
+				margin-bottom: 15px;
+				display: none;
+				list-style-type: disc;
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul id="ul" style="list-style-type: none;padding: 0px;margin: 0px;">
+			<li class="out_li">
+				<div class="text">Q1.安妮花网课是什么形式？</div>
+				<ul class="inside_ul">
+					<li>家长体验安妮鲜花理念体系和方法，通过为期2周的家培师指导，相信自己可以胜任； </li>
+					<li>家长和孩子一起体验安娃陪伴课件和各种泛听泛读素材包括APP的各项辅助学习功能等，感兴趣，有效果，愿意在家庭中继续实践</li>
+				</ul>
+			</li>
+			<li class="out_li">
+				<div class="text">Q2.体验课主要体验什么？</div>
+				<ul class="inside_ul">
+					<li>家长体验安妮鲜花理念体系和方法，通过为期2周的家培师指导，相信自己可以胜任； </li>
+					<li>家长和孩子一起体验安娃陪伴课件和各种泛听泛读素材包括APP的各项辅助学习功能等，感兴趣，有效果，愿意在家庭中继续实践</li>
+				</ul>
+			</li>
+			<li class="out_li">
+				<div class="text">Q3.一定要上体验课吗?</div>
+				<ul class="inside_ul">
+					<li>家长体验安妮鲜花理念体系和方法，通过为期2周的家培师指导，相信自己可以胜任； </li>
+					<li>家长和孩子一起体验安娃陪伴课件和各种泛听泛读素材包括APP的各项辅助学习功能等，感兴趣，有效果，愿意在家庭中继续实践</li>
+				</ul>
+			</li>
+			<li class="out_li">
+				<div class="text">Q4.不同的体验课为什么有一样的内容？</div>
+				<ul class="inside_ul">
+					<li>家长体验安妮鲜花理念体系和方法，通过为期2周的家培师指导，相信自己可以胜任； </li>
+					<li>家长和孩子一起体验安娃陪伴课件和各种泛听泛读素材包括APP的各项辅助学习功能等，感兴趣，有效果，愿意在家庭中继续实践</li>
+				</ul>
+			</li>
+			<li class="out_li">
+				<div class="text">Q5.磨耳朵A和阅读A这两个体验课具体有什么区别？</div>
+				<ul class="inside_ul">
+					<li>家长体验安妮鲜花理念体系和方法，通过为期2周的家培师指导，相信自己可以胜任； </li>
+					<li>家长和孩子一起体验安娃陪伴课件和各种泛听泛读素材包括APP的各项辅助学习功能等，感兴趣，有效果，愿意在家庭中继续实践</li>
+				</ul>
+			</li>
+			<li class="out_li">
+				<div class="text">Q6.体验课学生课件为什么只有1节课？</div>
+				<ul class="inside_ul">
+					<li>家长体验安妮鲜花理念体系和方法，通过为期2周的家培师指导，相信自己可以胜任； </li>
+					<li>家长和孩子一起体验安娃陪伴课件和各种泛听泛读素材包括APP的各项辅助学习功能等，感兴趣，有效果，愿意在家庭中继续实践</li>
+				</ul>
+			</li>
+		</ul>
+
+		<script>
+			$(function() {
+
+				$(".text").click(function() {
+					//					if($(this).next().css('display') == "none") {
+					//						$(".text").css('color', '#454545');
+					//						$(this).css('color', '#FF8A0D');
+					//						$(this).next().css('display', 'block');
+					//						$(this).parent().siblings().children("ul").css('display', 'none');
+					//					} else {
+					//						$(".text").css('color', '#454545');
+					//						$(this).next().css('display', 'none');
+					//					}
+
+					if($(this).next().css('display') == "none") {
+						$(this).css('color', '#FF8A0D');
+						$(this).next().css('display', 'block');
+						$(this).css('background-image', 'url(img/icon_arrow_up.png)');
+					} else {
+						$(this).css('color', '#454545');
+						$(this).next().css('display', 'none');
+						$(this).css('background-image', 'url(img/icon_arrow_down.png)');
+					}
+
+				});
+			});
+		</script>
+	</body>
+
+</html>

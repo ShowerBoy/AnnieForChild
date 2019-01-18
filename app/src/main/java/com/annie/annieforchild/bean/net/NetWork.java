@@ -13,7 +13,7 @@ public class NetWork implements Serializable {
     private List<Banner> bannerList;
     private NetBean experienceList;
     private NetBean specialList;
-    private List<String> suggestList;
+    private SuggestList suggestList;
 
     public List<Banner> getBannerList() {
         return bannerList;
@@ -39,11 +39,11 @@ public class NetWork implements Serializable {
         this.specialList = specialList;
     }
 
-    public List<String> getSuggestList() {
+    public SuggestList getSuggestList() {
         return suggestList;
     }
 
-    public void setSuggestList(List<String> suggestList) {
+    public void setSuggestList(SuggestList suggestList) {
         this.suggestList = suggestList;
     }
 }

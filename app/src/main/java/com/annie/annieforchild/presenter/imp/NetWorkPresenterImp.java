@@ -4,21 +4,24 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.bean.Banner;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Address;
 import com.annie.annieforchild.bean.net.Game;
+import com.annie.annieforchild.bean.net.ListenAndRead;
+import com.annie.annieforchild.bean.net.MyNetClass;
 import com.annie.annieforchild.bean.net.NetClass;
 import com.annie.annieforchild.bean.net.NetDetails;
+import com.annie.annieforchild.bean.net.NetExpDetails;
 import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.bean.net.NetWork;
+import com.annie.annieforchild.bean.net.PreheatConsult;
 import com.annie.annieforchild.bean.net.WechatBean;
+import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.interactor.NetWorkInteractor;
-import com.annie.annieforchild.interactor.imp.GrindEarInteractorImp;
 import com.annie.annieforchild.interactor.imp.NetWorkInteractorImp;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
-import com.annie.annieforchild.ui.adapter.viewHolder.MeiriyiViewHolder;
+import com.annie.annieforchild.ui.activity.net.NetPreheatClassActivity;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BasePresenterImp;
@@ -29,7 +32,6 @@ import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 
@@ -124,11 +126,33 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         viewInfo.showLoad();
         interactor.getNetDetails(netid);
     }
+    @Override
+    public void getNetExpDetails(int netid) {
+        viewInfo.showLoad();
+        interactor.getNetExpDetails(netid);
+    }
 
     @Override
-    public void getLesson(int lessonid) {
+    public void getLesson(String lessonid) {
         viewInfo.showLoad();
         interactor.getLesson(lessonid);
+    }
+
+    @Override
+    public void buySuccess() {
+        viewInfo.showLoad();
+        interactor.buySuccess();
+    }
+    @Override
+    public void getNetPreheatConsult(String lessonid) {
+        viewInfo.showLoad();
+        interactor.getNetPreheatConsult(lessonid);
+    }
+
+    @Override
+    public void getListeningAndReading(String week,String classid) {
+        viewInfo.showLoad();
+        interactor.getListeningAndReading(week,classid);
     }
 
     private void initImageSlide() {
@@ -191,13 +215,14 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.obj = netSuggest;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_GETMYNETCLASS) {
-                List<NetClass> lists = (List<NetClass>) result;
+                MyNetClass myNetClass=(MyNetClass)result;
+//                List<NetClass> lists = (List<NetClass>) result;
                 /**
                  * {@link com.annie.annieforchild.ui.activity.my.MyCourseActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
-                message.obj = lists;
+                message.obj = myNetClass;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_CONFIRMORDER) {
                 NetSuggest netSuggest = (NetSuggest) result;
@@ -277,6 +302,42 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = lists;
+                EventBus.getDefault().post(message);
+            }else if (what == MethodCode.EVENT_BUYSUCCESS) {
+                List<NetClass> lists = (List<NetClass>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.PaySuccessActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            }else if (what == MethodCode.EVENT_GETNETEXPDETAILS) {
+                NetExpClass netExpClass=(NetExpClass)result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetExperienceDetailActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = netExpClass;
+                EventBus.getDefault().post(message);
+            }else if (what == MethodCode.EVENT_GETPREHEATCONSULT) {
+                PreheatConsult lists = (PreheatConsult) result;
+                /**
+                 * {@link NetPreheatClassActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            }else if(what==MethodCode.EVENT_GETLISTENANDREAD){
+                ListenAndRead listenAndRead=(ListenAndRead)result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetListenAndReadActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = listenAndRead;
                 EventBus.getDefault().post(message);
             }
         }

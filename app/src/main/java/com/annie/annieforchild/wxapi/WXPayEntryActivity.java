@@ -13,6 +13,8 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.ui.activity.my.MyCourseActivity;
 import com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
+import com.annie.annieforchild.ui.activity.net.PayFailActivity;
+import com.annie.annieforchild.ui.activity.net.PaySuccessActivity;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -61,17 +63,20 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
                     message.what = MethodCode.EVENT_PAY;
                     message.obj = 1;
                     EventBus.getDefault().post(message);
-//                    Intent intent = new Intent(this, MyCourseActivity.class);
-//                    startActivity(intent);
-//                    finish();
-                    finishAffinity();
+                    Intent intent = new Intent(this, PaySuccessActivity.class);
+                    startActivity(intent);
+                   finish();
                     break;
                 case -2:
                     Toast.makeText(this, "支付取消", Toast.LENGTH_LONG).show();
+                    Intent intent1 = new Intent(this, PayFailActivity.class);
+                    startActivity(intent1);
                     finish();
                     break;
                 default:
                     Toast.makeText(this, "支付失败", Toast.LENGTH_LONG).show();
+                    Intent intent2 = new Intent(this, PayFailActivity.class);
+                    startActivity(intent2);
                     finish();
                     break;
             }

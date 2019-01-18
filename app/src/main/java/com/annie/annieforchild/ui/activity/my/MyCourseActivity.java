@@ -18,11 +18,12 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.book.Line;
+import com.annie.annieforchild.bean.net.MyNetClass;
 import com.annie.annieforchild.bean.net.NetClass;
+import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
-import com.annie.annieforchild.ui.activity.net.NetDetailsActivity;
+import com.annie.annieforchild.ui.activity.net.NetExperienceDetailActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.ui.adapter.MyCourseAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
@@ -33,7 +34,6 @@ import com.annie.baselibrary.base.BasePresenter;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -45,7 +45,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     private ImageView back;
     private TextView gotoNet;
     private LinearLayout empty;
-    private RelativeLayout howto, addqun;
+    private RelativeLayout howto;
     private RecyclerView recycler;
     private MyCourseAdapter adapter;
     private CheckDoubleClickListener listener;
@@ -53,6 +53,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     private List<NetClass> lists;
     private AlertHelper helper;
     private Dialog dialog;
+    private TextView network_teacher_wx;
 
     {
         setRegister(true);
@@ -68,7 +69,6 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
         back = findViewById(R.id.my_course_back);
         recycler = findViewById(R.id.my_course_recycler);
         howto = findViewById(R.id.howto_relative);
-        addqun = findViewById(R.id.add_qun_relative);
         empty = findViewById(R.id.empty_layout);
         gotoNet = findViewById(R.id.goto_net);
         listener = new CheckDoubleClickListener(this);
@@ -78,6 +78,9 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         manager.setScrollEnabled(false);
         recycler.setLayoutManager(manager);
+
+        network_teacher_wx=findViewById(R.id.network_teacher_wx);
+        network_teacher_wx.setTextIsSelectable(true);
     }
 
     @Override
@@ -89,7 +92,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
             @Override
             public void onItemClick(View view) {
                 int position = recycler.getChildAdapterPosition(view);
-                Intent intent = new Intent(MyCourseActivity.this, NetDetailsActivity.class);
+                Intent intent = new Intent(MyCourseActivity.this, NetExperienceDetailActivity.class);
                 intent.putExtra("netid", lists.get(position).getNetId());
                 intent.putExtra("netName", lists.get(position).getNetName());
                 startActivity(intent);
@@ -128,18 +131,18 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETMYNETCLASS) {
-            lists.clear();
-            lists.addAll((List<NetClass>) message.obj);
-            if (lists.size() == 0) {
-                howto.setVisibility(View.GONE);
-                addqun.setVisibility(View.GONE);
-                empty.setVisibility(View.VISIBLE);
-            } else {
-                howto.setVisibility(View.VISIBLE);
-                addqun.setVisibility(View.VISIBLE);
-                empty.setVisibility(View.GONE);
+            MyNetClass myNetClass = (MyNetClass) message.obj;
+            if(myNetClass!=null && myNetClass.getMyList().size()>0){
+                lists.clear();
+                lists.addAll(myNetClass.getMyList());
+                if (lists.size() == 0) {
+                    empty.setVisibility(View.VISIBLE);
+                } else {
+                    empty.setVisibility(View.GONE);
+                }
+                adapter.notifyDataSetChanged();
             }
-            adapter.notifyDataSetChanged();
+            network_teacher_wx.setText(myNetClass.getTeacher()+"(长按复制)");
         }
     }
 

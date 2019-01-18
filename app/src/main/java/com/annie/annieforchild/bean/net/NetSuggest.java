@@ -15,6 +15,7 @@ public class NetSuggest implements Serializable {
     private List<String> netSuggestUrl;
     private String material;
     private String materialPrice;
+    private String netSummary;
     private int netId;
     private List<Address> address;
     private String netName;
@@ -22,6 +23,13 @@ public class NetSuggest implements Serializable {
     private String titleImageUrl;
     private String event;
     private int count;
+
+    public String getNetSummary() {
+        return netSummary;
+    }
+    public void setNetSummary(String netSummary){
+        this.netSummary=netSummary;
+    }
 
     public int getCount() {
         return count;
