@@ -44,8 +44,8 @@ public class SpeakingBankBookFragment extends BaseFragment implements View.OnCli
 
     @Override
     protected void initView(View view) {
-        today_huiben = view.findViewById(R.id.today_donghuakouyu_dura);
-        total_huiben = view.findViewById(R.id.total_donghuakouyu_dura);
+        today_huiben = view.findViewById(R.id.today_huiben_speaking_dura);
+        total_huiben = view.findViewById(R.id.total_huiben_speaking_dura);
         today_zhuti = view.findViewById(R.id.today_zhuti_speaking_dura);
         total_zhuti = view.findViewById(R.id.total_zhuti_speaking_dura);
         today_jiaoji = view.findViewById(R.id.today_jiaoji_speaking_dura);
@@ -94,8 +94,8 @@ public class SpeakingBankBookFragment extends BaseFragment implements View.OnCli
         if (bean != null) {
             todayList.clear();
             historyList.clear();
-            todayList.addAll(bean.getTodayList());
-            historyList.addAll(bean.getHistoryList());
+            todayList.addAll(bean.getTodayList() != null ? bean.getTodayList() : new ArrayList<>());
+            historyList.addAll(bean.getHistoryList() != null ? bean.getHistoryList() : new ArrayList<>());
             if (todayList != null) {
                 for (int i = 0; i < todayList.size(); i++) {
                     GrindTime grindTime = todayList.get(i);

@@ -23,7 +23,7 @@ public interface GrindEarInteractor {
 
     void commitDuration(String[] type, String[] duration);
 
-    void getBookScore(int bookId, int record);
+    void getBookScore(int bookId, int record, boolean accessBook);
 
     void getBookAudioData(int bookId, int pkType, String pkUsername);
 

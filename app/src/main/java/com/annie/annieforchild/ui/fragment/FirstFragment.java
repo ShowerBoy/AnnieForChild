@@ -50,6 +50,7 @@ import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.SliderLayout;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
 import java.io.Serializable;
@@ -121,7 +122,6 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
         presenter2 = new GrindEarPresenterImp(getContext(), this);
         presenter.initViewAndData();
         presenter2.initViewAndData();
-        List<PhoneSN> list = DataSupport.findAll(PhoneSN.class);
 //        showInfo(list.size() + "==" + SystemUtils.phoneSN.toString());
         presenter.getHomeData(tag);
         if (SystemUtils.childTag == 1) {
@@ -471,9 +471,9 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                 break;
             case R.id.event_layout:
                 //网课
-                intent.setClass(getContext(), NetWorkActivity.class);
-                startActivity(intent);
-//                ((MainActivity) getActivity()).changeFragment(1);
+//                intent.setClass(getContext(), NetWorkActivity.class);
+//                startActivity(intent);
+                ((MainActivity) getActivity()).changeFragment(1);
                 break;
             case R.id.match_layout:
                 //广场

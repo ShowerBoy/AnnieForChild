@@ -44,16 +44,16 @@ public class PCMRecordUtils {
         bytes = new byte[bufferSizeInBytes];
         file = new File(filePath);
         bytes = new byte[bufferSizeInBytes];
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            } else {
-                file.delete();
-                file.createNewFile();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if (!file.exists()) {
+//                file.createNewFile();
+//            } else {
+//                file.delete();
+//                file.createNewFile();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
     }
 

@@ -127,6 +127,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
         presenter = new LoginPresenterImp(this, this);
         presenter.initViewAndData();
         calendar = Calendar.getInstance();
+        db = LitePal.getDatabase();
         preferences = getSharedPreferences("userInfo", MODE_PRIVATE);
         editor = preferences.edit();
         timer = new Timer();
@@ -151,7 +152,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
 
     private void signin() {
         if (preferences.getString("phone", null) != null && preferences.getString("psd", null) != null) {
-            List<PhoneSN> list = DataSupport.findAll(PhoneSN.class);
+            List<PhoneSN> list = LitePal.findAll(PhoneSN.class);
             if (list != null && list.size() != 0) {
                 SystemUtils.phoneSN = list.get(list.size() - 1);
                 SystemUtils.sn = list.get(list.size() - 1).getSn();
@@ -241,5 +242,8 @@ public class GuideActivity extends BaseActivity implements LoginView {
         timer = null;
         task.cancel();
         task = null;
+        if (db != null) {
+            db.close();
+        }
     }
 }

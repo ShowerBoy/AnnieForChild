@@ -2,6 +2,8 @@ package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.record.Record;
 import com.annie.annieforchild.ui.activity.my.MyRecordActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyReleaseViewHolder;
@@ -89,8 +92,9 @@ public class MyReleaseAdapter extends RecyclerView.Adapter<MyReleaseViewHolder> 
         myReleaseViewHolder.myRecordContent.setText(lists.get(position).getTitle() + "（" + lists.get(position).getDuration() + "秒）");
         myReleaseViewHolder.myRecordDate.setText(lists.get(position).getTime().substring(0, 4) + "-" + lists.get(position).getTime().substring(4, 6) + "-" + lists.get(position).getTime().substring(6, 8));
         Glide.with(context).load(lists.get(position).getImageUrl()).error(R.drawable.image_loading).into(myReleaseViewHolder.myRecordImage);
-        MyReleaseViewHolder finalHolder1 = holder;
+        MyReleaseViewHolder finalHolder1 = myReleaseViewHolder;
         myReleaseViewHolder.myRecordPlay.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 if (isPlay) {
@@ -101,6 +105,9 @@ public class MyReleaseAdapter extends RecyclerView.Adapter<MyReleaseViewHolder> 
 //                if (isClick) {
 
                 if (!isPlay) {
+                    if (MusicService.isPlay) {
+                        MusicService.stop();
+                    }
                     holder = finalHolder1;
                     urlList.clear();
                     urlList.addAll(lists.get(position).getUrl());
@@ -186,6 +193,13 @@ public class MyReleaseAdapter extends RecyclerView.Adapter<MyReleaseViewHolder> 
         }
     }
 
+    public void resetAdapter() {
+        stopAudio();
+        isPlay = false;
+        currentPos = -2;
+        MyRecordActivity.mVP.setNoFocus(false);
+    }
+
 
     public void stopAudio() {
         if (mediaPlayer != null) {
@@ -219,5 +233,13 @@ public class MyReleaseAdapter extends RecyclerView.Adapter<MyReleaseViewHolder> 
 
     public void setPlay(boolean play) {
         isPlay = play;
+    }
+
+    public int getCurrentPos() {
+        return currentPos;
+    }
+
+    public void setCurrentPos(int currentPos) {
+        this.currentPos = currentPos;
     }
 }

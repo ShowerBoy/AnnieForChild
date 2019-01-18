@@ -170,65 +170,71 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 SystemUtils.defaultUsername = lists.get(position).getUsername();
                 getUserInfo();
                 fourthView.showInfo((String) result);
+                SQLiteDatabase db = LitePal.getDatabase();
+                try {
                 //切换用户重置在线
-                List<SigninBean> list = DataSupport.where("username = ?", SystemUtils.defaultUsername).find(SigninBean.class);
+                    List<SigninBean> list = LitePal.where("username = ?", SystemUtils.defaultUsername).find(SigninBean.class);
 //                List<SigninBean> list = DataSupport.findAll(SigninBean.class);
-                if (list != null && list.size() != 0) {
-                    SigninBean signinBean = list.get(list.size() - 1);
-                    String date = SystemUtils.netDate;
-                    if (!date.equals(signinBean.getDate())) {
-                        if (SystemUtils.signinBean == null) {
-                            SystemUtils.signinBean = new SigninBean();
+                    if (list != null && list.size() != 0) {
+                        SigninBean signinBean = list.get(list.size() - 1);
+                        String date = SystemUtils.netDate;
+                        if (!date.equals(signinBean.getDate())) {
+                            if (SystemUtils.signinBean == null) {
+                                SystemUtils.signinBean = new SigninBean();
+                            }
+                            SystemUtils.signinBean.setDate(date);
+                            SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
+                            SystemUtils.signinBean.setNectar(false);
+                            SystemUtils.signinBean.save();
+                        } else {
+                            SystemUtils.signinBean = signinBean;
                         }
-                        SystemUtils.signinBean.setDate(date);
+                    } else {
+                        SystemUtils.signinBean = new SigninBean();
+                        String date = SystemUtils.netDate;
+                        SystemUtils.signinBean.setDate(date != null ? date : "");
                         SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
                         SystemUtils.signinBean.setNectar(false);
                         SystemUtils.signinBean.save();
-                    } else {
-                        SystemUtils.signinBean = signinBean;
                     }
-                } else {
-                    SystemUtils.signinBean = new SigninBean();
-                    String date = SystemUtils.netDate;
-                    SystemUtils.signinBean.setDate(date != null ? date : "");
-                    SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
-                    SystemUtils.signinBean.setNectar(false);
-                    SystemUtils.signinBean.save();
-                }
-                if (SystemUtils.timer != null) {
-                    SystemUtils.timer.cancel();
-                    SystemUtils.timer = null;
-                }
-                if (SystemUtils.task != null) {
-                    SystemUtils.task.cancel();
-                    SystemUtils.task = null;
-                }
-                SystemUtils.timer = new Timer();
-                if (SystemUtils.isOnline) {
-                    if (!SystemUtils.signinBean.isNectar()) {
-                        SystemUtils.task = new TimerTask() {
-                            @Override
-                            public void run() {
-                                if (!SystemUtils.signinBean.isNectar()) {
-                                    Intent intent = new Intent();
-                                    intent.setAction("countdown");
-                                    context.sendBroadcast(intent);
-                                }
-                            }
-                        };
-                        Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                if (!SystemUtils.signinBean.isNectar()) {
-                                    SystemUtils.timer.schedule(SystemUtils.task, 120 * 1000);
-                                }
-                            }
-                        };
-                        SystemUtils.countDownThread = new Thread(runnable);
-                        SystemUtils.countDownThread.start();
+                    if (SystemUtils.timer != null) {
+                        SystemUtils.timer.cancel();
+                        SystemUtils.timer = null;
                     }
+                    if (SystemUtils.task != null) {
+                        SystemUtils.task.cancel();
+                        SystemUtils.task = null;
+                    }
+                    SystemUtils.timer = new Timer();
+                    if (SystemUtils.isOnline) {
+                        if (!SystemUtils.signinBean.isNectar()) {
+                            SystemUtils.task = new TimerTask() {
+                                @Override
+                                public void run() {
+                                    if (!SystemUtils.signinBean.isNectar()) {
+                                        Intent intent = new Intent();
+                                        intent.setAction("countdown");
+                                        context.sendBroadcast(intent);
+                                    }
+                                }
+                            };
+                            Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (!SystemUtils.signinBean.isNectar()) {
+                                        SystemUtils.timer.schedule(SystemUtils.task, 120 * 1000);
+                                    }
+                                }
+                            };
+                            SystemUtils.countDownThread = new Thread(runnable);
+                            SystemUtils.countDownThread.start();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    db.close();
                 }
-
             } else if (what == MethodCode.EVENT_DELETEUSERNAME) {
                 fourthView.showInfo((String) result);
                 /**

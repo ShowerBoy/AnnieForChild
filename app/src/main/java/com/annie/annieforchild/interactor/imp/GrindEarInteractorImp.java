@@ -197,19 +197,35 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     }
 
     @Override
-    public void getBookScore(int bookId, int record) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKSCORE, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
-        request.add("bookId", bookId);
-        request.add("record", record);
-        addQueue(MethodCode.EVENT_GETBOOKSCORE, request);
-        startQueue();
+    public void getBookScore(int bookId, int record, boolean accessBook) {
+        if (accessBook){
+            FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.ACCESSBOOK, RequestMethod.POST);
+            request.add("username", SystemUtils.defaultUsername);
+            request.add("token", SystemUtils.token);
+            request.add("bookId", bookId);
+            FastJsonRequest request1 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKSCORE, RequestMethod.POST);
+            request1.add("username", SystemUtils.defaultUsername);
+            request1.add("token", SystemUtils.token);
+            request1.add("bookId", bookId);
+            request1.add("record", record);
+            addQueue(MethodCode.EVENT_ACCESSBOOK, request);
+            addQueue(MethodCode.EVENT_GETBOOKSCORE, request1);
+            startQueue();
+        }else{
+            FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKSCORE, RequestMethod.POST);
+            request.add("username", SystemUtils.defaultUsername);
+            request.add("token", SystemUtils.token);
+            request.add("bookId", bookId);
+            request.add("record", record);
+            addQueue(MethodCode.EVENT_GETBOOKSCORE, request);
+            startQueue();
+        }
     }
 
     @Override
     public void getBookAudioData(int bookId, int pkType, String pkUsername) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKAUDIODATA, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKAUDIODATATEST, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         request.add("bookId", bookId);
@@ -816,8 +832,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void myRecordings(int type, int page) {
         this.type = type;
-//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGS, RequestMethod.POST);
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGSTEST, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGS, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGSTEST, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         request.add("type", type);

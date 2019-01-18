@@ -26,6 +26,7 @@ public class MethodCode {
     /**
      * EventBus
      */
+    final public static int EVENT_DATA = -110;
     final public static int EVENT_STOPPLAY = -100;
     final public static int EVENT_LOADING = -90;
     final public static int EVENT_VISIBILITY = -60;

@@ -179,6 +179,8 @@ public class SystemUtils {
     public static PopupWindow getPopup(Context context) {
         ImageView imageView = new ImageView(context);
         popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_coundown, null, false);
         imageView = popupView.findViewById(R.id.i_see);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -218,6 +220,8 @@ public class SystemUtils {
     public static PopupWindow getNectarPopup(Context context, int type) {
         ImageView imageView = new ImageView(context);
         popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_nectar, null, false);
         imageView = popupView.findViewById(R.id.nectar_image);
         if (type == 0) {
@@ -262,6 +266,8 @@ public class SystemUtils {
         TextView textView = new TextView(context);
         ImageView close = new ImageView(context);
         popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupView = LayoutInflater.from(context).inflate(R.layout.activity_nectar_congratulation, null, false);
         textView = popupView.findViewById(R.id.nectar_text);
         close = popupView.findViewById(R.id.nectar_close);
@@ -297,6 +303,8 @@ public class SystemUtils {
         TextView textView = new TextView(context);
         TextView textView2 = new TextView(context);
         popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_hint, null, false);
         textView = popupView.findViewById(R.id.popup_confirm_btn);
         textView2 = popupView.findViewById(R.id.period_remarks);
@@ -331,6 +339,8 @@ public class SystemUtils {
         TextView textView2 = new TextView(context);
         TextView textView3 = new TextView(context);
         popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupView = LayoutInflater.from(context).inflate(R.layout.activity_gift_popup, null, false);
         textView = popupView.findViewById(R.id.gift_title);
         textView2 = popupView.findViewById(R.id.gift_content);
@@ -363,6 +373,8 @@ public class SystemUtils {
         TextView textView2 = new TextView(context);
         TextView titleText = new TextView(context);
         popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_suggest, null, false);
         textView = popupView.findViewById(R.id.suggest_confirm_btn);
         textView2 = popupView.findViewById(R.id.suggest_cancel_btn);
@@ -411,6 +423,8 @@ public class SystemUtils {
         TextView textView = new TextView(context);
         TextView textView2 = new TextView(context);
         popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_search, null, false);
         textView = popupView.findViewById(R.id.iwantgrind_btn);
         textView2 = popupView.findViewById(R.id.iwantreading_btn);
@@ -699,10 +713,12 @@ public class SystemUtils {
         if (tag) {
             WindowManager.LayoutParams layoutParams = activity.getWindow().getAttributes();
             layoutParams.alpha = 0.7f;
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             activity.getWindow().setAttributes(layoutParams);
         } else {
             WindowManager.LayoutParams layoutParams = activity.getWindow().getAttributes();
             layoutParams.alpha = 1f;
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             activity.getWindow().setAttributes(layoutParams);
         }
     }

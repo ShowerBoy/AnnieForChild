@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="18dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -41,15 +41,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/menu_add_timetable"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:visibility="gone"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/menu_collect_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_song_uncollect" />
+            android:src="@drawable/reading_icon_share" />
 
         <TextView
             android:id="@+id/menu_collect_text"
@@ -57,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
-            android:text="收藏        "
+            android:text="分享        "
             android:textColor="@color/text_black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -68,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/menu_collect"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
         <ImageView

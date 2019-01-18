@@ -110,8 +110,8 @@ public class GrindEarBankBookFragment extends BaseFragment implements View.OnCli
         if (bean != null) {
             todayList.clear();
             historyList.clear();
-            todayList.addAll(bean.getTodayList());
-            historyList.addAll(bean.getHistoryList());
+            todayList.addAll(bean.getTodayList() != null ? bean.getTodayList() : new ArrayList<>());
+            historyList.addAll(bean.getHistoryList() != null ? bean.getHistoryList() : new ArrayList<>());
             if (todayList != null) {
                 for (int i = 0; i < todayList.size(); i++) {
                     GrindTime grindTime = todayList.get(i);
@@ -249,22 +249,22 @@ public class GrindEarBankBookFragment extends BaseFragment implements View.OnCli
                             total_zuoye.setText("累计：" + hour + "小时" + min + "分");
                             break;
                         case "13":
-                            total_huibenkouyu.setText("今日：" + hour + "小时" + min + "分");
+                            total_huibenkouyu.setText("累计：" + hour + "小时" + min + "分");
                             break;
                         case "14":
-                            total_zhutikouyu.setText("今日：" + hour + "小时" + min + "分");
+                            total_zhutikouyu.setText("累计：" + hour + "小时" + min + "分");
                             break;
                         case "15":
-                            total_jiaojikouyu.setText("今日：" + hour + "小时" + min + "分");
+                            total_jiaojikouyu.setText("累计：" + hour + "小时" + min + "分");
                             break;
                         case "16":
-                            total_donghuakouyu.setText("今日：" + hour + "小时" + min + "分");
+                            total_donghuakouyu.setText("累计：" + hour + "小时" + min + "分");
                             break;
                         case "17":
-                            total_xiangmuyanjiang.setText("今日：" + hour + "小时" + min + "分");
+                            total_xiangmuyanjiang.setText("累计：" + hour + "小时" + min + "分");
                             break;
                         case "100":
-                            total_donghua.setText("今日：" + hour + "小时" + min + "分");
+                            total_donghua.setText("累计：" + hour + "小时" + min + "分");
                             break;
                         case "mobao":
                             total_mobao.setText("累计：" + hour + "小时" + min + "分");

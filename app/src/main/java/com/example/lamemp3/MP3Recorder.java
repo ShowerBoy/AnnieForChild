@@ -43,7 +43,7 @@ public class MP3Recorder {
     DataInputStream dis = null;
     private boolean isPlay = true;
     int minBufferSize;
-//    private String mp3FilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/LAME/mp3/" + "ceshiMp3.mp3";
+    //    private String mp3FilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/LAME/mp3/" + "ceshiMp3.mp3";
     private String pcmFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/LAME/mp3/" + "ceshi.pcm";
 
     private Thread thread = null;
@@ -112,7 +112,7 @@ public class MP3Recorder {
 
         pcmRecordUtils = new PCMRecordUtils(pcmFilePath);
 //        pcmFile = new File(pcmFilePath);
-        thread = new Thread();
+//        thread = new Thread();
     }
 
     /**
@@ -124,20 +124,20 @@ public class MP3Recorder {
         }
 
 
-        new Thread() {
+        thread = new Thread() {
             @Override
             public void run() {
-                String fileDir = mDir;
-
-                File dir = new File(fileDir);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
+//                String fileDir = mDir;
+//
+//                File dir = new File(fileDir);
+//                if (!dir.exists()) {
+//                    dir.mkdirs();
+//                }
 
 
                 mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + name + ".mp3";
                 File file = new File(mFilePath);
-                if (file.exists()){
+                if (file.exists()) {
                     file.delete();
                 }
 //                mFilePath = mp3FilePath;
@@ -261,9 +261,7 @@ public class MP3Recorder {
                                         break;
                                     }
                                 }
-
                                 calc1(buffer, 0, minBufferSize);
-
                             }
                         }
                         // 录音完
@@ -294,7 +292,6 @@ public class MP3Recorder {
                             }
                         }
                     } finally {
-
                         audioRecord.stop();
                         audioRecord.release();
                     }
@@ -306,8 +303,8 @@ public class MP3Recorder {
                     handler.sendEmptyMessage(MSG_REC_STOPPED);
                 }
             }
-        }.start();
-
+        };
+        thread.start();
 
 //        pcmRecordUtils.startRecord();
     }

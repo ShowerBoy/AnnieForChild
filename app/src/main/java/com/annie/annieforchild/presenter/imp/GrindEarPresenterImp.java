@@ -186,8 +186,8 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param bookId
      */
     @Override
-    public void getBookScore(int bookId, int record) {
-        interactor.getBookScore(bookId, record);
+    public void getBookScore(int bookId, int record, boolean accessBook) {
+        interactor.getBookScore(bookId, record, accessBook);
     }
 
     /**
@@ -392,7 +392,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      */
     @Override
     public void getAnimationList(String title, int classId) {
-        songView.showLoad();
+//        songView.showLoad();
         this.classId = classId;
         interactor.getAnimationList(title, classId);
     }
@@ -409,7 +409,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      */
     @Override
     public void getSpokenList(int classId) {
-        songView.showLoad();
+//        songView.showLoad();
         this.classId = classId;
         interactor.getSpokenList(classId);
     }
@@ -852,7 +852,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_GETMYLISTENING) {
                 MyGrindEarBean bean = (MyGrindEarBean) result;
                 /**
-                 //                 * {@link com.annie.annieforchild.ui.activity.grindEar.MyGrindEarActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.grindEar.MyGrindEarActivity#onMainEventThread(JTMessage)}
                  * {@link com.annie.annieforchild.ui.fragment.mygrindear.TodayGrindEarFragment#onMainEventThread(JTMessage)}
                  * {@link com.annie.annieforchild.ui.fragment.mygrindear.TotalGrindEarFragment#onMainEventThread(JTMessage)}
                  */
@@ -1431,6 +1431,14 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             message.obj = clockIn;
             EventBus.getDefault().post(message);
         } else if (what == MethodCode.EVENT_UNLOCKBOOK + 9000 + classId) {
+            /**
+             * {@link }
+             */
+            JTMessage message = new JTMessage();
+            message.what = what;
+            message.obj = error;
+            EventBus.getDefault().post(message);
+        } else if (what == MethodCode.EVENT_CLOCKINSHARE) {
             /**
              * {@link }
              */

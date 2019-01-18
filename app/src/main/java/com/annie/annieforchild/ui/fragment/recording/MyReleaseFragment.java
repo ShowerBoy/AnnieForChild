@@ -165,10 +165,13 @@ public class MyReleaseFragment extends BaseFragment implements SongView {
         recycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
+//                if (adapter.isPlay()) {
                 if (adapter.isPlay()) {
-                    recycler.refreshComplete();
-                    return;
+                    adapter.resetAdapter();
                 }
+//                    recycler.refreshComplete();
+//                    return;
+//                }
                 page = 1;
                 presenter.myRecordings(tag, page);
             }
@@ -176,9 +179,12 @@ public class MyReleaseFragment extends BaseFragment implements SongView {
             @Override
             public void onLoadMore() {
                 if (adapter.isPlay()) {
-                    recycler.loadMoreComplete();
-                    return;
+                    adapter.resetAdapter();
                 }
+//                if (adapter.isPlay()) {
+//                    recycler.loadMoreComplete();
+//                    return;
+//                }
                 page++;
                 if (page > totalPage) {
                     page--;
@@ -226,8 +232,7 @@ public class MyReleaseFragment extends BaseFragment implements SongView {
             adapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_STOPPLAY) {
             if (adapter.isPlay()) {
-                adapter.stopAudio();
-                adapter.setPlay(false);
+                adapter.resetAdapter();
             }
         }
     }

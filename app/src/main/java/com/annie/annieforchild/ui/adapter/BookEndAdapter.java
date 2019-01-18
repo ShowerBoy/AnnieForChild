@@ -3,8 +3,10 @@ package com.annie.annieforchild.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.book.Release;
 import com.annie.annieforchild.bean.book.ReleaseBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
@@ -81,14 +86,9 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
         bookEndViewHolder.age.setText(lists.get(i).getRecordAge() + "岁");
         bookEndViewHolder.date.setText(lists.get(i).getRecordDate());
         bookEndViewHolder.playTimes.setText(lists.get(i).getRecordPlayTimes());
-        bookEndViewHolder.play.setOnClickListener(new View.OnClickListener() {
+        bookEndViewHolder.play.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
             @Override
-            public void onClick(View v) {
-//                holder = bookEndViewHolder;
-//                urlList.clear();
-//                urlList.addAll(lists.get(i).getRecordUrl());
-//                totalSize = urlList.size();
-
+            public void onCheckDoubleClick(View view) {
                 if (fragment != null) {
                     if (!fragment.isPlay()) {
                         if (isPlay) {
@@ -140,6 +140,9 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
                             isPlay = false;
                         }
                     } else {
+                        if (MusicService.isPlay) {
+                            MusicService.stop();
+                        }
                         holder = bookEndViewHolder;
                         urlList.clear();
                         urlList.addAll(lists.get(i).getRecordUrl());
@@ -161,7 +164,7 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
                     }
                 }
             }
-        });
+        }));
         if (tag) {
             bookEndViewHolder.likeLinear.setVisibility(View.VISIBLE);
             bookEndViewHolder.likeTimes.setText(lists.get(i).getRecordLikes());
@@ -172,24 +175,24 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
                 bookEndViewHolder.like.setImageResource(R.drawable.icon_like_t);
                 bookEndViewHolder.likeTimes.setTextColor(context.getResources().getColor(R.color.text_orange));
             }
-            bookEndViewHolder.like.setOnClickListener(new View.OnClickListener() {
+            bookEndViewHolder.like.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onCheckDoubleClick(View view) {
                     if (lists.get(i).getIslike() == 0) {
                         presenter.addlikes(lists.get(i).getId());
                     } else {
                         presenter.cancellikes(lists.get(i).getId());
                     }
                 }
-            });
-            bookEndViewHolder.headpic.setOnClickListener(new View.OnClickListener() {
+            }));
+            bookEndViewHolder.headpic.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onCheckDoubleClick(View view) {
                     Intent intent = new Intent(context, HomePageActivity.class);
                     intent.putExtra("username", lists.get(i).getUsername());
                     context.startActivity(intent);
                 }
-            });
+            }));
         } else {
             bookEndViewHolder.likeLinear.setVisibility(View.GONE);
         }
@@ -256,4 +259,5 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
             mediaPlayer = null;
         }
     }
+
 }

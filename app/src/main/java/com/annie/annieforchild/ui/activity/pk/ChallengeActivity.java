@@ -689,9 +689,11 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
         if (tag) {
             layoutParams.alpha = 0.7f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         } else {
             layoutParams.alpha = 1f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         }
     }

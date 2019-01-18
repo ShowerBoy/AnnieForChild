@@ -7,6 +7,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.EventLog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -40,7 +42,7 @@ import java.util.List;
  * Created by WangLei on 2018/3/13 0013
  */
 
-public class ListenSongActivity extends BaseActivity implements SongView, View.OnClickListener {
+public class ListenSongActivity extends BaseActivity implements SongView, View.OnClickListener, ViewPager.OnPageChangeListener {
     private ImageView back, search;
     private TextView listenTitle;
     private ArrayList<SongClassify> lists;
@@ -57,6 +59,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
     private ListenSongFragment listenSongFragment;
     private AnimationFragment animationFragment;
     private Boolean[] bool;
+    private Boolean[] dataBool; //数据加载与否
     private List<ListenSongFragment> fragments;
     private List<AnimationFragment> fragments2;
 
@@ -77,6 +80,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
         //
         back.setOnClickListener(this);
         search.setOnClickListener(this);
+        mVP.setOnPageChangeListener(this);
 
         intent = getIntent();
         if (intent != null) {
@@ -176,8 +180,12 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
 
     private void initTab() {
         bool = new Boolean[lists.size()];
+        dataBool = new Boolean[lists.size()];
         for (int i = 0; i < bool.length; i++) {
             bool[i] = false;
+        }
+        for (int i = 0; i < dataBool.length; i++) {
+            dataBool[i] = false;
         }
         fragments = new ArrayList<>(lists.size());
         fragments2 = new ArrayList<>(lists.size());
@@ -234,6 +242,26 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
         }
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+//        if (!dataBool[position]) {
+        JTMessage message = new JTMessage();
+        message.what = MethodCode.EVENT_DATA;
+        message.obj = lists.get(position).getClassId();
+        EventBus.getDefault().post(message);
+//        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
     class ListenSongFragmentAdapter extends FragmentStatePagerAdapter {
 
         public ListenSongFragmentAdapter(FragmentManager fm) {
@@ -247,7 +275,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
                     return fragments2.get(position);
                 } else {
 //                    listenSongFragment = ListenSongFragment.instance(Integer.parseInt(lists.get(position).getClassId()), lists.get(position).getTitle(), audioType, audioSource, type);
-                    animationFragment = AnimationFragment.instance(lists.get(position).getTitle(), Integer.parseInt(lists.get(position).getClassId()), audioType, audioSource, type);
+                    animationFragment = AnimationFragment.instance(lists.get(position).getTitle(), Integer.parseInt(lists.get(position).getClassId()), audioType, audioSource, type, position);
                     fragments2.add(position, animationFragment);
                     bool[position] = true;
                     return animationFragment;
@@ -256,7 +284,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
                 if (bool[position]) {
                     return fragments.get(position);
                 } else {
-                    listenSongFragment = ListenSongFragment.instance(Integer.parseInt(lists.get(position).getClassId()), lists.get(position).getTitle(), audioType, audioSource, type);
+                    listenSongFragment = ListenSongFragment.instance(Integer.parseInt(lists.get(position).getClassId()), lists.get(position).getTitle(), audioType, audioSource, type, position);
                     fragments.add(position, listenSongFragment);
                     bool[position] = true;
                     return listenSongFragment;

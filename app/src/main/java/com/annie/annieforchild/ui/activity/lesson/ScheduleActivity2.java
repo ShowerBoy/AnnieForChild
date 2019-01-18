@@ -70,6 +70,7 @@ public class ScheduleActivity2 extends BaseActivity implements OnDateSelectedLis
     private String year, month, day, date = null;
     private AlertHelper helper;
     private Dialog dialog;
+    private boolean isEmpty = true; //当月
     long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
     long oneYears = 10L * 365 * 1000 * 60 * 60 * 24L;
     private CheckDoubleClickListener listener;
@@ -258,7 +259,7 @@ public class ScheduleActivity2 extends BaseActivity implements OnDateSelectedLis
             date = (String) message.obj2;
             presenter.myCalendar(date);
         } else if (message.what == MethodCode.EVENT_ADDSCHEDULE) {
-            if (recycler2.getVisibility() == View.VISIBLE) {
+            if (recycler2.getVisibility() != View.GONE) {
                 presenter.monthCalendar(sf.format(new Date()).replace("-", ""));
             } else {
                 presenter.getScheduleDetails(date);
@@ -266,11 +267,14 @@ public class ScheduleActivity2 extends BaseActivity implements OnDateSelectedLis
         } else if (message.what == MethodCode.EVENT_MONTHCALENDAR) {
             List<TotalSchedule> list = (List<TotalSchedule>) message.obj;
             if (list != null && list.size() != 0) {
+                recycler2.setVisibility(View.VISIBLE);
+                empty.setVisibility(View.GONE);
+                emptyText.setVisibility(View.GONE);
                 lists.clear();
                 lists.addAll(list);
                 monthAdapter.notifyDataSetChanged();
             } else {
-                recycler2.setVisibility(View.GONE);
+                recycler2.setVisibility(View.INVISIBLE);
                 empty.setVisibility(View.VISIBLE);
                 emptyText.setVisibility(View.VISIBLE);
             }

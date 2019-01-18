@@ -1,13 +1,14 @@
 package com.annie.annieforchild.bean.login;
 
 import org.litepal.crud.DataSupport;
+import org.litepal.crud.LitePalSupport;
 
 /**
  * 手机信息bean
  * Created by WangLei on 2018/1/30 0030
  */
 
-public class PhoneSN extends DataSupport {
+public class PhoneSN extends LitePalSupport {
     private String bitcode;
     private String system;
     private String sn;

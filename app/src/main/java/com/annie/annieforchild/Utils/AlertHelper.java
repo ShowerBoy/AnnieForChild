@@ -19,9 +19,9 @@ public class AlertHelper {
     Context context;
     Activity activity;
 
-    public AlertHelper(Activity context) {
-        this.context = context;
-        this.activity = context;
+    public AlertHelper(Activity activity) {
+        this.context = activity;
+        this.activity = activity;
     }
 
     public ProgressDialog LoadingAlert() {
@@ -35,6 +35,7 @@ public class AlertHelper {
     public Dialog LoadingDialog() {
         Dialog dialog = new Dialog(activity, R.style.new_circle_progress);
         dialog.setContentView(R.layout.layout_progressbar);
+        dialog.setOwnerActivity(activity);
         dialog.setCancelable(false);
         return dialog;
     }

@@ -27,7 +27,6 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UpdateBean;
-import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;

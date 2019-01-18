@@ -28,6 +28,7 @@ import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.grindEar.ListenSongActivity;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
 import com.annie.annieforchild.ui.adapter.GrindEarAdapter;
@@ -96,6 +97,7 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
         donghuaLayout.setOnClickListener(listener);
         yanjiangLayout.setOnClickListener(listener);
         search.setOnClickListener(listener);
+        music.setOnClickListener(listener);
 
         musicBtn = (AnimationDrawable) music.getDrawable();
         musicBtn.setOneShot(false);
@@ -178,6 +180,10 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                if (huibenSpeakingList == null || huibenSpeakingList.size() == 0) {
+                    showInfo("请稍后");
+                    return;
+                }
                 showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle2 = new Bundle();
@@ -193,6 +199,10 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                 }
                 if (SystemUtils.childTag == 0) {
                     SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (zhutiSpeakingList == null || zhutiSpeakingList.size() == 0) {
+                    showInfo("请稍后");
                     return;
                 }
                 showLoad();
@@ -212,6 +222,10 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                if (jiaojiSpeakingList == null || jiaojiSpeakingList.size() == 0) {
+                    showInfo("请稍后");
+                    return;
+                }
                 showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle4 = new Bundle();
@@ -227,6 +241,10 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                 }
                 if (SystemUtils.childTag == 0) {
                     SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (animationSpeakingList == null || animationSpeakingList.size() == 0) {
+                    showInfo("请稍后");
                     return;
                 }
                 showLoad();
@@ -246,6 +264,10 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                if (yanjiangSpeakingList == null || yanjiangSpeakingList.size() == 0) {
+                    showInfo("请稍后");
+                    return;
+                }
                 showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle6 = new Bundle();
@@ -257,6 +279,10 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
             case R.id.speaking_search:
                 Intent intent2 = new Intent(this, GlobalSearchActivity.class);
                 startActivity(intent2);
+                break;
+            case R.id.speaking_music:
+                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+                startActivity(intent1);
                 break;
         }
     }

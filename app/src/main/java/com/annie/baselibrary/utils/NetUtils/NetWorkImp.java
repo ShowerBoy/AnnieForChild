@@ -62,6 +62,7 @@ public abstract class NetWorkImp<T> implements OnResponseListener<T> {
 
 
     @Override
+
     public void onFinish(int what) {
         onNetWorkFinish(what);
     }

@@ -44,7 +44,7 @@ public class AnimationFragment extends BaseFragment implements SongView {
     private AlertHelper helper;
     private Dialog dialog;
     private String title;
-    private int classId, audioType, audioSource, type;
+    private int classId, audioType, audioSource, type, position;
     private int sourceType; //收藏 1:磨耳朵 2：阅读 3：口语
 
     {
@@ -54,7 +54,7 @@ public class AnimationFragment extends BaseFragment implements SongView {
     public AnimationFragment() {
     }
 
-    public static AnimationFragment instance(String title, int classId, int audioType, int audioSource, int type) {
+    public static AnimationFragment instance(String title, int classId, int audioType, int audioSource, int type, int position) {
         AnimationFragment fragment = new AnimationFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
@@ -62,6 +62,7 @@ public class AnimationFragment extends BaseFragment implements SongView {
         bundle.putInt("audioType", audioType);
         bundle.putInt("audioSource", audioSource);
         bundle.putInt("type", type);
+        bundle.putInt("position", position);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -76,6 +77,7 @@ public class AnimationFragment extends BaseFragment implements SongView {
         audioType = bundle.getInt("audioType");
         audioSource = bundle.getInt("audioSource");
         type = bundle.getInt("type");
+        position = bundle.getInt("position");
         presenter = new GrindEarPresenterImp(getContext(), this);
         presenter.initViewAndData();
         adapter = new AnimationAdapter(getContext(), lists, 1, 100, classId, presenter, new OnRecyclerItemClickListener() {
@@ -98,7 +100,10 @@ public class AnimationFragment extends BaseFragment implements SongView {
             }
         });
         initRecycler();
-        presenter.getAnimationList(title, classId);
+        if (position == 0) {
+            presenter.getAnimationList(title, classId);
+        }
+
     }
 
     @Override
@@ -112,8 +117,19 @@ public class AnimationFragment extends BaseFragment implements SongView {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         animationRecycler.setLayoutManager(layoutManager);
-        animationRecycler.setPullRefreshEnabled(false);
+        animationRecycler.setPullRefreshEnabled(true);
         animationRecycler.setLoadingMoreEnabled(false);
+        animationRecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getAnimationList(title, classId);
+            }
+
+            @Override
+            public void onLoadMore() {
+
+            }
+        });
         animationRecycler.setAdapter(adapter);
     }
 
@@ -130,6 +146,7 @@ public class AnimationFragment extends BaseFragment implements SongView {
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETANIMATIONLIST + 7000 + classId) {
+            animationRecycler.refreshComplete();
             lists.clear();
             lists.addAll((List<AnimationData>) message.obj);
             adapter.notifyDataSetChanged();
@@ -139,6 +156,11 @@ public class AnimationFragment extends BaseFragment implements SongView {
         } else if (message.what == MethodCode.EVENT_CANCELCOLLECTION1 + 3000 + classId) {
             showInfo((String) message.obj);
             presenter.getAnimationList(title, classId);
+        } else if (message.what == MethodCode.EVENT_DATA) {
+            String clsId = (String) message.obj;
+            if (Integer.parseInt(clsId) == classId) {
+                presenter.getAnimationList(title, classId);
+            }
         }
     }
 

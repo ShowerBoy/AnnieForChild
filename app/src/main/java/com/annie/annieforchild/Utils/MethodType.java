@@ -46,6 +46,7 @@ public class MethodType {
     final public static String COMMITDURATION = "commitDuration"; //时长录入
     final public static String GETBOOKSCORE = "getBookScore"; //获取书籍接口
     final public static String GETBOOKAUDIODATA = "getBookAudioData"; //练习，挑战，PK接口
+    final public static String GETBOOKAUDIODATATEST = "getBookAudioDatatest"; //练习，挑战，PK接口
     final public static String UPLOADAUDIO = "uploadAudioResource"; //上传音频接口——磨耳朵
     final public static String GETPKUSERS = "getPkUsers"; //获取pk对象
     final public static String GETALLMATERIALLIST = "getAllMaterialList"; //获取所有教材

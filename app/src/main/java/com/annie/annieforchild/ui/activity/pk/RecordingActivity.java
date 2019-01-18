@@ -170,6 +170,8 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
         shareCancel2.setOnClickListener(listener);
         coinCount.setText("分享+5金币");
         popupWindow.setContentView(popupView);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.clarity)));
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
@@ -863,10 +865,12 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
         if (tag) {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.alpha = 0.7f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         } else {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.alpha = 1f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         }
     }

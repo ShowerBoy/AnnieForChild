@@ -1,5 +1,6 @@
 package com.annie.annieforchild.ui.activity.pk;
 
+import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Intent;
@@ -28,16 +29,19 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
+import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.pcm2mp3.RecorderAndPlayUtil;
 import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.ShareBean;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.book.ReleaseBean;
 import com.annie.annieforchild.bean.material.Material;
@@ -61,9 +65,12 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -71,16 +78,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by wanglei on 2018/3/31.
  */
 
-public class PracticeActivity extends BaseActivity implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, OnCheckDoubleClick, SongView, PopupWindow.OnDismissListener {
-    private ImageView back, menu, menuCollectImg, menuAddmaterialImg, practiceRecording, bookRead, bookBg, bookBehind, songBehind;
+public class PracticeActivity extends BaseActivity implements PlatformActionListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, OnCheckDoubleClick, SongView, PopupWindow.OnDismissListener {
+    private ImageView back, menu, menuCollectImg, menuAddmaterialImg, practiceRecording, bookRead, bookBg, bookBehind, songBehind, pengyouquan, weixin, qq, qqzone, clarify;
+    private LottieAnimationView animationView;
     private CircleImageView practiceImage;
+    private TextView shareCancel, coinCount;
     private TextView practiceTitle, practiceBtn, challengeBtn, pkBtn, randomMatch, speak, play, menuCollectText, menuAddmaterialText, people;
     private LinearLayout practiceLayout, practice3btn, addTimetable, collect, addMaterial, practiceLine, practiceBackLayout;
     private FrameLayout musicFrame;
     private RecyclerView practiceRecycler;
     private List<UserInfo2> pkUserList;
-    private PopupWindow popupWindow, popupWindow2;
-    private View popupView, popupView2;
+    private PopupWindow popupWindow, popupWindow2, popupWindow3;
+    private View popupView, popupView2, popupView3;
     private GridView popupGrid;
     private PkUserPopupAdapter popupAdapter;
     private GrindEarPresenter presenter;
@@ -112,7 +121,9 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
     private int classId = 0;
     private BookEndAdapter adapter;
     private List<ReleaseBean> lists;
-    private int homeworkid, musicPosition;
+    private ShareUtils shareUtils;
+    private String url;
+    private int homeworkid, musicPosition, shareType;
     Runnable runnable;
 
     {
@@ -147,6 +158,8 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
         practiceRecycler = findViewById(R.id.practice_recycler);
         bookBehind = findViewById(R.id.book_behind);
         songBehind = findViewById(R.id.song_behind);
+        clarify = findViewById(R.id.practice_clarity);
+        animationView = findViewById(R.id.practice_animation);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
         practiceBtn.setOnClickListener(listener);
@@ -161,8 +174,22 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
         popupWidth = Math.min(SystemUtils.window_width, SystemUtils.window_height) * 3 / 4;
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_item2, null, false);
         popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_practice_menu_item, null, false);
+        popupView3 = LayoutInflater.from(this).inflate(R.layout.activity_share_daka_item2, null, false);
+        coinCount = popupView3.findViewById(R.id.coin_count);
+        pengyouquan = popupView3.findViewById(R.id.share_daka_pengyouquan);
+        weixin = popupView3.findViewById(R.id.share_daka_weixin);
+        qq = popupView3.findViewById(R.id.share_daka_qq);
+        qqzone = popupView3.findViewById(R.id.share_daka_qqzone);
+        shareCancel = popupView3.findViewById(R.id.daka_share_cancel2);
+        pengyouquan.setOnClickListener(listener);
+        weixin.setOnClickListener(listener);
+        qq.setOnClickListener(listener);
+        qqzone.setOnClickListener(listener);
+        shareCancel.setOnClickListener(listener);
+        coinCount.setText("分享+2金币");
         popupWindow = new PopupWindow(popupView, popupWidth, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow2 = new PopupWindow(this);
+        popupWindow3 = new PopupWindow(this);
         popupGrid = popupView.findViewById(R.id.popup_grid);
         randomMatch = popupView.findViewById(R.id.random_match);
         randomMatch.setOnClickListener(listener);
@@ -182,8 +209,6 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
         addTimetable = popupView2.findViewById(R.id.menu_add_timetable);
         collect = popupView2.findViewById(R.id.menu_collect);
         addMaterial = popupView2.findViewById(R.id.menu_add_material);
-        menuCollectImg = popupView2.findViewById(R.id.menu_collect_image);
-        menuCollectText = popupView2.findViewById(R.id.menu_collect_text);
         menuAddmaterialImg = popupView2.findViewById(R.id.menu_add_material_image);
         menuAddmaterialText = popupView2.findViewById(R.id.menu_add_material_text);
         addTimetable.setOnClickListener(listener);
@@ -206,6 +231,19 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
             }
         });
 
+        popupWindow3.setContentView(popupView3);
+        popupWindow3.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow3.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow3.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.clarity)));
+        popupWindow3.setOutsideTouchable(false);
+        popupWindow3.setFocusable(true);
+        popupWindow3.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                getWindowGray(false);
+            }
+        });
+
         RecyclerLinearLayoutManager layoutManager = new RecyclerLinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.setScrollEnabled(false);
@@ -214,6 +252,7 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
 
     @Override
     protected void initData() {
+        shareUtils = new ShareUtils(this, this);
         mRecorderUtil = new RecorderAndPlayUtil(DIR);
         mRecorderUtil.getRecorder().setHandle(new Handler() {
             @Override
@@ -356,9 +395,9 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
         adapter = new BookEndAdapter(this, lists, null, presenter, true);
         practiceRecycler.setAdapter(adapter);
         practiceTitle.setText(song.getBookName());
-        presenter.getBookScore(song.getBookId(), bookType);
+        presenter.getBookScore(song.getBookId(), bookType, true);
 
-        presenter.accessBook(song.getBookId());
+//        presenter.accessBook(song.getBookId());
     }
 
     private void refresh() {
@@ -366,13 +405,13 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
             Glide.with(this).load(song.getBookImageUrl()).into(practiceImage);
             practiceTitle.setText(song.getBookName());
             if (song1 != null) {
-                if (song1.getIsCollected() == 0) {
-                    menuCollectImg.setImageResource(R.drawable.icon_song_uncollect);
-                    menuCollectText.setText("收藏        ");
-                } else {
-                    menuCollectImg.setImageResource(R.drawable.icon_song_collect);
-                    menuCollectText.setText("已收藏      ");
-                }
+//                if (song1.getIsCollected() == 0) {
+//                    menuCollectImg.setImageResource(R.drawable.icon_song_uncollect);
+//                    menuCollectText.setText("收藏        ");
+//                } else {
+//                    menuCollectImg.setImageResource(R.drawable.icon_song_collect);
+//                    menuCollectText.setText("已收藏      ");
+//                }
                 if (song1.getIsJoinMaterial() == 0) {
                     menuAddmaterialImg.setImageResource(R.drawable.icon_add_material_f);
                     menuAddmaterialText.setText("加入教材");
@@ -440,28 +479,69 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
                 popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
                 getWindowGray(true);
             }
-        } else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
-            presenter.getBookScore(song.getBookId(), bookType);
-        } else if (message.what == MethodCode.EVENT_COLLECTCOURSE + 2000 + classId) {
+        }
+//        else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
+//            presenter.getBookScore(song.getBookId(), bookType, false);
+//        }
+        else if (message.what == MethodCode.EVENT_COLLECTCOURSE + 2000 + classId) {
             showInfo((String) message.obj);
-            presenter.getBookScore(song.getBookId(), bookType);
+            presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_CANCELCOLLECTION1 + 3000 + classId) {
             showInfo((String) message.obj);
-            presenter.getBookScore(song.getBookId(), bookType);
+            presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_JOINMATERIAL + 4000 + classId) {
             showInfo((String) message.obj);
-            presenter.getBookScore(song.getBookId(), bookType);
+            presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_CANCELMATERIAL + 5000 + classId) {
             showInfo((String) message.obj);
-            presenter.getBookScore(song.getBookId(), bookType);
+            presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_ADDLIKES) {
             showInfo((String) message.obj);
-            presenter.getBookScore(song.getBookId(), bookType);
+            presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_CANCELLIKES) {
             showInfo((String) message.obj);
-            presenter.getBookScore(song.getBookId(), bookType);
+            presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_PRACTICE) {
-            presenter.getBookScore(song.getBookId(), bookType);
+            presenter.getBookScore(song.getBookId(), bookType, false);
+        } else if (message.what == MethodCode.EVENT_CLOCKINSHARE) {
+            ShareBean shareBean = (ShareBean) message.obj;
+            url = shareBean.getUrl();
+        } else if (message.what == MethodCode.EVENT_SHARECOIN) {
+            animationView.setVisibility(View.VISIBLE);
+            clarify.setVisibility(View.VISIBLE);
+            if (shareType == 0) {
+                animationView.setImageAssetsFolder("coin4/");
+                animationView.setAnimation("coin4.json");
+            } else {
+                animationView.setImageAssetsFolder("coin2/");
+                animationView.setAnimation("coin2.json");
+            }
+            animationView.addAnimatorListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    animationView.setVisibility(View.GONE);
+                    clarify.setVisibility(View.GONE);
+                    animation.cancel();
+                    animation.clone();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            animationView.loop(false);
+            animationView.playAnimation();
+            SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
         }
     }
 
@@ -825,20 +905,24 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
                     SystemUtils.toAddChild(this);
                     return;
                 }
-                if (song1 != null) {
-                    if (song1.getIsCollected() == 0) {
-                        presenter.collectCourse(collectType, audioSource, song.getBookId(), classId);
-                        popupWindow2.dismiss();
-                    } else {
-                        presenter.cancelCollection(collectType, audioSource, song.getBookId(), classId);
-                        popupWindow2.dismiss();
-                    }
-                }
+                popupWindow2.dismiss();
+                presenter.clockinShare(2, song.getBookId());
+                getWindowGray(true);
+                popupWindow3.showAtLocation(popupView2, Gravity.CENTER, 0, 0);
+
+//                if (song1 != null) {
+//                    if (song1.getIsCollected() == 0) {
+//                        presenter.collectCourse(collectType, audioSource, song.getBookId(), classId);
+//                        popupWindow2.dismiss();
+//                    } else {
+//                        presenter.cancelCollection(collectType, audioSource, song.getBookId(), classId);
+//                        popupWindow2.dismiss();
+//                    }
+//                }
                 break;
             case R.id.menu_add_material:
                 //加入教材
                 if (SystemUtils.tag.equals("游客")) {
-
                     SystemUtils.toLogin(this);
                     return;
                 }
@@ -985,6 +1069,65 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
 //                    startActivity(intent4);
                 }
                 break;
+            case R.id.share_daka_pengyouquan:
+                shareType = 0;
+                if (url != null && url.length() != 0) {
+                    if (bookType == 0) {
+                        shareUtils.shareWechatMoments("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + song.getBookName() + "》", "安娃电台喊你磨耳朵啦...", song.getBookImageUrl(), url);
+                    } else {
+                        if (audioType == 1) {
+                            shareUtils.shareWechatMoments("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                        } else {
+                            shareUtils.shareWechatMoments("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                        }
+                    }
+                }
+                break;
+            case R.id.share_daka_weixin:
+                shareType = 1;
+                if (url != null && url.length() != 0) {
+                    if (bookType == 0) {
+                        shareUtils.shareWechat("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + song.getBookName() + "》", "安娃电台喊你磨耳朵啦...", song.getBookImageUrl(), url);
+                    } else {
+                        if (audioType == 1) {
+                            shareUtils.shareWechat("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                        } else {
+                            shareUtils.shareWechat("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                        }
+                    }
+                }
+                break;
+            case R.id.share_daka_qq:
+                shareType = 2;
+                if (url != null && url.length() != 0) {
+                    if (bookType == 0) {
+                        shareUtils.shareQQ("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + song.getBookName() + "》", "安娃电台喊你磨耳朵啦...", song.getBookImageUrl(), url);
+                    } else {
+                        if (audioType == 1) {
+                            shareUtils.shareQQ("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                        } else {
+                            shareUtils.shareQQ("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                        }
+                    }
+                }
+                break;
+            case R.id.share_daka_qqzone:
+                shareType = 3;
+                if (url != null && url.length() != 0) {
+                    if (bookType == 0) {
+                        shareUtils.shareQZone("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + song.getBookName() + "》", "安娃电台喊你磨耳朵啦...", song.getBookImageUrl(), url);
+                    } else {
+                        if (audioType == 1) {
+                            shareUtils.shareQZone("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                        } else {
+                            shareUtils.shareQZone("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                        }
+                    }
+                }
+                break;
+            case R.id.daka_share_cancel2:
+                popupWindow3.dismiss();
+                break;
         }
     }
 
@@ -992,9 +1135,11 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
         if (tag) {
             layoutParams.alpha = 0.7f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         } else {
             layoutParams.alpha = 1f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         }
     }
@@ -1058,6 +1203,7 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
@@ -1071,6 +1217,24 @@ public class PracticeActivity extends BaseActivity implements MediaPlayer.OnComp
         if (adapter != null) {
             adapter.stopMedia();
         }
-        super.onDestroy();
+    }
+
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+        showInfo("分享成功");
+        popupWindow3.dismiss();
+        presenter.shareCoin(1, shareType);
+    }
+
+    @Override
+    public void onError(Platform platform, int i, Throwable throwable) {
+        showInfo("分享取消");
+        popupWindow3.dismiss();
+    }
+
+    @Override
+    public void onCancel(Platform platform, int i) {
+        showInfo("分享取消");
+        popupWindow3.dismiss();
     }
 }

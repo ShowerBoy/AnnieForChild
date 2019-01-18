@@ -503,7 +503,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         }
         lists.get(currentLine - 1).setSelect(true);
         adapter.notifyDataSetChanged();
-        play(lists.get(currentLine - 1).getResourceUrl());
+        play(lists.get(currentLine - 1).getPkResourceUrl());
     }
 
     private void play(String url) {
@@ -583,7 +583,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
 
     @Override
     public void onCountDownFinish() {
-        play(lists.get(currentLine - 1).getResourceUrl());
+        play(lists.get(currentLine - 1).getPkResourceUrl());
     }
 
     @Override
@@ -611,9 +611,11 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
         if (tag) {
             layoutParams.alpha = 0.7f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         } else {
             layoutParams.alpha = 1f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         }
     }

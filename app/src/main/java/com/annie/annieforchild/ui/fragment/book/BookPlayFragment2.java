@@ -361,9 +361,6 @@ public class BookPlayFragment2 extends BaseFragment implements SongView, OnCheck
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mRecorderUtil != null) {
-            mRecorderUtil.stopRecording();
-        }
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
@@ -373,6 +370,9 @@ public class BookPlayFragment2 extends BaseFragment implements SongView, OnCheck
         }
         if (handler != null && runnable != null) {
             handler.removeCallbacks(runnable);
+        }
+        if (mRecorderUtil != null) {
+            mRecorderUtil.release();
         }
         isClick = true;
         isPlay = false;

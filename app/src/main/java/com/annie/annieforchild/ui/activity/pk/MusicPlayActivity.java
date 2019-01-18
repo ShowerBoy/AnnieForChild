@@ -197,6 +197,8 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         shareCancel.setOnClickListener(listener);
         coinCount.setText("分享+2金币");
         popupWindow2.setContentView(popupView2);
+        popupWindow2.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow2.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow2.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.clarity)));
         popupWindow2.setOutsideTouchable(false);
         popupWindow2.setFocusable(true);
@@ -479,7 +481,6 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
             case R.id.music_add_list:
                 if (MusicService.musicTitle != null) {
                     if (SystemUtils.defaultUsername != null) {
-//                        List<MusicSong> lists = DataSupport.findAll(MusicSong.class);
                         List<Song> song_list = new ArrayList<>();
                         Song song = new Song();
                         song.setBookId(resourceId);
@@ -735,10 +736,12 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         if (tag) {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.alpha = 0.7f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         } else {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.alpha = 1f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         }
     }

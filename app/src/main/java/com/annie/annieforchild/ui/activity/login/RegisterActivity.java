@@ -218,10 +218,10 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
             case R.id.next_btn:
                 if (isClick) {
                     if (ifNext()) {
-                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                                 MPermissions.requestPermissions(this, 3, new String[]{
-                                        Manifest.permission.READ_EXTERNAL_STORAGE
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
                                 });
                             } else {
                                 showInfo("无法正常使用安妮花，请开通存储权限！请设置");

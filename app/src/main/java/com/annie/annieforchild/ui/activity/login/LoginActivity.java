@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.activity.login;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -138,6 +139,21 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
         } else {
             doit();
         }
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission_group.STORAGE) != PackageManager.PERMISSION_GRANTED ||
+//                ActivityCompat.checkSelfPermission(this, Manifest.permission_group.PHONE) != PackageManager.PERMISSION_GRANTED ||
+//                ActivityCompat.checkSelfPermission(this, Manifest.permission_group.LOCATION) != PackageManager.PERMISSION_GRANTED ||
+//                ActivityCompat.checkSelfPermission(this, Manifest.permission_group.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+//                ActivityCompat.checkSelfPermission(this, Manifest.permission_group.MICROPHONE) != PackageManager.PERMISSION_GRANTED) {
+//            MPermissions.requestPermissions(this, 0, new String[]{
+//                    Manifest.permission_group.STORAGE,
+//                    Manifest.permission_group.PHONE,
+//                    Manifest.permission_group.LOCATION,
+//                    Manifest.permission_group.CAMERA,
+//                    Manifest.permission_group.MICROPHONE
+//            });
+//        } else {
+//            doit();
+//        }
     }
 
     @SuppressLint("MissingPermission")
@@ -145,7 +161,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
 //        LitePal.deleteDatabase("annie");
         db = LitePal.getDatabase();
 //        DataSupport.deleteAll(SigninBean.class);
-        List<PhoneSN> list = DataSupport.findAll(PhoneSN.class);
+        List<PhoneSN> list = LitePal.findAll(PhoneSN.class);
         if (list != null && list.size() != 0) {
             SystemUtils.phoneSN = list.get(list.size() - 1);
             SystemUtils.sn = list.get(list.size() - 1).getSn();
@@ -160,7 +176,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
             SystemUtils.phoneSN.save();
         }
 
-        List<MainBean> lists = DataSupport.findAll(MainBean.class);
+        List<MainBean> lists = LitePal.findAll(MainBean.class);
         if (lists != null && lists.size() != 0) {
             SystemUtils.mainBean = lists.get(lists.size() - 1);
 //            showInfo("数据库里存在mainBean:" + SystemUtils.mainBean.toString());
@@ -274,14 +290,18 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
     @Override
     public void showLoad() {
         if (dialog != null && !dialog.isShowing()) {
-            dialog.show();
+            if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
+                dialog.show();
+            }
         }
     }
 
     @Override
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+            if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
+                dialog.dismiss();
+            }
         }
     }
 
@@ -294,6 +314,9 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (db != null) {
+            db.close();
+        }
     }
 
     @Override
@@ -315,13 +338,14 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
                 if (check()) {
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED ||
                             ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                            ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                            ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                            ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+                            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE) ||
                                 ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) ||
-                                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION) ||
-                                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
                             MPermissions.requestPermissions(this, 1, new String[]{
                                     Manifest.permission.READ_PHONE_STATE,
                                     Manifest.permission.CAMERA,
@@ -360,4 +384,5 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
                 break;
         }
     }
+
 }

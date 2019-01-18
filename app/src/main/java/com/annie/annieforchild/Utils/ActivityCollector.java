@@ -5,6 +5,8 @@ import android.app.Activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.zhy.m.permission.Utils.getActivity;
+
 /**
  * Created by wanglei on 2018/4/25.
  */
@@ -19,6 +21,25 @@ public class ActivityCollector {
     public static void removeActivity(Activity activity) {
         activities.remove(activity);
     }
+
+//    public static <T extends Activity> boolean isActivityExist(Class<T> clz) {
+//        boolean res;
+//        Activity activity = getActivity(clz);
+//        if (activity == null) {
+//            res = false;
+//        } else {
+//            if (activity.isFinishing() || activity.isDestroyed()) {
+//                res = false;
+//            } else {
+//                res = true;
+//            }
+//        }
+//        return res;
+//    }
+//
+//    public static <T extends Activity> T getActivity(Class<T> clazz) {
+//        return (T) activities.get(clazz);
+//    }
 
     public static void finishAll() {
         for (Activity activity : activities) {

@@ -67,7 +67,7 @@ public class AddOnlineScheActivity extends BaseActivity implements OnCheckDouble
     private Bundle bundle;
     private Schedule schedule;
     private Material material;
-    private String startDate;
+    private String startDate = null;
     private int totalDays = 1;
     SimpleDateFormat sf1;
     SimpleDateFormat sf2;
@@ -262,14 +262,34 @@ public class AddOnlineScheActivity extends BaseActivity implements OnCheckDouble
         } else if (PickerDialog.getTag().equals("hour:minute1")) {
             String newTime = sf2.format(new Date(l)).replace(":", "");
             String nowTime = sf2.format(new Date()).replace(":", "");
-            if (Integer.parseInt(newTime) < Integer.parseInt(nowTime)) {
-                showInfo("所选时间不能超过当前时间");
-                PickerDialog.dismiss();
+            if (startDate != null) {
+                String now = sf1.format(new Date()).replace("-", "");
+                int nowYear = Integer.parseInt(now.substring(0, 4));
+                int nowMonth = Integer.parseInt(now.substring(4, 6));
+                int nowDay = Integer.parseInt(now.substring(6, 8));
+                int startYear = Integer.parseInt(startDate.substring(0, 4));
+                int startMonth = Integer.parseInt(startDate.substring(4, 6));
+                int startDay = Integer.parseInt(startDate.substring(6, 8));
+                if (startYear == nowYear && startMonth == nowMonth && startDay == nowDay) {
+                    if (Integer.parseInt(newTime) < Integer.parseInt(nowTime)) {
+                        showInfo("所选时间不能超过当前时间");
+                        PickerDialog.dismiss();
+                    } else {
+                        startTime = sf2.format(new Date(l));
+                        PickerDialog.dismiss();
+                        timePickerDialog2.show(getSupportFragmentManager(), "hour:minute2");
+                    }
+                } else {
+                    startTime = sf2.format(new Date(l));
+                    PickerDialog.dismiss();
+                    timePickerDialog2.show(getSupportFragmentManager(), "hour:minute2");
+                }
             } else {
                 startTime = sf2.format(new Date(l));
                 PickerDialog.dismiss();
                 timePickerDialog2.show(getSupportFragmentManager(), "hour:minute2");
             }
+
         } else if (PickerDialog.getTag().equals("hour:minute2")) {
             endTime = sf2.format(new Date(l));
             int end1 = Integer.parseInt(endTime.split(":")[0]);
@@ -314,10 +334,12 @@ public class AddOnlineScheActivity extends BaseActivity implements OnCheckDouble
         if (tag) {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.alpha = 0.7f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         } else {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.alpha = 1f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         }
     }
@@ -365,10 +387,32 @@ public class AddOnlineScheActivity extends BaseActivity implements OnCheckDouble
                 //加入课表
                 if (startDate != null && !startDate.equals("")) {
                     if (startTime != null && !startTime.equals("") && endTime != null && !endTime.equals("")) {
-                        if (title.getText().equals("加入课表")) {
-                            presenter.addSchedule(material.getMaterialId(), startDate, totalDays, startTime, endTime, audioType, audioSource);
+                        String now = sf1.format(new Date()).replace("-", "");
+                        int nowYear = Integer.parseInt(now.substring(0, 4));
+                        int nowMonth = Integer.parseInt(now.substring(4, 6));
+                        int nowDay = Integer.parseInt(now.substring(6, 8));
+                        int startYear = Integer.parseInt(startDate.substring(0, 4));
+                        int startMonth = Integer.parseInt(startDate.substring(4, 6));
+                        int startDay = Integer.parseInt(startDate.substring(6, 8));
+                        if (startYear == nowYear && startMonth == nowMonth && startDay == nowDay) {
+                            String nowTime = sf2.format(new Date()).replace(":", "");
+                            String startTime2 = startTime.replace(":", "");
+                            if (Integer.parseInt(startTime2) < Integer.parseInt(nowTime)) {
+                                showInfo("所选时间不能超过当前时间");
+                                return;
+                            } else {
+                                if (title.getText().equals("加入课表")) {
+                                    presenter.addSchedule(material.getMaterialId(), startDate, totalDays, startTime, endTime, audioType, audioSource);
+                                } else {
+                                    presenter.editSchedule(schedule.getScheduleId(), material.getMaterialId(), startDate, totalDays, startTime, endTime);
+                                }
+                            }
                         } else {
-                            presenter.editSchedule(schedule.getScheduleId(), material.getMaterialId(), startDate, totalDays, startTime, endTime);
+                            if (title.getText().equals("加入课表")) {
+                                presenter.addSchedule(material.getMaterialId(), startDate, totalDays, startTime, endTime, audioType, audioSource);
+                            } else {
+                                presenter.editSchedule(schedule.getScheduleId(), material.getMaterialId(), startDate, totalDays, startTime, endTime);
+                            }
                         }
                     } else {
                         showInfo("请设置每天学习时间");

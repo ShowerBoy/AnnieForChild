@@ -100,4 +100,11 @@ public class HttpConnect {
         queue.cancelAll();
     }
 
+    /**
+     * 清空队列
+     */
+    void quit() {
+        queue.stop();
+    }
+
 }

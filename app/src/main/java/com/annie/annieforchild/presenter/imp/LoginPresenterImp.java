@@ -213,7 +213,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
 //                            }).create().show();
                 } else if (bean.getErrType() == 4) {
                     //更新接口地址
-                    List<MainBean> lists = DataSupport.findAll(MainBean.class);
+                    List<MainBean> lists = LitePal.findAll(MainBean.class);
                     if (lists != null && lists.size() != 0) {
                         MainBean bean1 = lists.get(lists.size() - 1);
                         bean1.setData(bean.getData());
@@ -233,95 +233,105 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                         EventBus.getDefault().post(jtMessage);
                         SystemUtils.mainBean = bean;
                     } else if (what == MethodCode.EVENT_LOGIN) {
-                        LoginBean bean1 = JSON.parseObject(bean.getData(), LoginBean.class);
-                        bean1.save();
-                        SystemUtils.token = bean1.getToken();
-                        SystemUtils.defaultUsername = bean1.getDefaultUsername();
-                        if (bean1.getDefaultUsername().equals("")) {
-                            SystemUtils.childTag = 0;
-                            SystemUtils.isOnline = false;
-                        } else {
-                            SystemUtils.childTag = 1;
-                            SystemUtils.isOnline = true;
-                            //在线得花蜜
-                            SQLiteDatabase db = LitePal.getDatabase();
+                        SQLiteDatabase db = LitePal.getDatabase();
 //                            DataSupport.deleteAll(SigninBean.class);
-                            List<SigninBean> list = DataSupport.where("username = ?", SystemUtils.defaultUsername).find(SigninBean.class);
-//                            DataSupport.findBySQL("select * from Signin ")
-                            if (list != null && list.size() != 0) {
-                                SigninBean signinBean = list.get(list.size() - 1);
-                                String date = SystemUtils.netDate;
-                                if (date != null) {
-
-                                    if (!date.equals(signinBean.getDate())) {
-                                        if (SystemUtils.signinBean == null) {
-                                            SystemUtils.signinBean = new SigninBean();
-                                        }
-                                        SystemUtils.signinBean.setDate(date);
-                                        SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
-                                        SystemUtils.signinBean.setNectar(false);
-                                        SystemUtils.signinBean.save();
-                                    } else {
-                                        SystemUtils.signinBean = signinBean;
-                                    }
-                                }
+                        try {
+                            LoginBean bean1 = JSON.parseObject(bean.getData(), LoginBean.class);
+                            bean1.save();
+                            SystemUtils.token = bean1.getToken();
+                            SystemUtils.defaultUsername = bean1.getDefaultUsername();
+                            if (bean1.getDefaultUsername().equals("")) {
+                                SystemUtils.childTag = 0;
+                                SystemUtils.isOnline = false;
                             } else {
-                                SystemUtils.signinBean = new SigninBean();
-                                String date = SystemUtils.netDate;
-                                SystemUtils.signinBean.setDate(date != null ? date : "");
-                                SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
-                                SystemUtils.signinBean.setNectar(false);
-                                SystemUtils.signinBean.save();
-                            }
-                        }
-                        /**
-                         * {@link LoginActivity#onEventMainThread(JTMessage)}
-                         */
-                        JTMessage jtMessage = new JTMessage();
-                        jtMessage.setWhat(MethodCode.EVENT_LOGIN);
-                        jtMessage.setObj(bean1);
-                        EventBus.getDefault().post(jtMessage);
+                                SystemUtils.childTag = 1;
+                                SystemUtils.isOnline = true;
+                                //在线得花蜜
 
-                        if (SystemUtils.isOnline) {
-                            if (SystemUtils.signinBean == null) {
-                                SystemUtils.signinBean = new SigninBean();
-                                String date = SystemUtils.netDate;
-                                SystemUtils.signinBean.setDate(date != null ? date : "");
-                                SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
-                                SystemUtils.signinBean.setNectar(false);
-                                SystemUtils.signinBean.save();
-                            }
-                            if (!SystemUtils.signinBean.isNectar()) {
-                                SystemUtils.task = new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        Intent intent = new Intent();
-                                        intent.setAction("countdown");
-                                        context.sendBroadcast(intent);
-                                    }
-                                };
-                                Runnable runnable = new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (!SystemUtils.signinBean.isNectar()) {
-                                            if (SystemUtils.task == null) {
-                                                SystemUtils.task = new TimerTask() {
-                                                    @Override
-                                                    public void run() {
-                                                        Intent intent = new Intent();
-                                                        intent.setAction("countdown");
-                                                        context.sendBroadcast(intent);
-                                                    }
-                                                };
+                                List<SigninBean> list = LitePal.where("username = ?", SystemUtils.defaultUsername).find(SigninBean.class);
+//                            DataSupport.findBySQL("select * from Signin ")
+                                if (list != null && list.size() != 0) {
+                                    SigninBean signinBean = list.get(list.size() - 1);
+                                    String date = SystemUtils.netDate;
+                                    if (date != null) {
+
+                                        if (!date.equals(signinBean.getDate())) {
+                                            if (SystemUtils.signinBean == null) {
+                                                SystemUtils.signinBean = new SigninBean();
                                             }
-                                            SystemUtils.timer.schedule(SystemUtils.task, 120 * 1000);
+                                            SystemUtils.signinBean.setDate(date);
+                                            SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
+                                            SystemUtils.signinBean.setNectar(false);
+                                            SystemUtils.signinBean.save();
+                                        } else {
+                                            SystemUtils.signinBean = signinBean;
                                         }
                                     }
-                                };
-                                SystemUtils.countDownThread = new Thread(runnable);
-                                SystemUtils.countDownThread.start();
+                                } else {
+                                    SystemUtils.signinBean = new SigninBean();
+                                    String date = SystemUtils.netDate;
+                                    SystemUtils.signinBean.setDate(date != null ? date : "");
+                                    SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
+                                    SystemUtils.signinBean.setNectar(false);
+                                    SystemUtils.signinBean.save();
+                                }
+
                             }
+                            /**
+                             * {@link LoginActivity#onEventMainThread(JTMessage)}
+                             */
+                            JTMessage jtMessage = new JTMessage();
+                            jtMessage.setWhat(MethodCode.EVENT_LOGIN);
+                            jtMessage.setObj(bean1);
+                            EventBus.getDefault().post(jtMessage);
+
+                            if (SystemUtils.isOnline) {
+                                if (SystemUtils.signinBean == null) {
+                                    SystemUtils.signinBean = new SigninBean();
+                                    String date = SystemUtils.netDate;
+                                    SystemUtils.signinBean.setDate(date != null ? date : "");
+                                    SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
+                                    SystemUtils.signinBean.setNectar(false);
+                                    SystemUtils.signinBean.save();
+                                }
+                                if (!SystemUtils.signinBean.isNectar()) {
+                                    SystemUtils.task = new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            Intent intent = new Intent();
+                                            intent.setAction("countdown");
+                                            context.sendBroadcast(intent);
+                                        }
+                                    };
+                                    Runnable runnable = new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (!SystemUtils.signinBean.isNectar()) {
+                                                if (SystemUtils.task == null) {
+                                                    SystemUtils.task = new TimerTask() {
+                                                        @Override
+                                                        public void run() {
+                                                            Intent intent = new Intent();
+                                                            intent.setAction("countdown");
+                                                            context.sendBroadcast(intent);
+                                                        }
+                                                    };
+                                                }
+                                                SystemUtils.timer.schedule(SystemUtils.task, 120 * 1000);
+                                            }
+                                        }
+                                    };
+                                    SystemUtils.countDownThread = new Thread(runnable);
+                                    SystemUtils.countDownThread.start();
+                                }
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            db.close();
                         }
+
                     }
                 }
             } else if (what == MethodCode.EVENT_GLOBALSEARCH) {

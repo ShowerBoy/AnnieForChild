@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.provider.Settings;
@@ -57,9 +58,11 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
 import java.lang.invoke.MethodHandle;
+import java.sql.DatabaseMetaData;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -176,25 +179,31 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
             }
         });
         popupWindow.setContentView(popupView);
-
+        SQLiteDatabase db = LitePal.getDatabase();
+        try {
 //        DataSupport.deleteAll(HistoryRecord.class);
-        List<HistoryRecord> historyList = DataSupport.findAll(HistoryRecord.class);
-        if (historyList != null && historyList.size() != 0) {
-            if (SystemUtils.historyRecordList == null) {
-                SystemUtils.historyRecordList = new ArrayList<>();
+            List<HistoryRecord> historyList = LitePal.findAll(HistoryRecord.class);
+            if (historyList != null && historyList.size() != 0) {
+                if (SystemUtils.historyRecordList == null) {
+                    SystemUtils.historyRecordList = new ArrayList<>();
+                } else {
+                    SystemUtils.historyRecordList.clear();
+                }
+                SystemUtils.historyRecordList.addAll(historyList);
+                historyFlexbox.removeAllViews();
+                int listSize = SystemUtils.historyRecordList.size();
+                for (int i = 0; i < listSize; i++) {
+                    historyFlexbox.addView(createFlexItem(SystemUtils.historyRecordList.get(listSize - 1 - i)));
+                }
+                historyLinear.setVisibility(View.VISIBLE);
             } else {
-                SystemUtils.historyRecordList.clear();
+                SystemUtils.historyRecordList = new ArrayList<>();
+                historyLinear.setVisibility(View.GONE);
             }
-            SystemUtils.historyRecordList.addAll(historyList);
-            historyFlexbox.removeAllViews();
-            int listSize = SystemUtils.historyRecordList.size();
-            for (int i = 0; i < listSize; i++) {
-                historyFlexbox.addView(createFlexItem(SystemUtils.historyRecordList.get(listSize - 1 - i)));
-            }
-            historyLinear.setVisibility(View.VISIBLE);
-        } else {
-            SystemUtils.historyRecordList = new ArrayList<>();
-            historyLinear.setVisibility(View.GONE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.close();
         }
     }
 
@@ -373,7 +382,7 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 SystemUtils.historyRecordList.clear();
-                                DataSupport.deleteAll(HistoryRecord.class);
+                                LitePal.deleteAll(HistoryRecord.class);
                                 historyLinear.setVisibility(View.GONE);
                                 dialog.dismiss();
                             }

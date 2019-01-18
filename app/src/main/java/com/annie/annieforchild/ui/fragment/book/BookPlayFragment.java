@@ -24,7 +24,9 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.pcm2mp3.RecorderAndPlayUtil;
 import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
@@ -64,7 +66,7 @@ import javax.microedition.khronos.opengles.GL;
  * Created by wanglei on 2018/10/9.
  */
 
-public class BookPlayFragment extends BaseFragment implements View.OnClickListener, SongView, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick, SongView, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     private int tag;
     private Page page;
     private LinearLayout previewLayout, recordLayout, playLayout;
@@ -88,6 +90,7 @@ public class BookPlayFragment extends BaseFragment implements View.OnClickListen
     private Dialog dialog;
     private String title, imageUrl;
     private int animationCode, homeworkid;
+    private CheckDoubleClickListener listener;
     private Random random;
 
     {
@@ -230,7 +233,7 @@ public class BookPlayFragment extends BaseFragment implements View.OnClickListen
                         break;
                     case MP3Recorder.MSG_ERROR_AUDIO_RECORD:
                         initRecording();
-                        showInfo("录音的时候出错");
+//                        showInfo("录音的时候出错");
                         break;
                     case MP3Recorder.MSG_ERROR_AUDIO_ENCODE:
                         initRecording();
@@ -312,12 +315,12 @@ public class BookPlayFragment extends BaseFragment implements View.OnClickListen
         previewLayout = view.findViewById(R.id.book_preview_layout);
         recordLayout = view.findViewById(R.id.book_record_layout);
         playLayout = view.findViewById(R.id.book_play_layout);
-
-        pageImage.setOnClickListener(this);
-        animationPic.setOnClickListener(this);
-        previewLayout.setOnClickListener(this);
-        recordLayout.setOnClickListener(this);
-        playLayout.setOnClickListener(this);
+        listener = new CheckDoubleClickListener(this);
+        pageImage.setOnClickListener(listener);
+        animationPic.setOnClickListener(listener);
+        previewLayout.setOnClickListener(listener);
+        recordLayout.setOnClickListener(listener);
+        playLayout.setOnClickListener(listener);
 
         RecyclerLinearLayoutManager manager = new RecyclerLinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -394,8 +397,6 @@ public class BookPlayFragment extends BaseFragment implements View.OnClickListen
     }
 
     /**
-     * {@link BookPlayActivity2#onClick(View)}
-     *
      * @param message
      */
     @Subscribe
@@ -480,8 +481,8 @@ public class BookPlayFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
             case R.id.book_play_image2:
                 Intent intent = new Intent(getContext(), PhotoActivity.class);
                 intent.putExtra("url", page.getPageImage());
@@ -687,7 +688,7 @@ public class BookPlayFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onCompletion(MediaPlayer mp) {
         if (mp == mediaPlayer) {
-            presenter.uploadAudioTime(3, audioType, audioSource, bookId, duration);
+            presenter.uploadAudioTime(4, audioType, audioSource, bookId, duration);
             if (SystemUtils.playAll) {
                 SystemUtils.currentLine++;
                 if (SystemUtils.currentLine < lists.size()) {
@@ -802,8 +803,16 @@ public class BookPlayFragment extends BaseFragment implements View.OnClickListen
             mediaPlayer2 = null;
             isClick = true;
         }
+        if (mRecorderUtil != null) {
+            mRecorderUtil.release();
+        }
+        if (handler != null && runnable != null) {
+            handler.removeCallbacks(runnable);
+        }
 //        SystemUtils.playAll = false;
         SystemUtils.isCurrentPage = false;
         preview.setImageResource(R.drawable.icon_book_preview2);
     }
+
+
 }

@@ -344,7 +344,7 @@ public class BookPlayActivity extends BaseActivity implements OnCheckDoubleClick
     public void onCompletion(MediaPlayer mp) {
         isBookPlay = false;
         isClick = true;
-        presenter.uploadAudioTime(3, audioType, audioSource, bookId, duration);
+        presenter.uploadAudioTime(4, audioType, audioSource, bookId, duration);
     }
 
     @Override

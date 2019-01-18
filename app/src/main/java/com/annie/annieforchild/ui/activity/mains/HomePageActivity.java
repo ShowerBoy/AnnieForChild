@@ -267,6 +267,7 @@ public class HomePageActivity extends BaseActivity implements SongView, OnCheckD
             readingTime.setText(SystemUtils.secToHour(hpbean.getReadingTime()));
             speakingTime.setText(SystemUtils.secToHour(hpbean.getSpeakingTime()));
 
+            levelLayout.removeAllViews();
             int experience = Integer.parseInt(hpbean.getExperience() != null ? hpbean.getExperience() : "0");
 
             if (experience < 500) {

@@ -19,7 +19,9 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
@@ -45,7 +47,7 @@ import java.util.Map;
  * Created by wanglei on 2018/10/9.
  */
 
-public class BookPlayActivity2 extends BaseActivity implements SongView, View.OnClickListener {
+public class BookPlayActivity2 extends BaseActivity implements SongView, OnCheckDoubleClick {
     public static APSTSViewPager viewPager;
     private RelativeLayout bookPlay2Layout, pageLayout;
     private ImageView back;
@@ -67,6 +69,7 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, View.On
     private Dialog dialog;
     private BookPlayEndFragment bookPlayEndFragment;
     public static List<ReleaseUrl> releaseList; //判断是否发布
+    private CheckDoubleClickListener listener;
     public static int nectarCount = 0;
 
     {
@@ -90,9 +93,10 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, View.On
         pageLayout = findViewById(R.id.book_play_relative);
         animationView = findViewById(R.id.animation_view);
         bookTitle = findViewById(R.id.book_play_title);
-        back.setOnClickListener(this);
-        playTotal.setOnClickListener(this);
-        playTotal2.setOnClickListener(this);
+        listener = new CheckDoubleClickListener(this);
+        back.setOnClickListener(listener);
+        playTotal.setOnClickListener(listener);
+        playTotal2.setOnClickListener(listener);
 
         intent = getIntent();
         bookId = intent.getIntExtra("bookId", 0);
@@ -102,11 +106,7 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, View.On
         title = intent.getStringExtra("title");
         homeworkid = intent.getIntExtra("homeworkid", 0);
 
-//        if (audioSource == 8) {
-//            playTotal2.setVisibility(View.GONE);
-//        } else {
         playTotal2.setVisibility(View.VISIBLE);
-//        }
     }
 
     @Override
@@ -260,8 +260,8 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, View.On
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
             case R.id.book_play_back2:
                 if (BookPlayFragment.isRecord) {
                     return;

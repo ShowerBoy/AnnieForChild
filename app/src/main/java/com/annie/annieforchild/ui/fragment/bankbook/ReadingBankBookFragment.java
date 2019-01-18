@@ -102,8 +102,8 @@ public class ReadingBankBookFragment extends BaseFragment implements View.OnClic
         if (bean != null) {
             todayList.clear();
             historyList.clear();
-            todayList.addAll(bean.getTodayList());
-            historyList.addAll(bean.getHistoryList());
+            todayList.addAll(bean.getTodayList() != null ? bean.getTodayList() : new ArrayList<>());
+            historyList.addAll(bean.getHistoryList() != null ? bean.getHistoryList() : new ArrayList<>());
             if (todayList != null) {
                 for (int i = 0; i < todayList.size(); i++) {
                     GrindTime grindTime = todayList.get(i);
@@ -196,7 +196,7 @@ public class ReadingBankBookFragment extends BaseFragment implements View.OnClic
                             total_shige.setText("累计：" + hour + "小时" + min + "分");
                             break;
                         case "3":
-                            total_duihua.setText("今日：" + hour + "小时" + min + "分");
+                            total_duihua.setText("累计：" + hour + "小时" + min + "分");
                             break;
                         case "4":
                             total_gushi.setText("累计：" + hour + "小时" + min + "分");

@@ -367,6 +367,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                if (singClassifyList == null || singClassifyList.size() == 0) {
+                    showInfo("请稍后");
+                    return;
+                }
                 showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle1 = new Bundle();
@@ -388,6 +392,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                if (songClassifyList == null || songClassifyList.size() == 0) {
+                    showInfo("请稍后");
+                    return;
+                }
                 showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle2 = new Bundle();
@@ -404,6 +412,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 }
                 if (SystemUtils.childTag == 0) {
                     SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (poetryClassifyList == null || poetryClassifyList.size() == 0) {
+                    showInfo("请稍后");
                     return;
                 }
                 showLoad();
@@ -424,6 +436,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                if (animationClassifyList == null || animationClassifyList.size() == 0) {
+                    showInfo("请稍后");
+                    return;
+                }
                 showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle3 = new Bundle();
@@ -440,6 +456,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 }
                 if (SystemUtils.childTag == 0) {
                     SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (picturebookClassifyList == null || picturebookClassifyList.size() == 0) {
+                    showInfo("请稍后");
                     return;
                 }
                 showLoad();
@@ -460,6 +480,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                if (singClassifyList == null || singClassifyList.size() == 0) {
+                    showInfo("请稍后");
+                    return;
+                }
                 showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle5 = new Bundle();
@@ -476,6 +500,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 }
                 if (SystemUtils.childTag == 0) {
                     SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (dialogueClassifyList == null || dialogueClassifyList.size() == 0) {
+                    showInfo("请稍后");
                     return;
                 }
                 showLoad();

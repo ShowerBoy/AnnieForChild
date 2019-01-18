@@ -263,6 +263,10 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                if (huibenClassifyList == null || huibenClassifyList.size() == 0) {
+                    showInfo("请稍后");
+                    return;
+                }
                 showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle1 = new Bundle();
@@ -279,6 +283,10 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                 }
                 if (SystemUtils.childTag == 0) {
                     SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (xugouClassifyList == null || xugouClassifyList.size() == 0) {
+                    showInfo("请稍后");
                     return;
                 }
                 showLoad();
@@ -299,6 +307,10 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                     SystemUtils.toAddChild(this);
                     return;
                 }
+                if (feixugouClassifyList == null || feixugouClassifyList.size() == 0) {
+                    showInfo("请稍后");
+                    return;
+                }
                 showLoad();
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle3 = new Bundle();
@@ -315,6 +327,10 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                 }
                 if (SystemUtils.childTag == 0) {
                     SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (zhangjieClassifyList == null || zhangjieClassifyList.size() == 0) {
+                    showInfo("请稍后");
                     return;
                 }
                 showLoad();
@@ -346,6 +362,10 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                 }
                 if (SystemUtils.childTag == 0) {
                     SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (readClassifyList == null || readClassifyList.size() == 0) {
+                    showInfo("请稍后");
                     return;
                 }
                 showLoad();

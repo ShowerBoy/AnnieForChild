@@ -2,14 +2,17 @@ package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.rank.Production;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.adapter.viewHolder.ProductionViewHolder;
@@ -93,6 +96,7 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
             }
         });
         productionViewHolder.play.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 if (isPlay) {
@@ -109,6 +113,9 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
                         isPlay = false;
                     }
                 } else {
+                    if (MusicService.isPlay) {
+                        MusicService.stop();
+                    }
                     holder = productionViewHolder;
                     urlList.clear();
                     urlList.addAll(lists.get(i).getUrl());
