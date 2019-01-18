@@ -55,7 +55,7 @@ public class NetBeanAdapter extends RecyclerView.Adapter<NetBeanViewHolder> {
             netBeanViewHolder.event.setVisibility(View.VISIBLE);
             netBeanViewHolder.event.setText(lists.get(i).getEvent());
         }
-        netBeanViewHolder.price.setText(lists.get(i).getPrice() + "元");
+        netBeanViewHolder.price.setText("￥"+lists.get(i).getPrice());
         if (lists.get(i).getIsBuy() == 0) {
             netBeanViewHolder.hadbuy.setVisibility(View.GONE);
         } else {

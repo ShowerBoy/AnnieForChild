@@ -2,14 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp">
+    android:background="@drawable/icon_my_course_bg"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/net_image"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="2dp"
         android:scaleType="fitCenter"
         android:src="@drawable/image_grindear" />
 
@@ -18,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/net_image"
         android:orientation="vertical">
 
@@ -47,6 +50,7 @@
             android:paddingBottom="2dp"
             android:paddingEnd="6dp"
             android:paddingStart="6dp"
+            android:visibility="gone"
             android:paddingTop="2dp"
             android:text="超值限时优惠"
             android:textColor="@color/white"
@@ -56,7 +60,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp">
+            android:layout_marginTop="15dp">
 
             <TextView
                 android:id="@+id/net_price"

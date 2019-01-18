@@ -47,9 +47,15 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressViewHolder> {
         holder.name.setText(lists.get(i).getName());
         holder.phone.setText(lists.get(i).getPhone());
         holder.address.setText(lists.get(i).getAddress());
+//        if(lists.get(i).getIsDefault()==0){//0不是默认地址
+//            holder.checkbox.setChecked(false);
+//        }else{
+//            holder.checkbox.setChecked(true);
+//        }
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                holder.checkbox.setChecked(true);
                 JTMessage message = new JTMessage();
                 message.what = MethodCode.EVENT_ADDRESS;
                 message.obj = lists.get(i).getAddressId();

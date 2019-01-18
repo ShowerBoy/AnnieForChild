@@ -17,6 +17,7 @@ public class AddressViewHolder extends RecyclerView.ViewHolder {
     public ImageView edit;
     public RelativeLayout layout;
     public TextView name, phone, address;
+    public CheckBox checkbox;
 
     public AddressViewHolder(View itemView) {
         super(itemView);
@@ -25,5 +26,6 @@ public class AddressViewHolder extends RecyclerView.ViewHolder {
         layout = itemView.findViewById(R.id.address_item);
         phone = itemView.findViewById(R.id.address_phone);
         address = itemView.findViewById(R.id.address_address);
+        checkbox=itemView.findViewById(R.id.checkbox);
     }
 }

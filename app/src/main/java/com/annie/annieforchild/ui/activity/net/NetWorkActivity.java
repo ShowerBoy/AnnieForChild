@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Slide;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
+import com.annie.annieforchild.Utils.views.WrapContentHeightViewPager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.NetBean;
 import com.annie.annieforchild.bean.net.NetWork;
@@ -50,19 +52,20 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
     private RecyclerView recycler;
     private SliderLayout sliderLayout;
     private AdvancedPagerSlidingTabStrip mTab;
-    private APSTSViewPager mVP;
+    public static APSTSViewPager mVP;
     private ImageView back;
     private List<NetBean> lists;
     private CheckDoubleClickListener listener;
     private NetExperienceFragment netExperienceFragment;
     private NetSpecialFragment netSpecialFragment;
     private NetSuggestFragment netSuggestFragment;
-    private NetWorkFragmentAdapter fragmentAdapter;
+    private  NetWorkFragmentAdapter fragmentAdapter;
     private HashMap<Integer, String> file_maps;//轮播图图片map
     private NetWorkPresenter presenter;
     private NetWorkAdapter adapter;
     private AlertHelper helper;
     private Dialog dialog;
+
 
     {
         setRegister(true);
@@ -75,6 +78,7 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
 
     @Override
     protected void initView() {
+
         back = findViewById(R.id.network_back);
         sliderLayout = findViewById(R.id.network_slide);
 //        recycler = findViewById(R.id.net_recycler);
@@ -82,6 +86,7 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
         mVP = findViewById(R.id.net_viewpager);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
+
 //        LinearLayoutManager manager = new LinearLayoutManager(this);
 //        manager.setOrientation(LinearLayoutManager.VERTICAL);
 //        recycler.setLayoutManager(manager);

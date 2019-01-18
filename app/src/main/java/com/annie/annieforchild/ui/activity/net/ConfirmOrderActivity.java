@@ -5,13 +5,16 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -44,6 +47,7 @@ import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.bumptech.glide.Glide;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -54,6 +58,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -66,15 +71,14 @@ import java.util.Map;
  */
 
 public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
-    private ImageView back;
-    private RecyclerView recycler;
-    private RelativeLayout giftLayout, zhifubaoLayout, wechatLayout;
+    private ImageView back, product_img;
+    private RelativeLayout zhifubaoLayout, wechatLayout;
     private LinearLayout confirmLayout;
-    private TextView title, price, materialPrice, material, name, phone, address, buyBtn, totalPrice;
-    private CheckBox materalCheck, zhifubao, weixin;
-    private RelativeLayout addressLayout;
+    private TextView name, phone, address, buyBtn, totalPrice, product_name, product_text, material;
+    private TextView confirm_price;
+    private ImageView zhifubao, weixin;
+    private ConstraintLayout addressLayout;
     private NetWorkPresenter presenter;
-    private NetGiftAdapter adapter;
     private List<Gift> lists;
     private List<Gift> selectList;
     private CheckDoubleClickListener listener;
@@ -83,12 +87,13 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     private int netid, addressId = -1;
     private Double netPrice, matPrice;
     private NetSuggest netSuggest;
-    private String data, type;
+    private String data, type, netimage;
     private AlertHelper helper;
     private Dialog dialog;
     private String giftId = "";
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 2;
+    private String netsummary;
     private IWXAPI wxapi;
     private int count; //礼包可选数
 
@@ -107,83 +112,91 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         wxapi.registerApp(SystemUtils.APP_ID);
 //        wxapi.handleIntent(getIntent(), this);
         back = findViewById(R.id.confirm_order_back);
-        title = findViewById(R.id.confirm_title);
-        price = findViewById(R.id.confirm_price);
-        material = findViewById(R.id.confirm_material);
-        materialPrice = findViewById(R.id.confirm_material_price);
         name = findViewById(R.id.confirm_name);
         phone = findViewById(R.id.confirm_phone);
         address = findViewById(R.id.confirm_address);
-        materalCheck = findViewById(R.id.material_checkbox);
         zhifubao = findViewById(R.id.checkbox_zhifubao);
         weixin = findViewById(R.id.checkbox_weixin);
         buyBtn = findViewById(R.id.buy_btn);
         totalPrice = findViewById(R.id.total_price);
         addressLayout = findViewById(R.id.address_layout);
-        recycler = findViewById(R.id.confirm_gift_recycler);
-        giftLayout = findViewById(R.id.gift_layout);
         confirmLayout = findViewById(R.id.confirm_layout);
         zhifubaoLayout = findViewById(R.id.zhifubao_layout);
         wechatLayout = findViewById(R.id.wechat_layout);
+        product_name = findViewById(R.id.product_name);
+        product_text = findViewById(R.id.product_text);
+        confirm_price = findViewById(R.id.confirm_price);
+        material = findViewById(R.id.material);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
         addressLayout.setOnClickListener(listener);
         buyBtn.setOnClickListener(listener);
-        giftLayout.setOnClickListener(listener);
-        zhifubaoLayout.setOnClickListener(listener);
-        wechatLayout.setOnClickListener(listener);
-        materalCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//        zhifubaoLayout.setOnClickListener(listener);
+//        wechatLayout.setOnClickListener(listener);
+        zhifubaoLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isMaterial = isChecked;
-                if (isMaterial) {
-                    totalPrice.setText("共计：" + (netPrice + matPrice) + "元");
-                } else {
-                    totalPrice.setText("共计：" + netPrice + "元");
-                }
+            public boolean onTouch(View v, MotionEvent event) {
+                zhifubao.setSelected(true);
+                weixin.setSelected(false);
+                payment = 0;
+                return false;
             }
         });
-        zhifubao.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        wechatLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    payment = 0;
-                    weixin.setChecked(false);
-                } else {
-                    if (payment == 1) {
-                        zhifubao.setChecked(false);
-                    } else {
-                        zhifubao.setChecked(true);
-                    }
-                }
+            public boolean onTouch(View v, MotionEvent event) {
+                zhifubao.setSelected(false);
+                weixin.setSelected(true);
+                payment = 1;
+                return false;
             }
         });
-        weixin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    payment = 1;
-                    zhifubao.setChecked(false);
-                } else {
-                    if (payment == 0) {
-                        weixin.setChecked(false);
-                    } else {
-                        weixin.setChecked(true);
-                    }
-                }
-            }
-        });
-        zhifubao.setChecked(true);
+//        zhifubao.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    payment = 0;
+//                    weixin.setChecked(false);
+//                } else {
+//                    if (payment == 1) {
+//                        zhifubao.setChecked(false);
+//                    } else {
+//                        zhifubao.setChecked(true);
+//                    }
+//                }
+//            }
+//        });
+//        weixin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    payment = 1;
+//                    zhifubao.setChecked(false);
+//                } else {
+//                    if (payment == 0) {
+//                        weixin.setChecked(false);
+//                    } else {
+//                        weixin.setChecked(true);
+//                    }
+//                }
+//            }
+//        });
+        zhifubao.setSelected(true);
         netid = getIntent().getIntExtra("netid", 0);
         type = getIntent().getStringExtra("type");
+        netimage = getIntent().getStringExtra("netimage");
+        netsummary = getIntent().getStringExtra("netsummary");
         if (type.equals("体验课")) {
             confirmLayout.setVisibility(View.GONE);
+            addressLayout.setVisibility(View.GONE);
         } else {
             confirmLayout.setVisibility(View.VISIBLE);
+            addressLayout.setVisibility(View.VISIBLE);
         }
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recycler.setLayoutManager(manager);
+        product_img = findViewById(R.id.product_img);
+        Glide.with(this).load(netimage).into(product_img);
+        product_text.setText(netsummary);
+
     }
 
     @Override
@@ -195,19 +208,6 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
         presenter.confirmOrder(netid);
-
-        adapter = new NetGiftAdapter(this, selectList, 1, new OnRecyclerItemClickListener() {
-            @Override
-            public void onItemClick(View view) {
-
-            }
-
-            @Override
-            public void onItemLongClick(View view) {
-
-            }
-        });
-        recycler.setAdapter(adapter);
     }
 
     @Override
@@ -226,7 +226,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 startActivity(intent);
                 break;
             case R.id.buy_btn:
-                if (addressId != -1) {
+//                if (addressId != -1) {
                     if (selectList.size() < count) {
                         showInfo("请选择足够数量的礼包");
                     } else {
@@ -237,29 +237,20 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                             } else {
                                 giftId = giftId + "," + selectList.get(i).getId();
                             }
-
                         }
-                        if (isMaterial) {
-                            if (payment == 1) {
-                                if (!wxapi.isWXAppInstalled()) {
-                                    showInfo("请您先安装微信客户端！");
-                                    break;
-                                }
-                            }
-                            presenter.buyNetWork(netid, addressId, 1, payment, giftId);
+                        if (payment == 0) {
+                            presenter.buyNetWork(netid, addressId, 0, payment, giftId);
                         } else {
-                            if (payment == 1) {
-                                if (!wxapi.isWXAppInstalled()) {
-                                    showInfo("请您先安装微信客户端！");
-                                    break;
-                                }
+                            if (!wxapi.isWXAppInstalled()) {
+                                showInfo("请您先安装微信客户端！");
+                                break;
                             }
                             presenter.buyNetWork(netid, addressId, 0, payment, giftId);
                         }
                     }
-                } else {
-                    showInfo("请添加收货地址");
-                }
+//                } else {
+//                    showInfo("请添加收货地址");
+//                }
                 break;
             case R.id.gift_layout:
                 if (netSuggest.getGift() == null) {
@@ -278,15 +269,21 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 }
                 break;
             case R.id.zhifubao_layout:
-
+                zhifubao.setSelected(true);
+                weixin.setSelected(false);
+                payment = 0;
                 break;
             case R.id.wechat_layout:
-
+                zhifubao.setSelected(false);
+                zhifubao.setActivated(false);
+                weixin.setSelected(true);
+                weixin.setActivated(true);
+                payment = 1;
                 break;
         }
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_CONFIRMORDER) {
             netSuggest = (NetSuggest) message.obj;
@@ -294,6 +291,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         } else if (message.what == MethodCode.EVENT_ADDRESS) {
             isAddress = true;
             addressId = (int) message.obj;
+            refresh();
             presenter.confirmOrder(netid);
         } else if (message.what == MethodCode.EVENT_EDITADDRESS) {
             isAddress = false;
@@ -325,12 +323,13 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                         wxapi.sendReq(payReq);
                     }
                 }).start();
+               finish();
             }
         } else if (message.what == MethodCode.EVENT_PAY) {
             if (payment == 1) {
                 Intent intent = new Intent(ConfirmOrderActivity.this, MyCourseActivity.class);
                 startActivity(intent);
-                finishAffinity();
+               finish();
             }
         }
     }
@@ -344,7 +343,6 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 lists.clear();
                 selectList.addAll((List<Gift>) bundle.getSerializable("select"));
                 lists.addAll((List<Gift>) bundle.getSerializable("list"));
-                adapter.notifyDataSetChanged();
             }
         }
     }
@@ -374,14 +372,16 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                         message.what = MethodCode.EVENT_PAY;
                         message.obj = 1;
                         EventBus.getDefault().post(message);
-
-                        Intent intent = new Intent(ConfirmOrderActivity.this, MyCourseActivity.class);
+                        Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
                         startActivity(intent);
-//                        finish();
-                        finishAffinity();
+                       finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         showInfo("支付失败");
+                        Intent intent = new Intent(ConfirmOrderActivity.this, PayFailActivity.class);
+                        startActivity(intent);
+                        finish();
+
                     }
                     break;
                 }
@@ -413,8 +413,8 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
 
     private void refresh() {
         if (netSuggest != null) {
-            title.setText(netSuggest.getNetName());
-            price.setText(netSuggest.getPrice() + "元");
+            product_name.setText(netSuggest.getNetName());
+            confirm_price.setText(netSuggest.getPrice() + "元");
             if (netSuggest.getMaterial() != null && netSuggest.getMaterial().length() != 0) {
                 material.setText(netSuggest.getMaterial());
             } else {
@@ -434,20 +434,17 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                                 lists.get(i).setSelect(true);
                             }
                         }
-                        adapter.notifyDataSetChanged();
                     }
                 }
             }
 
-            if (netSuggest.getMaterialPrice() == null) {
-                materialPrice.setVisibility(View.GONE);
-                materalCheck.setVisibility(View.GONE);
-            } else {
-                materalCheck.setVisibility(View.VISIBLE);
-                materialPrice.setVisibility(View.VISIBLE);
-                materialPrice.setText(netSuggest.getMaterialPrice() + "元");
-                matPrice = Double.parseDouble(netSuggest.getMaterialPrice());
-            }
+//            if (netSuggest.getMaterialPrice() == null) {
+//                materialPrice.setVisibility(View.GONE);
+//            } else {
+//                materialPrice.setVisibility(View.VISIBLE);
+//                materialPrice.setText(netSuggest.getMaterialPrice() + "元");
+//                matPrice = Double.parseDouble(netSuggest.getMaterialPrice());
+//            }
             if (netSuggest.getAddress() != null && netSuggest.getAddress().size() != 0) {
                 if (isAddress) {
                     for (int i = 0; i < netSuggest.getAddress().size(); i++) {
@@ -459,6 +456,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                     }
                 } else {
                     addressId = netSuggest.getAddress().get(0).getAddressId();
+
                     name.setText(netSuggest.getAddress().get(0).getName());
                     phone.setText(netSuggest.getAddress().get(0).getPhone());
                     address.setText(netSuggest.getAddress().get(0).getAddress());
