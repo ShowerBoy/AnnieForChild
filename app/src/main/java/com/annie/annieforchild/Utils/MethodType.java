@@ -100,7 +100,7 @@ public class MethodType {
     final public static String DELETEADDRESS = "deleteAddress"; //删除收货地址
     final public static String BUYNETWORK = "buyNetWork"; //购买网课
     final public static String GETNETDETAILS = "getNetDetails"; //网课详情
-    final public static String GETLESSON = "getLesson"; //网课列表
+    final public static String GETLESSON = "ParentChildlessons"; //亲子课
     final public static String GETSPEAKING = "getSpeaking"; //口语首页
     final public static String GETRELEASE = "getRelease"; //发布页面
     final public static String RELEASEBOOK = "releaseBook"; //发布
@@ -112,4 +112,8 @@ public class MethodType {
     final public static String GETRADIO = "getRadio"; //
     final public static String GETLYRIC = "getLyric"; //
     final public static String LUCKDRAW = "luckDraw"; //
+    final public static String BUYSUCCESS = "buySuccess"; //购买网课成功获取推荐课程
+    final public static String GETNETEXPDETAILS = "experienceDetails"; //购买的网课具体内容
+    final public static String GETPREHEATCONSULT = "PreheatingClass"; //预热课
+    final public static String GETLISTENANDREAD = "listeningandreading"; //泛听泛读
 }

@@ -485,9 +485,17 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                 break;
             case R.id.event_layout:
                 //网课
-//                intent.setClass(getContext(), NetWorkActivity.class);
-//                startActivity(intent);
-                ((MainActivity) getActivity()).changeFragment(1);
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), NetWorkActivity.class);
+                startActivity(intent);
+//                ((MainActivity) getActivity()).changeFragment(1);
                 break;
             case R.id.match_layout:
                 //广场

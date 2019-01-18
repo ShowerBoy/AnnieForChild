@@ -139,7 +139,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="5dp"
-                                    android:text="路线"
+                                    android:text="网课"
                                     android:textColor="@color/text_black"
                                     android:textSize="14sp" />
 
