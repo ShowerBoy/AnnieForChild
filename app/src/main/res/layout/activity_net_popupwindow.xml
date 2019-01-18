@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+   >
+     <TextView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="注意：单买磨耳朵A或阅读A赠送礼包A，再次购买第二套课程赠送礼包B，同时购买两个课程，赠送两个礼包"
+         android:layout_marginTop="17dp"
+         android:layout_marginLeft="15dp"
+         android:layout_marginRight="30dp"
+         android:textColor="#888888"
+         android:textSize="11sp"/>
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="15dp"
+         android:layout_marginTop="15dp"
+         android:layout_marginRight="15dp"
+         android:orientation="vertical">
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="选礼包"
+             android:textColor="#454545"
+             android:textSize="14sp"
+             />
+         <android.support.v7.widget.RecyclerView
+             android:id="@+id/net_gift"
+             android:layout_marginTop="11dp"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             ></android.support.v7.widget.RecyclerView>
+     </LinearLayout>
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="15dp"
+         android:layout_marginTop="15dp"
+         android:layout_marginRight="15dp"
+         android:orientation="vertical">
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="选教材"
+             android:textColor="#454545"
+             android:textSize="14sp"
+             />
+         <TextView
+             android:id="@+id/net_material"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/gray_btn"
+             android:layout_marginTop="11dp"
+             android:padding="10dp"
+             android:text="配套教材"/>
+     </LinearLayout>
+     <TextView
+         android:id="@+id/gotobuy"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="20dp"
+         android:layout_alignParentBottom="true"
+         android:background="@color/text_orange"
+         android:gravity="center"
+         android:padding="13dp"
+         android:text="确定"
+         android:textColor="@color/white"
+         android:textSize="16sp" />
+
+
+
+
+</LinearLayout>

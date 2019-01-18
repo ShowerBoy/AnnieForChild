@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top_tab_back">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_arrow_left2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text=""
+            android:textColor="@color/text_black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:text="完成"
+            android:textColor="#454545"
+            android:textSize="14sp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="47dp"
+            android:background="@drawable/online_pic_pay_success"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付成功"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#454545"
+            android:layout_marginTop="22dp"
+            android:textSize="18sp"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥1000"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/text_orange"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"/>
+        <LinearLayout
+            android:id="@+id/to_network"
+            android:layout_width="255dp"
+            android:layout_height="40dp"
+            android:background="@drawable/orange_btn2"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/online_icon_courselist"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="课程列表"
+                android:layout_marginLeft="6dp"
+                android:textSize="16sp"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/to_mylesson"
+            android:layout_width="255dp"
+            android:layout_height="40dp"
+            android:background="@drawable/green_btn2"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="50dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/online_icon_course"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看课程"
+                android:layout_marginLeft="6dp"
+                android:textSize="16sp"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="#f2f2f2"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="推荐课程"
+            android:paddingLeft="25dp"
+            android:paddingTop="20dp"
+            android:textColor="#454545"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+
+</LinearLayout>
