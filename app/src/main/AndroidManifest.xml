@@ -423,6 +423,28 @@
             android:name=".ui.activity.mains.HomePageActivity"
             android:screenOrientation="portrait"></activity>
 
+        <activity
+            android:name=".ui.activity.net.PayFailActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.PaySuccessActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.NetConsultActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.NetFAQActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.NetExperienceDetailActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.NetPreheatClassActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.NetListenAndReadActivity"
+            android:screenOrientation="portrait"></activity>
+
     </application>
 
 </manifest>

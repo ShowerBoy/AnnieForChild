@@ -59,8 +59,6 @@ public class NetConsultActivity extends BaseActivity implements OnCheckDoubleCli
             case R.id.back:
                 finish();
                 break;
-
-
         }
     }
 }

@@ -128,6 +128,7 @@ public class ChangePhoneActivity extends BaseActivity implements RegisterView, V
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_CHANGEPHONE) {
+            SystemUtils.phone = newPhoneNumber.getText().toString();
             finish();
         }
     }

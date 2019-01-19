@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PaySuccessActivity extends BaseActivity implements ViewInfo,OnCheckDoubleClick {
-    private ImageView   back;
+    private ImageView back;
     CheckDoubleClickListener listener;
     private TextView ok;
     LinearLayout to_network,to_mylesson;

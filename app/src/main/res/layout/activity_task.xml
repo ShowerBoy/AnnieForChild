@@ -23,33 +23,71 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:text="我的作业"
             android:textColor="@color/text_black"
             android:textSize="20sp" />
 
+        <TextView
+            android:id="@+id/task_flower_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:text=""
+            android:textColor="@color/text_black"
+            android:textSize="14sp" />
+
     </RelativeLayout>
 
-    <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
-        android:id="@+id/task_tab"
-        style="@style/pagertab_style"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/white"
-        android:fillViewport="false">
+        android:layout_height="match_parent">
 
-    </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
+        <LinearLayout
+            android:id="@+id/task_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <com.annie.annieforchild.Utils.views.APSTSViewPager
-        android:id="@+id/task_viewpaper"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="2dp"
-        android:background="@color/white">
+            <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
+                android:id="@+id/task_tab"
+                style="@style/pagertab_style"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:fillViewport="false">
 
-    </com.annie.annieforchild.Utils.views.APSTSViewPager>
+            </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
+
+            <com.annie.annieforchild.Utils.views.APSTSViewPager
+                android:id="@+id/task_viewpaper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:background="@color/white">
+
+            </com.annie.annieforchild.Utils.views.APSTSViewPager>
+        </LinearLayout>
+
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:id="@+id/task_xrecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+        <ImageView
+            android:id="@+id/task_coming_soon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_comingsoon"
+            android:visibility="gone" />
+    </RelativeLayout>
 
 
 </LinearLayout>

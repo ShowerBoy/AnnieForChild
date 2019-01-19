@@ -59,7 +59,7 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
     private NetExperienceFragment netExperienceFragment;
     private NetSpecialFragment netSpecialFragment;
     private NetSuggestFragment netSuggestFragment;
-    private  NetWorkFragmentAdapter fragmentAdapter;
+    private NetWorkFragmentAdapter fragmentAdapter;
     private HashMap<Integer, String> file_maps;//轮播图图片map
     private NetWorkPresenter presenter;
     private NetWorkAdapter adapter;
@@ -138,10 +138,10 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETNETHOMEDATA) {
-            NetWork netWork = (NetWork) message.obj;
+//            NetWork netWork = (NetWork) message.obj;
 //            lists.clear();
 //            lists.addAll(netWork.getNetList());
-            adapter.notifyDataSetChanged();
+//            adapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_PAY) {
             presenter.getNetHomeData();
         }

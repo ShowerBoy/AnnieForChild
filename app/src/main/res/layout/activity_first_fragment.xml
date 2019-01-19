@@ -132,7 +132,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/main_route2" />
+                                    android:src="@drawable/main_square" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
