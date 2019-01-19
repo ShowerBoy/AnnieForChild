@@ -59,7 +59,7 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
     private NetExperienceFragment netExperienceFragment;
     private NetSpecialFragment netSpecialFragment;
     private NetSuggestFragment netSuggestFragment;
-    private NetWorkFragmentAdapter fragmentAdapter;
+    private  NetWorkFragmentAdapter fragmentAdapter;
     private HashMap<Integer, String> file_maps;//轮播图图片map
     private NetWorkPresenter presenter;
     private NetWorkAdapter adapter;
