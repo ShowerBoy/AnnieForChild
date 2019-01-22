@@ -1141,6 +1141,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 TaskBean taskBean = (TaskBean) result;
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.task.TaskFragment#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.lesson.TaskActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;

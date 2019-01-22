@@ -80,34 +80,34 @@ public class TaskFragment extends BaseFragment {
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_MYTASK) {
             taskBean = (TaskBean) message.obj;
-            if (tag == 0) {
-                lists.clear();
-                if (taskBean.getInclassList() != null && taskBean.getInclassList().size() != 0) {
-                    lists.addAll(taskBean.getInclassList());
-                    empty.setVisibility(View.GONE);
-                } else {
-                    empty.setVisibility(View.VISIBLE);
-                }
-                adapter.notifyDataSetChanged();
-            } else if (tag == 1) {
-                lists.clear();
-                if (taskBean.getSeriesList() != null && taskBean.getSeriesList().size() != 0) {
-                    lists.addAll(taskBean.getSeriesList());
-                    empty.setVisibility(View.GONE);
-                } else {
-                    empty.setVisibility(View.VISIBLE);
-                }
-                adapter.notifyDataSetChanged();
-            } else if (tag == 2) {
-                lists.clear();
-                if (taskBean.getOtherList() != null && taskBean.getOtherList().size() != 0) {
-                    lists.addAll(taskBean.getOtherList());
-                    empty.setVisibility(View.GONE);
-                } else {
-                    empty.setVisibility(View.VISIBLE);
-                }
-                adapter.notifyDataSetChanged();
-            }
+//            if (tag == 0) {
+//                lists.clear();
+//                if (taskBean.getInclassList() != null && taskBean.getInclassList().size() != 0) {
+//                    lists.addAll(taskBean.getInclassList());
+//                    empty.setVisibility(View.GONE);
+//                } else {
+//                    empty.setVisibility(View.VISIBLE);
+//                }
+//                adapter.notifyDataSetChanged();
+//            } else if (tag == 1) {
+//                lists.clear();
+//                if (taskBean.getSeriesList() != null && taskBean.getSeriesList().size() != 0) {
+//                    lists.addAll(taskBean.getSeriesList());
+//                    empty.setVisibility(View.GONE);
+//                } else {
+//                    empty.setVisibility(View.VISIBLE);
+//                }
+//                adapter.notifyDataSetChanged();
+//            } else if (tag == 2) {
+//                lists.clear();
+//                if (taskBean.getOtherList() != null && taskBean.getOtherList().size() != 0) {
+//                    lists.addAll(taskBean.getOtherList());
+//                    empty.setVisibility(View.GONE);
+//                } else {
+//                    empty.setVisibility(View.VISIBLE);
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
         }
     }
 }

@@ -80,44 +80,44 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
 
-        taskLayout.setVisibility(View.GONE);
-        recycler.setVisibility(View.GONE);
-        comingSoon.setVisibility(View.VISIBLE);
+//        taskLayout.setVisibility(View.GONE);
+//        recycler.setVisibility(View.GONE);
+//        comingSoon.setVisibility(View.VISIBLE);
 
-//        if (SystemUtils.userInfo.getStatus() == 0) {
-//            if (SystemUtils.userInfo.getIsnetstudent() == 0) {
-//                fragmentCount = 1;
-//                taskType = 0;
-//            } else {
-//                fragmentCount = 2;
-//            }
-//        } else {
-//            if (SystemUtils.userInfo.getIsnetstudent() == 0) {
-//                fragmentCount = 0;
-//            } else {
-//                fragmentCount = 1;
-//                taskType = 1;
-//            }
-//        }
-//        if (fragmentCount == 2) {
-//            taskLayout.setVisibility(View.VISIBLE);
-//            recycler.setVisibility(View.GONE);
-//            comingSoon.setVisibility(View.GONE);
-//            fragmentAdapter = new TaskFragmentAdapter(getSupportFragmentManager());
-//            mVP.setOffscreenPageLimit(fragmentCount);
-//            mVP.setAdapter(fragmentAdapter);
-//            fragmentAdapter.notifyDataSetChanged();
-//            mTab.setViewPager(mVP);
-//            mTab.setOnPageChangeListener(this);
-//        } else if (fragmentCount == 1) {
-//            taskLayout.setVisibility(View.GONE);
-//            recycler.setVisibility(View.VISIBLE);
-//            comingSoon.setVisibility(View.GONE);
-//        } else {
-//            taskLayout.setVisibility(View.GONE);
-//            recycler.setVisibility(View.GONE);
-//            comingSoon.setVisibility(View.VISIBLE);
-//        }
+        if (SystemUtils.userInfo.getStatus() == 0) {
+            if (SystemUtils.userInfo.getIsnetstudent() == 0) {
+                fragmentCount = 1;
+                taskType = 0;
+            } else {
+                fragmentCount = 2;
+            }
+        } else {
+            if (SystemUtils.userInfo.getIsnetstudent() == 0) {
+                fragmentCount = 0;
+            } else {
+                fragmentCount = 1;
+                taskType = 1;
+            }
+        }
+        if (fragmentCount == 2) {
+            taskLayout.setVisibility(View.VISIBLE);
+            recycler.setVisibility(View.GONE);
+            comingSoon.setVisibility(View.GONE);
+            fragmentAdapter = new TaskFragmentAdapter(getSupportFragmentManager());
+            mVP.setOffscreenPageLimit(fragmentCount);
+            mVP.setAdapter(fragmentAdapter);
+            fragmentAdapter.notifyDataSetChanged();
+            mTab.setViewPager(mVP);
+            mTab.setOnPageChangeListener(this);
+        } else if (fragmentCount == 1) {
+            taskLayout.setVisibility(View.GONE);
+            recycler.setVisibility(View.VISIBLE);
+            comingSoon.setVisibility(View.GONE);
+        } else {
+            taskLayout.setVisibility(View.GONE);
+            recycler.setVisibility(View.GONE);
+            comingSoon.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -127,7 +127,7 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
         dialog = helper.LoadingDialog();
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
-//        presenter.myTask();
+        presenter.myTask();
     }
 
     @Override
@@ -151,7 +151,15 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
      */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-        if (message.what == MethodCode.EVENT_SUBMITTASK) {
+        if (message.what == MethodCode.EVENT_MYTASK) {
+            if (fragmentCount == 1) {
+                if (taskType == 0) {
+
+                } else {
+
+                }
+            }
+        } else if (message.what == MethodCode.EVENT_SUBMITTASK) {
             presenter.myTask();
         }
     }
