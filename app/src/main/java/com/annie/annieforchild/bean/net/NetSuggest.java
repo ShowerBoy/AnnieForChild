@@ -20,10 +20,16 @@ public class NetSuggest implements Serializable {
     private List<Address> address;
     private String netName;
     private String price;
-    private String titleImageUrl;
+    private List<String> titleImageUrl;
     private String event;
     private int count;
-
+    private String message;
+    public String getMessage(){
+        return message;
+    }
+public void setMessage(String message){
+        this.message=message;
+}
     public String getNetSummary() {
         return netSummary;
     }
@@ -111,11 +117,11 @@ public class NetSuggest implements Serializable {
         this.price = price;
     }
 
-    public String getTitleImageUrl() {
+    public List<String> getTitleImageUrl() {
         return titleImageUrl;
     }
 
-    public void setTitleImageUrl(String titleImageUrl) {
+    public void setTitleImageUrl(List<String> titleImageUrl) {
         this.titleImageUrl = titleImageUrl;
     }
 

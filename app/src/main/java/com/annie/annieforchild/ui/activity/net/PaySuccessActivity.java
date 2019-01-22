@@ -32,23 +32,22 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaySuccessActivity extends BaseActivity implements ViewInfo,OnCheckDoubleClick {
+public class PaySuccessActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     private ImageView back;
-
     CheckDoubleClickListener listener;
-    private TextView ok;
-    LinearLayout to_network,to_mylesson;
+    private TextView ok, price;
+    LinearLayout to_network, to_mylesson;
     NetWorkPresenterImp presenter;
     List<NetClass> list;
     private AlertHelper helper;
     private MyCourseAdapter adapter;
     private RecyclerView recycler;
     private Dialog dialog;
+    private String buyPrice;
 
     {
         setRegister(true);
     }
-
 
     @Override
     protected int getLayoutId() {
@@ -57,24 +56,32 @@ public class PaySuccessActivity extends BaseActivity implements ViewInfo,OnCheck
 
     @Override
     protected void initView() {
-        recycler=findViewById(R.id.recycler);
+        recycler = findViewById(R.id.recycler);
+        price = findViewById(R.id.pay_price);
         listener = new CheckDoubleClickListener(this);
         back = findViewById(R.id.back);
-        ok=findViewById(R.id.ok);
-        to_mylesson=findViewById(R.id.to_mylesson);
-        to_network=findViewById(R.id.to_network);
+        ok = findViewById(R.id.ok);
+        to_mylesson = findViewById(R.id.to_mylesson);
+        to_network = findViewById(R.id.to_network);
 
         back.setOnClickListener(listener);
         ok.setOnClickListener(listener);
         to_network.setOnClickListener(listener);
         to_mylesson.setOnClickListener(listener);
+        if (getIntent() != null) {
+            buyPrice = getIntent().getStringExtra("price");
+        }
+        if (buyPrice != null) {
+            buyPrice = ConfirmOrderActivity.buyPrice;
+            price.setText("￥" + buyPrice);
+        }
     }
 
     @Override
     protected void initData() {
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-        list=new ArrayList<>();
+        list = new ArrayList<>();
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
 //        presenter.buySuccess();
@@ -100,6 +107,7 @@ public class PaySuccessActivity extends BaseActivity implements ViewInfo,OnCheck
     protected BasePresenter getPresenter() {
         return null;
     }
+
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_BUYSUCCESS) {
@@ -108,6 +116,7 @@ public class PaySuccessActivity extends BaseActivity implements ViewInfo,OnCheck
             adapter.notifyDataSetChanged();
         }
     }
+
     @Override
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {

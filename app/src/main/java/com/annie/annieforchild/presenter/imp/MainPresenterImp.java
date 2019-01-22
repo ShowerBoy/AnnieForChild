@@ -14,6 +14,7 @@ import com.annie.annieforchild.interactor.MainInteractor;
 import com.annie.annieforchild.interactor.imp.MainInteractorImp;
 import com.annie.annieforchild.presenter.MainPresenter;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
+import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.view.MainView;
 import com.annie.baselibrary.base.BasePresenterImp;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -83,10 +84,15 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
 //        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 //        context.startActivity(intent);
         if (!bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("")) {
-            Intent intent = new Intent(context, WebActivity.class);
-            intent.putExtra("url", bannerList.get(slider.getBundle().getInt("extra")).getUrl());
-            intent.putExtra("title", "活动");
-            context.startActivity(intent);
+            if (bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("1")) {
+                Intent intent = new Intent(context, NetWorkActivity.class);
+                context.startActivity(intent);
+            } else {
+                Intent intent = new Intent(context, WebActivity.class);
+                intent.putExtra("url", bannerList.get(slider.getBundle().getInt("extra")).getUrl());
+                intent.putExtra("title", "活动");
+                context.startActivity(intent);
+            }
         }
     }
 

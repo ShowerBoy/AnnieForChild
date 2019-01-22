@@ -444,6 +444,9 @@
         <activity
             android:name=".ui.activity.net.NetListenAndReadActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.lesson.TaskContentActivity"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

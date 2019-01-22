@@ -96,6 +96,8 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     private String netsummary;
     private IWXAPI wxapi;
     private int count; //礼包可选数
+    private boolean canBuy = false; //能否购买
+    public static String buyPrice;
 
     {
         setRegister(true);
@@ -227,27 +229,30 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 break;
             case R.id.buy_btn:
 //                if (addressId != -1) {
-                    if (selectList.size() < count) {
-                        showInfo("请选择足够数量的礼包");
-                    } else {
-                        giftId = "";
-                        for (int i = 0; i < selectList.size(); i++) {
-                            if (i == 0) {
-                                giftId = giftId + selectList.get(i).getId();
-                            } else {
-                                giftId = giftId + "," + selectList.get(i).getId();
-                            }
-                        }
-                        if (payment == 0) {
-                            presenter.buyNetWork(netid, addressId, 0, payment, giftId);
+                if (!canBuy) {
+                    return;
+                }
+                if (selectList.size() < count) {
+                    showInfo("请选择足够数量的礼包");
+                } else {
+                    giftId = "";
+                    for (int i = 0; i < selectList.size(); i++) {
+                        if (i == 0) {
+                            giftId = giftId + selectList.get(i).getId();
                         } else {
-                            if (!wxapi.isWXAppInstalled()) {
-                                showInfo("请您先安装微信客户端！");
-                                break;
-                            }
-                            presenter.buyNetWork(netid, addressId, 0, payment, giftId);
+                            giftId = giftId + "," + selectList.get(i).getId();
                         }
                     }
+                    if (payment == 0) {
+                        presenter.buyNetWork(netid, addressId, 0, payment, giftId);
+                    } else {
+                        if (!wxapi.isWXAppInstalled()) {
+                            showInfo("请您先安装微信客户端！");
+                            break;
+                        }
+                        presenter.buyNetWork(netid, addressId, 0, payment, giftId);
+                    }
+                }
 //                } else {
 //                    showInfo("请添加收货地址");
 //                }
@@ -323,13 +328,13 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                         wxapi.sendReq(payReq);
                     }
                 }).start();
-               finish();
+                finish();
             }
         } else if (message.what == MethodCode.EVENT_PAY) {
             if (payment == 1) {
                 Intent intent = new Intent(ConfirmOrderActivity.this, MyCourseActivity.class);
                 startActivity(intent);
-               finish();
+                finish();
             }
         }
     }
@@ -373,8 +378,9 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                         message.obj = 1;
                         EventBus.getDefault().post(message);
                         Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
+                        intent.putExtra("price", buyPrice);
                         startActivity(intent);
-                       finish();
+                        finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         showInfo("支付失败");
@@ -393,7 +399,6 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
 
     private void payV2() {
         Runnable payRunnable = new Runnable() {
-
             @Override
             public void run() {
                 PayTask alipay = new PayTask(ConfirmOrderActivity.this);
@@ -413,6 +418,11 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
 
     private void refresh() {
         if (netSuggest != null) {
+            if (netSuggest.getIsBuy() == 2) {
+                canBuy = false;
+            } else {
+                canBuy = true;
+            }
             product_name.setText(netSuggest.getNetName());
             confirm_price.setText(netSuggest.getPrice() + "元");
             if (netSuggest.getMaterial() != null && netSuggest.getMaterial().length() != 0) {
@@ -464,6 +474,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
             }
             netPrice = Double.parseDouble(netSuggest.getPrice());
             totalPrice.setText("共计：" + netPrice + "元");
+            buyPrice = netPrice + "";
         }
     }
 

@@ -1,5 +1,8 @@
 package com.annie.annieforchild.ui.fragment.net;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
@@ -36,13 +40,14 @@ import java.util.List;
 
 public class NetExperienceFragment extends BaseFragment implements OnCheckDoubleClick {
     private List<NetClass> list;
-    private List<String> imglist_bottom,imglist_top;
+    private List<String> imglist_bottom, imglist_top;
     private NetBeanAdapter adapter;
     private CheckDoubleClickListener listener;
     private RecyclerView experienceList;
-    private ImageView network_consult,network_faq;
+    private ImageView network_consult, network_faq;
     private LinearLayout net_imglayout_bottom;
     private TextView network_teacher_wx;
+
     {
         setRegister(true);
     }
@@ -60,15 +65,17 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
         adapter = new NetBeanAdapter(getContext(), list, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
-               int position =experienceList.getChildAdapterPosition(view);
-               Intent intent=new Intent();
-               intent.setClass(getContext(),NetSuggestActivity.class);
-                intent.putExtra("netid",list.get(position).getNetId() );
-                intent.putExtra("netimage",list.get(position).getNetImageUrl() );
+                int position = experienceList.getChildAdapterPosition(view);
+                Intent intent = new Intent();
+                intent.setClass(getContext(), NetSuggestActivity.class);
+                intent.putExtra("netid", list.get(position).getNetId());
+                intent.putExtra("netimage", list.get(position).getNetImageUrl());
                 intent.putExtra("isBuy", list.get(position).getIsBuy());
-                intent.putExtra("type","体验课");
+                intent.putExtra("message", list.get(position).getMessage());
+                intent.putExtra("type", "体验课");
                 startActivity(intent);
             }
+
             @Override
             public void onItemLongClick(View view) {
 
@@ -79,31 +86,32 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
 
     @Override
     protected void initView(View view) {
-        net_imglayout_bottom=view.findViewById(R.id.net_imglist_bottom);
-        listener=new CheckDoubleClickListener(this);
-        network_consult=view.findViewById(R.id.network_consult);
+        net_imglayout_bottom = view.findViewById(R.id.net_imglist_bottom);
+        listener = new CheckDoubleClickListener(this);
+        network_consult = view.findViewById(R.id.network_consult);
         network_consult.setOnClickListener(listener);
-        network_faq=view.findViewById(R.id.network_faq);
+        network_faq = view.findViewById(R.id.network_faq);
         network_faq.setOnClickListener(listener);
-        experienceList=view.findViewById(R.id.experienceList);
+        experienceList = view.findViewById(R.id.experienceList);
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         experienceList.setLayoutManager(manager);
         experienceList.setNestedScrollingEnabled(false);
 
-        network_teacher_wx=view.findViewById(R.id.network_teacher_wx);
-        network_teacher_wx.setTextIsSelectable(true);
+        network_teacher_wx = view.findViewById(R.id.network_teacher_wx);
 
-        view.findViewById(R.id.network_teacher).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.card).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
-//                Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+"/Aegean_Sea.mp4");
-//                Intent intent = new Intent(Intent.ACTION_VIEW);
-//                intent.setDataAndType(uri, "video/mp4");
-//                startActivity(intent);
-
-//                  startActivity(new Intent(getContext(),VideoPlayActivity.class));
+            public boolean onLongClick(View v) {
+                //获取剪贴板管理器：
+                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                // 创建普通字符型ClipData
+                ClipData mClipData = ClipData.newPlainText("Label", network_teacher_wx.getText());
+                // 将ClipData内容放到系统剪贴板里。
+                cm.setPrimaryClip(mClipData);
+                Toast.makeText(getContext(), "复制成功", Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
 
@@ -119,7 +127,7 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
         if (message.what == MethodCode.EVENT_GETNETHOMEDATA) {
             NetWork netWork = (NetWork) message.obj;
             if (netWork != null) {
-                network_teacher_wx.setText(netWork.getExperienceList().getTeacherName()+"(长按复制)");
+                network_teacher_wx.setText(netWork.getExperienceList().getTeacherQrcode() + "(长按复制)");
                 list.clear();
                 list.addAll(netWork.getExperienceList().getList());
                 imglist_top.clear();
@@ -128,9 +136,9 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
                 imglist_top.addAll(netWork.getExperienceList().getImageList().getTop());
 
                 adapter.notifyDataSetChanged();
-                if (imglist_bottom.size()>0) {
+                if (imglist_bottom.size() > 0) {
                     net_imglayout_bottom.removeAllViews();
-                    for (int i = 0; i <imglist_bottom.size(); i++) {
+                    for (int i = 0; i < imglist_bottom.size(); i++) {
                         ImageView imageView = new ImageView(getContext());
                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                         imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -146,13 +154,19 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
     public void onCheckDoubleClick(View view) {
         switch (view.getId()){
             case R.id.network_consult:
-                Intent intent1 = new Intent(getContext(), NetConsultActivity.class);
+                Intent intent1 = new Intent(getContext(), NetFAQActivity.class);
+                intent1.putExtra("title","购课咨询");
+                intent1.putExtra("type","consult");
+
                 startActivity(intent1);
                 break;
             case R.id.network_faq:
                 Intent intent = new Intent(getContext(), NetFAQActivity.class);
+                intent.putExtra("title","体验课FAQ");
+                intent.putExtra("type","faq");
                 startActivity(intent);
                 break;
         }
     }
+
 }

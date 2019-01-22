@@ -21,11 +21,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
+            <com.daimajia.slider.library.SliderLayout
                 android:id="@+id/net_banner"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:scaleType="fitXY" />
+                >
+            </com.daimajia.slider.library.SliderLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -36,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                   tools:text="安妮花磨A"
+                    tools:text="安妮花磨A"
                     android:textColor="#454545"
                     android:textSize="20sp" />
                 <TextView
@@ -54,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="15dp"
+                    android:visibility="gone"
                     android:button="@null"
                     android:text="分享"
                     android:textColor="#888888"
@@ -66,7 +68,6 @@
                     android:orientation="horizontal"
                     android:layout_below="@id/net_suggest_summary"
                     android:layout_marginTop="8dp"
-
                     android:paddingEnd="16dp">
 
                     <TextView
@@ -408,7 +409,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/text_orange"
+        android:background="@drawable/net_selector"
         android:gravity="center"
         android:padding="12dp"
         android:text="立即购买"

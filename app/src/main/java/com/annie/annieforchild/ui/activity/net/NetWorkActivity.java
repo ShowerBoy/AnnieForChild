@@ -11,6 +11,7 @@ import android.transition.Slide;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
@@ -65,6 +66,8 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
     private NetWorkAdapter adapter;
     private AlertHelper helper;
     private Dialog dialog;
+    private LinearLayout net_suggest_bt_layout;
+    private Button to_NetExperience,to_NetTest;
 
 
     {
@@ -91,6 +94,13 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
 //        manager.setOrientation(LinearLayoutManager.VERTICAL);
 //        recycler.setLayoutManager(manager);
 //        recycler.setNestedScrollingEnabled(false);
+        net_suggest_bt_layout=findViewById(R.id.net_suggest_bt_layout);
+        net_suggest_bt_layout.setVisibility(View.VISIBLE);
+        to_NetExperience=findViewById(R.id.to_NetExperience);
+        to_NetTest=findViewById(R.id.to_NetTest);
+        to_NetExperience.setOnClickListener(listener);
+        to_NetTest.setOnClickListener(listener);
+
         back.setFocusable(true);
         back.setFocusableInTouchMode(true);
         back.requestFocus();
@@ -126,6 +136,14 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
         switch (view.getId()) {
             case R.id.network_back:
                 finish();
+                break;
+            case R.id.to_NetExperience:
+                mVP.setCurrentItem(1);
+                break;
+            case R.id.to_NetTest://跳转到H5页面
+                Toast.makeText(this, "敬请期待", Toast.LENGTH_SHORT).show();
+//                NetWorkActivity.mVP.setCurrentItem(2);
+//                NetWorkActivity.mVP.setNoFocus(false);
                 break;
         }
     }
@@ -183,7 +201,18 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
 
     @Override
     public void onPageSelected(int position) {
+        switch (position){
+            case 0:
+                net_suggest_bt_layout.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                net_suggest_bt_layout.setVisibility(View.GONE);
+                break;
+            case 2:
+                net_suggest_bt_layout.setVisibility(View.GONE);
+                break;
 
+        }
     }
 
     @Override

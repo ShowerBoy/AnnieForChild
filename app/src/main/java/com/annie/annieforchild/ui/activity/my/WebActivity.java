@@ -2,10 +2,13 @@ package com.annie.annieforchild.ui.activity.my;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,7 +99,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setLoadsImagesAutomatically(true);
-
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
 
         mIntent = getIntent();
 
@@ -105,6 +108,10 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             titleText = mIntent.getStringExtra("title");
             shareTag = mIntent.getIntExtra("share", 0);
             aabb = mIntent.getIntExtra("aabb", 0);
+            int flag = mIntent.getIntExtra("flag", 0);
+            if (flag == 1) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
         }
         if (aabb == 1) {
             titleLayout.setVisibility(View.GONE);
@@ -112,20 +119,30 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         title.setText(titleText);
         if (url != null) {
             webView.loadUrl(url);
+            webView.canGoForward();
+            webView.canGoBack();
+
             webView.getSettings().setUseWideViewPort(true);
             webView.getSettings().setLoadWithOverviewMode(true);
             webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    Log.e("-----", url);
+                    String[] endList = url.split("=");
+                    if (endList != null && endList.length == 2) {
+                        if (endList[1].equals("end")) {
+                            finish();
+                        }
+                    }
 //                    view.loadUrl(url);
-                    Intent intent1 = new Intent();
-                    intent1.setClass(WebActivity.this, WebActivity.class);
-                    intent1.putExtra("url", url);
-                    intent1.putExtra("title", "手机官网");
-                    intent1.putExtra("aabb", 1);
-                    startActivity(intent1);
-                    return true;
+//                    Intent intent1 = new Intent();
+//                    intent1.setClass(WebActivity.this, WebActivity.class);
+//                    intent1.putExtra("url", url);
+//                    intent1.putExtra("aabb", 1);
+//                    startActivity(intent1);
+//                    finish();
+                    return false;
                 }
 
                 @Override
@@ -202,5 +219,18 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             layoutParams.alpha = 1f;
             getWindow().setAttributes(layoutParams);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (webView != null) {
+            webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            webView.clearHistory();
+
+            ((ViewGroup) webView.getParent()).removeView(webView);
+            webView.destroy();
+            webView = null;
+        }
+        super.onDestroy();
     }
 }

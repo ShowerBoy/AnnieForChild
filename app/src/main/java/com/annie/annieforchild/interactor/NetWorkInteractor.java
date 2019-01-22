@@ -33,5 +33,7 @@ public interface NetWorkInteractor {
 
     void getNetPreheatConsult(String lessonid);
 
-    void getListeningAndReading(String week,String classid);
+    void getListeningAndReading(String week, String classid);
+
+    void buynum(int netid);
 }

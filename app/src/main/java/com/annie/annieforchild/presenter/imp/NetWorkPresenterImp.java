@@ -32,6 +32,7 @@ import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -74,7 +75,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
 
     @Override
     public void getNetSuggest(int netid) {
-        viewInfo.showLoad();
+        grindEarView.showLoad();
         interactor.getNetSuggest(netid);
     }
 
@@ -126,6 +127,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         viewInfo.showLoad();
         interactor.getNetDetails(netid);
     }
+
     @Override
     public void getNetExpDetails(int netid) {
         viewInfo.showLoad();
@@ -143,6 +145,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         viewInfo.showLoad();
         interactor.buySuccess();
     }
+
     @Override
     public void getNetPreheatConsult(String lessonid) {
         viewInfo.showLoad();
@@ -150,9 +153,15 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void getListeningAndReading(String week,String classid) {
+    public void getListeningAndReading(String week, String classid) {
         viewInfo.showLoad();
-        interactor.getListeningAndReading(week,classid);
+        interactor.getListeningAndReading(week, classid);
+    }
+
+    @Override
+    public void buynum(int netid) {
+        grindEarView.showLoad();
+        interactor.buynum(netid);
     }
 
     private void initImageSlide() {
@@ -210,12 +219,21 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.NetSuggestActivity#onMainEventThread(JTMessage)}
                  */
+                if (netSuggest.getTitleImageUrl() != null) {
+                    List<String> img_list = new ArrayList<>();
+                    img_list = netSuggest.getTitleImageUrl();
+                    file_maps.clear();
+                    for (int i = 0; i < img_list.size(); i++) {
+                        file_maps.put(i, img_list.get(i));
+                    }
+                    initImageSlide();
+                }
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = netSuggest;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_GETMYNETCLASS) {
-                MyNetClass myNetClass=(MyNetClass)result;
+                MyNetClass myNetClass = (MyNetClass) result;
 //                List<NetClass> lists = (List<NetClass>) result;
                 /**
                  * {@link com.annie.annieforchild.ui.activity.my.MyCourseActivity#onMainEventThread(JTMessage)}
@@ -303,7 +321,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = lists;
                 EventBus.getDefault().post(message);
-            }else if (what == MethodCode.EVENT_BUYSUCCESS) {
+            } else if (what == MethodCode.EVENT_BUYSUCCESS) {
                 List<NetClass> lists = (List<NetClass>) result;
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.PaySuccessActivity#onMainEventThread(JTMessage)}
@@ -312,8 +330,8 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = lists;
                 EventBus.getDefault().post(message);
-            }else if (what == MethodCode.EVENT_GETNETEXPDETAILS) {
-                NetExpClass netExpClass=(NetExpClass)result;
+            } else if (what == MethodCode.EVENT_GETNETEXPDETAILS) {
+                NetExpClass netExpClass = (NetExpClass) result;
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.NetExperienceDetailActivity#onMainEventThread(JTMessage)}
                  */
@@ -321,7 +339,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = netExpClass;
                 EventBus.getDefault().post(message);
-            }else if (what == MethodCode.EVENT_GETPREHEATCONSULT) {
+            } else if (what == MethodCode.EVENT_GETPREHEATCONSULT) {
                 PreheatConsult lists = (PreheatConsult) result;
                 /**
                  * {@link NetPreheatClassActivity#onMainEventThread(JTMessage)}
@@ -330,14 +348,23 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = lists;
                 EventBus.getDefault().post(message);
-            }else if(what==MethodCode.EVENT_GETLISTENANDREAD){
-                ListenAndRead listenAndRead=(ListenAndRead)result;
+            } else if (what == MethodCode.EVENT_GETLISTENANDREAD) {
+                ListenAndRead listenAndRead = (ListenAndRead) result;
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.NetListenAndReadActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = listenAndRead;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_BUYNUM) {
+                int canbuy = (int) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetSuggestActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = canbuy;
                 EventBus.getDefault().post(message);
             }
         }

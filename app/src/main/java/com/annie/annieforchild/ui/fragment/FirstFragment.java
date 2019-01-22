@@ -6,6 +6,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -48,6 +49,8 @@ import com.annie.annieforchild.view.MainView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
@@ -63,7 +66,7 @@ import java.util.List;
  * Created by WangLei on 2018/1/12
  */
 
-public class FirstFragment extends BaseFragment implements MainView, OnCheckDoubleClick, SearchView.OnQueryTextListener {
+public class FirstFragment extends BaseFragment implements MainView,BaseSliderView.OnSliderClickListener,  OnCheckDoubleClick, SearchView.OnQueryTextListener {
     private SwipeRefreshLayout first_refresh_layout;
     private RelativeLayout firstMsgLayout, searchLayout, meiriyigeLayout, meiriyishiLayout, meiriyiduLayout;
     private AnimationDrawable musicBtn;
@@ -136,6 +139,24 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
     protected void initView(View view) {
         first_refresh_layout = view.findViewById(R.id.first_refresh_layout);
         imageSlide = view.findViewById(R.id.image_slide);
+
+
+        imageSlide.addOnPageChangeListener(new ViewPagerEx.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                Log.e("111",i+"");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 //        firstMsgLayout = view.findViewById(R.id.first_msg_layout);
         searchLayout = view.findViewById(R.id.search_layout);
 //        recommendGrid = view.findViewById(R.id.recommendGrid);
@@ -843,5 +864,10 @@ public class FirstFragment extends BaseFragment implements MainView, OnCheckDoub
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onSliderClick(BaseSliderView baseSliderView) {
+        Log.e("22222",baseSliderView.getDescription());
     }
 }

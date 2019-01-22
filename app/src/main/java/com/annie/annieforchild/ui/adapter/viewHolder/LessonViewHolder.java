@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.adapter.viewHolder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,11 +14,11 @@ import com.annie.annieforchild.R;
 
 public class LessonViewHolder extends RecyclerView.ViewHolder {
     public TextView name;
-    public RelativeLayout layout;
+    public ImageView lesson_circle;
 
     public LessonViewHolder(View itemView) {
         super(itemView);
         name = itemView.findViewById(R.id.lesson_name);
-        layout = itemView.findViewById(R.id.lesson_layout);
+        lesson_circle = itemView.findViewById(R.id.lesson_circle);
     }
 }

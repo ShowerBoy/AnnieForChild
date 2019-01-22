@@ -48,7 +48,6 @@ public class NetSuggestFragment extends BaseFragment implements OnCheckDoubleCli
     private LinearLayout recycler_bottom;
     private ImageView empty;
     private NetSuggestAdapter adapter;
-    private Button to_NetExperience,to_NetTest;
     List<String> list_top,list_middle,list_bottom;
     CheckDoubleClickListener listener;
     pageradapter pageradapter;
@@ -85,11 +84,7 @@ public class NetSuggestFragment extends BaseFragment implements OnCheckDoubleCli
         recycler = view.findViewById(R.id.net_suggest_recycler);
         recycler_bottom = view.findViewById(R.id.net_suggest_recycler_bottom);
         empty = view.findViewById(R.id.net_suggest_empty);
-        to_NetExperience=view.findViewById(R.id.to_NetExperience);
-        to_NetTest=view.findViewById(R.id.to_NetTest);
         listener = new CheckDoubleClickListener(this);
-        to_NetExperience.setOnClickListener(listener);
-        to_NetTest.setOnClickListener(listener);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(manager);
@@ -124,7 +119,7 @@ public class NetSuggestFragment extends BaseFragment implements OnCheckDoubleCli
                 list_middle.addAll(netWork.getSuggestList().getMiddle());
                 list_bottom.clear();
                 list_bottom.addAll(netWork.getSuggestList().getBottom());
-                if (list_top.size() == 0) {
+                if (list_top.size()+list_bottom.size()+list_middle.size() == 0) {
                     empty.setVisibility(View.VISIBLE);
                 } else {
                     empty.setVisibility(View.GONE);
@@ -148,14 +143,7 @@ public class NetSuggestFragment extends BaseFragment implements OnCheckDoubleCli
     @Override
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
-            case R.id.to_NetExperience:
-                NetWorkActivity.mVP.setCurrentItem(1);
-                break;
-            case R.id.to_NetTest://跳转到H5页面
-                Toast.makeText(getContext(), "敬请期待", Toast.LENGTH_SHORT).show();
-//                NetWorkActivity.mVP.setCurrentItem(2);
-//                NetWorkActivity.mVP.setNoFocus(false);
-                break;
+
         }
     }
 

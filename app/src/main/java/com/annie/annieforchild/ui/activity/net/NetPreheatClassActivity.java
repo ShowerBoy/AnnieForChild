@@ -32,22 +32,24 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NetPreheatClassActivity extends BaseActivity implements ViewInfo,OnCheckDoubleClick {
+public class NetPreheatClassActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     CheckDoubleClickListener listner;
     private ImageView back;
     private Dialog dialog;
     private AlertHelper helper;
     private NetPreheatConsultAdapter adapter;
-   private NetWorkPresenterImp presenter;
-   private List<PreheatConsultList> Microclasslits;
-   private List<PreheatConsultList> Materiallits;
-   private TextView title;
+    private NetWorkPresenterImp presenter;
+    private List<PreheatConsultList> Microclasslits;
+    private List<PreheatConsultList> Materiallits;
+    private TextView title;
     private RecyclerView net_preheatconsult_recyclerview;
     private ConstraintLayout empty_img;
+    private int mirIsShow = 0;
 
     {
         setRegister(true);
     }
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_net_preheatconsult;
@@ -58,30 +60,30 @@ public class NetPreheatClassActivity extends BaseActivity implements ViewInfo,On
         listner = new CheckDoubleClickListener(this);
         back = findViewById(R.id.back);
         back.setOnClickListener(listner);
-        net_preheatconsult_recyclerview=findViewById(R.id.net_preheatconsult_recyclerview);
+        net_preheatconsult_recyclerview = findViewById(R.id.net_preheatconsult_recyclerview);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         net_preheatconsult_recyclerview.setLayoutManager(manager);
-        title=findViewById(R.id.title);
-        empty_img=findViewById(R.id.empty_img);
+        title = findViewById(R.id.title);
+        empty_img = findViewById(R.id.empty_img);
     }
 
     @Override
     protected void initData() {
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-        Microclasslits=new ArrayList<>();
-        Materiallits=new ArrayList<>();
+        Microclasslits = new ArrayList<>();
+        Materiallits = new ArrayList<>();
 
         String lessonid = getIntent().getStringExtra("lessonId");
-        String lessonname=getIntent().getStringExtra("lessonName");
+        String lessonname = getIntent().getStringExtra("lessonName");
         title.setText(lessonname);
 
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
         presenter.getNetPreheatConsult(lessonid);
 
-        adapter=new NetPreheatConsultAdapter(this,Microclasslits,Materiallits);
+        adapter = new NetPreheatConsultAdapter(this, Microclasslits, Materiallits);
         net_preheatconsult_recyclerview.setAdapter(adapter);
 
     }
@@ -99,25 +101,32 @@ public class NetPreheatClassActivity extends BaseActivity implements ViewInfo,On
                 break;
         }
     }
+
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETPREHEATCONSULT) {
             PreheatConsult preheatConsult = (PreheatConsult) message.obj;
-            if(preheatConsult!=null){
-               Microclasslits.clear();
-               Materiallits.clear();
-               if(preheatConsult.getMicroclass()!=null && preheatConsult.getMicroclass().size()>0){
-                   Microclasslits.addAll(preheatConsult.getMicroclass());
-               }
-               if(preheatConsult.getMaterial()!=null && preheatConsult.getMaterial().size()>0){
-                   Materiallits.addAll(preheatConsult.getMaterial());
-               }
-               adapter.notifyDataSetChanged();
-               if(adapter.getItemCount()>0){
-                   empty_img.setVisibility(View.GONE);
-               }else{
-                   empty_img.setVisibility(View.VISIBLE);
-               }
+            if (preheatConsult != null) {
+                Microclasslits.clear();
+                Materiallits.clear();
+                if (preheatConsult.getMicroclassisshow() == 0) {
+
+                } else {
+                    if (preheatConsult.getMicroclass() != null && preheatConsult.getMicroclass().size() > 0) {
+                        Microclasslits.addAll(preheatConsult.getMicroclass());
+                    }
+                }
+
+                if (preheatConsult.getMaterial() != null && preheatConsult.getMaterial().size() > 0) {
+                    Materiallits.addAll(preheatConsult.getMaterial());
+                }
+                mirIsShow = preheatConsult.getMicroclassisshow();
+                adapter.notifyDataSetChanged();
+                if (adapter.getItemCount() > 0) {
+                    empty_img.setVisibility(View.GONE);
+                } else {
+                    empty_img.setVisibility(View.VISIBLE);
+                }
             }
         }
     }

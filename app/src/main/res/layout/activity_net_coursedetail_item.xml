@@ -1,81 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/details_relative"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
     android:orientation="vertical"
-   >
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:background="@drawable/text2to3_bg_card_1"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/net_details_week"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="3dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_horizontal"
             android:text="第一周"
-            android:textColor="@color/text_black"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:orientation="vertical">
-
+            android:layout_marginTop="35dp"
+            android:orientation="horizontal">
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:id="@+id/lesson_1"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="29dp"
+                    android:background="@drawable/text2to3_icon_preheating" />
 
                 <TextView
-                    android:id="@+id/lesson_1"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/experiencea_card_preheating"
-                    android:gravity="center"
-                    android:textColor="@color/text_black"
-                     />
-
-                <TextView
-                    android:id="@+id/lesson_2"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/experiencea_card_parentchildclass"
-                    android:gravity="center"
-                    android:textColor="@color/text_black"
-                    />
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="9dp"
+                    android:gravity="center_vertical"
+                    android:text="预热课" />
             </LinearLayout>
-
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:id="@+id/lesson_2"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/text2to3_icon_perentsandchildrenclass" />
 
                 <TextView
-                    android:id="@+id/lesson_3"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/experiencea_card_homework"
-                    android:gravity="center"
-                    android:textColor="@color/text_black"
-                    />
-
-                <TextView
-                    android:id="@+id/lesson_4"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/experiencea_card_resources"
-                    android:gravity="center"
-                    android:textColor="@color/text_black"
-                    />
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="9dp"
+                    android:gravity="center_vertical"
+                    android:text="亲子体验课" />
             </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:id="@+id/lesson_3"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="29dp"
+                    android:background="@drawable/text2to3_icon_homework" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="9dp"
+                    android:gravity="center_vertical"
+                    android:text="家庭作业" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:id="@+id/lesson_4"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/text2to3_icon_listenandread" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="9dp"
+                    android:gravity="center_vertical"
+                    android:text="泛听泛读资源" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+
     </LinearLayout>
+
+
+
 
 </LinearLayout>

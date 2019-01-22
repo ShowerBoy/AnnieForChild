@@ -3,7 +3,8 @@
     android:id="@+id/task_relative"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:background="@drawable/icon_task_bg"
+    android:padding="20dp">
 
     <TextView
         android:id="@+id/task_times"
@@ -63,13 +64,80 @@
         android:layout_below="@+id/task_date"
         android:layout_marginTop="16dp">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="作业评分:"
+                android:textColor="@color/text_black"
+                android:textSize="13sp" />
+
+            <ImageView
+                android:id="@+id/task_star_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="3dp"
+                android:src="@drawable/icon_starsmall" />
+
+            <ImageView
+                android:id="@+id/task_star_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/icon_starsmall" />
+
+            <ImageView
+                android:id="@+id/task_star_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/icon_starsmall" />
+
+            <ImageView
+                android:id="@+id/task_star_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/icon_starsmall_half" />
+
+            <ImageView
+                android:id="@+id/task_star_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/icon_starsmall_un" />
+        </LinearLayout>
+
         <TextView
+            android:id="@+id/task_flowercard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="奖励花卡：3"
+            android:textColor="@color/text_black"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:id="@+id/task_remark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_gravity="center_vertical"
             android:text="查看作业点评"
             android:textColor="@color/text_orange"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
     </RelativeLayout>
 
 

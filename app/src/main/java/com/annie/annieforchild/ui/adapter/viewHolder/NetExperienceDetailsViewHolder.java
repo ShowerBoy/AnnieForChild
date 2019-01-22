@@ -3,6 +3,7 @@ package com.annie.annieforchild.ui.adapter.viewHolder;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,7 +14,8 @@ import com.annie.annieforchild.R;
  */
 
 public class NetExperienceDetailsViewHolder extends RecyclerView.ViewHolder {
-    public TextView week, lesson1, lesson2, lesson3, lesson4;
+    public TextView week;
+    public LinearLayout lesson1, lesson2, lesson3, lesson4;
 
     public NetExperienceDetailsViewHolder(View itemView) {
         super(itemView);

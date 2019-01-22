@@ -17,15 +17,14 @@ import com.annie.annieforchild.Utils.views.GradientScrollView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 
-public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick,GradientScrollView.ScrollViewListener {
+public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick{
     CheckDoubleClickListener listner;
-    private ImageView back,banner;
+    private ImageView back;
     private WebView webView;
-    LinearLayout Linear_title;
+    //    LinearLayout Linear_title;
     TextView netfaq_title;
     private int height;
-    GradientScrollView scrollView;
-    ImageView cutline;
+    //    GradientScrollView scrollView;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_net_faq;
@@ -33,8 +32,7 @@ public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick,G
 
     @Override
     protected void initView() {
-        cutline=findViewById(R.id.cutline);
-        Linear_title=findViewById(R.id.ll_title);
+//        Linear_title=findViewById(R.id.ll_title);
         netfaq_title=findViewById(R.id.netfaq_title);
         listner = new CheckDoubleClickListener(this);
         back = findViewById(R.id.back);
@@ -50,19 +48,28 @@ public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick,G
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setLoadWithOverviewMode(true);
-        webView.loadUrl("file:///android_asset/test/index.html");
 
-        banner = findViewById(R.id.net_banner);
-        scrollView=findViewById(R.id.scrollView);
-        scrollView.setScrollViewListener(this);
-        ViewTreeObserver vto = banner.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                banner.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                height = banner.getHeight() - Linear_title.getHeight();
-            }
-        });
+        String title=getIntent().getStringExtra("title");
+        String type=getIntent().getStringExtra("type");
+        netfaq_title.setText(title);
+        if(type.equals("consult")){
+            webView.loadUrl("https://demoapi.anniekids.net/Api/NetclassApi/Consultation");
+        }else{
+            webView.loadUrl("https://demoapi.anniekids.net/Api/NetclassApi/NetclassFAQ");
+        }
+
+
+//        banner = findViewById(R.id.net_banner);
+//        scrollView=findViewById(R.id.scrollView);
+//        scrollView.setScrollViewListener(this);
+//        ViewTreeObserver vto = banner.getViewTreeObserver();
+//        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                banner.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                height = banner.getHeight() - Linear_title.getHeight();
+//            }
+//        });
     }
 
     @Override
@@ -85,27 +92,27 @@ public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick,G
         }
     }
 
-    //滑动监听 控制状态栏变化
-    @Override
-    public void onScrollChanged(GradientScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if (y <= 0) {
-            Linear_title.setBackgroundColor(Color.argb((int) 0, 255, 255, 255));
-            netfaq_title.setTextColor(Color.argb((int) 0, 69, 69, 69));
-            netfaq_title.setAlpha(0);
-            cutline.setAlpha((float) 0);
-        } else if (y > 0 && y <= height) {
-            float scale = (float) y / height;
-            float alpha = (255 * scale);
-            Linear_title.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
-            netfaq_title.setTextColor(Color.argb((int) alpha, 69, 69, 69));
-            netfaq_title.setAlpha(alpha);
-            cutline.setAlpha(alpha);
-        } else {
-            Linear_title.setBackgroundColor(Color.argb((int) 255, 255, 255, 255));
-            netfaq_title.setTextColor(Color.argb((int) 255, 69, 69, 69));
-            netfaq_title.setAlpha(1);
-            cutline.setAlpha((float)1);
-
-        }
-    }
+//    //滑动监听 控制状态栏变化
+//    @Override
+//    public void onScrollChanged(GradientScrollView scrollView, int x, int y, int oldx, int oldy) {
+//        if (y <= 0) {
+//            Linear_title.setBackgroundColor(Color.argb((int) 0, 255, 255, 255));
+//            netfaq_title.setTextColor(Color.argb((int) 0, 69, 69, 69));
+//            netfaq_title.setAlpha(0);
+//            cutline.setAlpha((float) 0);
+//        } else if (y > 0 && y <= height) {
+//            float scale = (float) y / height;
+//            float alpha = (255 * scale);
+//            Linear_title.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
+//            netfaq_title.setTextColor(Color.argb((int) alpha, 69, 69, 69));
+//            netfaq_title.setAlpha(alpha);
+//            cutline.setAlpha(alpha);
+//        } else {
+//            Linear_title.setBackgroundColor(Color.argb((int) 255, 255, 255, 255));
+//            netfaq_title.setTextColor(Color.argb((int) 255, 69, 69, 69));
+//            netfaq_title.setAlpha(1);
+//            cutline.setAlpha((float)1);
+//
+//        }
+//    }
 }

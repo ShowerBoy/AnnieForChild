@@ -27,6 +27,7 @@
     <color name="clarity_gray">#6F000000</color>
     <color name="clarity_black">#454545</color>
     <color name="gray">#CECECE</color>
+    <color name="gray1">#e5e5e5</color>
     <color name="relative_orange_back">#F8F3ED</color>
     <color name="text_orange">#FF8A0D</color>
     <color name="button_orange">#FF9800</color>

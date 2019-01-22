@@ -64,6 +64,7 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
                     message.obj = 1;
                     EventBus.getDefault().post(message);
                     Intent intent = new Intent(this, PaySuccessActivity.class);
+                    intent.putExtra("price", ConfirmOrderActivity.buyPrice);
                     startActivity(intent);
                    finish();
                     break;

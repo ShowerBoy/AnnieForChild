@@ -1,41 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fillViewport="true">
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top_tab_back">
 
+        <ImageView
+            android:id="@+id/network_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_arrow_left2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="网课"
+            android:textColor="@color/text_black"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/net_suggest_bt_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/to_NetTest"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/event_color_04"
+            android:text="去测试"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/to_NetExperience"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/button_orange"
+            android:text="去体验"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/title_layout"
+        android:layout_above="@id/net_suggest_bt_layout"
         android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/top_tab_back">
-
-            <ImageView
-                android:id="@+id/network_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_arrow_left2" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="网课"
-                android:textColor="@color/text_black"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
 
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -77,40 +107,5 @@
             </com.annie.annieforchild.Utils.views.APSTSViewPager>
         </android.support.design.widget.CoordinatorLayout>
 
-
-        <!--<ImageView-->
-        <!--android:id="@+id/image_slider"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="180dp"-->
-        <!--android:scaleType="fitXY"/>-->
-
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:padding="10dp">-->
-
-        <!--<ImageView-->
-        <!--android:id="@+id/howto_layout"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:src="@drawable/icon_howto" />-->
-
-        <!--<ImageView-->
-        <!--android:id="@+id/consult_layout"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:src="@drawable/icon_consult" />-->
-        <!--android:src="@drawable/icon_howto" />-->
-
-        <!--<t.RecyclerView-->
-        <!--android:id="@+id/net_recycler"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-
-        <!--</android.support.v7.widget.RecyclerView>-->
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

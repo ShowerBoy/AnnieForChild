@@ -1,6 +1,9 @@
 package com.annie.annieforchild.ui.activity.my;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -80,7 +83,19 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
         recycler.setLayoutManager(manager);
 
         network_teacher_wx=findViewById(R.id.network_teacher_wx);
-        network_teacher_wx.setTextIsSelectable(true);
+        findViewById(R.id.card).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                //获取剪贴板管理器：
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                // 创建普通字符型ClipData
+                ClipData mClipData = ClipData.newPlainText("Label", network_teacher_wx.getText());
+                // 将ClipData内容放到系统剪贴板里。
+                cm.setPrimaryClip(mClipData);
+                Toast.makeText(MyCourseActivity.this, "复制成功", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
 
     @Override
@@ -142,7 +157,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
                 }
                 adapter.notifyDataSetChanged();
             }
-            network_teacher_wx.setText(myNetClass.getTeacher()+"(长按复制)");
+            network_teacher_wx.setText(myNetClass.getTeacher()+"（长按复制）");
         }
     }
 

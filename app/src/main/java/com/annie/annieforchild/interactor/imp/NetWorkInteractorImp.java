@@ -206,13 +206,23 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void getListeningAndReading(String week,String classid) {
+    public void getListeningAndReading(String week, String classid) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETLISTENANDREAD, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
-        request.add("classid",classid);
-        request.add("week",week);
+        request.add("classid", classid);
+        request.add("week", week);
         addQueue(MethodCode.EVENT_GETLISTENANDREAD, request);
+        startQueue();
+    }
+
+    @Override
+    public void buynum(int netid) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNUM, RequestMethod.POST);
+        request.add("token", SystemUtils.token);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("netid", netid);
+        addQueue(MethodCode.EVENT_BUYNUM, request);
         startQueue();
     }
 
@@ -240,7 +250,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 NetSuggest netSuggest = JSON.parseObject(data, NetSuggest.class);
                 listener.Success(what, netSuggest);
             } else if (what == MethodCode.EVENT_GETMYNETCLASS) {
-                MyNetClass myNetClass=JSON.parseObject(data,MyNetClass.class);
+                MyNetClass myNetClass = JSON.parseObject(data, MyNetClass.class);
                 listener.Success(what, myNetClass);
 //                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
 //                if (dataobj != null) {
@@ -310,14 +320,18 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 }
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_GETNETEXPDETAILS) {
-                    NetExpClass netExpClass = JSON.parseObject(data, NetExpClass.class);
-                    listener.Success(what, netExpClass);
+                NetExpClass netExpClass = JSON.parseObject(data, NetExpClass.class);
+                listener.Success(what, netExpClass);
             } else if (what == MethodCode.EVENT_GETPREHEATCONSULT) {
-                    PreheatConsult preheatConsult = JSON.parseObject(data, PreheatConsult.class);
-                    listener.Success(what, preheatConsult);
-            }else if(what==MethodCode.EVENT_GETLISTENANDREAD){
-                ListenAndRead listenAndRead=JSON.parseObject(data,ListenAndRead.class);
-                listener.Success(what,listenAndRead);
+                PreheatConsult preheatConsult = JSON.parseObject(data, PreheatConsult.class);
+                listener.Success(what, preheatConsult);
+            } else if (what == MethodCode.EVENT_GETLISTENANDREAD) {
+                ListenAndRead listenAndRead = JSON.parseObject(data, ListenAndRead.class);
+                listener.Success(what, listenAndRead);
+            } else if (what == MethodCode.EVENT_BUYNUM) {
+                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                int canbuy = dataobj.getInteger("canbuy");
+                listener.Success(what, canbuy);
             }
         }
     }

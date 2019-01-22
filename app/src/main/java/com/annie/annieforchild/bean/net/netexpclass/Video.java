@@ -9,32 +9,46 @@ public class Video {
     private String content;
     private String image;
     private String vedio;
+    private int isshow;
+
+    public int getIsshow() {
+        return isshow;
+    }
+
+    public void setIsshow(int isshow) {
+        this.isshow = isshow;
+    }
+
     public void setTitle(String title) {
-         this.title = title;
-     }
-     public String getTitle() {
-         return title;
-     }
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 
     public void setContent(String content) {
-         this.content = content;
-     }
-     public String getContent() {
-         return content;
-     }
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
 
     public void setImage(String image) {
-         this.image = image;
-     }
-     public String getImage() {
-         return image;
-     }
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
 
     public void setVedio(String vedio) {
-         this.vedio = vedio;
-     }
-     public String getVedio() {
-         return vedio;
-     }
+        this.vedio = vedio;
+    }
+
+    public String getVedio() {
+        return vedio;
+    }
 
 }

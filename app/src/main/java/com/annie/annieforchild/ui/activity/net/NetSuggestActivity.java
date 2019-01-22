@@ -44,14 +44,17 @@ import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.my.MyCourseActivity;
 import com.annie.annieforchild.ui.adapter.NetGiftAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
+import com.annie.annieforchild.view.GrindEarView;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
+import com.daimajia.slider.library.SliderLayout;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL;
@@ -61,8 +64,9 @@ import javax.microedition.khronos.opengles.GL;
  * Created by wanglei on 2018/9/22.
  */
 
-public class NetSuggestActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick, GradientScrollView.ScrollViewListener {
-    private ImageView back, banner;
+public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnCheckDoubleClick, GradientScrollView.ScrollViewListener {
+    private ImageView back;
+    private SliderLayout banner;
     private TextView title, price, event, material, gotoBuy, present,net_suggest_summary;
     private RecyclerView giftRecycler;
     private LinearLayout netSuggestLinear, netSuggestLayout;
@@ -73,14 +77,16 @@ public class NetSuggestActivity extends BaseActivity implements ViewInfo, OnChec
     private AlertHelper helper;
     private Dialog dialog;
     private Intent intent;
-    private int netid, isBuy;
-    private String type,netimage;
+    private int netid, isBuy, canbuy = 0;
+    private String type, netimage;
     LinearLayout Linear_title;
     GradientScrollView scrollView;
     private int height;
     public static NetSuggestActivity netSuggestActivity;
     private NetSuggest netSuggest;
     private TextView netsuggest_title;
+    private HashMap<Integer, String> file_maps;//轮播图图片map
+    private String message;
 
     {
         setRegister(true);
@@ -131,12 +137,14 @@ public class NetSuggestActivity extends BaseActivity implements ViewInfo, OnChec
     @Override
     protected void initData() {
         lists = new ArrayList<>();
+        file_maps = new HashMap<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         intent = getIntent();
         netid = intent.getIntExtra("netid", 0);
         isBuy = intent.getIntExtra("isBuy", 0);
         netimage = intent.getStringExtra("netimage");
+        message=intent.getStringExtra("message");
         type = intent.getStringExtra("type");
         if (type.equals("体验课")) {
             netSuggestLayout.setVisibility(View.GONE);
@@ -158,13 +166,22 @@ public class NetSuggestActivity extends BaseActivity implements ViewInfo, OnChec
         });
         giftRecycler.setAdapter(adapter);
         presenter = new NetWorkPresenterImp(this, this);
-        presenter.initViewAndData();
-        presenter.getNetSuggest(netid);
         if (isBuy == 0) {
             gotoBuy.setText("立即购买");
-        } else {
+            gotoBuy.setTextColor(getResources().getColor(R.color.white));
+            gotoBuy.setBackgroundColor(getResources().getColor(R.color.text_orange));
+        } else if (isBuy == 1) {
             gotoBuy.setText("去听课");
+            gotoBuy.setTextColor(getResources().getColor(R.color.white));
+            gotoBuy.setBackgroundColor(getResources().getColor(R.color.text_orange));
+        } else if(isBuy==2) {
+            gotoBuy.setText(netSuggest.getMessage());
+            gotoBuy.setTextColor(getResources().getColor(R.color.navigation_bar_color));
+            gotoBuy.setBackgroundColor(getResources().getColor(R.color.gray1));
         }
+        presenter.initViewAndData();
+        presenter.getNetSuggest(netid);
+
     }
 
     @Override
@@ -186,11 +203,42 @@ public class NetSuggestActivity extends BaseActivity implements ViewInfo, OnChec
             adapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_PAY) {
             finish();
+        } else if (message.what == MethodCode.EVENT_BUYNUM) {
+            canbuy = (int) message.obj;
+            if (canbuy == 1) {
+                gotoBuy();
+            } else {
+                showInfo("名额已满");
+                presenter.getNetSuggest(netid);
+            }
+        }
+    }
+
+    private void gotoBuy() {
+        if (isBuy == 0) {
+            Intent intent = new Intent(this, ConfirmOrderActivity.class);
+            intent.putExtra("netid", netid);
+            intent.putExtra("netimage", netimage);
+            intent.putExtra("type", type);
+            intent.putExtra("netsummary", netSuggest.getNetSummary());
+            startActivity(intent);
+        } else if (isBuy == 1) {
+            Intent intent1 = new Intent(this, MyCourseActivity.class);
+            startActivity(intent1);
+        } else {
+
         }
     }
 
     private void refresh() {
         if (netSuggest != null) {
+//            if(netSuggest.getTitleImageUrl().size()>0){
+//                file_maps.clear();
+//                for (int i = 0; i < netSuggest.getTitleImageUrl().size(); i++) {
+//                    file_maps.put(i,  netSuggest.getTitleImageUrl().get(i));
+//                }
+//            }
+
             if (netSuggest.getNetSuggestUrl() != null && netSuggest.getNetSuggestUrl().size() != 0) {
                 netSuggestLinear.removeAllViews();
                 for (int i = 0; i < netSuggest.getNetSuggestUrl().size(); i++) {
@@ -201,7 +249,21 @@ public class NetSuggestActivity extends BaseActivity implements ViewInfo, OnChec
                     netSuggestLinear.addView(imageView);
                 }
             }
-            Glide.with(this).load(netSuggest.getTitleImageUrl()).into(banner);
+            isBuy = netSuggest.getIsBuy();
+            if (isBuy == 0) {
+                gotoBuy.setText("立即购买");
+                gotoBuy.setTextColor(getResources().getColor(R.color.white));
+                gotoBuy.setBackgroundColor(getResources().getColor(R.color.text_orange));
+            } else if (isBuy == 1) {
+                gotoBuy.setText("去听课");
+                gotoBuy.setTextColor(getResources().getColor(R.color.white));
+                gotoBuy.setBackgroundColor(getResources().getColor(R.color.text_orange));
+            } else if(isBuy==2) {
+                gotoBuy.setText(netSuggest.getMessage());
+                gotoBuy.setTextColor(getResources().getColor(R.color.navigation_bar_color));
+                gotoBuy.setBackgroundColor(getResources().getColor(R.color.gray1));
+            }
+
             title.setText(netSuggest.getNetName());
             netsuggest_title.setText(netSuggest.getNetName());
             price.setText("￥"+ netSuggest.getPrice());
@@ -234,16 +296,10 @@ public class NetSuggestActivity extends BaseActivity implements ViewInfo, OnChec
                 finish();
                 break;
             case R.id.goto_buy:
-                if (isBuy == 0) {
-                    Intent intent = new Intent(this, ConfirmOrderActivity.class);
-                    intent.putExtra("netid", netid);
-                    intent.putExtra("netimage", netimage);
-                    intent.putExtra("type", type);
-                    intent.putExtra("netsummary", netSuggest.getNetSummary());
-                    startActivity(intent);
+                if (isBuy == 1) {
+                    presenter.buynum(netid);
                 } else {
-                    Intent intent1 = new Intent(this, MyCourseActivity.class);
-                    startActivity(intent1);
+                    presenter.buynum(netid);
                 }
 //                if(isBuy==0){
 //                    createAlertDialog(this);
@@ -291,11 +347,11 @@ public class NetSuggestActivity extends BaseActivity implements ViewInfo, OnChec
         gotoBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    dialog.dismiss();
-                    Intent intent = new Intent(activity, ConfirmOrderActivity.class);
-                    intent.putExtra("netid", netid);
-                    intent.putExtra("type", type);
-                    startActivity(intent);
+                dialog.dismiss();
+                Intent intent = new Intent(activity, ConfirmOrderActivity.class);
+                intent.putExtra("netid", netid);
+                intent.putExtra("type", type);
+                startActivity(intent);
 
             }
         });
@@ -338,5 +394,16 @@ public class NetSuggestActivity extends BaseActivity implements ViewInfo, OnChec
             netsuggest_title.setTextColor(Color.argb((int) 255, 69, 69, 69));
             netsuggest_title.setAlpha(1);
         }
+    }
+
+    @Override
+    public SliderLayout getImageSlide() {
+        return banner;
+    }
+
+
+    @Override
+    public HashMap<Integer, String> getFile_maps() {
+        return file_maps;
     }
 }

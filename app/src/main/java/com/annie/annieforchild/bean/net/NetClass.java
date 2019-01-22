@@ -15,6 +15,13 @@ public class NetClass implements Serializable {
     private String netSummary;
     private int isBuy;
     private int count;
+    private String message;
+    public String getMessage(){
+        return message;
+    }
+    public void setMessage(String message){
+        this.message=message;
+    }
 
     public int getCount() {
         return count;

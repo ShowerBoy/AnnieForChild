@@ -23,8 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:text=""
             android:textColor="@color/text_black"
             android:textSize="16sp" />
@@ -40,78 +40,87 @@
             android:textColor="#454545"
             android:textSize="14sp" />
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="47dp"
-            android:background="@drawable/online_pic_pay_success"/>
+            android:background="@drawable/online_pic_pay_success" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="支付成功"
+            android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
-            android:textColor="#454545"
             android:layout_marginTop="22dp"
-            android:textSize="18sp"
-            android:layout_centerInParent="true"/>
+            android:text="支付成功"
+            android:textColor="#454545"
+            android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/pay_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥1000"
+            android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/text_orange"
             android:layout_marginTop="10dp"
-            android:textSize="20sp"
-            android:layout_centerInParent="true"/>
+            android:text="￥1000"
+            android:textColor="@color/text_orange"
+            android:textSize="20sp" />
+
         <LinearLayout
             android:id="@+id/to_network"
             android:layout_width="255dp"
             android:layout_height="40dp"
-            android:background="@drawable/orange_btn2"
-            android:layout_marginTop="40dp"
             android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_marginTop="40dp"
+            android:background="@drawable/orange_btn2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/online_icon_courselist"/>
+                android:src="@drawable/online_icon_courselist" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="课程列表"
                 android:layout_marginLeft="6dp"
-                android:textSize="16sp"
-                android:textColor="@color/white"/>
+                android:text="课程列表"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/to_mylesson"
             android:layout_width="255dp"
             android:layout_height="40dp"
-            android:background="@drawable/green_btn2"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="50dp"
             android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_marginBottom="50dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/green_btn2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/online_icon_course"/>
+                android:src="@drawable/online_icon_course" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="查看课程"
                 android:layout_marginLeft="6dp"
-                android:textSize="16sp"
-                android:textColor="@color/white"/>
+                android:text="查看课程"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -119,20 +128,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:background="#f2f2f2"/>
+            android:background="#f2f2f2" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="推荐课程"
             android:paddingLeft="25dp"
             android:paddingTop="20dp"
-            android:textColor="#454545"
-            />
+            android:text="推荐课程"
+            android:textColor="#454545" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"

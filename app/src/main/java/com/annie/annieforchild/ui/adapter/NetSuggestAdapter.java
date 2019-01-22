@@ -37,7 +37,7 @@ public class NetSuggestAdapter extends RecyclerView.Adapter<NetSuggestViewHolder
 
     @Override
     public void onBindViewHolder(NetSuggestViewHolder netSuggestViewHolder, int i) {
-        Glide.with(context).load(lists.get(i)).fitCenter().into(netSuggestViewHolder.image);
+        Glide.with(context).load(lists.get(i)).into(netSuggestViewHolder.image);
     }
 
     @Override

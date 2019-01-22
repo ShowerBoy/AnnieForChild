@@ -85,7 +85,8 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
                 int position = recycler.getChildAdapterPosition(view);
                 Intent intent = new Intent(LessonActivity.this, WebActivity.class);
                 intent.putExtra("url", lists.get(position).getGameUrl());
-                intent.putExtra("title", lists.get(position).getGameName());
+                intent.putExtra("flag",1);//标题是否取消1：取消
+//                intent.putExtra("title", lists.get(position).getGameName());
                 startActivity(intent);
             }
 

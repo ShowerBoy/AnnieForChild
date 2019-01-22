@@ -51,21 +51,21 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonViewHolder> {
         lessonViewHolder.name.setText(lists.get(i).getGameName());
         int remind = i % 8;
         if (remind == 0) {
-            lessonViewHolder.layout.setBackgroundResource(R.drawable.icon_blue_card);
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_01);
         } else if (remind == 1) {
-            lessonViewHolder.layout.setBackgroundResource(R.drawable.icon_mint_green_card);
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_02);
         } else if (remind == 2) {
-            lessonViewHolder.layout.setBackgroundResource(R.drawable.icon_green_card);
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_03);
         } else if (remind == 3) {
-            lessonViewHolder.layout.setBackgroundResource(R.drawable.icon_yellow_card);
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_04);
         } else if (remind == 4) {
-            lessonViewHolder.layout.setBackgroundResource(R.drawable.icon_orange_card);
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_05);
         } else if (remind == 5) {
-            lessonViewHolder.layout.setBackgroundResource(R.drawable.icon_rose_card);
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_06);
         } else if (remind == 6) {
-            lessonViewHolder.layout.setBackgroundResource(R.drawable.icon_pink_card);
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_07);
         } else if (remind == 7) {
-            lessonViewHolder.layout.setBackgroundResource(R.drawable.icon_purple_card);
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_08);
         }
     }
 

@@ -183,4 +183,5 @@ public class MethodCode {
     final public static int EVENT_GETNETEXPDETAILS = 134; //体验课具体内容详情
     final public static int EVENT_GETPREHEATCONSULT = 135; //预热课
     final public static int EVENT_GETLISTENANDREAD = 136; //泛听泛读
+    final public static int EVENT_BUYNUM = 141; //泛听泛读
 }
