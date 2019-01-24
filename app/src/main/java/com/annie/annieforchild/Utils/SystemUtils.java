@@ -211,6 +211,175 @@ public class SystemUtils {
         return dialog;
     }
 
+
+    /**
+     * 作业点评
+     *
+     * @return
+     */
+    public static PopupWindow getTaskRemark(Context context, String taskscore, String average, String remark) {
+        TextView title = new TextView(context);
+        ImageView star1 = new ImageView(context);
+        ImageView star2 = new ImageView(context);
+        ImageView star3 = new ImageView(context);
+        ImageView star4 = new ImageView(context);
+        ImageView star5 = new ImageView(context);
+        ImageView star6 = new ImageView(context);
+        ImageView star7 = new ImageView(context);
+        ImageView star8 = new ImageView(context);
+        ImageView star9 = new ImageView(context);
+        ImageView star10 = new ImageView(context);
+        ImageView close = new ImageView(context);
+
+        popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_task_remark, null, false);
+
+        title = popupView.findViewById(R.id.task_remark_remark);
+        star1 = popupView.findViewById(R.id.task_remark_star1);
+        star2 = popupView.findViewById(R.id.task_remark_star2);
+        star3 = popupView.findViewById(R.id.task_remark_star3);
+        star4 = popupView.findViewById(R.id.task_remark_star4);
+        star5 = popupView.findViewById(R.id.task_remark_star5);
+        star6 = popupView.findViewById(R.id.task_remark_star6);
+        star7 = popupView.findViewById(R.id.task_remark_star7);
+        star8 = popupView.findViewById(R.id.task_remark_star8);
+        star9 = popupView.findViewById(R.id.task_remark_star9);
+        star10 = popupView.findViewById(R.id.task_remark_star10);
+        close = popupView.findViewById(R.id.task_remark_close);
+
+        title.setText(remark);
+
+        int score = Integer.parseInt(taskscore);
+        if (score >= 5) {
+            star1.setImageResource(R.drawable.icon_starsmall);
+            star2.setImageResource(R.drawable.icon_starsmall);
+            star3.setImageResource(R.drawable.icon_starsmall);
+            star4.setImageResource(R.drawable.icon_starsmall);
+            star5.setImageResource(R.drawable.icon_starsmall);
+        } else if (score == 4) {
+            star1.setImageResource(R.drawable.icon_starsmall);
+            star2.setImageResource(R.drawable.icon_starsmall);
+            star3.setImageResource(R.drawable.icon_starsmall);
+            star4.setImageResource(R.drawable.icon_starsmall);
+            star5.setImageResource(R.drawable.icon_starsmall_un);
+        } else if (score == 3) {
+            star1.setImageResource(R.drawable.icon_starsmall);
+            star2.setImageResource(R.drawable.icon_starsmall);
+            star3.setImageResource(R.drawable.icon_starsmall);
+            star4.setImageResource(R.drawable.icon_starsmall_un);
+            star5.setImageResource(R.drawable.icon_starsmall_un);
+        } else if (score == 2) {
+            star1.setImageResource(R.drawable.icon_starsmall);
+            star2.setImageResource(R.drawable.icon_starsmall);
+            star3.setImageResource(R.drawable.icon_starsmall_un);
+            star4.setImageResource(R.drawable.icon_starsmall_un);
+            star5.setImageResource(R.drawable.icon_starsmall_un);
+        } else if (score == 1) {
+            star1.setImageResource(R.drawable.icon_starsmall);
+            star2.setImageResource(R.drawable.icon_starsmall_un);
+            star3.setImageResource(R.drawable.icon_starsmall_un);
+            star4.setImageResource(R.drawable.icon_starsmall_un);
+            star5.setImageResource(R.drawable.icon_starsmall_un);
+        } else {
+            star1.setImageResource(R.drawable.icon_starsmall_un);
+            star2.setImageResource(R.drawable.icon_starsmall_un);
+            star3.setImageResource(R.drawable.icon_starsmall_un);
+            star4.setImageResource(R.drawable.icon_starsmall_un);
+            star5.setImageResource(R.drawable.icon_starsmall_un);
+        }
+
+        String[] averageScore = average.split("\\.");
+        int tenth = Integer.parseInt(averageScore[0]);
+        int first = Integer.parseInt(averageScore[1]);
+        if (tenth >= 5) {
+            star6.setImageResource(R.drawable.icon_starsmall);
+            star7.setImageResource(R.drawable.icon_starsmall);
+            star8.setImageResource(R.drawable.icon_starsmall);
+            star9.setImageResource(R.drawable.icon_starsmall);
+            star10.setImageResource(R.drawable.icon_starsmall);
+        } else if (tenth == 4) {
+            star6.setImageResource(R.drawable.icon_starsmall);
+            star7.setImageResource(R.drawable.icon_starsmall);
+            star8.setImageResource(R.drawable.icon_starsmall);
+            star9.setImageResource(R.drawable.icon_starsmall);
+            if (first <= 3) {
+                star10.setImageResource(R.drawable.icon_starsmall_un);
+            } else if (first <= 7) {
+                star10.setImageResource(R.drawable.icon_starsmall_half);
+            } else {
+                star10.setImageResource(R.drawable.icon_starsmall);
+            }
+        } else if (tenth == 3) {
+            star6.setImageResource(R.drawable.icon_starsmall);
+            star7.setImageResource(R.drawable.icon_starsmall);
+            star8.setImageResource(R.drawable.icon_starsmall);
+            if (first <= 3) {
+                star9.setImageResource(R.drawable.icon_starsmall_un);
+            } else if (first <= 7) {
+                star9.setImageResource(R.drawable.icon_starsmall_half);
+            } else {
+                star9.setImageResource(R.drawable.icon_starsmall);
+            }
+            star10.setImageResource(R.drawable.icon_starsmall_un);
+        } else if (tenth == 2) {
+            star6.setImageResource(R.drawable.icon_starsmall);
+            star7.setImageResource(R.drawable.icon_starsmall);
+            if (first <= 3) {
+                star8.setImageResource(R.drawable.icon_starsmall_un);
+            } else if (first <= 7) {
+                star8.setImageResource(R.drawable.icon_starsmall_half);
+            } else {
+                star8.setImageResource(R.drawable.icon_starsmall);
+            }
+            star9.setImageResource(R.drawable.icon_starsmall_un);
+            star10.setImageResource(R.drawable.icon_starsmall_un);
+        } else if (tenth == 1) {
+            star6.setImageResource(R.drawable.icon_starsmall);
+            if (first <= 3) {
+                star7.setImageResource(R.drawable.icon_starsmall_un);
+            } else if (first <= 7) {
+                star7.setImageResource(R.drawable.icon_starsmall_half);
+            } else {
+                star7.setImageResource(R.drawable.icon_starsmall);
+            }
+            star8.setImageResource(R.drawable.icon_starsmall_un);
+            star9.setImageResource(R.drawable.icon_starsmall_un);
+            star10.setImageResource(R.drawable.icon_starsmall_un);
+        } else {
+            if (first <= 3) {
+                star6.setImageResource(R.drawable.icon_starsmall_un);
+            } else if (first <= 7) {
+                star6.setImageResource(R.drawable.icon_starsmall_half);
+            } else {
+                star6.setImageResource(R.drawable.icon_starsmall);
+            }
+            star7.setImageResource(R.drawable.icon_starsmall_un);
+            star8.setImageResource(R.drawable.icon_starsmall_un);
+            star9.setImageResource(R.drawable.icon_starsmall_un);
+            star10.setImageResource(R.drawable.icon_starsmall_un);
+        }
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemUtils.setBackGray((Activity) context, false);
+            }
+        });
+        popupWindow.setContentView(popupView);
+        return popupWindow;
+    }
+
     /**
      * 花蜜弹出框
      *

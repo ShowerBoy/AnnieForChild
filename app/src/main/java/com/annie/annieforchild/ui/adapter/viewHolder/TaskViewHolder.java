@@ -15,7 +15,7 @@ import com.annie.annieforchild.R;
 public class TaskViewHolder extends RecyclerView.ViewHolder {
     public TextView date, title, classname, teacher, doTask, taskTimes, flowerCard, remark;
     public ImageView star1, star2, star3, star4, star5;
-    public RelativeLayout relative;
+    public RelativeLayout relative, statusLayout;
 
     public TaskViewHolder(View itemView) {
         super(itemView);
@@ -33,5 +33,6 @@ public class TaskViewHolder extends RecyclerView.ViewHolder {
         star4 = itemView.findViewById(R.id.task_star_4);
         star5 = itemView.findViewById(R.id.task_star_5);
         relative = itemView.findViewById(R.id.task_relative);
+        statusLayout = itemView.findViewById(R.id.task_status_layout);
     }
 }

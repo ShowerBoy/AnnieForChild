@@ -61,7 +61,7 @@ public class ExerciseActivity extends BaseActivity implements OnCheckDoubleClick
     private boolean isLast = false;
     private boolean isNext = true;
     public static boolean isPlay;
-    private int audioType, audioSource, homeworkid;
+    private int audioType, audioSource, homeworkid, homeworktype;
     private String title;
     private CheckDoubleClickListener listener;
 
@@ -104,6 +104,7 @@ public class ExerciseActivity extends BaseActivity implements OnCheckDoubleClick
         imageUrl = intent.getStringExtra("imageUrl");
         title = intent.getStringExtra("title");
         homeworkid = intent.getIntExtra("homeworkid", 0);
+        homeworktype=intent.getIntExtra("homeworktype",-1);
 
         if (audioSource != 1 || audioSource != 3 || audioSource != 9) {
             pageImage.setVisibility(View.VISIBLE);
@@ -120,7 +121,7 @@ public class ExerciseActivity extends BaseActivity implements OnCheckDoubleClick
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
 
-        adapter = new ExerciseAdapter(this, this, title, lists, bookId, presenter, audioType, audioSource, imageUrl, 1, homeworkid, new OnRecyclerItemClickListener() {
+        adapter = new ExerciseAdapter(this, this, title, lists, bookId, presenter, audioType, audioSource, imageUrl, 1, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 int positon = exerciseList.getChildAdapterPosition(view);
@@ -238,6 +239,11 @@ public class ExerciseActivity extends BaseActivity implements OnCheckDoubleClick
             case R.id.go_to_challenge:
                 Intent intent = new Intent(this, ChallengeActivity.class);
                 intent.putExtra("bookId", bookId);
+                intent.putExtra("imageUrl", imageUrl);
+                intent.putExtra("audioType", audioType);
+                intent.putExtra("audioSource", audioSource);
+                intent.putExtra("homeworkid", homeworkid);
+                intent.putExtra("homeworktype", homeworktype);
                 startActivity(intent);
                 finish();
                 break;

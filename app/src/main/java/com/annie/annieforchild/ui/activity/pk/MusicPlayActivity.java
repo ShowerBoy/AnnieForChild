@@ -111,7 +111,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
     private View popupView2;
     private String url, myResourceUrl;
     private List<String> lyricList;
-    private int homeworkid;
+    private int homeworkid, homeworktype;
     public static boolean isLyric = false;
     private int classId = 0, collectType, shareType;
 
@@ -222,7 +222,8 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
             isCollect = bundle.getInt("isCollect");
             musicPosition = bundle.getInt("musicPosition");
             collectType = bundle.getInt("collectType", 0);
-            homeworkid = bundle.getInt("homeworkid");
+            homeworkid = bundle.getInt("homeworkid", 0);
+            homeworktype = bundle.getInt("homeworktype", -1);
             MusicService.type = bundle.getString("type");
             name.setText(musicTitle);
             if (isCollect == 0) {
@@ -639,6 +640,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                 intent.putExtra("resourceUrl", MusicService.musicList.get(MusicService.listTag).getPath());
                 intent.putExtra("myResourceUrl", myResourceUrl);
                 intent.putExtra("homeworkid", homeworkid);
+                intent.putExtra("homeworktype", homeworktype);
                 startActivity(intent);
                 break;
             case R.id.anwa_radio:

@@ -254,8 +254,8 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                                     Intent intent = new Intent(GlobalSearchActivity.this, PracticeActivity.class);
                                     intent.putExtra("song", song);
                                     intent.putExtra("type", 0);
-                                    intent.putExtra("audioType", 2);
-                                    intent.putExtra("collectType", 0);
+                                    intent.putExtra("audioType", 1);
+                                    intent.putExtra("collectType", 2);
                                     intent.putExtra("bookType", 1);
                                     intent.putExtra("audioSource", 0);
                                     startActivity(intent);

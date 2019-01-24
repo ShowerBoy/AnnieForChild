@@ -66,7 +66,7 @@ import java.util.List;
  * Created by WangLei on 2018/1/12
  */
 
-public class FirstFragment extends BaseFragment implements MainView,BaseSliderView.OnSliderClickListener,  OnCheckDoubleClick, SearchView.OnQueryTextListener {
+public class FirstFragment extends BaseFragment implements MainView, BaseSliderView.OnSliderClickListener, OnCheckDoubleClick, SearchView.OnQueryTextListener {
     private SwipeRefreshLayout first_refresh_layout;
     private RelativeLayout firstMsgLayout, searchLayout, meiriyigeLayout, meiriyishiLayout, meiriyiduLayout;
     private AnimationDrawable musicBtn;
@@ -144,12 +144,11 @@ public class FirstFragment extends BaseFragment implements MainView,BaseSliderVi
         imageSlide.addOnPageChangeListener(new ViewPagerEx.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-
             }
 
             @Override
             public void onPageSelected(int i) {
-                Log.e("111",i+"");
+                Log.e("111", i + "");
             }
 
             @Override
@@ -523,6 +522,14 @@ public class FirstFragment extends BaseFragment implements MainView,BaseSliderVi
 //                    SystemUtils.toLogin(getContext());
 //                    return;
 //                }
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
                 intent.setClass(getContext(), GrindEarActivity.class);
                 startActivity(intent);
                 break;
@@ -532,6 +539,14 @@ public class FirstFragment extends BaseFragment implements MainView,BaseSliderVi
 //                    SystemUtils.toLogin(getContext());
 //                    return;
 //                }
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
                 intent.setClass(getContext(), ReadingActivity.class);
                 startActivity(intent);
                 break;
@@ -555,6 +570,14 @@ public class FirstFragment extends BaseFragment implements MainView,BaseSliderVi
 //                } else {
 //                    showInfo("请稍后");
 //                }
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
                 intent.setClass(getContext(), SpeakingActivity.class);
                 startActivity(intent);
                 break;
@@ -576,6 +599,14 @@ public class FirstFragment extends BaseFragment implements MainView,BaseSliderVi
                 //TODO:
 //                SystemUtils.setBackGray(getActivity(), true);
 //                SystemUtils.getNectarCongratulation(getActivity(), 1).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
                 Intent intent1 = new Intent(getContext(), MusicPlayActivity.class);
                 startActivity(intent1);
 
@@ -815,6 +846,14 @@ public class FirstFragment extends BaseFragment implements MainView,BaseSliderVi
                 }
                 break;
             case R.id.meiriyige_layout:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
                 if (meiriyige.getJurisdiction() == 0) {
                     if (meiriyige.getIsusenectar() == 1) {
                         SystemUtils.setBackGray(getActivity(), true);
@@ -832,6 +871,14 @@ public class FirstFragment extends BaseFragment implements MainView,BaseSliderVi
                 }
                 break;
             case R.id.meiriyishi_layout:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
                 if (meiriyishi.getJurisdiction() == 0) {
                     if (meiriyishi.getIsusenectar() == 1) {
                         SystemUtils.setBackGray(getActivity(), true);
@@ -848,6 +895,14 @@ public class FirstFragment extends BaseFragment implements MainView,BaseSliderVi
                 }
                 break;
             case R.id.meiriyidu_layout:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
                 if (meiriyidu.getJurisdiction() == 0) {
                     if (meiriyidu.getIsusenectar() == 1) {
                         SystemUtils.setBackGray(getActivity(), true);
@@ -868,6 +923,6 @@ public class FirstFragment extends BaseFragment implements MainView,BaseSliderVi
 
     @Override
     public void onSliderClick(BaseSliderView baseSliderView) {
-        Log.e("22222",baseSliderView.getDescription());
+        Log.e("22222", baseSliderView.getDescription());
     }
 }

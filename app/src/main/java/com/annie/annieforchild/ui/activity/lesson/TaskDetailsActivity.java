@@ -27,7 +27,6 @@ import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.CameraActivity;
 import com.annie.annieforchild.ui.activity.PhotoActivity;
-import com.annie.annieforchild.ui.adapter.TaskDetailsAdapter;
 import com.annie.annieforchild.ui.adapter.UploadAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
@@ -40,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 作业详情
+ * 作业详情(弃用)
  * Created by wanglei on 2018/8/23.
  */
 
@@ -51,7 +50,6 @@ public class TaskDetailsActivity extends CameraActivity implements SongView, OnC
     private Button submitBtn;
     private RecyclerView taskRecycler, uploadRecycler;
     private GrindEarPresenter presenter;
-    private TaskDetailsAdapter taskAdapter;
     private UploadAdapter uploadAdapter;
     private AlertHelper helper;
     private Dialog dialog;
@@ -60,7 +58,7 @@ public class TaskDetailsActivity extends CameraActivity implements SongView, OnC
     private List<String> imageList;
     private List<String> pathList; //用户选择图片路径列表
     private Bitmap headbitmap;
-    private int taskid, state;//state: 0：未提交 1：已提交
+    private int classid, state;//state: 0：未提交 1：已提交
     private Intent intent;
     private String text;
     public static int imageNum = 0; //选择图片数量
@@ -105,7 +103,7 @@ public class TaskDetailsActivity extends CameraActivity implements SongView, OnC
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         intent = getIntent();
-        taskid = intent.getIntExtra("taskid", 0);
+        classid = intent.getIntExtra("classid", 0);
         state = intent.getIntExtra("state", 0);
         if (state == 0) {
             submitBtn.setVisibility(View.VISIBLE);
@@ -115,10 +113,10 @@ public class TaskDetailsActivity extends CameraActivity implements SongView, OnC
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
 
-        taskAdapter = new TaskDetailsAdapter(this, lists, presenter, taskid, state);
-        taskRecycler.setAdapter(taskAdapter);
+//        taskAdapter = new TaskDetailsAdapter(this, lists, presenter, taskid, state);
+//        taskRecycler.setAdapter(taskAdapter);
 
-        uploadAdapter = new UploadAdapter(this, imageList, state, new OnRecyclerItemClickListener() {
+        uploadAdapter = new UploadAdapter(this, imageList, state, 0, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
 //                int position = uploadRecycler.getChildAdapterPosition(view);
@@ -131,7 +129,7 @@ public class TaskDetailsActivity extends CameraActivity implements SongView, OnC
             }
         });
         uploadRecycler.setAdapter(uploadAdapter);
-        presenter.taskDetails(taskid);
+//        presenter.taskDetails(classid);
         if (state == 0) {
             remarks.setEnabled(true);
         } else {
@@ -163,17 +161,17 @@ public class TaskDetailsActivity extends CameraActivity implements SongView, OnC
             imageList.clear();
             imageList.addAll(taskDetails.getTaskimage());
             uploadAdapter.notifyDataSetChanged();
-            taskAdapter.notifyDataSetChanged();
+//            taskAdapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_COMPLETETASK) {
             showInfo((String) message.obj);
-            presenter.taskDetails(taskid);
+//            presenter.taskDetails(taskid);
         } else if (message.what == MethodCode.EVENT_SELECT) {
             int position = (int) message.obj;
             imageList.remove(position);
             pathList.remove(position);
             uploadAdapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_UPLOADTASKIMAGE) {
-            presenter.submitTask(taskid, text);
+//            presenter.submitTask(taskid, text);
         } else if (message.what == MethodCode.EVENT_SUBMITTASK) {
             showInfo((String) message.obj);
             pathList.clear();
@@ -182,7 +180,7 @@ public class TaskDetailsActivity extends CameraActivity implements SongView, OnC
             finish();
         } else if (message.what == MethodCode.EVENT_ADDSCHEDULE) {
             showInfo((String) message.obj);
-            presenter.taskDetails(taskid);
+//            presenter.taskDetails(taskid);
         }
     }
 
@@ -231,7 +229,7 @@ public class TaskDetailsActivity extends CameraActivity implements SongView, OnC
             case R.id.submit_task:
                 text = remarks.getText().toString().trim();
                 if (text != null && text.length() != 0) {
-                    presenter.uploadTaskImage(taskid, pathList);
+//                    presenter.uploadTaskImage(taskid, pathList);
                 } else {
                     showInfo("请输入备注");
                 }

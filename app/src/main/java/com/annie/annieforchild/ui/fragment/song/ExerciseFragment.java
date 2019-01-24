@@ -49,7 +49,7 @@ public class ExerciseFragment extends BaseFragment implements SongView, View.OnC
     private Dialog dialog;
     private GrindEarPresenter presenter;
     private MediaPlayer mediaPlayer;
-    private int tag, audioType, audioSource, bookId, homeworkid;
+    private int tag, audioType, audioSource, bookId, homeworkid, homeworktype;
     private String title;
 
     {
@@ -76,11 +76,12 @@ public class ExerciseFragment extends BaseFragment implements SongView, View.OnC
             bookId = bundle.getInt("bookId");
             title = bundle.getString("title");
             homeworkid = bundle.getInt("homeworkid", 0);
+            homeworktype = bundle.getInt("homeworktype", -1);
         }
         Glide.with(getContext()).load(page.getPageImage()).placeholder(R.drawable.book_image_loading).error(R.drawable.book_image_loadfail).fitCenter().into(pageImage);
         lists.addAll(page.getLineContent());
 
-        adapter = new ExerciseAdapter(getContext(), this, title, lists, bookId, presenter, audioType, audioSource, page.getPageImage(), 1, homeworkid, new OnRecyclerItemClickListener() {
+        adapter = new ExerciseAdapter(getContext(), this, title, lists, bookId, presenter, audioType, audioSource, page.getPageImage(), 1, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 int positon = exerciseList.getChildAdapterPosition(view);

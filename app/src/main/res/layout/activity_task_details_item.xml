@@ -2,26 +2,53 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp">
-    <LinearLayout
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp">
+
+    <RelativeLayout
         android:id="@+id/details_linear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <ImageView
+        <com.annie.annieforchild.Utils.views.MyRoundImageView
             android:id="@+id/task_details_image"
-            android:layout_width="0dp"
-            android:layout_height="110dp"
-            android:layout_weight="1"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
             android:src="@drawable/image_recording_empty" />
 
+        <TextView
+            android:id="@+id/finish_task_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/icon_orange_btn2"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:gravity="center"
+            android:text="完成"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/task_add_course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/task_details_image"
+            android:src="@drawable/image_add_course_t" />
+
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="110dp"
-            android:layout_weight="3"
-            android:layout_marginStart="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/task_details_image"
+            android:layout_toStartOf="@+id/finish_task_btn"
             android:orientation="vertical">
 
             <TextView
@@ -29,74 +56,70 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:text="标题"
                 android:textColor="@color/text_black"
-                android:textSize="15sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="作业要求"
-                    android:textColor="@color/text_color"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/task_details_requirement"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="作业要求作业要求作业要求作业要求作业要求"
-                    android:textColor="@color/text_color"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/task_details_relative"
-            android:layout_width="0dp"
-            android:layout_height="110dp"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/finish_task_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/icon_orange_btn2"
-                android:gravity="center"
-                android:text="完成"
-                android:textColor="@color/white"
                 android:textSize="14sp" />
 
-            <ImageView
-                android:id="@+id/task_add_course"
+            <TextView
+                android:id="@+id/task_details_classify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:src="@drawable/image_add_course_t" />
+                android:layout_marginTop="6dp"
+                android:text="作业"
+                android:textColor="@color/text_color"
+                android:textSize="12sp" />
 
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/task_chapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="ALOSI"
+                android:textColor="@color/text_color"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/requirement_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_below="@+id/details_linear"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="作业要求"
+            android:textColor="@color/text_color"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/task_details_requirement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="作业要求作业要求作业要求作业要求作业要求"
+            android:textColor="@color/text_color"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/details_linear"
-        android:layout_marginTop="12dp"
+        android:layout_below="@+id/requirement_layout"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/linearlayout_back"
         android:orientation="vertical"
-        android:paddingTop="2dp"
         android:paddingBottom="2dp"
-        android:background="@drawable/linearlayout_back">
+        android:paddingEnd="3dp"
+        android:paddingStart="3dp"
+        android:paddingTop="2dp">
 
         <TextView
             android:layout_width="wrap_content"

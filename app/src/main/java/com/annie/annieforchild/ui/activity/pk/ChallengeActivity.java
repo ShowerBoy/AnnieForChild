@@ -78,7 +78,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
     private CircleImageView challengeImage, computer, character1, character2;
     private RecyclerView challengeList;
     private RelativeLayout pkResultLayout;
-    private ImageView challengeSpeak, pengyouquan, weixin, qq, qqzone, close, close2, star1, star2, star3, star4, star5;
+    private ImageView challengeSpeak, pengyouquan, weixin, qq, qqzone, close, close2, star1, star2, star3, star4, star5, empty;
     private Button tryAgain, tryAgain2;
     private FrameLayout frameLayout;
     private TextView quit;
@@ -114,7 +114,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
     private float star;
     private ShareUtils shareUtils;
     private String imageUrl;
-    private int audioType, audioSource, homeworkid;
+    private int audioType, audioSource, homeworkid, homeworktype;
     private boolean isEnd = false;
     private int round = 0; //轮数
     private Animation leftToRight, rightToLeft;
@@ -137,6 +137,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         challengeImage = findViewById(R.id.challenge_image);
         computer = findViewById(R.id.computer);
         challengeList = findViewById(R.id.challenge_list);
+        empty = findViewById(R.id.challenge_empty);
         quit = findViewById(R.id.challenge_quit);
         listener = new CheckDoubleClickListener(this);
         circleProgressBar.setOnClickListener(listener);
@@ -149,6 +150,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         audioSource = intent.getIntExtra("audioSource", 3);
         imageUrl = intent.getStringExtra("imageUrl");
         homeworkid = intent.getIntExtra("homeworkid", 0);
+        homeworktype = intent.getIntExtra("homeworktype", -1);
         Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(challengeImage);
         computer.setImageResource(R.drawable.icon_system_photo);
 
@@ -342,7 +344,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
     }
 
     private void startRecord(int position) {
-        fileName = lists.get(currentLine - 1).getEnTitle().replace(".", "");
+        fileName = lists.get(currentLine - 1).getEnTitle().replace(".", "").trim();
         setParams(fileName);
         if (mIse == null) {
             return;
@@ -360,20 +362,26 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_PK_CHALLENGE) {
             book = (Book) message.obj;
-            lists.clear();
-            totalLines = 0;
-            for (int i = 0; i < book.getPageContent().size(); i++) {
-                lists.addAll(book.getPageContent().get(i).getLineContent());
-                totalLines = totalLines + book.getPageContent().get(i).getLineContent().size();
-            }
+            if (book.getPageContent() == null || book.getPageContent().size() == 0) {
+                empty.setVisibility(View.VISIBLE);
+                challengeList.setVisibility(View.GONE);
+            } else {
+                empty.setVisibility(View.GONE);
+                challengeList.setVisibility(View.VISIBLE);
+                lists.clear();
+                totalLines = 0;
+                for (int i = 0; i < book.getPageContent().size(); i++) {
+                    lists.addAll(book.getPageContent().get(i).getLineContent());
+                    totalLines = totalLines + book.getPageContent().get(i).getLineContent().size();
+                }
 
-            lists.get(0).setSelect(true);
+                lists.get(0).setSelect(true);
 
 //            totalLines = lists.size();
 //            totalPages = book.getBookTotalPages();
-            adapter.notifyDataSetChanged();
-            countDownDialog.show();
-
+                adapter.notifyDataSetChanged();
+                countDownDialog.show();
+            }
         } else if (message.what == MethodCode.EVENT_GETPKRESULT) {
             PkResult pkResult = (PkResult) message.obj;
             initPopupData(pkResult);
@@ -554,7 +562,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                             score = finalResult.total_score;
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 1, "", imageUrl, 0, homeworkid);
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 1, "", imageUrl, 0, homeworkid, homeworktype);
                         } else {
 //                        showInfo("解析结果为空");
                         }

@@ -123,7 +123,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
     private List<ReleaseBean> lists;
     private ShareUtils shareUtils;
     private String url;
-    private int homeworkid, musicPosition, shareType;
+    private int homeworkid, musicPosition, shareType, homeworktype;
     Runnable runnable;
 
     {
@@ -340,6 +340,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
             collectType = intent.getIntExtra("collectType", 0);
             bookType = intent.getIntExtra("bookType", 0);
             homeworkid = intent.getIntExtra("homeworkid", 0);
+            homeworktype = intent.getIntExtra("homeworktype", -1);
             musicPosition = intent.getIntExtra("musicPosition", 0);
             if (songList != null) {
                 resourUrl_list.clear();
@@ -618,6 +619,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 intent.putExtra("audioSource", audioSource);
                 intent.putExtra("title", song.getBookName());
                 intent.putExtra("homeworkid", homeworkid);
+                intent.putExtra("homeworktype", homeworktype);
                 startActivity(intent);
                 break;
             case R.id.challenge_btn:
@@ -641,6 +643,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 intent1.putExtra("audioType", audioType);
                 intent1.putExtra("audioSource", audioSource);
                 intent1.putExtra("homeworkid", homeworkid);
+                intent1.putExtra("homeworktype", homeworktype);
                 startActivity(intent1);
                 break;
             case R.id.pk_btn:
@@ -675,6 +678,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     bundle.putInt("audioType", audioType);
                     bundle.putInt("audioSource", audioSource);
                     bundle.putInt("homeworkid", homeworkid);
+                    bundle.putInt("homeworktype", homeworktype);
                     intent2.putExtras(bundle);
                     startActivity(intent2);
                 } else {
@@ -712,7 +716,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    presenter.uploadAudioResource(song.getBookId(), 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + song1.getBookName() + ".mp3", 0f, song1.getBookName(), record_time, 3, "", song.getBookImageUrl(), 0, homeworkid);
+                                    presenter.uploadAudioResource(song.getBookId(), 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + song1.getBookName() + ".mp3", 0f, song1.getBookName(), record_time, 3, "", song.getBookImageUrl(), 0, homeworkid, homeworktype);
                                 }
                             }, 1000);
                         } else {
@@ -811,6 +815,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                                             bundle.putInt("audioSource", audioSource);
                                             bundle.putInt("resourceId", song.getBookId());
                                             bundle.putInt("homeworkid", homeworkid);
+                                            bundle.putInt("homeworktype", homeworktype);
                                             intent2.putExtras(bundle);
                                             startActivity(intent2);
                                         }
@@ -825,6 +830,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                                 intent3.putExtra("audioSource", audioSource);
                                 intent3.putExtra("title", song.getBookName());
                                 intent3.putExtra("homeworkid", homeworkid);
+                                intent3.putExtra("homeworktype", homeworktype);
                                 startActivity(intent3);
                             }
                         } else {
@@ -845,6 +851,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                                     bundle.putInt("audioSource", audioSource);
                                     bundle.putInt("resourceId", song.getBookId());
                                     bundle.putInt("homeworkid", homeworkid);
+                                    bundle.putInt("homeworktype", homeworktype);
                                     intent2.putExtras(bundle);
                                     startActivity(intent2);
                                 }
@@ -856,6 +863,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                                 intent3.putExtra("audioSource", audioSource);
                                 intent3.putExtra("title", song.getBookName());
                                 intent3.putExtra("homeworkid", homeworkid);
+                                intent3.putExtra("homeworktype", homeworktype);
                                 startActivity(intent3);
                             }
                         }
