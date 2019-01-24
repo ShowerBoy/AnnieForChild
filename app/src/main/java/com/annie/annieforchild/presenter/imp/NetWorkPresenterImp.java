@@ -145,6 +145,11 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         viewInfo.showLoad();
         interactor.buySuccess();
     }
+    @Override
+    public void OrderQuery(String tradeno,String outtradeno,int type) {
+        viewInfo.showLoad();
+        interactor.OrderQuery(tradeno,outtradeno,type);
+    }
 
     @Override
     public void getNetPreheatConsult(String lessonid) {
@@ -358,13 +363,20 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.obj = listenAndRead;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_BUYNUM) {
-                int canbuy = (int) result;
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.net.NetSuggestActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
-                message.obj = canbuy;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            }else if (what == MethodCode.EVENT_ORDERQUERY) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
                 EventBus.getDefault().post(message);
             }
         }

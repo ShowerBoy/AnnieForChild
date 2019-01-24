@@ -3,6 +3,7 @@ package com.annie.annieforchild.ui.activity.net;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -49,6 +50,9 @@ import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.daimajia.slider.library.SliderLayout;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -87,6 +91,7 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
     private TextView netsuggest_title;
     private HashMap<Integer, String> file_maps;//轮播图图片map
     private String message;
+    private int width;
 
     {
         setRegister(true);
@@ -99,6 +104,8 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
 
     @Override
     protected void initView() {
+        DisplayMetrics dm = this.getResources().getDisplayMetrics();
+        width = dm.widthPixels;
         netsuggest_title=findViewById(R.id.netsuggest_title);
         netSuggestActivity=this;
         Linear_title=findViewById(R.id.ll_title);
@@ -243,9 +250,22 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
                 netSuggestLinear.removeAllViews();
                 for (int i = 0; i < netSuggest.getNetSuggestUrl().size(); i++) {
                     ImageView imageView = new ImageView(this);
-                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    Glide.with(this).load(netSuggest.getNetSuggestUrl().get(i)).into(imageView);
+//                    Glide.with(this).load(netSuggest.getNetSuggestUrl().get(i)).into(imageView);
+
+                    Glide.with(this).load(netSuggest.getNetSuggestUrl().get(i)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            int imageWidth = resource.getWidth();
+                            int imageHeight = resource.getHeight();
+                            int height = width * imageHeight / imageWidth;
+                            ViewGroup.LayoutParams para = imageView.getLayoutParams();
+                            para.height = height;
+                            para.width = width;
+                            imageView.setImageBitmap(resource);
+                        }
+                    });
                     netSuggestLinear.addView(imageView);
                 }
             }
@@ -296,10 +316,16 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
                 finish();
                 break;
             case R.id.goto_buy:
-                if (isBuy == 1) {
-                    presenter.buynum(netid);
-                } else {
-                    presenter.buynum(netid);
+                switch (isBuy){
+                    case 0:
+                        presenter.buynum(netid);
+                        break;
+                    case 1:
+                        Intent intent1 = new Intent(this, MyCourseActivity.class);
+                        startActivity(intent1);
+                        break;
+                    case 2:
+                        break;
                 }
 //                if(isBuy==0){
 //                    createAlertDialog(this);
@@ -352,7 +378,6 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
                 intent.putExtra("netid", netid);
                 intent.putExtra("type", type);
                 startActivity(intent);
-
             }
         });
     }

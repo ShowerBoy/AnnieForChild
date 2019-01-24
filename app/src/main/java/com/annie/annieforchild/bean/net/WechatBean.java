@@ -13,6 +13,14 @@ public class WechatBean implements Serializable {
     private String partnerId;
     private String timeStamp;
     private String sign;
+    private String out_trade_no;
+    public String getOut_trade_no(){
+        return out_trade_no;
+    }
+    public void setOut_trade_no(String outtradeno){
+        this.out_trade_no=outtradeno;
+    }
+
 
     public String getPrepayId() {
         return prepayId;

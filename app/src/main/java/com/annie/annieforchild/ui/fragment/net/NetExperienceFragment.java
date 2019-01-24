@@ -4,8 +4,10 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,6 +29,9 @@ import com.annie.annieforchild.ui.adapter.NetBeanAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.baselibrary.base.BaseFragment;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -47,6 +52,7 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
     private ImageView network_consult, network_faq;
     private LinearLayout net_imglayout_bottom;
     private TextView network_teacher_wx;
+    private int width;
 
     {
         setRegister(true);
@@ -86,6 +92,8 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
 
     @Override
     protected void initView(View view) {
+        DisplayMetrics dm = this.getResources().getDisplayMetrics();
+        width = dm.widthPixels;
         net_imglayout_bottom = view.findViewById(R.id.net_imglist_bottom);
         listener = new CheckDoubleClickListener(this);
         network_consult = view.findViewById(R.id.network_consult);
@@ -134,15 +142,27 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
                 imglist_bottom.clear();
                 imglist_bottom.addAll(netWork.getExperienceList().getImageList().getBottom());
                 imglist_top.addAll(netWork.getExperienceList().getImageList().getTop());
-
                 adapter.notifyDataSetChanged();
                 if (imglist_bottom.size() > 0) {
                     net_imglayout_bottom.removeAllViews();
                     for (int i = 0; i < imglist_bottom.size(); i++) {
                         ImageView imageView = new ImageView(getContext());
-                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                         imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                        Glide.with(this).load(imglist_bottom.get(i)).into(imageView);
+
+                        Glide.with(this).load(imglist_bottom.get(i)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                int imageWidth = resource.getWidth();
+                                int imageHeight = resource.getHeight();
+                                int height = width * imageHeight / imageWidth;
+                                ViewGroup.LayoutParams para = imageView.getLayoutParams();
+                                para.height = height;
+                                para.width = width;
+                                imageView.setImageBitmap(resource);
+                            }
+                        });
+//                        Glide.with(this).load(imglist_bottom.get(i)).into(imageView);
                         net_imglayout_bottom.addView(imageView);
                     }
                 }
@@ -157,7 +177,6 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
                 Intent intent1 = new Intent(getContext(), NetFAQActivity.class);
                 intent1.putExtra("title","购课咨询");
                 intent1.putExtra("type","consult");
-
                 startActivity(intent1);
                 break;
             case R.id.network_faq:

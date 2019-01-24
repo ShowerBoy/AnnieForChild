@@ -96,9 +96,9 @@
                 app:layout_constraintTop_toBottomOf="@id/network_teacher"
                 app:layout_constraintLeft_toLeftOf="@id/network_teacher"
                 android:layout_marginTop="5dp"
-                android:text="加入安妮花网课咨询群，了解更多详情"
+                android:text="加入安妮花网课咨询群，了解更多"
                 android:textColor="#454545"
-                android:textSize="13sp" />
+                android:textSize="11sp" />
             <TextView
                 android:id="@+id/network_teacher_wx"
                 android:layout_width="0dp"

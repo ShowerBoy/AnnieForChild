@@ -125,4 +125,5 @@ public class MethodType {
     final public static String GETNETEXPDETAILS = "experienceDetails"; //购买的网课具体内容
     final public static String GETPREHEATCONSULT = "PreheatingClass"; //预热课
     final public static String GETLISTENANDREAD = "listeningandreading"; //泛听泛读
+    final public static String ORDERQUERY = "OrderQuery"; //泛听泛读
 }

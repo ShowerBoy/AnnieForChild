@@ -118,6 +118,8 @@
         <LinearLayout
             android:id="@+id/net_imglist_bottom"
             android:layout_width="match_parent"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"></LinearLayout>
 
