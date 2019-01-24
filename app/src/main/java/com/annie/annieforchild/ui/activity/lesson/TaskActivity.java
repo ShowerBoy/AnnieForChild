@@ -93,21 +93,24 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
         //TODO:测试
 //        fragmentCount = 2;
         //TODO:正式
-        if (SystemUtils.userInfo.getStatus() == 0) {
-            if (SystemUtils.userInfo.getIsnetstudent() == 0) {
-                fragmentCount = 1;
-                taskType = 0;
+        if (SystemUtils.userInfo != null) {
+            if (SystemUtils.userInfo.getStatus() == 0) {
+                if (SystemUtils.userInfo.getIsnetstudent() == 0) {
+                    fragmentCount = 1;
+                    taskType = 0;
+                } else {
+                    fragmentCount = 2;
+                }
             } else {
-                fragmentCount = 2;
-            }
-        } else {
-            if (SystemUtils.userInfo.getIsnetstudent() == 0) {
-                fragmentCount = 0;
-            } else {
-                fragmentCount = 1;
-                taskType = 1;
+                if (SystemUtils.userInfo.getIsnetstudent() == 0) {
+                    fragmentCount = 0;
+                } else {
+                    fragmentCount = 1;
+                    taskType = 1;
+                }
             }
         }
+
 
         if (fragmentCount == 2) {
             taskLayout.setVisibility(View.VISIBLE);

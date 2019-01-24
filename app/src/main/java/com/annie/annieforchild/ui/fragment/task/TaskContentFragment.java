@@ -291,14 +291,18 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
                 text = remarks.getText().toString().trim();
                 if (text != null && text.length() != 0) {
                     if (complete != -1) {
-                        if (tag == 0) {
-                            presenter.uploadTaskImage(taskid, TaskContentActivity.pathList1, type);
-                        } else if (tag == 1) {
-                            presenter.uploadTaskImage(taskid, TaskContentActivity.pathList2, type);
-                        } else if (tag == 2) {
-                            presenter.uploadTaskImage(taskid, TaskContentActivity.pathList3, type);
-                        } else if (tag == 3) {
-                            presenter.uploadTaskImage(taskid, TaskContentActivity.pathList4, type);
+                        if (TaskContentActivity.pathList1.size() != 0) {
+                            if (tag == 0) {
+                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList1, type);
+                            } else if (tag == 1) {
+                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList2, type);
+                            } else if (tag == 2) {
+                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList3, type);
+                            } else if (tag == 3) {
+                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList4, type);
+                            }
+                        } else {
+                            presenter.submitTask(taskid, text, complete, type);
                         }
                     } else {
                         showInfo("请家长确认");
