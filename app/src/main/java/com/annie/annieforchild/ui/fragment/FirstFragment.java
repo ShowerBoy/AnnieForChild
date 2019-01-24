@@ -149,7 +149,6 @@ public class FirstFragment extends BaseFragment implements MainView,BaseSliderVi
 
             @Override
             public void onPageSelected(int i) {
-                Log.e("111",i+"");
             }
 
             @Override

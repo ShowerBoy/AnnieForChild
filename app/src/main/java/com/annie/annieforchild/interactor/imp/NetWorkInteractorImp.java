@@ -2,6 +2,7 @@ package com.annie.annieforchild.interactor.imp;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -31,6 +32,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wanglei on 2018/9/22.
@@ -226,6 +228,18 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         startQueue();
     }
 
+    @Override
+    public  void OrderQuery(String tradeno,String outtradeno,int type) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.ORDERQUERY, RequestMethod.POST);
+        request.add("token", SystemUtils.token);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("tradeno", tradeno);
+        request.add("outtradeno", outtradeno);
+        request.add("type", type);
+        addQueue(MethodCode.EVENT_ORDERQUERY, request);
+        startQueue();
+    }
+
 
     @Override
     protected void onSuccess(int what, Object response) {
@@ -294,9 +308,9 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 }
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_BUYNETWORK) {
-                Log.e("ttt", data + "");
                 if (data != null) {
                     if (payment == 0) {
+
                         listener.Success(what, data);
                     } else {
                         WechatBean wechatBean = JSON.parseObject(data, WechatBean.class);
@@ -332,6 +346,20 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
                 int canbuy = dataobj.getInteger("canbuy");
                 listener.Success(what, canbuy);
+            }else if(what==MethodCode.EVENT_ORDERQUERY){
+                String trade_status="";
+                if(payment==0){
+                    JSONObject jsonObject1 = JSON.parseObject(data);
+                    String response1= jsonObject1.getString("alipay_trade_query_response");
+                    JSONObject jsonObject2 = JSON.parseObject(response1);
+                    trade_status= jsonObject2.getString("trade_status");
+                    listener.Success(what, trade_status);
+                }else{
+                    JSONObject jsonObject1 = JSON.parseObject(data);
+                    trade_status= jsonObject1.getString("trade_state");
+                    listener.Success(what, trade_status);
+                }
+
             }
         }
     }

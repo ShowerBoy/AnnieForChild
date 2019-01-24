@@ -54,31 +54,45 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
         if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             switch (baseResp.errCode) {
                 case 0:
-                    Toast.makeText(this, "支付成功", Toast.LENGTH_LONG).show();
                     /**
                      *
                      * {@link NetWorkActivity#onMainEventThread(JTMessage)}
+                     * {@link ConfirmOrderActivity#onMainEventThread(JTMessage)}
                      */
                     JTMessage message = new JTMessage();
                     message.what = MethodCode.EVENT_PAY;
-                    message.obj = 1;
+                    message.obj = 0;
                     EventBus.getDefault().post(message);
-                    Intent intent = new Intent(this, PaySuccessActivity.class);
-                    intent.putExtra("price", ConfirmOrderActivity.buyPrice);
-                    startActivity(intent);
-                   finish();
+                    finish();
+//                    Intent intent = new Intent(this, PaySuccessActivity.class);
+//                    intent.putExtra("price", ConfirmOrderActivity.buyPrice);
+//                    startActivity(intent);
+//                    finish();
                     break;
                 case -2:
-                    Toast.makeText(this, "支付取消", Toast.LENGTH_LONG).show();
-                    Intent intent1 = new Intent(this, PayFailActivity.class);
-                    startActivity(intent1);
+//                    /**
+//                     *
+//                     * {@link NetWorkActivity#onMainEventThread(JTMessage)}
+//                     * {@link ConfirmOrderActivity#onMainEventThread(JTMessage)}
+//                     */
                     finish();
+                    JTMessage message1 = new JTMessage();
+                    message1.what = MethodCode.EVENT_PAY;
+                    message1.obj = 2;//代表取消支付
+                    EventBus.getDefault().post(message1);
+//                    Intent intent1 = new Intent(this, PayFailActivity.class);
+//                    startActivity(intent1);
+
                     break;
                 default:
-                    Toast.makeText(this, "支付失败", Toast.LENGTH_LONG).show();
-                    Intent intent2 = new Intent(this, PayFailActivity.class);
-                    startActivity(intent2);
                     finish();
+                    JTMessage message2 = new JTMessage();
+                    message2.what = MethodCode.EVENT_PAY;
+                    message2.obj = 1;//代表支付失败
+                    EventBus.getDefault().post(message2);
+//                    Intent intent2 = new Intent(this, PayFailActivity.class);
+//                    startActivity(intent2);
+//                    finish();
                     break;
             }
         }

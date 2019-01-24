@@ -41,7 +41,7 @@
 
     <!--</com.annie.annieforchild.Utils.views.GradientScrollView>-->
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,6 +49,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/title_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="0dp">
@@ -77,18 +78,24 @@
 
 
         </RelativeLayout>
-        <ImageView
-            android:id="@+id/cutline"
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:alpha="0"
-            android:background="#f2f2f2"></ImageView>
+            android:layout_height="2dp"
+            android:layout_below="@id/title_layout"
+            android:progressDrawable="@drawable/pg"
+            android:visibility="gone"
+
+            />
         <WebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@id/progressBar1"
+           >
 
         </WebView>
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

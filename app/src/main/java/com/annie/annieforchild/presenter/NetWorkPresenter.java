@@ -38,4 +38,6 @@ public interface NetWorkPresenter {
     void getListeningAndReading(String week, String classid);
 
     void buynum(int netid);
+
+    void OrderQuery(String tradeno,String outtradeno,int type);
 }

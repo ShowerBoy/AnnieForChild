@@ -1,13 +1,18 @@
 package com.annie.annieforchild.ui.activity.net;
 
 import android.graphics.Color;
+import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
@@ -24,6 +29,7 @@ public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick{
     //    LinearLayout Linear_title;
     TextView netfaq_title;
     private int height;
+    private ProgressBar progressBar;
     //    GradientScrollView scrollView;
     @Override
     protected int getLayoutId() {
@@ -32,23 +38,33 @@ public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick{
 
     @Override
     protected void initView() {
+        progressBar=findViewById(R.id.progressBar1);
 //        Linear_title=findViewById(R.id.ll_title);
         netfaq_title=findViewById(R.id.netfaq_title);
         listner = new CheckDoubleClickListener(this);
         back = findViewById(R.id.back);
         back.setOnClickListener(listner);
         webView = findViewById(R.id.webview);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setLoadsImagesAutomatically(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.setWebViewClient(new WebViewClient() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                //网页在webView中打开
+                if(Build.VERSION.SDK_INT <=  Build.VERSION_CODES.LOLLIPOP){//安卓5.0的加载方法
+                    view.loadUrl(request.toString());
+                }else {//5.0以上的加载方法
+                    view.loadUrl(request.getUrl().toString());
+                }
                 return true;
             }
         });
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        webView.getSettings().setLoadWithOverviewMode(true);
-
         String title=getIntent().getStringExtra("title");
         String type=getIntent().getStringExtra("type");
         netfaq_title.setText(title);
@@ -57,6 +73,19 @@ public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick{
         }else{
             webView.loadUrl("https://demoapi.anniekids.net/Api/NetclassApi/NetclassFAQ");
         }
+
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if(newProgress==100){
+                    progressBar.setVisibility(View.GONE);//加载完网页进度条消失
+                }
+                else{
+                    progressBar.setVisibility(View.VISIBLE);//开始加载网页时显示进度条
+                    progressBar.setProgress(newProgress);//设置进度值
+                }
+            }
+        });
 
 
 //        banner = findViewById(R.id.net_banner);

@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alipay.sdk.app.PayTask;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
@@ -35,7 +36,9 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.PayResult;
 import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.net.Gift;
+import com.annie.annieforchild.bean.net.ListenAndRead;
 import com.annie.annieforchild.bean.net.NetSuggest;
+import com.annie.annieforchild.bean.net.Payresulrinfo;
 import com.annie.annieforchild.bean.net.WechatBean;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
@@ -98,6 +101,8 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     private int count; //礼包可选数
     private boolean canBuy = false; //能否购买
     public static String buyPrice;
+    private String wxout_trade_no="";
+    private int wx_status=-1;
 
     {
         setRegister(true);
@@ -153,36 +158,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 return false;
             }
         });
-//        zhifubao.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    payment = 0;
-//                    weixin.setChecked(false);
-//                } else {
-//                    if (payment == 1) {
-//                        zhifubao.setChecked(false);
-//                    } else {
-//                        zhifubao.setChecked(true);
-//                    }
-//                }
-//            }
-//        });
-//        weixin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    payment = 1;
-//                    zhifubao.setChecked(false);
-//                } else {
-//                    if (payment == 0) {
-//                        weixin.setChecked(false);
-//                    } else {
-//                        weixin.setChecked(true);
-//                    }
-//                }
-//            }
-//        });
+
         zhifubao.setSelected(true);
         netid = getIntent().getIntExtra("netid", 0);
         type = getIntent().getStringExtra("type");
@@ -314,6 +290,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 }
             } else {
                 WechatBean wechatBean = (WechatBean) message.obj;
+                wxout_trade_no=wechatBean.getOut_trade_no();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -328,16 +305,71 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                         wxapi.sendReq(payReq);
                     }
                 }).start();
-                finish();
+//                finish();
             }
         } else if (message.what == MethodCode.EVENT_PAY) {
-            if (payment == 1) {
-                Intent intent = new Intent(ConfirmOrderActivity.this, MyCourseActivity.class);
+             wx_status=(int)message.obj;
+
+
+//            if(payment==1 && wxout_trade_no.length()>0){
+//                presenter.OrderQuery("",
+//                        wxout_trade_no,
+//                        payment);
+//            }
+//            if (payment == 1) {
+//                Intent intent = new Intent(ConfirmOrderActivity.this, MyCourseActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+        }else if(message.what ==MethodCode.EVENT_ORDERQUERY){
+            if(payment==0){
+                String trade_status=(String)message.obj;
+                if(trade_status.equals("TRADE_SUCCESS")){
+                    Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
+                    intent.putExtra("price", buyPrice);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Intent intent = new Intent(ConfirmOrderActivity.this, PayFailActivity.class);
+                    intent.putExtra("price", buyPrice);
+                    startActivity(intent);
+                    finish();
+                }
+            }else{
+                String trade_status=(String)message.obj;
+                if(trade_status.equals("SUCCESS")){
+                    Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
+                    intent.putExtra("price", buyPrice);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Intent intent = new Intent(ConfirmOrderActivity.this, PayFailActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(payment==1 && wxout_trade_no.length()>0){
+            if(wx_status==0){
+                presenter.OrderQuery("",
+                        wxout_trade_no,
+                        payment);
+            }else if(wx_status==2){
+                Toast.makeText(this,"支付取消",Toast.LENGTH_SHORT).show();
+            }else if(wx_status==1){//支付失败
+                Intent intent = new Intent(ConfirmOrderActivity.this, PayFailActivity.class);
                 startActivity(intent);
                 finish();
             }
+
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -366,28 +398,31 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                      */
                     String resultInfo = payResult.getResult();// 同步返回需要验证的信息
                     String resultStatus = payResult.getResultStatus();
+
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                        showInfo("支付成功");
+                        if(resultInfo.length()>0){
+                            Payresulrinfo payresulrinfo = JSON.parseObject(resultInfo, Payresulrinfo.class);
+                            presenter.OrderQuery(payresulrinfo.getAlipay_trade_app_pay_response().getTrade_no(),
+                                    payresulrinfo.getAlipay_trade_app_pay_response().getOut_trade_no(),
+                                    payment);
+                        }
                         /**
+                         *
                          * {@link NetWorkActivity#onMainEventThread(JTMessage)}
                          */
                         JTMessage message = new JTMessage();
                         message.what = MethodCode.EVENT_PAY;
                         message.obj = 1;
                         EventBus.getDefault().post(message);
-                        Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
-                        intent.putExtra("price", buyPrice);
-                        startActivity(intent);
-                        finish();
+                    }else if(TextUtils.equals(resultStatus, "6001")){
+                        Toast.makeText(ConfirmOrderActivity.this,"支付取消",Toast.LENGTH_SHORT).show();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                        showInfo("支付失败");
                         Intent intent = new Intent(ConfirmOrderActivity.this, PayFailActivity.class);
                         startActivity(intent);
                         finish();
-
                     }
                     break;
                 }
@@ -403,8 +438,6 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
             public void run() {
                 PayTask alipay = new PayTask(ConfirmOrderActivity.this);
                 Map<String, String> result = alipay.payV2(data, true);
-                Log.i("msp", result.toString());
-
                 Message msg = new Message();
                 msg.what = SDK_PAY_FLAG;
                 msg.obj = result;
