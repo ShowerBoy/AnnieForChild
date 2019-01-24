@@ -148,10 +148,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 
             @Override
             public void onPageSelected(int i) {
-<<<<<<< HEAD
                 Log.e("111", i + "");
-=======
->>>>>>> zhourong
             }
 
             @Override
