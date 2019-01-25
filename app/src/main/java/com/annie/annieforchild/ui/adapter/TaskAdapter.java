@@ -118,6 +118,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskViewHolder> {
                 } else {
                     intent.putExtra("week", lists.get(i).getWeek());
                 }
+                intent.putExtra("tabPosition", -1);
                 context.startActivity(intent);
             }
         }));

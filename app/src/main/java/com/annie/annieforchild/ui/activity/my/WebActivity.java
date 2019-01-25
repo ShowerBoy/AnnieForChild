@@ -31,6 +31,7 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -147,7 +148,12 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                         message1.obj = 4;//刷新页面
                         EventBus.getDefault().post(message1);
                         finish();
-                    }else if(getValueByName(url, "into").equals("2")){
+                    } else if (getValueByName(url, "into").equals("2")) {
+                        finish();
+                    } else if (getValueByName(url, "into").equals("3")) {
+                        Intent intent1 = new Intent();
+                        intent1.setClass(WebActivity.this, GrindEarActivity.class);
+                        startActivity(intent1);
                         finish();
                     }
 //                    view.loadUrl(url);

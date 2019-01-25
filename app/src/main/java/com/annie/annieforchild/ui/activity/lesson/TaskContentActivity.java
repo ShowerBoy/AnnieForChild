@@ -60,7 +60,8 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
     private Dialog dialog;
     private TaskContent taskContent;
     private TaskDetails taskDetails;
-    private int pagePosition = 0, taskId1, taskId2, taskId3, taskId4;
+    private int pagePosition = 0;
+    public static int tabPosition;
 
     {
         setRegister(true);
@@ -88,6 +89,7 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
             } else {
                 week = intent.getStringExtra("week");
             }
+            tabPosition = intent.getIntExtra("tabPosition", -1);
         }
 
         fragmentAdapter = new TaskContentAdapter(getSupportFragmentManager());
@@ -95,6 +97,10 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
         tab.setViewPager(mVP);
+        if (tabPosition != -1) {
+            tab.setSelectItem(tabPosition);
+            mVP.setCurrentItem(tabPosition);
+        }
         tab.setOnPageChangeListener(this);
     }
 
@@ -199,10 +205,7 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
         if (message.what == MethodCode.EVENT_TASKDETAILS) {
             taskContent = (TaskContent) message.obj;
             if (taskContent != null) {
-                taskId1 = taskContent.getInclassList().getTaskid();
-                taskId2 = taskContent.getPrepareList().getTaskid();
-                taskId3 = taskContent.getSeriesList().getTaskid();
-                taskId4 = taskContent.getOtherList().getTaskid();
+
             }
         } else if (message.what == MethodCode.EVENT_SELECT) {
             int position = (int) message.obj;

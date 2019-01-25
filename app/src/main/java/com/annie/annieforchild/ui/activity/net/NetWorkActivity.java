@@ -63,14 +63,14 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
     private NetExperienceFragment netExperienceFragment;
     private NetSpecialFragment netSpecialFragment;
     private NetSuggestFragment netSuggestFragment;
-    private  NetWorkFragmentAdapter fragmentAdapter;
+    private NetWorkFragmentAdapter fragmentAdapter;
     private HashMap<Integer, String> file_maps;//轮播图图片map
     private NetWorkPresenter presenter;
     private NetWorkAdapter adapter;
     private AlertHelper helper;
     private Dialog dialog;
     private LinearLayout net_suggest_bt_layout;
-    private Button to_NetExperience,to_NetTest;
+    private Button to_NetExperience, to_NetTest;
 
 
     {
@@ -97,10 +97,10 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
 //        manager.setOrientation(LinearLayoutManager.VERTICAL);
 //        recycler.setLayoutManager(manager);
 //        recycler.setNestedScrollingEnabled(false);
-        net_suggest_bt_layout=findViewById(R.id.net_suggest_bt_layout);
+        net_suggest_bt_layout = findViewById(R.id.net_suggest_bt_layout);
         net_suggest_bt_layout.setVisibility(View.VISIBLE);
-        to_NetExperience=findViewById(R.id.to_NetExperience);
-        to_NetTest=findViewById(R.id.to_NetTest);
+        to_NetExperience = findViewById(R.id.to_NetExperience);
+        to_NetTest = findViewById(R.id.to_NetTest);
         to_NetExperience.setOnClickListener(listener);
         to_NetTest.setOnClickListener(listener);
 
@@ -128,9 +128,11 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
         presenter.initViewAndData();
         presenter.getNetHomeData();
 
-        String to_exp=getIntent().getStringExtra("to_exp");
-        if(to_exp.equals("1")){
-            mVP.setCurrentItem(1);
+        String to_exp = getIntent().getStringExtra("to_exp");
+        if (to_exp != null) {
+            if (to_exp.equals("1")) {
+                mVP.setCurrentItem(1);
+            }
         }
     }
 
@@ -150,7 +152,7 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
                 break;
             case R.id.to_NetTest://跳转到H5页面
                 Intent intent = new Intent(this, WebActivity.class);
-                intent.putExtra("url","http://study.anniekids.org/questionnaire/index.html?name="+SystemUtils.defaultUsername );
+                intent.putExtra("url", "http://study.anniekids.org/questionnaire/index.html?name=" + SystemUtils.defaultUsername);
 //                intent.putExtra("aabb",1);//标题是否取消1：取消
                 intent.putExtra("title", "测试");
                 startActivity(intent);
@@ -175,10 +177,10 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
 //            lists.addAll(netWork.getNetList());
 //            adapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_PAY) {
-            int data=(int)message.obj;
-            if(data==4){
+            int data = (int) message.obj;
+            if (data == 4) {
                 mVP.setCurrentItem(1);
-            }else{
+            } else {
                 presenter.getNetHomeData();
             }
         }
@@ -220,7 +222,7 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
 
     @Override
     public void onPageSelected(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 net_suggest_bt_layout.setVisibility(View.VISIBLE);
                 break;
