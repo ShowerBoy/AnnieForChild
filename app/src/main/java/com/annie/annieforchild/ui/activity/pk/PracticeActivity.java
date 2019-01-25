@@ -403,7 +403,11 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
 
     private void refresh() {
         if (song != null) {
-            Glide.with(this).load(song.getBookImageUrl()).into(practiceImage);
+            if (song.getBookImageUrl() == null || song.getBookImageUrl().length() == 0) {
+                Glide.with(this).load(song1.getBookImageUrl()).into(practiceImage);
+            } else {
+                Glide.with(this).load(song.getBookImageUrl()).into(practiceImage);
+            }
             practiceTitle.setText(song.getBookName());
             if (song1 != null) {
 //                if (song1.getIsCollected() == 0) {

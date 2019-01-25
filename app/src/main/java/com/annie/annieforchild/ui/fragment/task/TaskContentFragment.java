@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -39,6 +40,7 @@ import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -52,6 +54,7 @@ import java.util.List;
 
 public class TaskContentFragment extends BaseFragment implements SongView, OnCheckDoubleClick, RadioGroup.OnCheckedChangeListener {
     private TextView feedback, advice;
+    private ExpandableTextView expandableTextView, expandableTextView2;
     private ImageView empty;
     private RelativeLayout rebackLayout;
     private NestedScrollView nestedScrollView;
@@ -147,8 +150,8 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
 
     @Override
     protected void initView(View view) {
-        feedback = view.findViewById(R.id.task_content_feedback);
-        advice = view.findViewById(R.id.task_content_suggest);
+//        feedback = view.findViewById(R.id.task_content_feedback);
+//        advice = view.findViewById(R.id.task_content_suggest);
         remarks = view.findViewById(R.id.task_content_remarks);
         submitBtn = view.findViewById(R.id.submit_task);
         taskRecycler = view.findViewById(R.id.task_content_recycler);
@@ -160,6 +163,8 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
         confirmLayout = view.findViewById(R.id.task_confirm_layout);
         nestedScrollView = view.findViewById(R.id.task_content_scroll);
         empty = view.findViewById(R.id.task_content_empty);
+        expandableTextView = view.findViewById(R.id.expand_text_view);
+        expandableTextView2 = view.findViewById(R.id.expand_text_view2);
 
         listener = new CheckDoubleClickListener(this);
         submitBtn.setOnClickListener(listener);
@@ -273,9 +278,11 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
     private void refresh() {
         if (taskDetails != null) {
             if (tag == 0) {
-                feedback.setText(taskDetails.getFeedback());
+//                feedback.setText(taskDetails.getFeedback());
+                expandableTextView.setText(taskDetails.getFeedback());
             }
-            advice.setText(taskDetails.getAdvise());
+//            advice.setText(taskDetails.getAdvise());
+            expandableTextView2.setText(taskDetails.getAdvise());
             remarks.setText(taskDetails.getRemarks() != null ? taskDetails.getRemarks() : "");
             isfinish = taskDetails.getIsfinish();
             if (isfinish == 0) {
