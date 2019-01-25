@@ -8,31 +8,31 @@ import java.util.List;
  */
 
 public class TaskBean implements Serializable {
-    private List<Task> inclassList;
-    private List<Task> seriesList;
-    private List<Task> otherList;
+    private String totalflower;
+    private List<Task> courseList;
+    private List<Task> netWorkList;
 
-    public List<Task> getInclassList() {
-        return inclassList;
+    public String getTotalflower() {
+        return totalflower;
     }
 
-    public void setInclassList(List<Task> inclassList) {
-        this.inclassList = inclassList;
+    public void setTotalflower(String totalflower) {
+        this.totalflower = totalflower;
     }
 
-    public List<Task> getSeriesList() {
-        return seriesList;
+    public List<Task> getCourseList() {
+        return courseList;
     }
 
-    public void setSeriesList(List<Task> seriesList) {
-        this.seriesList = seriesList;
+    public void setCourseList(List<Task> courseList) {
+        this.courseList = courseList;
     }
 
-    public List<Task> getOtherList() {
-        return otherList;
+    public List<Task> getNetWorkList() {
+        return netWorkList;
     }
 
-    public void setOtherList(List<Task> otherList) {
-        this.otherList = otherList;
+    public void setNetWorkList(List<Task> netWorkList) {
+        this.netWorkList = netWorkList;
     }
 }

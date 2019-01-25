@@ -28,9 +28,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="添加"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:text="添加"
                 android:textColor="@color/text_black"
                 android:textSize="20sp" />
 
@@ -145,6 +145,9 @@
                         android:id="@+id/sex_boy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/radio_group_select"
+                        android:drawablePadding="6dp"
                         android:padding="2dp"
                         android:text="男"
                         android:textColor="@color/text_color" />
@@ -153,7 +156,10 @@
                         android:id="@+id/sex_girl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="16dp"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/radio_group_select"
+                        android:drawablePadding="6dp"
                         android:padding="2dp"
                         android:text="女"
                         android:textColor="@color/text_color" />

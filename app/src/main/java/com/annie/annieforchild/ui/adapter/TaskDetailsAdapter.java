@@ -18,6 +18,7 @@ import com.annie.annieforchild.bean.material.Material;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.task.Homework;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
+import com.annie.annieforchild.ui.activity.VideoActivity;
 import com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.TaskDetailsViewHolder;
@@ -37,14 +38,14 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
     private LayoutInflater inflater;
     private GrindEarPresenter presenter;
     private boolean isLike, isListen;
-    private int taskid, state, likes, listen;
+    private int taskid, likes, listen, type;
 
-    public TaskDetailsAdapter(Context context, List<Homework> lists, GrindEarPresenter presenter, int taskid, int state) {
+    public TaskDetailsAdapter(Context context, List<Homework> lists, GrindEarPresenter presenter, int taskid, int type) {
         this.context = context;
         this.lists = lists;
         this.presenter = presenter;
-        this.state = state;
         this.taskid = taskid;
+        this.type = type;
         isLike = false;
         isListen = false;
         inflater = LayoutInflater.from(context);
@@ -60,8 +61,15 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
     @Override
     public void onBindViewHolder(TaskDetailsViewHolder taskDetailsViewHolder, int i) {
         taskDetailsViewHolder.title.setText(lists.get(i).getBookname());
+        taskDetailsViewHolder.classify.setText(lists.get(i).getBookClassify() != null ? lists.get(i).getBookClassify() : "");
         taskDetailsViewHolder.requirement.setText(lists.get(i).getTaskrequirement() != null ? lists.get(i).getTaskrequirement() : "");
         Glide.with(context).load(lists.get(i).getBookimage()).error(R.drawable.image_recording_empty).into(taskDetailsViewHolder.image);
+        taskDetailsViewHolder.chapter.setText(lists.get(i).getChaptertitle() != null ? lists.get(i).getChaptertitle() : "");
+        if (lists.get(i).getBookid() == 0) {
+            taskDetailsViewHolder.addCourse.setVisibility(View.GONE);
+        } else {
+            taskDetailsViewHolder.addCourse.setVisibility(View.VISIBLE);
+        }
         if (lists.get(i).getIsjoinmaterial() == 0) {
             taskDetailsViewHolder.addCourse.setImageResource(R.drawable.image_add_course_t);
         } else {
@@ -91,6 +99,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
             taskDetailsViewHolder.heart2.setImageResource(R.drawable.icon_heart_f);
             taskDetailsViewHolder.heart3.setImageResource(R.drawable.icon_heart_f);
         }
+
         if (lists.get(i).getListen() == 1) {
             taskDetailsViewHolder.star.setImageResource(R.drawable.icon_star2_t);
             taskDetailsViewHolder.moon.setImageResource(R.drawable.icon_moon_f);
@@ -108,18 +117,20 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
             taskDetailsViewHolder.moon.setImageResource(R.drawable.icon_moon_f);
             taskDetailsViewHolder.sun.setImageResource(R.drawable.icon_sun_f);
         }
+
         taskDetailsViewHolder.finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (lists.get(i).getIsfinish() == 0) {
                     if (isLike && isListen) {
-                        presenter.completeTask(taskid, likes, listen, lists.get(i).getHomeworkid());
+                        presenter.completeTask(taskid, type, likes, listen, lists.get(i).getHomeworkid());
                     } else {
                         SystemUtils.show(context, "请选择“喜欢程度”和“听的情况”");
                     }
                 }
             }
         });
+
         taskDetailsViewHolder.heart1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,6 +143,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                 }
             }
         });
+
         taskDetailsViewHolder.heart2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +156,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                 }
             }
         });
+
         taskDetailsViewHolder.heart3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,6 +169,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                 }
             }
         });
+
         taskDetailsViewHolder.star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,6 +182,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                 }
             }
         });
+
         taskDetailsViewHolder.moon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,6 +195,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                 }
             }
         });
+
         taskDetailsViewHolder.sun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,6 +208,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                 }
             }
         });
+
         taskDetailsViewHolder.linear.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
             @Override
             public void onCheckDoubleClick(View view) {
@@ -206,6 +223,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                     intent.putExtra("audioType", 3);
                     intent.putExtra("audioSource", 12);
                     intent.putExtra("homeworkid", lists.get(i).getHomeworkid());
+                    intent.putExtra("homeworktype", type);
                     int bookType;
                     if (lists.get(i).getType().equals("moerduo")) {
                         bookType = 0;
@@ -214,9 +232,22 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                     }
                     intent.putExtra("bookType", bookType);
                     context.startActivity(intent);
+                } else {
+                    if (lists.get(i).getAnimationUrl() != null && lists.get(i).getAnimationUrl().length() != 0) {
+                        //TODO：播放动画
+                        Intent intent = new Intent(context, VideoActivity.class);
+                        intent.putExtra("url", lists.get(i).getAnimationUrl());
+                        intent.putExtra("imageUrl", lists.get(i).getBookimage());
+                        intent.putExtra("name", lists.get(i).getBookname());
+                        intent.putExtra("id", lists.get(i).getBookid());
+                        context.startActivity(intent);
+                    } else {
+
+                    }
                 }
             }
         }));
+
         taskDetailsViewHolder.addCourse.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
             @Override
             public void onCheckDoubleClick(View view) {

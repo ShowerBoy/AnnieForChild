@@ -191,14 +191,38 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 startActivity(intent);
                 break;
             case R.id.goto_moerduo:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
                 intent.setClass(getContext(), GrindEarActivity.class);
                 startActivity(intent);
                 break;
             case R.id.goto_reading:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
                 intent.setClass(getContext(), ReadingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.goto_speaking:
+                if (SystemUtils.tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (SystemUtils.childTag == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
                 intent.setClass(getContext(), SpeakingActivity.class);
                 startActivity(intent);
                 break;

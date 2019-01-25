@@ -92,7 +92,7 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
     private Dialog dialog;
     private Handler handler = new Handler();
     private Runnable runnable;
-    private int homeworkid;
+    private int homeworkid, homeworktype;
     private Random random;
     private PopupWindow popupWindow;
     private View popupView;
@@ -205,6 +205,7 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
             bookName = intent.getStringExtra("bookName");
             bookImageUrl = intent.getStringExtra("bookImageUrl");
             homeworkid = intent.getIntExtra("homeworkid", homeworkid);
+            homeworktype = intent.getIntExtra("homeworktype", -1);
             title.setText(bookName);
 //            if (myResourceUrl != null && myResourceUrl.length() != 0) {
 //                play.setImageResource(R.drawable.icon_book_play2);
@@ -549,7 +550,7 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    presenter.uploadAudioResource(bookId, 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + bookName + ".mp3", 0f, bookName, record_time, 3, "", bookImageUrl, animationCode, homeworkid);
+                                    presenter.uploadAudioResource(bookId, 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + bookName + ".mp3", 0f, bookName, record_time, 3, "", bookImageUrl, animationCode, homeworkid, homeworktype);
                                 }
                             }, 1000);
                         } else {

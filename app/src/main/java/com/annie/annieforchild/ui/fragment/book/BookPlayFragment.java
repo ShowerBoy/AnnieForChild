@@ -89,7 +89,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
     private AlertHelper helper;
     private Dialog dialog;
     private String title, imageUrl;
-    private int animationCode, homeworkid;
+    private int animationCode, homeworkid, homeworktype;
     private CheckDoubleClickListener listener;
     private Random random;
 
@@ -122,9 +122,10 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
             audioType = bundle.getInt("audioType");
             audioSource = bundle.getInt("audioSource");
             bookId = bundle.getInt("bookId");
-            title = bundle.getString("title");
+            title = bundle.getString("title").replace("\"", "").trim();
             imageUrl = bundle.getString("imageUrl");
-            homeworkid = bundle.getInt("homeworkid");
+            homeworkid = bundle.getInt("homeworkid", 0);
+            homeworktype = bundle.getInt("homeworktype", -1);
         }
         Glide.with(getContext()).load(page.getPageImage()).placeholder(R.drawable.book_image_loading).error(R.drawable.book_image_loadfail).fitCenter().into(pageImage);
         lists.addAll(page.getLineContent());
@@ -136,7 +137,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
         animationCode = page.getAnimationCode();
         initAnimation(animationCode);
         totalSign = lists.size();
-        adapter = new ExerciseAdapter(getContext(), this, "", lists, 0, presenter, 0, 0, "", 0, homeworkid, new OnRecyclerItemClickListener() {
+        adapter = new ExerciseAdapter(getContext(), this, "", lists, 0, presenter, 0, 0, "", 0, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
 //                if (isPlay) {
@@ -575,7 +576,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                presenter.uploadAudioResource(bookId, page.getPage(), audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + title + ".mp3", 0f, title + "(分页)", record_time, 4, "", imageUrl, animationCode, homeworkid);
+                                                presenter.uploadAudioResource(bookId, page.getPage(), audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + title + ".mp3", 0f, title + "(分页)", record_time, 4, "", imageUrl, animationCode, homeworkid, homeworktype);
                                             }
                                         }, 1000);
                                     } else {

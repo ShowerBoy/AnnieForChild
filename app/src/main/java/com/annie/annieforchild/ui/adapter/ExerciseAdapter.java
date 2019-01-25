@@ -68,7 +68,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
     private boolean isSpeakReady = true; //我的录音播放控制
     private boolean isClick = true, isPlay = false, isRecordPlay = false;
     private int record_time = 0; //录音时长
-    private int duration, homeworkid;
+    private int duration, homeworkid, homeworktype;
     private String imageUrl;
     public static boolean isRecording = false; //录音状态
     String fileName;
@@ -79,7 +79,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
     private ExerciseViewHolder holder;
     private int key; //0：书籍阅读 1：练习
 
-    public ExerciseAdapter(Context context, SongView songView, String title, List<Line> lists, int bookId, GrindEarPresenter presenter, int audioType, int audioSource, String imageUrl, int key, int homeworkid, OnRecyclerItemClickListener listener) {
+    public ExerciseAdapter(Context context, SongView songView, String title, List<Line> lists, int bookId, GrindEarPresenter presenter, int audioType, int audioSource, String imageUrl, int key, int homeworkid, int homeworktype, OnRecyclerItemClickListener listener) {
         this.context = context;
         this.songView = songView;
         this.title = title;
@@ -91,6 +91,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
         this.imageUrl = imageUrl;
         this.key = key;
         this.homeworkid = homeworkid;
+        this.homeworktype = homeworktype;
         this.listener = listener;
         inflater = LayoutInflater.from(context);
         initData();
@@ -337,7 +338,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
                             lists.get(i).setScore(score);
-                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm", score, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid);
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".pcm", score, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
                         } else {
 //                        showInfo("解析结果为空");
                         }

@@ -64,7 +64,7 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, OnCheck
     private Book book;
     private int bookId, totalPage;
     private String imageUrl, title;
-    private int audioType, audioSource, homeworkid;
+    private int audioType, audioSource, homeworkid, homeworktype;
     private AlertHelper helper;
     private Dialog dialog;
     private BookPlayEndFragment bookPlayEndFragment;
@@ -105,6 +105,7 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, OnCheck
         imageUrl = intent.getStringExtra("imageUrl");
         title = intent.getStringExtra("title");
         homeworkid = intent.getIntExtra("homeworkid", 0);
+        homeworktype = intent.getIntExtra("homeworktype", -1);
 
         playTotal2.setVisibility(View.VISIBLE);
     }
@@ -124,6 +125,7 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, OnCheck
         bundle.putString("bookName", title);
         bundle.putInt("homeworkid", homeworkid);
         bundle.putInt("audioType", audioType);
+        bundle.putInt("homeworktype", homeworktype);
         bookTitle.setText(title);
         bookPlayEndFragment.setArguments(bundle);
         presenter = new GrindEarPresenterImp(this, this);
@@ -180,6 +182,8 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, OnCheck
             bundle.putInt("bookId", bookId);
             bundle.putString("imageUrl", imageUrl);
             bundle.putString("title", title);
+            bundle.putInt("homeworkid", homeworkid);
+            bundle.putInt("homeworktype", homeworktype);
             fragment.setArguments(bundle);
             lists.add(fragment);
         }

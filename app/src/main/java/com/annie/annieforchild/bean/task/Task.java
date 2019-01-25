@@ -8,12 +8,51 @@ import java.io.Serializable;
  */
 
 public class Task implements Serializable {
+    private String tasktime;
+    private String week;
+    private int classid;
     private String title;
-    private int taskid;
     private String classname;
     private String teacher;
     private String date;
+    private String taskscore;
+    private String remark;
+    private String flowercard;
+    private String averagescore;
     private int status;
+    private int type; //0：课程 1：网课
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getWeek() {
+        return week;
+    }
+
+    public void setWeek(String week) {
+        this.week = week;
+    }
+
+    public String getTasktime() {
+        return tasktime;
+    }
+
+    public void setTasktime(String tasktime) {
+        this.tasktime = tasktime;
+    }
+
+    public int getClassid() {
+        return classid;
+    }
+
+    public void setClassid(int classid) {
+        this.classid = classid;
+    }
 
     public String getTitle() {
         return title;
@@ -21,14 +60,6 @@ public class Task implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public int getTaskid() {
-        return taskid;
-    }
-
-    public void setTaskid(int taskid) {
-        this.taskid = taskid;
     }
 
     public String getClassname() {
@@ -53,6 +84,38 @@ public class Task implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getTaskscore() {
+        return taskscore;
+    }
+
+    public void setTaskscore(String taskscore) {
+        this.taskscore = taskscore;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getFlowercard() {
+        return flowercard;
+    }
+
+    public void setFlowercard(String flowercard) {
+        this.flowercard = flowercard;
+    }
+
+    public String getAveragescore() {
+        return averagescore;
+    }
+
+    public void setAveragescore(String averagescore) {
+        this.averagescore = averagescore;
     }
 
     public int getStatus() {

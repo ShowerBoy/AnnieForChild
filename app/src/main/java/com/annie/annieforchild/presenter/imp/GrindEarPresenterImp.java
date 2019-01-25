@@ -26,6 +26,7 @@ import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.bean.task.Task;
 import com.annie.annieforchild.bean.task.TaskBean;
+import com.annie.annieforchild.bean.task.TaskContent;
 import com.annie.annieforchild.bean.task.TaskDetails;
 import com.annie.annieforchild.interactor.GrindEarInteractor;
 import com.annie.annieforchild.interactor.imp.GrindEarInteractorImp;
@@ -62,6 +63,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     private int pkType;
     private int page;
     private int type;
+    private int taskid, classify;
     private HashMap<Integer, String> file_maps;
 
     public GrindEarPresenterImp(Context context) {
@@ -214,11 +216,11 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param score
      */
     @Override
-    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid) {
+    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid, int homeworktype) {
         this.lineId = lineId;
         this.page = page;
 //        songView.showLoad();
-        interactor.uploadAudioResource(resourseId, page, audioType, audioSource, lineId, path, score, title, duration, origin, pkUsername, imageUrl, animationCode, homeworkid);
+        interactor.uploadAudioResource(resourseId, page, audioType, audioSource, lineId, path, score, title, duration, origin, pkUsername, imageUrl, animationCode, homeworkid, homeworktype);
     }
 
     /**
@@ -492,13 +494,12 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
 
     /**
      * 作业详情
-     *
-     * @param taskid
      */
     @Override
-    public void taskDetails(int taskid) {
+    public void taskDetails(int classid, int type, String week, String taskTime, int classify) {
+        this.classify = classify;
         songView.showLoad();
-        interactor.taskDetails(taskid);
+        interactor.taskDetails(classid, type, week, taskTime, classify);
     }
 
     /**
@@ -510,9 +511,10 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param homeworkid
      */
     @Override
-    public void completeTask(int taskid, int likes, int listen, int homeworkid) {
+    public void completeTask(int taskid, int type, int likes, int listen, int homeworkid) {
+        this.taskid = taskid;
         songView.showLoad();
-        interactor.completeTask(taskid, likes, listen, homeworkid);
+        interactor.completeTask(taskid, type, likes, listen, homeworkid);
     }
 
     /**
@@ -522,9 +524,10 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param path
      */
     @Override
-    public void uploadTaskImage(int taskid, List<String> path) {
+    public void uploadTaskImage(int taskid, List<String> path, int type) {
+        this.taskid = taskid;
         songView.showLoad();
-        interactor.uploadTaskImage(taskid, path);
+        interactor.uploadTaskImage(taskid, path, type);
     }
 
     /**
@@ -534,9 +537,10 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param remarks
      */
     @Override
-    public void submitTask(int taskid, String remarks) {
+    public void submitTask(int taskid, String remarks, int status, int type) {
+        this.taskid = taskid;
         songView.showLoad();
-        interactor.submitTask(taskid, remarks);
+        interactor.submitTask(taskid, remarks, status, type);
     }
 
     @Override
@@ -1141,42 +1145,43 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 TaskBean taskBean = (TaskBean) result;
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.task.TaskFragment#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.lesson.TaskActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = taskBean;
                 EventBus.getDefault().post(message);
-            } else if (what == MethodCode.EVENT_TASKDETAILS) {
+            } else if (what == MethodCode.EVENT_TASKDETAILS + 50000 + classify) {
                 TaskDetails taskDetails = (TaskDetails) result;
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.lesson.TaskDetailsActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.fragment.task.TaskContentFragment#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = taskDetails;
                 EventBus.getDefault().post(message);
-            } else if (what == MethodCode.EVENT_COMPLETETASK) {
+            } else if (what == MethodCode.EVENT_COMPLETETASK + 70000 + taskid) {
                 String msg = (String) result;
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.lesson.TaskDetailsActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.fragment.task.TaskContentFragment#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = msg;
                 EventBus.getDefault().post(message);
-            } else if (what == MethodCode.EVENT_UPLOADTASKIMAGE) {
+            } else if (what == MethodCode.EVENT_UPLOADTASKIMAGE + 40000 + taskid) {
                 String msg = (String) result;
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.lesson.TaskDetailsActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.fragment.task.TaskContentFragment#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = msg;
                 EventBus.getDefault().post(message);
-            } else if (what == MethodCode.EVENT_SUBMITTASK) {
+            } else if (what == MethodCode.EVENT_SUBMITTASK + 60000 + taskid) {
                 String msg = (String) result;
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.lesson.TaskDetailsActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.fragment.task.TaskContentFragment#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -1444,6 +1449,21 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
              */
             JTMessage message = new JTMessage();
             message.what = what;
+            message.obj = error;
+            EventBus.getDefault().post(message);
+        } else if (what == MethodCode.EVENT_GETLISTENING) {
+            JTMessage message = new JTMessage();
+            message.what = MethodCode.EVENT_ERROR;
+            message.obj = error;
+            EventBus.getDefault().post(message);
+        } else if (what == MethodCode.EVENT_GETREADING) {
+            JTMessage message = new JTMessage();
+            message.what = MethodCode.EVENT_ERROR;
+            message.obj = error;
+            EventBus.getDefault().post(message);
+        } else if (what == MethodCode.EVENT_GETSPEAKING) {
+            JTMessage message = new JTMessage();
+            message.what = MethodCode.EVENT_ERROR;
             message.obj = error;
             EventBus.getDefault().post(message);
         }

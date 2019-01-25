@@ -24,7 +24,6 @@ public abstract class CameraActivity extends BaseActivity {
 
     private static final int SCALE = 4;//照片缩小比例
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

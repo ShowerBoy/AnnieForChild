@@ -65,7 +65,7 @@ public class BookPlayFragment2 extends BaseFragment implements SongView, OnCheck
     private boolean isPlay = false; //是否播放录音
     private int audioType, audioSource, bookId;
     private String title, imageUrl;
-    private int homeworkid;
+    private int homeworkid, homeworktype;
 
     {
         setRegister(true);
@@ -94,6 +94,7 @@ public class BookPlayFragment2 extends BaseFragment implements SongView, OnCheck
             title = bundle.getString("title");
             imageUrl = bundle.getString("imageUrl");
             homeworkid = bundle.getInt("homeworkid");
+            homeworktype = bundle.getInt("homeworktype");
         }
         Glide.with(getContext()).load(page.getPageImage()).into(pageImage);
         lists.addAll(page.getLineContent());
@@ -255,7 +256,7 @@ public class BookPlayFragment2 extends BaseFragment implements SongView, OnCheck
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    presenter.uploadAudioResource(bookId, page.getPage(), audioType, audioSource, 1, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + title + ".mp3", 0f, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid);
+                                    presenter.uploadAudioResource(bookId, page.getPage(), audioType, audioSource, 1, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + title + ".mp3", 0f, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
                                 }
                             }, 1000);
                         } else {

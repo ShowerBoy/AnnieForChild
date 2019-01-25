@@ -10,9 +10,36 @@ import java.util.List;
 public class TaskDetails implements Serializable {
     private String feedback;
     private String advise;
+    private int isfinish;
+    private int state;
     private List<String> taskimage;
     private String remarks;
     private List<Homework> task;
+    private int taskid;
+
+    public int getTaskid() {
+        return taskid;
+    }
+
+    public void setTaskid(int taskid) {
+        this.taskid = taskid;
+    }
+
+    public int getIsfinish() {
+        return isfinish;
+    }
+
+    public void setIsfinish(int isfinish) {
+        this.isfinish = isfinish;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public String getFeedback() {
         return feedback;

@@ -76,7 +76,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
     private CircleImageView player1, player2, character1, character2;
     private CircleProgressBar circleProgressBar;
     private RecyclerView pkList;
-    private ImageView pkSpeak, pengyouquan, weixin, qq, qqzone, close, close2, star1, star2, star3, star4, star5;
+    private ImageView pkSpeak, pengyouquan, weixin, qq, qqzone, close, close2, star1, star2, star3, star4, star5, empty;
     private Button tryAgain1, tryAgain2;
     private FrameLayout pkFrameLayout;
     private CountDownTimer timer;
@@ -116,7 +116,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
     private int audioType, audioSource;
     private boolean isEnd = false;
     private int round = 0; //轮数
-    private int homeworkid;
+    private int homeworkid, homeworktype;
     private Animation leftToRight, rightToLeft;
     private CheckDoubleClickListener listener;
 
@@ -135,6 +135,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         player1 = findViewById(R.id.player1);
         player2 = findViewById(R.id.player2);
         pkSpeak = findViewById(R.id.pk_speak);
+        empty = findViewById(R.id.pk_empty);
         pkFrameLayout = findViewById(R.id.pk_frameLayout);
         circleProgressBar = findViewById(R.id.pk_circleProgressBar);
         pkList = findViewById(R.id.pk_list);
@@ -152,6 +153,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         audioType = bundle.getInt("audioType", 0);
         audioSource = bundle.getInt("audioSource", 3);
         homeworkid = bundle.getInt("homeworkid", 0);
+        homeworktype = bundle.getInt("homeworktype", -1);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -398,7 +400,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
 //                            showInfo(score + "");
-                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".pcm", score, fileName, record_time, 2, pkUserName, imageUrl, 0, homeworkid);
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".pcm", score, fileName, record_time, 2, pkUserName, imageUrl, 0, homeworkid, homeworktype);
                         } else {
 //                        showInfo("解析结果为空");
                         }
@@ -461,15 +463,22 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_PK_PK) {
             book = (Book) message.obj;
-            lists.clear();
-            totalLines = 0;
-            for (int i = 0; i < book.getPageContent().size(); i++) {
-                lists.addAll(book.getPageContent().get(i).getLineContent());
-                totalLines = totalLines + book.getPageContent().get(i).getLineContent().size();
+            if (book.getPageContent() == null || book.getPageContent().size() == 0) {
+                empty.setVisibility(View.VISIBLE);
+                pkList.setVisibility(View.GONE);
+            } else {
+                empty.setVisibility(View.GONE);
+                pkList.setVisibility(View.VISIBLE);
+                lists.clear();
+                totalLines = 0;
+                for (int i = 0; i < book.getPageContent().size(); i++) {
+                    lists.addAll(book.getPageContent().get(i).getLineContent());
+                    totalLines = totalLines + book.getPageContent().get(i).getLineContent().size();
+                }
+                lists.get(0).setSelect(true);
+                adapter.notifyDataSetChanged();
+                countDownDialog.show();
             }
-            lists.get(0).setSelect(true);
-            adapter.notifyDataSetChanged();
-            countDownDialog.show();
         } else if (message.what == MethodCode.EVENT_GETPKRESULT) {
             PkResult pkResult = (PkResult) message.obj;
             initPopupData(pkResult);
@@ -503,7 +512,11 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         }
         lists.get(currentLine - 1).setSelect(true);
         adapter.notifyDataSetChanged();
-        play(lists.get(currentLine - 1).getPkResourceUrl());
+        if (lists.get(currentLine - 1).getPkResourceUrl() == null || lists.get(currentLine - 1).getPkResourceUrl().length() == 0) {
+            play(lists.get(currentLine - 1).getResourceUrl());
+        } else {
+            play(lists.get(currentLine - 1).getPkResourceUrl());
+        }
     }
 
     private void play(String url) {
@@ -583,7 +596,11 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
 
     @Override
     public void onCountDownFinish() {
-        play(lists.get(currentLine - 1).getPkResourceUrl());
+        if (lists.get(currentLine - 1).getPkResourceUrl() == null || lists.get(currentLine - 1).getPkResourceUrl().length() == 0) {
+            play(lists.get(currentLine - 1).getResourceUrl());
+        } else {
+            play(lists.get(currentLine - 1).getPkResourceUrl());
+        }
     }
 
     @Override

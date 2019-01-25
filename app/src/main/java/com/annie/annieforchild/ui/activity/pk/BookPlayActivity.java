@@ -62,7 +62,7 @@ public class BookPlayActivity extends BaseActivity implements OnCheckDoubleClick
     public static boolean isPlay;
     private int audioType, audioSource;
     private MediaPlayer mediaPlayer;
-    private int duration, homeworkid;
+    private int duration, homeworkid, homeworktype;
     private String title;
     private CheckDoubleClickListener listener;
 
@@ -105,6 +105,7 @@ public class BookPlayActivity extends BaseActivity implements OnCheckDoubleClick
         imageUrl = intent.getStringExtra("imageUrl");
         title = intent.getStringExtra("title");
         homeworkid = intent.getIntExtra("homeworkid", 0);
+        homeworktype = intent.getIntExtra("homeworktype", -1);
 
         if (audioSource != 1 || audioSource != 3 || audioSource != 9) {
             pageImage.setVisibility(View.VISIBLE);
@@ -125,7 +126,7 @@ public class BookPlayActivity extends BaseActivity implements OnCheckDoubleClick
         mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.setOnCompletionListener(this);
 
-        adapter = new ExerciseAdapter(this, this, title, lists, bookId, presenter, audioType, audioSource, imageUrl, 0, homeworkid, new OnRecyclerItemClickListener() {
+        adapter = new ExerciseAdapter(this, this, title, lists, bookId, presenter, audioType, audioSource, imageUrl, 0, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 if (isClick) {

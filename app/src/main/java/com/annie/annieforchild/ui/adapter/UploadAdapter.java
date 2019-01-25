@@ -13,9 +13,10 @@ import android.view.ViewGroup;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.ui.activity.PhotoActivity;
-import com.annie.annieforchild.ui.activity.lesson.TaskDetailsActivity;
+import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.UploadHeaderViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.UploadViewHolder;
+import com.annie.annieforchild.ui.fragment.task.TaskContentFragment;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
 
@@ -33,12 +34,14 @@ public class UploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private LayoutInflater inflater;
     private List<String> lists;
     private int state;
+    private int tag;
     private OnRecyclerItemClickListener listener;
     private SystemUtils systemUtils;
 
-    public UploadAdapter(Context context, List<String> lists, int state, OnRecyclerItemClickListener listener) {
+    public UploadAdapter(Context context, List<String> lists, int state, int tag, OnRecyclerItemClickListener listener) {
         this.context = context;
         this.lists = lists;
+        this.tag = tag;
         this.listener = listener;
         this.state = state;
         systemUtils = new SystemUtils((Activity) context);
@@ -95,15 +98,35 @@ public class UploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((UploadHeaderViewHolder) holder).addImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (TaskDetailsActivity.imageNum < 5) {
-                        systemUtils.BuildCameraDialog().show();
-                    } else {
-                        SystemUtils.show(context, "最多上传5张图片");
+                    if (tag == 0) {
+                        if (TaskContentActivity.imageNum1 < 5) {
+                            systemUtils.BuildCameraDialog().show();
+                        } else {
+                            SystemUtils.show(context, "最多上传5张图片");
+                        }
+                    } else if (tag == 1) {
+                        if (TaskContentActivity.imageNum2 < 5) {
+                            systemUtils.BuildCameraDialog().show();
+                        } else {
+                            SystemUtils.show(context, "最多上传5张图片");
+                        }
+                    } else if (tag == 2) {
+                        if (TaskContentActivity.imageNum3 < 5) {
+                            systemUtils.BuildCameraDialog().show();
+                        } else {
+                            SystemUtils.show(context, "最多上传5张图片");
+                        }
+                    } else if (tag == 3) {
+                        if (TaskContentActivity.imageNum4 < 5) {
+                            systemUtils.BuildCameraDialog().show();
+                        } else {
+                            SystemUtils.show(context, "最多上传5张图片");
+                        }
                     }
                 }
             });
         } else if (holder instanceof UploadViewHolder) {
-            Glide.with(context).load(lists.get(i - HeaderCount)).into(((UploadViewHolder) holder).taskImage);
+            Glide.with(context).load(lists.get(i - HeaderCount)).placeholder(R.drawable.image_loading).error(R.drawable.image_error).into(((UploadViewHolder) holder).taskImage);
             ((UploadViewHolder) holder).taskImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

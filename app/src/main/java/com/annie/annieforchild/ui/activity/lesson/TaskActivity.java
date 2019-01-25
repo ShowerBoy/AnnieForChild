@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
@@ -22,6 +23,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.task.Task;
+import com.annie.annieforchild.bean.task.TaskBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.mains.BankBookActivity;
@@ -45,7 +47,8 @@ import java.util.List;
  */
 
 public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubleClick, ViewPager.OnPageChangeListener {
-    private ImageView back, comingSoon;
+    private ImageView back, comingSoon, empty;
+    private TextView totalFlower;
     private XRecyclerView recycler;
     private LinearLayout taskLayout;
     private AdvancedPagerSlidingTabStrip mTab;
@@ -57,6 +60,8 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
     private Dialog dialog;
     private CheckDoubleClickListener listener;
     private TaskAdapter adapter;
+    private List<Task> lists;
+    private TaskBean taskBean;
     private int fragmentCount = 1;
     private int taskType = 0; //0：课程作业 1：网课作业
 
@@ -77,57 +82,73 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
         taskLayout = findViewById(R.id.task_layout);
         comingSoon = findViewById(R.id.task_coming_soon);
         recycler = findViewById(R.id.task_xrecycler);
+        totalFlower = findViewById(R.id.task_flower_card);
+        empty = findViewById(R.id.task_empty);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
 
-        taskLayout.setVisibility(View.GONE);
-        recycler.setVisibility(View.GONE);
-        comingSoon.setVisibility(View.VISIBLE);
+//        taskLayout.setVisibility(View.GONE);
+//        recycler.setVisibility(View.GONE);
+//        comingSoon.setVisibility(View.VISIBLE);
+        //TODO:测试
+//        fragmentCount = 2;
+        //TODO:正式
+        if (SystemUtils.userInfo != null) {
+            if (SystemUtils.userInfo.getStatus() == 0) {
+                if (SystemUtils.userInfo.getIsnetstudent() == 0) {
+                    fragmentCount = 1;
+                    taskType = 0;
+                } else {
+                    fragmentCount = 2;
+                }
+            } else {
+                if (SystemUtils.userInfo.getIsnetstudent() == 0) {
+                    fragmentCount = 0;
+                } else {
+                    fragmentCount = 1;
+                    taskType = 1;
+                }
+            }
+        }
 
-//        if (SystemUtils.userInfo.getStatus() == 0) {
-//            if (SystemUtils.userInfo.getIsnetstudent() == 0) {
-//                fragmentCount = 1;
-//                taskType = 0;
-//            } else {
-//                fragmentCount = 2;
-//            }
-//        } else {
-//            if (SystemUtils.userInfo.getIsnetstudent() == 0) {
-//                fragmentCount = 0;
-//            } else {
-//                fragmentCount = 1;
-//                taskType = 1;
-//            }
-//        }
-//        if (fragmentCount == 2) {
-//            taskLayout.setVisibility(View.VISIBLE);
-//            recycler.setVisibility(View.GONE);
-//            comingSoon.setVisibility(View.GONE);
-//            fragmentAdapter = new TaskFragmentAdapter(getSupportFragmentManager());
-//            mVP.setOffscreenPageLimit(fragmentCount);
-//            mVP.setAdapter(fragmentAdapter);
-//            fragmentAdapter.notifyDataSetChanged();
-//            mTab.setViewPager(mVP);
-//            mTab.setOnPageChangeListener(this);
-//        } else if (fragmentCount == 1) {
-//            taskLayout.setVisibility(View.GONE);
-//            recycler.setVisibility(View.VISIBLE);
-//            comingSoon.setVisibility(View.GONE);
-//        } else {
-//            taskLayout.setVisibility(View.GONE);
-//            recycler.setVisibility(View.GONE);
-//            comingSoon.setVisibility(View.VISIBLE);
-//        }
 
+        if (fragmentCount == 2) {
+            taskLayout.setVisibility(View.VISIBLE);
+            recycler.setVisibility(View.GONE);
+            comingSoon.setVisibility(View.GONE);
+            fragmentAdapter = new TaskFragmentAdapter(getSupportFragmentManager());
+            mVP.setOffscreenPageLimit(fragmentCount);
+            mVP.setAdapter(fragmentAdapter);
+            fragmentAdapter.notifyDataSetChanged();
+            mTab.setViewPager(mVP);
+            mTab.setOnPageChangeListener(this);
+        } else if (fragmentCount == 1) {
+            taskLayout.setVisibility(View.GONE);
+            recycler.setVisibility(View.VISIBLE);
+            comingSoon.setVisibility(View.GONE);
+        } else {
+            taskLayout.setVisibility(View.GONE);
+            recycler.setVisibility(View.GONE);
+            comingSoon.setVisibility(View.VISIBLE);
+        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recycler.setLayoutManager(layoutManager);
+//        recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        recycler.setPullRefreshEnabled(false);
+        recycler.setLoadingMoreEnabled(false);
     }
 
     @Override
     protected void initData() {
+        lists = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
+        adapter = new TaskAdapter(this, lists);
+        recycler.setAdapter(adapter);
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
-//        presenter.myTask();
+        presenter.myTask();
     }
 
     @Override
@@ -151,7 +172,28 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
      */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-        if (message.what == MethodCode.EVENT_SUBMITTASK) {
+        if (message.what == MethodCode.EVENT_MYTASK) {
+            taskBean = (TaskBean) message.obj;
+            if (taskBean != null) {
+                totalFlower.setText("花卡" + taskBean.getTotalflower() + "分");
+                if (fragmentCount == 1) {
+                    //课程作业或网课作业
+                    if (taskType == 0) {
+                        lists.clear();
+                        lists.addAll(taskBean.getCourseList());
+                    } else {
+                        lists.clear();
+                        lists.addAll(taskBean.getNetWorkList());
+                    }
+                    if (lists.size() == 0) {
+                        empty.setVisibility(View.VISIBLE);
+                    } else {
+                        empty.setVisibility(View.GONE);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        } else if (message.what == MethodCode.EVENT_SUBMITTASK) {
             presenter.myTask();
         }
     }
@@ -191,7 +233,6 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
     }
 
     class TaskFragmentAdapter extends FragmentStatePagerAdapter {
-
 
         public TaskFragmentAdapter(FragmentManager fm) {
             super(fm);

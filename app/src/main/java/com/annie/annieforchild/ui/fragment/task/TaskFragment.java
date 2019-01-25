@@ -17,6 +17,7 @@ import com.annie.annieforchild.ui.adapter.TaskAdapter;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BaseFragment;
 import com.annie.baselibrary.base.BasePresenter;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -28,7 +29,7 @@ import java.util.List;
  */
 
 public class TaskFragment extends BaseFragment {
-    private RecyclerView recycler;
+    private XRecyclerView recycler;
     private ImageView empty;
     private List<Task> lists;
     private TaskAdapter adapter;
@@ -67,8 +68,10 @@ public class TaskFragment extends BaseFragment {
         empty = view.findViewById(R.id.task_empty);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recycler.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recycler.setLayoutManager(layoutManager);
+//        recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        recycler.setPullRefreshEnabled(false);
+        recycler.setLoadingMoreEnabled(false);
     }
 
     @Override
@@ -82,32 +85,17 @@ public class TaskFragment extends BaseFragment {
             taskBean = (TaskBean) message.obj;
             if (tag == 0) {
                 lists.clear();
-                if (taskBean.getInclassList() != null && taskBean.getInclassList().size() != 0) {
-                    lists.addAll(taskBean.getInclassList());
-                    empty.setVisibility(View.GONE);
-                } else {
-                    empty.setVisibility(View.VISIBLE);
-                }
-                adapter.notifyDataSetChanged();
-            } else if (tag == 1) {
+                lists.addAll(taskBean.getCourseList());
+            } else {
                 lists.clear();
-                if (taskBean.getSeriesList() != null && taskBean.getSeriesList().size() != 0) {
-                    lists.addAll(taskBean.getSeriesList());
-                    empty.setVisibility(View.GONE);
-                } else {
-                    empty.setVisibility(View.VISIBLE);
-                }
-                adapter.notifyDataSetChanged();
-            } else if (tag == 2) {
-                lists.clear();
-                if (taskBean.getOtherList() != null && taskBean.getOtherList().size() != 0) {
-                    lists.addAll(taskBean.getOtherList());
-                    empty.setVisibility(View.GONE);
-                } else {
-                    empty.setVisibility(View.VISIBLE);
-                }
-                adapter.notifyDataSetChanged();
+                lists.addAll(taskBean.getNetWorkList());
             }
+            if (lists.size() == 0) {
+                empty.setVisibility(View.VISIBLE);
+            } else {
+                empty.setVisibility(View.GONE);
+            }
+            adapter.notifyDataSetChanged();
         }
     }
 }

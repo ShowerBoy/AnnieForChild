@@ -29,6 +29,7 @@ import com.annie.annieforchild.bean.record.RecordBean;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.bean.task.TaskBean;
+import com.annie.annieforchild.bean.task.TaskContent;
 import com.annie.annieforchild.bean.task.TaskDetails;
 import com.annie.annieforchild.interactor.GrindEarInteractor;
 import com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment;
@@ -53,6 +54,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     private RequestListener listener;
     private int classId;
     private int type;
+    private int taskid;
+    private int classify;
 
     public GrindEarInteractorImp(Context context, RequestListener listener) {
         this.context = context;
@@ -198,7 +201,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
 
     @Override
     public void getBookScore(int bookId, int record, boolean accessBook) {
-        if (accessBook){
+        if (accessBook) {
             FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.ACCESSBOOK, RequestMethod.POST);
             request.add("username", SystemUtils.defaultUsername);
             request.add("token", SystemUtils.token);
@@ -211,7 +214,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             addQueue(MethodCode.EVENT_ACCESSBOOK, request);
             addQueue(MethodCode.EVENT_GETBOOKSCORE, request1);
             startQueue();
-        }else{
+        } else {
             FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKSCORE, RequestMethod.POST);
             request.add("username", SystemUtils.defaultUsername);
             request.add("token", SystemUtils.token);
@@ -238,8 +241,25 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         startQueue();
     }
 
+    /**
+     * @param resourseId
+     * @param page
+     * @param audioType
+     * @param audioSource
+     * @param lineId
+     * @param path
+     * @param score
+     * @param title
+     * @param duration
+     * @param origin
+     * @param pkUsername
+     * @param imageUrl
+     * @param animationCode
+     * @param homeworkid    0
+     * @param homeworktype  -1
+     */
     @Override
-    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid) {
+    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid, int homeworktype) {
         File file = new File(path);
         FileBinary fileBinary = new FileBinary(file);
         //如果时长小于1秒算成1秒
@@ -262,6 +282,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("origin", origin);
         request.add("animationCode", animationCode);
         request.add("homeworkid", homeworkid);
+        request.add("homeworktype", homeworktype);
         if (origin == 2) {
             request.add("pkUsername", pkUsername);
         }
@@ -578,30 +599,40 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     }
 
     @Override
-    public void taskDetails(int taskid) {
+    public void taskDetails(int classid, int type, String week, String taskTime, int classify) {
+        this.classify = classify;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.TASKDETAILS, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
-        request.add("taskid", taskid);
-        addQueue(MethodCode.EVENT_TASKDETAILS, request);
+        request.add("classid", classid);
+        request.add("classify", classify);
+        request.add("type", type);
+        if (type == 0) {
+            request.add("tasktime", taskTime);
+        } else {
+            request.add("week", week);
+        }
+        addQueue(MethodCode.EVENT_TASKDETAILS + 50000 + classify, request);
         startQueue();
     }
 
     @Override
-    public void completeTask(int taskid, int likes, int listen, int homeworkid) {
+    public void completeTask(int taskid, int type, int likes, int listen, int homeworkid) {
+        this.taskid = taskid;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.COMPLETETASK, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
-        request.add("taskid", taskid);
+        request.add("type", type);
         request.add("likes", likes);
         request.add("listen", listen);
         request.add("homeworkid", homeworkid);
-        addQueue(MethodCode.EVENT_COMPLETETASK, request);
+        addQueue(MethodCode.EVENT_COMPLETETASK + 70000 + taskid, request);
         startQueue();
     }
 
     @Override
-    public void uploadTaskImage(int taskid, List<String> path) {
+    public void uploadTaskImage(int taskid, List<String> path, int type) {
+        this.taskid = taskid;
         for (int i = 0; i < path.size(); i++) {
             File file = new File(path.get(i));
             FileBinary fileBinary = new FileBinary(file);
@@ -609,20 +640,24 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request.add("token", SystemUtils.token);
             request.add("username", SystemUtils.defaultUsername);
             request.add("taskid", taskid);
+            request.add("type", type);
             request.add("file", fileBinary);
-            addQueue(MethodCode.EVENT_UPLOADTASKIMAGE, request);
+            addQueue(MethodCode.EVENT_UPLOADTASKIMAGE + 40000 + taskid, request);
         }
         startQueue();
     }
 
     @Override
-    public void submitTask(int taskid, String remarks) {
+    public void submitTask(int taskid, String remarks, int status, int type) {
+        this.taskid = taskid;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.SUBMITTASK, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
+        request.add("status", status);
+        request.add("type", type);
         request.add("taskid", taskid);
         request.add("remarks", remarks);
-        addQueue(MethodCode.EVENT_SUBMITTASK, request);
+        addQueue(MethodCode.EVENT_SUBMITTASK + 60000 + taskid, request);
         startQueue();
     }
 
@@ -1040,14 +1075,17 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                     taskBean = new TaskBean();
                 }
                 listener.Success(what, taskBean);
-            } else if (what == MethodCode.EVENT_TASKDETAILS) {
+            } else if (what == MethodCode.EVENT_TASKDETAILS + 50000 + classify) {
                 TaskDetails taskDetails = JSON.parseObject(data, TaskDetails.class);
+                if (taskDetails == null) {
+                    taskDetails = new TaskDetails();
+                }
                 listener.Success(what, taskDetails);
-            } else if (what == MethodCode.EVENT_COMPLETETASK) {
+            } else if (what == MethodCode.EVENT_COMPLETETASK + 70000 + taskid) {
                 listener.Success(what, "成功");
-            } else if (what == MethodCode.EVENT_UPLOADTASKIMAGE) {
+            } else if (what == MethodCode.EVENT_UPLOADTASKIMAGE + 40000 + taskid) {
                 listener.Success(what, "");
-            } else if (what == MethodCode.EVENT_SUBMITTASK) {
+            } else if (what == MethodCode.EVENT_SUBMITTASK + 60000 + taskid) {
                 listener.Success(what, "提交成功");
             } else if (what == MethodCode.EVENT_CLOCKINSHARE) {
                 ShareBean shareBean = JSON.parseObject(data, ShareBean.class);

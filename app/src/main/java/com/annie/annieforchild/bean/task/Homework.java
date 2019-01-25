@@ -9,14 +9,41 @@ import java.io.Serializable;
 public class Homework implements Serializable {
     private int bookid;
     private int homeworkid;
+    private String animationUrl;
     private String taskrequirement;
     private String bookimage;
     private String bookname;
+    private String bookClassify;
     private int isfinish;
     private int isjoinmaterial;
     private int likes;
     private int listen;
+    private String chaptertitle;
     private String type;
+
+    public String getAnimationUrl() {
+        return animationUrl;
+    }
+
+    public void setAnimationUrl(String animationUrl) {
+        this.animationUrl = animationUrl;
+    }
+
+    public String getBookClassify() {
+        return bookClassify;
+    }
+
+    public void setBookClassify(String bookClassify) {
+        this.bookClassify = bookClassify;
+    }
+
+    public String getChaptertitle() {
+        return chaptertitle;
+    }
+
+    public void setChaptertitle(String chaptertitle) {
+        this.chaptertitle = chaptertitle;
+    }
 
     public String getType() {
         return type;

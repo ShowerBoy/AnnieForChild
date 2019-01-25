@@ -27,7 +27,7 @@ public interface GrindEarInteractor {
 
     void getBookAudioData(int bookId, int pkType, String pkUsername);
 
-    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid);
+    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid, int homeworktype);
 
     void getPkUsers(int bookId);
 
@@ -81,13 +81,13 @@ public interface GrindEarInteractor {
 
     void myTask();
 
-    void taskDetails(int taskid);
+    void taskDetails(int classid, int type, String week, String taskTime, int classify);
 
-    void completeTask(int taskid, int likes, int listen, int homeworkid);
+    void completeTask(int taskid, int type, int likes, int listen, int homeworkid);
 
-    void uploadTaskImage(int taskid, List<String> path);
+    void uploadTaskImage(int taskid, List<String> path, int type);
 
-    void submitTask(int taskid, String remarks);
+    void submitTask(int taskid, String remarks, int status, int type);
 
     void clockinShare(int type, int bookid);
 
