@@ -101,8 +101,9 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     private int count; //礼包可选数
     private boolean canBuy = false; //能否购买
     public static String buyPrice;
-    private String wxout_trade_no="";
-    private int wx_status=-1;
+    private String wxout_trade_no = "";
+    private int wx_status = -1;
+    private int isbuy = -1;
 
     {
         setRegister(true);
@@ -208,27 +209,8 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 if (!canBuy) {
                     return;
                 }
-                if (selectList.size() < count) {
-                    showInfo("请选择足够数量的礼包");
-                } else {
-                    giftId = "";
-                    for (int i = 0; i < selectList.size(); i++) {
-                        if (i == 0) {
-                            giftId = giftId + selectList.get(i).getId();
-                        } else {
-                            giftId = giftId + "," + selectList.get(i).getId();
-                        }
-                    }
-                    if (payment == 0) {
-                        presenter.buyNetWork(netid, addressId, 0, payment, giftId);
-                    } else {
-                        if (!wxapi.isWXAppInstalled()) {
-                            showInfo("请您先安装微信客户端！");
-                            break;
-                        }
-                        presenter.buyNetWork(netid, addressId, 0, payment, giftId);
-                    }
-                }
+                presenter.buynum(netid,2);
+
 //                } else {
 //                    showInfo("请添加收货地址");
 //                }
@@ -290,7 +272,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 }
             } else {
                 WechatBean wechatBean = (WechatBean) message.obj;
-                wxout_trade_no=wechatBean.getOut_trade_no();
+                wxout_trade_no = wechatBean.getOut_trade_no();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -308,65 +290,88 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
 //                finish();
             }
         } else if (message.what == MethodCode.EVENT_PAY) {
-             wx_status=(int)message.obj;
+            wx_status = (int) message.obj;
 
-
-//            if(payment==1 && wxout_trade_no.length()>0){
-//                presenter.OrderQuery("",
-//                        wxout_trade_no,
-//                        payment);
-//            }
-//            if (payment == 1) {
-//                Intent intent = new Intent(ConfirmOrderActivity.this, MyCourseActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-        }else if(message.what ==MethodCode.EVENT_ORDERQUERY){
-            if(payment==0){
-                String trade_status=(String)message.obj;
-                if(trade_status.equals("TRADE_SUCCESS")){
+        } else if (message.what == MethodCode.EVENT_ORDERQUERY) {
+            if (payment == 0) {
+                String trade_status = (String) message.obj;
+                if (trade_status.equals("TRADE_SUCCESS")) {
                     Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
                     intent.putExtra("price", buyPrice);
                     startActivity(intent);
                     finish();
-                }else{
+                } else {
                     Intent intent = new Intent(ConfirmOrderActivity.this, PayFailActivity.class);
                     intent.putExtra("price", buyPrice);
                     startActivity(intent);
                     finish();
                 }
-            }else{
-                String trade_status=(String)message.obj;
-                if(trade_status.equals("SUCCESS")){
+            } else {
+                String trade_status = (String) message.obj;
+                if (trade_status.equals("SUCCESS")) {
                     Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
                     intent.putExtra("price", buyPrice);
                     startActivity(intent);
                     finish();
-                }else{
+                } else {
                     Intent intent = new Intent(ConfirmOrderActivity.this, PayFailActivity.class);
                     startActivity(intent);
                     finish();
                 }
             }
-
-        }
+        } else if (message.what == MethodCode.EVENT_BUYNUM1) {
+            isbuy = (int) message.obj;//0名额已满 1已购买 2可以买
+                if (isbuy == 2) {
+                    if (selectList.size() < count) {
+                        showInfo("请选择足够数量的礼包");
+                    } else {
+                        giftId = "";
+                        for (int i = 0; i < selectList.size(); i++) {
+                            if (i == 0) {
+                                giftId = giftId + selectList.get(i).getId();
+                            } else {
+                                giftId = giftId + "," + selectList.get(i).getId();
+                            }
+                        }
+                        if (payment == 0) {
+                            presenter.buyNetWork(netid, addressId, 0, payment, giftId);
+                        } else {
+                            if (!wxapi.isWXAppInstalled()) {
+                                showInfo("请您先安装微信客户端！");
+                                return;
+                            }
+                            presenter.buyNetWork(netid, addressId, 0, payment, giftId);
+                        }
+                    }
+                } else if (isbuy == 0) {
+                    showInfo("名额已满");
+                    presenter.getNetSuggest(netid);
+                } else if (isbuy == 1) {
+                    showInfo("已购买该课程");
+                    presenter.getNetSuggest(netid);
+                    JTMessage message1 = new JTMessage();
+                    message1.what = MethodCode.EVENT_PAY;
+                    message1.obj = 3;
+                    EventBus.getDefault().post(message1);
+                }
+            }
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        if(payment==1 && wxout_trade_no.length()>0){
-            if(wx_status==0){
+        if (payment == 1 && wxout_trade_no.length() > 0) {
+            if (wx_status == 0) {
                 presenter.OrderQuery("",
                         wxout_trade_no,
                         payment);
-            }else if(wx_status==2){
-                Toast.makeText(this,"支付取消",Toast.LENGTH_SHORT).show();
-            }else if(wx_status==1){//支付失败
+            } else if (wx_status == 2) {
+                Toast.makeText(this, "支付取消", Toast.LENGTH_SHORT).show();
+            } else if (wx_status == 1) {//支付失败
                 Intent intent = new Intent(ConfirmOrderActivity.this, PayFailActivity.class);
                 startActivity(intent);
                 finish();
             }
-
         }
     }
 
@@ -402,7 +407,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                        if(resultInfo.length()>0){
+                        if (resultInfo.length() > 0) {
                             Payresulrinfo payresulrinfo = JSON.parseObject(resultInfo, Payresulrinfo.class);
                             presenter.OrderQuery(payresulrinfo.getAlipay_trade_app_pay_response().getTrade_no(),
                                     payresulrinfo.getAlipay_trade_app_pay_response().getOut_trade_no(),
@@ -414,10 +419,10 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                          */
                         JTMessage message = new JTMessage();
                         message.what = MethodCode.EVENT_PAY;
-                        message.obj = 1;
+                        message.obj = 3;
                         EventBus.getDefault().post(message);
-                    }else if(TextUtils.equals(resultStatus, "6001")){
-                        Toast.makeText(ConfirmOrderActivity.this,"支付取消",Toast.LENGTH_SHORT).show();
+                    } else if (TextUtils.equals(resultStatus, "6001")) {
+                        Toast.makeText(ConfirmOrderActivity.this, "支付取消", Toast.LENGTH_SHORT).show();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         Intent intent = new Intent(ConfirmOrderActivity.this, PayFailActivity.class);

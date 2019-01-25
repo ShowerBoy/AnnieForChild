@@ -8,6 +8,13 @@ public class Info {
     private List<LessonList> lessonList;
     private String week;
     private String weeknum;
+    private String classid;
+    public void setClassid(String classid) {
+        this.classid = classid;
+    }
+    public String getClassid() {
+        return classid;
+    }
     public void setLessonList(List<LessonList> lessonList) {
          this.lessonList = lessonList;
      }

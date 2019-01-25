@@ -35,7 +35,7 @@ public interface NetWorkInteractor {
 
     void getListeningAndReading(String week, String classid);
 
-    void buynum(int netid);
+    void buynum(int netid,int type);
 
     void OrderQuery(String tradeno,String outtradeno,int payment);
 }

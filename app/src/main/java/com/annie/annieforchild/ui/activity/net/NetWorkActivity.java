@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.activity.net;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -19,6 +20,7 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.Utils.views.WrapContentHeightViewPager;
 import com.annie.annieforchild.bean.JTMessage;
@@ -26,6 +28,7 @@ import com.annie.annieforchild.bean.net.NetBean;
 import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
+import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.adapter.NetWorkAdapter;
 import com.annie.annieforchild.ui.fragment.net.NetExperienceFragment;
 import com.annie.annieforchild.ui.fragment.net.NetSpecialFragment;
@@ -124,6 +127,11 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
         presenter.getNetHomeData();
+
+        String to_exp=getIntent().getStringExtra("to_exp");
+        if(to_exp.equals("1")){
+            mVP.setCurrentItem(1);
+        }
     }
 
     @Override
@@ -141,7 +149,13 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
                 mVP.setCurrentItem(1);
                 break;
             case R.id.to_NetTest://跳转到H5页面
-                Toast.makeText(this, "敬请期待", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, WebActivity.class);
+                intent.putExtra("url","http://study.anniekids.org/questionnaire/index.html?name="+SystemUtils.defaultUsername );
+//                intent.putExtra("aabb",1);//标题是否取消1：取消
+                intent.putExtra("title", "测试");
+                startActivity(intent);
+
+//                Toast.makeText(this, "敬请期待", Toast.LENGTH_SHORT).show();
 //                NetWorkActivity.mVP.setCurrentItem(2);
 //                NetWorkActivity.mVP.setNoFocus(false);
                 break;
@@ -161,7 +175,12 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
 //            lists.addAll(netWork.getNetList());
 //            adapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_PAY) {
-            presenter.getNetHomeData();
+            int data=(int)message.obj;
+            if(data==4){
+                mVP.setCurrentItem(1);
+            }else{
+                presenter.getNetHomeData();
+            }
         }
     }
 

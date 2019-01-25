@@ -6,7 +6,7 @@ import java.util.List;
 public class NetExpClass {
 
     private Video video;
-    private String classid;
+
     private List<Info> info;
     private LearningReport LearningReport;
     public void setVideo(Video video) {
@@ -16,12 +16,7 @@ public class NetExpClass {
          return video;
      }
 
-    public void setClassid(String classid) {
-         this.classid = classid;
-     }
-     public String getClassid() {
-         return classid;
-     }
+
 
     public void setInfo(List<Info> info) {
          this.info = info;
