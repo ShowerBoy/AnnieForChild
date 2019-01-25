@@ -1082,11 +1082,18 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 }
                 listener.Success(what, taskDetails);
             } else if (what == MethodCode.EVENT_COMPLETETASK + 70000 + taskid) {
-                listener.Success(what, "成功");
+                int result;
+                if (data != null) {
+                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                    result = dataobj.getInteger("result");
+                } else {
+                    result = 1;
+                }
+                listener.Success(what, result);
             } else if (what == MethodCode.EVENT_UPLOADTASKIMAGE + 40000 + taskid) {
                 listener.Success(what, "");
             } else if (what == MethodCode.EVENT_SUBMITTASK + 60000 + taskid) {
-                listener.Success(what, "提交成功");
+                listener.Success(what, data);
             } else if (what == MethodCode.EVENT_CLOCKINSHARE) {
                 ShareBean shareBean = JSON.parseObject(data, ShareBean.class);
 //                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
@@ -1146,7 +1153,12 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 List<Song> lists = JSON.parseArray(data, Song.class);
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_GETLYRIC) {
-                List<String> lists = JSON.parseArray(data, String.class);
+                List<String> lists;
+                if (data == null) {
+                    lists = new ArrayList<>();
+                } else {
+                    lists = JSON.parseArray(data, String.class);
+                }
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_LUCKDRAW) {
 

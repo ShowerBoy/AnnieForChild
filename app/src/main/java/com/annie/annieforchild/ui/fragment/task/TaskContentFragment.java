@@ -111,8 +111,12 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
         lists = new ArrayList<>();
         imageList = new ArrayList<>();
 //        pathList = new ArrayList<>();
-        if (tag == 0) {
-            rebackLayout.setVisibility(View.VISIBLE);
+        if (type == 0) {
+            if (tag == 0) {
+                rebackLayout.setVisibility(View.VISIBLE);
+            } else {
+                rebackLayout.setVisibility(View.GONE);
+            }
         } else {
             rebackLayout.setVisibility(View.GONE);
         }
@@ -219,18 +223,27 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
                 iscommit = false;
             }
         } else if (message.what == MethodCode.EVENT_SUBMITTASK + 60000 + taskid) {
-            showInfo("提交成功");
+            showInfo((String) message.obj);
             if (type == 0) {
                 presenter.taskDetails(classid, type, "", taskTime, tag);
             } else {
                 presenter.taskDetails(classid, type, week, "", tag);
             }
         } else if (message.what == MethodCode.EVENT_COMPLETETASK + 70000 + taskid) {
-            showInfo("成功");
-            if (type == 0) {
-                presenter.taskDetails(classid, type, "", taskTime, tag);
+            int result = (int) message.obj;
+            if (result == 0) {
+                showInfo("成功");
+                lists.get(taskAdapter.getPosition()).setIsfinish(1);
+                lists.get(taskAdapter.getPosition()).setLikes(taskAdapter.getHomeworkList().get(taskAdapter.getPosition()).getLikes());
+                lists.get(taskAdapter.getPosition()).setListen(taskAdapter.getHomeworkList().get(taskAdapter.getPosition()).getListens());
+                taskAdapter.notifyDataSetChanged();
             } else {
-                presenter.taskDetails(classid, type, week, "", tag);
+                showInfo("失败");
+                if (type == 0) {
+                    presenter.taskDetails(classid, type, "", taskTime, tag);
+                } else {
+                    presenter.taskDetails(classid, type, week, "", tag);
+                }
             }
         } else if (message.what == MethodCode.EVENT_TASKDATA) {
             int bos = (int) message.obj;
@@ -291,19 +304,44 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
                 text = remarks.getText().toString().trim();
                 if (text != null && text.length() != 0) {
                     if (complete != -1) {
-                        if (TaskContentActivity.pathList1.size() != 0) {
-                            if (tag == 0) {
+                        if (tag == 0) {
+                            if (TaskContentActivity.pathList1.size() != 0) {
                                 presenter.uploadTaskImage(taskid, TaskContentActivity.pathList1, type);
-                            } else if (tag == 1) {
-                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList2, type);
-                            } else if (tag == 2) {
-                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList3, type);
-                            } else if (tag == 3) {
-                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList4, type);
+                            } else {
+                                presenter.submitTask(taskid, text, complete, type);
                             }
-                        } else {
-                            presenter.submitTask(taskid, text, complete, type);
+                        } else if (tag == 1) {
+                            if (TaskContentActivity.pathList2.size() != 0) {
+                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList2, type);
+                            } else {
+                                presenter.submitTask(taskid, text, complete, type);
+                            }
+                        } else if (tag == 2) {
+                            if (TaskContentActivity.pathList3.size() != 0) {
+                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList3, type);
+                            } else {
+                                presenter.submitTask(taskid, text, complete, type);
+                            }
+                        } else if (tag == 3) {
+                            if (TaskContentActivity.pathList4.size() != 0) {
+                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList4, type);
+                            } else {
+                                presenter.submitTask(taskid, text, complete, type);
+                            }
                         }
+//                        if (TaskContentActivity.pathList1.size() != 0) {
+//                            if (tag == 0) {
+//                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList1, type);
+//                            } else if (tag == 1) {
+//                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList2, type);
+//                            } else if (tag == 2) {
+//                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList3, type);
+//                            } else if (tag == 3) {
+//                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList4, type);
+//                            }
+//                        } else {
+//                            presenter.submitTask(taskid, text, complete, type);
+//                        }
                     } else {
                         showInfo("请家长确认");
                     }

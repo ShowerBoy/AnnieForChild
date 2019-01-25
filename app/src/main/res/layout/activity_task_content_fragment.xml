@@ -6,7 +6,8 @@
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/task_content_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -209,10 +210,10 @@
                             android:id="@+id/task_isfinish_f"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="32dp"
                             android:button="@null"
                             android:drawableLeft="@drawable/radio_group_select"
                             android:drawablePadding="6dp"
-                            android:layout_marginStart="32dp"
                             android:padding="2dp"
                             android:text="未完成"
                             android:textColor="@color/text_color" />

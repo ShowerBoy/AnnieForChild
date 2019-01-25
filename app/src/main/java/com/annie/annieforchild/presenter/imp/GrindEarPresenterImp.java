@@ -64,6 +64,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     private int page;
     private int type;
     private int taskid, classify;
+    private boolean submitTask = true; //提交作业
     private HashMap<Integer, String> file_maps;
 
     public GrindEarPresenterImp(Context context) {
@@ -538,9 +539,13 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      */
     @Override
     public void submitTask(int taskid, String remarks, int status, int type) {
-        this.taskid = taskid;
-        songView.showLoad();
-        interactor.submitTask(taskid, remarks, status, type);
+        if (submitTask) {
+            submitTask = false;
+            this.taskid = taskid;
+            songView.showLoad();
+            interactor.submitTask(taskid, remarks, status, type);
+        }
+
     }
 
     @Override
@@ -1161,13 +1166,13 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 message.obj = taskDetails;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_COMPLETETASK + 70000 + taskid) {
-                String msg = (String) result;
+                int result1 = (int) result;
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.task.TaskContentFragment#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
-                message.obj = msg;
+                message.obj = result1;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_UPLOADTASKIMAGE + 40000 + taskid) {
                 String msg = (String) result;
@@ -1179,6 +1184,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 message.obj = msg;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_SUBMITTASK + 60000 + taskid) {
+                submitTask = true;
                 String msg = (String) result;
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.task.TaskContentFragment#onMainEventThread(JTMessage)}
@@ -1462,6 +1468,12 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             message.obj = error;
             EventBus.getDefault().post(message);
         } else if (what == MethodCode.EVENT_GETSPEAKING) {
+            JTMessage message = new JTMessage();
+            message.what = MethodCode.EVENT_ERROR;
+            message.obj = error;
+            EventBus.getDefault().post(message);
+        } else if (what == MethodCode.EVENT_SUBMITTASK + 60000 + taskid) {
+            submitTask = true;
             JTMessage message = new JTMessage();
             message.what = MethodCode.EVENT_ERROR;
             message.obj = error;

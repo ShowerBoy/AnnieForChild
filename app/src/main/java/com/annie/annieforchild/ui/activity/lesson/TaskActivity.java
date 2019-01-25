@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,6 +49,7 @@ import java.util.List;
 
 public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubleClick, ViewPager.OnPageChangeListener {
     private ImageView back, comingSoon, empty;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private TextView totalFlower;
     private XRecyclerView recycler;
     private LinearLayout taskLayout;
@@ -83,6 +85,7 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
         comingSoon = findViewById(R.id.task_coming_soon);
         recycler = findViewById(R.id.task_xrecycler);
         totalFlower = findViewById(R.id.task_flower_card);
+        swipeRefreshLayout = findViewById(R.id.task_swipe);
         empty = findViewById(R.id.task_empty);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
@@ -137,6 +140,13 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
 //        recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recycler.setPullRefreshEnabled(false);
         recycler.setLoadingMoreEnabled(false);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.myTask();
+            }
+        });
     }
 
     @Override
@@ -174,6 +184,7 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_MYTASK) {
             taskBean = (TaskBean) message.obj;
+            swipeRefreshLayout.setRefreshing(false);
             if (taskBean != null) {
                 totalFlower.setText("花卡" + taskBean.getTotalflower() + "分");
                 if (fragmentCount == 1) {

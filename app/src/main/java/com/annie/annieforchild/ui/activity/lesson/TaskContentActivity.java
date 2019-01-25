@@ -268,7 +268,11 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
             if (position >= 0 && position < 4) {
                 switch (position) {
                     case 0:
-                        return "随堂作业";
+                        if (type == 0) {
+                            return "随堂作业";
+                        } else {
+                            return "本周作业";
+                        }
                     case 1:
                         return "预习作业";
                     case 2:

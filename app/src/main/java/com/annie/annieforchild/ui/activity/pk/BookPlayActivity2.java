@@ -4,14 +4,19 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,9 +27,11 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
+import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.ShareBean;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.ReleaseUrl;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
@@ -40,33 +47,41 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 
 /**
  * Created by wanglei on 2018/10/9.
  */
 
-public class BookPlayActivity2 extends BaseActivity implements SongView, OnCheckDoubleClick {
+public class BookPlayActivity2 extends BaseActivity implements PlatformActionListener, SongView, OnCheckDoubleClick {
     public static APSTSViewPager viewPager;
     private RelativeLayout bookPlay2Layout, pageLayout;
-    private ImageView back;
+    private ImageView back, share, pengyouquan, weixin, qq, qqzone;
     private static LottieAnimationView animationView;
     private static ImageView clarityBack;
     public static ImageView playTotal2;
-    private TextView page, bookTitle;
+    private TextView page, bookTitle, shareCancel, coinCount;
     public static TextView playTotal;
     private GrindEarPresenter presenter;
     private BookPlayFragmentAdapter fragmentAdapter;
     private Intent intent;
+    private PopupWindow popupWindow;
+    private View popupView;
     private List<BookPlayFragment> lists;
     private List<BookPlayFragment2> lists2; //针对章节书
     private Book book;
-    private int bookId, totalPage;
+    private int bookId, totalPage, shareType;
     private String imageUrl, title;
     private int audioType, audioSource, homeworkid, homeworktype;
     private AlertHelper helper;
     private Dialog dialog;
+    private ShareUtils shareUtils;
+    private String url;
     private BookPlayEndFragment bookPlayEndFragment;
     public static List<ReleaseUrl> releaseList; //判断是否发布
     private CheckDoubleClickListener listener;
@@ -93,8 +108,10 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, OnCheck
         pageLayout = findViewById(R.id.book_play_relative);
         animationView = findViewById(R.id.animation_view);
         bookTitle = findViewById(R.id.book_play_title);
+        share = findViewById(R.id.play_share);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
+        share.setOnClickListener(listener);
         playTotal.setOnClickListener(listener);
         playTotal2.setOnClickListener(listener);
 
@@ -108,10 +125,38 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, OnCheck
         homeworktype = intent.getIntExtra("homeworktype", -1);
 
         playTotal2.setVisibility(View.VISIBLE);
+
+        popupView = LayoutInflater.from(this).inflate(R.layout.activity_share_daka_item2, null, false);
+        coinCount = popupView.findViewById(R.id.coin_count);
+        pengyouquan = popupView.findViewById(R.id.share_daka_pengyouquan);
+        weixin = popupView.findViewById(R.id.share_daka_weixin);
+        qq = popupView.findViewById(R.id.share_daka_qq);
+        qqzone = popupView.findViewById(R.id.share_daka_qqzone);
+        shareCancel = popupView.findViewById(R.id.daka_share_cancel2);
+        pengyouquan.setOnClickListener(listener);
+        weixin.setOnClickListener(listener);
+        qq.setOnClickListener(listener);
+        qqzone.setOnClickListener(listener);
+        shareCancel.setOnClickListener(listener);
+        coinCount.setText("分享+2金币");
+        popupWindow = new PopupWindow(this);
+        popupWindow.setContentView(popupView);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.clarity)));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                getWindowGray(false);
+            }
+        });
     }
 
     @Override
     protected void initData() {
+        shareUtils = new ShareUtils(this, this);
         lists = new ArrayList<>();
         lists2 = new ArrayList<>();
         releaseList = new ArrayList<>();
@@ -150,6 +195,45 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, OnCheck
             if (book != null) {
                 initialize();
             }
+        } else if (message.what == MethodCode.EVENT_CLOCKINSHARE) {
+            ShareBean shareBean = (ShareBean) message.obj;
+            url = shareBean.getUrl();
+        } else if (message.what == MethodCode.EVENT_SHARECOIN) {
+            animationView.setVisibility(View.VISIBLE);
+            clarityBack.setVisibility(View.VISIBLE);
+            if (shareType == 0) {
+                animationView.setImageAssetsFolder("coin4/");
+                animationView.setAnimation("coin4.json");
+            } else {
+                animationView.setImageAssetsFolder("coin2/");
+                animationView.setAnimation("coin2.json");
+            }
+            animationView.addAnimatorListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    animationView.setVisibility(View.GONE);
+                    clarityBack.setVisibility(View.GONE);
+                    animation.cancel();
+                    animation.clone();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            animationView.loop(false);
+            animationView.playAnimation();
+            SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
         }
     }
 
@@ -332,7 +416,83 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, OnCheck
                     }
                 }
                 break;
+            case R.id.play_share:
+                if (BookPlayFragment.isRecord) {
+                    return;
+                }
+                if (BookPlayFragment.isPlay) {
+                    return;
+                }
+                if (SystemUtils.isPlaying) {
+                    return;
+                }
+                presenter.clockinShare(2, bookId);
+                getWindowGray(true);
+                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                break;
+            case R.id.share_daka_pengyouquan:
+                shareType = 0;
+                if (url != null && url.length() != 0) {
+                    if (audioType == 1) {
+                        shareUtils.shareWechatMoments("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                    } else {
+                        shareUtils.shareWechatMoments("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                    }
+                }
+                break;
+            case R.id.share_daka_weixin:
+                shareType = 1;
+                if (url != null && url.length() != 0) {
+                    if (audioType == 1) {
+                        shareUtils.shareWechat("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                    } else {
+                        shareUtils.shareWechat("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                    }
+                }
+                break;
+            case R.id.share_daka_qq:
+                shareType = 2;
+                if (url != null && url.length() != 0) {
+                    if (audioType == 1) {
+                        shareUtils.shareQQ("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                    } else {
+                        shareUtils.shareQQ("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                    }
+                }
+                break;
+            case R.id.share_daka_qqzone:
+                shareType = 3;
+                if (url != null && url.length() != 0) {
+                    if (audioType == 1) {
+                        shareUtils.shareQZone("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                    } else {
+                        shareUtils.shareQZone("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                    }
+                }
+                break;
+            case R.id.daka_share_cancel2:
+                popupWindow.dismiss();
+                break;
         }
+    }
+
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+        showInfo("分享成功");
+        popupWindow.dismiss();
+        presenter.shareCoin(1, shareType);
+    }
+
+    @Override
+    public void onError(Platform platform, int i, Throwable throwable) {
+        showInfo("分享取消");
+        popupWindow.dismiss();
+    }
+
+    @Override
+    public void onCancel(Platform platform, int i) {
+        showInfo("分享取消");
+        popupWindow.dismiss();
     }
 
     class BookPlayFragmentAdapter extends FragmentStatePagerAdapter {
@@ -458,6 +618,19 @@ public class BookPlayActivity2 extends BaseActivity implements SongView, OnCheck
             clarityBack.setVisibility(View.VISIBLE);
         } else {
             clarityBack.setVisibility(View.GONE);
+        }
+    }
+
+    private void getWindowGray(boolean tag) {
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        if (tag) {
+            layoutParams.alpha = 0.7f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            getWindow().setAttributes(layoutParams);
+        } else {
+            layoutParams.alpha = 1f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            getWindow().setAttributes(layoutParams);
         }
     }
 

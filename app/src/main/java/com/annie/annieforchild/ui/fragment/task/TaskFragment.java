@@ -69,7 +69,6 @@ public class TaskFragment extends BaseFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(layoutManager);
-//        recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recycler.setPullRefreshEnabled(false);
         recycler.setLoadingMoreEnabled(false);
     }
