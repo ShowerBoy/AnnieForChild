@@ -55,6 +55,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.daimajia.slider.library.SliderLayout;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -92,6 +93,7 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
     private HashMap<Integer, String> file_maps;//轮播图图片map
     private String message;
     private int width;
+    private int flag=1;
 
     {
         setRegister(true);
@@ -211,30 +213,37 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
         } else if (message.what == MethodCode.EVENT_PAY) {
             finish();
         } else if (message.what == MethodCode.EVENT_BUYNUM) {
-            canbuy = (int) message.obj;
-            if (canbuy == 1) {
-                gotoBuy();
-            } else {
-                showInfo("名额已满");
-                presenter.getNetSuggest(netid);
-            }
+            canbuy = (int) message.obj;//0名额已满 1已购买 2可以买
+                if (canbuy == 2) {
+                    gotoBuy();
+                } else if (canbuy == 0) {
+                    showInfo("名额已满");
+                    presenter.getNetSuggest(netid);
+                } else if (canbuy == 1) {
+                    showInfo("已购买该课程");
+                    presenter.getNetSuggest(netid);
+                    JTMessage message1 = new JTMessage();
+                    message1.what = MethodCode.EVENT_PAY;
+                    message1.obj = 3;
+                    EventBus.getDefault().post(message1);
+                }
         }
     }
 
     private void gotoBuy() {
-        if (isBuy == 0) {
-            Intent intent = new Intent(this, ConfirmOrderActivity.class);
-            intent.putExtra("netid", netid);
-            intent.putExtra("netimage", netimage);
-            intent.putExtra("type", type);
-            intent.putExtra("netsummary", netSuggest.getNetSummary());
-            startActivity(intent);
-        } else if (isBuy == 1) {
-            Intent intent1 = new Intent(this, MyCourseActivity.class);
-            startActivity(intent1);
-        } else {
-
-        }
+            if (isBuy == 0) {
+                Intent intent = new Intent(this, ConfirmOrderActivity.class);
+                intent.putExtra("netid", netid);
+                intent.putExtra("netimage", netimage);
+                intent.putExtra("type", type);
+                intent.putExtra("netsummary", netSuggest.getNetSummary());
+                startActivity(intent);
+//                EventBus.getDefault().unregister(this);
+            } else if (isBuy == 1) {
+                Intent intent1 = new Intent(this, MyCourseActivity.class);
+                startActivity(intent1);
+            } else {
+            }
     }
 
     private void refresh() {
@@ -310,6 +319,16 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+//        if(!EventBus.getDefault().isRegistered(this)){
+//            EventBus.getDefault().register(this);
+//        }
+//        presenter.getNetSuggest(netid);
+    }
+
+
+    @Override
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
             case R.id.net_back:
@@ -318,7 +337,7 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
             case R.id.goto_buy:
                 switch (isBuy){
                     case 0:
-                        presenter.buynum(netid);
+                        presenter.buynum(netid,1);//type:1:netsuggest页面请求 2:confirmorder请求
                         break;
                     case 1:
                         Intent intent1 = new Intent(this, MyCourseActivity.class);

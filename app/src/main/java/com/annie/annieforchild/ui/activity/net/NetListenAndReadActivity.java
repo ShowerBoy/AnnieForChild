@@ -1,7 +1,10 @@
 package com.annie.annieforchild.ui.activity.net;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +19,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.ListenAndRead;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
+import com.annie.annieforchild.ui.activity.lesson.TaskActivity;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -29,9 +33,11 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
     NetWorkPresenterImp presenter;
     private Dialog dialog;
     private AlertHelper helper;
-    LinearLayout no_content;
-    ListenAndRead listenAndRead;
-    ImageView listenandread_img;
+    private  LinearLayout no_content;
+    private ListenAndRead listenAndRead;
+    private ImageView listenandread_img;
+    private Button to_listenandread;
+    private String week,classid;
 
     {
         setRegister(true);
@@ -43,22 +49,25 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
 
     @Override
     protected void initView() {
+        to_listenandread=findViewById(R.id.to_listenandread);
         listner = new CheckDoubleClickListener(this);
         back = findViewById(R.id.back);
         no_content=findViewById(R.id.no_content);
         listenandread_img=findViewById(R.id.listenandread_img);
         back.setOnClickListener(listner);
+        to_listenandread.setOnClickListener(listner);
     }
 
     @Override
     protected void initData() {
-        String week=getIntent().getStringExtra("week");
-        String classid=getIntent().getStringExtra("classid");
+        week=getIntent().getStringExtra("week");
+        classid=getIntent().getStringExtra("classid");
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         presenter = new NetWorkPresenterImp(this, this);
 
         presenter.initViewAndData();
+        Log.e("wee",week+"///"+classid);
         presenter.getListeningAndReading(week,classid);
 
     }
@@ -78,7 +87,6 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
                 no_content.setVisibility(View.GONE);
             }
             Glide.with(this).load(listenAndRead.getPath()).into(listenandread_img);
-
         }
     }
 
@@ -87,6 +95,13 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
         switch (view.getId()) {
             case R.id.back:
                 finish();
+                break;
+            case R.id.to_listenandread:
+                Intent intent = new Intent(this, TaskActivity.class);
+                intent.putExtra("classid",listenAndRead.getClassid());
+                intent.putExtra("type",listenAndRead.getType());
+                intent.putExtra("week",listenAndRead.getWeek());
+                startActivity(intent);
                 break;
         }
     }

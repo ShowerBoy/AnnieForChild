@@ -130,6 +130,7 @@
                     android:src="@drawable/auditionclass_icon_play"
                     android:background="@color/colorTransparentBlack"
                     android:scaleType="center"
+                    android:visibility="gone"
                     app:layout_constraintRight_toRightOf="@id/video_img"
                    />
 

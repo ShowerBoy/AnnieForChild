@@ -164,9 +164,13 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void buynum(int netid) {
-        grindEarView.showLoad();
-        interactor.buynum(netid);
+    public void buynum(int netid,int type) {
+        if(grindEarView!=null){
+            grindEarView.showLoad();
+        }else if(viewInfo!=null){
+            viewInfo.showLoad();
+        }
+        interactor.buynum(netid,type);
     }
 
     private void initImageSlide() {
@@ -363,6 +367,14 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.obj = listenAndRead;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_BUYNUM) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetSuggestActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            }else if (what == MethodCode.EVENT_BUYNUM1) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity#onMainEventThread(JTMessage)}
                  */

@@ -139,8 +139,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
     protected void initView(View view) {
         first_refresh_layout = view.findViewById(R.id.first_refresh_layout);
         imageSlide = view.findViewById(R.id.image_slide);
-
-
         imageSlide.addOnPageChangeListener(new ViewPagerEx.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {

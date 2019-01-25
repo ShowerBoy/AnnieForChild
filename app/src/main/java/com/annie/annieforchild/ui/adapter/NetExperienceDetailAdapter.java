@@ -85,7 +85,7 @@ public class NetExperienceDetailAdapter extends RecyclerView.Adapter<NetExperien
             public void onCheckDoubleClick(View view) {
 
                 Intent intent = new Intent(context, NetListenAndReadActivity.class);
-                intent.putExtra("classid",NetExperienceDetailActivity.netExpClass.getClassid());
+                intent.putExtra("classid",lists.get(i).getClassid());
                 intent.putExtra("week", lists.get(i).getWeeknum());
                 context.startActivity(intent);
             }

@@ -76,7 +76,7 @@ public class NetPreheatConsultAdapter extends RecyclerView.Adapter<NetPreheatCon
 //            holder.linear.setVisibility(View.VISIBLE);
 //        }
 
-        holder.video_img.setOnClickListener(new View.OnClickListener() {
+        holder.welcomeVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, VideoActivity.class);

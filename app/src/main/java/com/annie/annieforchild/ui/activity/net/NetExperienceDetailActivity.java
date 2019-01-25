@@ -122,7 +122,7 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
             netclass_video_title.setText(netExpClass.getVideo().getTitle());
             netclass_video_content.setText(netExpClass.getVideo().getContent());
             Glide.with(this).load(netExpClass.getVideo().getImage()).into(video_img);
-            video_img.setOnClickListener(new View.OnClickListener() {
+            welcomeVideo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(NetExperienceDetailActivity.this, VideoActivity.class);

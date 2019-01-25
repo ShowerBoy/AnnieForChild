@@ -170,7 +170,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     @Override
     public void getNetExpDetails(int netid) {
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETEXPDETAILS, RequestMethod.POST);
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETEXPDETAILS, RequestMethod.GET);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETEXPDETAILS, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         request.add("netid", netid);
@@ -219,12 +219,16 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void buynum(int netid) {
+    public void buynum(int netid,int type) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNUM, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         request.add("netid", netid);
-        addQueue(MethodCode.EVENT_BUYNUM, request);
+        if(type==1){//1:netsuggest请求 2：confirmorder请求
+            addQueue(MethodCode.EVENT_BUYNUM, request);
+        }else{
+            addQueue(MethodCode.EVENT_BUYNUM1, request);
+        }
         startQueue();
     }
 
@@ -264,6 +268,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 NetSuggest netSuggest = JSON.parseObject(data, NetSuggest.class);
                 listener.Success(what, netSuggest);
             } else if (what == MethodCode.EVENT_GETMYNETCLASS) {
+                Log.e("333",data);
                 MyNetClass myNetClass = JSON.parseObject(data, MyNetClass.class);
                 listener.Success(what, myNetClass);
 //                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
@@ -340,13 +345,18 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 PreheatConsult preheatConsult = JSON.parseObject(data, PreheatConsult.class);
                 listener.Success(what, preheatConsult);
             } else if (what == MethodCode.EVENT_GETLISTENANDREAD) {
+                Log.e("ttt",data);
                 ListenAndRead listenAndRead = JSON.parseObject(data, ListenAndRead.class);
                 listener.Success(what, listenAndRead);
             } else if (what == MethodCode.EVENT_BUYNUM) {
                 JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
                 int canbuy = dataobj.getInteger("canbuy");
                 listener.Success(what, canbuy);
-            }else if(what==MethodCode.EVENT_ORDERQUERY){
+            } else if (what == MethodCode.EVENT_BUYNUM1) {
+                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                int canbuy = dataobj.getInteger("canbuy");
+                listener.Success(what, canbuy);
+            } else if(what==MethodCode.EVENT_ORDERQUERY){
                 String trade_status="";
                 if(payment==0){
                     JSONObject jsonObject1 = JSON.parseObject(data);

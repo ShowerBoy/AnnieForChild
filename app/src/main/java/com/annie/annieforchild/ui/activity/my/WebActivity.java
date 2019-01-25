@@ -15,20 +15,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 
@@ -54,6 +61,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
     private ShareUtils shareUtils;
     private int shareTag = 0;
     private int aabb;
+    private ProgressBar progressBar;
 
     @Override
     protected int getLayoutId() {
@@ -62,6 +70,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
 
     @Override
     protected void initView() {
+        progressBar = findViewById(R.id.progressBar1);
         webView = findViewById(R.id.webView);
         title = findViewById(R.id.web_title);
         back = findViewById(R.id.web_back);
@@ -129,11 +138,17 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     Log.e("-----", url);
-                    String[] endList = url.split("=");
-                    if (endList != null && endList.length == 2) {
-                        if (endList[1].equals("end")) {
-                            finish();
-                        }
+
+                    if (getValueByName(url, "query1").equals("end")) {
+                        finish();
+                    } else if (getValueByName(url, "into").equals("1")) {
+                        JTMessage message1 = new JTMessage();
+                        message1.what = MethodCode.EVENT_PAY;
+                        message1.obj = 4;//刷新页面
+                        EventBus.getDefault().post(message1);
+                        finish();
+                    }else if(getValueByName(url, "into").equals("2")){
+                        finish();
                     }
 //                    view.loadUrl(url);
 //                    Intent intent1 = new Intent();
@@ -155,6 +170,17 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                     super.onPageFinished(view, url);
                 }
             });
+            webView.setWebChromeClient(new WebChromeClient() {
+                @Override
+                public void onProgressChanged(WebView view, int newProgress) {
+                    if (newProgress == 100) {
+                        progressBar.setVisibility(View.GONE);//加载完网页进度条消失
+                    } else {
+                        progressBar.setVisibility(View.VISIBLE);//开始加载网页时显示进度条
+                        progressBar.setProgress(newProgress);//设置进度值
+                    }
+                }
+            });
         }
         if (shareTag == 0) {
             share.setVisibility(View.GONE);
@@ -162,6 +188,26 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             share.setVisibility(View.VISIBLE);
         }
         shareUtils = new ShareUtils(this, this);
+    }
+
+    /***
+     * 获取url 指定name的value;
+     * @param url
+     * @param name
+     * @return
+     */
+    private String getValueByName(String url, String name) {
+        String result = "";
+        int index = url.indexOf("?");
+        String temp = url.substring(index + 1);
+        String[] keyValue = temp.split("&");
+        for (String str : keyValue) {
+            if (str.contains(name)) {
+                result = str.replace(name + "=", "");
+                break;
+            }
+        }
+        return result;
     }
 
     @Override
