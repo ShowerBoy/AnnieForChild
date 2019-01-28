@@ -118,6 +118,7 @@ dependencies {
     compile 'com.google.android:flexbox:1.0.0'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.6'
     compile 'com.airbnb.android:lottie:2.1.0'
+    compile 'com.ms-square:expandableTextView:0.1.4'
     //    compile 'com.github.chrisbanes:PhotoView:2.2.0'
     compile files('libs/Msc.jar')
     compile files('libs/AMap2DMap_5.2.0_AMapSearch_5.7.0_AMapLocation_3.8.0_20180201.jar')

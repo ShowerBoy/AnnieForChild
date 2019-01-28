@@ -6,7 +6,8 @@
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/task_content_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,18 +47,44 @@
                     android:textColor="@color/text_black"
                     android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/task_content_feedback"
+                <!--<TextView-->
+                <!--android:id="@+id/task_content_feedback"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/task_content_tit"-->
+                <!--android:layout_marginBottom="12dp"-->
+                <!--android:layout_marginTop="3dp"-->
+                <!--android:ellipsize="end"-->
+                <!--android:maxLines="3"-->
+                <!--android:text=""-->
+                <!--android:textColor="@color/text_color"-->
+                <!--android:textSize="14sp" />-->
+
+                <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/expand_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/task_content_tit"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="3dp"
-                    android:ellipsize="end"
-                    android:maxLines="3"
-                    android:text=""
-                    android:textColor="@color/text_color"
-                    android:textSize="14sp" />
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="6dp"
+                    expandableTextView:animDuration="200"
+                    expandableTextView:maxCollapsedLines="3">
+
+                    <TextView
+                        android:id="@id/expandable_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_color"
+                        android:textSize="14sp" />
+
+                    <ImageButton
+                        android:id="@id/expand_collapse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|bottom"
+                        android:background="@android:color/transparent"
+                        android:padding="16dp" />
+                </com.ms.square.android.expandabletextview.ExpandableTextView>
             </RelativeLayout>
 
             <RelativeLayout
@@ -82,25 +109,52 @@
                     android:textColor="@color/text_black"
                     android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/task_content_suggest"
+                <!--<TextView-->
+                <!--android:id="@+id/task_content_suggest"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/task_content_advice"-->
+                <!--android:layout_marginEnd="12dp"-->
+                <!--android:layout_marginStart="12dp"-->
+                <!--android:layout_marginTop="3dp"-->
+                <!--android:ellipsize="end"-->
+                <!--android:maxLines="3"-->
+                <!--android:text=""-->
+                <!--android:textColor="@color/text_color"-->
+                <!--android:textSize="14sp" />-->
+
+                <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/expand_text_view2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/task_content_advice"
                     android:layout_marginEnd="12dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="3dp"
-                    android:ellipsize="end"
-                    android:maxLines="3"
-                    android:text=""
-                    android:textColor="@color/text_color"
-                    android:textSize="14sp" />
+                    expandableTextView:animDuration="200"
+                    expandableTextView:maxCollapsedLines="3">
+
+                    <TextView
+                        android:id="@id/expandable_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_color"
+                        android:textSize="14sp" />
+
+                    <ImageButton
+                        android:id="@+id/expand_collapse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|bottom"
+                        android:background="@android:color/transparent"
+                        android:padding="16dp" />
+                </com.ms.square.android.expandabletextview.ExpandableTextView>
 
                 <TextView
                     android:id="@+id/task_content_homework_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/task_content_suggest"
+                    android:layout_below="@+id/expand_text_view2"
                     android:layout_marginEnd="12dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="16dp"
@@ -209,10 +263,10 @@
                             android:id="@+id/task_isfinish_f"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="32dp"
                             android:button="@null"
                             android:drawableLeft="@drawable/radio_group_select"
                             android:drawablePadding="6dp"
-                            android:layout_marginStart="32dp"
                             android:padding="2dp"
                             android:text="未完成"
                             android:textColor="@color/text_color" />

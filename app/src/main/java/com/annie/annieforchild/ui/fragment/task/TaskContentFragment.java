@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -39,6 +40,7 @@ import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -52,6 +54,7 @@ import java.util.List;
 
 public class TaskContentFragment extends BaseFragment implements SongView, OnCheckDoubleClick, RadioGroup.OnCheckedChangeListener {
     private TextView feedback, advice;
+    private ExpandableTextView expandableTextView, expandableTextView2;
     private ImageView empty;
     private RelativeLayout rebackLayout;
     private NestedScrollView nestedScrollView;
@@ -111,8 +114,12 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
         lists = new ArrayList<>();
         imageList = new ArrayList<>();
 //        pathList = new ArrayList<>();
-        if (tag == 0) {
-            rebackLayout.setVisibility(View.VISIBLE);
+        if (type == 0) {
+            if (tag == 0) {
+                rebackLayout.setVisibility(View.VISIBLE);
+            } else {
+                rebackLayout.setVisibility(View.GONE);
+            }
         } else {
             rebackLayout.setVisibility(View.GONE);
         }
@@ -121,19 +128,30 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
         presenter.initViewAndData();
 
 
-        if (tag == 0) {
-            if (type == 0) {
-                presenter.taskDetails(classid, type, "", taskTime, tag);
-            } else {
-                presenter.taskDetails(classid, type, week, "", tag);
+        if (TaskContentActivity.tabPosition == -1) {
+            if (tag == 0) {
+                if (type == 0) {
+                    presenter.taskDetails(classid, type, "", taskTime, tag);
+                } else {
+                    presenter.taskDetails(classid, type, week, "", tag);
+                }
+            }
+        } else {
+            if (tag == 2) {
+                if (type == 0) {
+                    presenter.taskDetails(classid, type, "", taskTime, tag);
+                } else {
+                    presenter.taskDetails(classid, type, week, "", tag);
+                }
             }
         }
+
     }
 
     @Override
     protected void initView(View view) {
-        feedback = view.findViewById(R.id.task_content_feedback);
-        advice = view.findViewById(R.id.task_content_suggest);
+//        feedback = view.findViewById(R.id.task_content_feedback);
+//        advice = view.findViewById(R.id.task_content_suggest);
         remarks = view.findViewById(R.id.task_content_remarks);
         submitBtn = view.findViewById(R.id.submit_task);
         taskRecycler = view.findViewById(R.id.task_content_recycler);
@@ -145,6 +163,8 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
         confirmLayout = view.findViewById(R.id.task_confirm_layout);
         nestedScrollView = view.findViewById(R.id.task_content_scroll);
         empty = view.findViewById(R.id.task_content_empty);
+        expandableTextView = view.findViewById(R.id.expand_text_view);
+        expandableTextView2 = view.findViewById(R.id.expand_text_view2);
 
         listener = new CheckDoubleClickListener(this);
         submitBtn.setOnClickListener(listener);
@@ -219,18 +239,27 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
                 iscommit = false;
             }
         } else if (message.what == MethodCode.EVENT_SUBMITTASK + 60000 + taskid) {
-            showInfo("提交成功");
+            showInfo((String) message.obj);
             if (type == 0) {
                 presenter.taskDetails(classid, type, "", taskTime, tag);
             } else {
                 presenter.taskDetails(classid, type, week, "", tag);
             }
         } else if (message.what == MethodCode.EVENT_COMPLETETASK + 70000 + taskid) {
-            showInfo("成功");
-            if (type == 0) {
-                presenter.taskDetails(classid, type, "", taskTime, tag);
+            int result = (int) message.obj;
+            if (result == 0) {
+                showInfo("成功");
+                lists.get(taskAdapter.getPosition()).setIsfinish(1);
+                lists.get(taskAdapter.getPosition()).setLikes(taskAdapter.getHomeworkList().get(taskAdapter.getPosition()).getLikes());
+                lists.get(taskAdapter.getPosition()).setListen(taskAdapter.getHomeworkList().get(taskAdapter.getPosition()).getListens());
+                taskAdapter.notifyDataSetChanged();
             } else {
-                presenter.taskDetails(classid, type, week, "", tag);
+                showInfo("失败");
+                if (type == 0) {
+                    presenter.taskDetails(classid, type, "", taskTime, tag);
+                } else {
+                    presenter.taskDetails(classid, type, week, "", tag);
+                }
             }
         } else if (message.what == MethodCode.EVENT_TASKDATA) {
             int bos = (int) message.obj;
@@ -249,9 +278,11 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
     private void refresh() {
         if (taskDetails != null) {
             if (tag == 0) {
-                feedback.setText(taskDetails.getFeedback());
+//                feedback.setText(taskDetails.getFeedback());
+                expandableTextView.setText(taskDetails.getFeedback());
             }
-            advice.setText(taskDetails.getAdvise());
+//            advice.setText(taskDetails.getAdvise());
+            expandableTextView2.setText(taskDetails.getAdvise());
             remarks.setText(taskDetails.getRemarks() != null ? taskDetails.getRemarks() : "");
             isfinish = taskDetails.getIsfinish();
             if (isfinish == 0) {
@@ -291,19 +322,44 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
                 text = remarks.getText().toString().trim();
                 if (text != null && text.length() != 0) {
                     if (complete != -1) {
-                        if (TaskContentActivity.pathList1.size() != 0) {
-                            if (tag == 0) {
+                        if (tag == 0) {
+                            if (TaskContentActivity.pathList1.size() != 0) {
                                 presenter.uploadTaskImage(taskid, TaskContentActivity.pathList1, type);
-                            } else if (tag == 1) {
-                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList2, type);
-                            } else if (tag == 2) {
-                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList3, type);
-                            } else if (tag == 3) {
-                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList4, type);
+                            } else {
+                                presenter.submitTask(taskid, text, complete, type);
                             }
-                        } else {
-                            presenter.submitTask(taskid, text, complete, type);
+                        } else if (tag == 1) {
+                            if (TaskContentActivity.pathList2.size() != 0) {
+                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList2, type);
+                            } else {
+                                presenter.submitTask(taskid, text, complete, type);
+                            }
+                        } else if (tag == 2) {
+                            if (TaskContentActivity.pathList3.size() != 0) {
+                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList3, type);
+                            } else {
+                                presenter.submitTask(taskid, text, complete, type);
+                            }
+                        } else if (tag == 3) {
+                            if (TaskContentActivity.pathList4.size() != 0) {
+                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList4, type);
+                            } else {
+                                presenter.submitTask(taskid, text, complete, type);
+                            }
                         }
+//                        if (TaskContentActivity.pathList1.size() != 0) {
+//                            if (tag == 0) {
+//                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList1, type);
+//                            } else if (tag == 1) {
+//                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList2, type);
+//                            } else if (tag == 2) {
+//                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList3, type);
+//                            } else if (tag == 3) {
+//                                presenter.uploadTaskImage(taskid, TaskContentActivity.pathList4, type);
+//                            }
+//                        } else {
+//                            presenter.submitTask(taskid, text, complete, type);
+//                        }
                     } else {
                         showInfo("请家长确认");
                     }

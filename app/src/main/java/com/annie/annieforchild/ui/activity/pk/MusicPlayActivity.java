@@ -24,6 +24,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,9 +77,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MusicPlayActivity extends BaseActivity implements SongView, OnCheckDoubleClick, SeekBar.OnSeekBarChangeListener, PopupWindow.OnDismissListener, PlatformActionListener {
     private ImageView back, last, next, list, loop, addList, share, pengyouquan, weixin, qq, qqzone, lyric, record, clarity;
+    private RelativeLayout lyricLayout;
     private LottieAnimationView animationView;
     public static ImageView play, collect;
-    private TextView shareCancel, anwaRadio, coinCount, popupTitle;
+    private TextView shareCancel, anwaRadio, coinCount, popupTitle, noLyric;
     public static TextView start, end, name;
     public static SeekBar seekBar;
     public static CircleImageView image;
@@ -143,6 +145,8 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         lyric = findViewById(R.id.music_lyric);
         record = findViewById(R.id.music_record);
         anwaRadio = findViewById(R.id.anwa_radio);
+        lyricLayout = findViewById(R.id.lyric_relative);
+        noLyric = findViewById(R.id.no_lyric);
         clarity = findViewById(R.id.music_play_clarity);
         animationView = findViewById(R.id.music_play_animation);
         lyricRecycler = findViewById(R.id.lyric_recycler);
@@ -237,7 +241,8 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                 MusicService.setMusicList(musicList);
             }
             MusicService.setMusicPosition(musicPosition);
-            lyricRecycler.setVisibility(View.GONE);
+//            lyricRecycler.setVisibility(View.GONE);
+            lyricLayout.setVisibility(View.GONE);
             if (MusicService.type != null) {
                 if (MusicService.type.equals("radio")) {
                     popupTitle.setText("电台");
@@ -330,7 +335,8 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                     if (isLyric) {
                         isLyric = false;
                         image.setVisibility(View.VISIBLE);
-                        lyricRecycler.setVisibility(View.GONE);
+//                        lyricRecycler.setVisibility(View.GONE);
+                        lyricLayout.setVisibility(View.GONE);
                     }
                     MusicService.play();
                 }
@@ -541,7 +547,8 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                         if (isLyric) {
                             isLyric = false;
                             image.setVisibility(View.VISIBLE);
-                            lyricRecycler.setVisibility(View.GONE);
+//                            lyricRecycler.setVisibility(View.GONE);
+                            lyricLayout.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -562,7 +569,8 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                         if (isLyric) {
                             isLyric = false;
                             image.setVisibility(View.VISIBLE);
-                            lyricRecycler.setVisibility(View.GONE);
+//                            lyricRecycler.setVisibility(View.GONE);
+                            lyricLayout.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -607,12 +615,14 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                 if (isLyric) {
                     isLyric = false;
                     image.setVisibility(View.VISIBLE);
-                    lyricRecycler.setVisibility(View.GONE);
+//                    lyricRecycler.setVisibility(View.GONE);
+                    lyricLayout.setVisibility(View.GONE);
                 } else {
                     isLyric = true;
                     presenter.getLyric(MusicService.musicList.get(MusicService.listTag).getBookId());
                     image.setVisibility(View.GONE);
-                    lyricRecycler.setVisibility(View.VISIBLE);
+//                    lyricRecycler.setVisibility(View.VISIBLE);
+                    lyricLayout.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.music_record:
@@ -684,9 +694,17 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
             ShareBean shareBean = (ShareBean) message.obj;
             url = shareBean.getUrl();
         } else if (message.what == MethodCode.EVENT_GETLYRIC) {
-            lyricList.clear();
-            lyricList.addAll((List<String>) message.obj);
-            lyricAdapter.notifyDataSetChanged();
+            List<String> list = (List<String>) message.obj;
+            if (list != null && list.size() != 0) {
+                lyricLayout.setVisibility(View.VISIBLE);
+                noLyric.setVisibility(View.GONE);
+                lyricList.clear();
+                lyricList.addAll((List<String>) message.obj);
+                lyricAdapter.notifyDataSetChanged();
+            } else {
+                lyricLayout.setVisibility(View.GONE);
+                noLyric.setVisibility(View.VISIBLE);
+            }
         } else if (message.what == MethodCode.EVENT_COLLECTCOURSE + 2000 + classId) {
             showInfo((String) message.obj);
             collect.setImageResource(R.drawable.icon_player_collection_t);

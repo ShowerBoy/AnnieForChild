@@ -17,6 +17,8 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.material.Material;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.task.Homework;
+import com.annie.annieforchild.bean.task.TaskBean;
+import com.annie.annieforchild.bean.task.TaskFade;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.activity.VideoActivity;
 import com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity;
@@ -25,6 +27,7 @@ import com.annie.annieforchild.ui.adapter.viewHolder.TaskDetailsViewHolder;
 import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,10 +38,11 @@ import java.util.List;
 public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHolder> {
     private Context context;
     private List<Homework> lists;
+    private List<TaskFade> homeworkList;
     private LayoutInflater inflater;
     private GrindEarPresenter presenter;
-    private boolean isLike, isListen;
-    private int taskid, likes, listen, type;
+    //    private boolean isLike, isListen;
+    private int taskid, type, position;
 
     public TaskDetailsAdapter(Context context, List<Homework> lists, GrindEarPresenter presenter, int taskid, int type) {
         this.context = context;
@@ -46,8 +50,13 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
         this.presenter = presenter;
         this.taskid = taskid;
         this.type = type;
-        isLike = false;
-        isListen = false;
+        homeworkList = new ArrayList<>();
+        for (int i = 0; i < lists.size(); i++) {
+            TaskFade taskFade = new TaskFade();
+            taskFade.setLike(false);
+            taskFade.setListen(false);
+            homeworkList.add(taskFade);
+        }
         inflater = LayoutInflater.from(context);
     }
 
@@ -122,8 +131,9 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
             @Override
             public void onClick(View v) {
                 if (lists.get(i).getIsfinish() == 0) {
-                    if (isLike && isListen) {
-                        presenter.completeTask(taskid, type, likes, listen, lists.get(i).getHomeworkid());
+                    if (homeworkList.get(i).isLike() && homeworkList.get(i).isListen()) {
+                        position = i;
+                        presenter.completeTask(taskid, type, homeworkList.get(i).getLikes(), homeworkList.get(i).getListens(), lists.get(i).getHomeworkid());
                     } else {
                         SystemUtils.show(context, "请选择“喜欢程度”和“听的情况”");
                     }
@@ -135,8 +145,10 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
             @Override
             public void onClick(View v) {
                 if (lists.get(i).getIsfinish() == 0) {
-                    isLike = true;
-                    likes = 1;
+//                    isLike = true;
+//                    likes = 1;
+                    homeworkList.get(i).setLike(true);
+                    homeworkList.get(i).setLikes(1);
                     taskDetailsViewHolder.heart1.setImageResource(R.drawable.icon_heart_t);
                     taskDetailsViewHolder.heart2.setImageResource(R.drawable.icon_heart_f);
                     taskDetailsViewHolder.heart3.setImageResource(R.drawable.icon_heart_f);
@@ -148,8 +160,10 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
             @Override
             public void onClick(View v) {
                 if (lists.get(i).getIsfinish() == 0) {
-                    isLike = true;
-                    likes = 2;
+//                    isLike = true;
+//                    likes = 2;
+                    homeworkList.get(i).setLike(true);
+                    homeworkList.get(i).setLikes(2);
                     taskDetailsViewHolder.heart1.setImageResource(R.drawable.icon_heart_t);
                     taskDetailsViewHolder.heart2.setImageResource(R.drawable.icon_heart_t);
                     taskDetailsViewHolder.heart3.setImageResource(R.drawable.icon_heart_f);
@@ -161,8 +175,10 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
             @Override
             public void onClick(View v) {
                 if (lists.get(i).getIsfinish() == 0) {
-                    isLike = true;
-                    likes = 3;
+//                    isLike = true;
+//                    likes = 3;
+                    homeworkList.get(i).setLike(true);
+                    homeworkList.get(i).setLikes(3);
                     taskDetailsViewHolder.heart1.setImageResource(R.drawable.icon_heart_t);
                     taskDetailsViewHolder.heart2.setImageResource(R.drawable.icon_heart_t);
                     taskDetailsViewHolder.heart3.setImageResource(R.drawable.icon_heart_t);
@@ -174,8 +190,10 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
             @Override
             public void onClick(View v) {
                 if (lists.get(i).getIsfinish() == 0) {
-                    isListen = true;
-                    listen = 1;
+//                    isListen = true;
+//                    listen = 1;
+                    homeworkList.get(i).setListen(true);
+                    homeworkList.get(i).setListens(1);
                     taskDetailsViewHolder.star.setImageResource(R.drawable.icon_star2_t);
                     taskDetailsViewHolder.moon.setImageResource(R.drawable.icon_moon_f);
                     taskDetailsViewHolder.sun.setImageResource(R.drawable.icon_sun_f);
@@ -187,8 +205,10 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
             @Override
             public void onClick(View v) {
                 if (lists.get(i).getIsfinish() == 0) {
-                    isListen = true;
-                    listen = 2;
+//                    isListen = true;
+//                    listen = 2;
+                    homeworkList.get(i).setListen(true);
+                    homeworkList.get(i).setListens(2);
                     taskDetailsViewHolder.star.setImageResource(R.drawable.icon_star2_t);
                     taskDetailsViewHolder.moon.setImageResource(R.drawable.icon_moon_t);
                     taskDetailsViewHolder.sun.setImageResource(R.drawable.icon_sun_f);
@@ -200,8 +220,10 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
             @Override
             public void onClick(View v) {
                 if (lists.get(i).getIsfinish() == 0) {
-                    isListen = true;
-                    listen = 3;
+//                    isListen = true;
+//                    listen = 3;
+                    homeworkList.get(i).setListen(true);
+                    homeworkList.get(i).setListens(3);
                     taskDetailsViewHolder.star.setImageResource(R.drawable.icon_star2_t);
                     taskDetailsViewHolder.moon.setImageResource(R.drawable.icon_moon_t);
                     taskDetailsViewHolder.sun.setImageResource(R.drawable.icon_sun_t);
@@ -275,5 +297,21 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
     @Override
     public int getItemCount() {
         return lists.size();
+    }
+
+    public List<TaskFade> getHomeworkList() {
+        return homeworkList;
+    }
+
+    public void setHomeworkList(List<TaskFade> homeworkList) {
+        this.homeworkList = homeworkList;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

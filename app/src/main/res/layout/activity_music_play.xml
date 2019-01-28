@@ -81,8 +81,8 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/lyric_recycler"
+    <RelativeLayout
+        android:id="@+id/lyric_relative"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/music_menu"
@@ -93,7 +93,24 @@
         android:layout_marginTop="36dp"
         android:visibility="gone">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lyric_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/no_lyric"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="暂无歌词"
+            android:textColor="@color/text_color"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
 
     <LinearLayout
         android:id="@+id/menu_layout"
