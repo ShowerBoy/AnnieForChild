@@ -46,7 +46,7 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         request.add("phone", phone);
         request.add("password", password);
         addQueue(MethodCode.EVENT_LOGIN, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         request.add("keyword", keyword);
         request.add("page", page);
         addQueue(MethodCode.EVENT_GLOBALSEARCH, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -68,7 +68,7 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         request.add("versionName", versionName);
         request.add("type", "android");
         addQueue(MethodCode.EVENT_CHECKUPDATE, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -77,7 +77,7 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_GETTAGS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -143,7 +143,7 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
             request.add("series", series);
         }
         addQueue(MethodCode.EVENT_GETTAGBOOK, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override

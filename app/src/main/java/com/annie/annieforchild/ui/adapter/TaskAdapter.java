@@ -16,6 +16,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.task.Task;
 import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.TaskViewHolder;
+import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 
 import java.util.List;
 
@@ -26,11 +27,15 @@ import java.util.List;
 public class TaskAdapter extends RecyclerView.Adapter<TaskViewHolder> {
     private Context context;
     private List<Task> lists;
+    private int type;
+    private OnRecyclerItemClickListener listener;
     private LayoutInflater inflater;
 
-    public TaskAdapter(Context context, List<Task> lists) {
+    public TaskAdapter(Context context, List<Task> lists, int type, OnRecyclerItemClickListener listener) {
         this.context = context;
         this.lists = lists;
+        this.type = type;
+        this.listener = listener;
         inflater = LayoutInflater.from(context);
     }
 
@@ -38,6 +43,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskViewHolder> {
     public TaskViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         TaskViewHolder holder = null;
         holder = new TaskViewHolder(inflater.inflate(R.layout.activity_task_item, viewGroup, false));
+        holder.itemView.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
+            @Override
+            public void onCheckDoubleClick(View view) {
+                listener.onItemClick(view);
+            }
+        }));
         return holder;
     }
 
@@ -51,7 +62,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskViewHolder> {
         }
         taskViewHolder.date.setText(lists.get(i).getDate());
         taskViewHolder.classname.setText("班级：" + lists.get(i).getClassname());
-        taskViewHolder.teacher.setText("教师：" + lists.get(i).getTeacher());
+        if (type == 0) {
+            taskViewHolder.teacher.setText("教师：" + lists.get(i).getTeacher());
+        } else {
+            taskViewHolder.teacher.setText("");
+        }
         taskViewHolder.title.setText(lists.get(i).getTitle());
         taskViewHolder.flowerCard.setText("奖励花卡:" + lists.get(i).getFlowercard());
         if (lists.get(i).getStatus() == 0) {
@@ -107,21 +122,22 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskViewHolder> {
                 SystemUtils.getTaskRemark(context, lists.get(i).getTaskscore(), lists.get(i).getAveragescore(), lists.get(i).getRemark()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
             }
         }));
-        taskViewHolder.doTask.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
-            @Override
-            public void onCheckDoubleClick(View view) {
-                Intent intent = new Intent(context, TaskContentActivity.class);
-                intent.putExtra("classid", lists.get(i).getClassid());
-                intent.putExtra("type", lists.get(i).getType());
-                if (lists.get(i).getType() == 0) {
-                    intent.putExtra("taskTime", lists.get(i).getTasktime());
-                } else {
-                    intent.putExtra("week", lists.get(i).getWeek());
-                }
-                intent.putExtra("tabPosition", -1);
-                context.startActivity(intent);
-            }
-        }));
+
+//        taskViewHolder.doTask.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
+//            @Override
+//            public void onCheckDoubleClick(View view) {
+//                Intent intent = new Intent(context, TaskContentActivity.class);
+//                intent.putExtra("classid", lists.get(i).getClassid());
+//                intent.putExtra("type", lists.get(i).getType());
+//                if (lists.get(i).getType() == 0) {
+//                    intent.putExtra("taskTime", lists.get(i).getTasktime());
+//                } else {
+//                    intent.putExtra("week", lists.get(i).getWeek());
+//                }
+//                intent.putExtra("tabPosition", -1);
+//                context.startActivity(intent);
+//            }
+//        }));
     }
 
     @Override

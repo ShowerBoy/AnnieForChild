@@ -23,9 +23,9 @@ public class MyBroadCastRecevier extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        presenter = new GrindEarPresenterImp(context);
-        presenter.initViewAndData();
-        presenter.DailyPunch();
+//        presenter = new GrindEarPresenterImp(context);
+//        presenter.initViewAndData();
+//        presenter.DailyPunch();
 //        SystemUtils.show(context, "获得花蜜");
 //        SystemUtils.getPopup(context).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
     }

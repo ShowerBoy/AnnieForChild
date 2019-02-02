@@ -55,7 +55,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
     private SharedPreferences.Editor editor;
     private String phone, psd, logintime;
     private Calendar calendar;
-    private LoginPresenter presenter;
+    private LoginPresenterImp presenter;
     private AlertHelper helper;
     private Dialog dialog;
     private SQLiteDatabase db;
@@ -213,7 +213,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
 
     @Override
     protected BasePresenter getPresenter() {
-        return null;
+        return presenter;
     }
 
     @Override

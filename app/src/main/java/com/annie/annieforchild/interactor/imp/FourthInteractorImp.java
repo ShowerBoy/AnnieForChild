@@ -42,7 +42,7 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         request2.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_USERINFO, request);
         addQueue(MethodCode.EVENT_USERLIST, request2);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         request.add("token", SystemUtils.token);
         request.add("deleteUsername", deleteUsername);
         addQueue(MethodCode.EVENT_DELETEUSERNAME, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_USERLIST, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override

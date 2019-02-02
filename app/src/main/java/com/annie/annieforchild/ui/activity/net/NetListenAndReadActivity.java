@@ -39,6 +39,7 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
     private ImageView listenandread_img;
     private Button to_listenandread;
     private String week, classid;
+    private int tag = 1;
 
     {
         setRegister(true);
@@ -70,7 +71,7 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
 
         presenter.initViewAndData();
         Log.e("wee", week + "///" + classid);
-        presenter.getListeningAndReading(week, classid);
+        presenter.getListeningAndReading(week, classid, tag);
 
     }
 
@@ -81,7 +82,7 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
 
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-        if (message.what == MethodCode.EVENT_GETLISTENANDREAD) {
+        if (message.what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {
             listenAndRead = (ListenAndRead) message.obj;
             if (listenAndRead.getIsshow() == 0) {
                 no_content.setVisibility(View.VISIBLE);

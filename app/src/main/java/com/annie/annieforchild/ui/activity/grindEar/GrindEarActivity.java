@@ -306,7 +306,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
 
     @Override
     protected BasePresenter getPresenter() {
-        return null;
+        return presenter;
     }
 
     @Override

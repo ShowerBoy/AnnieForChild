@@ -33,7 +33,7 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
         request.add("phone", phone);
         request.add("type", type);
         addQueue(MethodCode.EVENT_VERIFICATION_CODE, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
         request.add("password", password);
         request.add("serialNumber", serialNumber);
         addQueue(MethodCode.EVENT_RGISTER, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
         request.add("code", code);
         request.add("newPhone", newPhone);
         addQueue(MethodCode.EVENT_CHANGEPHONE, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
         request.add("password", password);
         request.add("serialNumber", serialNumber);
         addQueue(MethodCode.EVENT_RESETPASSWORD, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override

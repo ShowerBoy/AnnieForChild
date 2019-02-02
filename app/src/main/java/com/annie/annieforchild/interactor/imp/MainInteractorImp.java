@@ -40,7 +40,7 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
             request.add("username", "");
         }
         addQueue(MethodCode.EVENT_GETHOMEDATA, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override

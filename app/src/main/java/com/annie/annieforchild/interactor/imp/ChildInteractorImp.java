@@ -40,7 +40,7 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
         request.add("username", SystemUtils.defaultUsername);
         request.add("file", fileBinary);
         addQueue(MethodCode.EVENT_UPLOADAVATAR, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
         request.add("birthday", birthday);
         request.add("phone", phone);
         addQueue(MethodCode.EVENT_ADDCHILD, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
         request.add("sex", sex);
         request.add("birthday", birthday);
         addQueue(MethodCode.EVENT_UPDATEUSER, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override

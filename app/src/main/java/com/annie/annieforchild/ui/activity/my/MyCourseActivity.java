@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -58,6 +59,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     private AlertHelper helper;
     private Dialog dialog;
     private TextView network_teacher_wx;
+    private ConstraintLayout wxcard_layout;
 
     {
         setRegister(true);
@@ -70,6 +72,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
 
     @Override
     protected void initView() {
+        wxcard_layout = findViewById(R.id.card);
         back = findViewById(R.id.my_course_back);
         recycler = findViewById(R.id.my_course_recycler);
         howto = findViewById(R.id.howto_relative);
@@ -83,7 +86,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
         manager.setScrollEnabled(false);
         recycler.setLayoutManager(manager);
 
-        network_teacher_wx=findViewById(R.id.network_teacher_wx);
+        network_teacher_wx = findViewById(R.id.network_teacher_wx);
         findViewById(R.id.card).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -148,17 +151,26 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETMYNETCLASS) {
             MyNetClass myNetClass = (MyNetClass) message.obj;
-            if(myNetClass!=null && myNetClass.getMyList().size()>0){
-                lists.clear();
-                lists.addAll(myNetClass.getMyList());
-                if (lists.size() == 0) {
-                    empty.setVisibility(View.VISIBLE);
+            if (myNetClass != null) {
+                if (myNetClass.getMyList() != null) {
+                    lists.clear();
+                    lists.addAll(myNetClass.getMyList());
+                    if (lists.size() == 0) {
+                        empty.setVisibility(View.VISIBLE);
+                    } else {
+                        empty.setVisibility(View.GONE);
+                    }
+                    adapter.notifyDataSetChanged();
+                    wxcard_layout.setVisibility(View.VISIBLE);
                 } else {
-                    empty.setVisibility(View.GONE);
+                    empty.setVisibility(View.VISIBLE);
+                    wxcard_layout.setVisibility(View.GONE);
                 }
-                adapter.notifyDataSetChanged();
+            } else {
+                empty.setVisibility(View.VISIBLE);
+                wxcard_layout.setVisibility(View.GONE);
             }
-            network_teacher_wx.setText(myNetClass.getTeacher()+"（长按复制）");
+            network_teacher_wx.setText(myNetClass.getTeacher() + "（长按复制）");
         }
     }
 

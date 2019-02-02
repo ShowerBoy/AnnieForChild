@@ -128,7 +128,7 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
         presenter.initViewAndData();
 
 
-        if (TaskContentActivity.tabPosition == -1) {
+        if (TaskContentActivity.tabPosition == -1 || TaskContentActivity.tabPosition == 0) {
             if (tag == 0) {
                 if (type == 0) {
                     presenter.taskDetails(classid, type, "", taskTime, tag);

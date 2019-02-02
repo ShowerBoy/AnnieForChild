@@ -35,9 +35,9 @@ public interface NetWorkPresenter {
 
     void getNetPreheatConsult(String lessonid);
 
-    void getListeningAndReading(String week, String classid);
+    void getListeningAndReading(String week, String classid, int tag);
 
-    void buynum(int netid,int type);
+    void buynum(int netid, int type);
 
-    void OrderQuery(String tradeno,String outtradeno,int type);
+    void OrderQuery(String tradeno, String outtradeno, int type);
 }

@@ -187,7 +187,7 @@ public class ListenSongFragment extends BaseFragment implements SongView {
             showInfo((String) message.obj);
             if (type < 6) {
                 presenter.getMusicList(classId);
-            } else if (type == 11) {
+            } else if (type >= 11) {
                 presenter.getSpokenList(classId);
             } else {
                 presenter.getReadList(classId);

@@ -5,7 +5,7 @@ package com.annie.annieforchild.bean.net;
  */
 public class ListenAndRead {
 
-    private int isshow;
+    private int isshow; //0：空
     private String path;
     private int classid;
     private int type;

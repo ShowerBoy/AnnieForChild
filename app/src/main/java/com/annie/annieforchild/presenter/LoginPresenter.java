@@ -1,6 +1,7 @@
 package com.annie.annieforchild.presenter;
 
 import com.annie.annieforchild.bean.Tags;
+import com.annie.baselibrary.base.BasePresenter;
 
 import java.util.List;
 

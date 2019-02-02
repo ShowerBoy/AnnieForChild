@@ -68,7 +68,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETLISTENING, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -77,7 +77,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETMYLISTENING, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -90,7 +90,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("audioSource", audioSource);
         request.add("courseId", courseId);
         addQueue(MethodCode.EVENT_COLLECTCOURSE + 2000 + classId, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -103,7 +103,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("type", type);
         request.add("courseId", courseId);
         addQueue(MethodCode.EVENT_CANCELCOLLECTION1 + 3000 + classId, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -138,7 +138,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         addQueue(MethodCode.EVENT_GETMUSICCLASSES4, request4);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES5, request5);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES11, request6);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -168,7 +168,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         addQueue(MethodCode.EVENT_GETMUSICCLASSES8, request3);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES9, request4);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES10, request5);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -180,7 +180,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("classId", classId);
         this.classId = classId;
         addQueue(MethodCode.EVENT_GETMUSICLIST + 1000 + classId, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -196,7 +196,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 addQueue(MethodCode.EVENT_COMMITDURATION, request);
             }
         }
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -213,7 +213,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request1.add("record", record);
             addQueue(MethodCode.EVENT_ACCESSBOOK, request);
             addQueue(MethodCode.EVENT_GETBOOKSCORE, request1);
-            startQueue();
+//            startQueue();
         } else {
             FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKSCORE, RequestMethod.POST);
             request.add("username", SystemUtils.defaultUsername);
@@ -221,7 +221,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request.add("bookId", bookId);
             request.add("record", record);
             addQueue(MethodCode.EVENT_GETBOOKSCORE, request);
-            startQueue();
+//            startQueue();
         }
     }
 
@@ -238,7 +238,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request.add("pkUsername", pkUsername);
         }
         addQueue(MethodCode.EVENT_GETBOOKAUDIODATA, request);
-        startQueue();
+//        startQueue();
     }
 
     /**
@@ -287,7 +287,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request.add("pkUsername", pkUsername);
         }
         addQueue(MethodCode.EVENT_UPLOADAUDIO, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -297,7 +297,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("bookId", bookId);
         addQueue(MethodCode.EVENT_GETPKUSERS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -309,7 +309,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("pkUsername", pkUsername);
         request.add("pkType", pkType);
         addQueue(MethodCode.EVENT_GETPKRESULT, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -320,7 +320,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("bookId", bookId);
         addQueue(MethodCode.EVENT_JOINMATERIAL + 4000 + classId, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -331,7 +331,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("bookId", bookId);
         addQueue(MethodCode.EVENT_CANCELMATERIAL + 5000 + classId, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -342,7 +342,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("spaceType", spaceType);
         request.add("timeType", timeType);
         addQueue(MethodCode.EVENT_GETRANK, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -351,7 +351,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_GETSQUARERANK, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -363,7 +363,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("timeType", timeType);
         request.add("locationType", locationType);
         addQueue(MethodCode.EVENT_GETSQUARERANKLIST, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -373,7 +373,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("likeUsername", likeUsername);
         addQueue(MethodCode.EVENT_LIKESTUDENT, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -383,7 +383,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("cancelLikeUsername", cancelLikeUsername);
         addQueue(MethodCode.EVENT_CANCELLIKESTUDENT, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -392,7 +392,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_GETREADING, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -418,7 +418,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 addQueue(MethodCode.EVENT_COMMITREADING, request);
             }
         }
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -429,7 +429,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("timeType", timeType);
         request.add("locationType", locationType);
         addQueue(MethodCode.EVENT_GETDURATIONSTATISTICS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -440,7 +440,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("classId", classId);
         this.classId = classId;
         addQueue(MethodCode.EVENT_GETREADLIST + 6000 + classId, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -449,7 +449,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETQRCODE, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -460,7 +460,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("title", title);
         addQueue(MethodCode.EVENT_GETANIMATIONLIST + 7000 + classId, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -495,7 +495,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         addQueue(MethodCode.EVENT_GETSPOKENCLASSES3, request3);
         addQueue(MethodCode.EVENT_GETSPOKENCLASSES4, request4);
         addQueue(MethodCode.EVENT_GETSPOKENCLASSES5, request5);
-        startQueue();
+//        startQueue();
     }
 
 
@@ -507,7 +507,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("classId", classId);
         addQueue(MethodCode.EVENT_GETSPOKENLIST + 8000 + classId, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -525,7 +525,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("bookName", stringBuffer.toString());
         addQueue(MethodCode.EVENT_COMMITBOOK, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -533,7 +533,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SIGNINAPI + MethodType.DAILYPUNCH, RequestMethod.POST);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_DAILYPUNCH, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -543,7 +543,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("type", type);
         addQueue(MethodCode.EVENT_IWANTLISTEN, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -553,7 +553,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("bookId", bookId);
         addQueue(MethodCode.EVENT_ACCESSBOOK, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -567,7 +567,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("resourseId", resourseId);
         request.add("duration", duration);
         addQueue(MethodCode.EVENT_UPLOADAUDIOTIME, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -576,7 +576,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_MYPERIOD, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -586,7 +586,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("periodid", periodid);
         addQueue(MethodCode.EVENT_SUGGESTPERIOD, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -595,7 +595,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_MYTASK, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -613,7 +613,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request.add("week", week);
         }
         addQueue(MethodCode.EVENT_TASKDETAILS + 50000 + classify, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -627,7 +627,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("listen", listen);
         request.add("homeworkid", homeworkid);
         addQueue(MethodCode.EVENT_COMPLETETASK + 70000 + taskid, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -644,7 +644,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request.add("file", fileBinary);
             addQueue(MethodCode.EVENT_UPLOADTASKIMAGE + 40000 + taskid, request);
         }
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -658,7 +658,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("taskid", taskid);
         request.add("remarks", remarks);
         addQueue(MethodCode.EVENT_SUBMITTASK + 60000 + taskid, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -671,7 +671,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request.add("bookid", bookid);
         }
         addQueue(MethodCode.EVENT_CLOCKINSHARE, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -680,7 +680,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_GETCARDDETAIL, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -692,7 +692,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("yuedu", yuedu);
         request.add("kouyu", kouyu);
         addQueue(MethodCode.EVENT_SHARESUCCESS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -701,7 +701,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_GETMYSPEAKING, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -716,7 +716,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 addQueue(MethodCode.EVENT_COMMITSPEAKING, request);
             }
         }
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -729,7 +729,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("bookname", bookname);
         request.add("bookid", bookid);
         addQueue(MethodCode.EVENT_UNLOCKBOOK + 9000 + classId, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -738,7 +738,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETSPEAKING, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -748,7 +748,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("bookid", bookId);
         addQueue(MethodCode.EVENT_GETRELEASE, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -758,7 +758,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("bookid", bookId);
         addQueue(MethodCode.EVENT_RELEASEBOOK, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -768,7 +768,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("bookid", bookId);
         addQueue(MethodCode.EVENT_RELEASESUCCESS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -778,7 +778,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("id", id);
         addQueue(MethodCode.EVENT_PLAYTIMES, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -788,7 +788,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("id", id);
         addQueue(MethodCode.EVENT_ADDLIKES, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -798,7 +798,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("id", id);
         addQueue(MethodCode.EVENT_CANCELLIKES, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -809,7 +809,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("record", record);
         request.add("type", type);
         addQueue(MethodCode.EVENT_SHARECOIN, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -820,7 +820,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("radioid", radioid);
         request.add("type", type);
         addQueue(MethodCode.EVENT_GETRADIO, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -830,7 +830,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("bookid", bookid);
         addQueue(MethodCode.EVENT_GETLYRIC, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -840,7 +840,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("nectar", nectar);
         addQueue(MethodCode.EVENT_LUCKDRAW, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -850,7 +850,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("otherusername", otherusername);
         addQueue(MethodCode.EVENT_GETHOMEPAGE, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -861,7 +861,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("otherusername", otherusername);
         request.add("page", page);
         addQueue(MethodCode.EVENT_GETPRODUCTIONLIST, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -874,7 +874,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("type", type);
         request.add("page", page);
         addQueue(MethodCode.EVENT_MYRECORDINGS + 10000 + type, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -887,7 +887,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("origin", origin);
         request.add("recordingId", recordingId);
         addQueue(MethodCode.EVENT_DELETERECORDING + 30000 + type, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -898,7 +898,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", SystemUtils.token);
         request.add("bookid", bookid);
         addQueue(MethodCode.EVENT_CANCELRELEASE + 20000 + type, request);
-        startQueue();
+//        startQueue();
     }
 
 

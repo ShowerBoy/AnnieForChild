@@ -11,10 +11,14 @@ import android.view.ViewGroup;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.net.NetExpDetails;
+import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.bean.net.netexpclass.Info;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
+import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.lesson.TaskActivity;
+import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
 import com.annie.annieforchild.ui.activity.net.LessonActivity;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetailActivity;
 import com.annie.annieforchild.ui.activity.net.NetListenAndReadActivity;
@@ -30,10 +34,15 @@ import java.util.List;
 public class NetExperienceDetailAdapter extends RecyclerView.Adapter<NetExperienceDetailsViewHolder> {
     private Context context;
     private List<Info> lists;
+    private NetWorkPresenterImp presenter;
     private LayoutInflater inflater;
-    public NetExperienceDetailAdapter(Context context, List<Info> lists ) {
+    private int tag;
+
+    public NetExperienceDetailAdapter(Context context, List<Info> lists, NetWorkPresenterImp presenter, int tag) {
         this.context = context;
         this.lists = lists;
+        this.presenter = presenter;
+        this.tag = tag;
         inflater = LayoutInflater.from(context);
     }
 
@@ -74,18 +83,18 @@ public class NetExperienceDetailAdapter extends RecyclerView.Adapter<NetExperien
         netDetailsViewHolder.lesson3.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
             @Override
             public void onCheckDoubleClick(View view) {
-                Intent intent = new Intent(context, TaskActivity.class);
+//                Intent intent = new Intent(context, TaskActivity.class);
 //                intent.putExtra("lessonId", lists.get(i).getLessonList().get(2).getLessonId());
 //                intent.putExtra("lessonName", lists.get(i).getLessonList().get(2).getLessonName());
-                context.startActivity(intent);
+//                context.startActivity(intent);
+                presenter.getListeningAndReading(lists.get(i).getWeeknum(), lists.get(i).getClassid(), tag);
             }
         }));
         netDetailsViewHolder.lesson4.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
             @Override
             public void onCheckDoubleClick(View view) {
-
                 Intent intent = new Intent(context, NetListenAndReadActivity.class);
-                intent.putExtra("classid",lists.get(i).getClassid());
+                intent.putExtra("classid", lists.get(i).getClassid());
                 intent.putExtra("week", lists.get(i).getWeeknum());
                 context.startActivity(intent);
             }

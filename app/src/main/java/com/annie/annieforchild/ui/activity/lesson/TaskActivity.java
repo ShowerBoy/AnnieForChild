@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.activity.lesson;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -30,6 +31,7 @@ import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.mains.BankBookActivity;
 import com.annie.annieforchild.ui.adapter.TaskAdapter;
 import com.annie.annieforchild.ui.fragment.task.TaskFragment;
+import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -154,7 +156,28 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
         lists = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-        adapter = new TaskAdapter(this, lists);
+        adapter = new TaskAdapter(this, lists, taskType, new OnRecyclerItemClickListener() {
+            @Override
+            public void onItemClick(View view) {
+                int position = recycler.getChildAdapterPosition(view);
+                Intent intent = new Intent(TaskActivity.this, TaskContentActivity.class);
+                intent.putExtra("classid", lists.get(position-1).getClassid());
+                intent.putExtra("type", lists.get(position-1).getType());
+                if (lists.get(position-1).getType() == 0) {
+                    intent.putExtra("taskTime", lists.get(position-1).getTasktime());
+                } else {
+                    intent.putExtra("week", lists.get(position-1).getWeek());
+                }
+                intent.putExtra("tabPosition", -1);
+                startActivity(intent);
+//                showInfo(position + "");
+            }
+
+            @Override
+            public void onItemLongClick(View view) {
+
+            }
+        });
         recycler.setAdapter(adapter);
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();

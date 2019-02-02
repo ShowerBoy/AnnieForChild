@@ -44,7 +44,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         addQueue(MethodCode.EVENT_MYSCHEDULE, request);
 
 
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         } else if (type == 2) {
             addQueue(MethodCode.EVENT_GETALLMATERIALLIST3, request);
         }
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("audioType", audioType);
         request.add("audioSource", audioSource);
         addQueue(MethodCode.EVENT_ADDSCHEDULE, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -87,7 +87,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("startDate", startDate);
         request.add("endDate", endDate);
         addQueue(MethodCode.EVENT_TOTALSCHEDULE, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -102,7 +102,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("start", start);
         request.add("stop", end);
         addQueue(MethodCode.EVENT_EDITSCHEDULE, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -112,7 +112,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("scheduleId", scheduleId);
         addQueue(MethodCode.EVENT_DELETESCHEDULE, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -121,7 +121,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_MYCOURSESONLINE, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -139,7 +139,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_MYTEACHINGMATERIALS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -149,7 +149,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("date", date);
         addQueue(MethodCode.EVENT_MYCALENDAR, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -159,7 +159,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("username", SystemUtils.defaultUsername);
         request.add("date", date);
         addQueue(MethodCode.EVENT_MONTHCALENDAR, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override

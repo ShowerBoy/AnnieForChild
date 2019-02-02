@@ -23,12 +23,14 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.book.Line;
+import com.annie.annieforchild.bean.net.ListenAndRead;
 import com.annie.annieforchild.bean.net.NetClass;
 import com.annie.annieforchild.bean.net.NetExpDetails;
 import com.annie.annieforchild.bean.net.netexpclass.Info;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.VideoActivity;
+import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
 import com.annie.annieforchild.ui.adapter.NetExperienceDetailAdapter;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
@@ -51,11 +53,11 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
     List<Info> lists;
     NetExperienceDetailAdapter adapter;
     RelativeLayout listeningtext_card_roport;
-
+    private ListenAndRead listenAndRead;
     TextView netclass_video_content, netclass_video_title, title;
     ImageView video_img;
     public static NetExpClass netExpClass;
-    int netid;
+    int netid, tag = 0;
 
     {
         setRegister(true);
@@ -100,7 +102,7 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
         presenter.initViewAndData();
         presenter.getNetExpDetails(netid);
 
-        adapter = new NetExperienceDetailAdapter(this, lists);
+        adapter = new NetExperienceDetailAdapter(this, lists, presenter, tag);
         net_coursedetail_recyclerview.setAdapter(adapter);
 
         if (MusicService.isPlay) {
@@ -109,7 +111,6 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
     }
 
     void refresh() {
-
         if (netExpClass.getLearningReport().getIsshow() == 0) {
             listeningtext_card_roport.setVisibility(View.GONE);
         } else {
@@ -158,6 +159,18 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
             lists.addAll(netExpClass.getInfo());
             adapter.notifyDataSetChanged();
             refresh();
+        } else if (message.what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {
+            listenAndRead = (ListenAndRead) message.obj;
+            if (listenAndRead.getIsshow() == 0) {
+                showInfo("暂无家庭作业");
+            } else {
+                Intent intent = new Intent(this, TaskContentActivity.class);
+                intent.putExtra("classid", listenAndRead.getClassid());
+                intent.putExtra("type", listenAndRead.getType());
+                intent.putExtra("week", listenAndRead.getWeek());
+                intent.putExtra("tabPosition", 0);
+                startActivity(intent);
+            }
         }
     }
 

@@ -1,6 +1,8 @@
 package com.annie.annieforchild.presenter.imp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.annie.annieforchild.Utils.MethodCode;
@@ -47,7 +49,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     private NetWorkInteractor interactor;
     private List<Banner> bannerList;
     private HashMap<Integer, String> file_maps;
-    private int payment;
+    private int payment, tag;
 
     public NetWorkPresenterImp(Context context, ViewInfo viewInfo) {
         this.context = context;
@@ -145,10 +147,11 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         viewInfo.showLoad();
         interactor.buySuccess();
     }
+
     @Override
-    public void OrderQuery(String tradeno,String outtradeno,int type) {
+    public void OrderQuery(String tradeno, String outtradeno, int type) {
         viewInfo.showLoad();
-        interactor.OrderQuery(tradeno,outtradeno,type);
+        interactor.OrderQuery(tradeno, outtradeno, type);
     }
 
     @Override
@@ -158,19 +161,20 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void getListeningAndReading(String week, String classid) {
+    public void getListeningAndReading(String week, String classid, int tag) {
+        this.tag = tag;
         viewInfo.showLoad();
-        interactor.getListeningAndReading(week, classid);
+        interactor.getListeningAndReading(week, classid, tag);
     }
 
     @Override
-    public void buynum(int netid,int type) {
-        if(grindEarView!=null){
+    public void buynum(int netid, int type) {
+        if (grindEarView != null) {
             grindEarView.showLoad();
-        }else if(viewInfo!=null){
+        } else if (viewInfo != null) {
             viewInfo.showLoad();
         }
-        interactor.buynum(netid,type);
+        interactor.buynum(netid, type);
     }
 
     private void initImageSlide() {
@@ -194,7 +198,13 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
 
     @Override
     public void onSliderClick(BaseSliderView baseSliderView) {
-
+        if (bannerList.get(baseSliderView.getBundle().getInt("extra")).getUrl() != null) {
+            if (bannerList.get(baseSliderView.getBundle().getInt("extra")).getUrl().length() != 0) {
+                Uri uri = Uri.parse(bannerList.get(baseSliderView.getBundle().getInt("extra")).getUrl());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                context.startActivity(intent);
+            }
+        }
     }
 
     @Override
@@ -357,7 +367,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = lists;
                 EventBus.getDefault().post(message);
-            } else if (what == MethodCode.EVENT_GETLISTENANDREAD) {
+            } else if (what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {
                 ListenAndRead listenAndRead = (ListenAndRead) result;
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.NetListenAndReadActivity#onMainEventThread(JTMessage)}
@@ -374,7 +384,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = result;
                 EventBus.getDefault().post(message);
-            }else if (what == MethodCode.EVENT_BUYNUM1) {
+            } else if (what == MethodCode.EVENT_BUYNUM1) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity#onMainEventThread(JTMessage)}
                  */
@@ -382,7 +392,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = result;
                 EventBus.getDefault().post(message);
-            }else if (what == MethodCode.EVENT_ORDERQUERY) {
+            } else if (what == MethodCode.EVENT_ORDERQUERY) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity#onMainEventThread(JTMessage)}
                  */

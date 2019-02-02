@@ -39,7 +39,7 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETMYMESSAGES, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_GETHELP, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_MYRECORDINGS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -70,7 +70,7 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         request.add("origin", origin);
         request.add("recordingId", recordingId);
         addQueue(MethodCode.EVENT_DELETERECORDING, request);
-        startQueue();
+//        startQueue();
     }
 
 //    @Override
@@ -89,7 +89,7 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         request.add("token", SystemUtils.token);
         request.add("content", content);
         addQueue(MethodCode.EVENT_FEEDBACK, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -99,7 +99,7 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         request.add("token", SystemUtils.token);
         request.add("nectar", nectar);
         addQueue(MethodCode.EVENT_EXCHANGEGOLD, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -108,7 +108,7 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         request.add("username", SystemUtils.defaultUsername);
         request.add("token", SystemUtils.token);
         addQueue(MethodCode.EVENT_SHARETO, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override

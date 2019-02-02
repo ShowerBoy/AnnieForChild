@@ -1,5 +1,6 @@
 package com.annie.annieforchild.ui.fragment.task;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,11 +10,15 @@ import android.widget.ImageView;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.schedule.Schedule;
 import com.annie.annieforchild.bean.task.Task;
 import com.annie.annieforchild.bean.task.TaskBean;
+import com.annie.annieforchild.ui.activity.lesson.TaskActivity;
+import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
 import com.annie.annieforchild.ui.adapter.TaskAdapter;
+import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BaseFragment;
 import com.annie.baselibrary.base.BasePresenter;
@@ -58,7 +63,28 @@ public class TaskFragment extends BaseFragment {
             tag = getArguments().getInt("tag");
         }
         lists = new ArrayList<>();
-        adapter = new TaskAdapter(getContext(), lists);
+        adapter = new TaskAdapter(getContext(), lists, tag, new OnRecyclerItemClickListener() {
+            @Override
+            public void onItemClick(View view) {
+                int position = recycler.getChildAdapterPosition(view);
+                Intent intent = new Intent(getContext(), TaskContentActivity.class);
+                intent.putExtra("classid", lists.get(position - 1).getClassid());
+                intent.putExtra("type", lists.get(position - 1).getType());
+                if (lists.get(position - 1).getType() == 0) {
+                    intent.putExtra("taskTime", lists.get(position - 1).getTasktime());
+                } else {
+                    intent.putExtra("week", lists.get(position - 1).getWeek());
+                }
+                intent.putExtra("tabPosition", -1);
+                startActivity(intent);
+//                SystemUtils.show(getContext(), position + "");
+            }
+
+            @Override
+            public void onItemLongClick(View view) {
+
+            }
+        });
         recycler.setAdapter(adapter);
     }
 

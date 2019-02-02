@@ -41,7 +41,7 @@ import java.util.Map;
 public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteractor {
     private Context context;
     private RequestListener listener;
-    private int payment;
+    private int payment, tag;
 
     public NetWorkInteractorImp(Context context, RequestListener listener) {
         this.context = context;
@@ -64,7 +64,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_GETNETHOMEDATA, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("username", SystemUtils.defaultUsername);
         request.add("netid", netid);
         addQueue(MethodCode.EVENT_GETNETSUGGEST, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -83,7 +83,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_GETMYNETCLASS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -93,7 +93,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("username", SystemUtils.defaultUsername);
         request.add("netid", netid);
         addQueue(MethodCode.EVENT_CONFIRMORDER, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -102,7 +102,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_GETMYADDRESS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -114,7 +114,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("phone", phone);
         request.add("address", address);
         addQueue(MethodCode.EVENT_ADDADDRESS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -127,7 +127,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("phone", phone);
         request.add("address", address);
         addQueue(MethodCode.EVENT_EDITADDRESS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -137,7 +137,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("username", SystemUtils.defaultUsername);
         request.add("addressid", addressid);
         addQueue(MethodCode.EVENT_DELETEADDRESS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -154,7 +154,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("payment", payment);
         request.add("giftid", giftid);
         addQueue(MethodCode.EVENT_BUYNETWORK, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -164,7 +164,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("username", SystemUtils.defaultUsername);
         request.add("netid", netid);
         addQueue(MethodCode.EVENT_GETNETDETAILS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -175,7 +175,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("username", SystemUtils.defaultUsername);
         request.add("netid", netid);
         addQueue(MethodCode.EVENT_GETNETEXPDETAILS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -185,7 +185,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("username", SystemUtils.defaultUsername);
         request.add("lessonid", lessonid);
         addQueue(MethodCode.EVENT_GETLESSON, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -194,7 +194,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_BUYSUCCESS, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -204,36 +204,37 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("username", SystemUtils.defaultUsername);
         request.add("lessonid", Integer.parseInt(lessonid));
         addQueue(MethodCode.EVENT_GETPREHEATCONSULT, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
-    public void getListeningAndReading(String week, String classid) {
+    public void getListeningAndReading(String week, String classid, int tag) {
+        this.tag = tag;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETLISTENANDREAD, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         request.add("classid", classid);
         request.add("week", week);
-        addQueue(MethodCode.EVENT_GETLISTENANDREAD, request);
-        startQueue();
+        addQueue(MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag, request);
+//        startQueue();
     }
 
     @Override
-    public void buynum(int netid,int type) {
+    public void buynum(int netid, int type) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNUM, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         request.add("netid", netid);
-        if(type==1){//1:netsuggest请求 2：confirmorder请求
+        if (type == 1) {//1:netsuggest请求 2：confirmorder请求
             addQueue(MethodCode.EVENT_BUYNUM, request);
-        }else{
+        } else {
             addQueue(MethodCode.EVENT_BUYNUM1, request);
         }
-        startQueue();
+//        startQueue();
     }
 
     @Override
-    public  void OrderQuery(String tradeno,String outtradeno,int type) {
+    public void OrderQuery(String tradeno, String outtradeno, int type) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.ORDERQUERY, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
@@ -241,7 +242,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("outtradeno", outtradeno);
         request.add("type", type);
         addQueue(MethodCode.EVENT_ORDERQUERY, request);
-        startQueue();
+//        startQueue();
     }
 
 
@@ -268,7 +269,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 NetSuggest netSuggest = JSON.parseObject(data, NetSuggest.class);
                 listener.Success(what, netSuggest);
             } else if (what == MethodCode.EVENT_GETMYNETCLASS) {
-                Log.e("333",data);
+                Log.e("333", data);
                 MyNetClass myNetClass = JSON.parseObject(data, MyNetClass.class);
                 listener.Success(what, myNetClass);
 //                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
@@ -344,8 +345,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
             } else if (what == MethodCode.EVENT_GETPREHEATCONSULT) {
                 PreheatConsult preheatConsult = JSON.parseObject(data, PreheatConsult.class);
                 listener.Success(what, preheatConsult);
-            } else if (what == MethodCode.EVENT_GETLISTENANDREAD) {
-                Log.e("ttt",data);
+            } else if (what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {
+                Log.e("ttt", data);
                 ListenAndRead listenAndRead = JSON.parseObject(data, ListenAndRead.class);
                 listener.Success(what, listenAndRead);
             } else if (what == MethodCode.EVENT_BUYNUM) {
@@ -356,17 +357,17 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
                 int canbuy = dataobj.getInteger("canbuy");
                 listener.Success(what, canbuy);
-            } else if(what==MethodCode.EVENT_ORDERQUERY){
-                String trade_status="";
-                if(payment==0){
+            } else if (what == MethodCode.EVENT_ORDERQUERY) {
+                String trade_status = "";
+                if (payment == 0) {
                     JSONObject jsonObject1 = JSON.parseObject(data);
-                    String response1= jsonObject1.getString("alipay_trade_query_response");
+                    String response1 = jsonObject1.getString("alipay_trade_query_response");
                     JSONObject jsonObject2 = JSON.parseObject(response1);
-                    trade_status= jsonObject2.getString("trade_status");
+                    trade_status = jsonObject2.getString("trade_status");
                     listener.Success(what, trade_status);
-                }else{
+                } else {
                     JSONObject jsonObject1 = JSON.parseObject(data);
-                    trade_status= jsonObject1.getString("trade_state");
+                    trade_status = jsonObject1.getString("trade_state");
                     listener.Success(what, trade_status);
                 }
 

@@ -47,7 +47,7 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
         } else {
             addQueue(MethodCode.EVENT_MYCOLLECTIONS0, request);
         }
-        startQueue();
+//        startQueue();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
         } else {
             addQueue(MethodCode.EVENT_CANCELCOLLECTION0, request);
         }
-        startQueue();
+//        startQueue();
     }
 
     @Override

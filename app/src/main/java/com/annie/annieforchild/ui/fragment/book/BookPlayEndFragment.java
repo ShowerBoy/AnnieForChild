@@ -155,6 +155,7 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
         recordBack.setOnClickListener(listener);
         releaseBack.setOnClickListener(listener);
         Glide.with(getContext()).load(SystemUtils.userInfo.getAvatar()).into(headpic);
+        name.setText(SystemUtils.userInfo.getName());
         RecyclerLinearLayoutManager layoutManager = new RecyclerLinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.setScrollEnabled(false);
@@ -197,7 +198,7 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
                 intent.putExtra("bookId", bookId);
                 intent.putExtra("bookName", bookName);
                 intent.putExtra("imageUrl", imageUrl);
-                intent.putExtra("audioType",audioType);
+                intent.putExtra("audioType", audioType);
                 startActivity(intent);
                 getActivity().finish();
             } else {

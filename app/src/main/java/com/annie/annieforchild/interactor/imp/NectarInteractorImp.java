@@ -37,7 +37,7 @@ public class NectarInteractorImp extends NetWorkImp implements NectarInteractor 
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         addQueue(MethodCode.EVENT_GETNECTAR, request);
-        startQueue();
+//        startQueue();
     }
 
     @Override
