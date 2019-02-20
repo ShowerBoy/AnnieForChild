@@ -74,6 +74,7 @@ public class NetExperienceDetailAdapter extends RecyclerView.Adapter<NetExperien
         netDetailsViewHolder.lesson3.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
             @Override
             public void onCheckDoubleClick(View view) {
+
                 Intent intent = new Intent(context, TaskActivity.class);
 //                intent.putExtra("lessonId", lists.get(i).getLessonList().get(2).getLessonId());
 //                intent.putExtra("lessonName", lists.get(i).getLessonList().get(2).getLessonName());

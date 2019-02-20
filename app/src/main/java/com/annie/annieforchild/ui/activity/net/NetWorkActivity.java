@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -153,6 +154,7 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
             case R.id.to_NetTest://跳转到H5页面
                 Intent intent = new Intent(this, WebActivity.class);
                 intent.putExtra("url", "http://study.anniekids.org/questionnaire/index.html?name=" + SystemUtils.defaultUsername);
+//                intent.putExtra("url", "https://demoapi.anniekids.net/Api/ShareApi/WeiClass");
 //                intent.putExtra("aabb",1);//标题是否取消1：取消
                 intent.putExtra("title", "测试");
                 startActivity(intent);

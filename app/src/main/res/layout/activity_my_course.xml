@@ -44,29 +44,6 @@
 
         </android.support.v7.widget.RecyclerView>
 
-        <RelativeLayout
-            android:id="@+id/howto_relative"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_how_to_lesson" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="70dp"
-                android:text="如何上课"
-                android:textColor="@color/text_black"
-                android:textSize="18sp" />
-        </RelativeLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/card"
@@ -75,6 +52,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
+            android:visibility="visible"
             android:background="@drawable/myclass_card_wechat02">
 
             <TextView
@@ -121,7 +99,7 @@
         <LinearLayout
             android:id="@+id/empty_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginTop="130dp"
             android:orientation="vertical"

@@ -39,6 +39,7 @@ import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
 import com.annie.annieforchild.ui.activity.MainActivity;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.LoginView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -183,7 +184,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
         } else {
 //            presenter.getMainAddress();
         }
-        preferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+        preferences = getSharedPreferences("userInfo", MODE_PRIVATE |MODE_MULTI_PROCESS);
         editor = preferences.edit();
 
         if (preferences.getString("phone", null) != null && preferences.getString("psd", null) != null) {
@@ -218,8 +219,12 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
             SystemUtils.phoneSN.setBitcode(SystemUtils.getVersionName(this));
             SystemUtils.phoneSN.save();
 
+            /*添加token等本地保存*/
             editor.putString("phone", phone);
             editor.putString("psd", psd);
+            editor.putInt("childTag",SystemUtils.childTag);
+            editor.putString("token",bean.getToken());
+            editor.putString("defaultUsername",bean.getDefaultUsername());
             editor.commit();
 
             SystemUtils.phone = phone;
@@ -232,6 +237,8 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
             } else {
                 SystemUtils.childTag = 1;
             }
+
+
             startActivity(intent);
             if (tag != null && tag.equals("游客登陆")) {
                 ActivityCollector.finishAll();
@@ -316,6 +323,10 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
         super.onDestroy();
         if (db != null) {
             db.close();
+        }
+        /*内存泄漏问题*/
+        if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
         }
     }
 

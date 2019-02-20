@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -40,11 +41,13 @@ import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2;
 import com.annie.annieforchild.ui.activity.mains.BankBookActivity;
 import com.annie.annieforchild.ui.activity.mains.SquareActivity;
+import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
 import com.annie.annieforchild.ui.activity.speaking.SpeakingActivity;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.MainView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.bumptech.glide.Glide;
@@ -60,6 +63,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static android.content.Context.MODE_MULTI_PROCESS;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * 首页
@@ -146,7 +152,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 
             @Override
             public void onPageSelected(int i) {
-                Log.e("111", i + "");
             }
 
             @Override
@@ -499,7 +504,12 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 intent.setClass(getContext(), NetWorkActivity.class);
                 startActivity(intent);
-//                ((MainActivity) getActivity()).changeFragment(1);
+
+//                Intent intent3 = new Intent(getContext(), WebActivity.class);
+//                intent3.putExtra("url", "file:////android_asset/test/index_faq.html");
+//                intent3.putExtra("title", "测试");
+//                startActivity(intent3);
+
                 break;
             case R.id.match_layout:
                 //广场
@@ -921,6 +931,23 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 
     @Override
     public void onSliderClick(BaseSliderView baseSliderView) {
-        Log.e("22222", baseSliderView.getDescription());
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        SharedPreferences preferences = getContext().getSharedPreferences("userInfo", MODE_PRIVATE |MODE_MULTI_PROCESS);
+        if (preferences.getString("token", null) != null && preferences.getString("defaultUsername", null) != null) {
+            SystemUtils.childTag=preferences.getInt("childTag", 0);
+            SystemUtils.token=preferences.getString("token", null);
+            SystemUtils.defaultUsername=preferences.getString("defaultUsername", null);
+        }
+        Log.e("------",SystemUtils.childTag+"///"+SystemUtils.token+"///"+SystemUtils.defaultUsername);
+    }
+
+    @Override
+    public void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
     }
 }

@@ -115,7 +115,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                                 }
                                 MusicService.musicTitle = null;
                                 MusicService.musicImageUrl = null;
-                                SharedPreferences preferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+                                SharedPreferences preferences = getSharedPreferences("userInfo", MODE_PRIVATE |MODE_MULTI_PROCESS);
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.remove("phone");
                                 editor.remove("psd");

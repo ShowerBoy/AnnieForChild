@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -49,7 +50,6 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     private ImageView back;
     private TextView gotoNet;
     private LinearLayout empty;
-    private RelativeLayout howto;
     private RecyclerView recycler;
     private MyCourseAdapter adapter;
     private CheckDoubleClickListener listener;
@@ -58,6 +58,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     private AlertHelper helper;
     private Dialog dialog;
     private TextView network_teacher_wx;
+    private ConstraintLayout card;
 
     {
         setRegister(true);
@@ -70,9 +71,9 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
 
     @Override
     protected void initView() {
+        card=findViewById(R.id.card);
         back = findViewById(R.id.my_course_back);
         recycler = findViewById(R.id.my_course_recycler);
-        howto = findViewById(R.id.howto_relative);
         empty = findViewById(R.id.empty_layout);
         gotoNet = findViewById(R.id.goto_net);
         listener = new CheckDoubleClickListener(this);
@@ -148,13 +149,17 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETMYNETCLASS) {
             MyNetClass myNetClass = (MyNetClass) message.obj;
-            if(myNetClass!=null && myNetClass.getMyList().size()>0){
+            if(myNetClass!=null ){
                 lists.clear();
-                lists.addAll(myNetClass.getMyList());
+                if(myNetClass.getMyList()!=null){
+                    lists.addAll(myNetClass.getMyList());
+                }
                 if (lists.size() == 0) {
                     empty.setVisibility(View.VISIBLE);
+                    card.setVisibility(View.GONE);
                 } else {
                     empty.setVisibility(View.GONE);
+                    card.setVisibility(View.VISIBLE);
                 }
                 adapter.notifyDataSetChanged();
             }

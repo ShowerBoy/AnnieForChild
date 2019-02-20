@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.annie.annieforchild.bean.net.netexpclass.Info;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.VideoActivity;
+import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.adapter.NetExperienceDetailAdapter;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
@@ -42,7 +44,6 @@ import java.util.List;
 
 public class NetExperienceDetailActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     CheckDoubleClickListener listner;
-    private ConstraintLayout welcomeVideo;
     private ImageView back;
     private RecyclerView net_coursedetail_recyclerview;
     private Dialog dialog;
@@ -50,12 +51,14 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
     NetWorkPresenterImp presenter;
     List<Info> lists;
     NetExperienceDetailAdapter adapter;
-    RelativeLayout listeningtext_card_roport;
 
-    TextView netclass_video_content, netclass_video_title, title;
-    ImageView video_img;
+    TextView  title;
     public static NetExpClass netExpClass;
     int netid;
+    private ConstraintLayout exper_detail_totest1,exper_detail_totest2;
+    private LinearLayout exper_detail_topractice,exper_detail_totest;
+    private RelativeLayout empty_layout;
+    private ImageView empty_soon;
 
     {
         setRegister(true);
@@ -68,23 +71,27 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
 
     @Override
     protected void initView() {
-        title = findViewById(R.id.title);
-        welcomeVideo = findViewById(R.id.welcomeVideo);
+        empty_layout=findViewById(R.id.empty_layout);
+        empty_soon=findViewById(R.id.empty_soon);
         listner = new CheckDoubleClickListener(this);
+        exper_detail_totest1=findViewById(R.id.exper_detail_totest1);
+        exper_detail_totest2=findViewById(R.id.exper_detail_totest2);
+        exper_detail_topractice=findViewById(R.id.exper_detail_topractice);
+        exper_detail_totest=findViewById(R.id.exper_detail_totest);
+        exper_detail_totest1.setOnClickListener(listner);
+        exper_detail_topractice.setOnClickListener(listner);
+        exper_detail_totest.setOnClickListener(listner);
+        title = findViewById(R.id.title);
         back = findViewById(R.id.back);
         back.setOnClickListener(listner);
         net_coursedetail_recyclerview = findViewById(R.id.net_coursedetail_recyclerview);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         net_coursedetail_recyclerview.setLayoutManager(manager);
-        listeningtext_card_roport = findViewById(R.id.listeningtext_card_roport);
-        netclass_video_content = (TextView) findViewById(R.id.netclass_video_content);
-        netclass_video_title = (TextView) findViewById(R.id.netclass_video_title);
 
         String netname = getIntent().getStringExtra("netName");
         netid = getIntent().getIntExtra("netid", 0);
         title.setText(netname);
-        video_img = findViewById(R.id.video_img);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -109,31 +116,19 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
     }
 
     void refresh() {
-
-        if (netExpClass.getLearningReport().getIsshow() == 0) {
-            listeningtext_card_roport.setVisibility(View.GONE);
-        } else {
-            listeningtext_card_roport.setVisibility(View.VISIBLE);
+        if(netExpClass.getIsShowtest()==0){
+            exper_detail_totest1.setVisibility(View.VISIBLE);
+            exper_detail_totest2.setVisibility(View.GONE);
+        }else{
+            exper_detail_totest1.setVisibility(View.GONE);
+            exper_detail_totest2.setVisibility(View.VISIBLE);
         }
-        if (netExpClass.getVideo().getIsshow() == 0) {
-            welcomeVideo.setVisibility(View.GONE);
-        } else {
-            welcomeVideo.setVisibility(View.VISIBLE);
-            netclass_video_title.setText(netExpClass.getVideo().getTitle());
-            netclass_video_content.setText(netExpClass.getVideo().getContent());
-            Glide.with(this).load(netExpClass.getVideo().getImage()).into(video_img);
-            welcomeVideo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(NetExperienceDetailActivity.this, VideoActivity.class);
-                    intent.putExtra("url", netExpClass.getVideo().getVedio());
-                    intent.putExtra("imageUrl", netExpClass.getVideo().getImage());
-                    intent.putExtra("name", netExpClass.getVideo().getTitle());
-                    startActivity(intent);
-                }
-            });
+        if(netExpClass.getPlaceholdImg()!=null && netExpClass.getPlaceholdImg().length()>0){
+            empty_layout.setVisibility(View.VISIBLE);
+            Glide.with(this).load(netExpClass.getPlaceholdImg()).into(empty_soon);
+        }else{
+            empty_layout.setVisibility(View.GONE);
         }
-
     }
 
     @Override
@@ -143,9 +138,28 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
 
     @Override
     public void onCheckDoubleClick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.back:
                 finish();
+                break;
+            case R.id.exper_detail_totest1:
+                 intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
+                intent.putExtra("url", netExpClass.getPractice());
+                intent.putExtra("flag",1);//标题是否取消1：取消
+                startActivity(intent);
+                break;
+            case R.id.exper_detail_totest:
+                 intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
+                intent.putExtra("url", netExpClass.getTesting());
+                intent.putExtra("flag",1);//标题是否取消1：取消
+                startActivity(intent);
+                break;
+            case R.id.exper_detail_topractice:
+                 intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
+                intent.putExtra("url", netExpClass.getPractice());
+                intent.putExtra("flag",1);//标题是否取消1：取消
+                startActivity(intent);
                 break;
         }
     }

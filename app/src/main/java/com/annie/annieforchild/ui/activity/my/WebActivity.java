@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -131,10 +132,22 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             webView.loadUrl(url);
             webView.canGoForward();
             webView.canGoBack();
-
             webView.getSettings().setUseWideViewPort(true);
             webView.getSettings().setLoadWithOverviewMode(true);
-            webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+            webView.getSettings().setBuiltInZoomControls(true);
+            webView.getSettings().setJavaScriptEnabled(true);
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+                webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            }
+//            webView.getSettings().setSupportZoom(true);
+//            webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+//            webView.getSettings().setGeolocationEnabled(true);
+//            webView.getSettings().setDomStorageEnabled(true);
+//            webView.getSettings().setDatabaseEnabled(true);
+//            webView.getSettings().setAllowFileAccess(true); // 允许访问文件
+////            webView.getSettings().setSupportZoom(true); // 支持缩放
+//            webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+//            webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE); // 不加载缓存内容
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
