@@ -69,6 +69,7 @@ public class PkResultActivity extends BaseActivity implements SongView, OnCheckD
     private GrindEarPresenter presenter;
     private LottieAnimationView coinAnimationView;
     private boolean isShow = true;
+    private boolean isGoldGet = true;
     private AlertHelper helper;
     private Dialog dialog;
 
@@ -365,7 +366,14 @@ public class PkResultActivity extends BaseActivity implements SongView, OnCheckD
     @Override
     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
         showInfo("分享成功");
-        presenter.shareCoin(2, shareType);
+        if (isGoldGet) {
+            isGoldGet = false;
+            presenter.shareCoin(2, shareType);
+        }else{
+            if (popupWindow.isShowing()) {
+                popupWindow.dismiss();
+            }
+        }
 //        popupWindow.dismiss();
     }
 

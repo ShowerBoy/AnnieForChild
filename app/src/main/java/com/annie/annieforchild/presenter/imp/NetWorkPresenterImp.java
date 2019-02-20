@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.Banner;
 import com.annie.annieforchild.bean.JTMessage;
@@ -23,7 +22,9 @@ import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.interactor.NetWorkInteractor;
 import com.annie.annieforchild.interactor.imp.NetWorkInteractorImp;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
+import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.activity.net.NetPreheatClassActivity;
+import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BasePresenterImp;
@@ -197,14 +198,13 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void onSliderClick(BaseSliderView baseSliderView) {
-        if (bannerList.get(baseSliderView.getBundle().getInt("extra")).getUrl() != null) {
-            if (bannerList.get(baseSliderView.getBundle().getInt("extra")).getUrl().length() != 0) {
-                Uri uri = Uri.parse(bannerList.get(baseSliderView.getBundle().getInt("extra")).getUrl());
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+    public void onSliderClick(BaseSliderView slider) {
+        if (!bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("")) {
+                Intent intent = new Intent(context, WebActivity.class);
+                intent.putExtra("url", bannerList.get(slider.getBundle().getInt("extra")).getUrl());
+                intent.putExtra("title", "");
                 context.startActivity(intent);
             }
-        }
     }
 
     @Override

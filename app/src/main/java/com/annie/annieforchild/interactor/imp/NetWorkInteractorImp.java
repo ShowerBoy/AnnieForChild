@@ -19,6 +19,7 @@ import com.annie.annieforchild.bean.net.NetExpDetails;
 import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.bean.net.PreheatConsult;
+import com.annie.annieforchild.bean.net.PreheatConsultList;
 import com.annie.annieforchild.bean.net.WechatBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.interactor.NetWorkInteractor;
@@ -31,6 +32,8 @@ import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Response;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -269,7 +272,6 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 NetSuggest netSuggest = JSON.parseObject(data, NetSuggest.class);
                 listener.Success(what, netSuggest);
             } else if (what == MethodCode.EVENT_GETMYNETCLASS) {
-                Log.e("333", data);
                 MyNetClass myNetClass = JSON.parseObject(data, MyNetClass.class);
                 listener.Success(what, myNetClass);
 //                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
@@ -316,7 +318,6 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
             } else if (what == MethodCode.EVENT_BUYNETWORK) {
                 if (data != null) {
                     if (payment == 0) {
-
                         listener.Success(what, data);
                     } else {
                         WechatBean wechatBean = JSON.parseObject(data, WechatBean.class);
@@ -340,9 +341,16 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 }
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_GETNETEXPDETAILS) {
+                Log.e("----", data);
                 NetExpClass netExpClass = JSON.parseObject(data, NetExpClass.class);
                 listener.Success(what, netExpClass);
             } else if (what == MethodCode.EVENT_GETPREHEATCONSULT) {
+//                JSONObject jsonObject1=JSON.parseObject(data);
+//                HashMap<String,List<PreheatConsultList>> map=new HashMap<>();
+//                for (Map.Entry<String, Object> entry : jsonObject1.entrySet()){
+//                   Log.e("----",entry.getKey() + ":" + entry.getValue());
+//                }
+
                 PreheatConsult preheatConsult = JSON.parseObject(data, PreheatConsult.class);
                 listener.Success(what, preheatConsult);
             } else if (what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {

@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
@@ -58,6 +59,7 @@ import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.crud.DataSupport;
 
@@ -482,6 +484,8 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
 //                if (!isClick) {
 //                    return;
 //                }
+
+                /*报错，出现内存泄漏问题，故加入界面退出加入onDestroy销毁popupwindow*/
                 popupWindow.showAtLocation(popupView, Gravity.BOTTOM, 0, 0);
                 SystemUtils.setBackGray(this, true);
                 break;
@@ -783,5 +787,11 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
     public void onCancel(Platform platform, int i) {
         showInfo("分享取消");
         popupWindow2.dismiss();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (popupWindow!=null && popupWindow.isShowing()) { popupWindow.dismiss(); }
     }
 }

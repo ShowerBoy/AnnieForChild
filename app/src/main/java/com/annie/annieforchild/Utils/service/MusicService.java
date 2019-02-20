@@ -245,9 +245,12 @@ public class MusicService extends Service {
 //                mediaPlayer.prepare();
 //                mediaPlayer.start();
                 try {
-                    mediaPlayer.reset();
-                    mediaPlayer.setDataSource(musicList.get(listTag).getPath());
-                    mediaPlayer.prepareAsync();
+                    /*数组越界*/
+                    if(musicList!=null && musicList.size()>0){
+                        mediaPlayer.reset();
+                        mediaPlayer.setDataSource(musicList.get(listTag).getPath());
+                        mediaPlayer.prepareAsync();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (IllegalStateException e) {
@@ -318,12 +321,15 @@ public class MusicService extends Service {
             isPlay = false;
             //
             Song song = new Song();
-            song.setBookId(musicPartList.get(listTag).getBookId());
-            song.setBookName(musicPartList.get(listTag).getName());
-            song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());
-            song.setPath(musicPartList.get(listTag).getMusicUrl());
-            song.setIsCollected(musicList.get(listTag).getIsCollected());
-            SystemUtils.addPlayLists(song);
+            /**/
+            if(musicPartList!=null && musicPartList.size()>0){
+                song.setBookId(musicPartList.get(listTag).getBookId());
+                song.setBookName(musicPartList.get(listTag).getName());
+                song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());
+                song.setPath(musicPartList.get(listTag).getMusicUrl());
+                song.setIsCollected(musicList.get(listTag).getIsCollected());
+                SystemUtils.addPlayLists(song);
+            }
 
             JTMessage message = new JTMessage();
             message.what = MethodCode.EVENT_MUSIC;

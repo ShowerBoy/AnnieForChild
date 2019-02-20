@@ -4,7 +4,6 @@ package com.annie.annieforchild.Utils;
  * 字段名称
  * Created by WangLei on 2018/1/30 0030
  */
-
 public class MethodCode {
     final public static String SYSTEMAPI = "systemApi/";
     final public static String PERSONAPI = "personApi/";
@@ -12,7 +11,7 @@ public class MethodCode {
     final public static String HOMEWORKAPI = "homeworkApi/";
     final public static String SEARCHAPI = "SearchApi/";
     final public static String SQUAREAPI = "SquareApi/";
-    final public static String NETCLASSAPI = "NetclassApi/";
+    final public static String NETCLASSAPI = "NetclasstestApi/";
     final public static String SIGNINAPI = "Signin/";
     final public static String TASKAPI = "TaskApi/";
     final public static String SHAREAPI = "ShareApi/";

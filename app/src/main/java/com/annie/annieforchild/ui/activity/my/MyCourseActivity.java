@@ -50,7 +50,6 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     private ImageView back;
     private TextView gotoNet;
     private LinearLayout empty;
-    private RelativeLayout howto;
     private RecyclerView recycler;
     private MyCourseAdapter adapter;
     private CheckDoubleClickListener listener;
@@ -59,7 +58,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     private AlertHelper helper;
     private Dialog dialog;
     private TextView network_teacher_wx;
-    private ConstraintLayout wxcard_layout;
+    private ConstraintLayout card;
 
     {
         setRegister(true);
@@ -72,10 +71,9 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
 
     @Override
     protected void initView() {
-        wxcard_layout = findViewById(R.id.card);
+        card = findViewById(R.id.card);
         back = findViewById(R.id.my_course_back);
         recycler = findViewById(R.id.my_course_recycler);
-        howto = findViewById(R.id.howto_relative);
         empty = findViewById(R.id.empty_layout);
         gotoNet = findViewById(R.id.goto_net);
         listener = new CheckDoubleClickListener(this);
@@ -150,27 +148,40 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETMYNETCLASS) {
+//            MyNetClass myNetClass = (MyNetClass) message.obj;
+//            if (myNetClass != null) {
+//                lists.clear();
+//                if (myNetClass.getMyList() != null) {
+//                    lists.addAll(myNetClass.getMyList());
+//                }
+//                if (lists.size() == 0) {
+//                    empty.setVisibility(View.VISIBLE);
+//                    card.setVisibility(View.GONE);
+//                } else {
+//                    empty.setVisibility(View.GONE);
+//                    card.setVisibility(View.VISIBLE);
+//                }
+//            } else {
+//                empty.setVisibility(View.VISIBLE);
+////                wxcard_layout.setVisibility(View.GONE);
+//            }
+//            network_teacher_wx.setText(myNetClass.getTeacher() + "（长按复制）");
             MyNetClass myNetClass = (MyNetClass) message.obj;
-            if (myNetClass != null) {
-                if (myNetClass.getMyList() != null) {
-                    lists.clear();
+            if(myNetClass!=null ){
+                lists.clear();
+                if(myNetClass.getMyList()!=null){
                     lists.addAll(myNetClass.getMyList());
-                    if (lists.size() == 0) {
-                        empty.setVisibility(View.VISIBLE);
-                    } else {
-                        empty.setVisibility(View.GONE);
-                    }
-                    adapter.notifyDataSetChanged();
-                    wxcard_layout.setVisibility(View.VISIBLE);
-                } else {
-                    empty.setVisibility(View.VISIBLE);
-                    wxcard_layout.setVisibility(View.GONE);
                 }
-            } else {
-                empty.setVisibility(View.VISIBLE);
-                wxcard_layout.setVisibility(View.GONE);
+                if (lists.size() == 0) {
+                    empty.setVisibility(View.VISIBLE);
+                    card.setVisibility(View.GONE);
+                } else {
+                    empty.setVisibility(View.GONE);
+                    card.setVisibility(View.VISIBLE);
+                }
+                adapter.notifyDataSetChanged();
             }
-            network_teacher_wx.setText(myNetClass.getTeacher() + "（长按复制）");
+            network_teacher_wx.setText(myNetClass.getTeacher()+"（长按复制）");
         }
     }
 

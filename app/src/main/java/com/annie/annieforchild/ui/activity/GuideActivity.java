@@ -128,7 +128,9 @@ public class GuideActivity extends BaseActivity implements LoginView {
         presenter.initViewAndData();
         calendar = Calendar.getInstance();
         db = LitePal.getDatabase();
-        preferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+
+        /*sharepreference设置多进程访问*/
+        preferences = getSharedPreferences("userInfo", MODE_PRIVATE |MODE_MULTI_PROCESS);
         editor = preferences.edit();
         timer = new Timer();
         task = new TimerTask() {
@@ -187,9 +189,12 @@ public class GuideActivity extends BaseActivity implements LoginView {
             SystemUtils.phoneSN.setSystem("android");
             SystemUtils.phoneSN.setBitcode(SystemUtils.getVersionName(this));
             SystemUtils.phoneSN.save();
-
+            /*添加token等本地保存*/
             editor.putString("phone", phone);
             editor.putString("psd", psd);
+            editor.putInt("childTag",SystemUtils.childTag);
+            editor.putString("token",bean.getToken());
+            editor.putString("defaultUsername",bean.getDefaultUsername());
             editor.commit();
 
             SystemUtils.phone = phone;
@@ -202,6 +207,10 @@ public class GuideActivity extends BaseActivity implements LoginView {
         } else if (message.what == MethodCode.EVENT_ERROR) {
             editor.putString("phone", null);
             editor.putString("psd", null);
+            /**/
+            editor.putInt("childTag",0);
+            editor.putString("token",null);
+            editor.putString("defaultUsername",null);
             editor.commit();
 
             Intent intent = new Intent(GuideActivity.this, LoginActivity.class);

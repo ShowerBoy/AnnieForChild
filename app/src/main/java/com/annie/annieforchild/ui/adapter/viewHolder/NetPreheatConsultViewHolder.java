@@ -18,11 +18,13 @@ public class NetPreheatConsultViewHolder extends RecyclerView.ViewHolder {
     public ImageView video_img;
     public LinearLayout linear;
     public ConstraintLayout welcomeVideo;
+    public TextView test_describe;
 
     public NetPreheatConsultViewHolder(View itemView) {
         super(itemView);
         type = itemView.findViewById(R.id.type);
         title = itemView.findViewById(R.id.title);
+        test_describe = itemView.findViewById(R.id.test_describe);
         video_img = itemView.findViewById(R.id.video_img);
         linear = itemView.findViewById(R.id.preheatconsult_linear);
         welcomeVideo=itemView.findViewById(R.id.welcomeVideo);

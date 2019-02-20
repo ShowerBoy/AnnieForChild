@@ -7,6 +7,16 @@ public class PreheatConsultList implements Serializable {
     private String title;
     private String picurl;
     private String path;
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    private String subtitle;
     public void setTitle(String title) {
         this.title = title;
     }
