@@ -1,10 +1,12 @@
 package com.annie.annieforchild.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by wanglei on 2018/5/7.
  */
 
-public class PkResult {
+public class PkResult implements Serializable {
     private int result;
     private String myscore;
     private String pkscore;

@@ -446,7 +446,7 @@ public class SystemUtils {
                 popupWindow.dismiss();
             }
         });
-        textView.setText("获得 " + (count * 2) + " 花蜜奖励");
+        textView.setText("获得 " + count + " 花蜜奖励");
         popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
         popupWindow.setAnimationStyle(R.style.pop_in_animation);
         popupWindow.setOutsideTouchable(false);

@@ -12,11 +12,38 @@ public class Line implements Serializable {
     private String pageid;
     private int lineId;
     private float score;
+    private float pkScore;
     private int finished;
     private String resourceUrl;
     private String myResourceUrl;
     private String pkResourceUrl;
     private boolean isSelect = false;
+    private boolean isSelfLine = false; //是否是自己读的回合
+    private boolean isScoreShow = false; //分数显示
+
+    public boolean isScoreShow() {
+        return isScoreShow;
+    }
+
+    public void setScoreShow(boolean scoreShow) {
+        isScoreShow = scoreShow;
+    }
+
+    public boolean isSelfLine() {
+        return isSelfLine;
+    }
+
+    public void setSelfLine(boolean selfLine) {
+        isSelfLine = selfLine;
+    }
+
+    public float getPkScore() {
+        return pkScore;
+    }
+
+    public void setPkScore(float pkScore) {
+        this.pkScore = pkScore;
+    }
 
     public String getPkResourceUrl() {
         return pkResourceUrl;

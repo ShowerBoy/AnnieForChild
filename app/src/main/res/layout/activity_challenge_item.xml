@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#f7f6f1"
-    android:padding="12dp">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/challenge_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="“I like cheese,”said Superhammy,The Yellow Cheese is on the “I like cheese,”said Superhammy."
-        android:textColor="@color/text_color"
+        android:layout_toStartOf="@+id/challenge_score"
+        android:gravity="start"
+        android:text="“I like cheese,”said Superhammy,The Yellow Ch is on the “I like cheese,”said Superhammy."
+        android:textColor="@color/clarity_black"
         android:textSize="18sp" />
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/challenge_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="6dp"
+        android:text="5分"
+        android:textColor="@color/text_black"
+        android:textSize="18sp" />
+</RelativeLayout>

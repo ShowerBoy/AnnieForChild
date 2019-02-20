@@ -26,6 +26,9 @@
     <color name="light_gray2">#EEEEEE</color>
     <color name="clarity_gray">#6F000000</color>
     <color name="clarity_black">#454545</color>
+    <color name="pk_lose_bg">#8DAAC8</color>
+    <color name="pk_result_color">#FFF10F</color>
+    <color name="pk_win_bg">#79CA44</color>
     <color name="gray">#CECECE</color>
     <color name="gray1">#e5e5e5</color>
     <color name="relative_orange_back">#F8F3ED</color>

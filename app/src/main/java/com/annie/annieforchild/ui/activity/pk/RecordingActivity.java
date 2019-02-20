@@ -216,7 +216,7 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
         random = new Random();
 //        animationCode = random.nextInt(10) + 1;
 //        initAnimation(animationCode);
-        adapter = new ChallengeAdapter(this, lists);
+        adapter = new ChallengeAdapter(this, lists, 1);
         recycler.setAdapter(adapter);
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();

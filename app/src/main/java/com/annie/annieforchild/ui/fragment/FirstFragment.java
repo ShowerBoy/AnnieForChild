@@ -757,7 +757,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     intent = new Intent(getContext(), PracticeActivity.class);
                     intent.putExtra("song", readingList.get(0));
                     intent.putExtra("type", 0);
-                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioType", 1);
                     intent.putExtra("audioSource", 0);
                     intent.putExtra("bookType", 1);
                     startActivity(intent);
@@ -773,7 +773,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     intent = new Intent(getContext(), PracticeActivity.class);
                     intent.putExtra("song", readingList.get(1));
                     intent.putExtra("type", 0);
-                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioType", 1);
                     intent.putExtra("audioSource", 0);
                     intent.putExtra("bookType", 1);
                     startActivity(intent);
@@ -789,7 +789,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     intent = new Intent(getContext(), PracticeActivity.class);
                     intent.putExtra("song", readingList.get(2));
                     intent.putExtra("type", 0);
-                    intent.putExtra("audioType", 0);
+                    intent.putExtra("audioType", 1);
                     intent.putExtra("audioSource", 0);
                     intent.putExtra("bookType", 1);
                     startActivity(intent);

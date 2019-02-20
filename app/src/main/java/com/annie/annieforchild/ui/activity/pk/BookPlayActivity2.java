@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,6 +115,7 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
         share.setOnClickListener(listener);
         playTotal.setOnClickListener(listener);
         playTotal2.setOnClickListener(listener);
+//        playTotal2.setAlpha(0.5f);
 
         intent = getIntent();
         bookId = intent.getIntExtra("bookId", 0);
@@ -278,7 +280,13 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (position == lists.size() - 1) {
+//                    bookPlay2Layout.getBackground().setAlpha((int) (positionOffset * 255));
+                    bookPlay2Layout.setAlpha(1f - positionOffset);
+                    pageLayout.setAlpha(1f - positionOffset);
 
+//                    Log.v("BookPlayActivity2", position + "===" + positionOffset);
+                }
             }
 
             @Override
@@ -304,7 +312,7 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
 
                     } else {
                         SystemUtils.setBackGray(BookPlayActivity2.this, true);
-                        SystemUtils.getNectarCongratulation(BookPlayActivity2.this, nectarCount).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                        SystemUtils.getNectarCongratulation(BookPlayActivity2.this, nectarCount * 2).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
                     }
                 } else {
                     bookPlay2Layout.setVisibility(View.VISIBLE);

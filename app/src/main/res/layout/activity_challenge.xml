@@ -26,6 +26,16 @@
                 android:textSize="20sp" />
         </RelativeLayout>
 
+        <ProgressBar
+            android:id="@+id/challenge_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_gravity="center_horizontal"
+            android:indeterminate="false"
+            android:max="100"
+            android:progressDrawable="@drawable/progress_bar_pk" />
+
         <!--<de.hdodenhof.circleimageview.CircleImageView-->
         <!--android:id="@+id/challenge_image"-->
         <!--android:layout_width="60dp"-->
@@ -97,7 +107,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/icon_empty_data" />
+                    android:src="@drawable/icon_empty_data"
+                    android:visibility="gone" />
             </RelativeLayout>
 
 

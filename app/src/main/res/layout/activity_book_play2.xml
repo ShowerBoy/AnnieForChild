@@ -62,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="12dp"
+                android:background="@color/top_tab_back"
                 android:layout_toStartOf="@+id/play_share"
                 android:src="@drawable/icon_full_reading_f" />
 

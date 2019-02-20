@@ -11,10 +11,11 @@ import com.annie.annieforchild.R;
  */
 
 public class ChallengeViewHolder extends RecyclerView.ViewHolder {
-    public TextView challengeText;
+    public TextView challengeText, challengeScore;
 
     public ChallengeViewHolder(View itemView) {
         super(itemView);
         challengeText = itemView.findViewById(R.id.challenge_text);
+        challengeScore = itemView.findViewById(R.id.challenge_score);
     }
 }

@@ -17,12 +17,12 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +75,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClick, SongView, PlatformActionListener, PopupWindow.OnDismissListener, OnCountFinishListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     private CircleProgressBar circleProgressBar;
+    private ProgressBar progressBar;
     private CircleImageView challengeImage, computer, character1, character2;
     private RecyclerView challengeList;
     private RelativeLayout pkResultLayout;
@@ -139,6 +140,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         challengeList = findViewById(R.id.challenge_list);
         empty = findViewById(R.id.challenge_empty);
         quit = findViewById(R.id.challenge_quit);
+        progressBar = findViewById(R.id.challenge_progress);
         listener = new CheckDoubleClickListener(this);
         circleProgressBar.setOnClickListener(listener);
         quit.setOnClickListener(listener);
@@ -257,6 +259,15 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                 circleProgressBar.setProgress(0);
                 isPlay = false;
                 mIse.stopEvaluating();
+
+                if (round == 0) {
+                    float progresses = (float) currentLine / totalLines;
+                    progressBar.setProgress((int) (progresses * 50));
+                } else {
+                    float progresses = (float) currentLine / totalLines;
+                    progressBar.setProgress((int) (progresses * 50) + 50);
+                }
+
                 currentLine++;
                 if (currentLine <= totalLines) {
                     refresh();
@@ -310,7 +321,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         countDownDialog = helper.getCountDownDialog(this);
-        adapter = new ChallengeAdapter(this, lists);
+        adapter = new ChallengeAdapter(this, lists, 1);
         challengeList.setAdapter(adapter);
 
         mediaPlayer = new MediaPlayer();
@@ -374,7 +385,8 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                     lists.addAll(book.getPageContent().get(i).getLineContent());
                     totalLines = totalLines + book.getPageContent().get(i).getLineContent().size();
                 }
-
+//                progress = 0;
+//                totalProgress = lists.size();
                 lists.get(0).setSelect(true);
 
 //            totalLines = lists.size();
@@ -511,6 +523,11 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
     }
 
     private void play(String url) {
+        if (mediaPlayer == null) {
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setOnPreparedListener(this);
+            mediaPlayer.setOnCompletionListener(this);
+        }
         try {
             mediaPlayer.reset();
             mediaPlayer.setDataSource(url);
@@ -637,6 +654,14 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
 
     @Override
     public void onCompletion(MediaPlayer mp) {
+        if (round == 0) {
+            float progresses = (float) currentLine / totalLines;
+            progressBar.setProgress((int) (progresses * 50));
+        } else {
+            float progresses = (float) currentLine / totalLines;
+            progressBar.setProgress((int) (progresses * 50) + 50);
+        }
+
         isClick = true;
         currentLine++;
         if (currentLine > totalLines) {
@@ -742,6 +767,14 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                         isPlay = false;
                         isClick = false;
                         mIse.stopEvaluating();
+
+                        if (round == 0) {
+                            float progresses = (float) currentLine / totalLines;
+                            progressBar.setProgress((int) (progresses * 50));
+                        } else {
+                            float progresses = (float) currentLine / totalLines;
+                            progressBar.setProgress((int) (progresses * 50) + 50);
+                        }
 
                         currentLine++;
                         if (currentLine <= totalLines) {

@@ -224,6 +224,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 bundle.putInt("bookId", song.getBookId());
                 bundle.putString("imageUrl", song.getBookImageUrl());
                 bundle.putString("pkUserName", pkUserList.get(position).getUsername());
+                bundle.putString("pkName", pkUserList.get(position).getName());
                 bundle.putString("avatar", pkUserList.get(position).getAvatar());
                 bundle.putInt("homeworkid", homeworkid);
                 intent.putExtras(bundle);
@@ -677,8 +678,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     Bundle bundle = new Bundle();
                     bundle.putInt("bookId", song.getBookId());
                     bundle.putString("pkUserName", pkUserList.get(position).getUsername());
+                    bundle.putString("pkName", pkUserList.get(position).getName());
                     bundle.putString("avatar", pkUserList.get(position).getAvatar());
                     bundle.putString("imageUrl", song.getBookImageUrl());
+                    bundle.putString("title", song.getBookName());
                     bundle.putInt("audioType", audioType);
                     bundle.putInt("audioSource", audioSource);
                     bundle.putInt("homeworkid", homeworkid);

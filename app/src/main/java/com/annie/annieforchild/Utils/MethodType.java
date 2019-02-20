@@ -52,6 +52,7 @@ public class MethodType {
     final public static String GETALLMATERIALLIST = "getAllMaterialList"; //获取所有教材
     final public static String GLOBALSEARCH = "globalSearch"; //全局搜索
     final public static String GETPKRESULT = "getPkResult"; //获取PK结果
+    final public static String GETPKRESULTTEST = "getPkResulttest"; //获取PK结果
     final public static String MYCOURSESONLINE = "myCoursesOnline"; //获取我的线上课程
     final public static String MYCOURSESOFFLINE = "myCoursesOffline"; //获取我的线下课程
     final public static String MYTEACHINGMATERIALS = "myTeachingMaterials"; //我的教材
