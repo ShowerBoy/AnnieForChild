@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.Banner;
 import com.annie.annieforchild.bean.JTMessage;
@@ -162,10 +163,10 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void getListeningAndReading(String week, String classid, int tag) {
+    public void getListeningAndReading(String week, String classid, int tag, int classify) {
         this.tag = tag;
         viewInfo.showLoad();
-        interactor.getListeningAndReading(week, classid, tag);
+        interactor.getListeningAndReading(week, classid, tag, classify);
     }
 
     @Override
@@ -200,11 +201,11 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     @Override
     public void onSliderClick(BaseSliderView slider) {
         if (!bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("")) {
-                Intent intent = new Intent(context, WebActivity.class);
-                intent.putExtra("url", bannerList.get(slider.getBundle().getInt("extra")).getUrl());
-                intent.putExtra("title", "");
-                context.startActivity(intent);
-            }
+            Intent intent = new Intent(context, WebActivity.class);
+            intent.putExtra("url", bannerList.get(slider.getBundle().getInt("extra")).getUrl());
+            intent.putExtra("title", "");
+            context.startActivity(intent);
+        }
     }
 
     @Override

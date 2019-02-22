@@ -302,8 +302,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
 
     @Override
     public void getPkResult(int bookId, String pkUsername, int pkType) {
-//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETPKRESULT, RequestMethod.POST);
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETPKRESULTTEST, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETPKRESULT, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETPKRESULTTEST, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         request.add("bookId", bookId);

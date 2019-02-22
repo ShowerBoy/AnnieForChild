@@ -87,7 +87,7 @@ public class NetExperienceDetailAdapter extends RecyclerView.Adapter<NetExperien
 //                intent.putExtra("lessonId", lists.get(i).getLessonList().get(2).getLessonId());
 //                intent.putExtra("lessonName", lists.get(i).getLessonList().get(2).getLessonName());
 //                context.startActivity(intent);
-                presenter.getListeningAndReading(lists.get(i).getWeeknum(), lists.get(i).getClassid(), tag);
+                presenter.getListeningAndReading(lists.get(i).getWeeknum(), lists.get(i).getClassid(), tag, 0);
             }
         }));
         netDetailsViewHolder.lesson4.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {

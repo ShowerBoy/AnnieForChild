@@ -69,9 +69,10 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
         dialog = helper.LoadingDialog();
         presenter = new NetWorkPresenterImp(this, this);
 
+
         presenter.initViewAndData();
         Log.e("wee", week + "///" + classid);
-        presenter.getListeningAndReading(week, classid, tag);
+        presenter.getListeningAndReading(week, classid, tag, 2);
 
     }
 
@@ -83,6 +84,7 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {
+            to_listenandread.setVisibility(View.VISIBLE);
             listenAndRead = (ListenAndRead) message.obj;
             if (listenAndRead.getIsshow() == 0) {
                 no_content.setVisibility(View.VISIBLE);

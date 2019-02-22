@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -138,7 +140,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             webView.getSettings().setLoadWithOverviewMode(true);
             webView.getSettings().setBuiltInZoomControls(true);
             webView.getSettings().setJavaScriptEnabled(true);
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
             }
 //            webView.getSettings().setSupportZoom(true);
@@ -189,6 +191,13 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
+                }
+
+                @Override
+                public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                    if (handler != null) {
+                        handler.proceed();//忽略证书的错误继续加载页面内容，不会变成空白页面
+                    }
                 }
             });
             webView.setWebChromeClient(new WebChromeClient() {

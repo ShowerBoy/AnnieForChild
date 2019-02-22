@@ -211,13 +211,14 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void getListeningAndReading(String week, String classid, int tag) {
+    public void getListeningAndReading(String week, String classid, int tag, int classify) {
         this.tag = tag;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETLISTENANDREAD, RequestMethod.POST);
         request.add("token", SystemUtils.token);
         request.add("username", SystemUtils.defaultUsername);
         request.add("classid", classid);
         request.add("week", week);
+        request.add("classify", classify);
         addQueue(MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag, request);
 //        startQueue();
     }

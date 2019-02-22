@@ -11,7 +11,7 @@ public class MethodCode {
     final public static String HOMEWORKAPI = "homeworkApi/";
     final public static String SEARCHAPI = "SearchApi/";
     final public static String SQUAREAPI = "SquareApi/";
-    final public static String NETCLASSAPI = "NetclasstestApi/";
+    final public static String NETCLASSAPI = "NetclassApi/";
     final public static String SIGNINAPI = "Signin/";
     final public static String TASKAPI = "TaskApi/";
     final public static String SHAREAPI = "ShareApi/";

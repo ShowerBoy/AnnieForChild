@@ -31,6 +31,7 @@ import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.VideoActivity;
 import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
+import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.adapter.NetExperienceDetailAdapter;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
@@ -44,7 +45,7 @@ import java.util.List;
 
 public class NetExperienceDetailActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     CheckDoubleClickListener listner;
-    private ImageView back;
+    private ImageView back, bottomLayout;
     private RecyclerView net_coursedetail_recyclerview;
     private Dialog dialog;
     private AlertHelper helper;
@@ -72,6 +73,7 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
 
     @Override
     protected void initView() {
+        listner = new CheckDoubleClickListener(this);
         title = findViewById(R.id.title);
         empty_layout = findViewById(R.id.empty_layout);
         empty_soon = findViewById(R.id.empty_soon);
@@ -79,10 +81,10 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
         exper_detail_totest2 = findViewById(R.id.exper_detail_totest2);
         exper_detail_topractice = findViewById(R.id.exper_detail_topractice);
         exper_detail_totest = findViewById(R.id.exper_detail_totest);
+        bottomLayout = findViewById(R.id.bottom_layout);
         exper_detail_totest1.setOnClickListener(listner);
         exper_detail_topractice.setOnClickListener(listner);
         exper_detail_totest.setOnClickListener(listner);
-        listner = new CheckDoubleClickListener(this);
         back = findViewById(R.id.back);
         back.setOnClickListener(listner);
         net_coursedetail_recyclerview = findViewById(R.id.net_coursedetail_recyclerview);
@@ -128,6 +130,7 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
             exper_detail_totest1.setVisibility(View.GONE);
             exper_detail_totest2.setVisibility(View.VISIBLE);
         }
+        bottomLayout.setVisibility(View.VISIBLE);
         if (netExpClass.getPlaceholdImg() != null && netExpClass.getPlaceholdImg().length() > 0) {
             empty_layout.setVisibility(View.VISIBLE);
             Glide.with(this).load(netExpClass.getPlaceholdImg()).into(empty_soon);
@@ -143,9 +146,28 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
 
     @Override
     public void onCheckDoubleClick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.back:
                 finish();
+                break;
+            case R.id.exper_detail_totest1:
+                intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
+                intent.putExtra("url", netExpClass.getPractice());
+                intent.putExtra("flag", 1);//标题是否取消1：取消
+                startActivity(intent);
+                break;
+            case R.id.exper_detail_totest:
+                intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
+                intent.putExtra("url", netExpClass.getTesting());
+                intent.putExtra("flag", 1);//标题是否取消1：取消
+                startActivity(intent);
+                break;
+            case R.id.exper_detail_topractice:
+                intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
+                intent.putExtra("url", netExpClass.getPractice());
+                intent.putExtra("flag", 1);//标题是否取消1：取消
+                startActivity(intent);
                 break;
         }
     }
