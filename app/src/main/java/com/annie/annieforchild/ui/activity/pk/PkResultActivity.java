@@ -220,13 +220,18 @@ public class PkResultActivity extends BaseActivity implements SongView, OnCheckD
         if (isShow) {
             isShow = false;
             if (pkResult != null) {
-                if (pkResult.getResult() == 0) {
-                    SystemUtils.setBackGray(PkResultActivity.this, true);
-                    SystemUtils.getNectarCongratulation(PkResultActivity.this, 5).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
-                } else {
-                    SystemUtils.setBackGray(PkResultActivity.this, true);
-                    SystemUtils.getNectarCongratulation(PkResultActivity.this, 20).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                if (pkResult.getIsNectar() == 0) {
+                    if (pkResult.getResult() == 0) {
+                        SystemUtils.setBackGray(PkResultActivity.this, true);
+                        SystemUtils.getNectarCongratulation(PkResultActivity.this, pkResult.getNectarCount()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    } else {
+                        SystemUtils.setBackGray(PkResultActivity.this, true);
+                        SystemUtils.getNectarCongratulation(PkResultActivity.this, pkResult.getNectarCount()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                    }
+                } else if (pkResult.getIsNectar() == 1) {
+                    SystemUtils.show(this, "今日获得花蜜数已达上限");
                 }
+
             }
         }
     }
@@ -369,7 +374,7 @@ public class PkResultActivity extends BaseActivity implements SongView, OnCheckD
         if (isGoldGet) {
             isGoldGet = false;
             presenter.shareCoin(2, shareType);
-        }else{
+        } else {
             if (popupWindow.isShowing()) {
                 popupWindow.dismiss();
             }

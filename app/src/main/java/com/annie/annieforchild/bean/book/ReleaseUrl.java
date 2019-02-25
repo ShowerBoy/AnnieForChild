@@ -8,7 +8,7 @@ import java.util.List;
  */
 
 public class ReleaseUrl implements Serializable {
-    private Boolean tag;
+    private Boolean tag; //是否有回放
     private List<Integer> nectarList; //判断增加花蜜
     private String myResourseUrl;
 

@@ -2,7 +2,7 @@ package com.annie.annieforchild.Utils;
 
 /**
  * 字段名称
- * Created by WangLei on 2018/1/30 0030
+ * Created by WangLei on 2018/1/30
  */
 public class MethodCode {
     final public static String SYSTEMAPI = "systemApi/";

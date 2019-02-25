@@ -306,13 +306,16 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
                     nectarCount = 0;
                     for (int i = 0; i < releaseList.size(); i++) {
                         List<Integer> lists = releaseList.get(i).getNectarList();
-                        nectarCount = nectarCount + lists.size();
+                        for (int j = 0; j < lists.size(); j++) {
+                            nectarCount = nectarCount + lists.get(j);
+                        }
+//                        nectarCount = nectarCount + lists.size();
                     }
                     if (nectarCount == 0) {
 
                     } else {
                         SystemUtils.setBackGray(BookPlayActivity2.this, true);
-                        SystemUtils.getNectarCongratulation(BookPlayActivity2.this, nectarCount * 2).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                        SystemUtils.getNectarCongratulation(BookPlayActivity2.this, nectarCount).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
                     }
                 } else {
                     bookPlay2Layout.setVisibility(View.VISIBLE);

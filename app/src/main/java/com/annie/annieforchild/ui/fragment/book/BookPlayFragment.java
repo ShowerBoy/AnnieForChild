@@ -428,7 +428,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
             if (bean.getPage() == page.getPage()) {
                 page.setMyResourceUrl(bean.getResourceUrl());
                 page.setAnimationCode(animationCode);
-                refresh(bean.getResourceUrl());
+                refresh(bean.getResourceUrl(), bean);
 
                 BookPlayActivity2.setClarity(true);
                 BookPlayActivity2.setLottieAnimation(animationCode, page.getPage());
@@ -473,12 +473,20 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
         }
     }
 
-    private void refresh(String resourceUrl) {
+    private void refresh(String resourceUrl, AudioBean bean) {
+        //TODO:
         playRecord.setImageResource(R.drawable.icon_book_play2);
-        ReleaseUrl releaseUrl = BookPlayActivity2.releaseList.get(tag);
-        releaseUrl.setTag(true);
-        releaseUrl.getNectarList().add(0);
-        releaseUrl.setMyResourseUrl(resourceUrl);
+        if (bean.getIsNectar() == 0) {
+            ReleaseUrl releaseUrl = BookPlayActivity2.releaseList.get(tag);
+            releaseUrl.setTag(true);
+            releaseUrl.getNectarList().add(bean.getNectarCount());
+            releaseUrl.setMyResourseUrl(resourceUrl);
+        } else if (bean.getIsNectar() == 1) {
+            ReleaseUrl releaseUrl = BookPlayActivity2.releaseList.get(tag);
+            releaseUrl.setTag(true);
+            releaseUrl.setMyResourseUrl(resourceUrl);
+        }
+
     }
 
     @Override

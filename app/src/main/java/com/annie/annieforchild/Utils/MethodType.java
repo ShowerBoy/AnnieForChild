@@ -48,6 +48,7 @@ public class MethodType {
     final public static String GETBOOKAUDIODATA = "getBookAudioData"; //练习，挑战，PK接口
     final public static String GETBOOKAUDIODATATEST = "getBookAudioDatatest"; //练习，挑战，PK接口
     final public static String UPLOADAUDIO = "uploadAudioResource"; //上传音频接口——磨耳朵
+    final public static String UPLOADAUDIOTEST = "uploadAudioResourcetest"; //上传音频接口——磨耳朵
     final public static String GETPKUSERS = "getPkUsers"; //获取pk对象
     final public static String GETALLMATERIALLIST = "getAllMaterialList"; //获取所有教材
     final public static String GLOBALSEARCH = "globalSearch"; //全局搜索
@@ -78,6 +79,7 @@ public class MethodType {
     final public static String IWANTLISTEN = "iWantListen"; //我要
     final public static String ACCESSBOOK = "accessBook"; //访问书籍
     final public static String UPLOADAUDIOTIME = "uploadAudioTime"; //上传音频时长
+    final public static String UPLOADAUDIOTIMETEST = "uploadAudioTimetest"; //上传音频时长
     final public static String MYCALENDAR = "myCalendar"; //
     final public static String MONTHCALENDAR = "monthCalendar"; //当月课程
     final public static String MYPERIOD = "myPeriod"; //课时核对
@@ -116,6 +118,7 @@ public class MethodType {
     final public static String GETRADIO = "getRadio"; //
     final public static String GETLYRIC = "getLyric"; //
     final public static String LUCKDRAW = "luckDraw"; //
+    final public static String LUCKDRAWTEST = "luckDrawtest"; //
     final public static String GETHOMEPAGE = "getHomepage"; //
     final public static String GETPRODUCTIONLIST = "getProductionList"; //
     final public static String CANCELRELEASE = "cancelRelease"; //

@@ -7,8 +7,26 @@ package com.annie.annieforchild.bean;
 public class AudioBean {
     private int page;
     private int lineId;
+    private int isNectar;
+    private int nectarCount;
     private String resourceUrl;
     private String pageResourceUrl;
+
+    public int getIsNectar() {
+        return isNectar;
+    }
+
+    public void setIsNectar(int isNectar) {
+        this.isNectar = isNectar;
+    }
+
+    public int getNectarCount() {
+        return nectarCount;
+    }
+
+    public void setNectarCount(int nectarCount) {
+        this.nectarCount = nectarCount;
+    }
 
     public int getPage() {
         return page;

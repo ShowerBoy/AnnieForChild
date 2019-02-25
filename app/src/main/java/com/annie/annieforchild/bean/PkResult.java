@@ -8,8 +8,26 @@ import java.io.Serializable;
 
 public class PkResult implements Serializable {
     private int result;
+    private int isNectar;
+    private int nectarCount;
     private String myscore;
     private String pkscore;
+
+    public int getIsNectar() {
+        return isNectar;
+    }
+
+    public void setIsNectar(int isNectar) {
+        this.isNectar = isNectar;
+    }
+
+    public int getNectarCount() {
+        return nectarCount;
+    }
+
+    public void setNectarCount(int nectarCount) {
+        this.nectarCount = nectarCount;
+    }
 
     public int getResult() {
         return result;
