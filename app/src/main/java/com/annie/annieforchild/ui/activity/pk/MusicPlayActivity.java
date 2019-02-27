@@ -98,10 +98,11 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
     private LyricAdapter lyricAdapter;
     public static MusicListAdapter adapter;
     private int origin, audioType, audioSource, resourceId, isCollect, musicPosition;
+    public static final int STATE_PREPARE = 0;//准备中
     public static final int STATE_PLAYING = 1;//正在播放
     public static final int STATE_PAUSE = 2;//暂停
     public static final int STATE_STOP = 3;//停止
-    private int state = 3;//播放状态
+    public static int state = 0;//播放状态
     public static int args;
     private String musicTitle, musicImageUrl;
     private AlertHelper helper;
@@ -365,8 +366,8 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
 //
 //                }
 //                animation.start();
+                state = STATE_PREPARE;
                 musicService.play();
-                state = STATE_PLAYING;
                 //TODO:
 //                for (int i = 0; i < MusicService.musicPartList.size(); i++) {
 //                    MusicService.musicPartList.get(i).setPlaying(false);
@@ -510,12 +511,12 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                 if (!isClick) {
                     return;
                 }
-                if (state == STATE_STOP) {
+                if (state == STATE_STOP || state == STATE_PREPARE) {
                     //播放
                     play.setImageResource(R.drawable.icon_music_pause_big);
 //                    animation.start();
+                    state = STATE_PREPARE;
                     musicService.play();
-                    state = STATE_PLAYING;
                     //TODO:
 //                    for (int i = 0; i < MusicService.musicPartList.size(); i++) {
 //                        MusicService.musicPartList.get(i).setPlaying(false);
@@ -526,13 +527,15 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                     //暂停播放
                     play.setImageResource(R.drawable.icon_music_play_big);
                     animation.pause();
-                    musicService.pause();
                     state = STATE_PAUSE;
+                    musicService.pause();
+
                 } else if (state == STATE_PAUSE) {
                     play.setImageResource(R.drawable.icon_music_pause_big);
                     animation.resume();
+                    state = STATE_PREPARE;
                     musicService.play();
-                    state = STATE_PLAYING;
+
                 }
                 break;
             case R.id.music_last:
@@ -639,9 +642,15 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                     SystemUtils.toAddChild(this);
                     return;
                 }
-                if (MusicService.isPlay) {
+                if (state == STATE_PREPARE) {
+                    return;
+                }
+                if (state == STATE_PLAYING) {
                     MusicService.stop();
                 }
+//                if (MusicService.isPlay) {
+
+//                }
                 if (MusicService.musicTitle == null || MusicService.musicTitle.length() == 0) {
                     return;
                 }
@@ -792,6 +801,8 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (popupWindow!=null && popupWindow.isShowing()) { popupWindow.dismiss(); }
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
     }
 }

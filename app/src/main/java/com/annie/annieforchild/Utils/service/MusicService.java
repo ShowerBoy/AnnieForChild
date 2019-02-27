@@ -96,43 +96,47 @@ public class MusicService extends Service {
             @Override
             public void onCompletion(MediaPlayer mp) {
 //                mediaPlayer.release();
-                if (singleLoop) {
-                    if (duration > 0) {
-                        presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
-                        duration = 0;
-                    }
-                    pos = 0;
-                    play();
-                } else {
-                    listTag++;
-                    if (listTag >= musicNum) {
-                        //列表循环
-//                        if (task != null) {
-//                            task.cancel();
-//                        }
-//                        stop();
-//                        MusicPlayActivity.Complete();
-                        listTag = 0;
-                        pos = 0;
-                        play();
-                        if (MusicPlayActivity.isLyric) {
-                            MusicPlayActivity.isLyric = false;
-                            MusicPlayActivity.image.setVisibility(View.VISIBLE);
-                            MusicPlayActivity.lyricRecycler.setVisibility(View.GONE);
-                        }
-                    } else {
+                if (isPlay) {
+                    if (singleLoop) {
                         if (duration > 0) {
                             presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
                             duration = 0;
                         }
                         pos = 0;
                         play();
-                        if (MusicPlayActivity.isLyric) {
-                            MusicPlayActivity.isLyric = false;
-                            MusicPlayActivity.image.setVisibility(View.VISIBLE);
-                            MusicPlayActivity.lyricRecycler.setVisibility(View.GONE);
+                    } else {
+                        listTag++;
+                        if (listTag >= musicNum) {
+                            //列表循环
+//                        if (task != null) {
+//                            task.cancel();
+//                        }
+//                        stop();
+//                        MusicPlayActivity.Complete();
+                            listTag = 0;
+                            pos = 0;
+                            play();
+                            if (MusicPlayActivity.isLyric) {
+                                MusicPlayActivity.isLyric = false;
+                                MusicPlayActivity.image.setVisibility(View.VISIBLE);
+                                MusicPlayActivity.lyricRecycler.setVisibility(View.GONE);
+                            }
+                        } else {
+                            if (duration > 0) {
+                                presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
+                                duration = 0;
+                            }
+                            pos = 0;
+                            play();
+                            if (MusicPlayActivity.isLyric) {
+                                MusicPlayActivity.isLyric = false;
+                                MusicPlayActivity.image.setVisibility(View.VISIBLE);
+                                MusicPlayActivity.lyricRecycler.setVisibility(View.GONE);
+                            }
                         }
                     }
+                } else {
+
                 }
             }
         });
@@ -160,6 +164,7 @@ public class MusicService extends Service {
                 start = "0:00";
                 MusicPlayActivity.end.setText(end);
                 MusicPlayActivity.start.setText(start);
+                MusicPlayActivity.state = MusicPlayActivity.STATE_PLAYING;
                 mediaPlayer.start();
                 MusicPlayActivity.animation.start();
                 MusicPlayActivity.play.setImageResource(R.drawable.icon_music_pause_big);
@@ -229,6 +234,7 @@ public class MusicService extends Service {
     //用于开始播放的方法
     public static void play() {
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            isPlay = true;
             if (pos != 0) {
                 //根据指定位置进行播放
 //                MusicPlayActivity.animation.start();
@@ -246,7 +252,7 @@ public class MusicService extends Service {
 //                mediaPlayer.start();
                 try {
                     /*数组越界*/
-                    if(musicList!=null && musicList.size()>0){
+                    if (musicList != null && musicList.size() > 0) {
                         mediaPlayer.reset();
                         mediaPlayer.setDataSource(musicList.get(listTag).getPath());
                         mediaPlayer.prepareAsync();
@@ -279,7 +285,7 @@ public class MusicService extends Service {
                 mTimer = new Timer();
             }
             mTimer.schedule(task, 0, 1000);
-            isPlay = true;
+
             JTMessage message = new JTMessage();
             message.what = MethodCode.EVENT_MUSIC;
             message.obj = true;
@@ -294,6 +300,7 @@ public class MusicService extends Service {
             //获取播放位置
             pos = mediaPlayer.getCurrentPosition();
             mediaPlayer.pause();
+            MusicPlayActivity.state = MusicPlayActivity.STATE_PAUSE;
             isPlay = false;
 
             JTMessage message = new JTMessage();
@@ -314,15 +321,17 @@ public class MusicService extends Service {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static void stop() {
         if (mediaPlayer != null) {
+            isPlay = false;
             mediaPlayer.pause();
             mediaPlayer.stop();
-//            mediaPlayer.seekTo(0);
+            MusicPlayActivity.state = MusicPlayActivity.STATE_STOP;
+            mediaPlayer.seekTo(0);
+
             pos = 0; //停止后播放位置置为0
-            isPlay = false;
             //
             Song song = new Song();
             /**/
-            if(musicPartList!=null && musicPartList.size()>0){
+            if (musicPartList != null && musicPartList.size() > 0) {
                 song.setBookId(musicPartList.get(listTag).getBookId());
                 song.setBookName(musicPartList.get(listTag).getName());
                 song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());

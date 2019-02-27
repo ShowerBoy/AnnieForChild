@@ -530,6 +530,9 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 //                    SystemUtils.toLogin(getContext());
 //                    return;
 //                }
+
+//                String a = null;
+//                char[] chars = a.toCharArray();
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -934,15 +937,15 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        SharedPreferences preferences = getContext().getSharedPreferences("userInfo", MODE_PRIVATE |MODE_MULTI_PROCESS);
+        SharedPreferences preferences = getContext().getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
         if (preferences.getString("token", null) != null && preferences.getString("defaultUsername", null) != null) {
-            SystemUtils.childTag=preferences.getInt("childTag", 0);
-            SystemUtils.token=preferences.getString("token", null);
-            SystemUtils.defaultUsername=preferences.getString("defaultUsername", null);
+            SystemUtils.childTag = preferences.getInt("childTag", 0);
+            SystemUtils.token = preferences.getString("token", null);
+            SystemUtils.defaultUsername = preferences.getString("defaultUsername", null);
         }
-        Log.e("------",SystemUtils.childTag+"///"+SystemUtils.token+"///"+SystemUtils.defaultUsername);
+        Log.e("------", SystemUtils.childTag + "///" + SystemUtils.token + "///" + SystemUtils.defaultUsername);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.annie.annieforchild.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,6 +33,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -663,6 +665,16 @@ public class SystemUtils {
         builder.setTitle(title);
         builder.setCancelable(false);
         return builder;
+    }
+
+    public static ProgressDialog getDownloadProgressDialog(Context context) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setTitle("下载中");
+        progressDialog.setMessage("请耐心等候...");
+        progressDialog.setMax(100);
+        progressDialog.setCancelable(false);
+        return progressDialog;
     }
 
     /**

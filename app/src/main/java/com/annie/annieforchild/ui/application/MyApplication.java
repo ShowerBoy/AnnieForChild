@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.application;
 
 import android.net.SSLCertificateSocketFactory;
 
+import com.annie.annieforchild.Utils.MyCrashHandler;
 import com.annie.annieforchild.Utils.SSLSocketClient;
 import com.annie.baselibrary.utils.Utils;
 import com.baidu.mobstat.StatService;
@@ -40,6 +41,8 @@ public class MyApplication extends LitePalApplication {
         initJpush();
         MobSDK.init(this);
         StatService.start(this);
+        MyCrashHandler handler = new MyCrashHandler(this);
+        Thread.setDefaultUncaughtExceptionHandler(handler);
     }
 
 

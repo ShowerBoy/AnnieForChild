@@ -317,6 +317,9 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                                                         }
                                                     };
                                                 }
+                                                if (SystemUtils.timer == null) {
+                                                    SystemUtils.timer = new Timer();
+                                                }
                                                 SystemUtils.timer.schedule(SystemUtils.task, 120 * 1000);
                                             }
                                         }

@@ -176,8 +176,8 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
             } else if (what == MethodCode.EVENT_GLOBALSEARCH) {
                 String data = jsonObject.getString(MethodCode.DATA);
                 if (data != null) {
-                    SearchContent searchContent = JSON.parseObject(data, SearchContent.class);
-                    listener.Success(what, searchContent);
+                SearchContent searchContent = JSON.parseObject(data, SearchContent.class);
+                listener.Success(what, searchContent);
                 } else {
                     listener.Success(what, new SearchContent());
                 }

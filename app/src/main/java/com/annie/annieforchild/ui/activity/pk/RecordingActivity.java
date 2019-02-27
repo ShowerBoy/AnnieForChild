@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -32,6 +34,7 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.pcm2mp3.RecorderAndPlayUtil;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.AudioBean;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.ShareBean;
@@ -459,6 +462,7 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
@@ -484,6 +488,9 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                 }
                 break;
             case R.id.recording_preview:
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
                 if (!isClick) {
                     return;
                 }
@@ -529,6 +536,9 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                 }
                 break;
             case R.id.recording_record:
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
                 if (isRecordPlay) {
                     return;
                 }
@@ -565,6 +575,9 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                 }
                 break;
             case R.id.recording_play:
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
                 if (isPlay) {
                     return;
                 }
@@ -874,6 +887,15 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+//        if (MusicService.isPlay) {
+            MusicService.stop();
+//        }
     }
 
     @Override

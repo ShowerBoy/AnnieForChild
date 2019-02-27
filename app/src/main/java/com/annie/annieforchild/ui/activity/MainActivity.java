@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.activity;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -65,6 +66,7 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
     private DownloadQueue requestQueue;
     private AlertHelper helper;
     private Dialog dialog;
+    private ProgressDialog progressDialog;
 
     {
         setRegister(true);
@@ -269,6 +271,7 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
                 //暂无更新
             } else {
                 //更新
+                progressDialog = SystemUtils.getDownloadProgressDialog(MainActivity.this);
                 File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "anniekids.apk");
                 if (file.exists()) {
                     file.delete();
@@ -309,28 +312,34 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
     private DownloadListener downloadListener = new DownloadListener() {
         @Override
         public void onDownloadError(int i, Exception e) {
-
+            progressDialog.dismiss();
+            SystemUtils.show(MainActivity.this, "下载失败");
         }
 
         @Override
         public void onStart(int i, boolean b, long l, Headers headers, long l1) {
             SystemUtils.show(MainActivity.this, "开始下载");
+            progressDialog.show();
         }
 
         @Override
         public void onProgress(int i, int i1, long l, long l1) {
-
+            System.out.println("i1:" + i1);
+            progressDialog.setProgress(i1);
+//            SystemUtils.getDownloadProgressDialog(MainActivity.this).setProgress();
         }
 
         @Override
         public void onFinish(int i, String s) {
+            progressDialog.dismiss();
             SystemUtils.show(MainActivity.this, "下载结束" + s);
             installNormal(MainActivity.this, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "anniekids.apk");
         }
 
         @Override
         public void onCancel(int i) {
-
+            progressDialog.dismiss();
+            SystemUtils.show(MainActivity.this, "取消下载");
         }
     };
 
