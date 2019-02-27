@@ -22,6 +22,7 @@ import com.annie.annieforchild.bean.net.PreheatConsult;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
 import com.annie.annieforchild.bean.net.WechatBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
+import com.annie.annieforchild.bean.net.netexpclass.Video_first;
 import com.annie.annieforchild.interactor.NetWorkInteractor;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
@@ -249,6 +250,19 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 //        startQueue();
     }
 
+    @Override
+    public void getWeiClass(String fid,int type) {
+        FastJsonRequest request;
+        if(type==1){//微课堂
+            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETWEICLASS, RequestMethod.POST);
+        }else{
+            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETCLASSANALYSIS, RequestMethod.POST);
+        }
+        request.add("token", SystemUtils.token);
+        request.add("username", SystemUtils.defaultUsername);
+        request.add("fid", fid);
+        addQueue(MethodCode.EVENT_GETWEICLASS, request);
+    }
 
     @Override
     protected void onSuccess(int what, Object response) {
@@ -379,7 +393,15 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     trade_status = jsonObject1.getString("trade_state");
                     listener.Success(what, trade_status);
                 }
-
+            }else if(what ==MethodCode.EVENT_GETWEICLASS){
+                Log.e("++",data);
+                List<Video_first> lists;
+                if (data != null) {
+                    lists = JSON.parseArray(data, Video_first.class);
+                } else {
+                    lists = new ArrayList<>();
+                }
+                listener.Success(what, lists);
             }
         }
     }

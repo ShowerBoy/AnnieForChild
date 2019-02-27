@@ -10,15 +10,27 @@ public class Info {
     private String week;
     private String weeknum;
     private String classid;
-    private int type;
+    private String date;
+    private int isshow;
 
-    public int getType() {
-        return type;
+    public int getIsshow() {
+        return isshow;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setIsshow(int isshow) {
+        this.isshow = isshow;
     }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+
+
 
     public void setClassid(String classid) {
         this.classid = classid;

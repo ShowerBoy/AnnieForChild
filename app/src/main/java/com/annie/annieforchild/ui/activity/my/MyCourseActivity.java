@@ -181,7 +181,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
                 }
                 adapter.notifyDataSetChanged();
             }
-            network_teacher_wx.setText(myNetClass.getTeacher()+"（长按复制）");
+            network_teacher_wx.setText(myNetClass.getTeacher());
         }
     }
 

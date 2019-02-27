@@ -11,7 +11,7 @@ public class MethodCode {
     final public static String HOMEWORKAPI = "homeworkApi/";
     final public static String SEARCHAPI = "SearchApi/";
     final public static String SQUAREAPI = "SquareApi/";
-    final public static String NETCLASSAPI = "NetclassApi/";
+    final public static String NETCLASSAPI = "NetclasstestApi/";
     final public static String SIGNINAPI = "Signin/";
     final public static String TASKAPI = "TaskApi/";
     final public static String SHAREAPI = "ShareApi/";
@@ -187,4 +187,5 @@ public class MethodCode {
     final public static int EVENT_BUYNUM = 141; //购买之前验证下，netsuggest验证
     final public static int EVENT_BUYNUM1 = 142; //购买之前验证，confirmorder验证
     final public static int EVENT_ORDERQUERY = 143; //购买之后查询订单状态
+    final public static int EVENT_GETWEICLASS = 144; //微课堂视频
 }

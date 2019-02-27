@@ -38,4 +38,6 @@ public interface NetWorkInteractor {
     void buynum(int netid, int type);
 
     void OrderQuery(String tradeno, String outtradeno, int payment);
+
+    void getWeiClass(String fid,int type);
 }

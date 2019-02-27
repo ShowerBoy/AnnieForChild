@@ -127,4 +127,6 @@ public class MethodType {
     final public static String GETPREHEATCONSULT = "PreheatingClass"; //预热课
     final public static String GETLISTENANDREAD = "listeningandreading"; //泛听泛读
     final public static String ORDERQUERY = "OrderQuery"; //泛听泛读
+    final public static String GETWEICLASS = "WeiClass"; //微课堂视频
+    final public static String GETCLASSANALYSIS = "ClassAnalysis"; //微课堂视频
 }

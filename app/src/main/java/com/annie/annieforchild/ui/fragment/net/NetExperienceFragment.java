@@ -135,7 +135,7 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
         if (message.what == MethodCode.EVENT_GETNETHOMEDATA) {
             NetWork netWork = (NetWork) message.obj;
             if (netWork != null) {
-                network_teacher_wx.setText(netWork.getExperienceList().getTeacherQrcode() + "(长按复制)");
+                network_teacher_wx.setText(netWork.getExperienceList().getTeacherQrcode());
                 list.clear();
                 list.addAll(netWork.getExperienceList().getList());
                 imglist_top.clear();

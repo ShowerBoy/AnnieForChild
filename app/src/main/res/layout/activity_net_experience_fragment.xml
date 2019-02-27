@@ -99,19 +99,27 @@
 
             <TextView
                 android:id="@+id/network_teacher_wx"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="8dp"
-                android:gravity="left|bottom"
-                android:paddingBottom="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text=""
+                android:textColor="#454545"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="@id/network_teacher1"
+                app:layout_constraintTop_toBottomOf="@id/network_teacher1"
+
+                />
+
+            <TextView
+                android:id="@+id/network_teacher_wx_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="(长按复制)"
                 android:textColor="#454545"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="@id/network_teacher1"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintLeft_toRightOf="@id/network_teacher_wx"
+                app:layout_constraintTop_toBottomOf="@id/network_teacher1" />
 
         </android.support.constraint.ConstraintLayout>
 

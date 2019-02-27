@@ -179,6 +179,12 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         interactor.buynum(netid, type);
     }
 
+    @Override
+    public void getWeiClass(String fid,int type) {
+        viewInfo.showLoad();
+        interactor.getWeiClass(fid,type);
+    }
+
     private void initImageSlide() {
         grindEarView.getImageSlide().removeAllSliders();
         for (int name : file_maps.keySet()) {
@@ -396,6 +402,14 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
             } else if (what == MethodCode.EVENT_ORDERQUERY) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            }else if (what == MethodCode.EVENT_GETWEICLASS) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetExpFirstVideoActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;

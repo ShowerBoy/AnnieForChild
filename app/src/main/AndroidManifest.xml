@@ -452,6 +452,8 @@
         <activity
             android:name=".ui.activity.pk.PkResultActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.activity.net.NetExpFirstVideoActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 
