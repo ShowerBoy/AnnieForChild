@@ -61,6 +61,21 @@ public class NetExperienceDetailAdapter extends RecyclerView.Adapter<NetExperien
             netDetailsViewHolder.week.setVisibility(View.VISIBLE);
             netDetailsViewHolder.week.setText(lists.get(i).getWeek());
         }
+        netDetailsViewHolder.lesson_2_name.setText(lists.get(i).getLessonList().get(1).getLessonName());
+        switch(i){
+            case 1:
+                netDetailsViewHolder.lesson_2_img.setImageResource(R.drawable.practise2to3_icon_listening);
+                break;
+            case 0:
+                netDetailsViewHolder.lesson_2_img.setImageResource(R.drawable.practise2to3_icon_reading);
+                break;
+        }
+        if(lists.get(i).getIsshow()==0){
+            netDetailsViewHolder.details_relative.setVisibility(View.GONE);
+        }else{
+            netDetailsViewHolder.details_relative.setVisibility(View.VISIBLE);
+        }
+
 
         netDetailsViewHolder.lesson1.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
             @Override

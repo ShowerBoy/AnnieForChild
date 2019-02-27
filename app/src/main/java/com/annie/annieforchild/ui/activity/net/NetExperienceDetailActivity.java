@@ -5,16 +5,22 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
@@ -26,6 +32,7 @@ import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.net.ListenAndRead;
 import com.annie.annieforchild.bean.net.NetClass;
 import com.annie.annieforchild.bean.net.NetExpDetails;
+import com.annie.annieforchild.bean.net.netexpclass.FirstStageitem;
 import com.annie.annieforchild.bean.net.netexpclass.Info;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
@@ -41,7 +48,9 @@ import com.bumptech.glide.Glide;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NetExperienceDetailActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     CheckDoubleClickListener listner;
@@ -57,10 +66,19 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
     ImageView video_img;
     public static NetExpClass netExpClass;
     int netid, tag = 0;
-    private ConstraintLayout exper_detail_totest1, exper_detail_totest2;
-    private LinearLayout exper_detail_topractice, exper_detail_totest;
+
     private RelativeLayout empty_layout;
     private ImageView empty_soon;
+    private ConstraintLayout firstsatge;
+    private ConstraintLayout fourstage;
+    private LinearLayout firstsatge_1, firstsatge_4, firstsatge_2, firstsatge_3;
+    private LinearLayout fourstage_1, fourstage_2, fourstage_3;
+    private TextView firstsatge_1_name, firstsatge_2_name, firstsatge_3_name, firstsatge_4_name;
+    private ImageView firstsatge_1_img, firstsatge_2_img, firstsatge_3_img, firstsatge_4_img;
+    NestedScrollView listView;
+    List<FirstStageitem> firstStagelist;
+    int num=0;
+    int num_type=0;
 
     {
         setRegister(true);
@@ -73,24 +91,20 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
 
     @Override
     protected void initView() {
+        listView = findViewById(R.id.list_layout);
         listner = new CheckDoubleClickListener(this);
         title = findViewById(R.id.title);
         empty_layout = findViewById(R.id.empty_layout);
         empty_soon = findViewById(R.id.empty_soon);
-        exper_detail_totest1 = findViewById(R.id.exper_detail_totest1);
-        exper_detail_totest2 = findViewById(R.id.exper_detail_totest2);
-        exper_detail_topractice = findViewById(R.id.exper_detail_topractice);
-        exper_detail_totest = findViewById(R.id.exper_detail_totest);
         bottomLayout = findViewById(R.id.bottom_layout);
-        exper_detail_totest1.setOnClickListener(listner);
-        exper_detail_topractice.setOnClickListener(listner);
-        exper_detail_totest.setOnClickListener(listner);
         back = findViewById(R.id.back);
         back.setOnClickListener(listner);
         net_coursedetail_recyclerview = findViewById(R.id.net_coursedetail_recyclerview);
+
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         net_coursedetail_recyclerview.setLayoutManager(manager);
+        net_coursedetail_recyclerview.setNestedScrollingEnabled(false);
 //        listeningtext_card_roport = findViewById(R.id.listeningtext_card_roport);
 //        netclass_video_content = (TextView) findViewById(R.id.netclass_video_content);
 //        netclass_video_title = (TextView) findViewById(R.id.netclass_video_title);
@@ -99,6 +113,30 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
         netid = getIntent().getIntExtra("netid", 0);
         title.setText(netname);
         video_img = findViewById(R.id.video_img);
+        firstsatge = findViewById(R.id.firstsatge);
+        firstsatge_1 = findViewById(R.id.firstsatge_1);
+        firstsatge_2 = findViewById(R.id.firstsatge_2);
+        firstsatge_3 = findViewById(R.id.firstsatge_3);
+        firstsatge_4 = findViewById(R.id.firstsatge_4);
+        firstsatge_1_name = findViewById(R.id.firstsatge_1_name);
+        firstsatge_2_name = findViewById(R.id.firstsatge_2_name);
+        firstsatge_3_name = findViewById(R.id.firstsatge_3_name);
+        firstsatge_4_name = findViewById(R.id.firstsatge_4_name);
+        firstsatge_1_img = findViewById(R.id.firstsatge_1_img);
+        firstsatge_2_img = findViewById(R.id.firstsatge_2_img);
+        firstsatge_3_img = findViewById(R.id.firstsatge_3_img);
+        firstsatge_4_img = findViewById(R.id.firstsatge_4_img);
+        fourstage = findViewById(R.id.fourstage);
+        firstsatge_1.setOnClickListener(listner);
+        firstsatge_2.setOnClickListener(listner);
+        firstsatge_3.setOnClickListener(listner);
+        firstsatge_4.setOnClickListener(listner);
+        fourstage_1 = findViewById(R.id.fourstage_1);
+        fourstage_2 = findViewById(R.id.fourstage_2);
+        fourstage_3 = findViewById(R.id.fourstage_3);
+        fourstage_1.setOnClickListener(listner);
+        fourstage_2.setOnClickListener(listner);
+        fourstage_3.setOnClickListener(listner);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -123,19 +161,86 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
     }
 
     void refresh() {
-        if (netExpClass.getIsShowtest() == 0) {
-            exper_detail_totest1.setVisibility(View.VISIBLE);
-            exper_detail_totest2.setVisibility(View.GONE);
-        } else {
-            exper_detail_totest1.setVisibility(View.GONE);
-            exper_detail_totest2.setVisibility(View.VISIBLE);
+        firstStagelist=new ArrayList<>();
+        firstStagelist.add(netExpClass.getFirststage().getQuestionnaire());
+        firstStagelist.add(netExpClass.getFirststage().getWeiclass());
+        firstStagelist.add(netExpClass.getFirststage().getClassanalysis());
+        firstStagelist.add(netExpClass.getFirststage().getCommonproblem());
+
+        for(int i=0;i<firstStagelist.size();i++){
+            num+=firstStagelist.get(i).getIsshow();
         }
+        if(num==2){
+            firstsatge_1.setVisibility(View.VISIBLE);
+            firstsatge_2.setVisibility(View.VISIBLE);
+            firstsatge_3.setVisibility(View.GONE);
+            firstsatge_4.setVisibility(View.GONE);
+            if(firstStagelist.get(0).getIsshow()==1 && firstStagelist.get(2).getIsshow()==1){
+                firstsatge_1_name.setText(firstStagelist.get(0).getName());
+                firstsatge_2_name.setText(firstStagelist.get(2).getName());
+                setbackground(firstsatge_2_img,2);
+                num_type=1;
+            }else if(firstStagelist.get(0).getIsshow()==1 && firstStagelist.get(3).getIsshow()==1){
+                firstsatge_1_name.setText(firstStagelist.get(0).getName());
+                firstsatge_2_name.setText(firstStagelist.get(3).getName());
+                setbackground(firstsatge_2_img,3);
+                num_type=2;
+            }else if(firstStagelist.get(1).getIsshow()==1 && firstStagelist.get(2).getIsshow()==1){
+                firstsatge_1_name.setText(firstStagelist.get(1).getName());
+                firstsatge_2_name.setText(firstStagelist.get(2).getName());
+                setbackground(firstsatge_1_img,1);
+                setbackground(firstsatge_2_img,2);
+                num_type=3;
+            }else if(firstStagelist.get(1).getIsshow()==1 && firstStagelist.get(3).getIsshow()==1){
+                firstsatge_1_name.setText(firstStagelist.get(1).getName());
+                firstsatge_2_name.setText(firstStagelist.get(3).getName());
+                setbackground(firstsatge_1_img,1);
+                setbackground(firstsatge_2_img,3);
+                num_type=4;
+            }
+        }else{
+            layoutIsShow(firstsatge_1, netExpClass.getFirststage().getQuestionnaire().getIsshow());
+            layoutIsShow(firstsatge_2, netExpClass.getFirststage().getWeiclass().getIsshow());
+            layoutIsShow(firstsatge_3, netExpClass.getFirststage().getClassanalysis().getIsshow());
+            layoutIsShow(firstsatge_4, netExpClass.getFirststage().getCommonproblem().getIsshow());
+            firstsatge_1_name.setText(netExpClass.getFirststage().getQuestionnaire().getName());
+            firstsatge_2_name.setText(netExpClass.getFirststage().getWeiclass().getName());
+            firstsatge_3_name.setText(netExpClass.getFirststage().getClassanalysis().getName());
+            firstsatge_4_name.setText(netExpClass.getFirststage().getCommonproblem().getName());
+        }
+        layoutIsShow(fourstage, netExpClass.getFourthstage().getIsshow());
         bottomLayout.setVisibility(View.VISIBLE);
         if (netExpClass.getPlaceholdImg() != null && netExpClass.getPlaceholdImg().length() > 0) {
             empty_layout.setVisibility(View.VISIBLE);
+            firstsatge.setVisibility(View.GONE);
             Glide.with(this).load(netExpClass.getPlaceholdImg()).into(empty_soon);
         } else {
             empty_layout.setVisibility(View.GONE);
+            firstsatge.setVisibility(View.VISIBLE);
+        }
+    }
+
+    void layoutIsShow(View layout, int isshow) {
+        if (isshow == 0) {
+            layout.setVisibility(View.GONE);
+        } else {
+            layout.setVisibility(View.VISIBLE);
+        }
+    }
+    void setbackground(View view,int type){
+        switch(type){
+            case 0:
+                view.setBackgroundResource(R.drawable.practise2to3_icon_homeworkquestionnaire);
+                break;
+            case 1:
+                view.setBackgroundResource(R.drawable.practise2to3_icon_weiclass);
+                break;
+            case 2:
+                view.setBackgroundResource(R.drawable.practise2to3_icon_parsing);
+                break;
+            case 3:
+                view.setBackgroundResource(R.drawable.practise2to3_icon_faq);
+                break;
         }
     }
 
@@ -151,22 +256,85 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
             case R.id.back:
                 finish();
                 break;
-            case R.id.exper_detail_totest1:
-                intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
-                intent.putExtra("url", netExpClass.getPractice());
-                intent.putExtra("flag", 1);//标题是否取消1：取消
+            case R.id.firstsatge_1:
+                if(num==2){
+                    if(num_type>2){
+                        intent = new Intent(NetExperienceDetailActivity.this, NetExpFirstVideoActivity.class);
+                        intent.putExtra("title", "安妮鲜花微课堂");
+                        intent.putExtra("type", 1);
+                        intent.putExtra("fid", netExpClass.getFid());
+                        startActivity(intent);
+                    }else{
+                        intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
+                        intent.putExtra("url", netExpClass.getFirststage().getQuestionnaire().getUrl());
+                        intent.putExtra("title", "填写问卷");
+                        intent.putExtra("flag", 0);//标题是否取消1：取消
+                        startActivity(intent);
+                    }
+                }else{
+                    intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
+                    intent.putExtra("url", netExpClass.getFirststage().getQuestionnaire().getUrl());
+                    intent.putExtra("title", "填写问卷");
+                    intent.putExtra("flag", 0);//标题是否取消1：取消
+                    startActivity(intent);
+                }
+                break;
+            case R.id.firstsatge_2:
+                if(num==2){
+                    if(num_type==1 || num_type==3){
+                        intent = new Intent(NetExperienceDetailActivity.this, NetExpFirstVideoActivity.class);
+                        intent.putExtra("title", "课程解析");
+                        intent.putExtra("type", 2);
+                        intent.putExtra("fid", netExpClass.getFid());
+                        startActivity(intent);
+                    }else{
+                        intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
+                        intent.putExtra("url", netExpClass.getFirststage().getQuestionnaire().getUrl());
+                        intent.putExtra("title", "常见问题");
+                        intent.putExtra("flag", 0);//标题是否取消1：取消
+                        startActivity(intent);
+                    }
+                }else{
+                    intent = new Intent(NetExperienceDetailActivity.this, NetExpFirstVideoActivity.class);
+                    intent.putExtra("title", "安妮鲜花微课堂");
+                    intent.putExtra("type", 1);
+                    intent.putExtra("fid", netExpClass.getFid());
+                    startActivity(intent);
+                }
+                break;
+            case R.id.firstsatge_3:
+                intent = new Intent(NetExperienceDetailActivity.this, NetExpFirstVideoActivity.class);
+                intent.putExtra("title", "课程解析");
+                intent.putExtra("type", 2);
+                intent.putExtra("fid", netExpClass.getFid());
                 startActivity(intent);
                 break;
-            case R.id.exper_detail_totest:
+            case R.id.firstsatge_4:
                 intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
-                intent.putExtra("url", netExpClass.getTesting());
-                intent.putExtra("flag", 1);//标题是否取消1：取消
+                intent.putExtra("url", netExpClass.getFirststage().getQuestionnaire().getUrl());
+                intent.putExtra("title", "常见问题");
+                intent.putExtra("flag", 0);//标题是否取消1：取消
                 startActivity(intent);
                 break;
-            case R.id.exper_detail_topractice:
+            case R.id.fourstage_1:
                 intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
-                intent.putExtra("url", netExpClass.getPractice());
-                intent.putExtra("flag", 1);//标题是否取消1：取消
+                intent.putExtra("url", netExpClass.getFourthstage().getTesting());
+                intent.putExtra("title", "去测试");
+                intent.putExtra("flag", 0);//标题是否取消1：取消
+                startActivity(intent);
+                break;
+            case R.id.fourstage_2:
+                intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
+                intent.putExtra("url", netExpClass.getFourthstage().getLearningreport());
+                intent.putExtra("title", "学习报告");
+                intent.putExtra("flag", 0);//标题是否取消1：取消
+                startActivity(intent);
+                break;
+            case R.id.fourstage_3:
+                intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
+                intent.putExtra("url", netExpClass.getFourthstage().getQuestionnaire());
+                intent.putExtra("title", "填写问卷");
+                intent.putExtra("flag", 0);//标题是否取消1：取消
                 startActivity(intent);
                 break;
         }

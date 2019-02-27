@@ -1,18 +1,48 @@
 package com.annie.annieforchild.bean.net.netexpclass;
+
 import java.util.List;
 
 /**
  */
 public class NetExpClass {
 
-    private Video video;
+//    private Video video;
 
     private List<Info> info;
     private LearningReport LearningReport;
-    private Integer isShowtest;
-    private String practice;
-    private String testing;
+//    private Integer isShowtest;
+//    private String practice;
+//    private String testing;
     private String placeholdImg;
+    private String fid;
+    private FirstStage firststage;
+    private Fourthstage fourthstage;
+
+    public String getFid() {
+        return fid;
+    }
+
+    public void setFid(String fid) {
+        this.fid = fid;
+    }
+
+    public FirstStage getFirststage() {
+        return firststage;
+    }
+
+    public void setFirststage(FirstStage firststage) {
+        this.firststage = firststage;
+    }
+
+    public Fourthstage getFourthstage() {
+        return fourthstage;
+    }
+
+    public void setFourthstage(Fourthstage fourthstage) {
+        this.fourthstage = fourthstage;
+    }
+
+
 
     public String getPlaceholdImg() {
         return placeholdImg;
@@ -22,36 +52,13 @@ public class NetExpClass {
         this.placeholdImg = placeholdImg;
     }
 
-    public Integer getIsShowtest() {
-        return isShowtest;
-    }
 
-    public void setIsShowtest(Integer isShowtest) {
-        this.isShowtest = isShowtest;
-    }
-
-    public String getTesting() {
-        return testing;
-    }
-
-    public void setTesting(String testing) {
-        this.testing = testing;
-    }
-
-    public String getPractice() {
-        return practice;
-    }
-
-    public void setPractice(String practice) {
-        this.practice = practice;
-    }
-
-    public void setVideo(Video video) {
-         this.video = video;
-     }
-     public Video getVideo() {
-         return video;
-     }
+//    public void setVideo(Video video) {
+//         this.video = video;
+//     }
+//     public Video getVideo() {
+//         return video;
+//     }
 
 
 

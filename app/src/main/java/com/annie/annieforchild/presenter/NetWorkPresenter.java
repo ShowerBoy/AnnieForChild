@@ -40,4 +40,6 @@ public interface NetWorkPresenter {
     void buynum(int netid, int type);
 
     void OrderQuery(String tradeno, String outtradeno, int type);
+
+    void getWeiClass(String fid,int type);
 }
