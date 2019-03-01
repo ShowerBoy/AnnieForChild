@@ -119,7 +119,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
-                        android:text="泛听泛读资源" />
+                        android:text="泛听泛读" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

@@ -1,5 +1,6 @@
 package com.annie.annieforchild.ui.fragment.material;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -7,8 +8,11 @@ import android.widget.RelativeLayout;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.material.Material;
+import com.annie.annieforchild.bean.song.Song;
+import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.MaterialAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.baselibrary.base.BaseFragment;
@@ -45,7 +49,29 @@ public class OptionalMaterialFragment extends BaseFragment {
         adapter = new MaterialAdapter(getContext(), lists, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
-
+                int position = optionalRecycler.getChildAdapterPosition(view);
+                Song song = new Song();
+                song.setBookId(lists.get(position).getMaterialId());
+                song.setBookImageUrl(lists.get(position).getImageUrl());
+                song.setBookName(lists.get(position).getName());
+                Intent intent = new Intent(getContext(), PracticeActivity.class);
+                intent.putExtra("song", song);
+                intent.putExtra("collectType", lists.get(position).getType());
+                intent.putExtra("audioSource", lists.get(position).getAudioSource());
+                if (lists.get(position).getType() == 0) {
+                    intent.putExtra("audioType", 0);
+                    intent.putExtra("bookType", 0);
+                } else if (lists.get(position).getType() == 1) {
+                    intent.putExtra("audioType", 1);
+                    intent.putExtra("bookType", 1);
+                } else if (lists.get(position).getType() == 2) {
+                    intent.putExtra("audioType", 2);
+                    intent.putExtra("bookType", 1);
+                } else {
+                    SystemUtils.show(getContext(), "暂无");
+                    return;
+                }
+                startActivity(intent);
             }
 
             @Override

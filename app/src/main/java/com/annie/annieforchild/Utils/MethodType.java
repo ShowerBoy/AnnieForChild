@@ -27,9 +27,7 @@ public class MethodType {
     final public static String GETHELP = "getDocumentations"; //帮助文档
     final public static String CANCELCOLLECTION = "cancelCollection"; //取消收藏
     final public static String MYRECORDINGS = "myRecordings"; //我的录音
-    final public static String MYRECORDINGSTEST = "myRecordingstest"; //我的录音
     final public static String DELETERECORDING = "deleteRecording"; //删除录音
-    final public static String DELETERECORDINGTEST = "deleteRecordingtest"; //删除录音
     final public static String EXCHANGERECORDING = "nectarExchangeRecording"; //花蜜兑换记录
     final public static String GETHOMEDATA = "getHomeData"; //获取首页信息
     final public static String GETCARDDETAIL = "getCardDetail"; //今日打卡详情

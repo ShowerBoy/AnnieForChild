@@ -22,6 +22,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
 import android.text.InputFilter;
@@ -695,7 +696,13 @@ public class SystemUtils {
                             if (state.equals(Environment.MEDIA_MOUNTED)) {
                                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                 // 指定存储照片的路径
-                                Uri imageUri = Uri.fromFile(getTempImage());
+                                Uri imageUri = null;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                                    imageUri = FileProvider.getUriForFile(activity, activity.getApplicationContext().getPackageName() + ".provider", getTempImage());
+                                    imageUri = FileProvider.getUriForFile(activity, "com.annie.annieforchild.installapkdemo", getTempImage());
+                                } else {
+                                    imageUri = Uri.fromFile(getTempImage());
+                                }
                                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                                 activity.startActivityForResult(intent, SELECT_CAMER);
                             } else {
@@ -736,6 +743,17 @@ public class SystemUtils {
             return tempFile;
         }
         return null;
+    }
+
+    private static Uri getFileUri(Context context, String filePath) {
+        Uri mUri = null;
+        File mFile = new File(filePath);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mUri = FileProvider.getUriForFile(context, "com.annie.annieforchild", mFile);
+        } else {
+            mUri = Uri.fromFile(mFile);
+        }
+        return mUri;
     }
 
     /**

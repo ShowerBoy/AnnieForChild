@@ -35,8 +35,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected P mPresenter;
     private Unbinder mUnbinder;
     private boolean register;
-    public MusicService musicService;
-    private MusicConnection myConnection = new MusicConnection();
+    protected MusicService musicService;
+    //    protected MusicConnection myConnection = new MusicConnection();
+    protected ServiceConnection myConnection;
     private MyBroadCastRecevier myBroadCastRecevier;
     private Intent intent;
 
@@ -67,13 +68,26 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                 mPresenter.attach((BaseView) this);
         }
         initView();
-        initData();
         if (musicService == null) {
             //首次播放绑定服务
             intent = new Intent(this, MusicService.class);
+            myConnection = new ServiceConnection() {
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    MusicService.MyBinder myBinder = (MusicService.MyBinder) service;
+                    musicService = myBinder.getService();
+                }
+
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+                    myConnection = null;
+                }
+            };
             bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
             startService(intent);
         }
+        initData();
+
     }
 
     @Override
@@ -107,7 +121,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.detach();
         }
-        unbindService(myConnection);
+        if (myConnection != null) {
+            unbindService(myConnection);
+        }
         stopService(intent);
     }
 

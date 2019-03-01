@@ -6,10 +6,28 @@ import java.io.Serializable;
  * Created by wanglei on 2018/4/24.
  */
 
-public class Material implements Serializable{
+public class Material implements Serializable {
     private int materialId;
     private String name;
     private String imageUrl;
+    private int type;
+    private int audioSource;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getAudioSource() {
+        return audioSource;
+    }
+
+    public void setAudioSource(int audioSource) {
+        this.audioSource = audioSource;
+    }
 
     public int getMaterialId() {
         return materialId;

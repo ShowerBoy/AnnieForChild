@@ -29,6 +29,7 @@ public class CrashHandlerInteractorImp extends NetWorkImp {
     public void sendCrashMessage(String username, String phone, String phonetype, String systemversion, String appversion, String errlog) {
         if (request != null) {
             request.add("username", username);
+            request.add("type", "android");
             request.add("telphone", phone);
             request.add("phonetype", phonetype);
             request.add("systemversion", systemversion);

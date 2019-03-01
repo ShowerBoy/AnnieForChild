@@ -37,7 +37,7 @@ public interface GrindEarPresenter {
 
     void getPkResult(int bookId, String pkUsername, int pkType);
 
-    void joinMaterial(int bookId, int classId);
+    void joinMaterial(int bookId, int audioSource, int type, int classId);
 
     void cancelMaterial(int bookId, int classId);
 

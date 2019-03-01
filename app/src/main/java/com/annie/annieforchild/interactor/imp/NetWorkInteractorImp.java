@@ -394,7 +394,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     listener.Success(what, trade_status);
                 }
             }else if(what ==MethodCode.EVENT_GETWEICLASS){
-                Log.e("++",data);
+//                Log.e("++",data);
                 List<Video_first> lists;
                 if (data != null) {
                     lists = JSON.parseArray(data, Video_first.class);

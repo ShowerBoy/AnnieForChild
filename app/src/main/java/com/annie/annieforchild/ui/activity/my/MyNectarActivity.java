@@ -129,7 +129,7 @@ public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnC
 
     private void initialize() {
         if (userInfo != null) {
-            Glide.with(this).load(userInfo.getAvatar()).into(myNectarHeadpic);
+            Glide.with(this).load(userInfo.getAvatar()).error(R.drawable.icon_system_headpic).into(myNectarHeadpic);
             myNectarName.setText(userInfo.getName());
             myNectarNum.setText(userInfo.getNectar() != null ? userInfo.getNectar() + "花蜜" : "0花蜜");
         }

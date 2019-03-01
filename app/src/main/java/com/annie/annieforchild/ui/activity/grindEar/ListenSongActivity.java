@@ -83,6 +83,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
         mVP.setOnPageChangeListener(this);
 
         intent = getIntent();
+        lists = new ArrayList<>();
         if (intent != null) {
             bundle = intent.getExtras();
             type = bundle.getInt("type");
@@ -172,7 +173,6 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
         if (lists.size() != 0) {
             lists.get(0).setSelected(true);
         }
-
         //
         initTab();
         //

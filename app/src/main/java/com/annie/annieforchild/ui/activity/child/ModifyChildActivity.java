@@ -134,13 +134,19 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
             avatar = userInfo.getAvatar();
             birth = userInfo.getBirthday();
 
-            if (userInfo.getSex().equals("男")) {
+            if (userInfo.getSex() != null) {
+                if (userInfo.getSex().equals("男")) {
+                    index = 0;
+                    detailSex.setText(childSex);
+                } else {
+                    index = 1;
+                    detailSex.setText(childSex);
+                }
+            }else{
                 index = 0;
                 detailSex.setText(childSex);
-            } else {
-                index = 1;
-                detailSex.setText(childSex);
             }
+
             detailName.setText(userInfo.getName());
             Glide.with(this).load(userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(modify_headpic);
             if (userInfo.getBirthday() != null) {

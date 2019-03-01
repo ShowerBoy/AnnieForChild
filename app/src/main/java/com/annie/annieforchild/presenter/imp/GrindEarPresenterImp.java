@@ -253,9 +253,9 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param bookId
      */
     @Override
-    public void joinMaterial(int bookId, int classId) {
+    public void joinMaterial(int bookId, int audioSource, int type, int classId) {
         songView.showLoad();
-        interactor.joinMaterial(bookId, classId);
+        interactor.joinMaterial(bookId, audioSource, type, classId);
     }
 
     /**

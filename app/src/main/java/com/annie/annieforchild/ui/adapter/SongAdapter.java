@@ -170,7 +170,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
             public void onCheckDoubleClick(View view) {
                 if (lists.get(i).getJurisdiction() == 1) {
                     if (lists.get(i).getIsJoinMaterial() == 0) {
-                        presenter.joinMaterial(lists.get(i).getBookId(), classId);
+                        presenter.joinMaterial(lists.get(i).getBookId(), audioSource, audioType, classId);
                     } else {
                         presenter.cancelMaterial(lists.get(i).getBookId(), classId);
                     }

@@ -947,7 +947,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 }
                 if (song1 != null) {
                     if (song1.getIsJoinMaterial() == 0) {
-                        presenter.joinMaterial(song.getBookId(), classId);
+                        presenter.joinMaterial(song.getBookId(), audioSource, audioType, classId);
                         popupWindow2.dismiss();
                     } else {
                         presenter.cancelMaterial(song.getBookId(), classId);

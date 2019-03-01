@@ -449,7 +449,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                         player.stop();//停止播放
                         player.release();//释放资源
                         isClick = true;
-                        exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
+                        Message message = new Message();
+                        message.what = 1;
+                        message.obj = exerciseViewHolder;
+                        handler2.sendMessage(message);
+//                        exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
                         break;
                     }
                 }
@@ -500,7 +504,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
         new Thread(new Runnable() {
             @Override
             public void run() {
-                handler2.sendEmptyMessage(0);
+                Message message = new Message();
+                message.what = 2;
+                handler2.sendMessage(message);
             }
         }).start();
         presenter.uploadAudioTime(0, audioType, audioSource, bookId, duration);
@@ -509,7 +515,12 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
     Handler handler2 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            holder.preview.setImageResource(R.drawable.icon_preview_big);
+            if (msg.what == 1) {
+                ExerciseViewHolder holders = (ExerciseViewHolder) msg.obj;
+                holders.play.setImageResource(R.drawable.icon_play_big);
+            } else if (msg.what == 2) {
+                holder.preview.setImageResource(R.drawable.icon_preview_big);
+            }
         }
     };
 
