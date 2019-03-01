@@ -43,11 +43,14 @@ public class NetPreheatConsultAdapter extends RecyclerView.Adapter<NetPreheatCon
     @Override
     public void onBindViewHolder(NetPreheatConsultViewHolder holder, int i) {
         if (list1.size() == 0) {
+            if(i==0){
+                holder.type.setVisibility(View.VISIBLE);
+            }else{
+                holder.type.setVisibility(View.GONE);
+            }
             holder.type.setText("素材解析");
-            holder.type.setVisibility(View.VISIBLE);
             holder.title.setText(list2.get(i - list1.size()).getTitle());
             holder.test_describe.setText(list2.get(i - list1.size()).getSubtitle());
-
             Glide.with(context).load(list2.get(i - list1.size()).getPicurl()).into(holder.video_img);
         } else {
             if (i == 0) {
@@ -94,7 +97,6 @@ public class NetPreheatConsultAdapter extends RecyclerView.Adapter<NetPreheatCon
                     intent.putExtra("name", list2.get(i - list1.size()).getTitle());
                 }
                 context.startActivity(intent);
-
             }
         });
     }
