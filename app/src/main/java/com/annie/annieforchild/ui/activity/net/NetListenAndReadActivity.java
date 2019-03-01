@@ -71,7 +71,6 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
 
 
         presenter.initViewAndData();
-        Log.e("wee", week + "///" + classid);
         presenter.getListeningAndReading(week, classid, tag, 2);
 
     }
@@ -91,7 +90,7 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
             } else {
                 no_content.setVisibility(View.GONE);
             }
-            Glide.with(this).load(listenAndRead.getPath()).into(listenandread_img);
+            Glide.with(this).load(listenAndRead.getPath()).placeholder(R.drawable.book_image_loading). dontAnimate().into(listenandread_img);
         }
     }
 

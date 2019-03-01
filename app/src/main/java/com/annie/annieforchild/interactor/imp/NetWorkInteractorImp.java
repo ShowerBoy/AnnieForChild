@@ -277,6 +277,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
         String data = jsonObject.getString(MethodCode.DATA);
 
+
         if (errorType == 3) {
             listener.Error(what, errorInfo);
         } else {
@@ -356,7 +357,6 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 }
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_GETNETEXPDETAILS) {
-                Log.e("----", data);
                 NetExpClass netExpClass = JSON.parseObject(data, NetExpClass.class);
                 listener.Success(what, netExpClass);
             } else if (what == MethodCode.EVENT_GETPREHEATCONSULT) {
@@ -369,7 +369,6 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 PreheatConsult preheatConsult = JSON.parseObject(data, PreheatConsult.class);
                 listener.Success(what, preheatConsult);
             } else if (what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {
-                Log.e("ttt", data);
                 ListenAndRead listenAndRead = JSON.parseObject(data, ListenAndRead.class);
                 listener.Success(what, listenAndRead);
             } else if (what == MethodCode.EVENT_BUYNUM) {
@@ -394,7 +393,6 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     listener.Success(what, trade_status);
                 }
             }else if(what ==MethodCode.EVENT_GETWEICLASS){
-                Log.e("++",data);
                 List<Video_first> lists;
                 if (data != null) {
                     lists = JSON.parseArray(data, Video_first.class);
