@@ -180,9 +180,9 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void getWeiClass(String fid,int type) {
+    public void getWeiClass(String fid, int type) {
         viewInfo.showLoad();
-        interactor.getWeiClass(fid,type);
+        interactor.getWeiClass(fid, type);
     }
 
     private void initImageSlide() {
@@ -206,11 +206,13 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-        if (!bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("")) {
-            Intent intent = new Intent(context, WebActivity.class);
-            intent.putExtra("url", bannerList.get(slider.getBundle().getInt("extra")).getUrl());
-            intent.putExtra("title", "");
-            context.startActivity(intent);
+        if (bannerList.get(slider.getBundle().getInt("extra")) != null) {
+            if (!bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("")) {
+                Intent intent = new Intent(context, WebActivity.class);
+                intent.putExtra("url", bannerList.get(slider.getBundle().getInt("extra")).getUrl());
+                intent.putExtra("title", "");
+                context.startActivity(intent);
+            }
         }
     }
 
@@ -407,7 +409,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = result;
                 EventBus.getDefault().post(message);
-            }else if (what == MethodCode.EVENT_GETWEICLASS) {
+            } else if (what == MethodCode.EVENT_GETWEICLASS) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.NetExpFirstVideoActivity#onMainEventThread(JTMessage)}
                  */

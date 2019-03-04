@@ -130,7 +130,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
         db = LitePal.getDatabase();
 
         /*sharepreference设置多进程访问*/
-        preferences = getSharedPreferences("userInfo", MODE_PRIVATE |MODE_MULTI_PROCESS);
+        preferences = getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
         editor = preferences.edit();
         timer = new Timer();
         task = new TimerTask() {
@@ -192,9 +192,9 @@ public class GuideActivity extends BaseActivity implements LoginView {
             /*添加token等本地保存*/
             editor.putString("phone", phone);
             editor.putString("psd", psd);
-            editor.putInt("childTag",SystemUtils.childTag);
-            editor.putString("token",bean.getToken());
-            editor.putString("defaultUsername",bean.getDefaultUsername());
+            editor.putInt("childTag", SystemUtils.childTag);
+            editor.putString("token", bean.getToken());
+            editor.putString("defaultUsername", bean.getDefaultUsername());
             editor.commit();
 
             SystemUtils.phone = phone;
@@ -208,9 +208,9 @@ public class GuideActivity extends BaseActivity implements LoginView {
             editor.putString("phone", null);
             editor.putString("psd", null);
             /**/
-            editor.putInt("childTag",0);
-            editor.putString("token",null);
-            editor.putString("defaultUsername",null);
+            editor.putInt("childTag", 0);
+            editor.putString("token", null);
+            editor.putString("defaultUsername", null);
             editor.commit();
 
             Intent intent = new Intent(GuideActivity.this, LoginActivity.class);
@@ -240,7 +240,9 @@ public class GuideActivity extends BaseActivity implements LoginView {
     @Override
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+            if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
+                dialog.dismiss();
+            }
         }
     }
 
