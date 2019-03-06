@@ -164,34 +164,34 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
 //        DataSupport.deleteAll(SigninBean.class);
         List<PhoneSN> list = LitePal.findAll(PhoneSN.class);
         if (list != null && list.size() != 0) {
-            SystemUtils.phoneSN = list.get(list.size() - 1);
-            SystemUtils.sn = list.get(list.size() - 1).getSn();
+            application.getSystemUtils().setPhoneSN(list.get(list.size() - 1));
+            application.getSystemUtils().setSn(list.get(list.size() - 1).getSn());
         } else {
             if (tm.getSimSerialNumber() != null) {
-                SystemUtils.sn = tm.getSimSerialNumber();
+                application.getSystemUtils().setSn(tm.getSimSerialNumber());
             } else {
-                SystemUtils.sn = UUID.randomUUID().toString();
+                application.getSystemUtils().setSn(UUID.randomUUID().toString());
             }
-            SystemUtils.phoneSN = new PhoneSN();
-            SystemUtils.phoneSN.setSn(SystemUtils.sn);
-            SystemUtils.phoneSN.save();
+            application.getSystemUtils().setPhoneSN(new PhoneSN());
+            application.getSystemUtils().getPhoneSN().setSn(application.getSystemUtils().getSn());
+            application.getSystemUtils().getPhoneSN().save();
         }
 
         List<MainBean> lists = LitePal.findAll(MainBean.class);
         if (lists != null && lists.size() != 0) {
-            SystemUtils.mainBean = lists.get(lists.size() - 1);
+            application.getSystemUtils().setMainBean(lists.get(lists.size() - 1));
 //            showInfo("数据库里存在mainBean:" + SystemUtils.mainBean.toString());
         } else {
 //            presenter.getMainAddress();
         }
-        preferences = getSharedPreferences("userInfo", MODE_PRIVATE |MODE_MULTI_PROCESS);
+        preferences = getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
         editor = preferences.edit();
 
         if (preferences.getString("phone", null) != null && preferences.getString("psd", null) != null) {
             phone = preferences.getString("phone", null);
             psd = preferences.getString("psd", null);
             logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
-            SystemUtils.getNetTime();
+            application.getNetTime();
             presenter.login(phone, psd, logintime);
         }
     }
@@ -213,32 +213,30 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
 //            PhoneSN phoneSN = list.get(list.size() - 1);
 //            phoneSN.setLastlogintime(logintime);
 //            phoneSN.setUsername(bean.getDefaultUsername());
-            SystemUtils.phoneSN.setUsername(bean.getDefaultUsername());
-            SystemUtils.phoneSN.setLastlogintime(logintime);
-            SystemUtils.phoneSN.setSystem("android");
-            SystemUtils.phoneSN.setBitcode(SystemUtils.getVersionName(this));
-            SystemUtils.phoneSN.save();
+            application.getSystemUtils().getPhoneSN().setUsername(bean.getDefaultUsername());
+            application.getSystemUtils().getPhoneSN().setLastlogintime(logintime);
+            application.getSystemUtils().getPhoneSN().setSystem("android");
+            application.getSystemUtils().getPhoneSN().setBitcode(SystemUtils.getVersionName(this));
+            application.getSystemUtils().getPhoneSN().save();
 
             /*添加token等本地保存*/
             editor.putString("phone", phone);
             editor.putString("psd", psd);
-            editor.putInt("childTag",SystemUtils.childTag);
-            editor.putString("token",bean.getToken());
-            editor.putString("defaultUsername",bean.getDefaultUsername());
+            editor.putInt("childTag", application.getSystemUtils().getChildTag());
+            editor.putString("token", bean.getToken());
+            editor.putString("defaultUsername", bean.getDefaultUsername());
             editor.commit();
 
-            SystemUtils.phone = phone;
+            application.getSystemUtils().setPhone(phone);
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("tag", "会员");
-            SystemUtils.tag = "会员";
+            application.getSystemUtils().setTag("会员");
             if (bean.getDefaultUsername().equals("")) {
-                SystemUtils.childTag = 0;
+                application.getSystemUtils().setChildTag(0);
             } else {
-                SystemUtils.childTag = 1;
+                application.getSystemUtils().setChildTag(1);
             }
-
-
             startActivity(intent);
             if (tag != null && tag.equals("游客登陆")) {
                 ActivityCollector.finishAll();
@@ -326,7 +324,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
         }
         /*内存泄漏问题*/
         if (dialog != null && dialog.isShowing()) {
-                dialog.dismiss();
+            dialog.dismiss();
         }
     }
 
@@ -340,8 +338,8 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
             case R.id.youke:
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("tag", "游客");
-                SystemUtils.tag = "游客";
-                SystemUtils.childTag = 0;
+                application.getSystemUtils().setTag("游客");
+                application.getSystemUtils().setChildTag(0);
                 startActivity(intent);
                 finish();
                 break;

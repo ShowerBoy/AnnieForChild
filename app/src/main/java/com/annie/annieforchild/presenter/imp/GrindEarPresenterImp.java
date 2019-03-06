@@ -31,6 +31,7 @@ import com.annie.annieforchild.bean.task.TaskDetails;
 import com.annie.annieforchild.interactor.GrindEarInteractor;
 import com.annie.annieforchild.interactor.imp.GrindEarInteractorImp;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.ui.fragment.book.BookPlayFragment2;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.annieforchild.view.SongView;
@@ -66,24 +67,29 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     private int taskid, classify;
     private boolean submitTask = true; //提交作业
     private HashMap<Integer, String> file_maps;
+    private MyApplication application;
 
     public GrindEarPresenterImp(Context context) {
         this.context = context;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     public GrindEarPresenterImp(Context context, GrindEarView grindEarView) {
         this.context = context;
         this.grindEarView = grindEarView;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     public GrindEarPresenterImp(Context context, SongView songView) {
         this.context = context;
         this.songView = songView;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     public GrindEarPresenterImp(Context context, ViewInfo viewInfo) {
         this.context = context;
         this.viewInfo = viewInfo;
+        application = (MyApplication) context.getApplicationContext();
     }
 
 
@@ -1101,19 +1107,20 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
 //                    dialog.show();
 //                    SystemUtils.setBackGray((Activity) context, true);
                     SystemUtils.show(context, "今日已签到");
-                    SystemUtils.signinBean.setNectar(true);
-                    SystemUtils.signinBean.save();
+
+                    application.getSystemUtils().getSigninBean().setNectar(true);
+                    application.getSystemUtils().getSigninBean().save();
                 } else {
-                    SystemUtils.signinBean.setNectar(true);
-                    SystemUtils.signinBean.save();
+                    application.getSystemUtils().getSigninBean().setNectar(true);
+                    application.getSystemUtils().getSigninBean().save();
                 }
-                if (SystemUtils.timer != null) {
-                    SystemUtils.timer.cancel();
-                    SystemUtils.timer = null;
+                if (application.getSystemUtils().getTimer() != null) {
+                    application.getSystemUtils().getTimer().cancel();
+                    application.getSystemUtils().setTimer(null);
                 }
-                if (SystemUtils.task != null) {
-                    SystemUtils.task.cancel();
-                    SystemUtils.task = null;
+                if (application.getSystemUtils().getTimer() != null) {
+                    application.getSystemUtils().getTimer().cancel();
+                    application.getSystemUtils().setTimer(null);
                 }
             } else if (what == MethodCode.EVENT_IWANTLISTEN) {
                 List<Song> songList = (List<Song>) result;

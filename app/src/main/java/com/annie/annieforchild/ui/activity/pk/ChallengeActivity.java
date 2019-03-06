@@ -153,7 +153,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         imageUrl = intent.getStringExtra("imageUrl");
         homeworkid = intent.getIntExtra("homeworkid", 0);
         homeworktype = intent.getIntExtra("homeworktype", -1);
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(challengeImage);
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar() != null ? application.getSystemUtils().getUserInfo().getAvatar() : "").error(R.drawable.icon_system_photo).into(challengeImage);
         computer.setImageResource(R.drawable.icon_system_photo);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -169,8 +169,8 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                 }
             }
         };
-        popupWidth = Math.min(SystemUtils.window_width, SystemUtils.window_height) * 3 / 4;
-        popupHeight = Math.max(SystemUtils.window_width, SystemUtils.window_height) * 3 / 5;
+        popupWidth = Math.min(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 3 / 4;
+        popupHeight = Math.max(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 3 / 5;
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_pk_win, null, false);
         popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_pk_lose, null, false);
         popupView3 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_change, null, false);
@@ -179,7 +179,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
 
         initAnimation();
 
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(character1);
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).error(R.drawable.icon_system_photo).into(character1);
         Glide.with(this).load(R.drawable.icon_system_photo).into(character2);
         pengyouquan = popupView.findViewById(R.id.share_pengyouquan);
         weixin = popupView.findViewById(R.id.share_weixin);
@@ -309,7 +309,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         adapter.notifyDataSetChanged();
         challengeSpeak.setImageResource(R.drawable.icon_speak_big);
 
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(computer);
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).error(R.drawable.icon_system_photo).into(computer);
         challengeImage.setImageResource(R.drawable.icon_system_photo);
 //        play(lists.get(currentLine - 1).getResourceUrl());
     }

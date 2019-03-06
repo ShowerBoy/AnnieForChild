@@ -24,6 +24,7 @@ import com.annie.annieforchild.interactor.LoginInteractor;
 import com.annie.annieforchild.interactor.imp.LoginInteractorImp;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.LoginView;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BasePresenterImp;
@@ -55,17 +56,20 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
     private ViewInfo viewInfo;
     private LoginInteractor interactor;
     private List<Tags> ageList, functionList, themeList, typeList, seriesList;
+    private MyApplication application;
 //    private Timer timer;
 //    private TimerTask task;
 
     public LoginPresenterImp(Context context, LoginView loginView) {
         this.context = context;
         this.loginView = loginView;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     public LoginPresenterImp(Context context, ViewInfo viewInfo) {
         this.context = context;
         this.viewInfo = viewInfo;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
@@ -76,7 +80,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
         themeList = new ArrayList<>();
         typeList = new ArrayList<>();
         seriesList = new ArrayList<>();
-        SystemUtils.timer = new Timer();
+        application.getSystemUtils().setTimer(new Timer());
     }
 
 //    @Override
@@ -196,21 +200,6 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                 } else if (bean.getErrType() == 2) {
                     //升级
                     bean.save();
-//                    SystemUtils.mainBean = bean;
-//                    SystemUtils.GeneralDialog(context, "升级")
-//                            .setMessage("检测到更新，升级吗？")
-//                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                                }
-//                            })
-//                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                    dialogInterface.dismiss();
-//                                }
-//                            }).create().show();
                 } else if (bean.getErrType() == 4) {
                     //更新接口地址
                     List<MainBean> lists = LitePal.findAll(MainBean.class);
@@ -218,7 +207,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                         MainBean bean1 = lists.get(lists.size() - 1);
                         bean1.setData(bean.getData());
                         bean1.save();
-                        SystemUtils.mainBean = bean1;
+                        application.getSystemUtils().setMainBean(bean1);
                     }
                 } else {
                     //成功
@@ -231,49 +220,49 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                         jtMessage.setWhat(MethodCode.EVENT_MAIN);
                         jtMessage.setObj(bean);
                         EventBus.getDefault().post(jtMessage);
-                        SystemUtils.mainBean = bean;
+                        application.getSystemUtils().setMainBean(bean);
                     } else if (what == MethodCode.EVENT_LOGIN) {
                         SQLiteDatabase db = LitePal.getDatabase();
 //                            DataSupport.deleteAll(SigninBean.class);
                         try {
                             LoginBean bean1 = JSON.parseObject(bean.getData(), LoginBean.class);
                             bean1.save();
-                            SystemUtils.token = bean1.getToken();
-                            SystemUtils.defaultUsername = bean1.getDefaultUsername();
+                            application.getSystemUtils().setToken(bean1.getToken());
+                            application.getSystemUtils().setDefaultUsername(bean1.getDefaultUsername());
                             if (bean1.getDefaultUsername().equals("")) {
-                                SystemUtils.childTag = 0;
-                                SystemUtils.isOnline = false;
+                                application.getSystemUtils().setChildTag(0);
+                                application.getSystemUtils().setOnline(false);
                             } else {
-                                SystemUtils.childTag = 1;
-                                SystemUtils.isOnline = true;
+                                application.getSystemUtils().setChildTag(1);
+                                application.getSystemUtils().setOnline(true);
                                 //在线得花蜜
 
-                                List<SigninBean> list = LitePal.where("username = ?", SystemUtils.defaultUsername).find(SigninBean.class);
+                                List<SigninBean> list = LitePal.where("username = ?", application.getSystemUtils().getDefaultUsername()).find(SigninBean.class);
 //                            DataSupport.findBySQL("select * from Signin ")
                                 if (list != null && list.size() != 0) {
                                     SigninBean signinBean = list.get(list.size() - 1);
-                                    String date = SystemUtils.netDate;
+                                    String date = application.getSystemUtils().getNetDate();
                                     if (date != null) {
 
                                         if (!date.equals(signinBean.getDate())) {
-                                            if (SystemUtils.signinBean == null) {
-                                                SystemUtils.signinBean = new SigninBean();
+                                            if (application.getSystemUtils().getSigninBean() == null) {
+                                                application.getSystemUtils().setSigninBean(new SigninBean());
                                             }
-                                            SystemUtils.signinBean.setDate(date);
-                                            SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
-                                            SystemUtils.signinBean.setNectar(false);
-                                            SystemUtils.signinBean.save();
+                                            application.getSystemUtils().getSigninBean().setDate(date);
+                                            application.getSystemUtils().getSigninBean().setUsername(application.getSystemUtils().getDefaultUsername());
+                                            application.getSystemUtils().getSigninBean().setNectar(false);
+                                            application.getSystemUtils().getSigninBean().save();
                                         } else {
-                                            SystemUtils.signinBean = signinBean;
+                                            application.getSystemUtils().setSigninBean(signinBean);
                                         }
                                     }
                                 } else {
-                                    SystemUtils.signinBean = new SigninBean();
-                                    String date = SystemUtils.netDate;
-                                    SystemUtils.signinBean.setDate(date != null ? date : "");
-                                    SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
-                                    SystemUtils.signinBean.setNectar(false);
-                                    SystemUtils.signinBean.save();
+                                    application.getSystemUtils().setSigninBean(new SigninBean());
+                                    String date = application.getSystemUtils().getNetDate();
+                                    application.getSystemUtils().getSigninBean().setDate(date != null ? date : "");
+                                    application.getSystemUtils().getSigninBean().setUsername(application.getSystemUtils().getDefaultUsername());
+                                    application.getSystemUtils().getSigninBean().setNectar(false);
+                                    application.getSystemUtils().getSigninBean().save();
                                 }
 
                             }
@@ -285,47 +274,47 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                             jtMessage.setObj(bean1);
                             EventBus.getDefault().post(jtMessage);
 
-                            if (SystemUtils.isOnline) {
-                                if (SystemUtils.signinBean == null) {
-                                    SystemUtils.signinBean = new SigninBean();
-                                    String date = SystemUtils.netDate;
-                                    SystemUtils.signinBean.setDate(date != null ? date : "");
-                                    SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
-                                    SystemUtils.signinBean.setNectar(false);
-                                    SystemUtils.signinBean.save();
+                            if (application.getSystemUtils().isOnline()) {
+                                if (application.getSystemUtils().getSigninBean() == null) {
+                                    application.getSystemUtils().setSigninBean(new SigninBean());
+                                    String date = application.getSystemUtils().getNetDate();
+                                    application.getSystemUtils().getSigninBean().setDate(date != null ? date : "");
+                                    application.getSystemUtils().getSigninBean().setUsername(application.getSystemUtils().getDefaultUsername());
+                                    application.getSystemUtils().getSigninBean().setNectar(false);
+                                    application.getSystemUtils().getSigninBean().save();
                                 }
-                                if (!SystemUtils.signinBean.isNectar()) {
-                                    SystemUtils.task = new TimerTask() {
+                                if (!application.getSystemUtils().getSigninBean().isNectar()) {
+                                    application.getSystemUtils().setTask(new TimerTask() {
                                         @Override
                                         public void run() {
                                             Intent intent = new Intent();
                                             intent.setAction("countdown");
                                             context.sendBroadcast(intent);
                                         }
-                                    };
+                                    });
                                     Runnable runnable = new Runnable() {
                                         @Override
                                         public void run() {
-                                            if (!SystemUtils.signinBean.isNectar()) {
-                                                if (SystemUtils.task == null) {
-                                                    SystemUtils.task = new TimerTask() {
+                                            if (!application.getSystemUtils().getSigninBean().isNectar()) {
+                                                if (application.getSystemUtils().getTask() == null) {
+                                                    application.getSystemUtils().setTask(new TimerTask() {
                                                         @Override
                                                         public void run() {
                                                             Intent intent = new Intent();
                                                             intent.setAction("countdown");
                                                             context.sendBroadcast(intent);
                                                         }
-                                                    };
+                                                    });
                                                 }
-                                                if (SystemUtils.timer == null) {
-                                                    SystemUtils.timer = new Timer();
+                                                if (application.getSystemUtils().getTimer() == null) {
+                                                    application.getSystemUtils().setTimer(new Timer());
                                                 }
-                                                SystemUtils.timer.schedule(SystemUtils.task, 120 * 1000);
+                                                application.getSystemUtils().getTimer().schedule(application.getSystemUtils().getTask(), 120 * 1000);
                                             }
                                         }
                                     };
-                                    SystemUtils.countDownThread = new Thread(runnable);
-                                    SystemUtils.countDownThread.start();
+                                    application.getSystemUtils().setCountDownThread(new Thread(runnable));
+                                    application.getSystemUtils().getCountDownThread().start();
                                 }
                             }
 
@@ -391,7 +380,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
             message.what = MethodCode.EVENT_ERROR;
             message.obj = error;
             EventBus.getDefault().post(message);
-            SystemUtils.isOnline = false;
+            application.getSystemUtils().setOnline(false);
         }
     }
 }

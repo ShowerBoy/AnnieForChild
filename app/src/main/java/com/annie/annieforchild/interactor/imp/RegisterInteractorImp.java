@@ -8,6 +8,7 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.interactor.RegisterInteractor;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
@@ -21,10 +22,12 @@ import com.yanzhenjie.nohttp.rest.Response;
 public class RegisterInteractorImp extends NetWorkImp implements RegisterInteractor {
     private Context context;
     private RequestListener listener;
+    private MyApplication application;
 
     public RegisterInteractorImp(Context context, RequestListener listener) {
         this.context = context;
         this.listener = listener;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
@@ -50,7 +53,7 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
     @Override
     public void changePhone(String serialNumber, String code, String newPhone) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.CHANGEPHONE, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
+        request.add("token", application.getSystemUtils().getToken());
         request.add("serialNumber", serialNumber);
         request.add("code", code);
         request.add("newPhone", newPhone);

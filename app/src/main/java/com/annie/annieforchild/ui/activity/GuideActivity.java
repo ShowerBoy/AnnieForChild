@@ -23,6 +23,7 @@ import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.LoginView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -60,6 +61,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
     private Dialog dialog;
     private SQLiteDatabase db;
     public String TAG = "GuideActivity";
+    private MyApplication application;
 
     {
         setRegister(true);
@@ -73,10 +75,10 @@ public class GuideActivity extends BaseActivity implements LoginView {
     @Override
     protected void initView() {
         NoHttpUtils.init(this);
-
+        application= (MyApplication) getApplicationContext();
         Uri uri = getIntent().getData();
         if (uri != null) {
-            SystemUtils.uri = uri;
+            application.getSystemUtils().setUri(uri);
             // 完整的url信息
             String url = uri.toString();
             Log.i(TAG, "url:" + uri);
@@ -115,7 +117,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
             }
 //            SystemUtils.show(this, "url:" + url + "=== bookid:" + bookid + "=== booktype:" + bookType);
         } else {
-            SystemUtils.uri = null;
+            application.getSystemUtils().setUri(null);
         }
     }
 
@@ -156,13 +158,13 @@ public class GuideActivity extends BaseActivity implements LoginView {
         if (preferences.getString("phone", null) != null && preferences.getString("psd", null) != null) {
             List<PhoneSN> list = LitePal.findAll(PhoneSN.class);
             if (list != null && list.size() != 0) {
-                SystemUtils.phoneSN = list.get(list.size() - 1);
-                SystemUtils.sn = list.get(list.size() - 1).getSn();
+                application.getSystemUtils().setPhoneSN(list.get(list.size() - 1));
+                application.getSystemUtils().setSn(list.get(list.size() - 1).getSn());
             }
             phone = preferences.getString("phone", null);
             psd = preferences.getString("psd", null);
             logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
-            SystemUtils.getNetTime();
+            application.getNetTime();
             presenter.login(phone, psd, logintime);
         } else {
             Intent intent = new Intent(GuideActivity.this, LoginActivity.class);
@@ -184,24 +186,29 @@ public class GuideActivity extends BaseActivity implements LoginView {
 //            PhoneSN phoneSN = list.get(list.size() - 1);
 //            phoneSN.setLastlogintime(logintime);
 //            phoneSN.setUsername(bean.getDefaultUsername());
-            SystemUtils.phoneSN.setUsername(bean.getDefaultUsername());
-            SystemUtils.phoneSN.setLastlogintime(logintime);
-            SystemUtils.phoneSN.setSystem("android");
-            SystemUtils.phoneSN.setBitcode(SystemUtils.getVersionName(this));
-            SystemUtils.phoneSN.save();
+            application.getSystemUtils().getPhoneSN().setUsername(bean.getDefaultUsername());
+            application.getSystemUtils().getPhoneSN().setLastlogintime(logintime);
+            application.getSystemUtils().getPhoneSN().setSystem("android");
+            application.getSystemUtils().getPhoneSN().setBitcode(SystemUtils.getVersionName(this));
+            application.getSystemUtils().getPhoneSN().save();
+//            SystemUtils.phoneSN.setUsername(bean.getDefaultUsername());
+//            SystemUtils.phoneSN.setLastlogintime(logintime);
+//            SystemUtils.phoneSN.setSystem("android");
+//            SystemUtils.phoneSN.setBitcode(SystemUtils.getVersionName(this));
+//            SystemUtils.phoneSN.save();
             /*添加token等本地保存*/
             editor.putString("phone", phone);
             editor.putString("psd", psd);
-            editor.putInt("childTag", SystemUtils.childTag);
+            editor.putInt("childTag", application.getSystemUtils().getChildTag());
             editor.putString("token", bean.getToken());
             editor.putString("defaultUsername", bean.getDefaultUsername());
             editor.commit();
 
-            SystemUtils.phone = phone;
+            application.getSystemUtils().setPhone(phone);
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("tag", "会员");
-            SystemUtils.tag = "会员";
+            application.getSystemUtils().setTag("会员");
             startActivity(intent);
             finish();
         } else if (message.what == MethodCode.EVENT_ERROR) {

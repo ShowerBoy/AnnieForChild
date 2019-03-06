@@ -77,7 +77,7 @@ public class ChangePhoneActivity extends BaseActivity implements RegisterView, V
                 getTestCodeCp.setClickable(true);
             }
         };
-        currentPhone.setText("当前手机号：" + SystemUtils.phone);
+        currentPhone.setText("当前手机号：" + application.getSystemUtils().getPhone());
     }
 
     @Override
@@ -128,7 +128,7 @@ public class ChangePhoneActivity extends BaseActivity implements RegisterView, V
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_CHANGEPHONE) {
-            SystemUtils.phone = newPhoneNumber.getText().toString();
+            application.getSystemUtils().setPhone(newPhoneNumber.getText().toString());
             finish();
         }
     }

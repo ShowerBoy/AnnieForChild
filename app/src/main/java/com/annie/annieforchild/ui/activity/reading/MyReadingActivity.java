@@ -98,8 +98,8 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
         presenter.getMyReading();
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(headpic);
-        name.setText(SystemUtils.userInfo.getName());
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).into(headpic);
+        name.setText(application.getSystemUtils().getUserInfo().getName());
     }
 
     @Override

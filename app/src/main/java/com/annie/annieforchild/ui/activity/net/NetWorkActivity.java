@@ -153,7 +153,7 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
                 break;
             case R.id.to_NetTest://跳转到H5页面
                 Intent intent = new Intent(this, WebActivity.class);
-                intent.putExtra("url", "http://study.anniekids.org/questionnaire/index.html?name=" + SystemUtils.defaultUsername);
+                intent.putExtra("url", "http://study.anniekids.org/questionnaire/index.html?name=" + application.getSystemUtils().getDefaultUsername());
 //                intent.putExtra("url", "https://demoapi.anniekids.net/Api/ShareApi/WeiClass");
 //                intent.putExtra("aabb",1);//标题是否取消1：取消
                 intent.putExtra("title", "测试");

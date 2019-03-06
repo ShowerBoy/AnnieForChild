@@ -183,8 +183,8 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
             }
         };
 
-        popupWidth = Math.min(SystemUtils.window_width, SystemUtils.window_height) * 3 / 4;
-        popupHeight = Math.max(SystemUtils.window_width, SystemUtils.window_height) * 3 / 5;
+        popupWidth = Math.min(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 3 / 4;
+        popupHeight = Math.max(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 3 / 5;
         popupView1 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_pk_win, null, false);
         popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_pk_lose, null, false);
         popupView3 = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_change, null, false);
@@ -193,7 +193,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
 
         initAnimation();
 
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(character1);
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).error(R.drawable.icon_system_photo).into(character1);
         Glide.with(this).load(avatar).error(R.drawable.icon_system_photo).into(character2);
         pengyouquan = popupView1.findViewById(R.id.share_pengyouquan);
         weixin = popupView1.findViewById(R.id.share_weixin);
@@ -340,10 +340,10 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         adapter.notifyDataSetChanged();
         pkSpeak.setImageResource(R.drawable.icon_speak_big);
 
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(player2);
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).error(R.drawable.icon_system_photo).into(player2);
         Glide.with(this).load(avatar).error(R.drawable.icon_system_photo).into(player1);
         player1Name.setText(pkName);
-        player2Name.setText(SystemUtils.userInfo.getName());
+        player2Name.setText(application.getSystemUtils().getUserInfo().getName());
 //        play(lists.get(currentLine - 1).getResourceUrl());
     }
 
@@ -368,9 +368,9 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
 
         mIse = SpeechEvaluator.createEvaluator(this, null);
 
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(player1);
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).error(R.drawable.icon_system_photo).into(player1);
         Glide.with(this).load(avatar).error(R.drawable.icon_system_photo).into(player2);
-        player1Name.setText(SystemUtils.userInfo.getName());
+        player1Name.setText(application.getSystemUtils().getUserInfo().getName());
         player2Name.setText(pkName);
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();

@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.ui.application.MyApplication;
+
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
@@ -24,6 +27,7 @@ public abstract class BaseFragment extends Fragment {
     private Unbinder mUnbinder;
     protected static String Tag;
     private boolean register;
+    protected MyApplication application;
 
     public void setRegister(boolean register) {
         this.register = register;
@@ -33,6 +37,7 @@ public abstract class BaseFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override

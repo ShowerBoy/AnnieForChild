@@ -87,6 +87,7 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
         bookEndViewHolder.date.setText(lists.get(i).getRecordDate());
         bookEndViewHolder.playTimes.setText(lists.get(i).getRecordPlayTimes());
         bookEndViewHolder.play.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onCheckDoubleClick(View view) {
                 if (fragment != null) {

@@ -94,11 +94,11 @@ public class SecondFragment extends BaseFragment implements SecondView, OnCheckD
         switch (view.getId()) {
             case R.id.lesson_schedule:
                 //我的课表
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     showInfo("请先添加学员");
                     SystemUtils.toAddChild(getContext());
                     return;
@@ -108,11 +108,11 @@ public class SecondFragment extends BaseFragment implements SecondView, OnCheckD
                 break;
             case R.id.lesson_course:
                 //我的作业
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     showInfo("请先添加学员");
                     SystemUtils.toAddChild(getContext());
                     return;
@@ -123,11 +123,11 @@ public class SecondFragment extends BaseFragment implements SecondView, OnCheckD
                 break;
             case R.id.lesson_textbook:
                 //我的教材
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     showInfo("请先添加学员");
                     SystemUtils.toAddChild(getContext());
                     return;
@@ -144,11 +144,11 @@ public class SecondFragment extends BaseFragment implements SecondView, OnCheckD
                 startActivity(intent);
                 break;
             case R.id.lesson_netclass:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     showInfo("请先添加学员");
                     SystemUtils.toAddChild(getContext());
                     return;

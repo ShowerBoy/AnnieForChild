@@ -1,5 +1,6 @@
 package com.annie.annieforchild.interactor.imp;
 
+import android.app.Application;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
@@ -32,6 +33,7 @@ import com.annie.annieforchild.bean.task.TaskBean;
 import com.annie.annieforchild.bean.task.TaskContent;
 import com.annie.annieforchild.bean.task.TaskDetails;
 import com.annie.annieforchild.interactor.GrindEarInteractor;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
@@ -56,17 +58,19 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     private int type;
     private int taskid;
     private int classify;
+    private MyApplication application;
 
     public GrindEarInteractorImp(Context context, RequestListener listener) {
         this.context = context;
         this.listener = listener;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
     public void getListening() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETLISTENING, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_GETLISTENING, request);
 //        startQueue();
     }
@@ -74,8 +78,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getMyListening() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMYLISTENING, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_GETMYLISTENING, request);
 //        startQueue();
     }
@@ -84,8 +88,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void collectCourse(int type, int audioSource, int courseId, int classId) {
         this.classId = classId;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.COLLECTCOURSE, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("type", type);
         request.add("audioSource", audioSource);
         request.add("courseId", courseId);
@@ -97,8 +101,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void cancelCollection(int type, int audioSource, int courseId, int classId) {
         this.classId = classId;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.CANCELCOLLECTION, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("audioSource", audioSource);
         request.add("type", type);
         request.add("courseId", courseId);
@@ -109,28 +113,28 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getMusicClasses() {
         FastJsonRequest request1 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request1.add("username", SystemUtils.defaultUsername);
-        request1.add("token", SystemUtils.token);
+        request1.add("username", application.getSystemUtils().getDefaultUsername());
+        request1.add("token", application.getSystemUtils().getToken());
         request1.add("type", 1);
         FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request2.add("username", SystemUtils.defaultUsername);
-        request2.add("token", SystemUtils.token);
+        request2.add("username", application.getSystemUtils().getDefaultUsername());
+        request2.add("token", application.getSystemUtils().getToken());
         request2.add("type", 2);
         FastJsonRequest request3 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request3.add("username", SystemUtils.defaultUsername);
-        request3.add("token", SystemUtils.token);
+        request3.add("username", application.getSystemUtils().getDefaultUsername());
+        request3.add("token", application.getSystemUtils().getToken());
         request3.add("type", 0);
         FastJsonRequest request4 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request4.add("username", SystemUtils.defaultUsername);
-        request4.add("token", SystemUtils.token);
+        request4.add("username", application.getSystemUtils().getDefaultUsername());
+        request4.add("token", application.getSystemUtils().getToken());
         request4.add("type", 4);
         FastJsonRequest request5 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request5.add("username", SystemUtils.defaultUsername);
-        request5.add("token", SystemUtils.token);
+        request5.add("username", application.getSystemUtils().getDefaultUsername());
+        request5.add("token", application.getSystemUtils().getToken());
         request5.add("type", 5);
         FastJsonRequest request6 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request6.add("username", SystemUtils.defaultUsername);
-        request6.add("token", SystemUtils.token);
+        request6.add("username", application.getSystemUtils().getDefaultUsername());
+        request6.add("token", application.getSystemUtils().getToken());
         request6.add("type", 3);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES1, request1);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES2, request2);
@@ -144,24 +148,24 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getReadingClasses() {
         FastJsonRequest request1 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request1.add("username", SystemUtils.defaultUsername);
-        request1.add("token", SystemUtils.token);
+        request1.add("username", application.getSystemUtils().getDefaultUsername());
+        request1.add("token", application.getSystemUtils().getToken());
         request1.add("type", 6);
         FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request2.add("username", SystemUtils.defaultUsername);
-        request2.add("token", SystemUtils.token);
+        request2.add("username", application.getSystemUtils().getDefaultUsername());
+        request2.add("token", application.getSystemUtils().getToken());
         request2.add("type", 7);
         FastJsonRequest request3 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request3.add("username", SystemUtils.defaultUsername);
-        request3.add("token", SystemUtils.token);
+        request3.add("username", application.getSystemUtils().getDefaultUsername());
+        request3.add("token", application.getSystemUtils().getToken());
         request3.add("type", 8);
         FastJsonRequest request4 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request4.add("username", SystemUtils.defaultUsername);
-        request4.add("token", SystemUtils.token);
+        request4.add("username", application.getSystemUtils().getDefaultUsername());
+        request4.add("token", application.getSystemUtils().getToken());
         request4.add("type", 9);
         FastJsonRequest request5 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request5.add("username", SystemUtils.defaultUsername);
-        request5.add("token", SystemUtils.token);
+        request5.add("username", application.getSystemUtils().getDefaultUsername());
+        request5.add("token", application.getSystemUtils().getToken());
         request5.add("type", 10);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES6, request1);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES7, request2);
@@ -175,8 +179,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void getMusicList(int classId) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICLIST, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICLISTTEST, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("classId", classId);
         this.classId = classId;
         addQueue(MethodCode.EVENT_GETMUSICLIST + 1000 + classId, request);
@@ -188,8 +192,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         for (int i = 0; i < type.length; i++) {
             if (!duration[i].equals("0")) {
                 FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITDURATION, RequestMethod.POST);
-                request.add("username", SystemUtils.defaultUsername);
-                request.add("token", SystemUtils.token);
+                request.add("username", application.getSystemUtils().getDefaultUsername());
+                request.add("token", application.getSystemUtils().getToken());
 
                 request.add("type", type[i]);
                 request.add("duration", Integer.parseInt(duration[i]) * 60 + "");
@@ -203,12 +207,12 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void getBookScore(int bookId, int record, boolean accessBook) {
         if (accessBook) {
             FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.ACCESSBOOK, RequestMethod.POST);
-            request.add("username", SystemUtils.defaultUsername);
-            request.add("token", SystemUtils.token);
+            request.add("username", application.getSystemUtils().getDefaultUsername());
+            request.add("token", application.getSystemUtils().getToken());
             request.add("bookId", bookId);
             FastJsonRequest request1 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKSCORE, RequestMethod.POST);
-            request1.add("username", SystemUtils.defaultUsername);
-            request1.add("token", SystemUtils.token);
+            request1.add("username", application.getSystemUtils().getDefaultUsername());
+            request1.add("token", application.getSystemUtils().getToken());
             request1.add("bookId", bookId);
             request1.add("record", record);
             addQueue(MethodCode.EVENT_ACCESSBOOK, request);
@@ -216,8 +220,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
 //            startQueue();
         } else {
             FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKSCORE, RequestMethod.POST);
-            request.add("username", SystemUtils.defaultUsername);
-            request.add("token", SystemUtils.token);
+            request.add("username", application.getSystemUtils().getDefaultUsername());
+            request.add("token", application.getSystemUtils().getToken());
             request.add("bookId", bookId);
             request.add("record", record);
             addQueue(MethodCode.EVENT_GETBOOKSCORE, request);
@@ -229,8 +233,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void getBookAudioData(int bookId, int pkType, String pkUsername) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKAUDIODATA, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKAUDIODATATEST, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("bookId", bookId);
         request.add("pkType", pkType);
 
@@ -268,8 +272,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         }
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.UPLOADAUDIO, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.UPLOADAUDIOTEST, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("resourseId", resourseId);
         request.add("audioType", audioType);
         request.add("audioSource", audioSource);
@@ -294,8 +298,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getPkUsers(int bookId) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETPKUSERS, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("bookId", bookId);
         addQueue(MethodCode.EVENT_GETPKUSERS, request);
 //        startQueue();
@@ -305,8 +309,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void getPkResult(int bookId, String pkUsername, int pkType) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETPKRESULT, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETPKRESULTTEST, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("bookId", bookId);
         request.add("pkUsername", pkUsername);
         request.add("pkType", pkType);
@@ -318,8 +322,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void joinMaterial(int bookId, int audioSource, int type, int classId) {
         this.classId = classId;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.JOINMATERIAL, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("bookId", bookId);
         request.add("audioSource", audioSource);
         request.add("type", type);
@@ -331,8 +335,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void cancelMaterial(int bookId, int classId) {
         this.classId = classId;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.CANCELMATERIAL, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("bookId", bookId);
         addQueue(MethodCode.EVENT_CANCELMATERIAL + 5000 + classId, request);
 //        startQueue();
@@ -341,8 +345,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getRank(int spaceType, int timeType) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETRANK, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("spaceType", spaceType);
         request.add("timeType", timeType);
         addQueue(MethodCode.EVENT_GETRANK, request);
@@ -352,8 +356,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getSquareRank() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SQUAREAPI + MethodType.GETSQUARERANK, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         addQueue(MethodCode.EVENT_GETSQUARERANK, request);
 //        startQueue();
     }
@@ -361,8 +365,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getSquareRankList(int resourceType, int timeType, int locationType) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SQUAREAPI + MethodType.GETSQUARERANKLIST, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("resourceType", resourceType);
         request.add("timeType", timeType);
         request.add("locationType", locationType);
@@ -373,8 +377,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void likeStudent(String likeUsername) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SQUAREAPI + MethodType.LIKESTUDENT, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("likeUsername", likeUsername);
         addQueue(MethodCode.EVENT_LIKESTUDENT, request);
 //        startQueue();
@@ -383,8 +387,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void cancelLikeStudent(String cancelLikeUsername) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SQUAREAPI + MethodType.CANCELLIKESTUDENT, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("cancelLikeUsername", cancelLikeUsername);
         addQueue(MethodCode.EVENT_CANCELLIKESTUDENT, request);
 //        startQueue();
@@ -393,8 +397,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getReading() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETREADING, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         addQueue(MethodCode.EVENT_GETREADING, request);
 //        startQueue();
     }
@@ -402,8 +406,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getMyReading() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMYREADING, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_GETMYREADING, request);
         startQueue();
     }
@@ -413,8 +417,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         for (int i = 0; i < type.length; i++) {
             if (!duration[i].equals("0")) {
                 FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITREADING, RequestMethod.POST);
-                request.add("username", SystemUtils.defaultUsername);
-                request.add("token", SystemUtils.token);
+                request.add("username", application.getSystemUtils().getDefaultUsername());
+                request.add("token", application.getSystemUtils().getToken());
                 request.add("type", type[i]);
                 request.add("duration", Integer.parseInt(duration[i]) * 60 + "");
                 request.add("books", books);
@@ -428,8 +432,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getDurationStatistics(int timeType, int locationType) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SQUAREAPI + MethodType.GETDURATIONSTATISICS, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("timeType", timeType);
         request.add("locationType", locationType);
         addQueue(MethodCode.EVENT_GETDURATIONSTATISTICS, request);
@@ -439,8 +443,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getReadList(int classId) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETREADLIST, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("classId", classId);
         this.classId = classId;
         addQueue(MethodCode.EVENT_GETREADLIST + 6000 + classId, request);
@@ -450,8 +454,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getQrCode() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETQRCODE, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_GETQRCODE, request);
 //        startQueue();
     }
@@ -460,8 +464,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void getAnimationList(String title, int classId) {
         this.classId = classId;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETANIMATIONLIST, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("title", title);
         addQueue(MethodCode.EVENT_GETANIMATIONLIST + 7000 + classId, request);
 //        startQueue();
@@ -470,28 +474,28 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getSpokenClasses() {
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-//        request.add("username", SystemUtils.defaultUsername);
-//        request.add("token", SystemUtils.token);
+//        request.add("username", application.getSystemUtils().getDefaultUsername());
+//        request.add("token", application.getSystemUtils().getToken());
 //        request.add("type", -1);
         FastJsonRequest request1 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request1.add("username", SystemUtils.defaultUsername);
-        request1.add("token", SystemUtils.token);
+        request1.add("username", application.getSystemUtils().getDefaultUsername());
+        request1.add("token", application.getSystemUtils().getToken());
         request1.add("type", 11);
         FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request2.add("username", SystemUtils.defaultUsername);
-        request2.add("token", SystemUtils.token);
+        request2.add("username", application.getSystemUtils().getDefaultUsername());
+        request2.add("token", application.getSystemUtils().getToken());
         request2.add("type", 12);
         FastJsonRequest request3 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request3.add("username", SystemUtils.defaultUsername);
-        request3.add("token", SystemUtils.token);
+        request3.add("username", application.getSystemUtils().getDefaultUsername());
+        request3.add("token", application.getSystemUtils().getToken());
         request3.add("type", 13);
         FastJsonRequest request4 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request4.add("username", SystemUtils.defaultUsername);
-        request4.add("token", SystemUtils.token);
+        request4.add("username", application.getSystemUtils().getDefaultUsername());
+        request4.add("token", application.getSystemUtils().getToken());
         request4.add("type", 14);
         FastJsonRequest request5 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
-        request5.add("username", SystemUtils.defaultUsername);
-        request5.add("token", SystemUtils.token);
+        request5.add("username", application.getSystemUtils().getDefaultUsername());
+        request5.add("token", application.getSystemUtils().getToken());
         request5.add("type", 15);
 //        addQueue(MethodCode.EVENT_GETSPOKENCLASSES, request);
         addQueue(MethodCode.EVENT_GETSPOKENCLASSES1, request1);
@@ -507,8 +511,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void getSpokenList(int classId) {
         this.classId = classId;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETSPOKENLSIST, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("classId", classId);
         addQueue(MethodCode.EVENT_GETSPOKENLIST + 8000 + classId, request);
 //        startQueue();
@@ -525,8 +529,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             }
         }
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITBOOK, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("bookName", stringBuffer.toString());
         addQueue(MethodCode.EVENT_COMMITBOOK, request);
 //        startQueue();
@@ -535,7 +539,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void DailyPunch() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SIGNINAPI + MethodType.DAILYPUNCH, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         addQueue(MethodCode.EVENT_DAILYPUNCH, request);
 //        startQueue();
     }
@@ -543,8 +547,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void iWantListen(int type) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.IWANTLISTEN, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("type", type);
         addQueue(MethodCode.EVENT_IWANTLISTEN, request);
 //        startQueue();
@@ -553,8 +557,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void accessBook(int bookId) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.ACCESSBOOK, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("bookId", bookId);
         addQueue(MethodCode.EVENT_ACCESSBOOK, request);
 //        startQueue();
@@ -564,8 +568,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void uploadAudioTime(int origin, int audioType, int audioSource, int resourseId, int duration) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.UPLOADAUDIOTIME, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.UPLOADAUDIOTIMETEST, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("origin", origin);
         request.add("audioType", audioType);
         request.add("audioSource", audioSource);
@@ -578,8 +582,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void myPeriod() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYPERIOD, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_MYPERIOD, request);
 //        startQueue();
     }
@@ -587,8 +591,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void suggestPeriod(int periodid) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.SUGGESTPERIOD, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("periodid", periodid);
         addQueue(MethodCode.EVENT_SUGGESTPERIOD, request);
 //        startQueue();
@@ -597,8 +601,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void myTask() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.MYTASK, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_MYTASK, request);
 //        startQueue();
     }
@@ -607,8 +611,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void taskDetails(int classid, int type, String week, String taskTime, int classify) {
         this.classify = classify;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.TASKDETAILS, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("classid", classid);
         request.add("classify", classify);
         request.add("type", type);
@@ -625,8 +629,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void completeTask(int taskid, int type, int likes, int listen, int homeworkid) {
         this.taskid = taskid;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.COMPLETETASK, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("type", type);
         request.add("likes", likes);
         request.add("listen", listen);
@@ -642,8 +646,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             File file = new File(path.get(i));
             FileBinary fileBinary = new FileBinary(file);
             FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.UPLOADTASKIMAGE, RequestMethod.POST);
-            request.add("token", SystemUtils.token);
-            request.add("username", SystemUtils.defaultUsername);
+            request.add("token", application.getSystemUtils().getToken());
+            request.add("username", application.getSystemUtils().getDefaultUsername());
             request.add("taskid", taskid);
             request.add("type", type);
             request.add("file", fileBinary);
@@ -656,8 +660,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void submitTask(int taskid, String remarks, int status, int type) {
         this.taskid = taskid;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.SUBMITTASK, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("status", status);
         request.add("type", type);
         request.add("taskid", taskid);
@@ -669,8 +673,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void clockinShare(int type, int bookid) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SHAREAPI + MethodType.CLOCKINSHARE, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("type", type);
         if (bookid != -1) {
             request.add("bookid", bookid);
@@ -682,8 +686,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getCardDetail() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETCARDDETAIL, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         addQueue(MethodCode.EVENT_GETCARDDETAIL, request);
 //        startQueue();
     }
@@ -691,8 +695,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void shareSuccess(int moerduo, int yuedu, int kouyu) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SHAREAPI + MethodType.SHARESUCCESS, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("moerduo", moerduo);
         request.add("yuedu", yuedu);
         request.add("kouyu", kouyu);
@@ -703,8 +707,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getMySpeaking() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMYSPEAKING, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         addQueue(MethodCode.EVENT_GETMYSPEAKING, request);
 //        startQueue();
     }
@@ -714,8 +718,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         for (int i = 0; i < type.length; i++) {
             if (!duration[i].equals("0")) {
                 FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITSPEAKING, RequestMethod.POST);
-                request.add("username", SystemUtils.defaultUsername);
-                request.add("token", SystemUtils.token);
+                request.add("username", application.getSystemUtils().getDefaultUsername());
+                request.add("token", application.getSystemUtils().getToken());
                 request.add("type", type[i]);
                 request.add("duration", Integer.parseInt(duration[i]) * 60 + "");
                 addQueue(MethodCode.EVENT_COMMITSPEAKING, request);
@@ -728,8 +732,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void unlockBook(int nectar, String bookname, int bookid, int classId) {
         this.classId = classId;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.UNLOCKBOOK, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("nectar", nectar);
         request.add("bookname", bookname);
         request.add("bookid", bookid);
@@ -740,8 +744,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getSpeaking() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETSPEAKING, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_GETSPEAKING, request);
 //        startQueue();
     }
@@ -749,8 +753,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getRelease(int bookId) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETRELEASE, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("bookid", bookId);
         addQueue(MethodCode.EVENT_GETRELEASE, request);
 //        startQueue();
@@ -759,8 +763,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void ReleaseBook(int bookId) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.RELEASEBOOK, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("bookid", bookId);
         addQueue(MethodCode.EVENT_RELEASEBOOK, request);
 //        startQueue();
@@ -769,8 +773,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void releaseSuccess(int bookId) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.RELEASESUCCESS, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("bookid", bookId);
         addQueue(MethodCode.EVENT_RELEASESUCCESS, request);
 //        startQueue();
@@ -779,8 +783,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void playtimes(int id) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.PLAYTIMES, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("id", id);
         addQueue(MethodCode.EVENT_PLAYTIMES, request);
 //        startQueue();
@@ -789,8 +793,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void addlikes(int id) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.ADDLIKES, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("id", id);
         addQueue(MethodCode.EVENT_ADDLIKES, request);
 //        startQueue();
@@ -799,8 +803,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void cancellikes(int id) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.CANCELLIKES, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("id", id);
         addQueue(MethodCode.EVENT_CANCELLIKES, request);
 //        startQueue();
@@ -809,8 +813,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void shareCoin(int record, int type) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SHAREAPI + MethodType.SHARECOIN, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("record", record);
         request.add("type", type);
         addQueue(MethodCode.EVENT_SHARECOIN, request);
@@ -820,8 +824,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getRadio(String type, int radioid) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETRADIO, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("radioid", radioid);
         request.add("type", type);
         addQueue(MethodCode.EVENT_GETRADIO, request);
@@ -831,8 +835,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getLyric(int bookid) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETLYRIC, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("bookid", bookid);
         addQueue(MethodCode.EVENT_GETLYRIC, request);
 //        startQueue();
@@ -842,8 +846,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void luckDraw(int nectar) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.LUCKDRAW, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.LUCKDRAWTEST, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("nectar", nectar);
         addQueue(MethodCode.EVENT_LUCKDRAW, request);
 //        startQueue();
@@ -852,8 +856,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getHomepage(String otherusername) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETHOMEPAGE, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("otherusername", otherusername);
         addQueue(MethodCode.EVENT_GETHOMEPAGE, request);
 //        startQueue();
@@ -862,8 +866,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void getProductionList(int page, String otherusername) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETPRODUCTIONLIST, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("otherusername", otherusername);
         request.add("page", page);
         addQueue(MethodCode.EVENT_GETPRODUCTIONLIST, request);
@@ -875,8 +879,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         this.type = type;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGS, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGSTEST, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("type", type);
         request.add("page", page);
         addQueue(MethodCode.EVENT_MYRECORDINGS + 10000 + type, request);
@@ -888,8 +892,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         this.type = tag;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETERECORDING, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETERECORDINGTEST, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("origin", origin);
         request.add("recordingId", recordingId);
         addQueue(MethodCode.EVENT_DELETERECORDING + 30000 + type, request);
@@ -900,8 +904,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void cancelRelease(int bookid, int tag) {
         this.type = tag;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.CANCELRELEASE, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("bookid", bookid);
         addQueue(MethodCode.EVENT_CANCELRELEASE + 20000 + type, request);
 //        startQueue();

@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.broadcastrecevier.MyBroadCastRecevier;
 import com.annie.annieforchild.Utils.service.MusicService;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.ToastHelp;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,6 +41,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected ServiceConnection myConnection;
     private MyBroadCastRecevier myBroadCastRecevier;
     private Intent intent;
+    protected MyApplication application;
 
     public void setRegister(boolean register) {
         this.register = register;
@@ -58,6 +60,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        application = (MyApplication) getApplicationContext();
         ActivityCollector.addActivity(this);
         if (register) {
             EventBus.getDefault().register(this);

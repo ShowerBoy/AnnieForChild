@@ -354,7 +354,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
         for (int i = 0; i < lists.size(); i++) {
             lists.get(i).setSelect(false);
         }
-        lists.get(SystemUtils.currentLine).setSelect(true);
+        lists.get(application.getSystemUtils().getCurrentLine()).setSelect(true);
         try {
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.pause();
@@ -367,7 +367,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
         new Thread(new Runnable() {
             @Override
             public void run() {
-                playUrl(lists.get(SystemUtils.currentLine).getResourceUrl());
+                playUrl(lists.get(application.getSystemUtils().getCurrentLine()).getResourceUrl());
             }
         }).start();
         adapter.notifyDataSetChanged();
@@ -418,9 +418,9 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
             for (int i = 0; i < lists.size(); i++) {
                 lists.get(i).setSelect(false);
             }
-            SystemUtils.currentLine = 0;
-            SystemUtils.currentPage = 0;
-            SystemUtils.playAll = false;
+            application.getSystemUtils().setCurrentLine(0);
+            application.getSystemUtils().setCurrentPage(0);
+            application.getSystemUtils().setPlayAll(false);
             BookPlayActivity2.viewPager.setNoFocus(false);
             adapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
@@ -466,8 +466,8 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
     }
 
     public void playAll() {
-        if (SystemUtils.playAll) {
-            if (SystemUtils.currentPage == tag) {
+        if (application.getSystemUtils().isPlayAll()) {
+            if (application.getSystemUtils().getCurrentPage() == tag) {
                 playBook();
             }
         }
@@ -505,10 +505,10 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                 if (isRecord) {
                     return;
                 }
-                if (SystemUtils.playAll) {
+                if (application.getSystemUtils().isPlayAll()) {
                     return;
                 }
-                if (SystemUtils.isCurrentPage) {
+                if (application.getSystemUtils().isCurrentPage()) {
                     //如果是当前页在播放
                     try {
                         if (mediaPlayer.isPlaying()) {
@@ -522,8 +522,8 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                     for (int i = 0; i < lists.size(); i++) {
                         lists.get(i).setSelect(false);
                     }
-                    SystemUtils.isCurrentPage = false;
-                    SystemUtils.isPlaying = false;
+                    application.getSystemUtils().setCurrentPage(false);
+                    application.getSystemUtils().setPlaying(false);
                     BookPlayActivity2.viewPager.setNoFocus(false);
                     preview.setImageResource(R.drawable.icon_book_preview2);
                     adapter.notifyDataSetChanged();
@@ -556,16 +556,16 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                     }
                 }).start();
                 BookPlayActivity2.viewPager.setNoFocus(true);
-                SystemUtils.isPlaying = true;
-                SystemUtils.isCurrentPage = true;
+                application.getSystemUtils().setPlaying(true);
+                application.getSystemUtils().setCurrentPage(true);
                 preview.setImageResource(R.drawable.icon_book_stop);
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.book_record_layout:
                 if (isClick) {
-                    if (!SystemUtils.isPlaying) {
-                        if (!SystemUtils.isCurrentPage) {
-                            if (!SystemUtils.playAll) {
+                    if (!application.getSystemUtils().isPlaying()) {
+                        if (!application.getSystemUtils().isCurrentPage()) {
+                            if (!application.getSystemUtils().isPlayAll()) {
                                 if (!isPlay) {
                                     if (isRecord) {
 //                                        showInfo("录音结束");
@@ -604,9 +604,9 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                 break;
             case R.id.book_play_layout:
                 if (isClick) {
-                    if (!SystemUtils.isPlaying) {
-                        if (!SystemUtils.isCurrentPage) {
-                            if (!SystemUtils.playAll) {
+                    if (!application.getSystemUtils().isPlaying()) {
+                        if (!application.getSystemUtils().isCurrentPage()) {
+                            if (!application.getSystemUtils().isPlayAll()) {
                                 if (!isRecord) {
                                     if (isPlay) {
                                         playRecord.setImageResource(R.drawable.icon_book_play2);
@@ -698,9 +698,9 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
     public void onCompletion(MediaPlayer mp) {
         if (mp == mediaPlayer) {
             presenter.uploadAudioTime(4, audioType, audioSource, bookId, duration);
-            if (SystemUtils.playAll) {
-                SystemUtils.currentLine++;
-                if (SystemUtils.currentLine < lists.size()) {
+            if (application.getSystemUtils().isPlayAll()) {
+                application.getSystemUtils().setCurrentLine(application.getSystemUtils().getCurrentLine() + 1);
+                if (application.getSystemUtils().getCurrentLine() < lists.size()) {
                     //换行不翻页
                     playBook();
                 } else {
@@ -708,15 +708,15 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                     for (int i = 0; i < lists.size(); i++) {
                         lists.get(i).setSelect(false);
                     }
-                    SystemUtils.currentLine = 0;
-                    SystemUtils.currentPage++;
-                    if (SystemUtils.currentPage < SystemUtils.totalPage) {
-                        ((BookPlayActivity2) getActivity()).scrolltoPosition(SystemUtils.currentPage);
+                    application.getSystemUtils().setCurrentLine(0);
+                    application.getSystemUtils().setCurrentPage(application.getSystemUtils().getCurrentPage() + 1);
+                    if (application.getSystemUtils().getCurrentPage() < application.getSystemUtils().getTotalPage()) {
+                        ((BookPlayActivity2) getActivity()).scrolltoPosition(application.getSystemUtils().getCurrentPage());
                     } else {
 //                    showInfo("结束");
-                        SystemUtils.currentPage = 0;
-                        SystemUtils.currentLine = 0;
-                        SystemUtils.playAll = false;
+                        application.getSystemUtils().setCurrentPage(0);
+                        application.getSystemUtils().setCurrentLine(0);
+                        application.getSystemUtils().setPlayAll(false);
                         BookPlayActivity2.viewPager.setNoFocus(false);
 //                        BookPlayActivity2.playTotal.setText("全文播放");
                         BookPlayActivity2.playTotal2.setImageResource(R.drawable.icon_full_reading_f);
@@ -724,7 +724,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                 }
                 adapter.notifyDataSetChanged();
             } else {
-                if (SystemUtils.isCurrentPage) {
+                if (application.getSystemUtils().isCurrentPage()) {
                     for (int i = 0; i < lists.size(); i++) {
                         lists.get(i).setSelect(false);
                     }
@@ -742,8 +742,8 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                         //当前页播放结束
                         currentSign = 0;
                         isClick = true;
-                        SystemUtils.isPlaying = false;
-                        SystemUtils.isCurrentPage = false;
+                        application.getSystemUtils().setPlaying(false);
+                        application.getSystemUtils().setCurrentPage(false);
                         preview.setImageResource(R.drawable.icon_book_preview2);
                         BookPlayActivity2.viewPager.setNoFocus(false);
                     }
@@ -818,8 +818,8 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
         if (handler != null && runnable != null) {
             handler.removeCallbacks(runnable);
         }
-//        SystemUtils.playAll = false;
-        SystemUtils.isCurrentPage = false;
+//        application.getSystemUtils().isPlayAll() = false;
+        application.getSystemUtils().setCurrentPage(false);
         preview.setImageResource(R.drawable.icon_book_preview2);
     }
 

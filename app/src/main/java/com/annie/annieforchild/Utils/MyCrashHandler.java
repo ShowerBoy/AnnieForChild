@@ -29,9 +29,11 @@ import java.io.Writer;
 public class MyCrashHandler implements Thread.UncaughtExceptionHandler, RequestListener {
     private CrashHandlerInteractorImp interactor;
     private Context context;
+    private MyApplication application;
 
     public MyCrashHandler(Context context) {
         this.context = context;
+        application = (MyApplication) context.getApplicationContext();
         interactor = new CrashHandlerInteractorImp(this);
     }
 
@@ -90,7 +92,7 @@ public class MyCrashHandler implements Thread.UncaughtExceptionHandler, RequestL
         }
 
         if (interactor != null) {
-            interactor.sendCrashMessage(SystemUtils.defaultUsername != null ? SystemUtils.defaultUsername : "", SystemUtils.phone != null ? SystemUtils.phone : "", Build.BRAND, Build.VERSION.RELEASE, SystemUtils.getVersionName(context), errorMessage);
+            interactor.sendCrashMessage(application.getSystemUtils().getDefaultUsername() != null ? application.getSystemUtils().getDefaultUsername() : "", application.getSystemUtils().getPhone() != null ? application.getSystemUtils().getPhone() : "", Build.BRAND, Build.VERSION.RELEASE, SystemUtils.getVersionName(context), errorMessage);
         }
 
 //        File file = new File(logFilePath);

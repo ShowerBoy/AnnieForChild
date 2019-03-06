@@ -155,11 +155,11 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.add_moerduo:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -167,11 +167,11 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 startActivity(intent);
                 break;
             case R.id.add_reading:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -179,11 +179,11 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 startActivity(intent);
                 break;
             case R.id.add_speaking:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -191,11 +191,11 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 startActivity(intent);
                 break;
             case R.id.goto_moerduo:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -203,11 +203,11 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 startActivity(intent);
                 break;
             case R.id.goto_reading:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -215,11 +215,11 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 startActivity(intent);
                 break;
             case R.id.goto_speaking:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -227,11 +227,11 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 startActivity(intent);
                 break;
             case R.id.daka_btn:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -241,22 +241,22 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 break;
             case R.id.share_daka_pengyouquan:
                 if (clockIn != null && url != null && url.length() != 0) {
-                    shareUtils.shareWechatMoments("我家宝宝" + SystemUtils.userInfo.getName() + "，在安妮花的英语存折累计存入" + totalHour + "小时" + totalMin + "分", "积累宝宝英语成就就来安妮花打卡吧", null, url);
+                    shareUtils.shareWechatMoments("我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "，在安妮花的英语存折累计存入" + totalHour + "小时" + totalMin + "分", "积累宝宝英语成就就来安妮花打卡吧", null, url);
                 }
                 break;
             case R.id.share_daka_weixin:
                 if (clockIn != null && url != null && url.length() != 0) {
-                    shareUtils.shareWechat("我家宝宝" + SystemUtils.userInfo.getName() + "，在安妮花的英语存折累计存入" + totalHour + "小时" + totalMin + "分", "积累宝宝英语成就就来安妮花打卡吧", null, url);
+                    shareUtils.shareWechat("我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "，在安妮花的英语存折累计存入" + totalHour + "小时" + totalMin + "分", "积累宝宝英语成就就来安妮花打卡吧", null, url);
                 }
                 break;
             case R.id.share_daka_qq:
                 if (clockIn != null && url != null && url.length() != 0) {
-                    shareUtils.shareQQ("我家宝宝" + SystemUtils.userInfo.getName() + "，在安妮花的英语存折累计存入" + totalHour + "小时" + totalMin + "分", "积累宝宝英语成就就来安妮花打卡吧", null, url);
+                    shareUtils.shareQQ("我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "，在安妮花的英语存折累计存入" + totalHour + "小时" + totalMin + "分", "积累宝宝英语成就就来安妮花打卡吧", null, url);
                 }
                 break;
             case R.id.share_daka_qqzone:
                 if (clockIn != null && url != null && url.length() != 0) {
-                    shareUtils.shareQZone("我家宝宝" + SystemUtils.userInfo.getName() + "，在安妮花的英语存折累计存入" + totalHour + "小时" + totalMin + "分", "积累宝宝英语成就就来安妮花打卡吧", null, url);
+                    shareUtils.shareQZone("我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "，在安妮花的英语存折累计存入" + totalHour + "小时" + totalMin + "分", "积累宝宝英语成就就来安妮花打卡吧", null, url);
                 }
                 break;
             case R.id.daka_share_cancel:
@@ -278,6 +278,10 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
             clockIn = (ClockIn) message.obj;
             if (clockIn != null) {
                 refresh();
+            }
+        } else if (message.what == MethodCode.EVENT_SETDEFAULEUSER) {
+            if (presenter != null) {
+                presenter.getCardDetail();
             }
         }
     }

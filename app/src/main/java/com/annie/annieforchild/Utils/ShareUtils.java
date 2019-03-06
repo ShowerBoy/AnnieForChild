@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.mob.MobSDK;
 
 import java.io.File;
@@ -28,10 +29,12 @@ public class ShareUtils {
     private Context context;
     private Bitmap bitmap;
     private File file;
+    private MyApplication application;
 
     public ShareUtils(Context context, PlatformActionListener listener) {
         this.context = context;
         this.listener = listener;
+        application = (MyApplication) context.getApplicationContext();
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.app_icon);
         File files = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath);
         if (!files.exists()) {
@@ -48,9 +51,9 @@ public class ShareUtils {
         shareParams.setUrl(url);
         shareParams.setImagePath(null);
 //        shareParams.setImagePath(file.getAbsolutePath());
-//        shareParams.setImagePath(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+//        shareParams.setImagePath(application.getSystemUtils().getUserInfo() != null ? application.getSystemUtils().getUserInfo().getAvatar() : "");
         if (imageUrl == null) {
-            shareParams.setImageUrl(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+            shareParams.setImageUrl(application.getSystemUtils().getUserInfo() != null ? application.getSystemUtils().getUserInfo().getAvatar() : "");
         } else {
             shareParams.setImageUrl(imageUrl);
         }
@@ -67,9 +70,9 @@ public class ShareUtils {
         shareParams.setUrl(url);
         shareParams.setImagePath(null);
 //        shareParams.setImagePath(file.getAbsolutePath());
-//        shareParams.setImagePath(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+//        shareParams.setImagePath(application.getSystemUtils().getUserInfo() != null ? application.getSystemUtils().getUserInfo().getAvatar() : "");
         if (imageUrl == null) {
-            shareParams.setImageUrl(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+            shareParams.setImageUrl(application.getSystemUtils().getUserInfo() != null ? application.getSystemUtils().getUserInfo().getAvatar() : "");
         } else {
             shareParams.setImageUrl(imageUrl);
         }
@@ -84,9 +87,9 @@ public class ShareUtils {
         shareParams.setText(text);
         shareParams.setTitle(title);
         shareParams.setTitleUrl(url);
-//        shareParams.setImagePath(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+//        shareParams.setImagePath(application.getSystemUtils().getUserInfo() != null ? application.getSystemUtils().getUserInfo().getAvatar() : "");
         if (imageUrl == null) {
-            shareParams.setImageUrl(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+            shareParams.setImageUrl(application.getSystemUtils().getUserInfo() != null ? application.getSystemUtils().getUserInfo().getAvatar() : "");
         } else {
             shareParams.setImageUrl(imageUrl);
         }
@@ -102,9 +105,9 @@ public class ShareUtils {
         shareParams.setTitle(title);
         shareParams.setUrl(url);
         shareParams.setTitleUrl(url);
-//        shareParams.setImagePath(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+//        shareParams.setImagePath(application.getSystemUtils().getUserInfo() != null ? application.getSystemUtils().getUserInfo().getAvatar() : "");
         if (imageUrl == null) {
-            shareParams.setImageUrl(SystemUtils.userInfo != null ? SystemUtils.userInfo.getAvatar() : "");
+            shareParams.setImageUrl(application.getSystemUtils().getUserInfo() != null ? application.getSystemUtils().getUserInfo().getAvatar() : "");
         } else {
             shareParams.setImageUrl(imageUrl);
         }

@@ -265,7 +265,7 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
             if ((String) message.obj != null) {
                 headpic = (String) message.obj;
                 childHeadPic.setImageBitmap(bitmap);
-                presenter.addChild(headpic, childName.getText().toString(), sex, birth.replace("-", ""), SystemUtils.phone);
+                presenter.addChild(headpic, childName.getText().toString(), sex, birth.replace("-", ""), application.getSystemUtils().getPhone());
             }
         }
     }
@@ -337,7 +337,7 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
                         startActivity(localIntent);
                     }
                 } else {
-                    systemUtils.BuildCameraDialog().show();
+                    systemUtils.BuildCameraDialog(this).show();
                 }
                 break;
             case R.id.add_child_back:
@@ -370,7 +370,7 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
                         }
                     } else {
                         if (headpic != null) {
-                            presenter.addChild(headpic, childName.getText().toString(), sex, birth.replace("-", ""), SystemUtils.phone);
+                            presenter.addChild(headpic, childName.getText().toString(), sex, birth.replace("-", ""), application.getSystemUtils().getPhone());
                         } else {
                             if (sex.equals("男")) {
                                 bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_system_headpic_boy);

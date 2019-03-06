@@ -25,6 +25,7 @@ import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.SongView;
 import com.bumptech.glide.Glide;
 
@@ -64,6 +65,7 @@ public class MusicService extends Service {
     public static String type = null;  //radio,collection,recently
     private static GrindEarPresenter presenter;
     public static SongView musicSongView;
+    private static MyApplication application;
 
     public class MyBinder extends Binder {
         public MusicService getService() {
@@ -82,6 +84,7 @@ public class MusicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        application = (MyApplication) getApplicationContext();
         musicList = new ArrayList<>();
         musicPartList = new ArrayList<>();
         //初始化播放对象
@@ -198,6 +201,9 @@ public class MusicService extends Service {
     public static void setMusicList(List<Song> list) {
         if (musicList == null) {
             musicList = new ArrayList<>();
+        }
+        if (musicPartList == null) {
+            musicPartList = new ArrayList<>();
         }
         pos = 0;
         musicList.clear();
@@ -337,7 +343,7 @@ public class MusicService extends Service {
                 song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());
                 song.setPath(musicPartList.get(listTag).getMusicUrl());
                 song.setIsCollected(musicList.get(listTag).getIsCollected());
-                SystemUtils.addPlayLists(song);
+                addPlayLists(song);
             }
 
             JTMessage message = new JTMessage();
@@ -355,9 +361,25 @@ public class MusicService extends Service {
         }
     }
 
+    private static void addPlayLists(Song song) {
+        if (application.getSystemUtils().getPlayLists() == null) {
+            application.getSystemUtils().setPlayLists(new ArrayList<>());
+        }
+
+        if (application.getSystemUtils().getPlayLists().size() < 20) {
+            application.getSystemUtils().getPlayLists().add(song);
+        } else {
+            application.getSystemUtils().getPlayLists().remove(19);
+            application.getSystemUtils().getPlayLists().add(song);
+        }
+    }
+
     @SuppressLint("HandlerLeak")
     static Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
+            if (mediaPlayer == null) {
+                return;
+            }
             try {
                 int position = mediaPlayer.getCurrentPosition();
                 int durations = mediaPlayer.getDuration();

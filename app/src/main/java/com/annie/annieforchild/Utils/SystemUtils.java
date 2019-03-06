@@ -93,44 +93,50 @@ public class SystemUtils {
 
     public static final String APP_ID = "wxcce6f37c8f2e3dc7"; //微信支付
     public static String recordPath = "/record/"; //录制音频地址
-    public static MainBean mainBean; //第一次启动获取的接口对象
-    public static PhoneSN phoneSN; //登陆时产生的phoneSN
-    public static UserInfo userInfo; //用户对象
-    public static List<HistoryRecord> historyRecordList; //历史纪录
-    public static SigninBean signinBean; //在线得花蜜
-    public static String token; //token
-    public static String defaultUsername; //默认学员编号
-    public static String phone; //手机号
-    public static String sn; //设备sn号
-    public static String tag = "游客"; //会员标识
-    public static String netDate; //网络时间
-    public static Thread countDownThread; //倒计时两分钟线程
-    public static boolean playAll = false; //播放全文
-    public static int currentPage = 0; //当前播放页
-    public static int totalPage; //总播放页
-    public static int currentLine = 0; //当前播放行
-    public static boolean isPlaying = false; //是否播放
-    public static boolean isCurrentPage = false; //是否是当前页播放状态
-    public static Timer timer;
-    public static TimerTask task;
-    public static boolean isOnline = false; //是否在线
-    //    public static boolean isGetNectar = false; //今天是否得到过花蜜
-    public static int childTag; //有无学员标识 0:无 1:有
-    public static int window_width;
-    public static int window_height;
-    public static Uri uri;
-    Activity activity;
     final public static int SELECT_CAMER = 0;
     final public static int SELECT_PICTURE = 1;
     public static PopupWindow popupWindow;
     public static View popupView;
     public static HashMap<Integer, Integer> animMusicMap;
     public static SoundPool animPool;
-    public static List<Song> playLists; //最近播放列表
 
-    public SystemUtils(Activity activity) {
-        this.activity = activity;
+
+    private MainBean mainBean; //第一次启动获取的接口对象
+    private PhoneSN phoneSN; //登陆时产生的phoneSN
+    private UserInfo userInfo; //用户对象
+    private List<HistoryRecord> historyRecordList; //历史纪录
+    private SigninBean signinBean; //在线得花蜜
+    private String token; //token
+    private String defaultUsername; //默认学员编号
+    private String phone; //手机号
+    private String sn; //设备sn号
+    private String tag = "游客"; //会员标识
+    private String netDate; //网络时间
+    private Thread countDownThread; //倒计时两分钟线程
+    private boolean playAll = false; //播放全文
+    private int currentPage = 0; //当前播放页
+    private int totalPage; //总播放页
+    private int currentLine = 0; //当前播放行
+    private boolean isPlaying = false; //是否播放
+    private boolean isCurrentPage = false; //是否是当前页播放状态
+    private Timer timer;
+    private TimerTask task;
+    private boolean isOnline = false; //是否在线
+    //    public static boolean isGetNectar = false; //今天是否得到过花蜜
+    private int childTag; //有无学员标识 0:无 1:有
+    private int window_width;
+    private int window_height;
+    private Uri uri;
+    private List<Song> playLists; //最近播放列表
+    Context context;
+
+    public SystemUtils(Context context) {
+        this.context = context;
     }
+
+//    public SystemUtils(Activity activity) {
+//        this.activity = activity;
+//    }
 
     public static void show(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
@@ -147,37 +153,6 @@ public class SystemUtils {
         intent.putExtra("from", "other");
         context.startActivity(intent);
     }
-
-    public static void addPlayLists(Song song) {
-        if (playLists == null) {
-            playLists = new ArrayList<>();
-        }
-
-        if (playLists.size() < 20) {
-            playLists.add(song);
-        } else {
-            playLists.remove(19);
-            playLists.add(song);
-        }
-    }
-
-    public static void initSoundPool(Context context) {
-        playLists = new ArrayList<>();
-        animMusicMap = new HashMap<>();
-        animPool = new SoundPool(11, AudioManager.STREAM_MUSIC, 0);
-        animMusicMap.put(1, animPool.load(context, R.raw.amazing, 1));
-        animMusicMap.put(2, animPool.load(context, R.raw.awesome, 1));
-        animMusicMap.put(3, animPool.load(context, R.raw.bingo, 1));
-        animMusicMap.put(4, animPool.load(context, R.raw.excellent, 1));
-        animMusicMap.put(5, animPool.load(context, R.raw.good_observation, 1));
-        animMusicMap.put(6, animPool.load(context, R.raw.good_try, 1));
-        animMusicMap.put(7, animPool.load(context, R.raw.great, 1));
-        animMusicMap.put(8, animPool.load(context, R.raw.great_job, 1));
-        animMusicMap.put(9, animPool.load(context, R.raw.nice_going, 1));
-        animMusicMap.put(10, animPool.load(context, R.raw.super1, 1));
-        animMusicMap.put(11, animPool.load(context, R.raw.coin, 1));
-    }
-
 
     public static PopupWindow getPopup(Context context) {
         ImageView imageView = new ImageView(context);
@@ -683,9 +658,9 @@ public class SystemUtils {
      *
      * @return
      */
-    public AlertDialog BuildCameraDialog() {
+    public AlertDialog BuildCameraDialog(Activity activitys) {
         CharSequence[] items = {"相机拍照", "从相册选择"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+        AlertDialog.Builder builder = new AlertDialog.Builder(activitys)
                 .setTitle("选择图片来源")
                 .setItems(items, new DialogInterface.OnClickListener() {
                     @Override
@@ -699,21 +674,21 @@ public class SystemUtils {
                                 Uri imageUri = null;
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //                                    imageUri = FileProvider.getUriForFile(activity, activity.getApplicationContext().getPackageName() + ".provider", getTempImage());
-                                    imageUri = FileProvider.getUriForFile(activity, "com.annie.annieforchild.installapkdemo", getTempImage());
+                                    imageUri = FileProvider.getUriForFile(activitys, "com.annie.annieforchild.installapkdemo", getTempImage());
                                 } else {
                                     imageUri = Uri.fromFile(getTempImage());
                                 }
                                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                                activity.startActivityForResult(intent, SELECT_CAMER);
+                                activitys.startActivityForResult(intent, SELECT_CAMER);
                             } else {
-                                Toast.makeText(activity, "请确认已经插入SD卡", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "请确认已经插入SD卡", Toast.LENGTH_LONG).show();
                             }
                         } else {
                             //从相册选择
                             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                             intent.addCategory(Intent.CATEGORY_OPENABLE);
                             intent.setType("image/*");
-                            activity.startActivityForResult(Intent.createChooser(intent, "选择图片"), SELECT_PICTURE);
+                            activitys.startActivityForResult(Intent.createChooser(intent, "选择图片"), SELECT_PICTURE);
                         }
                     }
                 });
@@ -876,38 +851,6 @@ public class SystemUtils {
         return m.replaceAll("").trim();
     }
 
-    /**
-     * 获取网络时间
-     */
-    public static void getNetTime() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                URL url = null;//取得资源对象
-                try {
-                    url = new URL("http://www.baidu.com");
-                    //url = new URL("http://www.ntsc.ac.cn");//中国科学院国家授时中心
-                    //url = new URL("http://www.bjtime.cn");
-                    URLConnection uc = url.openConnection();//生成连接对象
-                    uc.connect(); //发出连接
-                    long ld = uc.getDate(); //取得网站日期时间
-                    DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(ld);
-                    SystemUtils.netDate = formatter.format(calendar.getTime());
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    tvNetTime.setText("当前网络时间为: \n" + format);
-//                }
-//            });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
     public static void setBackGray(Activity activity, boolean tag) {
         if (tag) {
             WindowManager.LayoutParams layoutParams = activity.getWindow().getAttributes();
@@ -986,4 +929,212 @@ public class SystemUtils {
         return dp < 0 ? dp : Math.round(dp * displayMetrics.density);
     }
 
+
+    public MainBean getMainBean() {
+        return mainBean;
+    }
+
+    public void setMainBean(MainBean mainBean) {
+        this.mainBean = mainBean;
+    }
+
+    public PhoneSN getPhoneSN() {
+        return phoneSN;
+    }
+
+    public void setPhoneSN(PhoneSN phoneSN) {
+        this.phoneSN = phoneSN;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public List<HistoryRecord> getHistoryRecordList() {
+        return historyRecordList;
+    }
+
+    public void setHistoryRecordList(List<HistoryRecord> historyRecordList) {
+        this.historyRecordList = historyRecordList;
+    }
+
+    public SigninBean getSigninBean() {
+        return signinBean;
+    }
+
+    public void setSigninBean(SigninBean signinBean) {
+        this.signinBean = signinBean;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getDefaultUsername() {
+        return defaultUsername;
+    }
+
+    public void setDefaultUsername(String defaultUsername) {
+        this.defaultUsername = defaultUsername;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getSn() {
+        return sn;
+    }
+
+    public void setSn(String sn) {
+        this.sn = sn;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getNetDate() {
+        return netDate;
+    }
+
+    public void setNetDate(String netDate) {
+        this.netDate = netDate;
+    }
+
+    public Thread getCountDownThread() {
+        return countDownThread;
+    }
+
+    public void setCountDownThread(Thread countDownThread) {
+        this.countDownThread = countDownThread;
+    }
+
+    public boolean isPlayAll() {
+        return playAll;
+    }
+
+    public void setPlayAll(boolean playAll) {
+        this.playAll = playAll;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public int getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public int getCurrentLine() {
+        return currentLine;
+    }
+
+    public void setCurrentLine(int currentLine) {
+        this.currentLine = currentLine;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
+
+    public boolean isCurrentPage() {
+        return isCurrentPage;
+    }
+
+    public void setCurrentPage(boolean currentPage) {
+        isCurrentPage = currentPage;
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
+    public TimerTask getTask() {
+        return task;
+    }
+
+    public void setTask(TimerTask task) {
+        this.task = task;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
+
+    public int getChildTag() {
+        return childTag;
+    }
+
+    public void setChildTag(int childTag) {
+        this.childTag = childTag;
+    }
+
+    public int getWindow_width() {
+        return window_width;
+    }
+
+    public void setWindow_width(int window_width) {
+        this.window_width = window_width;
+    }
+
+    public int getWindow_height() {
+        return window_height;
+    }
+
+    public void setWindow_height(int window_height) {
+        this.window_height = window_height;
+    }
+
+    public Uri getUri() {
+        return uri;
+    }
+
+    public void setUri(Uri uri) {
+        this.uri = uri;
+    }
+
+    public List<Song> getPlayLists() {
+        return playLists;
+    }
+
+    public void setPlayLists(List<Song> playLists) {
+        this.playLists = playLists;
+    }
 }

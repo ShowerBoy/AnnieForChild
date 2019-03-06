@@ -255,11 +255,11 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                 break;
             case R.id.huiben_layout:
                 //绘本
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -277,11 +277,11 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                 break;
             case R.id.xugou_layout:
                 //分级读物
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -299,11 +299,11 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                 break;
             case R.id.feixugou_layout:
                 //桥梁书
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -321,11 +321,11 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                 break;
             case R.id.zhangjie_layout:
                 //章节书
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -343,11 +343,11 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                 break;
             case R.id.my_level:
                 //阅读存折
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -356,11 +356,11 @@ public class ReadingActivity extends BaseActivity implements OnCheckDoubleClick,
                 break;
             case R.id.lets_reading:
                 //我要朗读
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }

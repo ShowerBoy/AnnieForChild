@@ -11,6 +11,7 @@ import com.annie.annieforchild.bean.HelpBean;
 import com.annie.annieforchild.bean.record.Record;
 import com.annie.annieforchild.bean.tongzhi.MyNotice;
 import com.annie.annieforchild.interactor.MessageInteractor;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
@@ -27,17 +28,19 @@ import java.util.List;
 public class MessageInteractorImp extends NetWorkImp implements MessageInteractor {
     private Context context;
     private RequestListener listener;
+    private MyApplication application;
 
     public MessageInteractorImp(Context context, RequestListener listener) {
         this.context = context;
         this.listener = listener;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
     public void getMyMessages() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETMYMESSAGES, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_GETMYMESSAGES, request);
 //        startQueue();
     }
@@ -45,8 +48,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     @Override
     public void getDocumentations() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETHELP, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_GETHELP, request);
 //        startQueue();
     }
@@ -55,8 +58,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     public void myRecordings() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGS, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.NEWMYRECORDINGS, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_MYRECORDINGS, request);
 //        startQueue();
     }
@@ -65,8 +68,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     public void deleteRecording(int recordingId, int origin) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETERECORDING, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.NEWDELETERECORDING, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("origin", origin);
         request.add("recordingId", recordingId);
         addQueue(MethodCode.EVENT_DELETERECORDING, request);
@@ -76,8 +79,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
 //    @Override
 //    public void getExchangeRecording() {
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.EXCHANGERECORDING, RequestMethod.POST);
-//        request.add("username", SystemUtils.defaultUsername);
-//        request.add("token", SystemUtils.token);
+//        request.add("username", application.getSystemUtils().getDefaultUsername());
+//        request.add("token", application.getSystemUtils().getToken());
 //        addQueue(MethodCode.EVENT_EXCHANGERECORDING, request);
 //        startQueue();
 //    }
@@ -85,8 +88,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     @Override
     public void feedback(String content) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.FEEDBACK, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("content", content);
         addQueue(MethodCode.EVENT_FEEDBACK, request);
 //        startQueue();
@@ -95,8 +98,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     @Override
     public void exchangeGold(int nectar) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.EXCHANGEGOLD, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("nectar", nectar);
         addQueue(MethodCode.EVENT_EXCHANGEGOLD, request);
 //        startQueue();
@@ -105,8 +108,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     @Override
     public void shareTo() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.SHARETO, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_SHARETO, request);
 //        startQueue();
     }

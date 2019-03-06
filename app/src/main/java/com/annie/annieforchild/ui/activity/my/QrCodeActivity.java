@@ -68,9 +68,9 @@ public class QrCodeActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void init() {
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(headpic);
-        name.setText(SystemUtils.userInfo.getName());
-        username.setText(SystemUtils.userInfo.getUsername());
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).into(headpic);
+        name.setText(application.getSystemUtils().getUserInfo().getName());
+        username.setText(application.getSystemUtils().getUserInfo().getUsername());
     }
 
     @Override

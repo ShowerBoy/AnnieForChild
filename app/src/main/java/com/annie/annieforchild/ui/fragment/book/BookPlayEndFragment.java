@@ -32,6 +32,7 @@ import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.activity.pk.ReleaseSuccessActivity;
 import com.annie.annieforchild.ui.adapter.BookEndAdapter;
 import com.annie.annieforchild.ui.adapter.GrindEarAdapter;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseFragment;
@@ -72,6 +73,7 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
     private MediaPlayer mediaPlayer;
     private Thread thread;
     private boolean threadOn_Off = true;
+    private MyApplication application;
 
     {
         setRegister(true);
@@ -154,8 +156,8 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
         playBack.setOnClickListener(listener);
         recordBack.setOnClickListener(listener);
         releaseBack.setOnClickListener(listener);
-        Glide.with(getContext()).load(SystemUtils.userInfo.getAvatar()).into(headpic);
-        name.setText(SystemUtils.userInfo.getName());
+        Glide.with(getContext()).load(application.getSystemUtils().getUserInfo().getAvatar()).into(headpic);
+        name.setText(application.getSystemUtils().getUserInfo().getName());
         RecyclerLinearLayoutManager layoutManager = new RecyclerLinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.setScrollEnabled(false);

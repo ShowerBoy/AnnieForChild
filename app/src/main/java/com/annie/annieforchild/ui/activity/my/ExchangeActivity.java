@@ -81,9 +81,9 @@ public class ExchangeActivity extends BaseActivity implements ViewInfo, View.OnC
     }
 
     private void initialize() {
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar() != null ? SystemUtils.userInfo.getAvatar() : "").error(R.drawable.icon_system_headpic).into(headpic);
-        name.setText(SystemUtils.userInfo.getName());
-        nectar.setText(SystemUtils.userInfo.getNectar() != null ? SystemUtils.userInfo.getNectar() + "花蜜" : "0花蜜");
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar() != null ? application.getSystemUtils().getUserInfo().getAvatar() : "").error(R.drawable.icon_system_headpic).into(headpic);
+        name.setText(application.getSystemUtils().getUserInfo().getName());
+        nectar.setText(application.getSystemUtils().getUserInfo().getNectar() != null ? application.getSystemUtils().getUserInfo().getNectar() + "花蜜" : "0花蜜");
 //        coin.setText(userInfo.getGold() != null ? userInfo.getGold() + "金币" : "0金币");
     }
 
@@ -101,7 +101,7 @@ public class ExchangeActivity extends BaseActivity implements ViewInfo, View.OnC
             case R.id.exchange_btn:
                 //兑换
                 if (exchange_nectar.getText() != null && exchange_nectar.getText().length() != 0) {
-                    int ori = Integer.parseInt(SystemUtils.userInfo.getNectar() != null ? SystemUtils.userInfo.getNectar() : "0");
+                    int ori = Integer.parseInt(application.getSystemUtils().getUserInfo().getNectar() != null ? application.getSystemUtils().getUserInfo().getNectar() : "0");
                     int now = Integer.parseInt(exchange_nectar.getText().toString());
                     if (now == 0) {
                         showInfo("请输入兑换花蜜数量");

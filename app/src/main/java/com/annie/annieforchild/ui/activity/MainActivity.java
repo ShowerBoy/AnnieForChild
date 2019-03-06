@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,6 +57,8 @@ import com.zhy.m.permission.PermissionGrant;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends QuickNavigationBarActivity implements ViewInfo {
@@ -119,9 +123,9 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
         if (!file4.exists()) {
             file4.mkdirs();
         }
-        SystemUtils.initSoundPool(this);
-        if (SystemUtils.uri != null && SystemUtils.defaultUsername != null) {
-            String tag = SystemUtils.uri.getQueryParameter("tag");
+        initSoundPool(this);
+        if (application.getSystemUtils().getUri() != null && application.getSystemUtils().getDefaultUsername() != null) {
+            String tag = application.getSystemUtils().getUri().getQueryParameter("tag");
             if (tag != null) {
                 if (tag.equals("moerduo")) {
                     Intent intent = new Intent(this, GrindEarActivity.class);
@@ -134,12 +138,12 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
                     startActivity(intent);
                 }
             } else {
-                String bookid = SystemUtils.uri.getQueryParameter("bookid");
+                String bookid = application.getSystemUtils().getUri().getQueryParameter("bookid");
                 //0:磨耳朵 1： 流利读 2：动画
-                String bookType = SystemUtils.uri.getQueryParameter("booktype");
-                String bookname = SystemUtils.uri.getQueryParameter("bookname");
-                String bookurl = SystemUtils.uri.getQueryParameter("bookurl");
-                String animationurl = SystemUtils.uri.getQueryParameter("animationurl");
+                String bookType = application.getSystemUtils().getUri().getQueryParameter("booktype");
+                String bookname = application.getSystemUtils().getUri().getQueryParameter("bookname");
+                String bookurl = application.getSystemUtils().getUri().getQueryParameter("bookurl");
+                String animationurl = application.getSystemUtils().getUri().getQueryParameter("animationurl");
 //            SystemUtils.show(this, bookid + "===" + bookType + "===" + bookname + "===" + bookurl);
                 if (bookid != null && bookType != null) {
                     Song song = new Song();
@@ -173,6 +177,23 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
                 }
             }
         }
+    }
+
+    private void initSoundPool(Context context) {
+        application.getSystemUtils().setPlayLists(new ArrayList<>());
+        application.getSystemUtils().animMusicMap = new HashMap<>();
+        application.getSystemUtils().animPool = new SoundPool(11, AudioManager.STREAM_MUSIC, 0);
+        application.getSystemUtils(). animMusicMap.put(1, application.getSystemUtils().animPool.load(context, R.raw.amazing, 1));
+        application.getSystemUtils().animMusicMap.put(2, application.getSystemUtils().animPool.load(context, R.raw.awesome, 1));
+        application.getSystemUtils().animMusicMap.put(3, application.getSystemUtils().animPool.load(context, R.raw.bingo, 1));
+        application.getSystemUtils().animMusicMap.put(4, application.getSystemUtils().animPool.load(context, R.raw.excellent, 1));
+        application.getSystemUtils().animMusicMap.put(5, application.getSystemUtils().animPool.load(context, R.raw.good_observation, 1));
+        application.getSystemUtils().animMusicMap.put(6, application.getSystemUtils().animPool.load(context, R.raw.good_try, 1));
+        application.getSystemUtils().animMusicMap.put(7, application.getSystemUtils().animPool.load(context, R.raw.great, 1));
+        application.getSystemUtils().animMusicMap.put(8, application.getSystemUtils().animPool.load(context, R.raw.great_job, 1));
+        application.getSystemUtils().animMusicMap.put(9, application.getSystemUtils().animPool.load(context, R.raw.nice_going, 1));
+        application.getSystemUtils().animMusicMap.put(10, application.getSystemUtils().animPool.load(context, R.raw.super1, 1));
+        application.getSystemUtils().animMusicMap.put(11, application.getSystemUtils().animPool.load(context, R.raw.coin, 1));
     }
 
     @Override
@@ -259,8 +280,8 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-        SystemUtils.window_width = wm.getDefaultDisplay().getWidth();
-        SystemUtils.window_height = wm.getDefaultDisplay().getHeight();
+        application.getSystemUtils().setWindow_width(wm.getDefaultDisplay().getWidth());
+        application.getSystemUtils().setWindow_height(wm.getDefaultDisplay().getHeight());
     }
 
     @Subscribe
@@ -365,13 +386,13 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (SystemUtils.timer != null) {
-            SystemUtils.timer.cancel();
-            SystemUtils.timer = null;
+        if (application.getSystemUtils().getTimer() != null) {
+            application.getSystemUtils().getTimer().cancel();
+            application.getSystemUtils().setTimer(null);
         }
-        if (SystemUtils.task != null) {
-            SystemUtils.task.cancel();
-            SystemUtils.task = null;
+        if (application.getSystemUtils().getTask() != null) {
+            application.getSystemUtils().getTask().cancel();
+            application.getSystemUtils().setTask(null);
         }
     }
 }

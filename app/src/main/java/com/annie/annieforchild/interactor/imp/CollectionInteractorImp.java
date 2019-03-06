@@ -9,6 +9,7 @@ import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.Collection;
 import com.annie.annieforchild.interactor.CollectionInteractor;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
@@ -26,17 +27,19 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
     private Context context;
     private int classId;
     private RequestListener listener;
+    private MyApplication application;
 
     public CollectionInteractorImp(Context context, RequestListener listener) {
         this.context = context;
         this.listener = listener;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
     public void getMyCollections(int type) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYCOLLECTIONS, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("type", type);
         if (type == 1) {
             addQueue(MethodCode.EVENT_MYCOLLECTIONS1, request);
@@ -53,8 +56,8 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
     @Override
     public void cancelCollection(int type, int audioSource, int courseId) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.CANCELCOLLECTION, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("audioSource", audioSource);
         request.add("type", type);
         request.add("courseId", courseId);

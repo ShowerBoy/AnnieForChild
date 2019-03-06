@@ -66,8 +66,8 @@ public class GiftActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onItemClick(View view) {
                 int position = recycler.getChildAdapterPosition(view);
-                if (SystemUtils.userInfo != null) {
-                    if (SystemUtils.userInfo.getIsfirstbuy() == 1) {
+                if (application.getSystemUtils().getUserInfo() != null) {
+                    if (application.getSystemUtils().getUserInfo().getIsfirstbuy() == 1) {
                         if (lists.get(position).getIsmust() == 1) {
                             return;
                         }

@@ -324,7 +324,9 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
     @Override
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+            if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
+                dialog.dismiss();
+            }
         }
     }
 
@@ -345,11 +347,11 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
         switch (view.getId()) {
             case R.id.i_want_grindear:
                 //我的磨耳朵
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -359,11 +361,11 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
             case R.id.i_want_sing:
                 //我要唱歌
 //                intent.setClass(this, SingingActivity.class);
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -384,11 +386,11 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 break;
             case R.id.song_layout:
                 //听儿歌
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -406,11 +408,11 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 break;
             case R.id.poetry_layout:
                 //听诗歌
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -428,11 +430,11 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 break;
             case R.id.animation_layout:
                 //看动画
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -450,11 +452,11 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 break;
             case R.id.picturebook_layout:
                 //听故事
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -472,11 +474,11 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 break;
             case R.id.accomp_layout:
                 //伴奏
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -494,11 +496,11 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 break;
             case R.id.dialogue_layout:
                 //听对话
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -524,26 +526,26 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 break;
             case R.id.recently_play:
                 //最近播放
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
-                if (SystemUtils.playLists != null && SystemUtils.playLists.size() != 0) {
+                if (application.getSystemUtils().getPlayLists() != null && application.getSystemUtils().getPlayLists().size() != 0) {
                     if (MusicService.isPlay) {
                         MusicService.stop();
                     }
                     Intent intent4 = new Intent(this, MusicPlayActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putInt("resourceId", SystemUtils.playLists.get(0).getBookId());
-                    bundle.putSerializable("list", (Serializable) SystemUtils.playLists);
+                    bundle.putInt("resourceId", application.getSystemUtils().getPlayLists().get(0).getBookId());
+                    bundle.putSerializable("list", (Serializable) application.getSystemUtils().getPlayLists());
                     bundle.putString("type", "collection");
-                    bundle.putString("name", SystemUtils.playLists.get(0).getBookName());
-                    bundle.putString("image", SystemUtils.playLists.get(0).getBookImageUrl());
-                    bundle.putInt("isCollect", SystemUtils.playLists.get(0).getIsCollected());
+                    bundle.putString("name", application.getSystemUtils().getPlayLists().get(0).getBookName());
+                    bundle.putString("image", application.getSystemUtils().getPlayLists().get(0).getBookImageUrl());
+                    bundle.putInt("isCollect", application.getSystemUtils().getPlayLists().get(0).getIsCollected());
                     intent4.putExtras(bundle);
                     startActivity(intent4);
                 } else {
@@ -552,11 +554,11 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 break;
             case R.id.my_collection:
                 //我的收藏
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }

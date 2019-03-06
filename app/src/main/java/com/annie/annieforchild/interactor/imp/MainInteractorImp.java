@@ -10,6 +10,7 @@ import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.interactor.MainInteractor;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
@@ -24,18 +25,20 @@ import com.yanzhenjie.nohttp.rest.Response;
 public class MainInteractorImp extends NetWorkImp implements MainInteractor {
     private Context context;
     private RequestListener listener;
+    private MyApplication application;
 
     public MainInteractorImp(Context context, RequestListener listener) {
         this.context = context;
         this.listener = listener;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
     public void getHomeData(String tag) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI  + MethodType.GETHOMEDATA, RequestMethod.POST);
         if (tag.equals("会员")) {
-            request.add("username", SystemUtils.defaultUsername);
-            request.add("token", SystemUtils.token);
+            request.add("username", application.getSystemUtils().getDefaultUsername());
+            request.add("token", application.getSystemUtils().getToken());
         } else {
             request.add("username", "");
         }

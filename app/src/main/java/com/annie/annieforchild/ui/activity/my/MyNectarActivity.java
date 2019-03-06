@@ -90,8 +90,8 @@ public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnC
             Bundle bundle = getIntent().getExtras();
             userInfo = (UserInfo) bundle.getSerializable("userinfo");
         }
-        popupWidth = Math.min(SystemUtils.window_width, SystemUtils.window_height) * 3 / 4;
-        popupHeight = Math.max(SystemUtils.window_width, SystemUtils.window_height) * 3 / 5;
+        popupWidth = Math.min(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 3 / 4;
+        popupHeight = Math.max(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 3 / 5;
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_image, null, false);
         popupWindow = new PopupWindow(popupView, popupWidth, popupHeight, false);
         popupWindow.setOutsideTouchable(true);

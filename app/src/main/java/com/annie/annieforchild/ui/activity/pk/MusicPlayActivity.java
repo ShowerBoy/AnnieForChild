@@ -184,7 +184,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         LinearLayoutManager manager2 = new LinearLayoutManager(this);
         manager2.setOrientation(LinearLayoutManager.VERTICAL);
         lyricRecycler.setLayoutManager(manager2);
-        popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, Math.max(SystemUtils.window_width, SystemUtils.window_height) * 2 / 5, false);
+        popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, Math.max(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 2 / 5, false);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.setOutsideTouchable(true);
         popupWindow.setOnDismissListener(this);
@@ -492,7 +492,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                 break;
             case R.id.music_add_list:
                 if (MusicService.musicTitle != null) {
-                    if (SystemUtils.defaultUsername != null) {
+                    if (application.getSystemUtils().getDefaultUsername() != null) {
                         List<Song> song_list = new ArrayList<>();
                         Song song = new Song();
                         song.setBookId(resourceId);
@@ -501,7 +501,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                         song.setPath(musicList.get(MusicService.listTag).getPath());
                         song_list.add(song);
                         MusicSong musicSong = new MusicSong();
-                        musicSong.setUsername(SystemUtils.defaultUsername);
+                        musicSong.setUsername(application.getSystemUtils().getDefaultUsername());
                         musicSong.setList(song_list);
                         musicSong.save();
                     }
@@ -634,11 +634,11 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                 break;
             case R.id.music_record:
                 //录音
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -674,25 +674,25 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
             case R.id.share_daka_pengyouquan:
                 shareType = 0;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareWechatMoments("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + MusicService.musicTitle + "》", "安娃电台喊你磨耳朵啦...", MusicService.musicImageUrl, url);
+                    shareUtils.shareWechatMoments("我和我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在安娃电台听《" + MusicService.musicTitle + "》", "安娃电台喊你磨耳朵啦...", MusicService.musicImageUrl, url);
                 }
                 break;
             case R.id.share_daka_weixin:
                 shareType = 1;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareWechat("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + MusicService.musicTitle + "》", "安娃电台喊你磨耳朵啦...", MusicService.musicImageUrl, url);
+                    shareUtils.shareWechat("我和我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在安娃电台听《" + MusicService.musicTitle + "》", "安娃电台喊你磨耳朵啦...", MusicService.musicImageUrl, url);
                 }
                 break;
             case R.id.share_daka_qq:
                 shareType = 2;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareQQ("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + MusicService.musicTitle + "》", "安娃电台喊你磨耳朵啦...", MusicService.musicImageUrl, url);
+                    shareUtils.shareQQ("我和我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在安娃电台听《" + MusicService.musicTitle + "》", "安娃电台喊你磨耳朵啦...", MusicService.musicImageUrl, url);
                 }
                 break;
             case R.id.share_daka_qqzone:
                 shareType = 3;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareQZone("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + MusicService.musicTitle + "》", "安娃电台喊你磨耳朵啦...", MusicService.musicImageUrl, url);
+                    shareUtils.shareQZone("我和我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在安娃电台听《" + MusicService.musicTitle + "》", "安娃电台喊你磨耳朵啦...", MusicService.musicImageUrl, url);
                 }
                 break;
             case R.id.daka_share_cancel2:

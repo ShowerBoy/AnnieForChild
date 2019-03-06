@@ -1,6 +1,7 @@
 package com.annie.baselibrary.utils.NetUtils;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.base.BaseApplication;
 import com.annie.baselibrary.utils.ToastHelp;
@@ -19,7 +20,6 @@ import com.yanzhenjie.nohttp.rest.Response;
  */
 
 public abstract class NetWorkImp<T> implements OnResponseListener<T> {
-
     private HttpConnect mHttpConnect;
 
     public NetWorkImp() {

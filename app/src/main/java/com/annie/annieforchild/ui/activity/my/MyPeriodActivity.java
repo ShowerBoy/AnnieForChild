@@ -149,7 +149,7 @@ public class MyPeriodActivity extends BaseActivity implements SongView, View.OnC
                 surplusPeriod.setText("剩余总课时：" + periodBean.getSurplusPeriod() + "课时");
                 if (periodBean.getPeriodList() == null) {
                     empty.setVisibility(View.VISIBLE);
-                    if (SystemUtils.userInfo.getStatus() == 1) {
+                    if (application.getSystemUtils().getUserInfo().getStatus() == 1) {
                         surplusLinear.setVisibility(View.GONE);
                     } else {
                         surplusLinear.setVisibility(View.VISIBLE);

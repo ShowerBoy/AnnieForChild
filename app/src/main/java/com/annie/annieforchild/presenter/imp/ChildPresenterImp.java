@@ -16,6 +16,7 @@ import com.annie.annieforchild.interactor.ChildInteractor;
 import com.annie.annieforchild.interactor.imp.ChildInteractorImp;
 import com.annie.annieforchild.presenter.ChildPresenter;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.AddChildView;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BasePresenterImp;
@@ -33,10 +34,12 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
     private ChildInteractor interactor;
     private AddChildView viewInfo;
     private int tag;
+    private MyApplication application;
 
     public ChildPresenterImp(Context context, AddChildView viewInfo) {
         this.context = context;
         this.viewInfo = viewInfo;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
@@ -68,7 +71,7 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
     @Override
     public void addChild(String headpic, String name, String sex, String birthday, String phone) {
         viewInfo.showLoad();
-        interactor.addChild(headpic, name, sex, birthday,phone);
+        interactor.addChild(headpic, name, sex, birthday, phone);
     }
 
     /**
@@ -101,9 +104,9 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
                     message.obj = result;
                     EventBus.getDefault().post(message);
                 } else {
-                    if (SystemUtils.childTag == 0) {
-                        SystemUtils.defaultUsername = (String) result;
-                        SystemUtils.childTag = 1;
+                    if (application.getSystemUtils().getChildTag() == 0) {
+                        application.getSystemUtils().setDefaultUsername((String) result);
+                        application.getSystemUtils().setChildTag(1);
                     }
                     /**
                      * {@link com.annie.annieforchild.ui.activity.child.AddChildActivity#onEventMainThread(JTMessage)}

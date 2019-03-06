@@ -115,20 +115,20 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                                 }
                                 MusicService.musicTitle = null;
                                 MusicService.musicImageUrl = null;
-                                SharedPreferences preferences = getSharedPreferences("userInfo", MODE_PRIVATE |MODE_MULTI_PROCESS);
+                                SharedPreferences preferences = getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.remove("phone");
                                 editor.remove("psd");
                                 editor.commit();
 
-                                SystemUtils.phoneSN.setUsername(null);
-                                SystemUtils.phoneSN.setLastlogintime(null);
-                                SystemUtils.phoneSN.setSystem(null);
-                                SystemUtils.phoneSN.setBitcode(null);
-                                SystemUtils.defaultUsername = null;
-                                SystemUtils.token = null;
-                                SystemUtils.phoneSN.save();
-                                SystemUtils.isOnline = false;
+                                application.getSystemUtils().getPhoneSN().setUsername(null);
+                                application.getSystemUtils().getPhoneSN().setLastlogintime(null);
+                                application.getSystemUtils().getPhoneSN().setSystem(null);
+                                application.getSystemUtils().getPhoneSN().setBitcode(null);
+                                application.getSystemUtils().setDefaultUsername(null);
+                                application.getSystemUtils().setToken(null);
+                                application.getSystemUtils().getPhoneSN().save();
+                                application.getSystemUtils().setOnline(false);
                                 dialog.dismiss();
                                 Intent intent2 = new Intent(SettingsActivity.this, LoginActivity.class);
                                 startActivity(intent2);

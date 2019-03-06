@@ -168,7 +168,7 @@ public class RankingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.my_ranklist_layout:
                 Intent intent = new Intent(this, HomePageActivity.class);
-                intent.putExtra("username", SystemUtils.defaultUsername);
+                intent.putExtra("username", application.getSystemUtils().getDefaultUsername());
                 startActivity(intent);
                 break;
         }
@@ -197,8 +197,8 @@ public class RankingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void fresh() {
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(headpic);
-        name.setText(SystemUtils.userInfo.getName());
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).into(headpic);
+        name.setText(application.getSystemUtils().getUserInfo().getName());
         if (squareRankList.getMyRankInfo().getRow_number() != 0) {
             rank.setText("第" + squareRankList.getMyRankInfo().getRow_number() + "名");
         } else {

@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.GrindTime;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
@@ -24,11 +27,13 @@ import java.util.List;
  * Created by wanglei on 2018/9/18.
  */
 
-public class GrindEarBankBookFragment extends BaseFragment implements View.OnClickListener {
+public class GrindEarBankBookFragment extends BaseFragment implements OnCheckDoubleClick {
     private TextView today_erge, total_erge, today_huiben, total_huiben, today_shige, total_shige, today_zhangjieshu, total_zhangjieshu, today_fenji, total_fenji, today_qiaoliangshu, total_qiaoliangshu, today_gushi, total_gushi, today_duihua, total_duihua, today_donghua, total_donghua, today_zuoye, total_zuoye, today_tuijian, total_tuijian, today_diandubi, total_diandubi, today_xiaomobao, total_xiaomobao, today_mobao, total_mobao, today_qita, total_qita, today_huibenkouyu, total_huibenkouyu, today_zhutikouyu, total_zhutikouyu, today_jiaojikouyu, total_jiaojikouyu, today_donghuakouyu, total_donghuakouyu, today_xiangmuyanjiang, total_xiangmuyanjiang, input, todayTotal, historyTotal;
     private MyGrindEarBean bean;
+    private LinearLayout readingpanLayout, xiaomobaoLayout, mobaoLayout, otherLayout;
     private List<GrindTime> todayList;
     private List<GrindTime> historyList;
+    private CheckDoubleClickListener listener;
 
     {
         setRegister(true);
@@ -90,7 +95,16 @@ public class GrindEarBankBookFragment extends BaseFragment implements View.OnCli
         input = view.findViewById(R.id.grind_ear_luru_btn);
         todayTotal = view.findViewById(R.id.grind_today_total_dura);
         historyTotal = view.findViewById(R.id.grind_history_total_dura);
-        input.setOnClickListener(this);
+        readingpanLayout = view.findViewById(R.id.grind_readingpan);
+        xiaomobaoLayout = view.findViewById(R.id.grind_xiaomobao);
+        mobaoLayout = view.findViewById(R.id.grind_mobao);
+        otherLayout = view.findViewById(R.id.grind_other);
+        listener = new CheckDoubleClickListener(this);
+        input.setOnClickListener(listener);
+        readingpanLayout.setOnClickListener(listener);
+        xiaomobaoLayout.setOnClickListener(listener);
+        mobaoLayout.setOnClickListener(listener);
+        otherLayout.setOnClickListener(listener);
     }
 
     @Override
@@ -322,12 +336,24 @@ public class GrindEarBankBookFragment extends BaseFragment implements View.OnCli
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
             case R.id.grind_ear_luru_btn:
                 Intent intent = new Intent(getContext(), InputActivity.class);
                 intent.putExtra("tag", "grindear");
                 startActivity(intent);
+                break;
+            case R.id.grind_readingpan:
+
+                break;
+            case R.id.grind_xiaomobao:
+
+                break;
+            case R.id.grind_mobao:
+
+                break;
+            case R.id.grind_other:
+
                 break;
         }
     }

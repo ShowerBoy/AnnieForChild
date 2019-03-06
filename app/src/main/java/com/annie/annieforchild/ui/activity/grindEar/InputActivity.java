@@ -180,7 +180,6 @@ public class InputActivity extends BaseActivity implements OnCheckDoubleClick, S
                         inputQita.setText(popup_lists.get(position).getTitle() + "分钟");
                     }
                 }
-
                 popupWindow.dismiss();
             }
         });

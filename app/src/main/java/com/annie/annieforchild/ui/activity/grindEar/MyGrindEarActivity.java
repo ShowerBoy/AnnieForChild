@@ -96,8 +96,8 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
         presenter.getMyListening();
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(headpic);
-        name.setText(SystemUtils.userInfo.getName());
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).into(headpic);
+        name.setText(application.getSystemUtils().getUserInfo().getName());
     }
 
     @Override

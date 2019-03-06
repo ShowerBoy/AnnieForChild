@@ -172,11 +172,11 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                 finish();
                 break;
             case R.id.huiben_speaking_layout:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -193,11 +193,11 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                 startActivity(intent);
                 break;
             case R.id.zhuti_speaking_layout:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -214,11 +214,11 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                 startActivity(intent);
                 break;
             case R.id.jiaoji_speaking_layout:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -235,11 +235,11 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                 startActivity(intent);
                 break;
             case R.id.donghua_speaking_layout:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -256,11 +256,11 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                 startActivity(intent);
                 break;
             case R.id.yanjiang_speaking_layout:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }

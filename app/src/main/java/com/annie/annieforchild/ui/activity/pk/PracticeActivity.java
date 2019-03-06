@@ -123,7 +123,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
     private List<ReleaseBean> lists;
     private ShareUtils shareUtils;
     private String url;
-    private int homeworkid, musicPosition, shareType, homeworktype;
+    private int homeworkid, musicPosition, shareType, homeworktype, iType;
     Runnable runnable;
 
     {
@@ -171,7 +171,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
         menu.setOnClickListener(listener);
         practiceRecording.setOnClickListener(listener);
 
-        popupWidth = Math.min(SystemUtils.window_width, SystemUtils.window_height) * 3 / 4;
+        popupWidth = Math.min(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 3 / 4;
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_item2, null, false);
         popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_practice_menu_item, null, false);
         popupView3 = LayoutInflater.from(this).inflate(R.layout.activity_share_daka_item2, null, false);
@@ -343,6 +343,9 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
             homeworkid = intent.getIntExtra("homeworkid", 0);
             homeworktype = intent.getIntExtra("homeworktype", -1);
             musicPosition = intent.getIntExtra("musicPosition", 0);
+            if (audioType == 3) {
+                iType = intent.getIntExtra("iType", 0);
+            }
             if (songList != null) {
                 resourUrl_list.clear();
                 resourUrl_list.addAll(songList);
@@ -369,6 +372,14 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
 //            bookBg.setVisibility(View.VISIBLE);
             if (audioType == 1) {
                 practiceRecording.setImageResource(R.drawable.icon_liulidu_btn);
+            } else if (audioType == 3) {
+                if (iType == 1) {
+                    practiceRecording.setImageResource(R.drawable.icon_liulidu_btn);
+                } else if (iType == 2) {
+                    practiceRecording.setImageResource(R.drawable.icon_didaoshuo_btn);
+                } else {
+                    practiceRecording.setImageResource(R.drawable.icon_moerduo_btn);
+                }
             } else {
                 practiceRecording.setImageResource(R.drawable.icon_didaoshuo_btn);
             }
@@ -603,11 +614,11 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 finish();
                 break;
             case R.id.practice_btn:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -628,11 +639,11 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 startActivity(intent);
                 break;
             case R.id.challenge_btn:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -652,11 +663,11 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 startActivity(intent1);
                 break;
             case R.id.pk_btn:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -693,11 +704,11 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 }
                 break;
             case R.id.practice_speak:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -738,11 +749,11 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 }
                 break;
             case R.id.practice_play:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -782,11 +793,11 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 }
                 break;
             case R.id.music_frame:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -885,11 +896,11 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 break;
             case R.id.menu_add_timetable:
                 //加入课表
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -912,11 +923,11 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 break;
             case R.id.menu_collect:
                 //收藏
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -937,11 +948,11 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 break;
             case R.id.menu_add_material:
                 //加入教材
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -956,11 +967,11 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 }
                 break;
             case R.id.practice_recording:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(this);
                     return;
                 }
@@ -1088,12 +1099,12 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 shareType = 0;
                 if (url != null && url.length() != 0) {
                     if (bookType == 0) {
-                        shareUtils.shareWechatMoments("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + song.getBookName() + "》", "安娃电台喊你磨耳朵啦...", song.getBookImageUrl(), url);
+                        shareUtils.shareWechatMoments("我和我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在安娃电台听《" + song.getBookName() + "》", "安娃电台喊你磨耳朵啦...", song.getBookImageUrl(), url);
                     } else {
                         if (audioType == 1) {
-                            shareUtils.shareWechatMoments("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                            shareUtils.shareWechatMoments("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
                         } else {
-                            shareUtils.shareWechatMoments("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                            shareUtils.shareWechatMoments("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
                         }
                     }
                 }
@@ -1102,12 +1113,12 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 shareType = 1;
                 if (url != null && url.length() != 0) {
                     if (bookType == 0) {
-                        shareUtils.shareWechat("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + song.getBookName() + "》", "安娃电台喊你磨耳朵啦...", song.getBookImageUrl(), url);
+                        shareUtils.shareWechat("我和我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在安娃电台听《" + song.getBookName() + "》", "安娃电台喊你磨耳朵啦...", song.getBookImageUrl(), url);
                     } else {
                         if (audioType == 1) {
-                            shareUtils.shareWechat("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                            shareUtils.shareWechat("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
                         } else {
-                            shareUtils.shareWechat("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                            shareUtils.shareWechat("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
                         }
                     }
                 }
@@ -1116,12 +1127,12 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 shareType = 2;
                 if (url != null && url.length() != 0) {
                     if (bookType == 0) {
-                        shareUtils.shareQQ("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + song.getBookName() + "》", "安娃电台喊你磨耳朵啦...", song.getBookImageUrl(), url);
+                        shareUtils.shareQQ("我和我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在安娃电台听《" + song.getBookName() + "》", "安娃电台喊你磨耳朵啦...", song.getBookImageUrl(), url);
                     } else {
                         if (audioType == 1) {
-                            shareUtils.shareQQ("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                            shareUtils.shareQQ("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
                         } else {
-                            shareUtils.shareQQ("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                            shareUtils.shareQQ("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
                         }
                     }
                 }
@@ -1130,12 +1141,12 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 shareType = 3;
                 if (url != null && url.length() != 0) {
                     if (bookType == 0) {
-                        shareUtils.shareQZone("我和我家宝宝" + SystemUtils.userInfo.getName() + "正在安娃电台听《" + song.getBookName() + "》", "安娃电台喊你磨耳朵啦...", song.getBookImageUrl(), url);
+                        shareUtils.shareQZone("我和我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在安娃电台听《" + song.getBookName() + "》", "安娃电台喊你磨耳朵啦...", song.getBookImageUrl(), url);
                     } else {
                         if (audioType == 1) {
-                            shareUtils.shareQZone("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                            shareUtils.shareQZone("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
                         } else {
-                            shareUtils.shareQZone("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
+                            shareUtils.shareQZone("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
                         }
                     }
                 }

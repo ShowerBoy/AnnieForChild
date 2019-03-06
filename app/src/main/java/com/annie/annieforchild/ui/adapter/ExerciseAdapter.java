@@ -159,6 +159,15 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> im
                     if (isClick) {
                         if (isPlay) {
                             if (mediaPlayer != null) {
+//                                boolean isPlaying = false;
+//                                try {
+//                                    isPlaying = mediaPlayer.isPlaying();
+//                                } catch (IllegalStateException e) {
+//                                    mediaPlayer = null;
+//                                    mediaPlayer = new MediaPlayer();
+//                                    mediaPlayer.setOnPreparedListener(ExerciseAdapter.this);
+//                                    mediaPlayer.setOnCompletionListener(ExerciseAdapter.this);
+//                                }
                                 try {
                                     mediaPlayer.pause();
                                     mediaPlayer.stop();

@@ -1,7 +1,10 @@
 package com.annie.baselibrary.base;
 
 
+import android.app.Activity;
 import android.content.Context;
+
+import com.annie.annieforchild.Utils.SystemUtils;
 
 import java.lang.ref.WeakReference;
 

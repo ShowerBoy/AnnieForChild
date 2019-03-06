@@ -273,18 +273,18 @@ public class ReleaseSuccessActivity extends BaseActivity implements OnCheckDoubl
                     //系统
                     if (url != null && url.length() != 0) {
                         if (audioType == 1) {
-                            shareUtils.shareWechatMoments("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + bookName + "》", "安妮花数字图书馆喊你来读书啦", imageUrl, url);
+                            shareUtils.shareWechatMoments("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + bookName + "》", "安妮花数字图书馆喊你来读书啦", imageUrl, url);
                         } else {
-                            shareUtils.shareWechatMoments("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                            shareUtils.shareWechatMoments("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
                         }
                     }
                 } else {
                     //录音
                     if (url != null && url.length() != 0) {
                         if (audioType == 1) {
-                            shareUtils.shareWechatMoments("快来听，我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花流利读《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                            shareUtils.shareWechatMoments("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花流利读《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
                         } else {
-                            shareUtils.shareWechatMoments("快来听，我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花地道说《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                            shareUtils.shareWechatMoments("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花地道说《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
                         }
                     }
                 }
@@ -295,18 +295,18 @@ public class ReleaseSuccessActivity extends BaseActivity implements OnCheckDoubl
                     //系统
                     if (url != null && url.length() != 0) {
                         if (audioType == 1) {
-                            shareUtils.shareWechat("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + bookName + "》", "安妮花数字图书馆喊你来读书啦", imageUrl, url);
+                            shareUtils.shareWechat("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + bookName + "》", "安妮花数字图书馆喊你来读书啦", imageUrl, url);
                         } else {
-                            shareUtils.shareWechat("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                            shareUtils.shareWechat("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
                         }
                     }
                 } else {
                     //录音
                     if (url != null && url.length() != 0) {
                         if (audioType == 1) {
-                            shareUtils.shareWechat("快来听，我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花流利读《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                            shareUtils.shareWechat("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花流利读《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
                         } else {
-                            shareUtils.shareWechat("快来听，我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花地道说《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                            shareUtils.shareWechat("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花地道说《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
                         }
                     }
                 }
@@ -317,18 +317,18 @@ public class ReleaseSuccessActivity extends BaseActivity implements OnCheckDoubl
                     //系统
                     if (url != null && url.length() != 0) {
                         if (audioType == 1) {
-                            shareUtils.shareQQ("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + bookName + "》", "安妮花数字图书馆喊你来读书啦", imageUrl, url);
+                            shareUtils.shareQQ("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + bookName + "》", "安妮花数字图书馆喊你来读书啦", imageUrl, url);
                         } else {
-                            shareUtils.shareQQ("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                            shareUtils.shareQQ("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
                         }
                     }
                 } else {
                     //录音
                     if (url != null && url.length() != 0) {
                         if (audioType == 1) {
-                            shareUtils.shareQQ("快来听，我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花流利读《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                            shareUtils.shareQQ("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花流利读《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
                         } else {
-                            shareUtils.shareQQ("快来听，我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花地道说《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                            shareUtils.shareQQ("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花地道说《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
                         }
                     }
                 }
@@ -339,18 +339,18 @@ public class ReleaseSuccessActivity extends BaseActivity implements OnCheckDoubl
                     //系统
                     if (url != null && url.length() != 0) {
                         if (audioType == 1) {
-                            shareUtils.shareQZone("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + bookName + "》", "安妮花数字图书馆喊你来读书啦", imageUrl, url);
+                            shareUtils.shareQZone("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + bookName + "》", "安妮花数字图书馆喊你来读书啦", imageUrl, url);
                         } else {
-                            shareUtils.shareQZone("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                            shareUtils.shareQZone("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
                         }
                     }
                 } else {
                     //录音
                     if (url != null && url.length() != 0) {
                         if (audioType == 1) {
-                            shareUtils.shareQZone("快来听，我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花流利读《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                            shareUtils.shareQZone("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花流利读《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
                         } else {
-                            shareUtils.shareQZone("快来听，我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花地道说《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                            shareUtils.shareQZone("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花地道说《" + bookName + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
                         }
                     }
                 }

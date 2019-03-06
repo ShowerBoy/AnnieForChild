@@ -297,7 +297,7 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
             imageList.clear();
             imageList.addAll(taskDetails.getTaskimage());
 //            if (uploadAdapter == null) {
-            uploadAdapter = new UploadAdapter(getContext(), imageList, isfinish, tag, new OnRecyclerItemClickListener() {
+            uploadAdapter = new UploadAdapter(getActivity(), getContext(), imageList, isfinish, tag, new OnRecyclerItemClickListener() {
                 @Override
                 public void onItemClick(View view) {
 //                int position = uploadRecycler.getChildAdapterPosition(view);

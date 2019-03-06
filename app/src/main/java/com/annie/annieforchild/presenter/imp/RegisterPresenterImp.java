@@ -9,6 +9,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.interactor.RegisterInteractor;
 import com.annie.annieforchild.interactor.imp.RegisterInteractorImp;
 import com.annie.annieforchild.presenter.RegisterPresenter;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.RegisterView;
 import com.annie.baselibrary.base.BasePresenterImp;
 import com.yanzhenjie.nohttp.rest.Response;
@@ -25,14 +26,17 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
     private RegisterView registerView;
     private RegisterInteractor interactor;
     private String serial_number; //流水号
+    private MyApplication application;
 
     public RegisterPresenterImp(Context context) {
         this.context = context;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     public RegisterPresenterImp(Context context, RegisterView registerView) {
         this.context = context;
         this.registerView = registerView;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
@@ -82,7 +86,7 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
                 serial_number = (String) result;
             } else if (what == MethodCode.EVENT_RGISTER) {
                 registerView.showInfo("注册成功");
-                SystemUtils.token = (String) result;
+                application.getSystemUtils().setToken((String) result);
                 /**
                  * {@link com.annie.annieforchild.ui.activity.login.RegisterActivity#onEventMainThread(JTMessage)}
                  */

@@ -16,6 +16,7 @@ import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.imp.MainPresenterImp;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.RecommendViewHolder;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -29,11 +30,13 @@ public class RecommendAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private List<Song> lists;
+    private MyApplication application;
 
     public RecommendAdapter(Context context, List<Song> lists) {
         this.context = context;
         this.lists = lists;
         inflater = LayoutInflater.from(context);
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
@@ -66,7 +69,7 @@ public class RecommendAdapter extends BaseAdapter {
         holder.image_recommend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(context);
                     return;
                 }

@@ -157,7 +157,7 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
         });
         recycler.setLayoutManager(manager);
 
-        startLeft = Math.min(SystemUtils.window_width, SystemUtils.window_height) * 1 / 4;
+        startLeft = Math.min(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 1 / 4;
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_global_search, null, false);
         confirm = popupView.findViewById(R.id.global_search_queding);
         chongzhi = popupView.findViewById(R.id.global_search_chongzhi);
@@ -168,7 +168,7 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
         manager1.setOrientation(LinearLayoutManager.VERTICAL);
         tagRecycler.setLayoutManager(manager1);
 
-        popupWindow = new PopupWindow(popupView, Math.min(SystemUtils.window_width, SystemUtils.window_height) * 4 / 5, LinearLayout.LayoutParams.MATCH_PARENT, false);
+        popupWindow = new PopupWindow(popupView, Math.min(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 4 / 5, LinearLayout.LayoutParams.MATCH_PARENT, false);
         popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.clarity)));
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
@@ -184,20 +184,20 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
 //        DataSupport.deleteAll(HistoryRecord.class);
             List<HistoryRecord> historyList = LitePal.findAll(HistoryRecord.class);
             if (historyList != null && historyList.size() != 0) {
-                if (SystemUtils.historyRecordList == null) {
-                    SystemUtils.historyRecordList = new ArrayList<>();
+                if (application.getSystemUtils().getHistoryRecordList() == null) {
+                    application.getSystemUtils().setHistoryRecordList(new ArrayList<>());
                 } else {
-                    SystemUtils.historyRecordList.clear();
+                    application.getSystemUtils().getHistoryRecordList().clear();
                 }
-                SystemUtils.historyRecordList.addAll(historyList);
+                application.getSystemUtils().getHistoryRecordList().addAll(historyList);
                 historyFlexbox.removeAllViews();
-                int listSize = SystemUtils.historyRecordList.size();
+                int listSize = application.getSystemUtils().getHistoryRecordList().size();
                 for (int i = 0; i < listSize; i++) {
-                    historyFlexbox.addView(createFlexItem(SystemUtils.historyRecordList.get(listSize - 1 - i)));
+                    historyFlexbox.addView(createFlexItem(application.getSystemUtils().getHistoryRecordList().get(listSize - 1 - i)));
                 }
                 historyLinear.setVisibility(View.VISIBLE);
             } else {
-                SystemUtils.historyRecordList = new ArrayList<>();
+                application.getSystemUtils().setHistoryRecordList(new ArrayList<>());
                 historyLinear.setVisibility(View.GONE);
             }
         } catch (Exception e) {
@@ -309,17 +309,17 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
 //                searchList.add(query);
 //                arrayAdapter.notifyDataSetChanged();
 
-                if (SystemUtils.historyRecordList != null) {
-                    if (SystemUtils.historyRecordList.size() == 0) {
+                if (application.getSystemUtils().getHistoryRecordList() != null) {
+                    if (application.getSystemUtils().getHistoryRecordList().size() == 0) {
                         HistoryRecord historyRecord = new HistoryRecord();
                         historyRecord.setName(query);
                         historyRecord.save();
-                        SystemUtils.historyRecordList.add(historyRecord);
+                        application.getSystemUtils().getHistoryRecordList().add(historyRecord);
                     } else {
-                        int j = SystemUtils.historyRecordList.size();
+                        int j = application.getSystemUtils().getHistoryRecordList().size();
                         boolean same = false;
                         for (int i = 0; i < j; i++) {
-                            if (SystemUtils.historyRecordList.get(i).getName().equals(query)) {
+                            if (application.getSystemUtils().getHistoryRecordList().get(i).getName().equals(query)) {
                                 same = true;
                             }
                         }
@@ -330,11 +330,11 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                             if (historyFlexbox.getFlexLines().size() > 3) {
                                 historyFlexbox.removeViewAt(0);
                                 historyRecord.save();
-                                SystemUtils.historyRecordList.remove(0);
-                                SystemUtils.historyRecordList.add(historyRecord);
+                                application.getSystemUtils().getHistoryRecordList().remove(0);
+                                application.getSystemUtils().getHistoryRecordList().add(historyRecord);
                             } else {
                                 historyRecord.save();
-                                SystemUtils.historyRecordList.add(historyRecord);
+                                application.getSystemUtils().getHistoryRecordList().add(historyRecord);
                             }
                         }
                     }
@@ -381,7 +381,7 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                SystemUtils.historyRecordList.clear();
+                                application.getSystemUtils().getHistoryRecordList().clear();
                                 LitePal.deleteAll(HistoryRecord.class);
                                 historyLinear.setVisibility(View.GONE);
                                 dialog.dismiss();
@@ -450,9 +450,9 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
 //        historyLinear.setVisibility(View.VISIBLE);
         historyLinear.setVisibility(View.GONE);
         historyFlexbox.removeAllViews();
-        int listSize = SystemUtils.historyRecordList.size();
+        int listSize = application.getSystemUtils().getHistoryRecordList().size();
         for (int i = 0; i < listSize; i++) {
-            historyFlexbox.addView(createFlexItem(SystemUtils.historyRecordList.get(listSize - 1 - i)));
+            historyFlexbox.addView(createFlexItem(application.getSystemUtils().getHistoryRecordList().get(listSize - 1 - i)));
         }
     }
 

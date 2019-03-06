@@ -164,7 +164,7 @@ public class PkResultActivity extends BaseActivity implements SongView, OnCheckD
                 bgLayout.setBackgroundColor(getResources().getColor(R.color.pk_lose_bg));
                 backImage.setImageResource(R.drawable.pk_pic_try_again);
                 close.setTextColor(getResources().getColor(R.color.text_black));
-                Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(headpic1);
+                Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).error(R.drawable.icon_system_photo).into(headpic1);
                 Glide.with(this).load(pkImageUrl).error(R.drawable.icon_system_photo).into(headpic2);
                 crown1.setVisibility(View.GONE);
                 crown2.setVisibility(View.VISIBLE);
@@ -172,7 +172,7 @@ public class PkResultActivity extends BaseActivity implements SongView, OnCheckD
                 name2.setTextColor(getResources().getColor(R.color.white));
                 score1.setTextColor(getResources().getColor(R.color.white));
                 score2.setTextColor(getResources().getColor(R.color.white));
-                name1.setText(SystemUtils.userInfo.getName());
+                name1.setText(application.getSystemUtils().getUserInfo().getName());
                 name2.setText(pkName);
                 String s1 = a + "";
                 String s2 = b + "";
@@ -189,7 +189,7 @@ public class PkResultActivity extends BaseActivity implements SongView, OnCheckD
                 bgLayout.setBackgroundColor(getResources().getColor(R.color.pk_win_bg));
                 backImage.setImageResource(R.drawable.pk_pic_bg_win);
                 close.setTextColor(getResources().getColor(R.color.white));
-                Glide.with(this).load(SystemUtils.userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(headpic1);
+                Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).error(R.drawable.icon_system_photo).into(headpic1);
                 Glide.with(this).load(pkImageUrl).error(R.drawable.icon_system_photo).into(headpic2);
                 crown1.setVisibility(View.VISIBLE);
                 crown2.setVisibility(View.GONE);
@@ -197,7 +197,7 @@ public class PkResultActivity extends BaseActivity implements SongView, OnCheckD
                 name2.setTextColor(getResources().getColor(R.color.white));
                 score1.setTextColor(getResources().getColor(R.color.pk_result_color));
                 score2.setTextColor(getResources().getColor(R.color.white));
-                name1.setText(SystemUtils.userInfo.getName());
+                name1.setText(application.getSystemUtils().getUserInfo().getName());
                 name2.setText(pkName);
                 String s1 = a + "";
                 String s2 = b + "";
@@ -273,25 +273,25 @@ public class PkResultActivity extends BaseActivity implements SongView, OnCheckD
             case R.id.share_daka_pengyouquan:
                 shareType = 0;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareWechatMoments("快来听！我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花的PK中打败对手赢得胜利！", "安妮花-磨耳朵 流利读 地道说", null, url);
+                    shareUtils.shareWechatMoments("快来听！我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花的PK中打败对手赢得胜利！", "安妮花-磨耳朵 流利读 地道说", null, url);
                 }
                 break;
             case R.id.share_daka_weixin:
                 shareType = 1;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareWechat("快来听！我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花的PK中打败对手赢得胜利！", "安妮花-磨耳朵 流利读 地道说", null, url);
+                    shareUtils.shareWechat("快来听！我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花的PK中打败对手赢得胜利！", "安妮花-磨耳朵 流利读 地道说", null, url);
                 }
                 break;
             case R.id.share_daka_qq:
                 shareType = 2;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareQQ("快来听！我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花的PK中打败对手赢得胜利！", "安妮花-磨耳朵 流利读 地道说", null, url);
+                    shareUtils.shareQQ("快来听！我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花的PK中打败对手赢得胜利！", "安妮花-磨耳朵 流利读 地道说", null, url);
                 }
                 break;
             case R.id.share_daka_qqzone:
                 shareType = 3;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareQZone("快来听！我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花的PK中打败对手赢得胜利！", "安妮花-磨耳朵 流利读 地道说", null, url);
+                    shareUtils.shareQZone("快来听！我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花的PK中打败对手赢得胜利！", "安妮花-磨耳朵 流利读 地道说", null, url);
                 }
                 break;
             case R.id.luckdraw_close:

@@ -256,16 +256,16 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                 popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
                 break;
             case R.id.tofriend_pengyouquan:
-                shareUtils.shareWechatMoments("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + SystemUtils.defaultUsername);
+                shareUtils.shareWechatMoments("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + application.getSystemUtils().getDefaultUsername());
                 break;
             case R.id.tofriend_weixin:
-                shareUtils.shareWechat("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + SystemUtils.defaultUsername);
+                shareUtils.shareWechat("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + application.getSystemUtils().getDefaultUsername());
                 break;
             case R.id.tofriend_qq:
-                shareUtils.shareQQ("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + SystemUtils.defaultUsername);
+                shareUtils.shareQQ("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + application.getSystemUtils().getDefaultUsername());
                 break;
             case R.id.tofriend_qqzone:
-                shareUtils.shareQZone("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + SystemUtils.defaultUsername);
+                shareUtils.shareQZone("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + application.getSystemUtils().getDefaultUsername());
                 break;
         }
     }

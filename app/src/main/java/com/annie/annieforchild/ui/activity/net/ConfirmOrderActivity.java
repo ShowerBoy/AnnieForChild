@@ -472,8 +472,8 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
             if (netSuggest.getGift() != null) {
                 count = netSuggest.getCount();
                 lists = netSuggest.getGift();
-                if (SystemUtils.userInfo != null) {
-                    if (SystemUtils.userInfo.getIsfirstbuy() == 1) {
+                if (application.getSystemUtils().getUserInfo() != null) {
+                    if (application.getSystemUtils().getUserInfo().getIsfirstbuy() == 1) {
                         selectList.clear();
                         for (int i = 0; i < lists.size(); i++) {
                             if (lists.get(i).getIsmust() == 1) {

@@ -167,7 +167,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 swipeRefreshLayout.setRefreshing(false);
             }
         } else if (message.what == MethodCode.EVENT_ADDCHILD2) {
-            if (SystemUtils.childTag == 1) {
+            if (application.getSystemUtils().getChildTag() == 1) {
                 presenter.getUserInfo();
             }
         } else if (message.what == MethodCode.EVENT_UPDATEUSER) {
@@ -189,7 +189,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
     }
 
     public void refresh(UserInfo userInfo) {
-        if (SystemUtils.childTag == 0) {
+        if (application.getSystemUtils().getChildTag() == 0) {
             userHeadpic.setImageResource(R.drawable.photo);
             userName.setText("请添加学员");
         } else {
@@ -366,7 +366,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
 //                    showInfo("请先添加学员");
                     SystemUtils.toAddChild(getContext());
                     return;
@@ -392,7 +392,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -405,7 +405,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -418,7 +418,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     showInfo("请先添加学员");
                     SystemUtils.toAddChild(getContext());
                     return;
@@ -432,7 +432,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     showInfo("请先添加学员");
                     SystemUtils.toAddChild(getContext());
                     return;
@@ -446,7 +446,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     showInfo("请先添加学员");
                     SystemUtils.toAddChild(getContext());
                     return;
@@ -460,7 +460,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     showInfo("请先添加学员");
                     SystemUtils.toAddChild(getContext());
                     return;
@@ -483,7 +483,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     showInfo("请先添加学员");
                     SystemUtils.toAddChild(getContext());
                     return;
@@ -498,7 +498,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     showInfo("请先添加学员");
                     SystemUtils.toAddChild(getContext());
                     return;
@@ -527,7 +527,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
 //                    SystemUtils.toLogin(getContext());
 //                    return;
 //                }
-//                if (SystemUtils.childTag == 0) {
+//                if (application.getSystemUtils().getChildTag() == 0) {
 //                    showInfo("请先添加学员");
 //                    SystemUtils.toAddChild(getContext());
 //                    return;
@@ -544,7 +544,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     showInfo("请先添加学员");
                     SystemUtils.toAddChild(getContext());
                     return;

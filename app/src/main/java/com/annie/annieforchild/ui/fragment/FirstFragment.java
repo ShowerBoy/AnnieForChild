@@ -133,7 +133,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         presenter2.initViewAndData();
 //        showInfo(list.size() + "==" + SystemUtils.phoneSN.toString());
         presenter.getHomeData(tag);
-        if (SystemUtils.childTag == 1) {
+        if (application.getSystemUtils().getChildTag() == 1) {
             presenter2.getMusicList(-1);
         }
 
@@ -251,7 +251,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
             @Override
             public void onRefresh() {
                 presenter.getHomeData(tag);
-                if (SystemUtils.childTag == 1) {
+                if (application.getSystemUtils().getChildTag() == 1) {
                     presenter2.getMusicList(-1);
                 }
             }
@@ -297,7 +297,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
             meiriyishi = homeData.getMeiriyishi();
             meiriyidu = homeData.getMeiriyidu();
             initial();
-            if (SystemUtils.childTag == 0) {
+            if (application.getSystemUtils().getChildTag() == 0) {
                 iWantLayout.setVisibility(View.GONE);
             } else {
                 iWantLayout.setVisibility(View.VISIBLE);
@@ -321,7 +321,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         } else if (message.what == MethodCode.EVENT_UNLOCKBOOK + 9000 + classId) {
             showInfo((String) message.obj);
             presenter.getHomeData(tag);
-            if (SystemUtils.childTag == 1) {
+            if (application.getSystemUtils().getChildTag() == 1) {
                 presenter2.getMusicList(-1);
             }
         } else if (message.what == MethodCode.EVENT_MUSIC) {
@@ -331,6 +331,10 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 } else {
                     musicBtn.stop();
                 }
+            }
+        } else if (message.what == MethodCode.EVENT_SETDEFAULEUSER) {
+            if (presenter != null) {
+                presenter.getHomeData(tag);
             }
         }
     }
@@ -469,7 +473,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -485,7 +489,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -498,7 +502,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -517,7 +521,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -537,7 +541,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -554,7 +558,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -567,7 +571,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 //                    SystemUtils.toLogin(getContext());
 //                    return;
 //                }
-//                if (SystemUtils.childTag == 0) {
+//                if (application.getSystemUtils().getChildTag() == 0) {
 //                    SystemUtils.toAddChild(getContext());
 //                    return;
 //                }
@@ -585,7 +589,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -594,11 +598,11 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 break;
             case R.id.search_layout:
                 //搜索
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -614,7 +618,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -638,11 +642,11 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 //                startActivity(intent1);
 
 
-//                if (SystemUtils.tag.equals("游客")) {
+//                if (application.getSystemUtils().getTag().equals("游客")) {
 //                    SystemUtils.toLogin(getContext());
 //                    return;
 //                }
-//                if (SystemUtils.childTag == 0) {
+//                if (application.getSystemUtils().getChildTag() == 0) {
 //                    SystemUtils.toAddChild(getContext());
 //                    return;
 //                }
@@ -666,11 +670,11 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 //我要练口语更多
                 intent.setClass(getContext(), SpeakingActivity.class);
                 startActivity(intent);
-//                if (SystemUtils.tag.equals("游客")) {
+//                if (application.getSystemUtils().getTag().equals("游客")) {
 //                    SystemUtils.toLogin(getContext());
 //                    return;
 //                }
-//                if (SystemUtils.childTag == 0) {
+//                if (application.getSystemUtils().getChildTag() == 0) {
 //                    SystemUtils.toAddChild(getContext());
 //                    return;
 //                }
@@ -857,11 +861,11 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.meiriyige_layout:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -882,11 +886,11 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.meiriyishi_layout:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -906,11 +910,11 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.meiriyidu_layout:
-                if (SystemUtils.tag.equals("游客")) {
+                if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
-                if (SystemUtils.childTag == 0) {
+                if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
@@ -939,13 +943,12 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences preferences = getContext().getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
-        if (preferences.getString("token", null) != null && preferences.getString("defaultUsername", null) != null) {
-            SystemUtils.childTag = preferences.getInt("childTag", 0);
-            SystemUtils.token = preferences.getString("token", null);
-            SystemUtils.defaultUsername = preferences.getString("defaultUsername", null);
-        }
-        Log.e("------", SystemUtils.childTag + "///" + SystemUtils.token + "///" + SystemUtils.defaultUsername);
+//        SharedPreferences preferences = getContext().getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
+//        if (preferences.getString("token", null) != null && preferences.getString("defaultUsername", null) != null) {
+//            application.getSystemUtils().setChildTag(preferences.getInt("childTag", 0));
+//            application.getSystemUtils().setToken(preferences.getString("token", null));
+//            application.getSystemUtils().setDefaultUsername(preferences.getString("defaultUsername", null));
+//        }
     }
 
     @Override

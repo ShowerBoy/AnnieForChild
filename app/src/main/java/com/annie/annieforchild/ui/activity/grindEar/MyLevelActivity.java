@@ -91,8 +91,8 @@ public class MyLevelActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initialize() {
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(headpic);
-        name.setText(SystemUtils.userInfo.getName());
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).into(headpic);
+        name.setText(application.getSystemUtils().getUserInfo().getName());
         lev.setText("Lv" + level);
         nowSecond = Integer.parseInt(totalDuration);
         min = Integer.parseInt(totalDuration) / 60;
@@ -302,8 +302,8 @@ public class MyLevelActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initReading() {
-        Glide.with(this).load(SystemUtils.userInfo.getAvatar()).into(headpic);
-        name.setText(SystemUtils.userInfo.getName());
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).error(R.drawable.icon_system_headpic).into(headpic);
+        name.setText(application.getSystemUtils().getUserInfo().getName());
         lev.setText("Lv" + level);
         nowSecond = Integer.parseInt(totalDuration);
         min = Integer.parseInt(totalDuration) / 60;

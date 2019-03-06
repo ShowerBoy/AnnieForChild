@@ -10,6 +10,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.nectar.MyNectar;
 import com.annie.annieforchild.bean.nectar.NectarBean;
 import com.annie.annieforchild.interactor.NectarInteractor;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
@@ -25,17 +26,19 @@ import java.util.List;
 public class NectarInteractorImp extends NetWorkImp implements NectarInteractor {
     private Context context;
     private RequestListener listener;
+    private MyApplication application;
 
     public NectarInteractorImp(Context context, RequestListener listener) {
         this.context = context;
         this.listener = listener;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
     public void getNectar() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETNECTAR, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         addQueue(MethodCode.EVENT_GETNECTAR, request);
 //        startQueue();
     }

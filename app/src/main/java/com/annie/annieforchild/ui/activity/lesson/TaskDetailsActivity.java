@@ -116,7 +116,7 @@ public class TaskDetailsActivity extends CameraActivity implements SongView, OnC
 //        taskAdapter = new TaskDetailsAdapter(this, lists, presenter, taskid, state);
 //        taskRecycler.setAdapter(taskAdapter);
 
-        uploadAdapter = new UploadAdapter(this, imageList, state, 0, new OnRecyclerItemClickListener() {
+        uploadAdapter = new UploadAdapter(this,this, imageList, state, 0, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
 //                int position = uploadRecycler.getChildAdapterPosition(view);

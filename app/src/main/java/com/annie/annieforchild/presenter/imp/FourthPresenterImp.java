@@ -19,6 +19,7 @@ import com.annie.annieforchild.interactor.FourthInteractor;
 import com.annie.annieforchild.interactor.imp.FourthInteractorImp;
 import com.annie.annieforchild.presenter.FourthPresenter;
 import com.annie.annieforchild.ui.adapter.MemberAdapter;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.FourthView;
 import com.annie.baselibrary.base.BasePresenterImp;
@@ -45,11 +46,13 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
     private MemberAdapter adapter;
     int position;
     private String tag; //身份标示
+    private MyApplication application;
 
     public FourthPresenterImp(Context context, FourthView fourthView, String tag) {
         this.context = context;
         this.fourthView = fourthView;
         this.tag = tag;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
@@ -60,7 +63,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
             @Override
             public void onItemClick(View view) {
                 position = fourthView.getMemberRecycler().getChildAdapterPosition(view);
-                if (lists.get(position).getUsername().equals(SystemUtils.defaultUsername)) {
+                if (lists.get(position).getUsername().equals(application.getSystemUtils().getDefaultUsername())) {
                     return;
                 }
                 SystemUtils.GeneralDialog(context, "切换默认学员")
@@ -68,7 +71,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                SystemUtils.getNetTime();
+                                application.getNetTime();
                                 setDefaultUser(lists.get(position).getUsername());
                             }
                         })
@@ -151,7 +154,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
         if (result != null) {
             if (what == MethodCode.EVENT_USERINFO) {
                 UserInfo info = (UserInfo) result;
-                SystemUtils.userInfo = info;
+                application.getSystemUtils().setUserInfo(info);
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
                  */
@@ -167,67 +170,67 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 if (MusicService.isPlay) {
                     MusicService.stop();
                 }
-                SystemUtils.defaultUsername = lists.get(position).getUsername();
+                application.getSystemUtils().setDefaultUsername(lists.get(position).getUsername());
                 getUserInfo();
                 fourthView.showInfo((String) result);
                 SQLiteDatabase db = LitePal.getDatabase();
                 try {
-                //切换用户重置在线
-                    List<SigninBean> list = LitePal.where("username = ?", SystemUtils.defaultUsername).find(SigninBean.class);
+                    //切换用户重置在线
+                    List<SigninBean> list = LitePal.where("username = ?", application.getSystemUtils().getDefaultUsername()).find(SigninBean.class);
 //                List<SigninBean> list = DataSupport.findAll(SigninBean.class);
                     if (list != null && list.size() != 0) {
                         SigninBean signinBean = list.get(list.size() - 1);
-                        String date = SystemUtils.netDate;
+                        String date = application.getSystemUtils().getNetDate();
                         if (!date.equals(signinBean.getDate())) {
-                            if (SystemUtils.signinBean == null) {
-                                SystemUtils.signinBean = new SigninBean();
+                            if (application.getSystemUtils().getSigninBean() == null) {
+                                application.getSystemUtils().setSigninBean(new SigninBean());
                             }
-                            SystemUtils.signinBean.setDate(date);
-                            SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
-                            SystemUtils.signinBean.setNectar(false);
-                            SystemUtils.signinBean.save();
+                            application.getSystemUtils().getSigninBean().setDate(date);
+                            application.getSystemUtils().getSigninBean().setUsername(application.getSystemUtils().getDefaultUsername());
+                            application.getSystemUtils().getSigninBean().setNectar(false);
+                            application.getSystemUtils().getSigninBean().save();
                         } else {
-                            SystemUtils.signinBean = signinBean;
+                            application.getSystemUtils().setSigninBean(signinBean);
                         }
                     } else {
-                        SystemUtils.signinBean = new SigninBean();
-                        String date = SystemUtils.netDate;
-                        SystemUtils.signinBean.setDate(date != null ? date : "");
-                        SystemUtils.signinBean.setUsername(SystemUtils.defaultUsername);
-                        SystemUtils.signinBean.setNectar(false);
-                        SystemUtils.signinBean.save();
+                        application.getSystemUtils().setSigninBean(new SigninBean());
+                        String date = application.getSystemUtils().getNetDate();
+                        application.getSystemUtils().getSigninBean().setDate(date != null ? date : "");
+                        application.getSystemUtils().getSigninBean().setUsername(application.getSystemUtils().getDefaultUsername());
+                        application.getSystemUtils().getSigninBean().setNectar(false);
+                        application.getSystemUtils().getSigninBean().save();
                     }
-                    if (SystemUtils.timer != null) {
-                        SystemUtils.timer.cancel();
-                        SystemUtils.timer = null;
+                    if (application.getSystemUtils().getTimer() != null) {
+                        application.getSystemUtils().getTimer().cancel();
+                        application.getSystemUtils().setTimer(null);
                     }
-                    if (SystemUtils.task != null) {
-                        SystemUtils.task.cancel();
-                        SystemUtils.task = null;
+                    if (application.getSystemUtils().getTask() != null) {
+                        application.getSystemUtils().getTask().cancel();
+                        application.getSystemUtils().setTask(null);
                     }
-                    SystemUtils.timer = new Timer();
-                    if (SystemUtils.isOnline) {
-                        if (!SystemUtils.signinBean.isNectar()) {
-                            SystemUtils.task = new TimerTask() {
+                    application.getSystemUtils().setTimer(new Timer());
+                    if (application.getSystemUtils().isOnline()) {
+                        if (!application.getSystemUtils().getSigninBean().isNectar()) {
+                            application.getSystemUtils().setTask(new TimerTask() {
                                 @Override
                                 public void run() {
-                                    if (!SystemUtils.signinBean.isNectar()) {
+                                    if (!application.getSystemUtils().getSigninBean().isNectar()) {
                                         Intent intent = new Intent();
                                         intent.setAction("countdown");
                                         context.sendBroadcast(intent);
                                     }
                                 }
-                            };
+                            });
                             Runnable runnable = new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (!SystemUtils.signinBean.isNectar()) {
-                                        SystemUtils.timer.schedule(SystemUtils.task, 120 * 1000);
+                                    if (!application.getSystemUtils().getSigninBean().isNectar()) {
+                                        application.getSystemUtils().getTimer().schedule(application.getSystemUtils().getTask(), 120 * 1000);
                                     }
                                 }
                             };
-                            SystemUtils.countDownThread = new Thread(runnable);
-                            SystemUtils.countDownThread.start();
+                            application.getSystemUtils().setCountDownThread(new Thread(runnable));
+                            application.getSystemUtils().getCountDownThread().start();
                         }
                     }
                 } catch (Exception e) {
@@ -235,6 +238,14 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 } finally {
                     db.close();
                 }
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.DakaFragment#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.fragment.FirstFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_DELETEUSERNAME) {
                 fourthView.showInfo((String) result);
                 /**

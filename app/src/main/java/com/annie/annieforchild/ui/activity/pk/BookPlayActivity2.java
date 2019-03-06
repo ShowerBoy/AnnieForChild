@@ -275,7 +275,7 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
         }
 //        }
 
-        fragmentAdapter = new BookPlayFragmentAdapter(getSupportFragmentManager());
+        fragmentAdapter = new BookPlayFragmentAdapter(getSupportFragmentManager(), lists);
         viewPager.setAdapter(fragmentAdapter);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -404,14 +404,14 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
                 if (BookPlayFragment.isPlay) {
                     return;
                 }
-                if (!SystemUtils.isPlaying) {
-                    if (!SystemUtils.playAll) {
+                if (!application.getSystemUtils().isPlaying()) {
+                    if (!application.getSystemUtils().isPlayAll()) {
 //                        playTotal.setText("停止播放");
                         playTotal2.setImageResource(R.drawable.icon_full_reading_t);
-                        SystemUtils.playAll = true;
-                        SystemUtils.currentPage = 0;
-                        SystemUtils.currentLine = 0;
-                        SystemUtils.totalPage = totalPage;
+                        application.getSystemUtils().setPlayAll(true);
+                        application.getSystemUtils().setCurrentPage(0);
+                        application.getSystemUtils().setCurrentLine(0);
+                        application.getSystemUtils().setTotalPage(totalPage);
                         scrolltoPosition(0);
                         viewPager.setNoFocus(true);
                     } else {
@@ -434,7 +434,7 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
                 if (BookPlayFragment.isPlay) {
                     return;
                 }
-                if (SystemUtils.isPlaying) {
+                if (application.getSystemUtils().isPlaying()) {
                     return;
                 }
                 presenter.clockinShare(2, bookId);
@@ -445,9 +445,9 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
                 shareType = 0;
                 if (url != null && url.length() != 0) {
                     if (audioType == 1) {
-                        shareUtils.shareWechatMoments("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                        shareUtils.shareWechatMoments("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
                     } else {
-                        shareUtils.shareWechatMoments("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                        shareUtils.shareWechatMoments("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
                     }
                 }
                 break;
@@ -455,9 +455,9 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
                 shareType = 1;
                 if (url != null && url.length() != 0) {
                     if (audioType == 1) {
-                        shareUtils.shareWechat("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                        shareUtils.shareWechat("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
                     } else {
-                        shareUtils.shareWechat("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                        shareUtils.shareWechat("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
                     }
                 }
                 break;
@@ -465,9 +465,9 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
                 shareType = 2;
                 if (url != null && url.length() != 0) {
                     if (audioType == 1) {
-                        shareUtils.shareQQ("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                        shareUtils.shareQQ("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
                     } else {
-                        shareUtils.shareQQ("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                        shareUtils.shareQQ("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
                     }
                 }
                 break;
@@ -475,9 +475,9 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
                 shareType = 3;
                 if (url != null && url.length() != 0) {
                     if (audioType == 1) {
-                        shareUtils.shareQZone("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                        shareUtils.shareQZone("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
                     } else {
-                        shareUtils.shareQZone("我和宝宝" + SystemUtils.userInfo.getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                        shareUtils.shareQZone("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
                     }
                 }
                 break;
@@ -507,9 +507,11 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
     }
 
     class BookPlayFragmentAdapter extends FragmentStatePagerAdapter {
+        private List<BookPlayFragment> fragmentLists;
 
-        public BookPlayFragmentAdapter(FragmentManager fm) {
+        public BookPlayFragmentAdapter(FragmentManager fm, List<BookPlayFragment> fragmentLists) {
             super(fm);
+            this.fragmentLists = fragmentLists;
         }
 
         @Override
@@ -517,8 +519,8 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
 //            if (audioSource == 8) {
 //                return lists2.get(position);
 //            } else {
-            if (position < lists.size()) {
-                return lists.get(position);
+            if (position < fragmentLists.size()) {
+                return fragmentLists.get(position);
             } else {
                 return bookPlayEndFragment;
             }
@@ -530,7 +532,7 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
 //            if (audioSource == 8) {
 //                return lists2.size();
 //            } else {
-            return lists.size() + 1;
+            return fragmentLists.size() + 1;
 //            }
         }
     }
@@ -648,8 +650,8 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SystemUtils.playAll = false;
-        SystemUtils.isPlaying = false;
+        application.getSystemUtils().setPlayAll(false);
+        application.getSystemUtils().setPlaying(false);
         viewPager.setNoFocus(false);
     }
 }

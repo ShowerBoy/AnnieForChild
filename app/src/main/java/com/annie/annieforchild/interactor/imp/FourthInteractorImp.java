@@ -10,6 +10,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.interactor.FourthInteractor;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
@@ -26,20 +27,22 @@ import java.util.List;
 public class FourthInteractorImp extends NetWorkImp implements FourthInteractor {
     private Context context;
     private RequestListener listener;
+    private MyApplication application;
 
     public FourthInteractorImp(Context context, RequestListener listener) {
         this.context = context;
         this.listener = listener;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
     public void getUserInfo() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERINFO, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERLIST, RequestMethod.POST);
-        request2.add("username", SystemUtils.defaultUsername);
-        request2.add("token", SystemUtils.token);
+        request2.add("username", application.getSystemUtils().getDefaultUsername());
+        request2.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_USERINFO, request);
         addQueue(MethodCode.EVENT_USERLIST, request2);
 //        startQueue();
@@ -48,9 +51,9 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
     @Override
     public void setDefaultUser(String defaultUser) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.SETDEFAULTUSER, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("defaultUser", defaultUser);
-        request.add("token", SystemUtils.token);
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_SETDEFAULEUSER, request);
         startQueue();
     }
@@ -58,8 +61,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
     @Override
     public void deleteUsername(String deleteUsername) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETEUSERNAME, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         request.add("deleteUsername", deleteUsername);
         addQueue(MethodCode.EVENT_DELETEUSERNAME, request);
 //        startQueue();
@@ -68,8 +71,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
     @Override
     public void getUserList() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERLIST, RequestMethod.POST);
-        request.add("username", SystemUtils.defaultUsername);
-        request.add("token", SystemUtils.token);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
         addQueue(MethodCode.EVENT_USERLIST, request);
 //        startQueue();
     }

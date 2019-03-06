@@ -37,14 +37,16 @@ public class UploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private int tag;
     private OnRecyclerItemClickListener listener;
     private SystemUtils systemUtils;
+    private Activity activity;
 
-    public UploadAdapter(Context context, List<String> lists, int state, int tag, OnRecyclerItemClickListener listener) {
+    public UploadAdapter(Activity activity, Context context, List<String> lists, int state, int tag, OnRecyclerItemClickListener listener) {
+        this.activity = activity;
         this.context = context;
         this.lists = lists;
         this.tag = tag;
         this.listener = listener;
         this.state = state;
-        systemUtils = new SystemUtils((Activity) context);
+        systemUtils = new SystemUtils(context);
         inflater = LayoutInflater.from(context);
         if (state == 0) {
             HeaderCount = 1;
@@ -100,25 +102,25 @@ public class UploadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 public void onClick(View v) {
                     if (tag == 0) {
                         if (TaskContentActivity.imageNum1 < 5) {
-                            systemUtils.BuildCameraDialog().show();
+                            systemUtils.BuildCameraDialog(activity).show();
                         } else {
                             SystemUtils.show(context, "最多上传5张图片");
                         }
                     } else if (tag == 1) {
                         if (TaskContentActivity.imageNum2 < 5) {
-                            systemUtils.BuildCameraDialog().show();
+                            systemUtils.BuildCameraDialog(activity).show();
                         } else {
                             SystemUtils.show(context, "最多上传5张图片");
                         }
                     } else if (tag == 2) {
                         if (TaskContentActivity.imageNum3 < 5) {
-                            systemUtils.BuildCameraDialog().show();
+                            systemUtils.BuildCameraDialog(activity).show();
                         } else {
                             SystemUtils.show(context, "最多上传5张图片");
                         }
                     } else if (tag == 3) {
                         if (TaskContentActivity.imageNum4 < 5) {
-                            systemUtils.BuildCameraDialog().show();
+                            systemUtils.BuildCameraDialog(activity).show();
                         } else {
                             SystemUtils.show(context, "最多上传5张图片");
                         }

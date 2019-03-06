@@ -643,25 +643,25 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
             case R.id.share_daka_pengyouquan:
                 shareType = 0;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareWechatMoments("分享我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花的英文录音《" + bookName + "》，一起加入磨耳朵", "安妮花-磨耳朵 流利读 地道说", null, url);
+                    shareUtils.shareWechatMoments("分享我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花的英文录音《" + bookName + "》，一起加入磨耳朵", "安妮花-磨耳朵 流利读 地道说", null, url);
                 }
                 break;
             case R.id.share_daka_weixin:
                 shareType = 1;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareWechat("分享我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花的英文录音《" + bookName + "》，一起加入磨耳朵", "安妮花-磨耳朵 流利读 地道说", null, url);
+                    shareUtils.shareWechat("分享我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花的英文录音《" + bookName + "》，一起加入磨耳朵", "安妮花-磨耳朵 流利读 地道说", null, url);
                 }
                 break;
             case R.id.share_daka_qq:
                 shareType = 2;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareQQ("分享我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花的英文录音《" + bookName + "》，一起加入磨耳朵", "安妮花-磨耳朵 流利读 地道说", null, url);
+                    shareUtils.shareQQ("分享我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花的英文录音《" + bookName + "》，一起加入磨耳朵", "安妮花-磨耳朵 流利读 地道说", null, url);
                 }
                 break;
             case R.id.share_daka_qqzone:
                 shareType = 3;
                 if (url != null && url.length() != 0) {
-                    shareUtils.shareQZone("分享我家宝宝" + SystemUtils.userInfo.getName() + "在安妮花的英文录音《" + bookName + "》，一起加入磨耳朵", "安妮花-磨耳朵 流利读 地道说", null, url);
+                    shareUtils.shareQZone("分享我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花的英文录音《" + bookName + "》，一起加入磨耳朵", "安妮花-磨耳朵 流利读 地道说", null, url);
                 }
                 break;
             case R.id.luckdraw_close:

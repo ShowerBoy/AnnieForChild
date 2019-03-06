@@ -17,6 +17,7 @@ import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.search.Books;
 import com.annie.annieforchild.bean.search.SearchContent;
 import com.annie.annieforchild.interactor.LoginInteractor;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
@@ -34,10 +35,12 @@ import java.util.List;
 public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
     private Context context;
     private RequestListener listener;
+    private MyApplication application;
 
     public LoginInteractorImp(Context context, RequestListener listener) {
         this.context = context;
         this.listener = listener;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
@@ -53,8 +56,8 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
     public void globalSearch(String keyword, int page) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SEARCHAPI + MethodType.GLOBALSEARCH, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SEARCHAPI + MethodType.GLOBALSEARCHTEST, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("keyword", keyword);
         request.add("page", page);
         addQueue(MethodCode.EVENT_GLOBALSEARCH, request);
@@ -74,8 +77,8 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
     @Override
     public void getTags() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SEARCHAPI + MethodType.GETTAGS, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         addQueue(MethodCode.EVENT_GETTAGS, request);
 //        startQueue();
     }
@@ -84,8 +87,8 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
     public void getTagBook(List<Tags> ageList, List<Tags> functionList, List<Tags> themeList, List<Tags> typeList, List<Tags> seriesList, int page) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SEARCHAPI + MethodType.GETTAGBOOK, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SEARCHAPI + MethodType.GETTAGBOOKTEST, RequestMethod.POST);
-        request.add("token", SystemUtils.token);
-        request.add("username", SystemUtils.defaultUsername);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("page", page);
         if (ageList.size() != 0) {
             String age = null;

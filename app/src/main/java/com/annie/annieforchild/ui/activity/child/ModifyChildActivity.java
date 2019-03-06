@@ -170,7 +170,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
                 break;
             case R.id.detail_headpic_layout:
                 if (isEdit) {
-                    systemUtils.BuildCameraDialog().show();
+                    systemUtils.BuildCameraDialog(this).show();
                 }
                 break;
             case R.id.detail_name_layout:

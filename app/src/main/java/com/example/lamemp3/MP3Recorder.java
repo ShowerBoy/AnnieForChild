@@ -270,8 +270,7 @@ public class MP3Recorder {
                             if (handler != null) {
                                 handler.sendEmptyMessage(MSG_ERROR_AUDIO_ENCODE);
                             }
-                        }
-                        if (flushResult != 0) {
+                        } else if (flushResult != 0) {
 
                             try {
                                 output.write(mp3buffer, 0, flushResult);
