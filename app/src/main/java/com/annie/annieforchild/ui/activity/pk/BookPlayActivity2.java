@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
@@ -236,6 +237,10 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
             animationView.loop(false);
             animationView.playAnimation();
             SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
+        } else if (message.what == MethodCode.EVENT_MUSICSTOP) {
+            if (musicService != null) {
+                musicService.stop();
+            }
         }
     }
 
@@ -320,6 +325,8 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
                 } else {
                     bookPlay2Layout.setVisibility(View.VISIBLE);
                     pageLayout.setVisibility(View.VISIBLE);
+                    bookPlay2Layout.setAlpha(1f);
+                    pageLayout.setAlpha(1f);
                 }
             }
 

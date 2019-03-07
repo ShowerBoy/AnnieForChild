@@ -111,7 +111,9 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (MusicService.isPlay) {
-                                    MusicService.stop();
+                                    if (musicService != null) {
+                                        musicService.stop();
+                                    }
                                 }
                                 MusicService.musicTitle = null;
                                 MusicService.musicImageUrl = null;

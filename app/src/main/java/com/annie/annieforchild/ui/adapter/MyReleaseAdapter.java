@@ -12,12 +12,15 @@ import android.view.ViewGroup;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.service.MusicService;
+import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.record.Record;
 import com.annie.annieforchild.ui.activity.my.MyRecordActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyReleaseViewHolder;
 import com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -106,7 +109,14 @@ public class MyReleaseAdapter extends RecyclerView.Adapter<MyReleaseViewHolder> 
 
                 if (!isPlay) {
                     if (MusicService.isPlay) {
-                        MusicService.stop();
+                        /**
+                         * {@link MyRecordActivity#onMainEventThread(JTMessage)}
+                         */
+                        JTMessage message = new JTMessage();
+                        message.what = MethodCode.EVENT_MUSICSTOP;
+                        message.obj = 0;
+                        EventBus.getDefault().post(message);
+//                        MusicService.stop();
                     }
                     holder = finalHolder1;
                     urlList.clear();

@@ -73,7 +73,7 @@
                             android:id="@+id/openaccount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="29"
+                            android:text="0"
                             android:textColor="@color/text_orange"
                             android:textSize="18sp" />
 
@@ -105,7 +105,7 @@
                             android:id="@+id/accounttotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="180"
+                            android:text="0"
                             android:textColor="@color/text_orange"
                             android:textSize="18sp" />
 
@@ -137,7 +137,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-                            android:text="2000小时 20分钟"
+                            android:text="0小时 0分钟"
                             android:textColor="@color/text_orange"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -204,7 +204,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="1dp"
-                                android:text="1小时30分钟"
+                                android:text="0小时0分钟"
                                 android:textColor="@color/text_black"
                                 android:textSize="18sp" />
 
@@ -213,7 +213,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="1dp"
-                                android:text="累计时长：200小时20分钟"
+                                android:text="累计时长：0小时0分钟"
                                 android:textColor="@color/text_color"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -309,7 +309,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="1dp"
-                                android:text="1小时30分钟"
+                                android:text="0小时0分钟"
                                 android:textColor="@color/text_black"
                                 android:textSize="18sp" />
 
@@ -318,7 +318,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="1dp"
-                                android:text="累计时长：200小时20分钟"
+                                android:text="累计时长：0小时0分钟"
                                 android:textColor="@color/text_color"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -414,7 +414,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="1dp"
-                                android:text="1小时30分钟"
+                                android:text="0小时0分钟"
                                 android:textColor="@color/text_black"
                                 android:textSize="18sp" />
 
@@ -423,7 +423,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="1dp"
-                                android:text="累计时长：200小时20分钟"
+                                android:text="累计时长：0小时0分钟"
                                 android:textColor="@color/text_color"
                                 android:textSize="14sp" />
                         </LinearLayout>

@@ -309,6 +309,10 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
                         .setCancelable(false)
                         .show();
             }
+        }else if (message.what == MethodCode.EVENT_MUSICSTOP) {
+            if (musicService != null) {
+                musicService.stop();
+            }
         }
     }
 

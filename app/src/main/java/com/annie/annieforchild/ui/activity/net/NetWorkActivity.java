@@ -85,7 +85,6 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
 
     @Override
     protected void initView() {
-
         back = findViewById(R.id.network_back);
         sliderLayout = findViewById(R.id.network_slide);
 //        recycler = findViewById(R.id.net_recycler);

@@ -188,19 +188,26 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     }
 
     @Override
-    public void commitDuration(String[] type, String[] duration) {
-        for (int i = 0; i < type.length; i++) {
-            if (!duration[i].equals("0")) {
-                FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITDURATION, RequestMethod.POST);
-                request.add("username", application.getSystemUtils().getDefaultUsername());
-                request.add("token", application.getSystemUtils().getToken());
-
-                request.add("type", type[i]);
-                request.add("duration", Integer.parseInt(duration[i]) * 60 + "");
-                addQueue(MethodCode.EVENT_COMMITDURATION, request);
-            }
-        }
+    public void commitDuration(String type, String duration) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITDURATION, RequestMethod.POST);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("type", type);
+        request.add("duration", duration);
+        addQueue(MethodCode.EVENT_COMMITDURATION, request);
+//        for (int i = 0; i < type.length; i++) {
+//            if (!duration[i].equals("0")) {
+//                FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITDURATION, RequestMethod.POST);
+//                request.add("username", application.getSystemUtils().getDefaultUsername());
+//                request.add("token", application.getSystemUtils().getToken());
+//
+//                request.add("type", type[i]);
+//                request.add("duration", Integer.parseInt(duration[i]) * 60 + "");
+//                addQueue(MethodCode.EVENT_COMMITDURATION, request);
+//            }
+//        }
 //        startQueue();
+
     }
 
     @Override
@@ -413,19 +420,27 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     }
 
     @Override
-    public void commitReading(String[] type, String[] duration, int books, int words) {
-        for (int i = 0; i < type.length; i++) {
-            if (!duration[i].equals("0")) {
-                FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITREADING, RequestMethod.POST);
-                request.add("username", application.getSystemUtils().getDefaultUsername());
-                request.add("token", application.getSystemUtils().getToken());
-                request.add("type", type[i]);
-                request.add("duration", Integer.parseInt(duration[i]) * 60 + "");
-                request.add("books", books);
-                request.add("words", words);
-                addQueue(MethodCode.EVENT_COMMITREADING, request);
-            }
-        }
+    public void commitReading(String type, String duration, int books, int words) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITREADING, RequestMethod.POST);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("type", type);
+        request.add("duration", duration);
+        request.add("books", books);
+        request.add("words", words);
+        addQueue(MethodCode.EVENT_COMMITREADING, request);
+//        for (int i = 0; i < type.length; i++) {
+//            if (!duration[i].equals("0")) {
+//                FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITREADING, RequestMethod.POST);
+//                request.add("username", application.getSystemUtils().getDefaultUsername());
+//                request.add("token", application.getSystemUtils().getToken());
+//                request.add("type", type[i]);
+//                request.add("duration", Integer.parseInt(duration[i]) * 60 + "");
+//                request.add("books", books);
+//                request.add("words", words);
+//                addQueue(MethodCode.EVENT_COMMITREADING, request);
+//            }
+//        }
 //        startQueue();
     }
 
@@ -714,17 +729,23 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     }
 
     @Override
-    public void commitSpeaking(String[] type, String[] duration) {
-        for (int i = 0; i < type.length; i++) {
-            if (!duration[i].equals("0")) {
-                FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITSPEAKING, RequestMethod.POST);
-                request.add("username", application.getSystemUtils().getDefaultUsername());
-                request.add("token", application.getSystemUtils().getToken());
-                request.add("type", type[i]);
-                request.add("duration", Integer.parseInt(duration[i]) * 60 + "");
-                addQueue(MethodCode.EVENT_COMMITSPEAKING, request);
-            }
-        }
+    public void commitSpeaking(String type, String duration) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITSPEAKING, RequestMethod.POST);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("type", type);
+        request.add("duration", duration);
+        addQueue(MethodCode.EVENT_COMMITSPEAKING, request);
+//        for (int i = 0; i < type.length; i++) {
+//            if (!duration[i].equals("0")) {
+//                FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.COMMITSPEAKING, RequestMethod.POST);
+//                request.add("username", application.getSystemUtils().getDefaultUsername());
+//                request.add("token", application.getSystemUtils().getToken());
+//                request.add("type", type[i]);
+//                request.add("duration", Integer.parseInt(duration[i]) * 60 + "");
+//                addQueue(MethodCode.EVENT_COMMITSPEAKING, request);
+//            }
+//        }
 //        startQueue();
     }
 

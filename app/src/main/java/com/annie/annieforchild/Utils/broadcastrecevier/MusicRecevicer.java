@@ -19,13 +19,13 @@ public class MusicRecevicer extends BroadcastReceiver {
         String ctrl_code = intent.getAction();
         if ("play".equals(ctrl_code)) {
             //通知栏音乐播放操作
-            MusicService.play();
+//            MusicService.play();
         } else if ("pause".equals(ctrl_code)) {
             //通知栏音乐暂停操作
-            MusicService.pause();
+//            MusicService.pause();
         } else if ("stop".equals(ctrl_code)) {
             //通知栏音乐停止操作
-            MusicService.stop();
+//            MusicService.stop();
         }
     }
 }

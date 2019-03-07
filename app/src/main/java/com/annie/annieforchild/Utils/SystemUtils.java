@@ -595,7 +595,7 @@ public class SystemUtils {
             public void onClick(View v) {
                 if (tag.equals("校园生活故事1") || tag.equals("校园生活故事2") || tag.equals("神奇树屋")) {
                     if (MusicService.isPlay) {
-                        MusicService.stop();
+//                        MusicService.stop();
                     }
                     Intent intent = new Intent(context, BookPlayActivity2.class);
                     intent.putExtra("bookId", song.getBookId());

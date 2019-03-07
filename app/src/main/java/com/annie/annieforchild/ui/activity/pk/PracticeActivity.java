@@ -623,7 +623,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     return;
                 }
                 if (MusicService.isPlay) {
-                    MusicService.stop();
+                    if (musicService != null) {
+                        musicService.stop();
+                    }
+//                    MusicService.stop();
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -648,7 +651,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     return;
                 }
                 if (MusicService.isPlay) {
-                    MusicService.stop();
+                    if (musicService != null) {
+                        musicService.stop();
+                    }
+//                    MusicService.stop();
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -672,7 +678,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     return;
                 }
                 if (MusicService.isPlay) {
-                    MusicService.stop();
+                    if (musicService != null) {
+                        musicService.stop();
+                    }
+//                    MusicService.stop();
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -713,7 +722,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     return;
                 }
                 if (MusicService.isPlay) {
-                    MusicService.stop();
+                    if (musicService != null) {
+                        musicService.stop();
+                    }
+//                    MusicService.stop();
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -758,7 +770,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     return;
                 }
                 if (MusicService.isPlay) {
-                    MusicService.stop();
+                    if (musicService != null) {
+                        musicService.stop();
+                    }
+//                    MusicService.stop();
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -814,7 +829,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                                         startActivity(intent2);
                                     } else {
                                         if (resourUrl_list.size() != 0) {
-                                            MusicService.stop();
+                                            if (musicService != null) {
+                                                musicService.stop();
+                                            }
+//                                            MusicService.stop();
                                             Intent intent2 = new Intent(this, MusicPlayActivity.class);
                                             Bundle bundle = new Bundle();
 //                                            if (audioSource != MusicService.musicAudioSource) {
@@ -840,7 +858,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                                     }
                                 }
                             } else {
-                                MusicService.stop();
+                                if (musicService != null) {
+                                    musicService.stop();
+                                }
+//                                MusicService.stop();
                                 Intent intent3 = new Intent(this, BookPlayActivity2.class);
                                 intent3.putExtra("bookId", song.getBookId());
                                 intent3.putExtra("imageUrl", song.getBookImageUrl());
@@ -976,13 +997,19 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     return;
                 }
                 if (MusicService.isPlay) {
-                    MusicService.stop();
+                    if (musicService != null) {
+                        musicService.stop();
+                    }
+//                    MusicService.stop();
                 }
                 if (bookType == 1) {
                     if (isClick) {
                         if (!isRecord) {
                             if (MusicService.isPlay) {
-                                MusicService.stop();
+                                if (musicService != null) {
+                                    musicService.stop();
+                                }
+//                                MusicService.stop();
                                 Intent intent5 = new Intent(this, BookPlayActivity2.class);
                                 intent5.putExtra("bookId", song.getBookId());
                                 intent5.putExtra("imageUrl", song.getBookImageUrl());
@@ -1017,7 +1044,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                                             startActivity(intent2);
                                         } else {
                                             if (resourUrl_list.size() != 0) {
-                                                MusicService.stop();
+                                                if (musicService != null) {
+                                                    musicService.stop();
+                                                }
+//                                                MusicService.stop();
                                                 Intent intent2 = new Intent(this, MusicPlayActivity.class);
                                                 Bundle bundle2 = new Bundle();
 //                                            if (audioSource != MusicService.musicAudioSource) {
@@ -1041,7 +1071,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                                         }
                                     }
                                 } else {
-                                    MusicService.stop();
+                                    if (musicService != null) {
+                                        musicService.stop();
+                                    }
+//                                    MusicService.stop();
                                     Intent intent4 = new Intent(this, BookPlayActivity2.class);
                                     intent4.putExtra("bookId", song.getBookId());
                                     intent4.putExtra("imageUrl", song.getBookImageUrl());

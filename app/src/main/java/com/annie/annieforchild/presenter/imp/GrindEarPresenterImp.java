@@ -184,7 +184,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param duration
      */
     @Override
-    public void commitDuration(String[] type, String[] duration) {
+    public void commitDuration(String type, String duration) {
         songView.showLoad();
         interactor.commitDuration(type, duration);
     }
@@ -356,7 +356,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param duration
      */
     @Override
-    public void commitReading(String[] type, String[] duration, int books, int words) {
+    public void commitReading(String type, String duration, int books, int words) {
         songView.showLoad();
         interactor.commitReading(type, duration, books, words);
     }
@@ -578,7 +578,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     }
 
     @Override
-    public void commitSpeaking(String[] type, String[] duration) {
+    public void commitSpeaking(String type, String duration) {
         songView.showLoad();
         interactor.commitSpeaking(type, duration);
     }

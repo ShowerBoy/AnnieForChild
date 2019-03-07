@@ -10,6 +10,7 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.view.View;
@@ -37,6 +38,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.annie.annieforchild.ui.activity.pk.MusicPlayActivity.STATE_PAUSE;
+import static com.annie.annieforchild.ui.activity.pk.MusicPlayActivity.STATE_PLAYING;
+import static com.annie.annieforchild.ui.activity.pk.MusicPlayActivity.STATE_PREPARE;
+import static com.annie.annieforchild.ui.activity.pk.MusicPlayActivity.STATE_STOP;
 
 /**
  * Created by wanglei on 2018/7/20.
@@ -67,11 +73,24 @@ public class MusicService extends Service {
     public static SongView musicSongView;
     private static MyApplication application;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public class MyBinder extends Binder {
         public MusicService getService() {
             //绑定服务同时进行播放
 //            play();
             return MusicService.this;
+        }
+
+        public void bPlay() {
+            play();
+        }
+
+        public void bPause() {
+            pause();
+        }
+
+        public void bStop() {
+            stop();
         }
     }
 
@@ -89,7 +108,6 @@ public class MusicService extends Service {
         musicPartList = new ArrayList<>();
         //初始化播放对象
         if (mediaPlayer == null) {
-//            mediaPlayer = mediaPlayer.create(MusicService.this, R.raw.aaa);
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setLooping(false);
         }
@@ -107,15 +125,12 @@ public class MusicService extends Service {
                         }
                         pos = 0;
                         play();
+                        addPlayLists(musicList.get(listTag));
                     } else {
                         listTag++;
                         if (listTag >= musicNum) {
                             //列表循环
-//                        if (task != null) {
-//                            task.cancel();
-//                        }
-//                        stop();
-//                        MusicPlayActivity.Complete();
+                            addPlayLists(musicList.get(listTag - 1));
                             listTag = 0;
                             pos = 0;
                             play();
@@ -125,10 +140,12 @@ public class MusicService extends Service {
                                 MusicPlayActivity.lyricRecycler.setVisibility(View.GONE);
                             }
                         } else {
+                            //下一首
                             if (duration > 0) {
                                 presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
                                 duration = 0;
                             }
+                            addPlayLists(musicList.get(listTag - 1));
                             pos = 0;
                             play();
                             if (MusicPlayActivity.isLyric) {
@@ -154,7 +171,7 @@ public class MusicService extends Service {
             @Override
             public void onPrepared(MediaPlayer mp) {
 //                musicSongView.dismissLoad();
-                MusicPlayActivity.animation.start();
+//                MusicPlayActivity.animation.start();
                 musicDuration = mediaPlayer.getDuration() / 1000;
                 int second = musicDuration % 60;
                 String sss;
@@ -164,28 +181,30 @@ public class MusicService extends Service {
                 } else {
                     end = musicDuration / 60 + ":" + second;
                 }
-                start = "0:00";
                 MusicPlayActivity.end.setText(end);
-                MusicPlayActivity.start.setText(start);
-                MusicPlayActivity.state = MusicPlayActivity.STATE_PLAYING;
+                MusicPlayActivity.state = STATE_PLAYING;
                 mediaPlayer.start();
                 MusicPlayActivity.animation.start();
-                MusicPlayActivity.play.setImageResource(R.drawable.icon_music_pause_big);
-                MusicPlayActivity.animation.start();
-                MusicPlayActivity.name.setText(musicPartList.get(listTag).getName());
-                if (musicList.get(listTag).getIsCollected() == 0) {
-                    MusicPlayActivity.collect.setImageResource(R.drawable.icon_player_collection_f);
-                } else {
-                    MusicPlayActivity.collect.setImageResource(R.drawable.icon_player_collection_t);
-                }
+                /**
+                 * 以下
+                 */
                 Glide.with(MusicService.this).load(musicPartList.get(listTag).getImageUrl()).into(MusicPlayActivity.image);
-                //TODO:
-                setMusicTitle(musicPartList.get(listTag).getName(), musicPartList.get(listTag).getImageUrl(), musicOrigin, musicAudioType, musicAudioSource, musicPartList.get(listTag).getBookId(), musicList.get(listTag).getIsCollected(), musicCollectType, musicSongView);
-                for (int i = 0; i < musicPartList.size(); i++) {
-                    musicPartList.get(i).setPlaying(false);
-                }
-                musicPartList.get(MusicService.listTag).setPlaying(true);
-                MusicPlayActivity.adapter.notifyDataSetChanged();
+//                start = "0:00";
+//                MusicPlayActivity.start.setText(start);
+//                MusicPlayActivity.play.setImageResource(R.drawable.icon_music_pause_big);
+//                MusicPlayActivity.name.setText(musicPartList.get(listTag).getName());
+//                if (musicList.get(listTag).getIsCollected() == 0) {
+//                    MusicPlayActivity.collect.setImageResource(R.drawable.icon_player_collection_f);
+//                } else {
+//                    MusicPlayActivity.collect.setImageResource(R.drawable.icon_player_collection_t);
+//                }
+//                Glide.with(MusicService.this).load(musicPartList.get(listTag).getImageUrl()).into(MusicPlayActivity.image);
+//                setMusicTitle(musicPartList.get(listTag).getName(), musicPartList.get(listTag).getImageUrl(), musicOrigin, musicAudioType, musicAudioSource, musicPartList.get(listTag).getBookId(), musicList.get(listTag).getIsCollected(), musicCollectType, musicSongView);
+//                for (int i = 0; i < musicPartList.size(); i++) {
+//                    musicPartList.get(i).setPlaying(false);
+//                }
+//                musicPartList.get(MusicService.listTag).setPlaying(true);
+//                MusicPlayActivity.adapter.notifyDataSetChanged();
             }
         });
         presenter = new GrindEarPresenterImp(this);
@@ -242,20 +261,13 @@ public class MusicService extends Service {
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
             isPlay = true;
             if (pos != 0) {
+                MusicPlayActivity.state = STATE_PLAYING;
                 //根据指定位置进行播放
 //                MusicPlayActivity.animation.start();
                 mediaPlayer.seekTo(pos);
                 mediaPlayer.start();
             } else {
-//                if (musicSongView != null) {
-//                    musicSongView.showLoad();
-//                }
-//                MusicPlayActivity.showLoad();
-                //首次或从头播放，并显示通知
-//                    notificationManager.notify(200, notification);
-//                mediaPlayer.stop();
-//                mediaPlayer.prepare();
-//                mediaPlayer.start();
+                MusicPlayActivity.state = STATE_PREPARE;
                 try {
                     /*数组越界*/
                     if (musicList != null && musicList.size() > 0) {
@@ -268,7 +280,23 @@ public class MusicService extends Service {
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
+                start = "0:00";
+                MusicPlayActivity.start.setText(start);
+                MusicPlayActivity.play.setImageResource(R.drawable.icon_music_pause_big);
+                MusicPlayActivity.name.setText(musicPartList.get(listTag).getName());
+                if (musicList.get(listTag).getIsCollected() == 0) {
+                    MusicPlayActivity.collect.setImageResource(R.drawable.icon_player_collection_f);
+                } else {
+                    MusicPlayActivity.collect.setImageResource(R.drawable.icon_player_collection_t);
+                }
 
+//                Glide.with(MusicService.this).load(musicPartList.get(listTag).getImageUrl()).into(MusicPlayActivity.image);
+                setMusicTitle(musicPartList.get(listTag).getName(), musicPartList.get(listTag).getImageUrl(), musicOrigin, musicAudioType, musicAudioSource, musicPartList.get(listTag).getBookId(), musicList.get(listTag).getIsCollected(), musicCollectType, musicSongView);
+                for (int i = 0; i < musicPartList.size(); i++) {
+                    musicPartList.get(i).setPlaying(false);
+                }
+                musicPartList.get(MusicService.listTag).setPlaying(true);
+                MusicPlayActivity.adapter.notifyDataSetChanged();
             }
             if (task != null) {
                 task.cancel();
@@ -300,13 +328,12 @@ public class MusicService extends Service {
     }
 
     //暂停播放
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static void pause() {
+    public void pause() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             //获取播放位置
             pos = mediaPlayer.getCurrentPosition();
+            MusicPlayActivity.state = STATE_PAUSE;
             mediaPlayer.pause();
-            MusicPlayActivity.state = MusicPlayActivity.STATE_PAUSE;
             isPlay = false;
 
             JTMessage message = new JTMessage();
@@ -324,13 +351,12 @@ public class MusicService extends Service {
     }
 
     //停止播放
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static void stop() {
+    public void stop() {
         if (mediaPlayer != null) {
+            MusicPlayActivity.state = STATE_STOP;
             isPlay = false;
             mediaPlayer.pause();
             mediaPlayer.stop();
-            MusicPlayActivity.state = MusicPlayActivity.STATE_STOP;
             mediaPlayer.seekTo(0);
 
             pos = 0; //停止后播放位置置为0
@@ -338,12 +364,29 @@ public class MusicService extends Service {
             Song song = new Song();
             /**/
             if (musicPartList != null && musicPartList.size() > 0) {
-                song.setBookId(musicPartList.get(listTag).getBookId());
-                song.setBookName(musicPartList.get(listTag).getName());
-                song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());
-                song.setPath(musicPartList.get(listTag).getMusicUrl());
-                song.setIsCollected(musicList.get(listTag).getIsCollected());
-                addPlayLists(song);
+                if (application.getSystemUtils().getPlayLists() != null && application.getSystemUtils().getPlayLists().size() == 0) {
+                    song.setBookId(musicPartList.get(listTag).getBookId());
+                    song.setBookName(musicPartList.get(listTag).getName());
+                    song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());
+                    song.setPath(musicPartList.get(listTag).getMusicUrl());
+                    song.setIsCollected(musicList.get(listTag).getIsCollected());
+                    addPlayLists(song);
+                } else {
+                    boolean flag = true;
+                    for (int i = 0; i < application.getSystemUtils().getPlayLists().size(); i++) {
+                        if (application.getSystemUtils().getPlayLists().get(i).getBookId() == musicPartList.get(listTag).getBookId()) {
+                            flag = false;
+                        }
+                    }
+                    if (flag) {
+                        song.setBookId(musicPartList.get(listTag).getBookId());
+                        song.setBookName(musicPartList.get(listTag).getName());
+                        song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());
+                        song.setPath(musicPartList.get(listTag).getMusicUrl());
+                        song.setIsCollected(musicList.get(listTag).getIsCollected());
+                        addPlayLists(song);
+                    }
+                }
             }
 
             JTMessage message = new JTMessage();
@@ -362,15 +405,28 @@ public class MusicService extends Service {
     }
 
     private static void addPlayLists(Song song) {
-        if (application.getSystemUtils().getPlayLists() == null) {
-            application.getSystemUtils().setPlayLists(new ArrayList<>());
-        }
-
-        if (application.getSystemUtils().getPlayLists().size() < 20) {
-            application.getSystemUtils().getPlayLists().add(song);
-        } else {
-            application.getSystemUtils().getPlayLists().remove(19);
-            application.getSystemUtils().getPlayLists().add(song);
+        if (musicPartList != null && musicPartList.size() > 0) {
+            if (application.getSystemUtils().getPlayLists() == null) {
+                application.getSystemUtils().setPlayLists(new ArrayList<>());
+            }
+            if (application.getSystemUtils().getPlayLists() != null && application.getSystemUtils().getPlayLists().size() == 0) {
+                application.getSystemUtils().getPlayLists().add(song);
+            } else {
+                boolean flag = true;
+                for (int i = 0; i < application.getSystemUtils().getPlayLists().size(); i++) {
+                    if (application.getSystemUtils().getPlayLists().get(i).getBookId() == musicPartList.get(listTag).getBookId()) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    if (application.getSystemUtils().getPlayLists().size() < 20) {
+                        application.getSystemUtils().getPlayLists().add(song);
+                    } else {
+                        application.getSystemUtils().getPlayLists().remove(19);
+                        application.getSystemUtils().getPlayLists().add(song);
+                    }
+                }
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.ui.application.MyApplication;
 
 import org.greenrobot.eventbus.EventBus;
@@ -21,7 +22,6 @@ import butterknife.Unbinder;
  */
 
 public abstract class BaseFragment extends Fragment {
-
     protected Context mContext;
     protected View mView;
     private Unbinder mUnbinder;

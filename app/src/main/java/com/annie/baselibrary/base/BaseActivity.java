@@ -1,5 +1,6 @@
 package com.annie.baselibrary.base;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.LayoutRes;
@@ -36,8 +38,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected P mPresenter;
     private Unbinder mUnbinder;
     private boolean register;
+    protected MusicService.MyBinder mBinder;
     protected MusicService musicService;
-    //    protected MusicConnection myConnection = new MusicConnection();
+//        protected MusicConnection myConnection = new MusicConnection();
     protected ServiceConnection myConnection;
     private MyBroadCastRecevier myBroadCastRecevier;
     private Intent intent;
@@ -77,13 +80,15 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             myConnection = new ServiceConnection() {
                 @Override
                 public void onServiceConnected(ComponentName name, IBinder service) {
-                    MusicService.MyBinder myBinder = (MusicService.MyBinder) service;
-                    musicService = myBinder.getService();
+                    mBinder = (MusicService.MyBinder) service;
+                    musicService = mBinder.getService();
+//                    initData();
                 }
 
                 @Override
                 public void onServiceDisconnected(ComponentName name) {
-                    myConnection = null;
+//                    myConnection = null;
+                    musicService = null;
                 }
             };
             bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
@@ -124,9 +129,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.detach();
         }
-        if (myConnection != null) {
-            unbindService(myConnection);
-        }
+//        if (myConnection != null) {
+//            unbindService(myConnection);
+//        }
         stopService(intent);
     }
 
@@ -161,17 +166,17 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         return res;
     }
 
-    private class MusicConnection implements ServiceConnection {
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MusicService.MyBinder myBinder = (MusicService.MyBinder) service;
-            musicService = myBinder.getService();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            myConnection = null;
-        }
-    }
+//    private class MusicConnection implements ServiceConnection {
+//
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            MusicService.MyBinder myBinder = (MusicService.MyBinder) service;
+//            musicService = myBinder.getService();
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//            myConnection = null;
+//        }
+//    }
 }

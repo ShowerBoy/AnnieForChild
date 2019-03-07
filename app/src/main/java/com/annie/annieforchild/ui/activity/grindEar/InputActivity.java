@@ -243,6 +243,7 @@ public class InputActivity extends BaseActivity implements OnCheckDoubleClick, S
         }
     }
 
+
     @Override
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
@@ -280,11 +281,12 @@ public class InputActivity extends BaseActivity implements OnCheckDoubleClick, S
                 }
                 if (b) {
                     if (tag.equals("grindear")) {
-                        presenter.commitDuration(types, durations);
+//                        presenter.commitDuration(types, durations);
+                        presenter.commitDuration("", "");
                     } else if (tag.equals("reading")) {
-                        presenter.commitReading(types, durations, 0, 0);
+                        presenter.commitReading("", "", 0, 0);
                     } else {
-                        presenter.commitSpeaking(types, durations);
+                        presenter.commitSpeaking("", "");
                     }
                 }
                 break;

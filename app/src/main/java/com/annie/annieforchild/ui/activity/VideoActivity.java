@@ -63,7 +63,10 @@ public class VideoActivity extends BaseActivity implements SongView {
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         if (MusicService.isPlay) {
-            MusicService.stop();
+            if (musicService != null) {
+                musicService.stop();
+            }
+//            MusicService.stop();
         }
         intent = getIntent();
         if (intent != null) {

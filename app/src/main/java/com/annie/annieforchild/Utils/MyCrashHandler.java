@@ -56,6 +56,7 @@ public class MyCrashHandler implements Thread.UncaughtExceptionHandler, RequestL
         }
         //退出程序
         //退出JVM(java虚拟机),释放所占内存资源,0表示正常退出(非0的都为异常退出)
+        ActivityCollector.finishAll();
         System.exit(0);
         //从操作系统中结束掉当前程序的进程
         android.os.Process.killProcess(android.os.Process.myPid());

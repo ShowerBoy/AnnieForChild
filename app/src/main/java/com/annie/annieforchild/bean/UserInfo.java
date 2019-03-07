@@ -11,6 +11,7 @@ public class UserInfo implements Serializable {
     private String avatar;
     private String username;
     private String name;
+    private int age;
     private String sex;
     private String birthday;
     private String level;
@@ -24,6 +25,14 @@ public class UserInfo implements Serializable {
     private int status; //0：线下 1：线上
     private int isnetstudent; //是否是网课学员 0:不是 1:是
     private int isfirstbuy; //是否是第一次购买 0:不是 1:是
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public int getIsfirstbuy() {
         return isfirstbuy;

@@ -241,7 +241,10 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                             if (lists.get(position).getIsyuedu() == 1) {
                                 if (lists.get(position).getTag().equals("校园生活故事1") || lists.get(position).getTag().equals("校园生活故事2") || lists.get(position).getTag().equals("神奇树屋")) {
                                     if (MusicService.isPlay) {
-                                        MusicService.stop();
+                                        if (musicService != null) {
+                                            musicService.stop();
+                                        }
+//                                        MusicService.stop();
                                     }
                                     Intent intent = new Intent(GlobalSearchActivity.this, BookPlayActivity2.class);
                                     intent.putExtra("bookId", song.getBookId());

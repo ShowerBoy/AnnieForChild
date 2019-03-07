@@ -19,6 +19,7 @@ import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.book.Release;
@@ -73,7 +74,6 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
     private MediaPlayer mediaPlayer;
     private Thread thread;
     private boolean threadOn_Off = true;
-    private MyApplication application;
 
     {
         setRegister(true);
@@ -106,6 +106,7 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
             audioType = bundle.getInt("audioType", 1);
             Glide.with(getContext()).load(imageUrl).into(bookImage);
         }
+
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.setOnCompletionListener(this);

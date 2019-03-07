@@ -214,9 +214,9 @@ public class BankBookActivity extends BaseActivity implements View.OnClickListen
                     case 0:
                         return "磨耳朵存折";
                     case 1:
-                        return "阅读存折";
+                        return "流利读存折";
                     case 2:
-                        return "口语存折";
+                        return "地道说存折";
                     default:
                         break;
                 }

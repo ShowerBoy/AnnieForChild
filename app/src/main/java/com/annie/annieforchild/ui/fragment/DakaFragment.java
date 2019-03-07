@@ -142,7 +142,6 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 getWindowGray(false);
             }
         });
-
     }
 
     @Override
@@ -290,141 +289,101 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
         openaccount.setText(clockIn.getOpenaccount() + "");
         accounttotal.setText(clockIn.getClockindays() + "");
         int min = clockIn.getTotaldays() / 60;
-        int remainder = clockIn.getTotaldays() % 60;
-        int hour = min / 60;
-        if (min <= 0) {
-            if (clockIn.getTotaldays() == 0) {
-                //0s
-                totaldays.setText("0小时0分钟");
-                totalHour = 0;
-                totalMin = 0;
-            } else {
-                //0-59s
-                totaldays.setText("0小时1分钟");
-                totalHour = 0;
-                totalMin = 1;
-            }
-        } else {
-            if (remainder > 0) {
-                min = min + 1;
-            }
-            min = min - hour * 60;
-            totaldays.setText(hour + "小时" + min + "分钟");
-            totalHour = hour;
-            totalMin = min;
+        int second = clockIn.getTotaldays() % 60;
+        int hour = 0;
+//        int hour = min / 60;
+        if (min >= 60) {
+            hour = min / 60;
+            min = min % 60;
         }
+        if (hour == 0) {
+            totaldays.setText(min + "分钟" + second + "秒");
+        } else {
+            totaldays.setText(hour + "小时" + min + "分钟");
+        }
+        totalHour = hour;
+        totalMin = min;
 
         min = clockIn.getMoerduotoday() / 60;
-        remainder = clockIn.getMoerduotoday() % 60;
-        hour = min / 60;
-        if (min < 0) {
-            if (clockIn.getMoerduotoday() == 0) {
-                //0s
-                todayMoerduo.setText("0小时0分钟");
-            } else {
-                //0-59s
-                todayMoerduo.setText("0小时1分钟");
-            }
+        second = clockIn.getMoerduotoday() % 60;
+        hour = 0;
+        if (min >= 60) {
+            hour = min / 60;
+            min = min % 60;
+        }
+        if (hour == 0) {
+            todayMoerduo.setText(min + "分钟" + second + "秒");
         } else {
-            if (remainder > 0) {
-                min = min + 1;
-            }
-            min = min - hour * 60;
             todayMoerduo.setText(hour + "小时" + min + "分钟");
         }
 
         min = clockIn.getReadingtoday() / 60;
-        remainder = clockIn.getReadingtoday() % 60;
-        hour = min / 60;
-        if (min < 0) {
-            if (clockIn.getReadingtoday() == 0) {
-                //0s
-                todayReading.setText("0小时0分钟");
-            } else {
-                //0-59s
-                todayReading.setText("0小时1分钟");
-            }
+        second = clockIn.getReadingtoday() % 60;
+        hour = 0;
+        if (min >= 60) {
+            hour = min / 60;
+            min = min % 60;
+        }
+        if (hour == 0) {
+            todayReading.setText(min + "分钟" + second + "秒");
         } else {
-            if (remainder > 0) {
-                min = min + 1;
-            }
-            min = min - hour * 60;
             todayReading.setText(hour + "小时" + min + "分钟");
         }
 
         min = clockIn.getSpeakingtoday() / 60;
-        remainder = clockIn.getSpeakingtoday() % 60;
-        hour = min / 60;
-        if (min < 0) {
-            if (clockIn.getSpeakingtoday() == 0) {
-                //0s
-                todaySpeaking.setText("0小时0分钟");
-            } else {
-                //0-59s
-                todaySpeaking.setText("0小时1分钟");
-            }
+        second = clockIn.getSpeakingtoday() % 60;
+        hour = 0;
+        if (min >= 60) {
+            hour = min / 60;
+            min = min % 60;
+        }
+        if (hour == 0) {
+            todaySpeaking.setText(min + "分钟" + second + "秒");
         } else {
-            if (remainder > 0) {
-                min = min + 1;
-            }
-            min = min - hour * 60;
             todaySpeaking.setText(hour + "小时" + min + "分钟");
         }
 
         min = clockIn.getMoerduototal() / 60;
-        remainder = clockIn.getMoerduototal() % 60;
-        hour = min / 60;
-        if (min < 0) {
-            if (clockIn.getMoerduototal() == 0) {
-                //0s
-                totalMoerduo.setText("累计时长：0小时0分钟");
-            } else {
-                //0-59s
-                totalMoerduo.setText("累计时长：0小时1分钟");
-            }
+        second = clockIn.getMoerduototal() % 60;
+        hour = 0;
+        if (min >= 60) {
+            hour = min / 60;
+            min = min % 60;
+        }
+        if (hour == 0) {
+            totalMoerduo.setText("累计时长：" + min + "分钟" + second + "秒");
         } else {
-            if (remainder > 0) {
-                min = min + 1;
-            }
-            min = min - hour * 60;
             totalMoerduo.setText("累计时长：" + hour + "小时" + min + "分钟");
         }
 
+
         min = clockIn.getReadingtotal() / 60;
-        remainder = clockIn.getReadingtotal() % 60;
-        hour = min / 60;
-        if (min < 0) {
-            if (clockIn.getReadingtotal() == 0) {
-                //0s
-                totalReading.setText("累计时长：0小时0分钟");
-            } else {
-                //0-59s
-                totalReading.setText("累计时长：0小时1分钟");
-            }
+        second = clockIn.getReadingtotal() % 60;
+        hour = 0;
+        if (min >= 60) {
+            hour = min / 60;
+            min = min % 60;
+        }
+        if (hour == 0) {
+            totalReading.setText("累计时长：" + min + "分钟" + second + "秒");
         } else {
-            if (remainder > 0) {
-                min = min + 1;
-            }
-            min = min - hour * 60;
             totalReading.setText("累计时长：" + hour + "小时" + min + "分钟");
         }
 
         min = clockIn.getSpeakingtotal() / 60;
-        remainder = clockIn.getSpeakingtotal() % 60;
-        hour = min / 60;
-        if (min < 0) {
-            if (clockIn.getSpeakingtotal() == 0) {
-                //0s
-                totalSpeaking.setText("累计时长：0小时0分钟");
-            } else {
-                //0-59s
-                totalSpeaking.setText("累计时长：0小时1分钟");
-            }
+        second = clockIn.getSpeakingtotal() % 60;
+        hour = 0;
+        if (min >= 60) {
+            hour = min / 60;
+            min = min % 60;
+        }
+        if (min >= 60) {
+            hour = min / 60;
+            min = min % 60;
+        }
+        if (hour == 0) {
+            totalSpeaking.setText("累计时长：" + min + "分钟" + second + "秒");
         } else {
-            if (remainder > 0) {
-                min = min + 1;
-            }
-            min = min - hour * 60;
             totalSpeaking.setText("累计时长：" + hour + "小时" + min + "分钟");
         }
 
@@ -487,10 +446,12 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
         if (tag) {
             WindowManager.LayoutParams layoutParams = getActivity().getWindow().getAttributes();
             layoutParams.alpha = 0.7f;
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getActivity().getWindow().setAttributes(layoutParams);
         } else {
             WindowManager.LayoutParams layoutParams = getActivity().getWindow().getAttributes();
             layoutParams.alpha = 1f;
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getActivity().getWindow().setAttributes(layoutParams);
         }
     }

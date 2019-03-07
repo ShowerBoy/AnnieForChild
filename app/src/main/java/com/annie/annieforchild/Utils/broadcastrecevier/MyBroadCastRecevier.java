@@ -19,7 +19,6 @@ import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
  */
 
 public class MyBroadCastRecevier extends BroadcastReceiver {
-    private GrindEarPresenter presenter;
 
     @Override
     public void onReceive(Context context, Intent intent) {

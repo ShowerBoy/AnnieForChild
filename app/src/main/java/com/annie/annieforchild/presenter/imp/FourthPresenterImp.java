@@ -168,7 +168,15 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 adapter.notifyDataSetChanged();
             } else if (what == MethodCode.EVENT_SETDEFAULEUSER) {
                 if (MusicService.isPlay) {
-                    MusicService.stop();
+//                    fourthView.getBinder().bStop();
+                    /**
+                     * {@link com.annie.annieforchild.ui.fragment.FourthFragment}
+                     */
+                    JTMessage message = new JTMessage();
+                    message.what = MethodCode.EVENT_MUSICSTOP;
+                    message.obj = 0;
+                    EventBus.getDefault().post(message);
+//                    MusicService.stop();
                 }
                 application.getSystemUtils().setDefaultUsername(lists.get(position).getUsername());
                 getUserInfo();

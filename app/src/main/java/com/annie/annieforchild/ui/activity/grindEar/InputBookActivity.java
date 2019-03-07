@@ -273,7 +273,7 @@ public class InputBookActivity extends BaseActivity implements SongView, OnCheck
                 break;
             case R.id.input_book_btn:
                 if (duration != null && duration.length() != 0 && books != 0 && words != 0) {
-                    presenter.commitReading(new String[]{"readingpen"}, new String[]{duration}, books, words);
+                    presenter.commitReading("readingpen", duration, books, words);
                 } else {
                     showInfo("输入不完整，请重新输入");
                 }

@@ -25,7 +25,7 @@ public interface GrindEarPresenter {
 
     void getMusicList(int classId);
 
-    void commitDuration(String[] type, String[] duration);
+    void commitDuration(String type, String duration);
 
     void getBookScore(int bookId, int record, boolean accessBook);
 
@@ -55,7 +55,7 @@ public interface GrindEarPresenter {
 
     void getMyReading();
 
-    void commitReading(String[] type, String[] duration, int books, int words);
+    void commitReading(String type, String duration, int books, int words);
 
     void getDurationStatistics(int timeType, int locationType);
 
@@ -101,7 +101,7 @@ public interface GrindEarPresenter {
 
     void getMySpeaking();
 
-    void commitSpeaking(String[] type, String[] duration);
+    void commitSpeaking(String type, String duration);
 
     void unlockBook(int nectar, String bookname, int bookid, int classId);
 

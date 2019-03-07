@@ -199,7 +199,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
             userName.setText(userInfo.getName());
             if (userInfo.getBirthday() != null) {
                 if (!userInfo.getBirthday().equals("") && userInfo.getBirthday().length() != 0) {
-                    userOld.setText(getOld(userInfo.getBirthday()) + "岁");
+                    userOld.setText(userInfo.getAge() + "岁");
                 }
             }
             String sex = userInfo.getSex();

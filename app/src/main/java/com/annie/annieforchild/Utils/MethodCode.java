@@ -25,6 +25,7 @@ public class MethodCode {
     /**
      * EventBus
      */
+    final public static int EVENT_MUSICSTOP = -140;
     final public static int EVENT_TASKIMAGE = -130;
     final public static int EVENT_TASKDATA = -120;
     final public static int EVENT_DATA = -110;
