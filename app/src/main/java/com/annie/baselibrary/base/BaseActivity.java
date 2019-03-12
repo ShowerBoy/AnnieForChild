@@ -40,7 +40,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     private boolean register;
     protected MusicService.MyBinder mBinder;
     protected MusicService musicService;
-//        protected MusicConnection myConnection = new MusicConnection();
+    //        protected MusicConnection myConnection = new MusicConnection();
     protected ServiceConnection myConnection;
     private MyBroadCastRecevier myBroadCastRecevier;
     private Intent intent;
@@ -91,8 +91,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                     musicService = null;
                 }
             };
-            bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
             startService(intent);
+            bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
         }
         initData();
 
@@ -129,10 +129,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.detach();
         }
-//        if (myConnection != null) {
-//            unbindService(myConnection);
-//        }
-        stopService(intent);
+        if (myConnection != null) {
+            unbindService(myConnection);
+        }
+//        stopService(intent);
     }
 
     protected void showDialogTip(int id) {

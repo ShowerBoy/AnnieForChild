@@ -49,23 +49,20 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonViewHolder> {
     @Override
     public void onBindViewHolder(LessonViewHolder lessonViewHolder, int i) {
         lessonViewHolder.name.setText(lists.get(i).getGameName());
-        int remind = i % 8;
-        if (remind == 0) {
-            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_01);
-        } else if (remind == 1) {
-            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_02);
-        } else if (remind == 2) {
+        if (lists.get(i).getColor() == 1) {
             lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_03);
-        } else if (remind == 3) {
-            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_04);
-        } else if (remind == 4) {
-            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_05);
-        } else if (remind == 5) {
-            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_06);
-        } else if (remind == 6) {
-            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_07);
-        } else if (remind == 7) {
+        } else if (lists.get(i).getColor() == 2) {
             lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_08);
+        } else if (lists.get(i).getColor() == 3) {
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_05);
+        } else if (lists.get(i).getColor() == 4) {
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_09);
+        } else if (lists.get(i).getColor() == 5) {
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_04);
+        } else if (lists.get(i).getColor() == 6) {
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_06);
+        } else {
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_01);
         }
     }
 

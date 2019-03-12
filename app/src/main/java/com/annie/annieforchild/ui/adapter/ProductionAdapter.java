@@ -62,15 +62,29 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
 
     @Override
     public ProductionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        ProductionViewHolder holder = null;
-        holder = new ProductionViewHolder(inflater.inflate(R.layout.activity_production_item, viewGroup, false));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        ProductionViewHolder holder2 = null;
+        holder2 = new ProductionViewHolder(inflater.inflate(R.layout.activity_production_item, viewGroup, false));
+        holder2.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isPlay) {
+                    if (mediaPlayer != null) {
+                        try {
+                            mediaPlayer.pause();
+                            mediaPlayer.stop();
+                            mediaPlayer.seekTo(0);
+                        } catch (IllegalStateException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    threadOn_Off = false;
+                    holder.play.setImageResource(R.drawable.icon_practice_play);
+                    isPlay = false;
+                }
                 listener.onItemClick(v);
             }
         });
-        return holder;
+        return holder2;
     }
 
     @Override
@@ -82,14 +96,27 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
         productionViewHolder.likeTimes.setText(lists.get(i).getLikeCount());
         if (lists.get(i).getIsLike() == 0) {
             productionViewHolder.like.setImageResource(R.drawable.icon_like_f);
+            productionViewHolder.likeTimes.setTextColor(context.getResources().getColor(R.color.text_color));
         } else {
             productionViewHolder.like.setImageResource(R.drawable.icon_like_t);
+            productionViewHolder.likeTimes.setTextColor(context.getResources().getColor(R.color.text_orange));
         }
-        productionViewHolder.like.setOnClickListener(new View.OnClickListener() {
+        productionViewHolder.likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isPlay) {
-                    return;
+                    if (mediaPlayer != null) {
+                        try {
+                            mediaPlayer.pause();
+                            mediaPlayer.stop();
+                            mediaPlayer.seekTo(0);
+                        } catch (IllegalStateException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    threadOn_Off = false;
+                    holder.play.setImageResource(R.drawable.icon_practice_play);
+                    isPlay = false;
                 }
                 if (lists.get(i).getIsLike() == 0) {
                     position = i;
@@ -100,7 +127,7 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
                 }
             }
         });
-        productionViewHolder.play.setOnClickListener(new View.OnClickListener() {
+        productionViewHolder.playLayout.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
@@ -113,7 +140,7 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
                         } catch (IllegalStateException e) {
                             e.printStackTrace();
                         }
-//                        threadOn_Off = false;
+                        threadOn_Off = false;
                         productionViewHolder.play.setImageResource(R.drawable.icon_practice_play);
                         isPlay = false;
                     }
@@ -135,7 +162,8 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
 
                     currentPlayPosition = i;
                     currentSize = 0;
-//                    threadOn_Off = true;
+                    threadOn_Off = true;
+                    isPlay = true;
                     thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -144,7 +172,6 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
                     });
                     thread.start();
                     productionViewHolder.play.setImageResource(R.drawable.icon_practice_stop);
-                    isPlay = true;
                     presenter.playTimes(lists.get(i).getId());
                 }
             }
@@ -226,6 +253,11 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
             }
             mediaPlayer.release();
             mediaPlayer = null;
+        }
+        if (holder != null) {
+            holder.play.setImageResource(R.drawable.icon_practice_play);
+            threadOn_Off = false;
+            isPlay = false;
         }
     }
 }

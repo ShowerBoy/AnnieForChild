@@ -156,10 +156,10 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
         net_coursedetail_recyclerview.setAdapter(adapter);
 
         if (MusicService.isPlay) {
-            if (musicService != null) {
-                musicService.stop();
-            }
-//            MusicService.stop();
+//            if (musicService != null) {
+//                musicService.stop();
+//            }
+            MusicService.stop();
         }
     }
 

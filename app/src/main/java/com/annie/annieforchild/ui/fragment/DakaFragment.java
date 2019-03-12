@@ -240,22 +240,22 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 break;
             case R.id.share_daka_pengyouquan:
                 if (clockIn != null && url != null && url.length() != 0) {
-                    shareUtils.shareWechatMoments("我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "，在安妮花的英语存折累计存入" + totalHour + "小时" + totalMin + "分", "积累宝宝英语成就就来安妮花打卡吧", null, url);
+                    shareUtils.shareWechatMoments("我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花的英语成就，快来看", "坚持打卡，积累成就", null, url);
                 }
                 break;
             case R.id.share_daka_weixin:
                 if (clockIn != null && url != null && url.length() != 0) {
-                    shareUtils.shareWechat("我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "，在安妮花的英语存折累计存入" + totalHour + "小时" + totalMin + "分", "积累宝宝英语成就就来安妮花打卡吧", null, url);
+                    shareUtils.shareWechat("我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花的英语成就，快来看", "坚持打卡，积累成就", null, url);
                 }
                 break;
             case R.id.share_daka_qq:
                 if (clockIn != null && url != null && url.length() != 0) {
-                    shareUtils.shareQQ("我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "，在安妮花的英语存折累计存入" + totalHour + "小时" + totalMin + "分", "积累宝宝英语成就就来安妮花打卡吧", null, url);
+                    shareUtils.shareQQ("我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花的英语成就，快来看", "坚持打卡，积累成就", null, url);
                 }
                 break;
             case R.id.share_daka_qqzone:
                 if (clockIn != null && url != null && url.length() != 0) {
-                    shareUtils.shareQZone("我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "，在安妮花的英语存折累计存入" + totalHour + "小时" + totalMin + "分", "积累宝宝英语成就就来安妮花打卡吧", null, url);
+                    shareUtils.shareQZone("我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花的英语成就，快来看", "坚持打卡，积累成就", null, url);
                 }
                 break;
             case R.id.daka_share_cancel:
@@ -426,7 +426,8 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
     @Override
     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
         showInfo("分享成功");
-        presenter.shareSuccess(clockIn.getMoerduotoday(), clockIn.getReadingtoday(), clockIn.getSpeakingtoday());
+
+
         popupWindow.dismiss();
     }
 

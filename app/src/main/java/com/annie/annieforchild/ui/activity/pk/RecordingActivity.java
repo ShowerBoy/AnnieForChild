@@ -489,10 +489,10 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                 break;
             case R.id.recording_preview:
                 if (MusicService.isPlay) {
-                    if (musicService != null) {
-                        musicService.stop();
-                    }
-//                    MusicService.stop();
+//                    if (musicService != null) {
+//                        musicService.stop();
+//                    }
+                    MusicService.stop();
                 }
                 if (!isClick) {
                     return;
@@ -540,10 +540,10 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                 break;
             case R.id.recording_record:
                 if (MusicService.isPlay) {
-                    if (musicService != null) {
-                        musicService.stop();
-                    }
-//                    MusicService.stop();
+//                    if (musicService != null) {
+//                        musicService.stop();
+//                    }
+                    MusicService.stop();
                 }
                 if (isRecordPlay) {
                     return;
@@ -582,10 +582,10 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                 break;
             case R.id.recording_play:
                 if (MusicService.isPlay) {
-                    if (musicService != null) {
-                        musicService.stop();
-                    }
-//                    MusicService.stop();
+//                    if (musicService != null) {
+//                        musicService.stop();
+//                    }
+                    MusicService.stop();
                 }
                 if (isPlay) {
                     return;
@@ -903,10 +903,10 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 //        if (MusicService.isPlay) {
-        if (musicService != null) {
-            musicService.stop();
-        }
-//            MusicService.stop();
+//        if (musicService != null) {
+//            musicService.stop();
+//        }
+            MusicService.stop();
 //        }
     }
 

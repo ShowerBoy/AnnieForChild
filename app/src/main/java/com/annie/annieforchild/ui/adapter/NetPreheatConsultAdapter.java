@@ -51,7 +51,7 @@ public class NetPreheatConsultAdapter extends RecyclerView.Adapter<NetPreheatCon
             holder.type.setText("素材解析");
             holder.title.setText(list2.get(i - list1.size()).getTitle());
             holder.test_describe.setText(list2.get(i - list1.size()).getSubtitle());
-            Glide.with(context).load(list2.get(i - list1.size()).getPicurl()).into(holder.video_img);
+            Glide.with(context).load(list2.get(i - list1.size()).getPicurl()).error(R.drawable.image_error).into(holder.video_img);
         } else {
             if (i == 0) {
                 holder.type.setText("微课堂");
@@ -65,11 +65,11 @@ public class NetPreheatConsultAdapter extends RecyclerView.Adapter<NetPreheatCon
             if (i < list1.size()) {
                 holder.title.setText(list1.get(i).getTitle());
                 holder.test_describe.setText(list1.get(i).getSubtitle());
-                Glide.with(context).load(list1.get(i).getPicurl()).into(holder.video_img);
+                Glide.with(context).load(list1.get(i).getPicurl()).error(R.drawable.image_error).into(holder.video_img);
             } else {
                 holder.title.setText(list2.get(i - list1.size()).getTitle());
                 holder.test_describe.setText(list2.get(i - list1.size()).getSubtitle());
-                Glide.with(context).load(list2.get(i - list1.size()).getPicurl()).into(holder.video_img);
+                Glide.with(context).load(list2.get(i - list1.size()).getPicurl()).error(R.drawable.image_error).into(holder.video_img);
             }
         }
 

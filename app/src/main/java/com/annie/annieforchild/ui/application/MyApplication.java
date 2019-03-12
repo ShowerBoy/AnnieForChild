@@ -14,8 +14,12 @@ import com.iflytek.cloud.SpeechUtility;
 import com.mob.MobSDK;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yanzhenjie.nohttp.BasicRequest;
 import com.yanzhenjie.nohttp.InitializationConfig;
+import com.yanzhenjie.nohttp.Network;
+import com.yanzhenjie.nohttp.NetworkExecutor;
 import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.OkHttpNetworkExecutor;
 import com.yanzhenjie.nohttp.cache.DBCacheStore;
 import com.yanzhenjie.nohttp.cookie.DBCookieStore;
 
@@ -53,6 +57,7 @@ public class MyApplication extends LitePalApplication {
         InitializationConfig config = InitializationConfig.newBuilder(MyApplication.this)
                 .cacheStore(new DBCacheStore(MyApplication.this).setEnable(false))
                 .cookieStore(new DBCookieStore(MyApplication.this).setEnable(false))
+                .networkExecutor(new OkHttpNetworkExecutor())
                 .sslSocketFactory(SSLSocketClient.getSSLSocketFactory())
                 .build();
         NoHttp.initialize(config);

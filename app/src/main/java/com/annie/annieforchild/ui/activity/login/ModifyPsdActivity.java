@@ -1,7 +1,10 @@
 package com.annie.annieforchild.ui.activity.login;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.app.PictureInPictureParams;
 import android.content.Intent;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -196,4 +199,5 @@ public class ModifyPsdActivity extends BaseActivity implements RegisterView, OnC
                 break;
         }
     }
+
 }

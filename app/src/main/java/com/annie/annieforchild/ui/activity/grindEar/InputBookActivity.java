@@ -37,6 +37,10 @@ import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.ashokvarma.bottomnavigation.utils.Utils;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.CustomListener;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -52,17 +56,20 @@ public class InputBookActivity extends BaseActivity implements SongView, OnCheck
     private TextView time, book, word;
     private ImageView back;
     private Button input;
-    private PopupWindow popupWindow;
-    private PopupAdapter adapter;
-    private View popup_contentView;
-    private ListView popupList;
-    private List<MaterialGroup> popup_lists;
+//    private PopupWindow popupWindow;
+//    private PopupAdapter adapter;
+//    private View popup_contentView;
+//    private ListView popupList;
+//    private List<MaterialGroup> popup_lists;
     private GrindEarPresenter presenter;
     private String duration;
     private int books = 0, words = 0;
     private EditText editText1, editText2;
     private AlertHelper helper;
     private Dialog dialog;
+    private List<Integer> hourList, minList;
+    private int hour, min;
+    private OptionsPickerView timerPickerView;
     private CheckDoubleClickListener listener;
 
     {
@@ -87,10 +94,10 @@ public class InputBookActivity extends BaseActivity implements SongView, OnCheck
         word.setOnClickListener(listener);
         input.setOnClickListener(listener);
         back.setOnClickListener(listener);
-        popup_contentView = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_item, null);
-        popupList = popup_contentView.findViewById(R.id.popup_lists1);
-        popupWindow = new PopupWindow(popup_contentView, ViewGroup.LayoutParams.WRAP_CONTENT, Utils.dp2px(this, 200), true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+//        popup_contentView = LayoutInflater.from(this).inflate(R.layout.activity_popupwindow_item, null);
+//        popupList = popup_contentView.findViewById(R.id.popup_lists1);
+//        popupWindow = new PopupWindow(popup_contentView, ViewGroup.LayoutParams.WRAP_CONTENT, Utils.dp2px(this, 200), true);
+//        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
     }
 
@@ -98,28 +105,81 @@ public class InputBookActivity extends BaseActivity implements SongView, OnCheck
     protected void initData() {
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
+        hourList = new ArrayList<>();
+        minList = new ArrayList<>();
+        for (int i = 0; i < 25; i++) {
+            hourList.add(i);
+        }
+        for (int i = 0; i < 60; i++) {
+            minList.add(i);
+        }
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
-        popup_lists = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            popup_lists.add(new MaterialGroup(i + 1 + "", false));
-        }
-        adapter = new PopupAdapter(this, popup_lists);
-        popupList.setAdapter(adapter);
-        popupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        popup_lists = new ArrayList<>();
+//        for (int i = 0; i < 100; i++) {
+//            popup_lists.add(new MaterialGroup(i + 1 + "", false));
+//        }
+//        adapter = new PopupAdapter(this, popup_lists);
+//        popupList.setAdapter(adapter);
+//        popupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                duration = popup_lists.get(position).getTitle();
+//                time.setText(popup_lists.get(position).getTitle() + "分钟");
+//                popupWindow.dismiss();
+//            }
+//        });
+//        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                setBackGray(false);
+//            }
+//        });
+        initNoLinkOptionsPicker();
+    }
+
+    private void initNoLinkOptionsPicker() {
+        timerPickerView = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                duration = popup_lists.get(position).getTitle();
-                time.setText(popup_lists.get(position).getTitle() + "分钟");
-                popupWindow.dismiss();
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                if (hourList.get(options1) == 0 && minList.get(options3) == 0) {
+                    return;
+                }
+                hour = hourList.get(options1);
+                min = minList.get(options3);
+                duration = (hour * 60 * 60) + (min * 60) + "";
+                time.setText(hour + "小时" + min + "分");
+//                SystemUtils.show(getContext(), hourList.get(options1) + "小时" + minList.get(options3) + "分" + "  type=" + type);
             }
-        });
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                setBackGray(false);
-            }
-        });
+        })
+                .setLayoutRes(R.layout.activity_timepicker, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        final TextView tvSubmit = (TextView) v.findViewById(R.id.picker_finish);
+                        final TextView ivCancel = (TextView) v.findViewById(R.id.picker_cancel);
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                timerPickerView.returnData();
+                                timerPickerView.dismiss();
+                            }
+                        });
+
+                        ivCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                timerPickerView.dismiss();
+                            }
+                        });
+                    }
+                })
+                .setSelectOptions(0, 0, 0)
+                .isDialog(false)
+                .setOutSideCancelable(false)
+                .build();
+
+        timerPickerView.setNPicker(hourList, null, minList);
     }
 
     @Override
@@ -176,8 +236,7 @@ public class InputBookActivity extends BaseActivity implements SongView, OnCheck
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
             case R.id.input_time_duration:
-                setBackGray(true);
-                popupWindow.showAtLocation(popup_contentView, Gravity.CENTER, 0, 0);
+                timerPickerView.show();
                 break;
             case R.id.input_book_duration:
                 editText1 = new EditText(this);

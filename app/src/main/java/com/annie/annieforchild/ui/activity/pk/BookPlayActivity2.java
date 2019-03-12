@@ -14,10 +14,13 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,6 +34,7 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.ShareBean;
@@ -63,7 +67,9 @@ import cn.sharesdk.framework.PlatformActionListener;
 public class BookPlayActivity2 extends BaseActivity implements PlatformActionListener, SongView, OnCheckDoubleClick {
     public static APSTSViewPager viewPager;
     private RelativeLayout bookPlay2Layout, pageLayout;
-    private ImageView back, share, pengyouquan, weixin, qq, qqzone;
+    private ImageView back, share, pengyouquan, weixin, qq, qqzone, nextDrop;
+    private Button iknow;
+    private LinearLayout dropRecording, dropSong;
     private static LottieAnimationView animationView;
     private static ImageView clarityBack;
     public static ImageView playTotal2;
@@ -72,14 +78,14 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
     private GrindEarPresenter presenter;
     private BookPlayFragmentAdapter fragmentAdapter;
     private Intent intent;
-    private PopupWindow popupWindow;
-    private View popupView;
+    private PopupWindow popupWindow, popupWindow2;
+    private View popupView, popupView2;
     private List<BookPlayFragment> lists;
     private List<BookPlayFragment2> lists2; //针对章节书
     private Book book;
     private int bookId, totalPage, shareType;
     private String imageUrl, title;
-    private int audioType, audioSource, homeworkid, homeworktype;
+    private int audioType, audioSource, homeworkid, homeworktype, record, type;
     private AlertHelper helper;
     private Dialog dialog;
     private ShareUtils shareUtils;
@@ -111,11 +117,20 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
         animationView = findViewById(R.id.animation_view);
         bookTitle = findViewById(R.id.book_play_title);
         share = findViewById(R.id.play_share);
+        nextDrop = findViewById(R.id.pic_prompt_next);
+        iknow = findViewById(R.id.i_know);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
         share.setOnClickListener(listener);
+        iknow.setOnClickListener(listener);
         playTotal.setOnClickListener(listener);
         playTotal2.setOnClickListener(listener);
+        clarityBack.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
 //        playTotal2.setAlpha(0.5f);
 
         intent = getIntent();
@@ -130,6 +145,12 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
         playTotal2.setVisibility(View.VISIBLE);
 
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_share_daka_item2, null, false);
+        popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_reading_drop_item, null, false);
+        dropRecording = popupView2.findViewById(R.id.drop_share_recording);
+        dropSong = popupView2.findViewById(R.id.drop_share_song);
+        dropRecording.setOnClickListener(listener);
+        dropSong.setOnClickListener(listener);
+
         coinCount = popupView.findViewById(R.id.coin_count);
         pengyouquan = popupView.findViewById(R.id.share_daka_pengyouquan);
         weixin = popupView.findViewById(R.id.share_daka_weixin);
@@ -141,8 +162,9 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
         qq.setOnClickListener(listener);
         qqzone.setOnClickListener(listener);
         shareCancel.setOnClickListener(listener);
-        coinCount.setText("分享+2金币");
+
         popupWindow = new PopupWindow(this);
+        popupWindow2 = new PopupWindow(this);
         popupWindow.setContentView(popupView);
         popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -150,6 +172,16 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                getWindowGray(false);
+            }
+        });
+
+        popupWindow2.setContentView(popupView2);
+        popupWindow2.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.clarity)));
+        popupWindow2.setOutsideTouchable(true);
+        popupWindow2.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 getWindowGray(false);
@@ -204,13 +236,32 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
         } else if (message.what == MethodCode.EVENT_SHARECOIN) {
             animationView.setVisibility(View.VISIBLE);
             clarityBack.setVisibility(View.VISIBLE);
-            if (shareType == 0) {
-                animationView.setImageAssetsFolder("coin4/");
-                animationView.setAnimation("coin4.json");
+            if (record == 0) {
+                if (shareType == 0) {
+                    animationView.setImageAssetsFolder("coin10/");
+                    animationView.setAnimation("coin10.json");
+                    animationView.loop(false);
+                    animationView.playAnimation();
+                } else {
+                    animationView.setImageAssetsFolder("coin5/");
+                    animationView.setAnimation("coin5.json");
+                    animationView.loop(false);
+                    animationView.playAnimation();
+                }
             } else {
-                animationView.setImageAssetsFolder("coin2/");
-                animationView.setAnimation("coin2.json");
+                if (shareType == 0) {
+                    animationView.setImageAssetsFolder("coin4/");
+                    animationView.setAnimation("coin4.json");
+                    animationView.loop(false);
+                    animationView.playAnimation();
+                } else {
+                    animationView.setImageAssetsFolder("coin2/");
+                    animationView.setAnimation("coin2.json");
+                    animationView.loop(false);
+                    animationView.playAnimation();
+                }
             }
+
             animationView.addAnimatorListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
@@ -237,10 +288,14 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
             animationView.loop(false);
             animationView.playAnimation();
             SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
+        } else if (message.what == MethodCode.EVENT_ISDROP) {
+            clarityBack.setVisibility(View.VISIBLE);
+            nextDrop.setVisibility(View.VISIBLE);
+            iknow.setVisibility(View.VISIBLE);
         } else if (message.what == MethodCode.EVENT_MUSICSTOP) {
-            if (musicService != null) {
-                musicService.stop();
-            }
+//            if (musicService != null) {
+                MusicService.stop();
+//            }
         }
     }
 
@@ -271,6 +326,7 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
             bundle.putInt("audioType", audioType);
             bundle.putInt("audioSource", audioSource);
             bundle.putInt("bookId", bookId);
+            bundle.putInt("totalPage", totalPage);
             bundle.putString("imageUrl", imageUrl);
             bundle.putString("title", title);
             bundle.putInt("homeworkid", homeworkid);
@@ -299,7 +355,7 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
                 /**
                  * {@link BookPlayFragment#onMainEventThread(JTMessage)}
                  */
-                page.setText((position + 1) + "/" + totalPage);
+                page.setText((position + 1) + "/" + (totalPage + 1));
                 JTMessage message = new JTMessage();
                 message.what = MethodCode.EVENT_PAGEPLAY;
                 message.obj = position;
@@ -319,8 +375,9 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
                     if (nectarCount == 0) {
 
                     } else {
-                        SystemUtils.setBackGray(BookPlayActivity2.this, true);
-                        SystemUtils.getNectarCongratulation(BookPlayActivity2.this, nectarCount).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                        application.getSystemUtils().setBackGray(BookPlayActivity2.this, true);
+                        application.getSystemUtils().getNectarCongratulation(BookPlayActivity2.this, nectarCount).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+//                        SystemUtils.getNectarCongratulation(BookPlayActivity2.this, nectarCount).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
                     }
                 } else {
                     bookPlay2Layout.setVisibility(View.VISIBLE);
@@ -335,7 +392,7 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
 
             }
         });
-        page.setText(1 + "/" + totalPage);
+        page.setText(1 + "/" + (totalPage + 1));
         releaseList.clear();
         for (int i = 0; i < lists.size(); i++) {
             if (book.getPageContent().get(i).getMyResourceUrl() != null && book.getPageContent().get(i).getMyResourceUrl().length() != 0) {
@@ -444,52 +501,139 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
                 if (application.getSystemUtils().isPlaying()) {
                     return;
                 }
-                presenter.clockinShare(2, bookId);
+                //TODO:
                 getWindowGray(true);
-                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                popupWindow2.showAsDropDown(share);
+
+
+//                presenter.clockinShare(2, bookId);
+//                getWindowGray(true);
+//                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
                 break;
             case R.id.share_daka_pengyouquan:
                 shareType = 0;
-                if (url != null && url.length() != 0) {
-                    if (audioType == 1) {
-                        shareUtils.shareWechatMoments("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
-                    } else {
-                        shareUtils.shareWechatMoments("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                if (type == 2) {
+                    //系统
+                    if (url != null && url.length() != 0) {
+                        if (audioType == 1) {
+                            shareUtils.shareWechatMoments("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花数字图书馆喊你来读书啦", imageUrl, url);
+                        } else {
+                            shareUtils.shareWechatMoments("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                        }
+                    }
+                } else {
+                    //录音
+                    if (url != null && url.length() != 0) {
+                        if (audioType == 1) {
+                            shareUtils.shareWechatMoments("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花流利读《" + title + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                        } else {
+                            shareUtils.shareWechatMoments("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花地道说《" + title + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                        }
                     }
                 }
                 break;
             case R.id.share_daka_weixin:
                 shareType = 1;
-                if (url != null && url.length() != 0) {
-                    if (audioType == 1) {
-                        shareUtils.shareWechat("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
-                    } else {
-                        shareUtils.shareWechat("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                if (type == 2) {
+                    //系统
+                    if (url != null && url.length() != 0) {
+                        if (audioType == 1) {
+                            shareUtils.shareWechat("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花数字图书馆喊你来读书啦", imageUrl, url);
+                        } else {
+                            shareUtils.shareWechat("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                        }
+                    }
+                } else {
+                    //录音
+                    if (url != null && url.length() != 0) {
+                        if (audioType == 1) {
+                            shareUtils.shareWechat("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花流利读《" + title + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                        } else {
+                            shareUtils.shareWechat("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花地道说《" + title + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                        }
                     }
                 }
                 break;
             case R.id.share_daka_qq:
                 shareType = 2;
-                if (url != null && url.length() != 0) {
-                    if (audioType == 1) {
-                        shareUtils.shareQQ("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
-                    } else {
-                        shareUtils.shareQQ("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                if (type == 2) {
+                    //系统
+                    if (url != null && url.length() != 0) {
+                        if (audioType == 1) {
+                            shareUtils.shareQQ("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花数字图书馆喊你来读书啦", imageUrl, url);
+                        } else {
+                            shareUtils.shareQQ("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                        }
+                    }
+                } else {
+                    //录音
+                    if (url != null && url.length() != 0) {
+                        if (audioType == 1) {
+                            shareUtils.shareQQ("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花流利读《" + title + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                        } else {
+                            shareUtils.shareQQ("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花地道说《" + title + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                        }
                     }
                 }
                 break;
             case R.id.share_daka_qqzone:
                 shareType = 3;
-                if (url != null && url.length() != 0) {
-                    if (audioType == 1) {
-                        shareUtils.shareQZone("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
-                    } else {
-                        shareUtils.shareQZone("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                if (type == 2) {
+                    //系统
+                    if (url != null && url.length() != 0) {
+                        if (audioType == 1) {
+                            shareUtils.shareQZone("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花数字图书馆喊你来读书啦", imageUrl, url);
+                        } else {
+                            shareUtils.shareQZone("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + title + "》", "安妮花-磨耳朵 流利读 地道说", imageUrl, url);
+                        }
+                    }
+                } else {
+                    //录音
+                    if (url != null && url.length() != 0) {
+                        if (audioType == 1) {
+                            shareUtils.shareQZone("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花流利读《" + title + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                        } else {
+                            shareUtils.shareQZone("快来听，我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "在安妮花地道说《" + title + "》", "安妮花-磨耳朵 流利读 地道说", null, url);
+                        }
                     }
                 }
                 break;
             case R.id.daka_share_cancel2:
                 popupWindow.dismiss();
+                break;
+            case R.id.i_know:
+                clarityBack.setVisibility(View.GONE);
+                iknow.setVisibility(View.GONE);
+                nextDrop.setVisibility(View.GONE);
+                break;
+            case R.id.drop_share_song:
+                record = 1;
+                type = 2;
+                popupWindow2.dismiss();
+                coinCount.setText("分享+2金币");
+                presenter.clockinShare(2, bookId);
+                getWindowGray(true);
+                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                break;
+            case R.id.drop_share_recording:
+                popupWindow2.dismiss();
+                boolean tag = true;
+                for (int i = 0; i < releaseList.size(); i++) {
+                    if (!releaseList.get(i).getTag()) {
+                        tag = false;
+                    }
+                }
+                if (tag) {
+                    record = 0;
+                    type = 4;
+                    coinCount.setText("分享+5金币");
+                    presenter.clockinShare(4, bookId);
+                    getWindowGray(true);
+                    popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                } else {
+                    getWindowGray(false);
+                    showInfo("需要全部录完后才可以分享哦");
+                }
                 break;
         }
     }
@@ -498,7 +642,7 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
         showInfo("分享成功");
         popupWindow.dismiss();
-        presenter.shareCoin(1, shareType);
+        presenter.shareCoin(record, shareType);
     }
 
     @Override

@@ -161,6 +161,12 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
         interactor.getReadingClasses();
     }
 
+    @Override
+    public void getSpokenClasses() {
+//        grindEarView.showLoad();
+        interactor.getSpokenClasses();
+    }
+
     /**
      * 获取某分类的儿歌列表
      *
@@ -406,10 +412,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
         interactor.getAnimationList(title, classId);
     }
 
-    @Override
-    public void getSpokenClasses() {
-        interactor.getSpokenClasses();
-    }
+
 
     /**
      * 获取口语列表

@@ -100,8 +100,6 @@ public abstract class NetWorkImp<T> implements OnResponseListener<T> {
             onFail(what, response);
         }
         onFail(what, response);
-
-
     }
 
     protected abstract void onFail(int what, Response<T> response);

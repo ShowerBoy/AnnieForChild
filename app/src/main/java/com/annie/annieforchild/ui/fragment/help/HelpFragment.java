@@ -1,5 +1,6 @@
 package com.annie.annieforchild.ui.fragment.help;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Toast;
@@ -10,6 +11,7 @@ import com.annie.annieforchild.bean.HelpBean;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.MessagePresenter;
 import com.annie.annieforchild.presenter.imp.MessagePresenterImp;
+import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.adapter.HelpAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.info.ViewInfo;
@@ -56,7 +58,13 @@ public class HelpFragment extends BaseFragment implements ViewInfo {
         adapter = new HelpAdapter(getContext(), lists, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
-
+                int position = helpRecycler.getChildAdapterPosition(view);
+                if (lists.get(position - 1).getUrl() != null && lists.get(position - 1).getUrl().length() != 0) {
+                    Intent intent = new Intent(getContext(), WebActivity.class);
+                    intent.putExtra("url", lists.get(position - 1).getUrl());
+                    intent.putExtra("title", "");
+                    startActivity(intent);
+                }
             }
 
             @Override

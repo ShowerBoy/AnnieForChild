@@ -21,7 +21,7 @@ public class NetSpecialFragment extends BaseFragment implements OnCheckDoubleCli
     private List<NetClass> list;
     private NetBeanAdapter adapter;
     private CheckDoubleClickListener listener;
-    private RecyclerView recycler_;
+    private RecyclerView recycler;
 
     public static NetSpecialFragment instance() {
         NetSpecialFragment fragment = new NetSpecialFragment();

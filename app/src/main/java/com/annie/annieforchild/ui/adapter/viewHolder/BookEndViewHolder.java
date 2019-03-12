@@ -18,7 +18,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BookEndViewHolder extends ViewHolder {
     public CircleImageView headpic;
-    public LinearLayout likeLinear;
+    public LinearLayout likeLinear, playLinear;
     public TextView name, age, date, playTimes, likeTimes;
     public ImageView play, like;
 
@@ -33,5 +33,7 @@ public class BookEndViewHolder extends ViewHolder {
         likeLinear = itemView.findViewById(R.id.like_layout);
         playTimes = itemView.findViewById(R.id.book_end_playTimes);
         play = itemView.findViewById(R.id.book_end_play);
+        playLinear=itemView.findViewById(R.id.book_end_play_layout);
+
     }
 }

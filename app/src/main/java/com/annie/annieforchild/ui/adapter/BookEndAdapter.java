@@ -54,6 +54,7 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
     private boolean tag; //有赞 没有赞
     private BookEndViewHolder holder;
     private GrindEarPresenter presenter;
+    private int position;
 
     public boolean isPlay() {
         return isPlay;
@@ -91,7 +92,7 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
         bookEndViewHolder.age.setText(lists.get(i).getRecordAge() + "岁");
         bookEndViewHolder.date.setText(lists.get(i).getRecordDate());
         bookEndViewHolder.playTimes.setText(lists.get(i).getRecordPlayTimes());
-        bookEndViewHolder.play.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
+        bookEndViewHolder.playLinear.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onCheckDoubleClick(View view) {
@@ -132,6 +133,7 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
                         }
                     }
                 } else {
+                    //书籍页
                     if (isPlay) {
                         if (currentPlayPosition == i) {
                             try {
@@ -188,12 +190,28 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
                 bookEndViewHolder.like.setImageResource(R.drawable.icon_like_t);
                 bookEndViewHolder.likeTimes.setTextColor(context.getResources().getColor(R.color.text_orange));
             }
-            bookEndViewHolder.like.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
+            bookEndViewHolder.likeLinear.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
                 @Override
                 public void onCheckDoubleClick(View view) {
+                    if (isPlay) {
+                        if (mediaPlayer != null) {
+                            try {
+                                mediaPlayer.pause();
+                                mediaPlayer.stop();
+                                mediaPlayer.seekTo(0);
+                            } catch (IllegalStateException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        threadOn_Off = false;
+                        holder.play.setImageResource(R.drawable.icon_practice_play);
+                        isPlay = false;
+                    }
                     if (lists.get(i).getIslike() == 0) {
+                        position = i;
                         presenter.addlikes(lists.get(i).getId());
                     } else {
+                        position = i;
                         presenter.cancellikes(lists.get(i).getId());
                     }
                 }
@@ -201,6 +219,20 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
             bookEndViewHolder.headpic.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
                 @Override
                 public void onCheckDoubleClick(View view) {
+                    if (isPlay) {
+                        if (mediaPlayer != null) {
+                            try {
+                                mediaPlayer.pause();
+                                mediaPlayer.stop();
+                                mediaPlayer.seekTo(0);
+                            } catch (IllegalStateException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        threadOn_Off = false;
+                        holder.play.setImageResource(R.drawable.icon_practice_play);
+                        isPlay = false;
+                    }
                     Intent intent = new Intent(context, HomePageActivity.class);
                     intent.putExtra("username", lists.get(i).getUsername());
                     context.startActivity(intent);
@@ -258,6 +290,14 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
         }
     };
 
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     @Override
     public void onPrepared(MediaPlayer mp) {
         mediaPlayer.start();
@@ -271,6 +311,12 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
             mediaPlayer.release();
             mediaPlayer = null;
         }
+        if (holder != null) {
+            holder.play.setImageResource(R.drawable.icon_practice_play);
+            threadOn_Off = false;
+            isPlay = false;
+        }
+
     }
 
 }

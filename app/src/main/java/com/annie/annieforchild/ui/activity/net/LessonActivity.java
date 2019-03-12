@@ -90,7 +90,6 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
                 startActivity(intent);
             }
 
-
             @Override
             public void onItemLongClick(View view) {
 

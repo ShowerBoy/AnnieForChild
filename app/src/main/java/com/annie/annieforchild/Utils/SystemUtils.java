@@ -99,7 +99,7 @@ public class SystemUtils {
     public static View popupView;
     public static HashMap<Integer, Integer> animMusicMap;
     public static SoundPool animPool;
-
+    private boolean isDrop = true; //流利读弹窗
 
     private MainBean mainBean; //第一次启动获取的接口对象
     private PhoneSN phoneSN; //登陆时产生的phoneSN
@@ -188,7 +188,6 @@ public class SystemUtils {
         dialog.setCancelable(false);
         return dialog;
     }
-
 
     /**
      * 作业点评
@@ -1136,5 +1135,13 @@ public class SystemUtils {
 
     public void setPlayLists(List<Song> playLists) {
         this.playLists = playLists;
+    }
+
+    public boolean isDrop() {
+        return isDrop;
+    }
+
+    public void setDrop(boolean drop) {
+        isDrop = drop;
     }
 }

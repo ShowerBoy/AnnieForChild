@@ -288,7 +288,7 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
                     case 1:
                         return "体验课";
                     case 2:
-                        return "专项课";
+                        return "综合课";
                     default:
                         break;
                 }

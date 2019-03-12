@@ -177,9 +177,9 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
      */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-        if (musicService != null) {
-            musicService.stop();
-        }
+//        if (musicService != null) {
+//            musicService.stop();
+//        }
     }
 
     @Override

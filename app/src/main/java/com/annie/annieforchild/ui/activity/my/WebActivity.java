@@ -105,14 +105,14 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         });
     }
 
-    @SuppressLint("JavascriptInterface")
+    @SuppressLint({"JavascriptInterface", "SetJavaScriptEnabled"})
     @Override
     protected void initData() {
-        webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setLoadsImagesAutomatically(true);
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+//        webSettings = webView.getSettings();
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setLoadsImagesAutomatically(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
@@ -139,7 +139,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             webView.getSettings().setUseWideViewPort(true);
             webView.getSettings().setLoadWithOverviewMode(true);
             webView.getSettings().setBuiltInZoomControls(true);
-            webView.getSettings().setJavaScriptEnabled(true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
             }
@@ -155,7 +154,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    Log.e("-----", url);
+//                    Log.e("-----", url);
 
                     if (getValueByName(url, "query1").equals("end")) {
                         finish();

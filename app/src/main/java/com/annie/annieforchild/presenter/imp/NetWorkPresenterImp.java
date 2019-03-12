@@ -206,12 +206,16 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-        if (bannerList.get(slider.getBundle().getInt("extra")) != null) {
-            if (!bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("")) {
-                Intent intent = new Intent(context, WebActivity.class);
-                intent.putExtra("url", bannerList.get(slider.getBundle().getInt("extra")).getUrl());
-                intent.putExtra("title", "");
-                context.startActivity(intent);
+        if (slider.getBundle() != null) {
+            if (bannerList.get(slider.getBundle().getInt("extra")) != null) {
+                if (bannerList.get(slider.getBundle().getInt("extra")).getUrl() != null) {
+                    if (!bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("")) {
+                        Intent intent = new Intent(context, WebActivity.class);
+                        intent.putExtra("url", bannerList.get(slider.getBundle().getInt("extra")).getUrl());
+                        intent.putExtra("title", "");
+                        context.startActivity(intent);
+                    }
+                }
             }
         }
     }

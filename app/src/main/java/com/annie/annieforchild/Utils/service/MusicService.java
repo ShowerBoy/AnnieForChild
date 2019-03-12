@@ -3,6 +3,7 @@ package com.annie.annieforchild.Utils.service;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -125,12 +126,12 @@ public class MusicService extends Service {
                         }
                         pos = 0;
                         play();
-                        addPlayLists(musicList.get(listTag));
+                        addPlayLists(musicList.get(listTag), listTag);
                     } else {
                         listTag++;
                         if (listTag >= musicNum) {
                             //列表循环
-                            addPlayLists(musicList.get(listTag - 1));
+                            addPlayLists(musicList.get(listTag - 1), listTag - 1);
                             listTag = 0;
                             pos = 0;
                             play();
@@ -145,7 +146,7 @@ public class MusicService extends Service {
                                 presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
                                 duration = 0;
                             }
-                            addPlayLists(musicList.get(listTag - 1));
+                            addPlayLists(musicList.get(listTag - 1), listTag - 1);
                             pos = 0;
                             play();
                             if (MusicPlayActivity.isLyric) {
@@ -209,6 +210,12 @@ public class MusicService extends Service {
         });
         presenter = new GrindEarPresenterImp(this);
         presenter.initViewAndData();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        startForeground(1, new Notification());
+        return super.onStartCommand(intent, flags, startId);
     }
 
     public static void setMusicPosition(int musicPosition) {
@@ -281,9 +288,15 @@ public class MusicService extends Service {
                     e.printStackTrace();
                 }
                 start = "0:00";
-                MusicPlayActivity.start.setText(start);
-                MusicPlayActivity.play.setImageResource(R.drawable.icon_music_pause_big);
-                MusicPlayActivity.name.setText(musicPartList.get(listTag).getName());
+                if (MusicPlayActivity.start != null) {
+                    MusicPlayActivity.start.setText(start);
+                }
+                if (MusicPlayActivity.play != null) {
+                    MusicPlayActivity.play.setImageResource(R.drawable.icon_music_pause_big);
+                }
+                if (MusicPlayActivity.name != null) {
+                    MusicPlayActivity.name.setText(musicPartList.get(listTag).getName());
+                }
                 if (musicList.get(listTag).getIsCollected() == 0) {
                     MusicPlayActivity.collect.setImageResource(R.drawable.icon_player_collection_f);
                 } else {
@@ -296,7 +309,9 @@ public class MusicService extends Service {
                     musicPartList.get(i).setPlaying(false);
                 }
                 musicPartList.get(MusicService.listTag).setPlaying(true);
-                MusicPlayActivity.adapter.notifyDataSetChanged();
+                if (MusicPlayActivity.adapter != null) {
+                    MusicPlayActivity.adapter.notifyDataSetChanged();
+                }
             }
             if (task != null) {
                 task.cancel();
@@ -328,7 +343,7 @@ public class MusicService extends Service {
     }
 
     //暂停播放
-    public void pause() {
+    public static void pause() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             //获取播放位置
             pos = mediaPlayer.getCurrentPosition();
@@ -341,8 +356,12 @@ public class MusicService extends Service {
             message.obj = false;
             EventBus.getDefault().post(message);
 
-            MusicPlayActivity.play.setImageResource(R.drawable.icon_music_play_big);
-            MusicPlayActivity.animation.pause();
+            if (MusicPlayActivity.play != null) {
+                MusicPlayActivity.play.setImageResource(R.drawable.icon_music_play_big);
+            }
+            if (MusicPlayActivity.animation != null) {
+                MusicPlayActivity.animation.pause();
+            }
             if (duration > 0) {
                 presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
                 duration = 0;
@@ -351,7 +370,7 @@ public class MusicService extends Service {
     }
 
     //停止播放
-    public void stop() {
+    public static void stop() {
         if (mediaPlayer != null) {
             MusicPlayActivity.state = STATE_STOP;
             isPlay = false;
@@ -370,7 +389,7 @@ public class MusicService extends Service {
                     song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());
                     song.setPath(musicPartList.get(listTag).getMusicUrl());
                     song.setIsCollected(musicList.get(listTag).getIsCollected());
-                    addPlayLists(song);
+                    addPlayLists(song, listTag);
                 } else {
                     boolean flag = true;
                     for (int i = 0; i < application.getSystemUtils().getPlayLists().size(); i++) {
@@ -384,7 +403,7 @@ public class MusicService extends Service {
                         song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());
                         song.setPath(musicPartList.get(listTag).getMusicUrl());
                         song.setIsCollected(musicList.get(listTag).getIsCollected());
-                        addPlayLists(song);
+                        addPlayLists(song, listTag);
                     }
                 }
             }
@@ -393,9 +412,13 @@ public class MusicService extends Service {
             message.what = MethodCode.EVENT_MUSIC;
             message.obj = false;
             EventBus.getDefault().post(message);
-            MusicPlayActivity.play.setImageResource(R.drawable.icon_music_play_big);
-            MusicPlayActivity.animation.resume();
-            MusicPlayActivity.animation.pause();
+            if (MusicPlayActivity.play != null) {
+                MusicPlayActivity.play.setImageResource(R.drawable.icon_music_play_big);
+            }
+            if (MusicPlayActivity.animation != null) {
+                MusicPlayActivity.animation.resume();
+                MusicPlayActivity.animation.pause();
+            }
             if (duration > 0) {
                 presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
                 duration = 0;
@@ -404,7 +427,7 @@ public class MusicService extends Service {
         }
     }
 
-    private static void addPlayLists(Song song) {
+    private static void addPlayLists(Song song, int listTag) {
         if (musicPartList != null && musicPartList.size() > 0) {
             if (application.getSystemUtils().getPlayLists() == null) {
                 application.getSystemUtils().setPlayLists(new ArrayList<>());
@@ -477,6 +500,7 @@ public class MusicService extends Service {
         musicImageUrl = null;
         return super.onUnbind(intent);
     }
+
 
     @Override
     public void onDestroy() {

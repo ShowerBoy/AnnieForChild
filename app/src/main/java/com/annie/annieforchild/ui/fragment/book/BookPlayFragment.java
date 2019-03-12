@@ -52,6 +52,7 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
@@ -87,7 +88,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
     public static boolean isPlay = false; //是否播放录音
     private int record_time = 0; //录音时长
     private int currentSign = 0, totalSign, duration = 0;
-    private int audioType, audioSource, bookId;
+    private int audioType, audioSource, bookId, totalPage;
     private Timer mTimer;
     private TimerTask task;
     private AlertHelper helper;
@@ -123,6 +124,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
         if (bundle != null) {
             tag = bundle.getInt("tag");
             page = (Page) bundle.getSerializable("page");
+            totalPage = bundle.getInt("totalPage");
             audioType = bundle.getInt("audioType");
             audioSource = bundle.getInt("audioSource");
             bookId = bundle.getInt("bookId");
@@ -474,6 +476,18 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
             if (j == page.getPage()) {
                 animationPic.setVisibility(View.VISIBLE);
                 initAnimation(animationCode);
+                if (j == totalPage) {
+                    if (application.getSystemUtils().isDrop()) {
+                        application.getSystemUtils().setDrop(false);
+                        /**
+                         * {@link BookPlayActivity2#onMainEventThread(JTMessage)}
+                         */
+                        JTMessage message1 = new JTMessage();
+                        message1.what = MethodCode.EVENT_ISDROP;
+                        message1.obj = j;
+                        EventBus.getDefault().post(message1);
+                    }
+                }
             }
         }
     }

@@ -28,6 +28,7 @@ import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.song.Song;
@@ -183,7 +184,7 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
         application.getSystemUtils().setPlayLists(new ArrayList<>());
         application.getSystemUtils().animMusicMap = new HashMap<>();
         application.getSystemUtils().animPool = new SoundPool(11, AudioManager.STREAM_MUSIC, 0);
-        application.getSystemUtils(). animMusicMap.put(1, application.getSystemUtils().animPool.load(context, R.raw.amazing, 1));
+        application.getSystemUtils().animMusicMap.put(1, application.getSystemUtils().animPool.load(context, R.raw.amazing, 1));
         application.getSystemUtils().animMusicMap.put(2, application.getSystemUtils().animPool.load(context, R.raw.awesome, 1));
         application.getSystemUtils().animMusicMap.put(3, application.getSystemUtils().animPool.load(context, R.raw.bingo, 1));
         application.getSystemUtils().animMusicMap.put(4, application.getSystemUtils().animPool.load(context, R.raw.excellent, 1));
@@ -309,18 +310,18 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
                         .setCancelable(false)
                         .show();
             }
-        }else if (message.what == MethodCode.EVENT_MUSICSTOP) {
-            if (musicService != null) {
-                musicService.stop();
-            }
+        } else if (message.what == MethodCode.EVENT_MUSICSTOP) {
+//            if (musicService != null) {
+                MusicService.stop();
+//            }
         }
     }
 
     private static void installNormal(Context context, String apkPath) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         //版本在7.0以上是不能直接通过uri访问的
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
-            File file = (new File(apkPath));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            File file = new File(apkPath);
             // 由于没有在Activity环境下启动Activity,设置下面的标签
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件

@@ -192,7 +192,8 @@ public class HomePageActivity extends BaseActivity implements SongView, OnCheckD
             case R.id.homepage_like_icon:
                 //点赞
                 if (adapter.isPlay()) {
-                    return;
+                    adapter.stopMedia();
+//                    return;
                 }
                 if (hpbean != null) {
                     if (hpbean.getIsLike() == 0) {

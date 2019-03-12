@@ -249,9 +249,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
             int musicPosition = 0;
             if (MusicService.isPlay) {
 //                mBinder.bStop();
-                if (musicService != null) {
-                    musicService.stop();
-                }
+                MusicService.stop();
             }
             Intent intent = new Intent(this, MusicPlayActivity.class);
             Bundle bundle = new Bundle();
@@ -297,10 +295,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 }
                 if (MusicService.isPlay) {
 //                    mBinder.bStop();
-                    if (musicService != null) {
-                        musicService.stop();
-                    }
-//                    MusicService.stop();
+//                    if (musicService != null) {
+//                        musicService.stop();
+//                    }
+                    MusicService.stop();
                 }
                 startActivity(intent1);
             } else {
@@ -544,10 +542,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 if (application.getSystemUtils().getPlayLists() != null && application.getSystemUtils().getPlayLists().size() != 0) {
                     if (MusicService.isPlay) {
 //                        mBinder.bStop();
-                        if (musicService != null) {
-                            musicService.stop();
-                        }
-//                        MusicService.stop();
+//                        if (musicService != null) {
+//                            musicService.stop();
+//                        }
+                        MusicService.stop();
                     }
                     Intent intent4 = new Intent(this, MusicPlayActivity.class);
                     Bundle bundle = new Bundle();

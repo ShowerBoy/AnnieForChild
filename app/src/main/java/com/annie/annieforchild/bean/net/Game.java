@@ -9,6 +9,15 @@ import java.io.Serializable;
 public class Game implements Serializable {
     private String gameName;
     private String gameUrl;
+    private int color;
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
 
     public String getGameName() {
         return gameName;

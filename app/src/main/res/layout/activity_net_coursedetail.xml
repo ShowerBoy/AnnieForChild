@@ -253,7 +253,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="40dp"
                                 android:layout_weight="1"
-                                android:visibility="gone"
+                                android:visibility="visible"
                                 android:orientation="horizontal"
 
                                 app:layout_constraintLeft_toLeftOf="parent"

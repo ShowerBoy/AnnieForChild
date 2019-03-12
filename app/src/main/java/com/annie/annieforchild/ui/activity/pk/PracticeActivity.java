@@ -514,10 +514,16 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
             presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_ADDLIKES) {
             showInfo((String) message.obj);
-            presenter.getBookScore(song.getBookId(), bookType, false);
+            song1.getRecordList().get(adapter.getPosition()).setIslike(1);
+            song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) + 1 + "");
+            adapter.notifyDataSetChanged();
+//            presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_CANCELLIKES) {
             showInfo((String) message.obj);
-            presenter.getBookScore(song.getBookId(), bookType, false);
+            song1.getRecordList().get(adapter.getPosition()).setIslike(0);
+            song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) - 1 + "");
+            adapter.notifyDataSetChanged();
+//            presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_PRACTICE) {
             presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_CLOCKINSHARE) {
@@ -623,10 +629,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     return;
                 }
                 if (MusicService.isPlay) {
-                    if (musicService != null) {
-                        musicService.stop();
-                    }
-//                    MusicService.stop();
+                    MusicService.stop();
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -651,10 +654,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     return;
                 }
                 if (MusicService.isPlay) {
-                    if (musicService != null) {
-                        musicService.stop();
-                    }
-//                    MusicService.stop();
+//                    if (musicService != null) {
+//                        musicService.stop();
+//                    }
+                    MusicService.stop();
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -678,10 +681,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     return;
                 }
                 if (MusicService.isPlay) {
-                    if (musicService != null) {
-                        musicService.stop();
-                    }
-//                    MusicService.stop();
+//                    if (musicService != null) {
+//                        musicService.stop();
+//                    }
+                    MusicService.stop();
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -722,10 +725,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     return;
                 }
                 if (MusicService.isPlay) {
-                    if (musicService != null) {
-                        musicService.stop();
-                    }
-//                    MusicService.stop();
+//                    if (musicService != null) {
+//                        musicService.stop();
+//                    }
+                    MusicService.stop();
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -770,10 +773,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     return;
                 }
                 if (MusicService.isPlay) {
-                    if (musicService != null) {
-                        musicService.stop();
-                    }
-//                    MusicService.stop();
+//                    if (musicService != null) {
+//                        musicService.stop();
+//                    }
+                    MusicService.stop();
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -829,10 +832,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                                         startActivity(intent2);
                                     } else {
                                         if (resourUrl_list.size() != 0) {
-                                            if (musicService != null) {
-                                                musicService.stop();
-                                            }
-//                                            MusicService.stop();
+//                                            if (musicService != null) {
+//                                                musicService.stop();
+//                                            }
+                                            MusicService.stop();
                                             Intent intent2 = new Intent(this, MusicPlayActivity.class);
                                             Bundle bundle = new Bundle();
 //                                            if (audioSource != MusicService.musicAudioSource) {
@@ -858,10 +861,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                                     }
                                 }
                             } else {
-                                if (musicService != null) {
-                                    musicService.stop();
-                                }
-//                                MusicService.stop();
+//                                if (musicService != null) {
+//                                    musicService.stop();
+//                                }
+                                MusicService.stop();
                                 Intent intent3 = new Intent(this, BookPlayActivity2.class);
                                 intent3.putExtra("bookId", song.getBookId());
                                 intent3.putExtra("imageUrl", song.getBookImageUrl());
@@ -997,19 +1000,19 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     return;
                 }
                 if (MusicService.isPlay) {
-                    if (musicService != null) {
-                        musicService.stop();
-                    }
-//                    MusicService.stop();
+//                    if (musicService != null) {
+//                        musicService.stop();
+//                    }
+                    MusicService.stop();
                 }
                 if (bookType == 1) {
                     if (isClick) {
                         if (!isRecord) {
                             if (MusicService.isPlay) {
-                                if (musicService != null) {
-                                    musicService.stop();
-                                }
-//                                MusicService.stop();
+//                                if (musicService != null) {
+//                                    musicService.stop();
+//                                }
+                                MusicService.stop();
                                 Intent intent5 = new Intent(this, BookPlayActivity2.class);
                                 intent5.putExtra("bookId", song.getBookId());
                                 intent5.putExtra("imageUrl", song.getBookImageUrl());
@@ -1044,10 +1047,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                                             startActivity(intent2);
                                         } else {
                                             if (resourUrl_list.size() != 0) {
-                                                if (musicService != null) {
-                                                    musicService.stop();
-                                                }
-//                                                MusicService.stop();
+//                                                if (musicService != null) {
+//                                                    musicService.stop();
+//                                                }
+                                                MusicService.stop();
                                                 Intent intent2 = new Intent(this, MusicPlayActivity.class);
                                                 Bundle bundle2 = new Bundle();
 //                                            if (audioSource != MusicService.musicAudioSource) {
@@ -1071,10 +1074,10 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                                         }
                                     }
                                 } else {
-                                    if (musicService != null) {
-                                        musicService.stop();
-                                    }
-//                                    MusicService.stop();
+//                                    if (musicService != null) {
+//                                        musicService.stop();
+//                                    }
+                                    MusicService.stop();
                                     Intent intent4 = new Intent(this, BookPlayActivity2.class);
                                     intent4.putExtra("bookId", song.getBookId());
                                     intent4.putExtra("imageUrl", song.getBookImageUrl());
@@ -1117,15 +1120,6 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                             }
                         }
                     }
-//                    Intent intent4 = new Intent(this, RecordingActivity.class);
-//                    intent4.putExtra("bookId", song.getBookId());
-//                    intent4.putExtra("bookName", song.getBookName());
-//                    intent4.putExtra("bookImageUrl", song.getBookImageUrl());
-//                    intent4.putExtra("audioType", audioType);
-//                    intent4.putExtra("audioSource", audioSource);
-//                    intent4.putExtra("myresourceUrl", song1.getMyResourceUrl() != null ? song1.getMyResourceUrl() : "");
-//                    intent4.putExtra("homeworkid", homeworkid);
-//                    startActivity(intent4);
                 }
                 break;
             case R.id.share_daka_pengyouquan:

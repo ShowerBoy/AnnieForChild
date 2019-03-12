@@ -125,9 +125,6 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
     private int homeworkid, homeworktype;
     public static boolean isLyric = false;
     private int classId = 0, collectType, shareType;
-    private MusicService.MyBinder mBinder;
-    private MusicService musicService;
-    private ServiceConnection myConnection;
 
     {
         setRegister(true);
@@ -301,24 +298,23 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         }
 
 
-
-        Intent intent2 = new Intent(this, MusicService.class);
-        myConnection = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                mBinder = (MusicService.MyBinder) service;
-                musicService = mBinder.getService();
-//                    initData();
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-//                    myConnection = null;
-                musicService = null;
-            }
-        };
-        bindService(intent2, myConnection, Context.BIND_AUTO_CREATE);
-        startService(intent2);
+//        Intent intent2 = new Intent(this, MusicService.class);
+//        myConnection = new ServiceConnection() {
+//            @Override
+//            public void onServiceConnected(ComponentName name, IBinder service) {
+//                mBinder = (MusicService.MyBinder) service;
+//                musicService = mBinder.getService();
+////                    initData();
+//            }
+//
+//            @Override
+//            public void onServiceDisconnected(ComponentName name) {
+////                    myConnection = null;
+//                musicService = null;
+//            }
+//        };
+//        bindService(intent2, myConnection, Context.BIND_AUTO_CREATE);
+//        startService(intent2);
 
     }
 
@@ -362,9 +358,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                 int position = musicRecycler.getChildAdapterPosition(view);
                 if (!MusicService.musicPartList.get(position).isPlaying()) {
                     if (MusicService.isPlay) {
-                        if (musicService != null) {
-                            musicService.stop();
-                        }
+                        MusicService.stop();
 //                        MusicService.stop();
                     }
                     MusicService.listTag = position;
@@ -552,7 +546,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                     //暂停播放
                     play.setImageResource(R.drawable.icon_music_play_big);
                     animation.pause();
-                    musicService.pause();
+                    MusicService.pause();
                 } else if (state == STATE_PAUSE) {
                     play.setImageResource(R.drawable.icon_music_pause_big);
                     animation.resume();
@@ -568,10 +562,10 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                 if (MusicService.musicNum != 1) {
                     if (MusicService.listTag != 0) {
                         if (MusicService.isPlay) {
-                            if (musicService != null) {
-                                musicService.stop();
-                            }
-//                            MusicService.stop();
+//                            if (musicService != null) {
+//                                musicService.stop();
+//                            }
+                            MusicService.stop();
                         }
                         MusicService.listTag--;
                         MusicService.pos = 0;
@@ -594,10 +588,10 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                 if (MusicService.musicNum != 1) {
                     if (MusicService.listTag + 1 != MusicService.musicNum) {
                         if (MusicService.isPlay) {
-                            if (musicService != null) {
-                                musicService.stop();
-                            }
-//                            MusicService.stop();
+//                            if (musicService != null) {
+//                                musicService.stop();
+//                            }
+                            MusicService.stop();
                         }
                         MusicService.listTag++;
                         MusicService.pos = 0;
@@ -676,10 +670,10 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                     return;
                 }
                 if (state == STATE_PLAYING) {
-                    if (musicService != null) {
-                        musicService.stop();
-                    }
-//                    MusicService.stop();
+//                    if (musicService != null) {
+//                        musicService.stop();
+//                    }
+                    MusicService.stop();
                 }
 //                if (MusicService.isPlay) {
 

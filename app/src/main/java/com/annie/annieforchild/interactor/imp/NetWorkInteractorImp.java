@@ -280,7 +280,6 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
         String data = jsonObject.getString(MethodCode.DATA);
 
-
         if (errorType == 3) {
             listener.Error(what, errorInfo);
         } else {
@@ -368,7 +367,6 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 //                for (Map.Entry<String, Object> entry : jsonObject1.entrySet()){
 //                   Log.e("----",entry.getKey() + ":" + entry.getValue());
 //                }
-
                 PreheatConsult preheatConsult = JSON.parseObject(data, PreheatConsult.class);
                 listener.Success(what, preheatConsult);
             } else if (what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {
