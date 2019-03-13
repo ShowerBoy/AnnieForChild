@@ -20,6 +20,7 @@ import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.bean.net.PreheatConsult;
 import com.annie.annieforchild.bean.net.WechatBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
+import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
 import com.annie.annieforchild.interactor.NetWorkInteractor;
 import com.annie.annieforchild.interactor.imp.NetWorkInteractorImp;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
@@ -137,11 +138,16 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         viewInfo.showLoad();
         interactor.getNetExpDetails(netid);
     }
+    @Override
+    public void getNetExpDetails_new(int netid) {
+        viewInfo.showLoad();
+        interactor.getNetExpDetails_new(netid);
+    }
 
     @Override
-    public void getLesson(String lessonid) {
+    public void getLesson(String lessonid,int type) {
         viewInfo.showLoad();
-        interactor.getLesson(lessonid);
+        interactor.getLesson(lessonid,type);
     }
 
     @Override
@@ -368,6 +374,15 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 NetExpClass netExpClass = (NetExpClass) result;
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.NetExperienceDetailActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = netExpClass;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETNETEXPDETAILS_NEW) {
+                NetExp_new netExpClass = (NetExp_new) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;

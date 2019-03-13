@@ -27,7 +27,7 @@ public interface NetWorkInteractor {
 
     void getNetExpDetails(int netid);
 
-    void getLesson(String lessonid);
+    void getLesson(String lessonid,int type);
 
     void buySuccess();
 
@@ -40,4 +40,6 @@ public interface NetWorkInteractor {
     void OrderQuery(String tradeno, String outtradeno, int payment);
 
     void getWeiClass(String fid,int type);
+
+    void getNetExpDetails_new(int netid);
 }

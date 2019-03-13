@@ -27,7 +27,7 @@ public interface NetWorkPresenter {
 
     void getNetDetails(int netid);
 
-    void getLesson(String lessonid);
+    void getLesson(String lessonid,int type);
 
     void buySuccess();
 
@@ -42,4 +42,6 @@ public interface NetWorkPresenter {
     void OrderQuery(String tradeno, String outtradeno, int type);
 
     void getWeiClass(String fid,int type);
+
+    void getNetExpDetails_new(int netid);
 }

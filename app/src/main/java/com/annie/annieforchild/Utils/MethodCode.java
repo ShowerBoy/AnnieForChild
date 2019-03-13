@@ -190,4 +190,5 @@ public class MethodCode {
     final public static int EVENT_BUYNUM1 = 142; //购买之前验证，confirmorder验证
     final public static int EVENT_ORDERQUERY = 143; //购买之后查询订单状态
     final public static int EVENT_GETWEICLASS = 144; //微课堂视频
+    final public static int EVENT_GETNETEXPDETAILS_NEW = 145; //体验课具体内容详情新版本
 }
