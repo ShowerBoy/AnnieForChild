@@ -69,6 +69,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     public void getNetHomeData() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETHOMEDATA, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
+//        request.add("username", "100506478");
         request.add("username", application.getSystemUtils().getDefaultUsername());
         addQueue(MethodCode.EVENT_GETNETHOMEDATA, request);
 //        startQueue();

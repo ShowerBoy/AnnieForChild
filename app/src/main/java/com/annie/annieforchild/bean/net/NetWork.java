@@ -12,7 +12,7 @@ import java.util.List;
 public class NetWork implements Serializable {
     private List<Banner> bannerList;
     private NetBean experienceList;
-    private NetBean specialList;
+    private NetBean speciaList;
     private SuggestList suggestList;
 
     public List<Banner> getBannerList() {
@@ -31,12 +31,12 @@ public class NetWork implements Serializable {
         this.experienceList = experienceList;
     }
 
-    public NetBean getSpecialList() {
-        return specialList;
+    public NetBean getSpeciaList() {
+        return speciaList;
     }
 
-    public void setSpecialList(NetBean specialList) {
-        this.specialList = specialList;
+    public void setSpeciaList(NetBean speciaList) {
+        this.speciaList = speciaList;
     }
 
     public SuggestList getSuggestList() {
