@@ -130,4 +130,8 @@ public class MethodType {
     final public static String ORDERQUERY = "OrderQuery"; //泛听泛读
     final public static String GETWEICLASS = "WeiClass"; //微课堂视频
     final public static String GETCLASSANALYSIS = "ClassAnalysis"; //微课堂视频
+    final public static String GETNETEXPDETAILS_NEW = "experienceDetailsnew"; //购买的网课具体内容新版本
+    final public static String GETSPECIAL_NEW = "Specialweiclass"; //购买的网课具体内容新版本
+    final public static String GETSPECIALLESSON_NEW = "SpecialLessons"; //彩虹条新版本
+
 }

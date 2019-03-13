@@ -462,6 +462,9 @@
         <activity
             android:name=".ui.activity.net.NetExpFirstVideoActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.net.NetExperienceDetail_newActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

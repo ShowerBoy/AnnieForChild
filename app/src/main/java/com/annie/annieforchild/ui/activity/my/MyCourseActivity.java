@@ -29,6 +29,7 @@ import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetailActivity;
+import com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.ui.adapter.MyCourseAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
@@ -109,7 +110,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
             @Override
             public void onItemClick(View view) {
                 int position = recycler.getChildAdapterPosition(view);
-                Intent intent = new Intent(MyCourseActivity.this, NetExperienceDetailActivity.class);
+                Intent intent = new Intent(MyCourseActivity.this, NetExperienceDetail_newActivity.class);
                 intent.putExtra("netid", lists.get(position).getNetId());
                 intent.putExtra("netName", lists.get(position).getNetName());
                 startActivity(intent);

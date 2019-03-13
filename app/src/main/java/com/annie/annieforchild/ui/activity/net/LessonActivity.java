@@ -76,6 +76,7 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
         dialog = helper.LoadingDialog();
         lessonId = getIntent().getStringExtra("lessonId");
         lessonName = getIntent().getStringExtra("lessonName");
+        int type=getIntent().getIntExtra("type",1);
         title.setText(lessonName);
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
@@ -96,7 +97,7 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
             }
         });
         recycler.setAdapter(adapter);
-        presenter.getLesson(lessonId);
+        presenter.getLesson(lessonId,type);
     }
 
     @Override
