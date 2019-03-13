@@ -400,7 +400,6 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
         layoutParams.gravity = Gravity.BOTTOM;
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         dialog.getWindow().setContentView(view);
         dialog.getWindow().setAttributes(layoutParams);
         dialog.show();
