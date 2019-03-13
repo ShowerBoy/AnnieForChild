@@ -97,65 +97,65 @@
 
 
 
-            <LinearLayout
-                android:id="@+id/net_suggest_linear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="vertical">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/net_suggest_linear"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:visibility="gone"-->
+                <!--android:orientation="vertical">-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="12dp"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:paddingStart="16dp"-->
+                    <!--android:paddingEnd="16dp">-->
 
-                    <TextView
-                        android:id="@+id/present_gift"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="赠送礼包："
-                        android:textColor="@color/text_color"
-                        android:textSize="14sp" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/present_gift"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="2dp"-->
+                        <!--android:text="赠送礼包："-->
+                        <!--android:textColor="@color/text_color"-->
+                        <!--android:textSize="14sp" />-->
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/net_gift_recycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <!--<android.support.v7.widget.RecyclerView-->
+                        <!--android:id="@+id/net_gift_recycler"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content">-->
 
-                    </android.support.v7.widget.RecyclerView>
-                </LinearLayout>
+                    <!--</android.support.v7.widget.RecyclerView>-->
+                <!--</LinearLayout>-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/light_gray2" />
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="6dp"-->
+                    <!--android:layout_marginTop="12dp"-->
+                    <!--android:background="@color/light_gray2" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="配套教材："
-                    android:textColor="@color/text_color"
-                    android:textSize="14sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginStart="16dp"-->
+                    <!--android:layout_marginTop="16dp"-->
+                    <!--android:text="配套教材："-->
+                    <!--android:textColor="@color/text_color"-->
+                    <!--android:textSize="14sp" />-->
 
-                <TextView
-                    android:id="@+id/net_material"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="16dp"
-                    android:text=""
-                    android:textColor="@color/text_color"
-                    android:textSize="14sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/net_material"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginStart="16dp"-->
+                    <!--android:layout_marginTop="3dp"-->
+                    <!--android:layout_marginEnd="16dp"-->
+                    <!--android:text=""-->
+                    <!--android:textColor="@color/text_color"-->
+                    <!--android:textSize="14sp" />-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
             <TextView
                 android:layout_width="match_parent"
@@ -222,8 +222,6 @@
                 android:alpha="0"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
-
-
 
         </RelativeLayout>
     </LinearLayout>

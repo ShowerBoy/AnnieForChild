@@ -160,7 +160,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("addressid", addressid);
         request.add("ismaterial", ismaterial);
         request.add("payment", payment);
-        request.add("giftid", giftid);
+//        request.add("giftid", giftid);
         addQueue(MethodCode.EVENT_BUYNETWORK, request);
 //        startQueue();
     }

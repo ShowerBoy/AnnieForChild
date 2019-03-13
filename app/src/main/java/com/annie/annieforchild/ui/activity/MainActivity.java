@@ -234,7 +234,7 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
 
     @Override
     protected String[] getText() {
-        return new String[]{"首页", "路线图", "打卡", "发现", "我的"};
+        return new String[]{"首页", "课程", "打卡", "发现", "我的"};
     }
 
     @Override

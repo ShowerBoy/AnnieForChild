@@ -25,6 +25,7 @@ import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.ui.activity.net.NetFAQActivity;
 import com.annie.annieforchild.ui.activity.net.NetSuggestActivity;
 import com.annie.annieforchild.ui.adapter.NetBeanAdapter;
+import com.annie.annieforchild.ui.adapter.NetSpecialAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.baselibrary.base.BaseFragment;
 import com.bumptech.glide.Glide;
@@ -45,7 +46,7 @@ import java.util.List;
 public class NetSpecialFragment extends BaseFragment implements OnCheckDoubleClick {
     private List<NetClass> list;
     private List<String> imglist_bottom, imglist_top;
-    private NetBeanAdapter adapter;
+    private NetSpecialAdapter adapter;
     private CheckDoubleClickListener listener;
     private RecyclerView specialList;
     private ImageView network_consult, network_faq;
@@ -67,7 +68,7 @@ public class NetSpecialFragment extends BaseFragment implements OnCheckDoubleCli
         list = new ArrayList<>();
         imglist_bottom = new ArrayList<>();
         imglist_top = new ArrayList<>();
-        adapter = new NetBeanAdapter(getContext(), list, new OnRecyclerItemClickListener() {
+        adapter = new NetSpecialAdapter(getContext(), list, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 int position = specialList.getChildAdapterPosition(view);
@@ -77,7 +78,7 @@ public class NetSpecialFragment extends BaseFragment implements OnCheckDoubleCli
                 intent.putExtra("netimage", list.get(position).getNetImageUrl());
                 intent.putExtra("isBuy", list.get(position).getIsBuy());
                 intent.putExtra("message", list.get(position).getMessage());
-                intent.putExtra("type", "体验课");
+                intent.putExtra("type", "综合课");
                 startActivity(intent);
             }
 

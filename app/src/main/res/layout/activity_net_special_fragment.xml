@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/icon_network_experience_faq" />
+                android:background="@drawable/icon_network_special_faq" />
 
             <ImageView
                 android:id="@+id/network_consult"
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text=""
-                android:textColor="#454545"
+                android:textColor="#FF8C15"
                 android:textSize="12sp"
                 app:layout_constraintLeft_toLeftOf="@id/network_teacher1"
                 app:layout_constraintTop_toBottomOf="@id/network_teacher1"
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="(长按复制)"
-                android:textColor="#454545"
+                android:textColor="#FF8C15"
                 android:textSize="12sp"
                 app:layout_constraintLeft_toRightOf="@id/network_teacher_wx"
                 app:layout_constraintTop_toBottomOf="@id/network_teacher1" />

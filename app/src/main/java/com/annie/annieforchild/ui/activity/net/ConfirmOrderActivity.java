@@ -12,12 +12,15 @@ import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -75,9 +78,10 @@ import java.util.Map;
 
 public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     private ImageView back, product_img;
+    private EditText confirmWechat;
     private RelativeLayout zhifubaoLayout, wechatLayout;
     private LinearLayout confirmLayout;
-    private TextView name, phone, address, buyBtn, totalPrice, product_name, product_text, material;
+    private TextView name, phone, address, buyBtn, totalPrice, product_name, product_text, materialPrice;
     private TextView confirm_price;
     private ImageView zhifubao, weixin;
     private ConstraintLayout addressLayout;
@@ -88,17 +92,17 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     private int payment = 0; //支付方式 0:支付宝 1:微信
     private boolean isMaterial, isAddress = false; //是否选择配套教材
     private int netid, addressId = -1;
-    private Double netPrice, matPrice;
+    private Double netPrice = 0.0, matPrice;
     private NetSuggest netSuggest;
     private String data, type, netimage;
     private AlertHelper helper;
     private Dialog dialog;
-    private String giftId = "";
+    //    private String giftId = "";
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 2;
     private String netsummary;
     private IWXAPI wxapi;
-    private int count; //礼包可选数
+    //    private int count; //礼包可选数
     private boolean canBuy = false; //能否购买
     public static String buyPrice;
     private String wxout_trade_no = "";
@@ -134,13 +138,35 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         product_name = findViewById(R.id.product_name);
         product_text = findViewById(R.id.product_text);
         confirm_price = findViewById(R.id.confirm_price);
-        material = findViewById(R.id.material);
+        confirmWechat = findViewById(R.id.confirm_wechat);
+        materialPrice = findViewById(R.id.material_price);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
         addressLayout.setOnClickListener(listener);
         buyBtn.setOnClickListener(listener);
 //        zhifubaoLayout.setOnClickListener(listener);
 //        wechatLayout.setOnClickListener(listener);
+        confirmWechat.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String strs = confirmWechat.getText().toString();
+                String str = SystemUtils.stringFilter(strs.toString());
+                if (!strs.equals(str)) {
+                    confirmWechat.setText(str);
+                    confirmWechat.setSelection(str.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         zhifubaoLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -209,28 +235,25 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 if (!canBuy) {
                     return;
                 }
-                presenter.buynum(netid,2);
+                presenter.buynum(netid, 2);
 
 //                } else {
 //                    showInfo("请添加收货地址");
 //                }
                 break;
-            case R.id.gift_layout:
-                if (netSuggest.getGift() == null) {
-                    showInfo("暂无赠送礼包");
-                } else {
-                    Intent intent1 = new Intent(this, GiftActivity.class);
-                    Bundle bundle = new Bundle();
-//                    List<Gift> giftList = new ArrayList<>();
-//                    giftList.addAll(lists);
-                    bundle.putSerializable("gift", (Serializable) lists);
-                    bundle.putSerializable("select", (Serializable) selectList);
-                    bundle.putInt("count", count);
-                    intent1.putExtras(bundle);
-//                    startActivity(intent1);
-                    startActivityForResult(intent1, 1);
-                }
-                break;
+//            case R.id.gift_layout:
+//                if (netSuggest.getGift() == null) {
+//                    showInfo("暂无赠送礼包");
+//                } else {
+//                    Intent intent1 = new Intent(this, GiftActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable("gift", (Serializable) lists);
+//                    bundle.putSerializable("select", (Serializable) selectList);
+//                    bundle.putInt("count", count);
+//                    intent1.putExtras(bundle);
+//                    startActivityForResult(intent1, 1);
+//                }
+//                break;
             case R.id.zhifubao_layout:
                 zhifubao.setSelected(true);
                 weixin.setSelected(false);
@@ -321,40 +344,40 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
             }
         } else if (message.what == MethodCode.EVENT_BUYNUM1) {
             isbuy = (int) message.obj;//0名额已满 1已购买 2可以买
-                if (isbuy == 2) {
-                    if (selectList.size() < count) {
-                        showInfo("请选择足够数量的礼包");
-                    } else {
-                        giftId = "";
-                        for (int i = 0; i < selectList.size(); i++) {
-                            if (i == 0) {
-                                giftId = giftId + selectList.get(i).getId();
-                            } else {
-                                giftId = giftId + "," + selectList.get(i).getId();
-                            }
-                        }
-                        if (payment == 0) {
-                            presenter.buyNetWork(netid, addressId, 0, payment, giftId);
-                        } else {
-                            if (!wxapi.isWXAppInstalled()) {
-                                showInfo("请您先安装微信客户端！");
-                                return;
-                            }
-                            presenter.buyNetWork(netid, addressId, 0, payment, giftId);
-                        }
+            if (isbuy == 2) {
+//                if (selectList.size() < count) {
+//                    showInfo("请选择足够数量的礼包");
+//                } else {
+//                    giftId = "";
+//                    for (int i = 0; i < selectList.size(); i++) {
+//                        if (i == 0) {
+//                            giftId = giftId + selectList.get(i).getId();
+//                        } else {
+//                            giftId = giftId + "," + selectList.get(i).getId();
+//                        }
+//                    }
+                if (payment == 0) {
+                    presenter.buyNetWork(netid, addressId, 0, payment, "");
+                } else {
+                    if (!wxapi.isWXAppInstalled()) {
+                        showInfo("请您先安装微信客户端！");
+                        return;
                     }
-                } else if (isbuy == 0) {
-                    showInfo("名额已满");
-                    presenter.getNetSuggest(netid);
-                } else if (isbuy == 1) {
-                    showInfo("已购买该课程");
-                    presenter.getNetSuggest(netid);
-                    JTMessage message1 = new JTMessage();
-                    message1.what = MethodCode.EVENT_PAY;
-                    message1.obj = 3;
-                    EventBus.getDefault().post(message1);
+                    presenter.buyNetWork(netid, addressId, 0, payment, "");
                 }
+//                }
+            } else if (isbuy == 0) {
+                showInfo("名额已满");
+                presenter.getNetSuggest(netid);
+            } else if (isbuy == 1) {
+                showInfo("已购买该课程");
+                presenter.getNetSuggest(netid);
+                JTMessage message1 = new JTMessage();
+                message1.what = MethodCode.EVENT_PAY;
+                message1.obj = 3;
+                EventBus.getDefault().post(message1);
             }
+        }
     }
 
     @Override
@@ -378,15 +401,15 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == 2) {
-            if (data != null) {
-                Bundle bundle = data.getExtras();
-                selectList.clear();
-                lists.clear();
-                selectList.addAll((List<Gift>) bundle.getSerializable("select"));
-                lists.addAll((List<Gift>) bundle.getSerializable("list"));
-            }
-        }
+//        if (resultCode == 2) {
+//            if (data != null) {
+//                Bundle bundle = data.getExtras();
+//                selectList.clear();
+//                lists.clear();
+//                selectList.addAll((List<Gift>) bundle.getSerializable("select"));
+//                lists.addAll((List<Gift>) bundle.getSerializable("list"));
+//            }
+//        }
     }
 
     @SuppressLint("HandlerLeak")
@@ -463,36 +486,36 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
             }
             product_name.setText(netSuggest.getNetName());
             confirm_price.setText(netSuggest.getPrice() + "元");
-            if (netSuggest.getMaterial() != null && netSuggest.getMaterial().length() != 0) {
-                material.setText(netSuggest.getMaterial());
-            } else {
-                material.setText("无");
-            }
-
-            if (netSuggest.getGift() != null) {
-                count = netSuggest.getCount();
-                lists = netSuggest.getGift();
-                if (application.getSystemUtils().getUserInfo() != null) {
-                    if (application.getSystemUtils().getUserInfo().getIsfirstbuy() == 1) {
-                        selectList.clear();
-                        for (int i = 0; i < lists.size(); i++) {
-                            if (lists.get(i).getIsmust() == 1) {
-                                Gift gift = lists.get(i);
-                                selectList.add(gift);
-                                lists.get(i).setSelect(true);
-                            }
-                        }
-                    }
-                }
-            }
-
-//            if (netSuggest.getMaterialPrice() == null) {
-//                materialPrice.setVisibility(View.GONE);
+//            if (netSuggest.getMaterial() != null && netSuggest.getMaterial().length() != 0) {
+//                material.setText(netSuggest.getMaterial());
 //            } else {
-//                materialPrice.setVisibility(View.VISIBLE);
-//                materialPrice.setText(netSuggest.getMaterialPrice() + "元");
-//                matPrice = Double.parseDouble(netSuggest.getMaterialPrice());
+//                material.setText("无");
 //            }
+
+//            if (netSuggest.getGift() != null) {
+//                count = netSuggest.getCount();
+//                lists = netSuggest.getGift();
+//                if (application.getSystemUtils().getUserInfo() != null) {
+//                    if (application.getSystemUtils().getUserInfo().getIsfirstbuy() == 1) {
+//                        selectList.clear();
+//                        for (int i = 0; i < lists.size(); i++) {
+//                            if (lists.get(i).getIsmust() == 1) {
+//                                Gift gift = lists.get(i);
+//                                selectList.add(gift);
+//                                lists.get(i).setSelect(true);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+
+            if (netSuggest.getMaterialPrice() == null) {
+                materialPrice.setVisibility(View.GONE);
+            } else {
+                materialPrice.setVisibility(View.VISIBLE);
+                materialPrice.setText("￥" + netSuggest.getMaterialPrice());
+                matPrice = Double.parseDouble(netSuggest.getMaterialPrice());
+            }
             if (netSuggest.getAddress() != null && netSuggest.getAddress().size() != 0) {
                 if (isAddress) {
                     for (int i = 0; i < netSuggest.getAddress().size(); i++) {
@@ -511,8 +534,8 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 }
             }
             netPrice = Double.parseDouble(netSuggest.getPrice());
-            totalPrice.setText("共计：" + netPrice + "元");
-            buyPrice = netPrice + "";
+            totalPrice.setText("共计：" + (netPrice + matPrice) + "元");
+            buyPrice = (netPrice + matPrice) + "";
         }
     }
 

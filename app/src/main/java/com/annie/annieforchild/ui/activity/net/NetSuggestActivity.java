@@ -44,6 +44,7 @@ import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.my.MyCourseActivity;
 import com.annie.annieforchild.ui.adapter.NetGiftAdapter;
+import com.annie.annieforchild.ui.adapter.viewHolder.NetSpecialViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.annieforchild.view.info.ViewInfo;
@@ -69,15 +70,15 @@ import javax.microedition.khronos.opengles.GL;
  * Created by wanglei on 2018/9/22.
  */
 
-public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnCheckDoubleClick, GradientScrollView.ScrollViewListener {
+public class NetSuggestActivity extends BaseActivity implements GrindEarView, OnCheckDoubleClick, GradientScrollView.ScrollViewListener {
     private ImageView back;
     private SliderLayout banner;
-    private TextView title, price, event, material, gotoBuy, present,net_suggest_summary;
-    private RecyclerView giftRecycler;
-    private LinearLayout netSuggestLinear, netSuggestLayout;
+    private TextView title, price, event, gotoBuy, net_suggest_summary;
+    //    private RecyclerView giftRecycler;
+    private LinearLayout netSuggestLinear;
     private NetWorkPresenter presenter;
     private CheckDoubleClickListener listener;
-    private NetGiftAdapter adapter;
+    //    private NetGiftAdapter adapter;
     private List<Gift> lists;
     private AlertHelper helper;
     private Dialog dialog;
@@ -93,7 +94,7 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
     private HashMap<Integer, String> file_maps;//轮播图图片map
     private String message;
     private int width;
-    private int flag=1;
+    private int flag = 1;
 
     {
         setRegister(true);
@@ -108,29 +109,28 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
     protected void initView() {
         DisplayMetrics dm = this.getResources().getDisplayMetrics();
         width = dm.widthPixels;
-        netsuggest_title=findViewById(R.id.netsuggest_title);
-        netSuggestActivity=this;
-        Linear_title=findViewById(R.id.ll_title);
+        netsuggest_title = findViewById(R.id.netsuggest_title);
+        netSuggestActivity = this;
+        Linear_title = findViewById(R.id.ll_title);
         back = findViewById(R.id.net_back);
         banner = findViewById(R.id.net_banner);
         title = findViewById(R.id.net_suggest_title);
         price = findViewById(R.id.net_suggest_price);
         event = findViewById(R.id.net_suggest_event);
-        material = findViewById(R.id.net_material);
-        giftRecycler = findViewById(R.id.net_gift_recycler);
+//        giftRecycler = findViewById(R.id.net_gift_recycler);
         gotoBuy = findViewById(R.id.goto_buy);
-        present = findViewById(R.id.present_gift);
+//        present = findViewById(R.id.present_gift);
         netSuggestLinear = findViewById(R.id.net_suggest_layout);
-        netSuggestLayout = findViewById(R.id.net_suggest_linear);
+//        netSuggestLayout = findViewById(R.id.net_suggest_linear);
         net_suggest_summary = findViewById(R.id.net_suggest_summary);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
         gotoBuy.setOnClickListener(listener);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        giftRecycler.setLayoutManager(manager);
+//        LinearLayoutManager manager = new LinearLayoutManager(this);
+//        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//        giftRecycler.setLayoutManager(manager);
 
-        scrollView=findViewById(R.id.scrollView);
+        scrollView = findViewById(R.id.scrollView);
         scrollView.setScrollViewListener(this);
         ViewTreeObserver vto = banner.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -153,27 +153,26 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
         netid = intent.getIntExtra("netid", 0);
         isBuy = intent.getIntExtra("isBuy", 0);
         netimage = intent.getStringExtra("netimage");
-        message=intent.getStringExtra("message");
+        message = intent.getStringExtra("message");
         type = intent.getStringExtra("type");
-        if (type.equals("体验课")) {
-            netSuggestLayout.setVisibility(View.GONE);
-        } else {
-            netSuggestLayout.setVisibility(View.VISIBLE);
-        }
-        adapter = new NetGiftAdapter(this, lists, 0, new OnRecyclerItemClickListener() {
-            @Override
-            public void onItemClick(View view) {
-                int position = giftRecycler.getChildAdapterPosition(view);
-//                showInfo(lists.get(position).getText());
-                SystemUtils.setBackGray(NetSuggestActivity.this, true);
-                SystemUtils.getGiftPopup(NetSuggestActivity.this, lists.get(position).getName(), lists.get(position).getText(), lists.get(position).getRemarks()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
-            }
-            @Override
-            public void onItemLongClick(View view) {
-
-            }
-        });
-        giftRecycler.setAdapter(adapter);
+//        if (type.equals("体验课")) {
+//            netSuggestLayout.setVisibility(View.GONE);
+//        } else {
+//            netSuggestLayout.setVisibility(View.VISIBLE);
+//        }
+//        adapter = new NetGiftAdapter(this, lists, 0, new OnRecyclerItemClickListener() {
+//            @Override
+//            public void onItemClick(View view) {
+//                int position = giftRecycler.getChildAdapterPosition(view);
+//                SystemUtils.setBackGray(NetSuggestActivity.this, true);
+//                SystemUtils.getGiftPopup(NetSuggestActivity.this, lists.get(position).getName(), lists.get(position).getText(), lists.get(position).getRemarks()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+//            }
+//            @Override
+//            public void onItemLongClick(View view) {
+//
+//            }
+//        });
+//        giftRecycler.setAdapter(adapter);
         presenter = new NetWorkPresenterImp(this, this);
         if (isBuy == 0) {
             gotoBuy.setText("立即购买");
@@ -183,7 +182,7 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
             gotoBuy.setText("去听课");
             gotoBuy.setTextColor(getResources().getColor(R.color.white));
             gotoBuy.setBackgroundColor(getResources().getColor(R.color.text_orange));
-        } else if(isBuy==2) {
+        } else if (isBuy == 2) {
             gotoBuy.setText(netSuggest.getMessage());
             gotoBuy.setTextColor(getResources().getColor(R.color.navigation_bar_color));
             gotoBuy.setBackgroundColor(getResources().getColor(R.color.gray1));
@@ -209,41 +208,41 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
         if (message.what == MethodCode.EVENT_GETNETSUGGEST) {
             netSuggest = (NetSuggest) message.obj;
             refresh();
-            adapter.notifyDataSetChanged();
+//            adapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_PAY) {
             finish();
         } else if (message.what == MethodCode.EVENT_BUYNUM) {
             canbuy = (int) message.obj;//0名额已满 1已购买 2可以买
-                if (canbuy == 2) {
-                    gotoBuy();
-                } else if (canbuy == 0) {
-                    showInfo("名额已满");
-                    presenter.getNetSuggest(netid);
-                } else if (canbuy == 1) {
-                    showInfo("已购买该课程");
-                    presenter.getNetSuggest(netid);
-                    JTMessage message1 = new JTMessage();
-                    message1.what = MethodCode.EVENT_PAY;
-                    message1.obj = 3;
-                    EventBus.getDefault().post(message1);
-                }
+            if (canbuy == 2) {
+                gotoBuy();
+            } else if (canbuy == 0) {
+                showInfo("名额已满");
+                presenter.getNetSuggest(netid);
+            } else if (canbuy == 1) {
+                showInfo("已购买该课程");
+                presenter.getNetSuggest(netid);
+                JTMessage message1 = new JTMessage();
+                message1.what = MethodCode.EVENT_PAY;
+                message1.obj = 3;
+                EventBus.getDefault().post(message1);
+            }
         }
     }
 
     private void gotoBuy() {
-            if (isBuy == 0) {
-                Intent intent = new Intent(this, ConfirmOrderActivity.class);
-                intent.putExtra("netid", netid);
-                intent.putExtra("netimage", netimage);
-                intent.putExtra("type", type);
-                intent.putExtra("netsummary", netSuggest.getNetSummary());
-                startActivity(intent);
+        if (isBuy == 0) {
+            Intent intent = new Intent(this, ConfirmOrderActivity.class);
+            intent.putExtra("netid", netid);
+            intent.putExtra("netimage", netimage);
+            intent.putExtra("type", type);
+            intent.putExtra("netsummary", netSuggest.getNetSummary());
+            startActivity(intent);
 //                EventBus.getDefault().unregister(this);
-            } else if (isBuy == 1) {
-                Intent intent1 = new Intent(this, MyCourseActivity.class);
-                startActivity(intent1);
-            } else {
-            }
+        } else if (isBuy == 1) {
+            Intent intent1 = new Intent(this, MyCourseActivity.class);
+            startActivity(intent1);
+        } else {
+        }
     }
 
     private void refresh() {
@@ -287,7 +286,7 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
                 gotoBuy.setText("去听课");
                 gotoBuy.setTextColor(getResources().getColor(R.color.white));
                 gotoBuy.setBackgroundColor(getResources().getColor(R.color.text_orange));
-            } else if(isBuy==2) {
+            } else if (isBuy == 2) {
                 gotoBuy.setText(netSuggest.getMessage());
                 gotoBuy.setTextColor(getResources().getColor(R.color.navigation_bar_color));
                 gotoBuy.setBackgroundColor(getResources().getColor(R.color.gray1));
@@ -295,31 +294,31 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
 
             title.setText(netSuggest.getNetName());
             netsuggest_title.setText(netSuggest.getNetName());
-            price.setText("￥"+ netSuggest.getPrice());
-            if(netSuggest.getEvent()!=null && netSuggest.getEvent().length() !=0){
+            price.setText("￥" + netSuggest.getPrice());
+            if (netSuggest.getEvent() != null && netSuggest.getEvent().length() != 0) {
                 event.setText(netSuggest.getEvent());
                 event.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 event.setVisibility(View.GONE);
             }
             net_suggest_summary.setText(netSuggest.getNetSummary());
-            if (netSuggest.getMaterial() != null && netSuggest.getMaterial().length() != 0) {
-                material.setText(netSuggest.getMaterial());
-            } else {
-                material.setText("无");
-            }
-            if (netSuggest.getGift() != null && netSuggest.getGift().size() != 0) {
-                present.setText("赠送礼包：");
-                lists.clear();
-                lists.addAll(netSuggest.getGift());
-            } else {
-                present.setText("赠送礼包：无");
-            }
+//            if (netSuggest.getMaterial() != null && netSuggest.getMaterial().length() != 0) {
+//                material.setText(netSuggest.getMaterial());
+//            } else {
+//                material.setText("无");
+//            }
+//            if (netSuggest.getGift() != null && netSuggest.getGift().size() != 0) {
+//                present.setText("赠送礼包：");
+//                lists.clear();
+//                lists.addAll(netSuggest.getGift());
+//            } else {
+//                present.setText("赠送礼包：无");
+//            }
         }
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 //        if(!EventBus.getDefault().isRegistered(this)){
 //            EventBus.getDefault().register(this);
@@ -335,9 +334,10 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
                 finish();
                 break;
             case R.id.goto_buy:
-                switch (isBuy){
+                switch (isBuy) {
                     case 0:
-                        presenter.buynum(netid,1);//type:1:netsuggest页面请求 2:confirmorder请求
+//                        presenter.buynum(netid,1);//type:1:netsuggest页面请求 2:confirmorder请求
+                        createAlertDialog(this);
                         break;
                     case 1:
                         Intent intent1 = new Intent(this, MyCourseActivity.class);
@@ -355,50 +355,60 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView,OnC
                 break;
         }
     }
+
     private void createAlertDialog(Activity activity) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this,R.style.myDialog);
-        View view = View.inflate(this, R.layout.activity_net_popupwindow, null);
-        TextView net_material=view.findViewById(R.id.net_material);
-        if(netSuggest.getMaterial()!=null && netSuggest.getMaterial().length()>0){
-            net_material.setText(netSuggest.getMaterial()+netSuggest.getMaterialPrice());
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity, R.style.myDialog);
+        View view = View.inflate(this, R.layout.activity_net_popupwindow,null);
+        TextView netMaterial = view.findViewById(R.id.net_pop_material);
+        TextView goBuy = view.findViewById(R.id.gotobuy);
+        if (netSuggest.getMaterialPrice() != null) {
+            netMaterial.setText("配套教材  ￥" + netSuggest.getMaterialPrice());
         }
-        RecyclerView net_gift=view.findViewById(R.id.net_gift);
-        NetGiftAdapter adapter=new NetGiftAdapter(this, lists, 1, new OnRecyclerItemClickListener() {
-            @Override
-            public void onItemClick(View view) {
 
-            }
-
-            @Override
-            public void onItemLongClick(View view) {
-
-            }
-        });
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.show();
-        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
-        layoutParams.gravity=Gravity.BOTTOM;
-        layoutParams.width= WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height= WindowManager.LayoutParams.WRAP_CONTENT;
-        dialog.getWindow().setContentView(view);
-        dialog.getWindow().setAttributes(layoutParams);
-
-        GridLayoutManager manager = new GridLayoutManager(this, 4);
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        net_gift.setLayoutManager(manager);
-        net_gift.setAdapter(adapter);
-        TextView gotoBuy=view.findViewById(R.id.gotobuy);
-        gotoBuy.setOnClickListener(new View.OnClickListener() {
+        goBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(activity, ConfirmOrderActivity.class);
-                intent.putExtra("netid", netid);
-                intent.putExtra("type", type);
-                startActivity(intent);
+                presenter.buynum(netid, 1);//type:1:netsuggest页面请求 2:confirmorder请求
+//                Intent intent = new Intent(activity, ConfirmOrderActivity.class);
+//                intent.putExtra("netid", netid);
+//                intent.putExtra("type", type);
+//                startActivity(intent);
             }
         });
+//        RecyclerView net_gift = view.findViewById(R.id.net_gift);
+//        NetGiftAdapter adapter = new NetGiftAdapter(this, lists, 1, new OnRecyclerItemClickListener() {
+//            @Override
+//            public void onItemClick(View view) {
+//
+//            }
+//
+//            @Override
+//            public void onItemLongClick(View view) {
+//
+//            }
+//        });
+
+        netMaterial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        AlertDialog dialog = alertDialog.create();
+        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
+        layoutParams.gravity = Gravity.BOTTOM;
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        dialog.getWindow().setContentView(view);
+        dialog.getWindow().setAttributes(layoutParams);
+        dialog.show();
+//        GridLayoutManager manager = new GridLayoutManager(this, 4);
+//        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//        net_gift.setLayoutManager(manager);
+//        net_gift.setAdapter(adapter);
+
     }
 
     @Override
