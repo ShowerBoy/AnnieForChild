@@ -30,6 +30,7 @@ import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetailActivity;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity;
+import com.annie.annieforchild.ui.activity.net.NetSpecialDetailActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.ui.adapter.MyCourseAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
@@ -110,10 +111,26 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
             @Override
             public void onItemClick(View view) {
                 int position = recycler.getChildAdapterPosition(view);
-                Intent intent = new Intent(MyCourseActivity.this, NetExperienceDetail_newActivity.class);
-                intent.putExtra("netid", lists.get(position).getNetId());
-                intent.putExtra("netName", lists.get(position).getNetName());
-                startActivity(intent);
+                if (lists.get(position).getType() == 0) {
+                    //专项
+                    Intent intent = new Intent(MyCourseActivity.this, NetSpecialDetailActivity.class);
+                    intent.putExtra("netid", lists.get(position).getNetId());
+                    intent.putExtra("netName", lists.get(position).getNetName());
+                    intent.putExtra("color", lists.get(position).getColour());
+                    startActivity(intent);
+                } else if (lists.get(position).getType() == 1) {
+                    //新版
+                    Intent intent = new Intent(MyCourseActivity.this, NetExperienceDetail_newActivity.class);
+                    intent.putExtra("netid", lists.get(position).getNetId());
+                    intent.putExtra("netName", lists.get(position).getNetName());
+                    startActivity(intent);
+                } else if (lists.get(position).getType() == 2) {
+                    //旧版
+                    Intent intent = new Intent(MyCourseActivity.this, NetExperienceDetailActivity.class);
+                    intent.putExtra("netid", lists.get(position).getNetId());
+                    intent.putExtra("netName", lists.get(position).getNetName());
+                    startActivity(intent);
+                }
             }
 
             @Override
@@ -168,9 +185,9 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
 //            }
 //            network_teacher_wx.setText(myNetClass.getTeacher() + "（长按复制）");
             MyNetClass myNetClass = (MyNetClass) message.obj;
-            if(myNetClass!=null ){
+            if (myNetClass != null) {
                 lists.clear();
-                if(myNetClass.getMyList()!=null){
+                if (myNetClass.getMyList() != null) {
                     lists.addAll(myNetClass.getMyList());
                 }
                 if (lists.size() == 0) {

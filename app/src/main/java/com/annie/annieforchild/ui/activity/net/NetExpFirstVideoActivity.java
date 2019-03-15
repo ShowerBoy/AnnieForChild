@@ -31,6 +31,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+//视频列表
 public class NetExpFirstVideoActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     CheckDoubleClickListener listner;
     private ImageView back;
@@ -73,12 +74,12 @@ public class NetExpFirstVideoActivity extends BaseActivity implements ViewInfo, 
 
         String fid = getIntent().getStringExtra("fid");
         String name = getIntent().getStringExtra("title");
-        int type=getIntent().getIntExtra("type",1);
+        int type = getIntent().getIntExtra("type", 1);
         title.setText(name);
 
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
-        presenter.getWeiClass(fid,type);
+        presenter.getWeiClass(fid, type);
 
         adapter = new NetExpFirstVideoAdapter(this, lists);
         net_preheatconsult_recyclerview.setAdapter(adapter);
@@ -112,7 +113,6 @@ public class NetExpFirstVideoActivity extends BaseActivity implements ViewInfo, 
             }
         }
     }
-
 
 
     @Override

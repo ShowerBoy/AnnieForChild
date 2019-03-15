@@ -121,10 +121,10 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String giftid) {
+    public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid) {
         this.payment = payment;
         viewInfo.showLoad();
-        interactor.buyNetWork(netid, addressid, ismaterial, payment, giftid);
+        interactor.buyNetWork(netid, addressid, ismaterial, payment, wxnumber, giftid);
     }
 
     @Override
@@ -138,6 +138,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         viewInfo.showLoad();
         interactor.getNetExpDetails(netid);
     }
+
     @Override
     public void getNetExpDetails_new(int netid) {
         viewInfo.showLoad();
@@ -145,9 +146,15 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void getLesson(String lessonid,int type) {
+    public void getNetSpecialDetail(int netid) {
         viewInfo.showLoad();
-        interactor.getLesson(lessonid,type);
+        interactor.getNetSpecialDetail(netid);
+    }
+
+    @Override
+    public void getLesson(String lessonid, int type) {
+        viewInfo.showLoad();
+        interactor.getLesson(lessonid, type);
     }
 
     @Override
@@ -437,6 +444,23 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_SPECIALCLASS) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetSpecialDetailActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_SPECIALPREHEATING) {
+                PreheatConsult lists = (PreheatConsult) result;
+                /**
+                 * {@link NetPreheatClassActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
                 EventBus.getDefault().post(message);
             }
         }

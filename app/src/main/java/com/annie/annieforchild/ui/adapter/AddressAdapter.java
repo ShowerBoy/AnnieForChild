@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Address;
 import com.annie.annieforchild.ui.activity.net.AddAddressActivity;
@@ -28,10 +30,12 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressViewHolder> {
     private Context context;
     private List<Address> lists;
     private LayoutInflater inflater;
+    private boolean isClick;
 
     public AddressAdapter(Context context, List<Address> lists) {
         this.context = context;
         this.lists = lists;
+        isClick = true;
         inflater = LayoutInflater.from(context);
     }
 
@@ -52,17 +56,31 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressViewHolder> {
 //        }else{
 //            holder.checkbox.setChecked(true);
 //        }
-        holder.layout.setOnClickListener(new View.OnClickListener() {
+        holder.layout.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
             @Override
-            public void onClick(View v) {
-                holder.checkbox.setChecked(true);
-                JTMessage message = new JTMessage();
-                message.what = MethodCode.EVENT_ADDRESS;
-                message.obj = lists.get(i).getAddressId();
-                EventBus.getDefault().post(message);
-                ((MyAddressActivity) context).finish();
+            public void onCheckDoubleClick(View view) {
+                if (isClick) {
+                    isClick = false;
+                    holder.checkbox.setChecked(true);
+                    JTMessage message = new JTMessage();
+                    message.what = MethodCode.EVENT_ADDRESS;
+                    message.obj = lists.get(i).getAddressId();
+                    EventBus.getDefault().post(message);
+                    ((MyAddressActivity) context).finish();
+                }
             }
-        });
+        }));
+//        holder.layout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                holder.checkbox.setChecked(true);
+//                JTMessage message = new JTMessage();
+//                message.what = MethodCode.EVENT_ADDRESS;
+//                message.obj = lists.get(i).getAddressId();
+//                EventBus.getDefault().post(message);
+//                ((MyAddressActivity) context).finish();
+//            }
+//        });
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

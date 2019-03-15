@@ -23,11 +23,11 @@ public interface NetWorkPresenter {
 
     void deleteAddress(int addressid);
 
-    void buyNetWork(int netid, int addressid, int ismaterial, int payment, String giftid);
+    void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid);
 
     void getNetDetails(int netid);
 
-    void getLesson(String lessonid,int type);
+    void getLesson(String lessonid, int type);
 
     void buySuccess();
 
@@ -41,7 +41,9 @@ public interface NetWorkPresenter {
 
     void OrderQuery(String tradeno, String outtradeno, int type);
 
-    void getWeiClass(String fid,int type);
+    void getWeiClass(String fid, int type);
 
     void getNetExpDetails_new(int netid);
+
+    void getNetSpecialDetail(int netid);
 }

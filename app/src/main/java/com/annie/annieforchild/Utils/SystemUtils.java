@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -926,6 +927,11 @@ public class SystemUtils {
     public static int dpToPixel(Context context, int dp) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return dp < 0 ? dp : Math.round(dp * displayMetrics.density);
+    }
+
+    public static float dp2px(Resources resources, float dpValue) {
+        final float scale = resources.getDisplayMetrics().density;
+        return (dpValue * scale + 0.5f);
     }
 
 

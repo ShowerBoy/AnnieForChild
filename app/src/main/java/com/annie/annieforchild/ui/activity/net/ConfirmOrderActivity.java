@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alipay.sdk.app.PayTask;
+import com.alipay.sdk.auth.AlipaySDK;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
@@ -80,7 +81,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     private ImageView back, product_img;
     private EditText confirmWechat;
     private RelativeLayout zhifubaoLayout, wechatLayout;
-    private LinearLayout confirmLayout;
+    private LinearLayout confirmLayout, suggestLayout;
     private TextView name, phone, address, buyBtn, totalPrice, product_name, product_text, materialPrice;
     private TextView confirm_price;
     private ImageView zhifubao, weixin;
@@ -100,12 +101,14 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     //    private String giftId = "";
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 2;
+    private int flag;//0:未选配套 1:已选
     private String netsummary;
     private IWXAPI wxapi;
     //    private int count; //礼包可选数
     private boolean canBuy = false; //能否购买
     public static String buyPrice;
     private String wxout_trade_no = "";
+    private String wxText;
     private int wx_status = -1;
     private int isbuy = -1;
 
@@ -140,6 +143,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         confirm_price = findViewById(R.id.confirm_price);
         confirmWechat = findViewById(R.id.confirm_wechat);
         materialPrice = findViewById(R.id.material_price);
+        suggestLayout = findViewById(R.id.suggest_material_layout);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
         addressLayout.setOnClickListener(listener);
@@ -191,12 +195,18 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         type = getIntent().getStringExtra("type");
         netimage = getIntent().getStringExtra("netimage");
         netsummary = getIntent().getStringExtra("netsummary");
+        flag = getIntent().getIntExtra("flag", 0);
         if (type.equals("体验课")) {
             confirmLayout.setVisibility(View.GONE);
             addressLayout.setVisibility(View.GONE);
         } else {
             confirmLayout.setVisibility(View.VISIBLE);
             addressLayout.setVisibility(View.VISIBLE);
+            if (flag == 0) {
+                suggestLayout.setVisibility(View.GONE);
+            } else {
+                suggestLayout.setVisibility(View.VISIBLE);
+            }
         }
         product_img = findViewById(R.id.product_img);
         Glide.with(this).load(netimage).into(product_img);
@@ -231,15 +241,26 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 startActivity(intent);
                 break;
             case R.id.buy_btn:
-//                if (addressId != -1) {
-                if (!canBuy) {
-                    return;
+                if (type.equals("体验课")) {
+                    if (!canBuy) {
+                        return;
+                    }
+                    presenter.buynum(netid, 2);
+                } else {
+                    if (addressId != -1) {
+                        if (confirmWechat.getText().toString() != null && confirmWechat.getText().toString().length() != 0) {
+                            wxText = confirmWechat.getText().toString().trim();
+                            if (!canBuy) {
+                                return;
+                            }
+                            presenter.buynum(netid, 2);
+                        } else {
+                            showInfo("请输入您的微信号");
+                        }
+                    } else {
+                        showInfo("请添加收货地址");
+                    }
                 }
-                presenter.buynum(netid, 2);
-
-//                } else {
-//                    showInfo("请添加收货地址");
-//                }
                 break;
 //            case R.id.gift_layout:
 //                if (netSuggest.getGift() == null) {
@@ -343,7 +364,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 }
             }
         } else if (message.what == MethodCode.EVENT_BUYNUM1) {
-            isbuy = (int) message.obj;//0名额已满 1已购买 2可以买
+            isbuy = (int) message.obj;//0名额已满 1已购买 2可以买 3无法购买
             if (isbuy == 2) {
 //                if (selectList.size() < count) {
 //                    showInfo("请选择足够数量的礼包");
@@ -357,13 +378,13 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
 //                        }
 //                    }
                 if (payment == 0) {
-                    presenter.buyNetWork(netid, addressId, 0, payment, "");
+                    presenter.buyNetWork(netid, addressId, flag, payment, wxText, "");
                 } else {
                     if (!wxapi.isWXAppInstalled()) {
                         showInfo("请您先安装微信客户端！");
                         return;
                     }
-                    presenter.buyNetWork(netid, addressId, 0, payment, "");
+                    presenter.buyNetWork(netid, addressId, flag, payment, wxText, "");
                 }
 //                }
             } else if (isbuy == 0) {
@@ -376,6 +397,8 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 message1.what = MethodCode.EVENT_PAY;
                 message1.obj = 3;
                 EventBus.getDefault().post(message1);
+            } else if (isbuy == 3) {
+                showInfo("已购买过该类课程");
             }
         }
     }
@@ -527,15 +550,19 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                     }
                 } else {
                     addressId = netSuggest.getAddress().get(0).getAddressId();
-
                     name.setText(netSuggest.getAddress().get(0).getName());
                     phone.setText(netSuggest.getAddress().get(0).getPhone());
                     address.setText(netSuggest.getAddress().get(0).getAddress());
                 }
             }
             netPrice = Double.parseDouble(netSuggest.getPrice());
-            totalPrice.setText("共计：" + (netPrice + matPrice) + "元");
-            buyPrice = (netPrice + matPrice) + "";
+            if (flag == 0) {
+                totalPrice.setText("共计：" + netPrice + "元");
+                buyPrice = netPrice + "";
+            } else {
+                totalPrice.setText("共计：" + (netPrice + matPrice) + "元");
+                buyPrice = (netPrice + matPrice) + "";
+            }
         }
     }
 

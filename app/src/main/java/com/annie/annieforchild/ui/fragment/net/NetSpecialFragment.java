@@ -45,7 +45,7 @@ import java.util.List;
 
 public class NetSpecialFragment extends BaseFragment implements OnCheckDoubleClick {
     private List<NetClass> list;
-    private List<String> imglist_bottom, imglist_top;
+    private List<String> imglist_bottom;
     private NetSpecialAdapter adapter;
     private CheckDoubleClickListener listener;
     private RecyclerView specialList;
@@ -67,7 +67,6 @@ public class NetSpecialFragment extends BaseFragment implements OnCheckDoubleCli
     protected void initData() {
         list = new ArrayList<>();
         imglist_bottom = new ArrayList<>();
-        imglist_top = new ArrayList<>();
         adapter = new NetSpecialAdapter(getContext(), list, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
@@ -182,7 +181,7 @@ public class NetSpecialFragment extends BaseFragment implements OnCheckDoubleCli
 //                        Glide.with(this).load(imglist_bottom.get(i)).into(imageView);
                                     net_imglayout_bottom.addView(imageView);
                                 }
-                            }else{
+                            } else {
                                 net_imglayout_bottom.removeAllViews();
                             }
                         }

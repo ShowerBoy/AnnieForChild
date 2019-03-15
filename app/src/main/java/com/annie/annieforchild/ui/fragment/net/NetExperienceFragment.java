@@ -22,6 +22,8 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.NetClass;
 import com.annie.annieforchild.bean.net.NetWork;
+import com.annie.annieforchild.ui.activity.my.WebActivity;
+import com.annie.annieforchild.ui.activity.my.WebActivity2;
 import com.annie.annieforchild.ui.activity.net.NetConsultActivity;
 import com.annie.annieforchild.ui.activity.net.NetFAQActivity;
 import com.annie.annieforchild.ui.activity.net.NetSuggestActivity;
@@ -172,17 +174,20 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
 
     @Override
     public void onCheckDoubleClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.network_consult:
                 Intent intent1 = new Intent(getContext(), NetFAQActivity.class);
-                intent1.putExtra("title","购课咨询");
-                intent1.putExtra("type","consult");
+                intent1.putExtra("title", "购课咨询");
+                intent1.putExtra("type", "consult");
                 startActivity(intent1);
                 break;
             case R.id.network_faq:
                 Intent intent = new Intent(getContext(), NetFAQActivity.class);
                 intent.putExtra("title","体验课FAQ");
                 intent.putExtra("type","faq");
+//                Intent intent = new Intent(getContext(), WebActivity.class);
+//                intent.putExtra("title", "体验课FAQ");
+//                intent.putExtra("url", "https://demoapi.anniekids.net/Api/NetclassApi/NetclassFAQ");
                 startActivity(intent);
                 break;
         }

@@ -1,6 +1,7 @@
 package com.annie.annieforchild.interactor.imp;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.annie.annieforchild.bean.net.MyNetClass;
 import com.annie.annieforchild.bean.net.NetClass;
 import com.annie.annieforchild.bean.net.NetDetails;
 import com.annie.annieforchild.bean.net.NetExpDetails;
+import com.annie.annieforchild.bean.net.NetSpecialDetail;
 import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.bean.net.PreheatConsult;
@@ -150,7 +152,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String giftid) {
+    public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid) {
         this.payment = payment;
 //        JavaBeanRequest request = new JavaBeanRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNETWORK, String.class);
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNETWORK, RequestMethod.POST);
@@ -161,6 +163,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("addressid", addressid);
         request.add("ismaterial", ismaterial);
         request.add("payment", payment);
+        request.add("wxnumber", wxnumber);
 //        request.add("giftid", giftid);
         addQueue(MethodCode.EVENT_BUYNETWORK, request);
 //        startQueue();
@@ -186,6 +189,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         addQueue(MethodCode.EVENT_GETNETEXPDETAILS, request);
 //        startQueue();
     }
+
     @Override
     public void getNetExpDetails_new(int netid) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETEXPDETAILS_NEW, RequestMethod.POST);
@@ -198,13 +202,31 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void getLesson(String lessonid,int type) {
+    public void getNetSpecialDetail(int netid) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALCLASS, RequestMethod.POST);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("netid", netid);
+        addQueue(MethodCode.EVENT_SPECIALCLASS, request);
+    }
+
+    @Override
+    public void specialPreheating(int lessonid) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALPREHEATING, RequestMethod.POST);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("netid", lessonid);
+        addQueue(MethodCode.EVENT_SPECIALPREHEATING, request);
+    }
+
+    @Override
+    public void getLesson(String lessonid, int type) {
         FastJsonRequest request;
-        if(type==4){//彩虹条新版本
-            request= new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETSPECIALLESSON_NEW, RequestMethod.POST);
+        if (type == 4) {//彩虹条新版本
+            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETSPECIALLESSON_NEW, RequestMethod.POST);
             request.add("fid", lessonid);
-        }else{
-            request= new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETLESSON, RequestMethod.POST);
+        } else {
+            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETLESSON, RequestMethod.POST);
             request.add("lessonid", lessonid);
         }
         request.add("token", application.getSystemUtils().getToken());
@@ -273,18 +295,24 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void getWeiClass(String fid,int type) {
+    public void getWeiClass(String fid, int type) {
         FastJsonRequest request;
-        if(type==1){//微课堂
+        if (type == 1) {//微课堂
             request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETWEICLASS, RequestMethod.POST);
-         }else if(type==4){//新版本的开班活动等
+            request.add("fid", fid);
+        } else if (type == 4) {//新版本的开班活动等
             request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETSPECIAL_NEW, RequestMethod.POST);
-        } else{
+            request.add("fid", fid);
+        } else if (type == 5) {
+            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALPREHEATING, RequestMethod.POST);
+            request.add("lessonid", fid);
+        } else {
             request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETCLASSANALYSIS, RequestMethod.POST);
+            request.add("fid", fid);
         }
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("fid", fid);
+
         addQueue(MethodCode.EVENT_GETWEICLASS, request);
     }
 
@@ -364,7 +392,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     }
                 }
             } else if (what == MethodCode.EVENT_GETLESSON) {
-                Log.e("111",data+"");
+                Log.e("111", data + "");
                 List<Game> lists;
                 if (data != null) {
                     lists = JSON.parseArray(data, Game.class);
@@ -383,7 +411,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
             } else if (what == MethodCode.EVENT_GETNETEXPDETAILS) {
                 NetExpClass netExpClass = JSON.parseObject(data, NetExpClass.class);
                 listener.Success(what, netExpClass);
-            }else if (what == MethodCode.EVENT_GETNETEXPDETAILS_NEW) {
+            } else if (what == MethodCode.EVENT_GETNETEXPDETAILS_NEW) {
                 NetExp_new netExpClass = JSON.parseObject(data, NetExp_new.class);
                 listener.Success(what, netExpClass);
             } else if (what == MethodCode.EVENT_GETPREHEATCONSULT) {
@@ -418,7 +446,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     trade_status = jsonObject1.getString("trade_state");
                     listener.Success(what, trade_status);
                 }
-            }else if(what ==MethodCode.EVENT_GETWEICLASS){
+            } else if (what == MethodCode.EVENT_GETWEICLASS) {
                 List<Video_first> lists;
                 if (data != null) {
                     lists = JSON.parseArray(data, Video_first.class);
@@ -426,6 +454,12 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     lists = new ArrayList<>();
                 }
                 listener.Success(what, lists);
+            } else if (what == MethodCode.EVENT_SPECIALCLASS) {
+                NetSpecialDetail netSpecialDetail = JSON.parseObject(data, NetSpecialDetail.class);
+                listener.Success(what, netSpecialDetail);
+            } else if (what == MethodCode.EVENT_SPECIALPREHEATING) {
+                PreheatConsult preheatConsult = JSON.parseObject(data, PreheatConsult.class);
+                listener.Success(what, preheatConsult);
             }
         }
     }

@@ -46,7 +46,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
 
 
@@ -123,8 +123,7 @@
 
         <service
             android:name=".Utils.service.MusicService"
-            android:enabled="true">
-        </service>
+            android:enabled="true"></service>
 
         <activity
             android:name=".ui.activity.login.LoginActivity"
@@ -269,6 +268,7 @@
             android:name=".ui.activity.grindEar.ExerciseTestActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.activity.my.WebActivity" />
+        <activity android:name=".ui.activity.my.WebActivity2" />
         <activity
             android:name=".ui.activity.login.ModifyPsdActivity"
             android:screenOrientation="portrait"></activity>
@@ -466,6 +466,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.net.NetExperienceDetail_newActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.net.NetSpecialDetailActivity"
             android:screenOrientation="portrait" />
 
     </application>

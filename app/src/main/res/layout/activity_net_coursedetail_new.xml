@@ -95,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
@@ -201,6 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/fourstage"
                     android:layout_margin="15dp"
+                    android:visibility="gone"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -336,7 +337,7 @@
                         android:layout_height="40dp"
                         android:background="@drawable/orange_btn3"
                         android:gravity="center"
-                        android:text="课程体验"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -353,7 +354,7 @@
                     android:layout_below="@id/threestage"
                     android:layout_margin="15dp"
                     android:layout_marginTop="5dp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -443,7 +444,7 @@
                         android:layout_height="40dp"
                         android:background="@drawable/orange_btn3"
                         android:gravity="center"
-                        android:text="预热阶段"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -459,7 +460,7 @@
                     android:layout_below="@id/twostage"
                     android:layout_margin="15dp"
                     android:layout_marginTop="5dp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -550,7 +551,7 @@
                         android:layout_height="40dp"
                         android:background="@drawable/orange_btn3"
                         android:gravity="center"
-                        android:text="准备阶段"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         app:layout_constraintLeft_toLeftOf="parent"

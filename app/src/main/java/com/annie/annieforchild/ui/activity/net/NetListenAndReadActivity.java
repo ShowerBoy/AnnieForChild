@@ -69,7 +69,6 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
         dialog = helper.LoadingDialog();
         presenter = new NetWorkPresenterImp(this, this);
 
-
         presenter.initViewAndData();
         presenter.getListeningAndReading(week, classid, tag, 2);
 
@@ -90,7 +89,7 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
             } else {
                 no_content.setVisibility(View.GONE);
             }
-            Glide.with(this).load(listenAndRead.getPath()).placeholder(R.drawable.book_image_loading). dontAnimate().into(listenandread_img);
+            Glide.with(this).load(listenAndRead.getPath()).placeholder(R.drawable.book_image_loading).dontAnimate().into(listenandread_img);
         }
     }
 

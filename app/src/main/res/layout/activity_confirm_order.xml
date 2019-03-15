@@ -226,60 +226,42 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/light_gray2" />
-
-                <!--<RelativeLayout-->
-                <!--android:id="@+id/gift_layout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="16dp">-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/confirm_zengsonglibao"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="礼包"-->
-                <!--android:textColor="@color/text_black"-->
-                <!--android:textSize="14sp" />-->
-
-
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentEnd="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:textColor="@color/text_black"-->
-                <!--android:textSize="14sp"-->
-                <!--android:text="礼包A"-->
-                <!--/>-->
-                <!--</RelativeLayout>-->
-
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/suggest_material_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/confirm_z"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="配套教材"
-                        android:textColor="@color/text_black"
-                        android:textSize="14sp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_gray2" />
 
-                    <TextView
-                        android:id="@+id/material_price"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:text="￥0"
-                        android:textColor="@color/text_orange"
-                        android:textSize="14sp" />
-                </RelativeLayout>
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/confirm_z"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="配套教材"
+                            android:textColor="@color/text_black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/material_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="￥0"
+                            android:textColor="@color/text_orange"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -289,6 +271,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:padding="16dp">
 
                     <TextView

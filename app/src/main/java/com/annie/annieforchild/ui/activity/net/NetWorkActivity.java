@@ -155,7 +155,7 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
                 intent.putExtra("url", "http://study.anniekids.org/questionnaire/index.html?name=" + application.getSystemUtils().getDefaultUsername());
 //                intent.putExtra("url", "https://demoapi.anniekids.net/Api/ShareApi/WeiClass");
 //                intent.putExtra("aabb",1);//标题是否取消1：取消
-                intent.putExtra("title", "测试");
+                intent.putExtra("title", "");
                 startActivity(intent);
 
 //                Toast.makeText(this, "敬请期待", Toast.LENGTH_SHORT).show();

@@ -17,6 +17,7 @@
             android:layout_marginLeft="17dp"
             android:layout_marginRight="13dp"
             android:layout_marginTop="10dp"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <ImageView
@@ -44,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="17dp"
             android:layout_marginRight="13dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="6dp"
             android:nestedScrollingEnabled="false"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"

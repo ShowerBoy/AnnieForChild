@@ -15,12 +15,32 @@ public class NetClass implements Serializable {
     private String netSummary;
     private int isBuy;
     private int count;
+    private int type;
     private String message;
-    public String getMessage(){
+    private int colour;
+
+    public int getColour() {
+        return colour;
+    }
+
+    public void setColour(int colour) {
+        this.colour = colour;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getMessage() {
         return message;
     }
-    public void setMessage(String message){
-        this.message=message;
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public int getCount() {

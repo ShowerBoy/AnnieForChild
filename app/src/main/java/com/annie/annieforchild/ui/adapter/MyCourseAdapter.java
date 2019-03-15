@@ -49,7 +49,7 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseViewHolder> {
 
     @Override
     public void onBindViewHolder(MyCourseViewHolder holder, int position) {
-        Glide.with(context).load(lists.get(position).getNetImageUrl()).into(holder.image);
+        Glide.with(context).load(lists.get(position).getNetImageUrl()).error(R.drawable.image_error).into(holder.image);
         holder.title.setText(lists.get(position).getNetName());
         holder.suggest.setText(lists.get(position).getNetSummary());
     }

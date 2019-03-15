@@ -11,7 +11,7 @@ public class MethodCode {
     final public static String HOMEWORKAPI = "homeworkApi/";
     final public static String SEARCHAPI = "SearchApi/";
     final public static String SQUAREAPI = "SquareApi/";
-    final public static String NETCLASSAPI = "NetclassApi/";
+    final public static String NETCLASSAPI = "NetclasstestApi/";
     final public static String SIGNINAPI = "Signin/";
     final public static String TASKAPI = "TaskApi/";
     final public static String SHAREAPI = "ShareApi/";
@@ -191,4 +191,6 @@ public class MethodCode {
     final public static int EVENT_ORDERQUERY = 143; //购买之后查询订单状态
     final public static int EVENT_GETWEICLASS = 144; //微课堂视频
     final public static int EVENT_GETNETEXPDETAILS_NEW = 145; //体验课具体内容详情新版本
+    final public static int EVENT_SPECIALCLASS = 146; //体验课具体内容详情新版本
+    final public static int EVENT_SPECIALPREHEATING = 147; //综合课预热课
 }

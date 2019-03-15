@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,7 +16,7 @@ import com.annie.annieforchild.R;
 
 public class AddressViewHolder extends RecyclerView.ViewHolder {
     public ImageView edit;
-    public RelativeLayout layout;
+    public LinearLayout layout;
     public TextView name, phone, address;
     public CheckBox checkbox;
 

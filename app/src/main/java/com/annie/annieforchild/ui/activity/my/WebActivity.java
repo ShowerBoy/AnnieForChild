@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.activity.my;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -19,7 +20,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -58,7 +61,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
     private Intent mIntent;
     private TextView title;
     private String url;
-    private WebSettings webSettings;
     private String titleText;
     private PopupWindow popupWindow;
     private View v;
@@ -113,6 +115,12 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setAllowFileAccess(true);
+        webView.getSettings().setAppCacheEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
@@ -133,29 +141,11 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         }
         title.setText(titleText);
         if (url != null) {
-            webView.loadUrl(url);
-            webView.canGoForward();
-            webView.canGoBack();
-            webView.getSettings().setUseWideViewPort(true);
-            webView.getSettings().setLoadWithOverviewMode(true);
-            webView.getSettings().setBuiltInZoomControls(true);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-            }
-//            webView.getSettings().setSupportZoom(true);
-//            webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-//            webView.getSettings().setGeolocationEnabled(true);
-//            webView.getSettings().setDomStorageEnabled(true);
-//            webView.getSettings().setDatabaseEnabled(true);
-//            webView.getSettings().setAllowFileAccess(true); // 允许访问文件
-////            webView.getSettings().setSupportZoom(true); // 支持缩放
-//            webView.getSettings().setPluginState(WebSettings.PluginState.ON);
-//            webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE); // 不加载缓存内容
+            webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE); // 不加载缓存内容
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                    Log.e("-----", url);
-
+                    view.loadUrl(url);
                     if (getValueByName(url, "query1").equals("end")) {
                         finish();
                     } else if (getValueByName(url, "into").equals("1")) {
@@ -172,31 +162,41 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                         startActivity(intent1);
                         finish();
                     }
-//                    view.loadUrl(url);
-//                    Intent intent1 = new Intent();
-//                    intent1.setClass(WebActivity.this, WebActivity.class);
-//                    intent1.putExtra("url", url);
-//                    intent1.putExtra("aabb", 1);
-//                    startActivity(intent1);
-//                    finish();
-                    return false;
+                    return true;
                 }
 
                 @Override
                 public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    Log.i("onPageStarted", "onPageStarted");
                     super.onPageStarted(view, url, favicon);
                 }
 
                 @Override
                 public void onPageFinished(WebView view, String url) {
+                    Log.i("onPageFinished", "onPageFinished");
                     super.onPageFinished(view, url);
                 }
 
                 @Override
                 public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                    Log.i("onReceivedSslError", "onReceivedSslError");
                     if (handler != null) {
                         handler.proceed();//忽略证书的错误继续加载页面内容，不会变成空白页面
                     }
+                }
+
+                @TargetApi(Build.VERSION_CODES.M)
+                @Override
+                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                    Log.i("onReceivedError", "onReceivedError");
+                    int er = error.getErrorCode();
+                    super.onReceivedError(view, request, error);
+                }
+
+                @Override
+                public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                    Log.i("onReceivedHttpError", "onReceivedHttpError");
+                    super.onReceivedHttpError(view, request, errorResponse);
                 }
             });
             webView.setWebChromeClient(new WebChromeClient() {
@@ -210,6 +210,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                     }
                 }
             });
+            webView.canGoForward();
+            webView.canGoBack();
+            webView.loadUrl(url);
         }
         if (shareTag == 0) {
             share.setVisibility(View.GONE);

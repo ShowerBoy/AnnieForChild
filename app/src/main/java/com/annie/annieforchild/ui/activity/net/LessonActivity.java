@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
     private ImageView back;
     private TextView title;
     private RecyclerView recycler;
+    private RelativeLayout emptyLayout;
     private NetWorkPresenter presenter;
     private LessonAdapter adapter;
     private List<Game> lists;
@@ -62,6 +64,7 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
     protected void initView() {
         back = findViewById(R.id.lesson_back);
         title = findViewById(R.id.lesson_title);
+        emptyLayout = findViewById(R.id.empty_layout);
         recycler = findViewById(R.id.lesson_recycler);
         back.setOnClickListener(this);
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -76,7 +79,7 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
         dialog = helper.LoadingDialog();
         lessonId = getIntent().getStringExtra("lessonId");
         lessonName = getIntent().getStringExtra("lessonName");
-        int type=getIntent().getIntExtra("type",1);
+        int type = getIntent().getIntExtra("type", 1);
         title.setText(lessonName);
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
@@ -86,7 +89,7 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
                 int position = recycler.getChildAdapterPosition(view);
                 Intent intent = new Intent(LessonActivity.this, WebActivity.class);
                 intent.putExtra("url", lists.get(position).getGameUrl());
-                intent.putExtra("flag",1);//标题是否取消1：取消
+                intent.putExtra("flag", 1);//标题是否取消1：取消
 //                intent.putExtra("title", lists.get(position).getGameName());
                 startActivity(intent);
             }
@@ -97,7 +100,7 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
             }
         });
         recycler.setAdapter(adapter);
-        presenter.getLesson(lessonId,type);
+        presenter.getLesson(lessonId, type);
     }
 
     @Override
@@ -122,8 +125,15 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETLESSON) {
-            lists.clear();
-            lists.addAll((List<Game>) message.obj);
+            List list = (List<Game>) message.obj;
+            if (list != null && list.size() != 0) {
+                emptyLayout.setVisibility(View.GONE);
+                lists.clear();
+                lists.addAll(list);
+            } else {
+                emptyLayout.setVisibility(View.VISIBLE);
+                lists.clear();
+            }
             adapter.notifyDataSetChanged();
         }
     }

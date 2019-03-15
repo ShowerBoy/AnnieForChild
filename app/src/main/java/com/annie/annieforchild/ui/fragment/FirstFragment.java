@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -80,7 +81,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 //    private RecommendAdapter recommend_adapter;
     private TextView moreMoerduo, moreReading, moreSpoken, moerduoText1, moerduoText2, moerduoText3, readingText1, readingText2, readingText3, spokenText1, spokenText2, spokenText3, meiriyigeText, meiriyigeCount, meiriyishiText, meiriyishiCount, meiriyiduText, meiriyiduCount, grindText, readingText, speakingText;
     private SliderLayout imageSlide;
-    private ImageView signImage, grindEarLayout, readingLayout, spokenLayout, moerduoImage1, moerduoImage2, moerduoImage3, readingImage1, readingImage2, readingImage3, spokenImage1, spokenImage2, spokenImage3, meiriyigeImage, meiriyishiImage, meiriyiduImage, grindLock1, grindLock2, grindLock3, readingLock1, readingLock2, readingLock3, speakingLock1, speakingLock2, speakingLock3, meiriyigeLock, meiriyishiLock, meiriyiduLock, freeImage1, freeImage2, freeImage3;
+    private ImageView homePicture, signImage, grindEarLayout, readingLayout, spokenLayout, moerduoImage1, moerduoImage2, moerduoImage3, readingImage1, readingImage2, readingImage3, spokenImage1, spokenImage2, spokenImage3, meiriyigeImage, meiriyishiImage, meiriyiduImage, grindLock1, grindLock2, grindLock3, readingLock1, readingLock2, readingLock3, speakingLock1, speakingLock2, speakingLock3, meiriyigeLock, meiriyishiLock, meiriyiduLock, freeImage1, freeImage2, freeImage3;
     private LinearLayout clockInLayout, scheduleLayout, eventLayout, matchLayout, iWantLayout, moerduoLinear, readingLinear, speakingLinear;
     private List<Song> moerduoList, readingList, speakingList, freeList;
     public static List<SongClassify> spokenList;
@@ -127,6 +128,17 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         DisplayMetrics outMetrics = new DisplayMetrics();
         managers.getDefaultDisplay().getMetrics(outMetrics);
         screenwidth = outMetrics.widthPixels;
+
+
+        int width = screenwidth;
+        int height = (int) (width / 25f * 7);
+
+        ViewGroup.LayoutParams layoutParams = homePicture.getLayoutParams();
+        layoutParams.width = width;
+        layoutParams.height = height;
+        homePicture.setLayoutParams(layoutParams);
+
+
         presenter = new MainPresenterImp(getContext(), this, screenwidth);
         presenter2 = new GrindEarPresenterImp(getContext(), this);
         presenter.initViewAndData();
@@ -136,6 +148,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         if (application.getSystemUtils().getChildTag() == 1) {
             presenter2.getMusicList(-1);
         }
+
 
 //        Dialog dialog = SystemUtils.CoundownDialog(getActivity());
 //        dialog.show();
@@ -173,6 +186,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         readingLayout = view.findViewById(R.id.reading_layout);
         spokenLayout = view.findViewById(R.id.spoken_layout);
         signImage = view.findViewById(R.id.sign_image);
+        homePicture = view.findViewById(R.id.home_picture);
 //        msgFlipper = view.findViewById(R.id.msg_flipper);
         error = view.findViewById(R.id.network_error_layout);
         moreMoerduo = view.findViewById(R.id.more_moerduo);
@@ -234,6 +248,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         moreMoerduo.setOnClickListener(listener);
         moreReading.setOnClickListener(listener);
         moreSpoken.setOnClickListener(listener);
+        homePicture.setOnClickListener(listener);
 
         clockInLayout.setOnClickListener(listener);
         scheduleLayout.setOnClickListener(listener);
@@ -296,7 +311,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
             meiriyige = homeData.getMeiriyige();
             meiriyishi = homeData.getMeiriyishi();
             meiriyidu = homeData.getMeiriyidu();
-            initial();
+            initial(homeData);
             if (application.getSystemUtils().getChildTag() == 0) {
                 iWantLayout.setVisibility(View.GONE);
             } else {
@@ -339,7 +354,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         }
     }
 
-    private void initial() {
+    private void initial(HomeData homeData) {
         if (moerduoList.size() == 3) {
             grindText.setVisibility(View.VISIBLE);
             moerduoLinear.setVisibility(View.VISIBLE);
@@ -420,6 +435,11 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         meiriyishiCount.setText(meiriyishi.getCount() + "次阅读");
         meiriyiduText.setText(meiriyidu.getBookName());
         meiriyiduCount.setText(meiriyidu.getCount() + "次阅读");
+        if (homeData != null) {
+            if (homeData.getPicture() != null && !homeData.getPicture().equals("")) {
+                Glide.with(this).load(homeData.getPicture()).error(R.drawable.home_pic_banner).into(homePicture);
+            }
+        }
     }
 
     @Override
@@ -932,6 +952,19 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     intent.putExtra("bookType", 1);
                     startActivity(intent);
                 }
+                break;
+            case R.id.home_picture:
+                if (application.getSystemUtils().getTag().equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (application.getSystemUtils().getChildTag() == 0) {
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), NetWorkActivity.class);
+                intent.putExtra("to_exp", "1");
+                startActivity(intent);
                 break;
         }
     }

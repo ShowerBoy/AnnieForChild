@@ -45,6 +45,7 @@ public class NetPreheatClassActivity extends BaseActivity implements ViewInfo, O
     private RecyclerView net_preheatconsult_recyclerview;
     private ConstraintLayout empty_img;
     private int mirIsShow = 0;
+    private int type; //0:
 
     {
         setRegister(true);
@@ -128,6 +129,8 @@ public class NetPreheatClassActivity extends BaseActivity implements ViewInfo, O
                     empty_img.setVisibility(View.VISIBLE);
                 }
             }
+        } else if (message.what == MethodCode.EVENT_SPECIALPREHEATING) {
+
         }
     }
 
