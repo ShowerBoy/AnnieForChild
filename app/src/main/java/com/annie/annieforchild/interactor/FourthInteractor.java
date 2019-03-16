@@ -5,6 +5,7 @@ package com.annie.annieforchild.interactor;
  */
 
 public interface FourthInteractor {
+
     void getUserInfo();
 
     void setDefaultUser(String defaultUser);
@@ -12,4 +13,6 @@ public interface FourthInteractor {
     void deleteUsername(String deleteUsername);
 
     void getUserList();
+
+    void bindWeixin(String weixinNum);
 }

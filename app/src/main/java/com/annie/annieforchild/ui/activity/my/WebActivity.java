@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -163,6 +164,13 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                         finish();
                     }
                     return true;
+                }
+
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                    view.loadUrl(request.getUrl().toString());
+                    return super.shouldOverrideUrlLoading(view, request);
                 }
 
                 @Override

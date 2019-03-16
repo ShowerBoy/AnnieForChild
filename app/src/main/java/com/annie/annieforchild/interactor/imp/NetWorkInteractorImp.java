@@ -392,7 +392,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     }
                 }
             } else if (what == MethodCode.EVENT_GETLESSON) {
-                Log.e("111", data + "");
+//                Log.e("111", data + "");
                 List<Game> lists;
                 if (data != null) {
                     lists = JSON.parseArray(data, Game.class);

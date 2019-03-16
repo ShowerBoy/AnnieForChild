@@ -96,6 +96,7 @@ public class NetSpecialContentAdapter extends RecyclerView.Adapter<NetSpecialCon
         }
     }
 
+
     @Override
     public int getItemCount() {
         return lists.size();

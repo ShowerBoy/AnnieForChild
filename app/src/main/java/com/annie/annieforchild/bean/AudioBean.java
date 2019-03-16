@@ -7,7 +7,7 @@ package com.annie.annieforchild.bean;
 public class AudioBean {
     private int page;
     private int lineId;
-    private int isNectar;
+    private int isNectar;//0:能添加 1:不能
     private int nectarCount;
     private String resourceUrl;
     private String pageResourceUrl;

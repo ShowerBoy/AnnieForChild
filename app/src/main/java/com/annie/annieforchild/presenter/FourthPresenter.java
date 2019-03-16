@@ -5,7 +5,7 @@ package com.annie.annieforchild.presenter;
  */
 
 public interface FourthPresenter {
-    void initViewAndData();
+    void initViewAndData(int flag);
 
     void getUserInfo();
 
@@ -14,4 +14,6 @@ public interface FourthPresenter {
     void deleteUsername(String deleteUsername);
 
     void getUserList();
+
+    void bindWeixin(String weixinNum);
 }

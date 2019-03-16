@@ -121,6 +121,7 @@ public class MethodType {
     final public static String GETPRODUCTIONLIST = "getProductionList"; //
     final public static String CANCELRELEASE = "cancelRelease"; //
     final public static String BUYNUM = "buynum"; //
+    final public static String BINDWEIXIN = "bindWeixin"; //
 
     final public static String GETLESSON = "ParentChildlessons"; //亲子课
     final public static String BUYSUCCESS = "buySuccess"; //购买网课成功获取推荐课程

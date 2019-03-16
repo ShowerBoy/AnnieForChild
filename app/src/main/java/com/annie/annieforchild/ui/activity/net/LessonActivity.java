@@ -17,9 +17,11 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Game;
 import com.annie.annieforchild.bean.net.NetDetails;
+import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
+import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.LessonAdapter;
 import com.annie.annieforchild.ui.adapter.NetDetailsAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
@@ -87,11 +89,31 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onItemClick(View view) {
                 int position = recycler.getChildAdapterPosition(view);
-                Intent intent = new Intent(LessonActivity.this, WebActivity.class);
-                intent.putExtra("url", lists.get(position).getGameUrl());
-                intent.putExtra("flag", 1);//标题是否取消1：取消
-//                intent.putExtra("title", lists.get(position).getGameName());
-                startActivity(intent);
+                if (lists.get(position).getTag() == 0) {
+                    Intent intent = new Intent(LessonActivity.this, WebActivity.class);
+                    intent.putExtra("url", lists.get(position).getGameUrl());
+                    intent.putExtra("flag", 1);//标题是否取消1：取消
+                    startActivity(intent);
+                } else {
+                    Song song = new Song();
+                    song.setBookId(lists.get(position).getBookId());
+                    song.setBookName(lists.get(position).getBookName());
+                    song.setBookImageUrl(lists.get(position).getBookImageUrl());
+                    int bookType;
+                    if (lists.get(position).getAudioType() == 0) {
+                        bookType = 0;
+                    } else {
+                        bookType = 1;
+                    }
+                    Intent intent = new Intent(LessonActivity.this, PracticeActivity.class);
+                    intent.putExtra("song", song);
+                    intent.putExtra("type", 0);
+                    intent.putExtra("audioType", lists.get(position).getAudioType());
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("bookType", bookType);
+                    startActivity(intent);
+                }
+
             }
 
             @Override

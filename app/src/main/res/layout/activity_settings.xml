@@ -148,6 +148,50 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/bind_wechat_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@color/white"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/bind_wechat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_wechat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/bind_wechat"
+                android:text="绑定微信"
+                android:textColor="@color/text_black"
+                android:textSize="16sp" />
+
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:src="@drawable/icon_arrow_right2" />-->
+            <TextView
+                android:id="@+id/bind_wechat_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

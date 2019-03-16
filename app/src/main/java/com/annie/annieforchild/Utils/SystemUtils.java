@@ -26,8 +26,10 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +51,7 @@ import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.bean.song.Song;
+import com.annie.annieforchild.presenter.FourthPresenter;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.activity.CameraActivity;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
@@ -100,6 +103,7 @@ public class SystemUtils {
     public static View popupView;
     public static HashMap<Integer, Integer> animMusicMap;
     public static SoundPool animPool;
+    public static String weixinNum;
     private boolean isDrop = true; //流利读弹窗
 
     private MainBean mainBean; //第一次启动获取的接口对象
@@ -543,6 +547,76 @@ public class SystemUtils {
         textView2.setOnClickListener(new View.OnClickListener() {
             @Override
 
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemUtils.setBackGray((Activity) context, false);
+            }
+        });
+        popupWindow.setContentView(popupView);
+        return popupWindow;
+    }
+
+    /**
+     * 绑定微信
+     *
+     * @param context
+     * @return
+     */
+    public static PopupWindow getBindWeixin(Context context, FourthPresenter presenter) {
+        EditText editText = new EditText(context);
+        TextView confirm = new TextView(context);
+        TextView cancel = new TextView(context);
+        popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupView = LayoutInflater.from(context).inflate(R.layout.activity_bind_weixin, null, false);
+        editText = popupView.findViewById(R.id.bind_weixin);
+        confirm = popupView.findViewById(R.id.bind_confirm_btn);
+        cancel = popupView.findViewById(R.id.bind_cancel_btn);
+        EditText finalEditText = editText;
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String strs = finalEditText.getText().toString();
+                String str = SystemUtils.stringFilter(strs.toString());
+                if (!strs.equals(str)) {
+                    finalEditText.setText(str);
+                    finalEditText.setSelection(str.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (finalEditText.getText() != null && finalEditText.getText().toString().trim().length() != 0) {
+                    weixinNum = finalEditText.getText().toString().trim();
+                    presenter.bindWeixin(weixinNum);
+                    popupWindow.dismiss();
+                } else {
+                    popupWindow.dismiss();
+                }
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
             }

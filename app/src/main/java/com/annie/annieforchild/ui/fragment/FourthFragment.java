@@ -83,7 +83,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
             tag = bundle.getString("tag");
         }
         presenter = new FourthPresenterImp(getContext(), this, tag);
-        presenter.initViewAndData();
+        presenter.initViewAndData(0);
         if (tag.equals("游客")) {
 
         } else {
@@ -384,6 +384,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     return;
                 }
                 intent.setClass(getContext(), SettingsActivity.class);
+                intent.putExtra("tag", tag);
                 startActivity(intent);
                 break;
             case R.id.my_period_layout:

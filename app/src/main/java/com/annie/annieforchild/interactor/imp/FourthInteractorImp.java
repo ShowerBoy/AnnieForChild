@@ -78,6 +78,15 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
     }
 
     @Override
+    public void bindWeixin(String weixinNum) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.BINDWEIXIN, RequestMethod.POST);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("weixinNum", weixinNum);
+        addQueue(MethodCode.EVENT_BINDWEIXIN, request);
+    }
+
+    @Override
     protected void onNetWorkStart(int what) {
 
     }
@@ -111,6 +120,10 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
                 listener.Success(what, "切换成功");
             } else if (what == MethodCode.EVENT_DELETEUSERNAME) {
                 listener.Success(what, "删除成功");
+            } else if (what == MethodCode.EVENT_BINDWEIXIN) {
+                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                int result = dataobj.getInteger("result");
+                listener.Success(what, result);
             }
         }
     }

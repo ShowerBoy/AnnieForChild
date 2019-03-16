@@ -22,9 +22,18 @@ public class UserInfo implements Serializable {
     private String qrCode;
     private String school;
     private String experience;
+    private String weixinNum;
     private int status; //0：线下 1：线上
     private int isnetstudent; //是否是网课学员 0:不是 1:是
     private int isfirstbuy; //是否是第一次购买 0:不是 1:是
+
+    public String getWeixinNum() {
+        return weixinNum;
+    }
+
+    public void setWeixinNum(String weixinNum) {
+        this.weixinNum = weixinNum;
+    }
 
     public int getAge() {
         return age;

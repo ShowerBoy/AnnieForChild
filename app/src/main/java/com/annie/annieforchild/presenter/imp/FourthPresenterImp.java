@@ -56,36 +56,37 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
     }
 
     @Override
-    public void initViewAndData() {
-        interactor = new FourthInteractorImp(context, this);
-        lists = new ArrayList<>();
-        adapter = new MemberAdapter(context, lists, tag, new OnRecyclerItemClickListener() {
-            @Override
-            public void onItemClick(View view) {
-                position = fourthView.getMemberRecycler().getChildAdapterPosition(view);
-                if (lists.get(position).getUsername().equals(application.getSystemUtils().getDefaultUsername())) {
-                    return;
+    public void initViewAndData(int flag) {
+        if (flag == 0) {
+            interactor = new FourthInteractorImp(context, this);
+            lists = new ArrayList<>();
+            adapter = new MemberAdapter(context, lists, tag, new OnRecyclerItemClickListener() {
+                @Override
+                public void onItemClick(View view) {
+                    position = fourthView.getMemberRecycler().getChildAdapterPosition(view);
+                    if (lists.get(position).getUsername().equals(application.getSystemUtils().getDefaultUsername())) {
+                        return;
+                    }
+                    SystemUtils.GeneralDialog(context, "切换默认学员")
+                            .setMessage("切换当前学员为默认学员？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    application.getNetTime();
+                                    setDefaultUser(lists.get(position).getUsername());
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .show();
                 }
-                SystemUtils.GeneralDialog(context, "切换默认学员")
-                        .setMessage("切换当前学员为默认学员？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                application.getNetTime();
-                                setDefaultUser(lists.get(position).getUsername());
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .show();
-            }
 
-            @Override
-            public void onItemLongClick(View view) {
+                @Override
+                public void onItemLongClick(View view) {
 //                position = fourthView.getMemberRecycler().getChildAdapterPosition(view);
 //                if (lists.get(position).getUsername().equals(SystemUtils.defaultUsername)) {
 //                    fourthView.showInfo("默认学员不能删除！");
@@ -106,9 +107,12 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
 //                            }
 //                        })
 //                        .show();
-            }
-        });
-        fourthView.getMemberRecycler().setAdapter(adapter);
+                }
+            });
+            fourthView.getMemberRecycler().setAdapter(adapter);
+        } else {
+            interactor = new FourthInteractorImp(context, this);
+        }
     }
 
     /**
@@ -145,6 +149,12 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
     @Override
     public void getUserList() {
 //        interactor.getUserList();
+    }
+
+    @Override
+    public void bindWeixin(String weixinNum) {
+        fourthView.showLoad();
+        interactor.bindWeixin(weixinNum);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -258,6 +268,14 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 fourthView.showInfo((String) result);
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_BINDWEIXIN) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.my.SettingsActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
