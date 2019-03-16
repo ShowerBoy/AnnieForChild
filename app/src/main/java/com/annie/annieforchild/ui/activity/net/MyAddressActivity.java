@@ -34,7 +34,7 @@ import java.util.List;
  */
 
 public class MyAddressActivity extends BaseActivity implements ViewInfo, View.OnClickListener {
-    private ImageView back;
+    private ImageView back, empty;
     private TextView addNewAddress;
     private RecyclerView recycler;
     private AddressAdapter adapter;
@@ -42,6 +42,7 @@ public class MyAddressActivity extends BaseActivity implements ViewInfo, View.On
     private NetWorkPresenter presenter;
     private AlertHelper helper;
     private Dialog dialog;
+    private int tag;//0:确认订单 1:地址管理
 
     {
         setRegister(true);
@@ -57,11 +58,13 @@ public class MyAddressActivity extends BaseActivity implements ViewInfo, View.On
         back = findViewById(R.id.my_address_back);
         addNewAddress = findViewById(R.id.add_new_address);
         recycler = findViewById(R.id.address_recycler);
+        empty = findViewById(R.id.empty_address);
         back.setOnClickListener(this);
         addNewAddress.setOnClickListener(this);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(manager);
+        tag = getIntent().getIntExtra("tag", 0);
     }
 
     @Override
@@ -69,7 +72,7 @@ public class MyAddressActivity extends BaseActivity implements ViewInfo, View.On
         lists = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-        adapter = new AddressAdapter(this, lists);
+        adapter = new AddressAdapter(this, lists, tag);
         recycler.setAdapter(adapter);
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
@@ -97,8 +100,16 @@ public class MyAddressActivity extends BaseActivity implements ViewInfo, View.On
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETMYADDRESS) {
-            lists.clear();
-            lists.addAll((List<Address>) message.obj);
+            List list = (List<Address>) message.obj;
+            if (list != null && list.size() != 0) {
+                empty.setVisibility(View.GONE);
+                lists.clear();
+                lists.addAll((List<Address>) message.obj);
+            } else {
+                empty.setVisibility(View.VISIBLE);
+                lists.clear();
+                lists.addAll((List<Address>) message.obj);
+            }
             adapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_ADDADDRESS) {
             presenter.getMyAddress();

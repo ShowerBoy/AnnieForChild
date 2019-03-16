@@ -30,11 +30,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressViewHolder> {
     private Context context;
     private List<Address> lists;
     private LayoutInflater inflater;
+    private int tag;
     private boolean isClick;
 
-    public AddressAdapter(Context context, List<Address> lists) {
+    public AddressAdapter(Context context, List<Address> lists, int tag) {
         this.context = context;
         this.lists = lists;
+        this.tag = tag;
         isClick = true;
         inflater = LayoutInflater.from(context);
     }
@@ -48,47 +50,54 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressViewHolder> {
 
     @Override
     public void onBindViewHolder(AddressViewHolder holder, int i) {
-        holder.name.setText(lists.get(i).getName());
-        holder.phone.setText(lists.get(i).getPhone());
-        holder.address.setText(lists.get(i).getAddress());
+        if (tag == 0) {
+            holder.checkbox.setVisibility(View.VISIBLE);
+            holder.name.setText(lists.get(i).getName());
+            holder.phone.setText(lists.get(i).getPhone());
+            holder.address.setText(lists.get(i).getAddress());
 //        if(lists.get(i).getIsDefault()==0){//0不是默认地址
 //            holder.checkbox.setChecked(false);
 //        }else{
 //            holder.checkbox.setChecked(true);
 //        }
-        holder.layout.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
-            @Override
-            public void onCheckDoubleClick(View view) {
-                if (isClick) {
-                    isClick = false;
-                    holder.checkbox.setChecked(true);
-                    JTMessage message = new JTMessage();
-                    message.what = MethodCode.EVENT_ADDRESS;
-                    message.obj = lists.get(i).getAddressId();
-                    EventBus.getDefault().post(message);
-                    ((MyAddressActivity) context).finish();
+
+            holder.layout.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
+                @Override
+                public void onCheckDoubleClick(View view) {
+                    if (isClick) {
+                        isClick = false;
+                        holder.checkbox.setChecked(true);
+                        JTMessage message = new JTMessage();
+                        message.what = MethodCode.EVENT_ADDRESS;
+                        message.obj = lists.get(i).getAddressId();
+                        EventBus.getDefault().post(message);
+                        ((MyAddressActivity) context).finish();
+                    }
                 }
-            }
-        }));
-//        holder.layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                holder.checkbox.setChecked(true);
-//                JTMessage message = new JTMessage();
-//                message.what = MethodCode.EVENT_ADDRESS;
-//                message.obj = lists.get(i).getAddressId();
-//                EventBus.getDefault().post(message);
-//                ((MyAddressActivity) context).finish();
-//            }
-//        });
-        holder.edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, AddAddressActivity.class);
-                intent.putExtra("address", lists.get(i));
-                context.startActivity(intent);
-            }
-        });
+            }));
+            holder.edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AddAddressActivity.class);
+                    intent.putExtra("address", lists.get(i));
+                    context.startActivity(intent);
+                }
+            });
+        } else {
+            holder.checkbox.setVisibility(View.GONE);
+            holder.name.setText(lists.get(i).getName());
+            holder.phone.setText(lists.get(i).getPhone());
+            holder.address.setText(lists.get(i).getAddress());
+            holder.edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AddAddressActivity.class);
+                    intent.putExtra("address", lists.get(i));
+                    context.startActivity(intent);
+                }
+            });
+        }
+
     }
 
     @Override

@@ -238,6 +238,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 break;
             case R.id.address_layout:
                 Intent intent = new Intent(this, MyAddressActivity.class);
+                intent.putExtra("tag", 0);
                 startActivity(intent);
                 break;
             case R.id.buy_btn:

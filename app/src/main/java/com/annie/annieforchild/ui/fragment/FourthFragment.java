@@ -37,6 +37,7 @@ import com.annie.annieforchild.ui.activity.my.MyRecordActivity;
 import com.annie.annieforchild.ui.activity.my.SettingsActivity;
 import com.annie.annieforchild.ui.activity.my.ToFriendActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
+import com.annie.annieforchild.ui.activity.net.MyAddressActivity;
 import com.annie.annieforchild.view.FourthView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.bumptech.glide.Glide;
@@ -54,7 +55,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  */
 
 public class FourthFragment extends BaseFragment implements FourthView, OnCheckDoubleClick {
-    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout;
+    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout, addressLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout nectarLayout, levelLayout, recordLayout;
     private ImageView settings, sexIcon, headpic_back;
@@ -126,6 +127,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         myRecordLayout = view.findViewById(R.id.my_record_layout);
         swipeRefreshLayout = view.findViewById(R.id.fourth_swipeRefresh);
         periodLayout = view.findViewById(R.id.my_period_layout);
+        addressLayout = view.findViewById(R.id.address_layout);
         listener = new CheckDoubleClickListener(this);
         myMsgLayout.setOnClickListener(listener);
         toFriendLayout.setOnClickListener(listener);
@@ -140,6 +142,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         levelLayout.setOnClickListener(listener);
         periodLayout.setOnClickListener(listener);
         myRecordLayout.setOnClickListener(listener);
+        addressLayout.setOnClickListener(listener);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         member_layout.setLayoutManager(manager);
@@ -554,6 +557,20 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 Bundle bundle4 = new Bundle();
                 bundle4.putSerializable("userinfo", userInfo);
                 intent.putExtras(bundle4);
+                startActivity(intent);
+                break;
+            case R.id.address_layout:
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (application.getSystemUtils().getChildTag() == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), MyAddressActivity.class);
+                intent.putExtra("tag", 1);
                 startActivity(intent);
                 break;
         }
