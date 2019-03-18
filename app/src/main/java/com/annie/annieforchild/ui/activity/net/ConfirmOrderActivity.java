@@ -81,7 +81,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     private ImageView back, product_img;
     private EditText confirmWechat;
     private RelativeLayout zhifubaoLayout, wechatLayout;
-    private LinearLayout confirmLayout, suggestLayout;
+    private LinearLayout suggestLayout;
     private TextView name, phone, address, buyBtn, totalPrice, product_name, product_text, materialPrice;
     private TextView confirm_price;
     private ImageView zhifubao, weixin;
@@ -135,7 +135,6 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         buyBtn = findViewById(R.id.buy_btn);
         totalPrice = findViewById(R.id.total_price);
         addressLayout = findViewById(R.id.address_layout);
-        confirmLayout = findViewById(R.id.confirm_layout);
         zhifubaoLayout = findViewById(R.id.zhifubao_layout);
         wechatLayout = findViewById(R.id.wechat_layout);
         product_name = findViewById(R.id.product_name);
@@ -197,10 +196,10 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         netsummary = getIntent().getStringExtra("netsummary");
         flag = getIntent().getIntExtra("flag", 0);
         if (type.equals("体验课")) {
-            confirmLayout.setVisibility(View.GONE);
+            suggestLayout.setVisibility(View.GONE);
             addressLayout.setVisibility(View.GONE);
         } else {
-            confirmLayout.setVisibility(View.VISIBLE);
+            suggestLayout.setVisibility(View.VISIBLE);
             addressLayout.setVisibility(View.VISIBLE);
             if (flag == 0) {
                 suggestLayout.setVisibility(View.GONE);
@@ -243,13 +242,18 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 break;
             case R.id.buy_btn:
                 if (type.equals("体验课")) {
-                    if (!canBuy) {
-                        return;
+                    if (confirmWechat.getText() != null && confirmWechat.getText().toString().length() != 0) {
+                        wxText = confirmWechat.getText().toString().trim();
+                        if (!canBuy) {
+                            return;
+                        }
+                        presenter.buynum(netid, 2);
+                    } else {
+                        showInfo("请输入您的微信号");
                     }
-                    presenter.buynum(netid, 2);
                 } else {
                     if (addressId != -1) {
-                        if (confirmWechat.getText().toString() != null && confirmWechat.getText().toString().length() != 0) {
+                        if (confirmWechat.getText() != null && confirmWechat.getText().toString().length() != 0) {
                             wxText = confirmWechat.getText().toString().trim();
                             if (!canBuy) {
                                 return;

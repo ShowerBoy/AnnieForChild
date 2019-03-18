@@ -89,30 +89,30 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onItemClick(View view) {
                 int position = recycler.getChildAdapterPosition(view);
-                if (lists.get(position).getTag() == 0) {
-                    Intent intent = new Intent(LessonActivity.this, WebActivity.class);
-                    intent.putExtra("url", lists.get(position).getGameUrl());
-                    intent.putExtra("flag", 1);//标题是否取消1：取消
-                    startActivity(intent);
-                } else {
-                    Song song = new Song();
-                    song.setBookId(lists.get(position).getBookId());
-                    song.setBookName(lists.get(position).getBookName());
-                    song.setBookImageUrl(lists.get(position).getBookImageUrl());
-                    int bookType;
-                    if (lists.get(position).getAudioType() == 0) {
-                        bookType = 0;
-                    } else {
-                        bookType = 1;
-                    }
-                    Intent intent = new Intent(LessonActivity.this, PracticeActivity.class);
-                    intent.putExtra("song", song);
-                    intent.putExtra("type", 0);
-                    intent.putExtra("audioType", lists.get(position).getAudioType());
-                    intent.putExtra("audioSource", 0);
-                    intent.putExtra("bookType", bookType);
-                    startActivity(intent);
-                }
+//                if (lists.get(position).getTag() == 0) {
+                Intent intent = new Intent(LessonActivity.this, WebActivity.class);
+                intent.putExtra("url", lists.get(position).getGameUrl());
+                intent.putExtra("flag", 1);//标题是否取消1：取消
+                startActivity(intent);
+//                } else {
+//                    Song song = new Song();
+//                    song.setBookId(lists.get(position).getBookId());
+//                    song.setBookName(lists.get(position).getBookName());
+//                    song.setBookImageUrl(lists.get(position).getBookImageUrl());
+//                    int bookType;
+//                    if (lists.get(position).getAudioType() == 0) {
+//                        bookType = 0;
+//                    } else {
+//                        bookType = 1;
+//                    }
+//                    Intent intent = new Intent(LessonActivity.this, PracticeActivity.class);
+//                    intent.putExtra("song", song);
+//                    intent.putExtra("type", 0);
+//                    intent.putExtra("audioType", lists.get(position).getAudioType());
+//                    intent.putExtra("audioSource", 0);
+//                    intent.putExtra("bookType", bookType);
+//                    startActivity(intent);
+//                }
 
             }
 

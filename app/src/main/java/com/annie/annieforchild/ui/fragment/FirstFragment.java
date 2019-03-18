@@ -43,6 +43,7 @@ import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2;
 import com.annie.annieforchild.ui.activity.mains.BankBookActivity;
 import com.annie.annieforchild.ui.activity.mains.SquareActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
+import com.annie.annieforchild.ui.activity.my.WebActivity2;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
@@ -644,9 +645,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 Intent intent1 = new Intent(getContext(), MusicPlayActivity.class);
                 startActivity(intent1);
-
-//                Intent intent1 = new Intent(getContext(), XiangXueActivity.class);
-//                startActivity(intent1);
 
 //                Uri uri = Uri.parse("http://m.anniekids.org/1.html");
 

@@ -14,13 +14,14 @@ android {
         applicationId "com.annie.annieforchild"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 27
-        versionName "1.1.15"
+        versionCode 29
+        versionName "1.1.17"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86"
         }
+
 
         manifestPlaceholders = [
                 JPUSH_PKGNAME: applicationId,

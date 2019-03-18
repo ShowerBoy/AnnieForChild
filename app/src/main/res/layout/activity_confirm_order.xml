@@ -263,37 +263,45 @@
                 </LinearLayout>
 
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:background="@color/light_gray2" />
-
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/countin_wechat_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/countin_wechat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="请输入微信号"
-                        android:textColor="@color/text_black"
-                        android:textSize="14sp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:background="@color/light_gray2" />
 
-                    <EditText
-                        android:id="@+id/confirm_wechat"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_toEndOf="@+id/countin_wechat"
-                        android:background="@null"
-                        android:hint="请输入您的微信号"
-                        android:textColor="@color/text_black"
-                        android:textSize="14sp" />
-                </RelativeLayout>
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/countin_wechat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="请输入微信号"
+                            android:textColor="@color/text_black"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/confirm_wechat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_toEndOf="@+id/countin_wechat"
+                            android:background="@null"
+                            android:hint="请输入您的微信号"
+                            android:textColor="@color/text_black"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
             </LinearLayout>
 
             <TextView

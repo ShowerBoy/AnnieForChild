@@ -61,6 +61,8 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonViewHolder> {
             lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_04);
         } else if (lists.get(i).getColor() == 6) {
             lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_06);
+        } else if (lists.get(i).getColor() == 7) {
+            lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_01);
         } else {
             lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_01);
         }

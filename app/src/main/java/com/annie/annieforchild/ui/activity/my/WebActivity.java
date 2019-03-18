@@ -2,6 +2,8 @@ package com.annie.annieforchild.ui.activity.my;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -11,6 +13,9 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.Gravity;
@@ -32,8 +37,10 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.DownPicUtil;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
@@ -45,6 +52,8 @@ import com.annie.baselibrary.base.BasePresenter;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
@@ -166,13 +175,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                     return true;
                 }
 
-                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                    view.loadUrl(request.getUrl().toString());
-                    return super.shouldOverrideUrlLoading(view, request);
-                }
-
                 @Override
                 public void onPageStarted(WebView view, String url, Bitmap favicon) {
                     Log.i("onPageStarted", "onPageStarted");
@@ -197,7 +199,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                 @Override
                 public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                     Log.i("onReceivedError", "onReceivedError");
-                    int er = error.getErrorCode();
                     super.onReceivedError(view, request, error);
                 }
 
@@ -218,6 +219,48 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                     }
                 }
             });
+
+            webView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    final WebView.HitTestResult hitTestResult = webView.getHitTestResult();
+                    // 如果是图片类型或者是带有图片链接的类型
+                    if (hitTestResult.getType() == WebView.HitTestResult.IMAGE_TYPE ||
+                            hitTestResult.getType() == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+                        // 弹出保存图片的对话框
+                        AlertDialog.Builder builder = new AlertDialog.Builder(WebActivity.this);
+                        builder.setTitle("提示");
+                        builder.setMessage("保存图片到本地");
+                        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String url = hitTestResult.getExtra();
+                                // 下载图片到本地
+                                DownPicUtil.downPic(url, new DownPicUtil.DownFinishListener() {
+                                    @Override
+                                    public void getDownPath(String s) {
+                                        Toast.makeText(WebActivity.this, "下载完成", Toast.LENGTH_LONG).show();
+                                        Message msg = Message.obtain();
+                                        msg.obj = s;
+                                        handler.sendMessage(msg);
+                                    }
+                                });
+
+                            }
+                        });
+                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            // 自动dismiss
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                    return true;
+                }
+            });
+
             webView.canGoForward();
             webView.canGoBack();
             webView.loadUrl(url);
@@ -306,6 +349,24 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             getWindow().setAttributes(layoutParams);
         }
     }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String picFile = (String) msg.obj;
+            String[] split = picFile.split("/");
+            String fileName = split[split.length - 1];
+            try {
+                MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), picFile, fileName, null);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            // 最后通知图库更新
+            getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + picFile)));
+            Toast.makeText(WebActivity.this, "图片保存图库成功", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     protected void onDestroy() {
