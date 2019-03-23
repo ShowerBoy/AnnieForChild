@@ -33,7 +33,7 @@ public interface NetWorkPresenter {
 
     void getNetExpDetails(int netid);
 
-    void getNetPreheatConsult(String lessonid);
+    void getNetPreheatConsult(String lessonid,int type);
 
     void getListeningAndReading(String week, String classid, int tag, int classify);
 

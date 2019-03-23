@@ -264,12 +264,13 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                 } else {
                     if (lists.get(i).getAnimationUrl() != null && lists.get(i).getAnimationUrl().length() != 0) {
                         //TODO：播放动画
-                        Intent intent = new Intent(context, VideoActivity.class);
-                        intent.putExtra("url", lists.get(i).getAnimationUrl());
-                        intent.putExtra("imageUrl", lists.get(i).getBookimage());
-                        intent.putExtra("name", lists.get(i).getBookname());
-                        intent.putExtra("id", lists.get(i).getBookid());
-                        context.startActivity(intent);
+                        SystemUtils.startVideo(context, lists.get(i).getAnimationUrl());
+//                        Intent intent = new Intent(context, VideoActivity.class);
+//                        intent.putExtra("url", lists.get(i).getAnimationUrl());
+//                        intent.putExtra("imageUrl", lists.get(i).getBookimage());
+//                        intent.putExtra("name", lists.get(i).getBookname());
+//                        intent.putExtra("id", lists.get(i).getBookid());
+//                        context.startActivity(intent);
                     } else {
 
                     }

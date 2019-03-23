@@ -62,7 +62,7 @@ public class NetExperienceDetailAdapter extends RecyclerView.Adapter<NetExperien
             netDetailsViewHolder.week.setText(lists.get(i).getWeek());
         }
         netDetailsViewHolder.lesson_2_name.setText(lists.get(i).getLessonList().get(1).getLessonName());
-        switch(i){
+        switch (i) {
             case 1:
                 netDetailsViewHolder.lesson_2_img.setImageResource(R.drawable.practise2to3_icon_listening);
                 break;
@@ -70,9 +70,9 @@ public class NetExperienceDetailAdapter extends RecyclerView.Adapter<NetExperien
                 netDetailsViewHolder.lesson_2_img.setImageResource(R.drawable.practise2to3_icon_reading);
                 break;
         }
-        if(lists.get(i).getIsshow()==0){
+        if (lists.get(i).getIsshow() == 0) {
             netDetailsViewHolder.details_relative.setVisibility(View.GONE);
-        }else{
+        } else {
             netDetailsViewHolder.details_relative.setVisibility(View.VISIBLE);
         }
 
@@ -83,6 +83,7 @@ public class NetExperienceDetailAdapter extends RecyclerView.Adapter<NetExperien
                 Intent intent = new Intent(context, NetPreheatClassActivity.class);
                 intent.putExtra("lessonId", lists.get(i).getLessonList().get(0).getLessonId());
                 intent.putExtra("lessonName", lists.get(i).getLessonList().get(0).getLessonName());
+                intent.putExtra("type", 1);
                 context.startActivity(intent);
             }
         }));

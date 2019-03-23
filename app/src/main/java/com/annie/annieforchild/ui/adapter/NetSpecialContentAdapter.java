@@ -14,6 +14,7 @@ import com.annie.annieforchild.bean.net.SpecInfo;
 import com.annie.annieforchild.ui.activity.net.LessonActivity;
 import com.annie.annieforchild.ui.activity.net.NetExpFirstVideoActivity;
 import com.annie.annieforchild.ui.activity.net.NetListenAndReadActivity;
+import com.annie.annieforchild.ui.activity.net.NetPreheatClassActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetSpecialContentViewHolder2;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 
@@ -61,15 +62,10 @@ public class NetSpecialContentAdapter extends RecyclerView.Adapter<NetSpecialCon
                     int position = netSpecialContentViewHolder.recycler.getChildAdapterPosition(view);
                     if (lists.get(i).getInfo().get(position).getType().equals("0")) {
                         //预热课
-//                        Intent intent = new Intent(context, NetListenAndReadActivity.class);
-//                        intent.putExtra("classid", lists.get(i).getInfo().get(position).getFid());
-//                        intent.putExtra("week", weekNum);
-//                        context.startActivity(intent);
-
-                        Intent intent = new Intent(context, NetExpFirstVideoActivity.class);
-                        intent.putExtra("title", lists.get(i).getInfo().get(position).getFcategoryname());
-                        intent.putExtra("type", 5);
-                        intent.putExtra("fid", lists.get(i).getInfo().get(position).getFid());
+                        Intent intent = new Intent(context, NetPreheatClassActivity.class);
+                        intent.putExtra("lessonName", lists.get(i).getInfo().get(position).getFcategoryname());
+                        intent.putExtra("type", 2);
+                        intent.putExtra("lessonId", lists.get(i).getInfo().get(position).getFid());
                         context.startActivity(intent);
                     } else {
                         //彩虹条

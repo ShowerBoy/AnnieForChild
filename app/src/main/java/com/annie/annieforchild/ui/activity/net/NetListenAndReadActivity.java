@@ -39,7 +39,7 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
     private ImageView listenandread_img;
     private Button to_listenandread;
     private String week, classid;
-    private int tag = 1;
+    private int tag = 2;
 
     {
         setRegister(true);

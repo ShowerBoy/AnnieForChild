@@ -18,6 +18,7 @@ import com.annie.annieforchild.bean.net.NetExpDetails;
 import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.bean.net.PreheatConsult;
+import com.annie.annieforchild.bean.net.SpecialPreHeat;
 import com.annie.annieforchild.bean.net.WechatBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
@@ -170,9 +171,9 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void getNetPreheatConsult(String lessonid) {
+    public void getNetPreheatConsult(String lessonid, int type) {
         viewInfo.showLoad();
-        interactor.getNetPreheatConsult(lessonid);
+        interactor.getNetPreheatConsult(lessonid, type);
     }
 
     @Override
@@ -454,7 +455,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.obj = result;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_SPECIALPREHEATING) {
-                PreheatConsult lists = (PreheatConsult) result;
+                List<SpecialPreHeat> lists = (List<SpecialPreHeat>) result;
                 /**
                  * {@link NetPreheatClassActivity#onMainEventThread(JTMessage)}
                  */

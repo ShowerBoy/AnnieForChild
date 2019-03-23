@@ -49,6 +49,7 @@ import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity;
+import com.annie.annieforchild.ui.activity.net.LessonActivity;
 import com.annie.annieforchild.ui.adapter.BookEndAdapter;
 import com.annie.annieforchild.ui.adapter.PkUserPopupAdapter;
 import com.annie.annieforchild.view.SongView;
@@ -57,6 +58,7 @@ import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
 import com.example.lamemp3.MP3Recorder;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
@@ -125,6 +127,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
     private String url;
     private int homeworkid, musicPosition, shareType, homeworktype, iType;
     Runnable runnable;
+    private int lessonTag;
 
     {
         setRegister(true);
@@ -343,6 +346,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
             homeworkid = intent.getIntExtra("homeworkid", 0);
             homeworktype = intent.getIntExtra("homeworktype", -1);
             musicPosition = intent.getIntExtra("musicPosition", 0);
+            lessonTag = intent.getIntExtra("lessonTag", 0);
             if (audioType == 3) {
                 iType = intent.getIntExtra("iType", 0);
             }
@@ -1270,6 +1274,15 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
         if (adapter != null) {
             adapter.stopMedia();
         }
+        if (lessonTag == 1) {
+            /**
+             * {@link LessonActivity#onMainEventThread(JTMessage)}
+             */
+            JTMessage message = new JTMessage();
+            message.what = MethodCode.EVENT_LESSON;
+            message.obj = 1;
+            EventBus.getDefault().post(message);
+        }
     }
 
     @Override
@@ -1290,4 +1303,5 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
         showInfo("分享取消");
         popupWindow3.dismiss();
     }
+
 }

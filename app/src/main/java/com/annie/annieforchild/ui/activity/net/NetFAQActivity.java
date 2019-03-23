@@ -1,26 +1,22 @@
 package com.annie.annieforchild.ui.activity.net;
 
-import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.views.GradientScrollView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick{
     CheckDoubleClickListener listner;
@@ -45,14 +41,20 @@ public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick{
         back = findViewById(R.id.back);
         back.setOnClickListener(listner);
         webView = findViewById(R.id.webview);
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setLoadsImagesAutomatically(true);
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+
+        webView.getSettings().setSupportZoom(true); //支持缩放，默认为true。是下面那个的前提。
+        webView.getSettings().setBuiltInZoomControls(true); //设置内置的缩放控件。若为false，则该WebView不可缩放
+        webView.getSettings().setDisplayZoomControls(true); //隐藏原生的缩放控件
+        webView.getSettings().setBlockNetworkImage(false);//解决图片不显示
+        webView.getSettings().setLoadsImagesAutomatically(true); //支持自动加载图片
+        webView.getSettings().setDefaultTextEncodingName("utf-8");//设置编码格式
+
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -121,27 +123,25 @@ public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick{
         }
     }
 
-//    //滑动监听 控制状态栏变化
-//    @Override
-//    public void onScrollChanged(GradientScrollView scrollView, int x, int y, int oldx, int oldy) {
-//        if (y <= 0) {
-//            Linear_title.setBackgroundColor(Color.argb((int) 0, 255, 255, 255));
-//            netfaq_title.setTextColor(Color.argb((int) 0, 69, 69, 69));
-//            netfaq_title.setAlpha(0);
-//            cutline.setAlpha((float) 0);
-//        } else if (y > 0 && y <= height) {
-//            float scale = (float) y / height;
-//            float alpha = (255 * scale);
-//            Linear_title.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
-//            netfaq_title.setTextColor(Color.argb((int) alpha, 69, 69, 69));
-//            netfaq_title.setAlpha(alpha);
-//            cutline.setAlpha(alpha);
-//        } else {
-//            Linear_title.setBackgroundColor(Color.argb((int) 255, 255, 255, 255));
-//            netfaq_title.setTextColor(Color.argb((int) 255, 69, 69, 69));
-//            netfaq_title.setAlpha(1);
-//            cutline.setAlpha((float)1);
-//
-//        }
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        webView.onResume();
+        webView.getSettings().setJavaScriptEnabled(true);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        webView.onPause();
+        webView.getSettings().setLightTouchEnabled(false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (this.webView != null) {
+            webView.destroy();
+        }
+        super.onDestroy();
+    }
 }

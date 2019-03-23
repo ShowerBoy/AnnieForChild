@@ -254,12 +254,15 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
 
                     Glide.with(this).load(netSuggest.getNetSuggestUrl().get(i)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                         @Override
+
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                             int imageWidth = resource.getWidth();
                             int imageHeight = resource.getHeight();
                             int height = width * imageHeight / imageWidth;
                             ViewGroup.LayoutParams para = imageView.getLayoutParams();
+
                             para.height = height;
+
                             para.width = width;
                             imageView.setImageBitmap(resource);
                         }

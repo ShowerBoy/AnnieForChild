@@ -168,12 +168,13 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
                         intent.putExtra("bookType", 1);
                         startActivity(intent);
                     } else if (bookType.equals("2")) {
-                        Intent intent = new Intent(this, VideoActivity.class);
-                        intent.putExtra("url", animationurl);
-                        intent.putExtra("imageUrl", bookurl);
-                        intent.putExtra("name", bookname);
-                        intent.putExtra("id", bookid);
-                        startActivity(intent);
+                        SystemUtils.startVideo(this, animationurl);
+//                        Intent intent = new Intent(this, VideoActivity.class);
+//                        intent.putExtra("url", animationurl);
+//                        intent.putExtra("imageUrl", bookurl);
+//                        intent.putExtra("name", bookname);
+//                        intent.putExtra("id", bookid);
+//                        startActivity(intent);
                     }
                 }
             }
@@ -312,7 +313,7 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
             }
         } else if (message.what == MethodCode.EVENT_MUSICSTOP) {
 //            if (musicService != null) {
-                MusicService.stop();
+            MusicService.stop();
 //            }
         }
     }

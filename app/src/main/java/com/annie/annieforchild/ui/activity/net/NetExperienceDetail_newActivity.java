@@ -77,7 +77,7 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
 
     @Override
     protected void initView() {
-        back=findViewById(R.id.back);
+        back = findViewById(R.id.back);
         listner = new CheckDoubleClickListener(this);
         empty_layout = findViewById(R.id.empty_layout);
         fourstage = findViewById(R.id.fourstage);
@@ -177,7 +177,7 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
                 case "复习测试":
                     setidshow(fourstage, netExpClass.getInfo().get(i).getIsshow());
                     four_title.setText(netExpClass.getInfo().get(i).getFchaptername());
-                    if(netExpClass.getInfo().get(i).getInfo()!=null){
+                    if (netExpClass.getInfo().get(i).getInfo() != null) {
                         for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
                             switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
                                 case "1":
@@ -197,9 +197,9 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
                 case "课程体验":
                     setidshow(threestage, netExpClass.getInfo().get(i).getIsshow());
                     three_title.setText(netExpClass.getInfo().get(i).getFchaptername());
-                    if(netExpClass.getInfo().get(i).getInfo()!=null){
-                        for(int m=0;m<netExpClass.getInfo().get(i).getInfo().size();m++){
-                            switch(m){
+                    if (netExpClass.getInfo().get(i).getInfo() != null) {
+                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
+                            switch (m) {
                                 case 0:
                                     lesson_1_name.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
                                     break;
@@ -212,7 +212,7 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
                 case "预热阶段":
                     setidshow(twostage, netExpClass.getInfo().get(i).getIsshow());
                     two_title.setText(netExpClass.getInfo().get(i).getFchaptername());
-                    if(netExpClass.getInfo().get(i).getInfo()!=null) {
+                    if (netExpClass.getInfo().get(i).getInfo() != null) {
                         for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
                             switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
                                 case "1":
@@ -231,7 +231,7 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
                 case "准备阶段":
                     setidshow(firstsatge, netExpClass.getInfo().get(i).getIsshow());
                     first_title.setText(netExpClass.getInfo().get(i).getFchaptername());
-                    if(netExpClass.getInfo().get(i).getInfo()!=null) {
+                    if (netExpClass.getInfo().get(i).getInfo() != null) {
                         for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
                             switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
                                 case "1":
@@ -257,7 +257,7 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
         return null;
     }
 
-    void tointent(int m, String sort, TextView view) {//m:第几条数据，sort为1,2,3
+    void tointent(int m, String sort, TextView view, int type) {//m:第几条数据，sort为1,2,3
         String url = "";
         Intent intent;
         String fid = "";
@@ -269,12 +269,19 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
                     if (url != null && url.length() > 0) {
                         intent = new Intent(this, WebActivity.class);
                         intent.putExtra("url", url);
-                        intent.putExtra("title", view.getText());
+                        if (type == 1) {//去掉标题
+                        } else {
+                            intent.putExtra("title", view.getText());
+                        }
+
                         intent.putExtra("flag", 0);//标题是否取消1：取消
                         startActivity(intent);
                     } else {
                         intent = new Intent(this, NetExpFirstVideoActivity.class);
-                        intent.putExtra("title", view.getText());
+                        if (type == 1) {//去掉标题
+                        } else {
+                            intent.putExtra("title", view.getText());
+                        }
                         intent.putExtra("type", 4);
                         intent.putExtra("fid", fid);
                         startActivity(intent);
@@ -283,10 +290,7 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
 
             }
         }
-
-
     }
-
 
 
     @Override
@@ -300,70 +304,70 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
             case R.id.first_1:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals("准备阶段")) {
-                        tointent(i, "1", first_1_title);
+                        tointent(i, "1", first_1_title, 0);
                     }
                 }
                 break;
             case R.id.first_2:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals("准备阶段")) {
-                        tointent(i, "2", first_2_title);
+                        tointent(i, "2", first_2_title, 0);
                     }
                 }
                 break;
             case R.id.first_3:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals("准备阶段")) {
-                        tointent(i, "3", first_3_title);
+                        tointent(i, "3", first_3_title, 0);
                     }
                 }
                 break;
             case R.id.two_1:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals("预热阶段")) {
-                        tointent(i, "1", two_1_title);
+                        tointent(i, "1", two_1_title, 0);
                     }
                 }
                 break;
             case R.id.two_2:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals("预热阶段")) {
-                        tointent(i, "2", two_2_title);
+                        tointent(i, "2", two_2_title, 0);
                     }
                 }
                 break;
             case R.id.two_3:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals("预热阶段")) {
-                        tointent(i, "3", two_3_title);
+                        tointent(i, "3", two_3_title, 0);
                     }
                 }
                 break;
             case R.id.fourstage_1:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals("复习测试")) {
-                        tointent(i, "1", fourstage_1_title);
+                        tointent(i, "1", fourstage_1_title, 1);
                     }
                 }
                 break;
             case R.id.fourstage_2:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals("复习测试")) {
-                        tointent(i, "2", fourstage_2_title);
+                        tointent(i, "2", fourstage_2_title, 1);
                     }
                 }
                 break;
             case R.id.fourstage_3:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals("复习测试")) {
-                        tointent(i, "3", fourstage_3_title);
+                        tointent(i, "3", fourstage_3_title, 0);
                     }
                 }
                 break;
             case R.id.lesson_1:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals("课程体验")) {
-                        if(netExpClass.getInfo().get(i).getInfo()!=null) {
+                        if (netExpClass.getInfo().get(i).getInfo() != null) {
                             if (netExpClass.getInfo().get(i).getInfo().size() > 0) {
                                 intent = new Intent(this, LessonActivity.class);
                                 intent.putExtra("lessonId", netExpClass.getInfo().get(i).getInfo().get(0).getFid());
@@ -378,7 +382,7 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
             case R.id.lesson_2:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals("课程体验")) {
-                        if(netExpClass.getInfo().get(i).getInfo()!=null) {
+                        if (netExpClass.getInfo().get(i).getInfo() != null) {
                             if (netExpClass.getInfo().get(i).getInfo().size() > 1) {
                                 intent = new Intent(this, LessonActivity.class);
                                 intent.putExtra("lessonId", netExpClass.getInfo().get(i).getInfo().get(1).getFid());

@@ -31,7 +31,7 @@ public interface NetWorkInteractor {
 
     void buySuccess();
 
-    void getNetPreheatConsult(String lessonid);
+    void getNetPreheatConsult(String lessonid,int type);
 
     void getListeningAndReading(String week, String classid, int tag, int classify);
 
@@ -44,6 +44,4 @@ public interface NetWorkInteractor {
     void getNetExpDetails_new(int netid);
 
     void getNetSpecialDetail(int netid);
-
-    void specialPreheating(int lessonid);
 }

@@ -2,21 +2,36 @@ package com.annie.annieforchild.ui.activity.my;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ComponentName;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
+import android.os.SystemClock;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,14 +39,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
@@ -42,6 +50,7 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.DownPicUtil;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.PhotoUtils;
 import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
@@ -49,15 +58,29 @@ import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
+import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
+import com.tencent.smtt.export.external.interfaces.WebResourceError;
+import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
+import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
+import com.tencent.smtt.sdk.ValueCallback;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
+
+import static com.annie.annieforchild.Utils.PhotoUtils.getPath;
 
 /**
  * 网页
@@ -78,6 +101,67 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
     private int shareTag = 0;
     private int aabb;
     private ProgressBar progressBar;
+    private View myVideoView;
+    private View myNormalView;
+    private IX5WebChromeClient.CustomViewCallback callback;
+    private ValueCallback<Uri> mUploadMessage;
+    private ValueCallback<Uri[]> mUploadCallbackAboveL;
+    private boolean videoFlag = false;
+    private final static int PHOTO_REQUEST = 100;
+    private final static int VIDEO_REQUEST = 120;
+    private final static int FILECHOOSER_RESULTCODE = 1;
+    private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/" + SystemClock.currentThreadTimeMillis() + ".jpg");
+    private Uri imageUri;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        removeAd();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        try {
+            super.onConfigurationChanged(newConfig);
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+            } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        try {
+//            super.onWindowFocusChanged(hasFocus);
+//            if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//                getWindow().addFlags(
+//                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//            } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+//                getWindow().clearFlags(
+//                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    private boolean isFullScreen;
+//
+//    @Override
+//    public void onWindowAttributesChanged(WindowManager.LayoutParams params) {
+//        super.onWindowAttributesChanged(params);
+//        if (getWindow().getAttributes().flags == -2122250880) {
+//            if (!isFullScreen) {
+//                setFullScreen(true);
+//            }
+//        } else {
+//            setFullScreen(false);
+//        }
+//    }
 
     @Override
     protected int getLayoutId() {
@@ -121,19 +205,35 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
     @Override
     protected void initData() {
 //        webSettings = webView.getSettings();
-        webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setUseWideViewPort(true);
-        webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setAllowFileAccess(true);
+        webView.getSettings().setAllowContentAccess(true);
+        webView.getSettings().setAllowFileAccessFromFileURLs(false);
+        webView.getSettings().setAllowUniversalAccessFromFileURLs(false);
         webView.getSettings().setAppCacheEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+
+        webView.getSettings().setSupportZoom(true); //支持缩放，默认为true。是下面那个的前提。
+        webView.getSettings().setBuiltInZoomControls(true); //设置内置的缩放控件。若为false，则该WebView不可缩放
+        webView.getSettings().setDisplayZoomControls(true); //隐藏原生的缩放控件
+        webView.getSettings().setBlockNetworkImage(false);//解决图片不显示
+        webView.getSettings().setLoadsImagesAutomatically(true); //支持自动加载图片
+        webView.getSettings().setDefaultTextEncodingName("utf-8");//设置编码格式
+
+        Bundle data = new Bundle();
+        data.putBoolean("standardFullScreen", true);
+        //true表示标准全屏，false表示X5全屏；不设置默认false，
+        data.putBoolean("supportLiteWnd", false);
+        //false：关闭小窗；true：开启小窗；不设置默认true，
+        data.putInt("DefaultVideoScreen", 1);
+        //1：以页面内开始播放，2：以全屏开始播放；不设置默认：1
+        if (webView.getX5WebViewExtension() != null) {
+            webView.getX5WebViewExtension().invokeMiscMethod("setVideoParams", data);
         }
+
         mIntent = getIntent();
 
         if (mIntent != null) {
@@ -175,38 +275,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                     return true;
                 }
 
-                @Override
-                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                    Log.i("onPageStarted", "onPageStarted");
-                    super.onPageStarted(view, url, favicon);
-                }
-
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    Log.i("onPageFinished", "onPageFinished");
-                    super.onPageFinished(view, url);
-                }
-
-                @Override
-                public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                    Log.i("onReceivedSslError", "onReceivedSslError");
-                    if (handler != null) {
-                        handler.proceed();//忽略证书的错误继续加载页面内容，不会变成空白页面
-                    }
-                }
-
-                @TargetApi(Build.VERSION_CODES.M)
-                @Override
-                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                    Log.i("onReceivedError", "onReceivedError");
-                    super.onReceivedError(view, request, error);
-                }
-
-                @Override
-                public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-                    Log.i("onReceivedHttpError", "onReceivedHttpError");
-                    super.onReceivedHttpError(view, request, errorResponse);
-                }
             });
             webView.setWebChromeClient(new WebChromeClient() {
                 @Override
@@ -217,6 +285,55 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                         progressBar.setVisibility(View.VISIBLE);//开始加载网页时显示进度条
                         progressBar.setProgress(newProgress);//设置进度值
                     }
+                }
+
+                @Override
+                public void onShowCustomView(View view, IX5WebChromeClient.CustomViewCallback customViewCallback) {
+                    super.onShowCustomView(view, customViewCallback);
+                    List<View> list = getAllChildViews(view);
+                    //12：缓存 13：小窗 14：分享 23：横竖屏
+                    //size等于26是先点播放，再点全屏
+
+
+                    //size等于29是先点全屏，再点播放
+                    if (list.size() == 26) {
+//                        list.get(12).setVisibility(View.INVISIBLE);
+//                        list.get(13).setVisibility(View.INVISIBLE);
+                        list.get(14).setVisibility(View.INVISIBLE);
+                        list.get(23).setVisibility(View.INVISIBLE);
+                    } else if (list.size() == 29) {
+//                        list.get(15).setVisibility(View.INVISIBLE);
+//                        list.get(16).setVisibility(View.INVISIBLE);
+                        list.get(17).setVisibility(View.INVISIBLE);
+                        list.get(26).setVisibility(View.INVISIBLE);
+                    }
+//                    WebActivity.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//                    FrameLayout normalView = webView;
+//                    ViewGroup viewGroup = (ViewGroup) normalView.getParent();
+//                    viewGroup.removeView(normalView);
+//                    viewGroup.addView(view);
+//                    myVideoView = view;
+//                    myNormalView = normalView;
+//                    callback = customViewCallback;
+
+                }
+
+                @Override
+                public void onHideCustomView() {
+                    super.onHideCustomView();
+                }
+
+                @Override
+                public void openFileChooser(ValueCallback<Uri> valueCallback, String s, String s1) {
+                    mUploadMessage = valueCallback;
+                    take();
+                }
+
+                @Override
+                public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> valueCallback, FileChooserParams fileChooserParams) {
+                    mUploadCallbackAboveL = valueCallback;
+                    take();
+                    return true;
                 }
             });
 
@@ -271,6 +388,207 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             share.setVisibility(View.VISIBLE);
         }
         shareUtils = new ShareUtils(this, this);
+    }
+
+    private void take() {
+        File imageStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyApp");
+        // Create the storage directory if it does not exist
+        if (!imageStorageDir.exists()) {
+            imageStorageDir.mkdirs();
+        }
+        File file = new File(imageStorageDir + File.separator + "IMG_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
+        imageUri = Uri.fromFile(file);
+
+        final List<Intent> cameraIntents = new ArrayList<Intent>();
+        final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent i = new Intent(captureIntent);
+            i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            i.setPackage(packageName);
+            i.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            cameraIntents.add(i);
+
+        }
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("image/*");
+        Intent chooserIntent = Intent.createChooser(i, "Image Chooser");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
+        WebActivity.this.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FILECHOOSER_RESULTCODE) {
+            if (null == mUploadMessage && null == mUploadCallbackAboveL) return;
+            Uri result = data == null || resultCode != RESULT_OK ? null : data.getData();
+            if (mUploadCallbackAboveL != null) {
+                onActivityResultAboveL(requestCode, resultCode, data);
+            } else if (mUploadMessage != null) {
+                if (result != null) {
+                    String path = getPath(getApplicationContext(), result);
+                    Uri uri = Uri.fromFile(new File(path));
+                    mUploadMessage.onReceiveValue(uri);
+                } else {
+                    mUploadMessage.onReceiveValue(imageUri);
+                }
+                mUploadMessage = null;
+
+            }
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void onActivityResultAboveL(int requestCode, int resultCode, Intent data) {
+        if (requestCode != FILECHOOSER_RESULTCODE || mUploadCallbackAboveL == null) {
+            return;
+        }
+
+        Uri[] results = null;
+        if (resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                results = new Uri[]{imageUri};
+            } else {
+                String dataString = data.getDataString();
+                ClipData clipData = data.getClipData();
+                if (clipData != null) {
+                    results = new Uri[clipData.getItemCount()];
+                    for (int i = 0; i < clipData.getItemCount(); i++) {
+                        ClipData.Item item = clipData.getItemAt(i);
+                        results[i] = item.getUri();
+                    }
+                }
+                if (dataString != null)
+                    results = new Uri[]{Uri.parse(dataString)};
+            }
+        }
+//        if (results != null) {
+            mUploadCallbackAboveL.onReceiveValue(results);
+            mUploadCallbackAboveL = null;
+//        } else {
+//            results = new Uri[]{imageUri};
+//            mUploadCallbackAboveL.onReceiveValue(results);
+//            mUploadCallbackAboveL = null;
+//        }
+    }
+
+    @SuppressLint("NewApi")
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public static String getPath(final Context context, final Uri uri) {
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+
+                // TODO handle non-primary volumes
+            }
+            // DownloadsProvider
+            else if (isDownloadsDocument(uri)) {
+
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+            }
+            // MediaProvider
+            else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[]{split[1]};
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+        // MediaStore (and general)
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            return getDataColumn(context, uri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
+
+
+    /**
+     * Get the value of the data column for this Uri. This is useful for
+     * MediaStore Uris, and other file-based ContentProviders.
+     *
+     * @param context       The context.
+     * @param uri           The Uri to query.
+     * @param selection     (Optional) Filter used in the query.
+     * @param selectionArgs (Optional) Selection arguments used in the query.
+     * @return The value of the _data column, which is typically a file path.
+     */
+    public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {column};
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int column_index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(column_index);
+            }
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return null;
+    }
+
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is ExternalStorageProvider.
+     */
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
     /***
@@ -368,16 +686,61 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         }
     };
 
+    private void removeAd() {
+        getWindow().getDecorView().addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+                ArrayList<View> outView = new ArrayList<View>();
+                getWindow().getDecorView().findViewsWithText(outView, "下载该视频", View.FIND_VIEWS_WITH_TEXT);
+                if (outView != null && outView.size() > 0) {
+                    outView.get(0).setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public List<View> getAllChildViews(View view) {
+        List<View> list = new ArrayList<View>();
+        if (view instanceof ViewGroup) {
+            ViewGroup vp = (ViewGroup) view;
+            for (int i = 0; i < vp.getChildCount(); i++) {
+                View child = vp.getChildAt(i);
+                Log.d("hhc", "ClassName: " + child.getAccessibilityClassName().toString());
+                list.add(child);
+                list.addAll(getAllChildViews(child));
+            }
+        }
+        return list;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        webView.onResume();
+        webView.getSettings().setJavaScriptEnabled(true);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        webView.onPause();
+        webView.getSettings().setLightTouchEnabled(false);
+    }
+
     @Override
     protected void onDestroy() {
         if (webView != null) {
             webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
             webView.clearHistory();
-
-            ((ViewGroup) webView.getParent()).removeView(webView);
+            webView.setWebViewClient(null);
+            webView.setWebChromeClient(null);
+//            ((ViewGroup) webView.getParent()).removeView(webView);
             webView.destroy();
             webView = null;
         }
         super.onDestroy();
     }
+
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Game;
 import com.annie.annieforchild.bean.net.NetDetails;
@@ -21,6 +23,7 @@ import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
+import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.LessonAdapter;
 import com.annie.annieforchild.ui.adapter.NetDetailsAdapter;
@@ -89,31 +92,33 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onItemClick(View view) {
                 int position = recycler.getChildAdapterPosition(view);
-//                if (lists.get(position).getTag() == 0) {
-                Intent intent = new Intent(LessonActivity.this, WebActivity.class);
-                intent.putExtra("url", lists.get(position).getGameUrl());
-                intent.putExtra("flag", 1);//标题是否取消1：取消
-                startActivity(intent);
-//                } else {
-//                    Song song = new Song();
-//                    song.setBookId(lists.get(position).getBookId());
-//                    song.setBookName(lists.get(position).getBookName());
-//                    song.setBookImageUrl(lists.get(position).getBookImageUrl());
-//                    int bookType;
-//                    if (lists.get(position).getAudioType() == 0) {
-//                        bookType = 0;
-//                    } else {
-//                        bookType = 1;
-//                    }
-//                    Intent intent = new Intent(LessonActivity.this, PracticeActivity.class);
-//                    intent.putExtra("song", song);
-//                    intent.putExtra("type", 0);
-//                    intent.putExtra("audioType", lists.get(position).getAudioType());
-//                    intent.putExtra("audioSource", 0);
-//                    intent.putExtra("bookType", bookType);
-//                    startActivity(intent);
-//                }
-
+                if (lists.get(position).getTag() == 0) {
+                    Intent intent = new Intent(LessonActivity.this, WebActivity.class);
+                    intent.putExtra("url", lists.get(position).getGameUrl());
+                    intent.putExtra("flag", 1);//标题是否取消1：取消
+                    startActivity(intent);
+                } else {
+                    if (lists.get(position).getBookId() != 0) {
+                        Song song = new Song();
+                        song.setBookId(lists.get(position).getBookId());
+                        song.setBookName(lists.get(position).getBookName());
+                        song.setBookImageUrl(lists.get(position).getBookImageUrl());
+                        int bookType;
+                        if (lists.get(position).getAudioType() == 0) {
+                            bookType = 0;
+                        } else {
+                            bookType = 1;
+                        }
+                        Intent intent = new Intent(LessonActivity.this, PracticeActivity.class);
+                        intent.putExtra("song", song);
+                        intent.putExtra("type", 0);
+                        intent.putExtra("audioType", lists.get(position).getAudioType());
+                        intent.putExtra("audioSource", 0);
+                        intent.putExtra("bookType", bookType);
+                        intent.putExtra("lessonTag", 1);
+                        startActivity(intent);
+                    }
+                }
             }
 
             @Override
@@ -157,6 +162,12 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
                 lists.clear();
             }
             adapter.notifyDataSetChanged();
+        } else if (message.what == MethodCode.EVENT_LESSON) {
+            int lessonTag = (int) message.obj;
+            if (lessonTag == 1) {
+                application.getSystemUtils().setBackGray(LessonActivity.this, true);
+                application.getSystemUtils().getLessonBack(LessonActivity.this).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+            }
         }
     }
 

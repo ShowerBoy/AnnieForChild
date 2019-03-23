@@ -6,14 +6,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.ui.activity.VideoActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetPreheatConsultViewHolder;
 import com.bumptech.glide.Glide;
+import com.tencent.smtt.sdk.TbsVideo;
 
 import java.util.List;
 
@@ -43,9 +46,9 @@ public class NetPreheatConsultAdapter extends RecyclerView.Adapter<NetPreheatCon
     @Override
     public void onBindViewHolder(NetPreheatConsultViewHolder holder, int i) {
         if (list1.size() == 0) {
-            if(i==0){
+            if (i == 0) {
                 holder.type.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 holder.type.setVisibility(View.GONE);
             }
             holder.type.setText("素材解析");
@@ -86,23 +89,27 @@ public class NetPreheatConsultAdapter extends RecyclerView.Adapter<NetPreheatCon
         holder.welcomeVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, VideoActivity.class);
+//                Intent intent = new Intent(context, VideoActivity.class);
                 if (i < list1.size()) {
-                    intent.putExtra("url", list1.get(i).getPath());
-                    intent.putExtra("imageUrl", list1.get(i).getPicurl());
-                    intent.putExtra("name", list1.get(i).getTitle());
+//                    intent.putExtra("url", list1.get(i).getPath());
+//                    intent.putExtra("imageUrl", list1.get(i).getPicurl());
+//                    intent.putExtra("name", list1.get(i).getTitle());
+                    SystemUtils.startVideo(context, list1.get(i).getPath());
                 } else {
-                    intent.putExtra("url", list2.get(i - list1.size()).getPath());
-                    intent.putExtra("imageUrl", list2.get(i - list1.size()).getPicurl());
-                    intent.putExtra("name", list2.get(i - list1.size()).getTitle());
+//                    intent.putExtra("url", list2.get(i - list1.size()).getPath());
+//                    intent.putExtra("imageUrl", list2.get(i - list1.size()).getPicurl());
+//                    intent.putExtra("name", list2.get(i - list1.size()).getTitle());
+                    SystemUtils.startVideo(context, list2.get(i - list1.size()).getPath());
                 }
-                context.startActivity(intent);
+//                context.startActivity(intent);
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
         return list1.size() + list2.size();
     }
+
 }

@@ -20,9 +20,11 @@ import com.annie.annieforchild.bean.net.NetExpDetails;
 import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.bean.net.PreheatConsult;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
+import com.annie.annieforchild.bean.net.SpecialPreHeat;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.adapter.NetExperienceDetailAdapter;
 import com.annie.annieforchild.ui.adapter.NetPreheatConsultAdapter;
+import com.annie.annieforchild.ui.adapter.SpecialPreheatAdapter;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
@@ -32,20 +34,23 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+//预热课
 public class NetPreheatClassActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     CheckDoubleClickListener listner;
     private ImageView back;
     private Dialog dialog;
     private AlertHelper helper;
     private NetPreheatConsultAdapter adapter;
+    private SpecialPreheatAdapter specialAdapter;
     private NetWorkPresenterImp presenter;
     private List<PreheatConsultList> Microclasslits;
     private List<PreheatConsultList> Materiallits;
+    private List<SpecialPreHeat> lists;
     private TextView title;
     private RecyclerView net_preheatconsult_recyclerview;
     private ConstraintLayout empty_img;
     private int mirIsShow = 0;
-    private int type; //0:
+    private int type; //1:新版体验课 2:综合课
 
     {
         setRegister(true);
@@ -75,18 +80,24 @@ public class NetPreheatClassActivity extends BaseActivity implements ViewInfo, O
         dialog = helper.LoadingDialog();
         Microclasslits = new ArrayList<>();
         Materiallits = new ArrayList<>();
+        lists = new ArrayList<>();
 
         String lessonid = getIntent().getStringExtra("lessonId");
         String lessonname = getIntent().getStringExtra("lessonName");
+        type = getIntent().getIntExtra("type", 0);
         title.setText(lessonname);
 
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
-        presenter.getNetPreheatConsult(lessonid);
+        presenter.getNetPreheatConsult(lessonid, type);
 
         adapter = new NetPreheatConsultAdapter(this, Microclasslits, Materiallits);
-        net_preheatconsult_recyclerview.setAdapter(adapter);
-
+        specialAdapter = new SpecialPreheatAdapter(this, lists);
+        if (type == 1) {
+            net_preheatconsult_recyclerview.setAdapter(adapter);
+        } else if (type == 2) {
+            net_preheatconsult_recyclerview.setAdapter(specialAdapter);
+        }
     }
 
     @Override
@@ -128,9 +139,18 @@ public class NetPreheatClassActivity extends BaseActivity implements ViewInfo, O
                 } else {
                     empty_img.setVisibility(View.VISIBLE);
                 }
+            } else {
+                empty_img.setVisibility(View.VISIBLE);
             }
         } else if (message.what == MethodCode.EVENT_SPECIALPREHEATING) {
-
+            List<SpecialPreHeat> list = (List<SpecialPreHeat>) message.obj;
+            if (list != null && list.size() != 0) {
+                lists.clear();
+                lists.addAll(list);
+                specialAdapter.notifyDataSetChanged();
+            } else {
+                empty_img.setVisibility(View.VISIBLE);
+            }
         }
     }
 

@@ -297,7 +297,6 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
             popupTitle.setText("");
         }
 
-
 //        Intent intent2 = new Intent(this, MusicService.class);
 //        myConnection = new ServiceConnection() {
 //            @Override

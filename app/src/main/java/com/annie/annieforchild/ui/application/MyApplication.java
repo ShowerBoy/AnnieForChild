@@ -1,8 +1,12 @@
 package com.annie.annieforchild.ui.application;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.SSLCertificateSocketFactory;
 import android.net.wifi.aware.AttachCallback;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.MyCrashHandler;
 import com.annie.annieforchild.Utils.SSLSocketClient;
@@ -14,6 +18,7 @@ import com.iflytek.cloud.SpeechUtility;
 import com.mob.MobSDK;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.smtt.sdk.QbSdk;
 import com.yanzhenjie.nohttp.BasicRequest;
 import com.yanzhenjie.nohttp.InitializationConfig;
 import com.yanzhenjie.nohttp.Network;
@@ -53,7 +58,24 @@ public class MyApplication extends LitePalApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-//        NoHttp.initialize(MyApplication.this);
+////        NoHttp.initialize(MyApplication.this);
+        //非wifi情况下，主动下载x5内核
+        QbSdk.setDownloadWithoutWifi(true);
+        //搜集本地tbs内核信息并上报服务器，服务器返回结果决定使用哪个内核。
+        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
+            @Override
+            public void onViewInitFinished(boolean arg0) {
+                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
+            }
+
+            @Override
+            public void onCoreInitFinished() {
+
+            }
+        };
+        //x5内核初始化接口
+        QbSdk.initX5Environment(getApplicationContext(), cb);
+
         InitializationConfig config = InitializationConfig.newBuilder(MyApplication.this)
                 .cacheStore(new DBCacheStore(MyApplication.this).setEnable(false))
                 .cookieStore(new DBCookieStore(MyApplication.this).setEnable(false))
@@ -71,6 +93,8 @@ public class MyApplication extends LitePalApplication {
         if (systemUtils == null) {
             systemUtils = new SystemUtils(this);
         }
+
+
     }
 
     @Override

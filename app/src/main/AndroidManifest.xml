@@ -53,8 +53,10 @@
     <application
         android:name=".ui.application.MyApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:name">
@@ -118,6 +120,21 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
+        <activity
+            android:name="com.tencent.smtt.sdk.VideoActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape">
+
+            <intent-filter>
+                <action android:name="com.tencent.smtt.tbs.video.PLAY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
 
         <service android:name="com.amap.api.location.APSService"></service>
 
@@ -129,6 +146,14 @@
             android:name=".ui.activity.login.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <!--<activity-->
+        <!--android:name=".ui.activity.VideoActivity_new"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:alwaysRetainTaskState="true"-->
+        <!--android:hardwareAccelerated="true"-->
+        <!--android:configChanges="orientation|screenSize|keyboardHidden"-->
+        <!--android:windowSoftInputMode="stateHidden|adjustResize"-->
+        <!--&gt;</activity>-->
         <activity
             android:name=".ui.activity.GuideActivity"
             android:screenOrientation="portrait"
@@ -267,7 +292,12 @@
         <activity
             android:name=".ui.activity.grindEar.ExerciseTestActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".ui.activity.my.WebActivity" />
+        <activity
+            android:name=".ui.activity.my.WebActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity android:name=".ui.activity.my.WebActivity2" />
         <activity
             android:name=".ui.activity.login.ModifyPsdActivity"

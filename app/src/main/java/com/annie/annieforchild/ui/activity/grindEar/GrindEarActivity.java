@@ -294,10 +294,6 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     intent1.putExtras(bundle);
                 }
                 if (MusicService.isPlay) {
-//                    mBinder.bStop();
-//                    if (musicService != null) {
-//                        musicService.stop();
-//                    }
                     MusicService.stop();
                 }
                 startActivity(intent1);

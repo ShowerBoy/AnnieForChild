@@ -34,6 +34,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -61,6 +62,7 @@ import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.bumptech.glide.Glide;
+import com.tencent.smtt.sdk.TbsVideo;
 //import com.github.chrisbanes.photoview.PhotoView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -431,6 +433,38 @@ public class SystemUtils {
         textView.setText("获得 " + count + " 花蜜奖励");
         popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
         popupWindow.setAnimationStyle(R.style.pop_in_animation);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemUtils.setBackGray((Activity) context, false);
+            }
+        });
+        popupWindow.setContentView(popupView);
+        return popupWindow;
+    }
+
+    /**
+     * 课程结束
+     *
+     * @return
+     */
+    public static PopupWindow getLessonBack(Context context) {
+        Button button = new Button(context);
+        popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_lesson_back, null, false);
+        button = popupView.findViewById(R.id.lesson_back_btn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
+        popupWindow.setAnimationStyle(R.style.pop_in_animation2);
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -1006,6 +1040,24 @@ public class SystemUtils {
     public static float dp2px(Resources resources, float dpValue) {
         final float scale = resources.getDisplayMetrics().density;
         return (dpValue * scale + 0.5f);
+    }
+
+    public static void startVideo(Context context, String url) {
+        //判断当前Tbs播放器是否已经可以使用。
+        //public static boolean canUseTbsPlayer(Context context)
+        //直接调用播放接口，传入视频流的url
+        //public static void openVideo(Context context, String videoUrl)
+        //extraData对象是根据定制需要传入约定的信息，没有需要可以传如null
+        //public static void openVideo(Context context, String videoUrl, Bundle extraData)
+
+        if ((TbsVideo.canUseTbsPlayer(context))) {
+            //可以播放视频
+            TbsVideo.openVideo(context, url);
+
+        } else {
+            Toast.makeText(context, "视频播放器没有准备好", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

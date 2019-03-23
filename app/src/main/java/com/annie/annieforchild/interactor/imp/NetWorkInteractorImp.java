@@ -22,6 +22,7 @@ import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.bean.net.PreheatConsult;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
+import com.annie.annieforchild.bean.net.SpecialPreHeat;
 import com.annie.annieforchild.bean.net.WechatBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
@@ -210,15 +211,6 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void specialPreheating(int lessonid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALPREHEATING, RequestMethod.POST);
-        request.add("token", application.getSystemUtils().getToken());
-        request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("netid", lessonid);
-        addQueue(MethodCode.EVENT_SPECIALPREHEATING, request);
-    }
-
-    @Override
     public void getLesson(String lessonid, int type) {
         FastJsonRequest request;
         if (type == 4) {//彩虹条新版本
@@ -245,12 +237,23 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void getNetPreheatConsult(String lessonid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETPREHEATCONSULT, RequestMethod.POST);
-        request.add("token", application.getSystemUtils().getToken());
-        request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("lessonid", Integer.parseInt(lessonid));
-        addQueue(MethodCode.EVENT_GETPREHEATCONSULT, request);
+    public void getNetPreheatConsult(String lessonid, int type) {
+        if (type == 1) {
+            //体验课预热课
+            FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETPREHEATCONSULT, RequestMethod.POST);
+            request.add("token", application.getSystemUtils().getToken());
+            request.add("username", application.getSystemUtils().getDefaultUsername());
+            request.add("lessonid", Integer.parseInt(lessonid));
+            addQueue(MethodCode.EVENT_GETPREHEATCONSULT, request);
+        } else if (type == 2) {
+            //综合课预热课
+            FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALPREHEATING, RequestMethod.POST);
+            request.add("token", application.getSystemUtils().getToken());
+            request.add("username", application.getSystemUtils().getDefaultUsername());
+            request.add("lessonid", Integer.parseInt(lessonid));
+            addQueue(MethodCode.EVENT_SPECIALPREHEATING, request);
+        }
+
 //        startQueue();
     }
 
@@ -302,9 +305,6 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         } else if (type == 4) {//新版本的开班活动等
             request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETSPECIAL_NEW, RequestMethod.POST);
             request.add("fid", fid);
-        } else if (type == 5) {
-            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALPREHEATING, RequestMethod.POST);
-            request.add("lessonid", fid);
         } else {
             request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETCLASSANALYSIS, RequestMethod.POST);
             request.add("fid", fid);
@@ -457,8 +457,12 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 NetSpecialDetail netSpecialDetail = JSON.parseObject(data, NetSpecialDetail.class);
                 listener.Success(what, netSpecialDetail);
             } else if (what == MethodCode.EVENT_SPECIALPREHEATING) {
-                PreheatConsult preheatConsult = JSON.parseObject(data, PreheatConsult.class);
-                listener.Success(what, preheatConsult);
+                List<SpecialPreHeat> lists = JSON.parseArray(data, SpecialPreHeat.class);
+//                PreheatConsult preheatConsult = JSON.parseObject(data, PreheatConsult.class);
+                if (lists == null) {
+                    lists = new ArrayList<>();
+                }
+                listener.Success(what, lists);
             }
         }
     }

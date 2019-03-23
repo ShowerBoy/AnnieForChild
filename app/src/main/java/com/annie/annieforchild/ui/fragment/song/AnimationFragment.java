@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.AnimationData;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.song.Song;
@@ -85,12 +86,13 @@ public class AnimationFragment extends BaseFragment implements SongView {
             public void onItemClick(View view) {
                 int position = animationRecycler.getChildAdapterPosition(view);
                 if (lists.get(position - 1).getJurisdiction() == 1) {
-                    Intent intent = new Intent(getContext(), VideoActivity.class);
-                    intent.putExtra("url", lists.get(position - 1).getAnimationUrl());
-                    intent.putExtra("imageUrl", lists.get(position - 1).getAnimationImageUrl());
-                    intent.putExtra("name", lists.get(position - 1).getAnimationName());
-                    intent.putExtra("id", lists.get(position - 1).getAnimationId());
-                    startActivity(intent);
+                    SystemUtils.startVideo(getContext(), lists.get(position - 1).getAnimationUrl());
+//                    Intent intent = new Intent(getContext(), VideoActivity.class);
+//                    intent.putExtra("url", lists.get(position - 1).getAnimationUrl());
+//                    intent.putExtra("imageUrl", lists.get(position - 1).getAnimationImageUrl());
+//                    intent.putExtra("name", lists.get(position - 1).getAnimationName());
+//                    intent.putExtra("id", lists.get(position - 1).getAnimationId());
+//                    startActivity(intent);
                 }
             }
 

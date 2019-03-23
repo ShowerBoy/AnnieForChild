@@ -1,12 +1,17 @@
 package com.annie.annieforchild.ui.fragment;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -28,7 +33,11 @@ public class ThirdFragment extends BaseFragment implements OnCheckDoubleClick {
     private String tag;
     private RelativeLayout centerQuaryLayout, mainpageLayout;
     private CheckDoubleClickListener listener;
-
+    private static final String[] LOCATION_PERMS={
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+    private static final int INITIAL_REQUEST=1337;
+    private static final int LOCATION_REQUEST=INITIAL_REQUEST+3;
     public ThirdFragment() {
     }
 
@@ -47,8 +56,24 @@ public class ThirdFragment extends BaseFragment implements OnCheckDoubleClick {
         listener = new CheckDoubleClickListener(this);
         centerQuaryLayout.setOnClickListener(listener);
         mainpageLayout.setOnClickListener(listener);
-    }
 
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(getContext(),
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getContext(),
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),new String[]{ android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION}, 99);
+
+        } else {
+        }
+    }
+    private boolean hasPermission(String perm) {
+        return(PackageManager.PERMISSION_GRANTED==ContextCompat.checkSelfPermission(getContext(),perm));
+    }
+    private boolean canAccessLocation() {
+        return(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION));
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.activity_third_fragment;
@@ -79,6 +104,9 @@ public class ThirdFragment extends BaseFragment implements OnCheckDoubleClick {
 
     @SuppressLint("MissingPermission")
     private String getLngAndLat(Context context) {
+
+
+
         double latitude = 0.0;
         double longitude = 0.0;
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -147,19 +175,31 @@ public class ThirdFragment extends BaseFragment implements OnCheckDoubleClick {
         public void onLocationChanged(Location location) {
         }
     };
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch(requestCode) {
+            case LOCATION_REQUEST:
+                break;
+        }
+    }
 
     @Override
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
             case R.id.center_quary_layout:
-                String aaa = getLngAndLat(getContext());
-                String lng = aaa.split(",")[0].trim();
-                String lat = aaa.split(",")[1].trim();
-                Intent intent = new Intent(getContext(), WebActivity.class);
+                if (canAccessLocation()) {
+                    String aaa = getLngAndLat(getContext());
+                    String lng = aaa.split(",")[0].trim();
+                    String lat = aaa.split(",")[1].trim();
+                    Intent intent = new Intent(getContext(), WebActivity.class);
 //                intent.putExtra("url", SystemUtils.mainUrl + "Signin/jump?lng=" + lng + "&lat=" + lat);
-                intent.putExtra("url", SystemUtils.mainUrl + "Signin/CenterSearch?location=" + lng + "," + lat);
-                intent.putExtra("title", "中心查询");
-                getContext().startActivity(intent);
+                    intent.putExtra("url", SystemUtils.mainUrl + "Signin/CenterSearch?location=" + lng + "," + lat);
+                    intent.putExtra("title", "中心查询");
+                    getContext().startActivity(intent);
+                }
+                else {
+                    requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
+                }
                 break;
             case R.id.main_page_layout:
                 Intent intent1 = new Intent();

@@ -137,24 +137,22 @@ public class NetSpecialDetailActivity extends BaseActivity implements ViewInfo, 
                 if (netSpecialDetail != null) {
                     if (netSpecialDetail.getFirststage() != null) {
                         if (netSpecialDetail.getFirststage().getInfo() != null && netSpecialDetail.getFirststage().getInfo().size() != 0) {
+                            boolean flag = false;
+                            int j = 0;
                             for (int i = 0; i < netSpecialDetail.getFirststage().getInfo().size(); i++) {
                                 if (netSpecialDetail.getFirststage().getInfo().get(i).getType() == 1) {
-                                    Intent intent = new Intent(this, WebActivity.class);
-                                    intent.putExtra("url", netSpecialDetail.getFirststage().getInfo().get(i).getUrl());
-                                    intent.putExtra("title", netSpecialDetail.getFirststage().getInfo().get(i).getName());
-                                    startActivity(intent);
+                                    flag = true;
+                                    j = i;
                                 }
                             }
-
-//                            if (netSpecialDetail.getFirststage().getInfo().get(0) != null) {
-//                                if (netSpecialDetail.getFirststage().getInfo().get(0).getUrl() != null) {
-//                                    Intent intent = new Intent(this, WebActivity.class);
-//                                    intent.putExtra("url", netSpecialDetail.getFirststage().getInfo().get(0).getUrl());
-//                                    intent.putExtra("title", netSpecialDetail.getFirststage().getInfo().get(0).getName());
-//                                    startActivity(intent);
-//                                }
-//                            }
-
+                            if (flag) {
+                                Intent intent = new Intent(this, WebActivity.class);
+                                intent.putExtra("url", netSpecialDetail.getFirststage().getInfo().get(j).getUrl());
+                                intent.putExtra("title", netSpecialDetail.getFirststage().getInfo().get(j).getName());
+                                startActivity(intent);
+                            } else {
+                                showInfo("暂无内容");
+                            }
                         }
                     }
                 }
@@ -164,37 +162,48 @@ public class NetSpecialDetailActivity extends BaseActivity implements ViewInfo, 
                 if (netSpecialDetail != null) {
                     if (netSpecialDetail.getFirststage() != null) {
                         if (netSpecialDetail.getFirststage().getInfo() != null && netSpecialDetail.getFirststage().getInfo().size() != 0) {
+                            boolean flag = false;
+                            int j = 0;
                             for (int i = 0; i < netSpecialDetail.getFirststage().getInfo().size(); i++) {
                                 if (netSpecialDetail.getFirststage().getInfo().get(i).getType() == 2) {
-                                    Intent intent2 = new Intent(this, NetExpFirstVideoActivity.class);
-                                    intent2.putExtra("title", "安妮鲜花微课堂");
-                                    intent2.putExtra("type", 4);
-                                    intent2.putExtra("fid", netSpecialDetail.getFirststage().getInfo().get(i).getFid());
-                                    startActivity(intent2);
+                                    flag = true;
+                                    j = i;
                                 }
+                            }
+                            if (flag) {
+                                Intent intent2 = new Intent(this, NetExpFirstVideoActivity.class);
+                                intent2.putExtra("title", "安妮鲜花微课堂");
+                                intent2.putExtra("type", 4);
+                                intent2.putExtra("fid", netSpecialDetail.getFirststage().getInfo().get(j).getFid());
+                                startActivity(intent2);
+                            } else {
+                                showInfo("暂无内容");
                             }
                         }
                     }
                 }
-//                Intent intent2 = new Intent(this, NetExpFirstVideoActivity.class);
-//                intent2.putExtra("title", "安妮鲜花微课堂");
-//                intent2.putExtra("type", 4);
-//                intent2.putExtra("fid", netSpecialDetail.getFirststage().getInfo().get(1).getFid());
-//                startActivity(intent2);
                 break;
             case R.id.first_3:
                 //课程解析
                 if (netSpecialDetail != null) {
                     if (netSpecialDetail.getFirststage() != null) {
                         if (netSpecialDetail.getFirststage().getInfo() != null && netSpecialDetail.getFirststage().getInfo().size() != 0) {
+                            boolean flag = false;
+                            int j = 0;
                             for (int i = 0; i < netSpecialDetail.getFirststage().getInfo().size(); i++) {
                                 if (netSpecialDetail.getFirststage().getInfo().get(i).getType() == 3) {
-                                    Intent intent3 = new Intent(this, NetExpFirstVideoActivity.class);
-                                    intent3.putExtra("title", "课程解析");
-                                    intent3.putExtra("type", 4);
-                                    intent3.putExtra("fid", netSpecialDetail.getFirststage().getInfo().get(i).getFid());
-                                    startActivity(intent3);
+                                    flag = true;
+                                    j = i;
                                 }
+                            }
+                            if (flag) {
+                                Intent intent3 = new Intent(this, NetExpFirstVideoActivity.class);
+                                intent3.putExtra("title", "课程解析");
+                                intent3.putExtra("type", 4);
+                                intent3.putExtra("fid", netSpecialDetail.getFirststage().getInfo().get(j).getFid());
+                                startActivity(intent3);
+                            } else {
+                                showInfo("暂无内容");
                             }
                         }
                     }
@@ -205,13 +214,21 @@ public class NetSpecialDetailActivity extends BaseActivity implements ViewInfo, 
                 if (netSpecialDetail != null) {
                     if (netSpecialDetail.getFirststage() != null) {
                         if (netSpecialDetail.getFirststage().getInfo() != null && netSpecialDetail.getFirststage().getInfo().size() != 0) {
+                            boolean flag = false;
+                            int j = 0;
                             for (int i = 0; i < netSpecialDetail.getFirststage().getInfo().size(); i++) {
                                 if (netSpecialDetail.getFirststage().getInfo().get(i).getType() == 4) {
-                                    Intent intent = new Intent(this, WebActivity.class);
-                                    intent.putExtra("url", netSpecialDetail.getFirststage().getInfo().get(i).getUrl());
-                                    intent.putExtra("title", netSpecialDetail.getFirststage().getInfo().get(i).getName());
-                                    startActivity(intent);
+                                    flag = true;
+                                    j = i;
                                 }
+                            }
+                            if (flag) {
+                                Intent intent = new Intent(this, WebActivity.class);
+                                intent.putExtra("url", netSpecialDetail.getFirststage().getInfo().get(j).getUrl());
+                                intent.putExtra("title", netSpecialDetail.getFirststage().getInfo().get(j).getName());
+                                startActivity(intent);
+                            } else {
+                                showInfo("暂无内容");
                             }
                         }
                     }
@@ -265,11 +282,11 @@ public class NetSpecialDetailActivity extends BaseActivity implements ViewInfo, 
                 } else {
                     firstTitle.setBackgroundResource(R.drawable.classleaf_icon_week);
                 }
-                if (netSpecialDetail.getFirststage().getInfo() != null && netSpecialDetail.getFirststage().getInfo().size() == 4) {
-                    firstsatge.setVisibility(View.VISIBLE);
-                } else {
-                    firstsatge.setVisibility(View.GONE);
-                }
+//                if (netSpecialDetail.getFirststage().getInfo() != null && netSpecialDetail.getFirststage().getInfo().size() == 4) {
+                firstsatge.setVisibility(View.VISIBLE);
+//                } else {
+//                    firstsatge.setVisibility(View.GONE);
+//                }
             } else {
                 firstsatge.setVisibility(View.GONE);
             }

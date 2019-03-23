@@ -403,7 +403,7 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
             case R.id.fourstage_1:
                 intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
                 intent.putExtra("url", netExpClass.getFourthstage().getTesting());
-                intent.putExtra("title", "去测试");
+                intent.putExtra("title", "");
                 intent.putExtra("flag", 0);//标题是否取消1：取消
                 startActivity(intent);
                 break;

@@ -452,7 +452,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
 
-
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/firstsatge"
                     android:layout_width="match_parent"
