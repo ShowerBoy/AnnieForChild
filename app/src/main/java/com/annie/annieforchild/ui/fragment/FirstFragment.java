@@ -652,8 +652,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 //                startActivity(intent1);
 
 //                Intent intent1 = new Intent(getContext(), WebActivity.class);
-//                intent1.putExtra("url", "http://m.anniekids.org/1.html");
-//                intent1.putExtra("title", "我的课程推荐");
+//                intent1.putExtra("url", "http://study.anniekids.org/vide7.4.1/index.html");
+//                intent1.putExtra("title", "");
 //                startActivity(intent1);
 
 //                Intent intent1 = new Intent(getContext(), CalendarActivity.class);

@@ -54,8 +54,12 @@ import com.annie.annieforchild.Utils.PhotoUtils;
 import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.net.Game;
+import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
+import com.annie.annieforchild.ui.activity.net.LessonActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
+import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
@@ -101,17 +105,17 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
     private int shareTag = 0;
     private int aabb;
     private ProgressBar progressBar;
-    private View myVideoView;
-    private View myNormalView;
     private IX5WebChromeClient.CustomViewCallback callback;
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
-    private boolean videoFlag = false;
-    private final static int PHOTO_REQUEST = 100;
-    private final static int VIDEO_REQUEST = 120;
+    View myVideoView;
+    View myNormalView;
     private final static int FILECHOOSER_RESULTCODE = 1;
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/" + SystemClock.currentThreadTimeMillis() + ".jpg");
     private Uri imageUri;
+    private Bundle bundle;
+    private List<Game> lists = null;
+    private int position;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,36 +136,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             e.printStackTrace();
         }
     }
-
-    //    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        try {
-//            super.onWindowFocusChanged(hasFocus);
-//            if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//                getWindow().addFlags(
-//                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-//            } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-//                getWindow().clearFlags(
-//                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private boolean isFullScreen;
-//
-//    @Override
-//    public void onWindowAttributesChanged(WindowManager.LayoutParams params) {
-//        super.onWindowAttributesChanged(params);
-//        if (getWindow().getAttributes().flags == -2122250880) {
-//            if (!isFullScreen) {
-//                setFullScreen(true);
-//            }
-//        } else {
-//            setFullScreen(false);
-//        }
-//    }
 
     @Override
     protected int getLayoutId() {
@@ -245,6 +219,11 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             if (flag == 1) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             }
+            bundle = mIntent.getExtras();
+            if (bundle != null) {
+                lists = (List<Game>) bundle.getSerializable("lists");
+                position = bundle.getInt("position");
+            }
         }
         if (aabb == 1) {
             titleLayout.setVisibility(View.GONE);
@@ -270,6 +249,26 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                         Intent intent1 = new Intent();
                         intent1.setClass(WebActivity.this, GrindEarActivity.class);
                         startActivity(intent1);
+                        finish();
+                    } else if (getValueByName(url, "into").equals("4")) {
+                        Song song = new Song();
+                        song.setBookId(lists.get(position + 1).getBookId());
+                        song.setBookName(lists.get(position + 1).getBookName());
+                        song.setBookImageUrl(lists.get(position + 1).getBookImageUrl());
+                        int bookType;
+                        if (lists.get(position + 1).getAudioType() == 0) {
+                            bookType = 0;
+                        } else {
+                            bookType = 1;
+                        }
+                        Intent intent = new Intent(WebActivity.this, PracticeActivity.class);
+                        intent.putExtra("song", song);
+                        intent.putExtra("type", 0);
+                        intent.putExtra("audioType", lists.get(position + 1).getAudioType());
+                        intent.putExtra("audioSource", 0);
+                        intent.putExtra("bookType", bookType);
+                        intent.putExtra("lessonTag", 1);
+                        startActivity(intent);
                         finish();
                     }
                     return true;
@@ -308,6 +307,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                         list.get(26).setVisibility(View.INVISIBLE);
                     }
 //                    WebActivity.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//                    titleLayout.setVisibility(View.GONE);
 //                    FrameLayout normalView = webView;
 //                    ViewGroup viewGroup = (ViewGroup) normalView.getParent();
 //                    viewGroup.removeView(normalView);
@@ -315,12 +315,21 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
 //                    myVideoView = view;
 //                    myNormalView = normalView;
 //                    callback = customViewCallback;
-
                 }
 
                 @Override
                 public void onHideCustomView() {
                     super.onHideCustomView();
+//                    WebActivity.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//                    if (callback != null) {
+//                        callback.onCustomViewHidden();
+//                        callback = null;
+//                    }
+//                    if (myVideoView != null) {
+//                        ViewGroup viewGroup = (ViewGroup) myVideoView.getParent();
+//                        viewGroup.removeView(myVideoView);
+//                        viewGroup.addView(myNormalView);
+//                    }
                 }
 
                 @Override
@@ -467,8 +476,8 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             }
         }
 //        if (results != null) {
-            mUploadCallbackAboveL.onReceiveValue(results);
-            mUploadCallbackAboveL = null;
+        mUploadCallbackAboveL.onReceiveValue(results);
+        mUploadCallbackAboveL = null;
 //        } else {
 //            results = new Uri[]{imageUri};
 //            mUploadCallbackAboveL.onReceiveValue(results);

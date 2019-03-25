@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.activity.net;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,6 +35,7 @@ import com.annie.baselibrary.base.BasePresenter;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -94,8 +96,12 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
                 int position = recycler.getChildAdapterPosition(view);
                 if (lists.get(position).getTag() == 0) {
                     Intent intent = new Intent(LessonActivity.this, WebActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("lists", (Serializable) lists);
+                    bundle.putInt("position", position);
                     intent.putExtra("url", lists.get(position).getGameUrl());
                     intent.putExtra("flag", 1);//标题是否取消1：取消
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
                     if (lists.get(position).getBookId() != 0) {
