@@ -24,17 +24,21 @@ public class NetSuggest implements Serializable {
     private String event;
     private int count;
     private String message;
-    public String getMessage(){
+
+    public String getMessage() {
         return message;
     }
-public void setMessage(String message){
-        this.message=message;
-}
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public String getNetSummary() {
         return netSummary;
     }
-    public void setNetSummary(String netSummary){
-        this.netSummary=netSummary;
+
+    public void setNetSummary(String netSummary) {
+        this.netSummary = netSummary;
     }
 
     public int getCount() {

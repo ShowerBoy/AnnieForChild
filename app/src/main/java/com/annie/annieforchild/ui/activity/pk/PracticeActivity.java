@@ -80,7 +80,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by wanglei on 2018/3/31.
  */
 
-public class PracticeActivity extends BaseActivity implements PlatformActionListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, OnCheckDoubleClick, SongView, PopupWindow.OnDismissListener {
+public class
+PracticeActivity extends BaseActivity implements PlatformActionListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, OnCheckDoubleClick, SongView, PopupWindow.OnDismissListener {
     private ImageView back, menu, menuCollectImg, menuAddmaterialImg, practiceRecording, bookRead, bookBg, bookBehind, songBehind, pengyouquan, weixin, qq, qqzone, clarify;
     private LottieAnimationView animationView;
     private CircleImageView practiceImage;
@@ -125,7 +126,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
     private List<ReleaseBean> lists;
     private ShareUtils shareUtils;
     private String url;
-    private int homeworkid, musicPosition, shareType, homeworktype, iType;
+    private int homeworkid, musicPosition, shareType, homeworktype;
     Runnable runnable;
     private int lessonTag;
 
@@ -347,9 +348,6 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
             homeworktype = intent.getIntExtra("homeworktype", -1);
             musicPosition = intent.getIntExtra("musicPosition", 0);
             lessonTag = intent.getIntExtra("lessonTag", 0);
-            if (audioType == 3) {
-                iType = intent.getIntExtra("iType", 0);
-            }
             if (songList != null) {
                 resourUrl_list.clear();
                 resourUrl_list.addAll(songList);
@@ -376,14 +374,8 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
 //            bookBg.setVisibility(View.VISIBLE);
             if (audioType == 1) {
                 practiceRecording.setImageResource(R.drawable.icon_liulidu_btn);
-            } else if (audioType == 3) {
-                if (iType == 1) {
-                    practiceRecording.setImageResource(R.drawable.icon_liulidu_btn);
-                } else if (iType == 2) {
-                    practiceRecording.setImageResource(R.drawable.icon_didaoshuo_btn);
-                } else {
-                    practiceRecording.setImageResource(R.drawable.icon_moerduo_btn);
-                }
+            } else if (audioType == 0) {
+                practiceRecording.setImageResource(R.drawable.icon_moerduo_btn);
             } else {
                 practiceRecording.setImageResource(R.drawable.icon_didaoshuo_btn);
             }

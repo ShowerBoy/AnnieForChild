@@ -242,24 +242,23 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                     Intent intent = new Intent(context, PracticeActivity.class);
                     intent.putExtra("song", song);
                     intent.putExtra("type", 0);
-                    intent.putExtra("audioType", 3);
                     intent.putExtra("audioSource", 12);
                     intent.putExtra("homeworkid", lists.get(i).getHomeworkid());
                     intent.putExtra("homeworktype", type);
                     int bookType;
-                    int iType;
+                    int audioType;
                     if (lists.get(i).getType().equals("moerduo")) {
                         bookType = 0;
-                        iType = 0;
+                        audioType = 0;
                     } else if (lists.get(i).getType().equals("yuedu")) {
                         bookType = 1;
-                        iType = 1;
+                        audioType = 1;
                     } else {
                         bookType = 1;
-                        iType = 2;
+                        audioType = 2;
                     }
                     intent.putExtra("bookType", bookType);
-                    intent.putExtra("iType", iType);
+                    intent.putExtra("audioType", audioType);
                     context.startActivity(intent);
                 } else {
                     if (lists.get(i).getAnimationUrl() != null && lists.get(i).getAnimationUrl().length() != 0) {

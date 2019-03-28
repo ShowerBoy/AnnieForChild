@@ -6,6 +6,7 @@ import android.util.Log;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.SerialBean;
 import com.annie.annieforchild.interactor.RegisterInteractor;
 import com.annie.annieforchild.interactor.imp.RegisterInteractorImp;
 import com.annie.annieforchild.presenter.RegisterPresenter;
@@ -73,10 +74,21 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
     }
 
     @Override
+    public void getBindVerificationCode(String username) {
+        registerView.showLoad();
+        interactor.getBindVerificationCode(username);
+    }
+
+    @Override
+    public void bindStudent(String username, String code, String serialNumber) {
+        registerView.showLoad();
+        interactor.bindStudent(username, code, serialNumber);
+    }
+
+    @Override
     public String getSerial_number() {
         return serial_number;
     }
-
 
     @Override
     public void Success(int what, Object result) {
@@ -108,6 +120,23 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
                 registerView.dismissLoad();
                 /**
                  * {@link com.annie.annieforchild.ui.activity.login.ModifyPsdActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETBINDVERIFICATIONCODE) {
+                SerialBean serialBean = (SerialBean) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.child.BindStudentActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = serialBean;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_BINDSTUDENT) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.child.BindStudentActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;

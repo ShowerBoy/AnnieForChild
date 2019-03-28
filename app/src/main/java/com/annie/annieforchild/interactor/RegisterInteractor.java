@@ -13,4 +13,8 @@ public interface RegisterInteractor {
     void changePhone(String serialNumber, String code, String newPhone);
 
     void resetPassword(String phone, String code, String password, String serialNumber);
+
+    void getBindVerificationCode(String username);
+
+    void bindStudent(String username, String code, String serialNumber);
 }

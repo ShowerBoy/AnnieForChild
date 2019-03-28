@@ -57,6 +57,7 @@ import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.activity.CameraActivity;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.child.AddChildActivity;
+import com.annie.annieforchild.ui.activity.child.AddStudentActivity;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
@@ -156,7 +157,8 @@ public class SystemUtils {
     }
 
     public static void toAddChild(Context context) {
-        Intent intent = new Intent(context, AddChildActivity.class);
+//        Intent intent = new Intent(context, AddChildActivity.class);
+        Intent intent = new Intent(context, AddStudentActivity.class);
         intent.putExtra("from", "other");
         context.startActivity(intent);
     }

@@ -426,8 +426,7 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
     @Override
     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
         showInfo("分享成功");
-
-
+        presenter.shareSuccess(clockIn.getMoerduotoday(), clockIn.getReadingtoday(), clockIn.getSpeakingtoday());
         popupWindow.dismiss();
     }
 

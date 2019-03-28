@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.bean.SerialBean;
 import com.annie.annieforchild.interactor.RegisterInteractor;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
@@ -73,6 +74,22 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
     }
 
     @Override
+    public void getBindVerificationCode(String username) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.GETBINDVERIFICATIONCODE, RequestMethod.POST);
+        request.add("username", username);
+        addQueue(MethodCode.EVENT_GETBINDVERIFICATIONCODE, request);
+    }
+
+    @Override
+    public void bindStudent(String username, String code, String serialNumber) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.BINDSTUDENT, RequestMethod.POST);
+        request.add("username", username);
+        request.add("code", code);
+        request.add("serialNumber", serialNumber);
+        addQueue(MethodCode.EVENT_BINDSTUDENT, request);
+    }
+
+    @Override
     protected void onNetWorkStart(int what) {
 
     }
@@ -103,6 +120,13 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
                 listener.Success(what, "修改成功");
             } else if (what == MethodCode.EVENT_RESETPASSWORD) {
                 listener.Success(what, "成功");
+            } else if (what == MethodCode.EVENT_GETBINDVERIFICATIONCODE) {
+                String dataString = jsonObject.getString(MethodCode.DATA);
+                SerialBean serialBean = JSON.parseObject(dataString, SerialBean.class);
+                listener.Success(what, serialBean);
+            } else if (what == MethodCode.EVENT_BINDSTUDENT) {
+                String result = data.getString("result");
+                listener.Success(what, result);
             }
         }
     }

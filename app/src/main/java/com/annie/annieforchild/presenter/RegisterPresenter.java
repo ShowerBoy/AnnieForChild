@@ -16,5 +16,9 @@ public interface RegisterPresenter {
 
     void resetPassword(String phone, String code, String password, String serialNumber);
 
+    void getBindVerificationCode(String username);
+
+    void bindStudent(String username,String code,String serialNumber);
+
     String getSerial_number();
 }

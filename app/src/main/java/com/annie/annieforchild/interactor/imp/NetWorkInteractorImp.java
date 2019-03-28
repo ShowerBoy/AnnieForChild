@@ -253,7 +253,6 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
             request.add("lessonid", Integer.parseInt(lessonid));
             addQueue(MethodCode.EVENT_SPECIALPREHEATING, request);
         }
-
 //        startQueue();
     }
 

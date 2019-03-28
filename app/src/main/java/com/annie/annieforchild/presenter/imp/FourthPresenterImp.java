@@ -67,6 +67,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                     if (lists.get(position).getUsername().equals(application.getSystemUtils().getDefaultUsername())) {
                         return;
                     }
+
                     SystemUtils.GeneralDialog(context, "切换默认学员")
                             .setMessage("切换当前学员为默认学员？")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {

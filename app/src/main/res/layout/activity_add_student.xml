@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top_tab_back">
+
+        <ImageView
+            android:id="@+id/add_student_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_arrow_left2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="添加学员"
+            android:textColor="@color/text_black"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/add_student_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+        <RelativeLayout
+            android:id="@+id/add_organ_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/addsutdent_card"
+            android:padding="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/add_student_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/add_organ_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/addstudent_icon_add2" />
+
+            <TextView
+                android:id="@+id/add_organ_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@+id/add_organ_image"
+                android:text="添加机构学员"
+                android:textColor="#7D675B"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/add_organ_title"
+                android:layout_below="@+id/add_organ_title"
+                android:layout_marginTop="6dp"
+                android:text="什么是添加机构学员的介绍"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/add_unorgan_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/addsutdent_card"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_student_line">
+
+            <ImageView
+                android:id="@+id/add_unorgan_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/addstudent_icon_add1" />
+            <TextView
+                android:id="@+id/add_unorgan_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@+id/add_unorgan_image"
+                android:text="添加非机构学员"
+                android:textColor="#7D675B"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/add_unorgan_title"
+                android:layout_below="@+id/add_unorgan_title"
+                android:layout_marginTop="6dp"
+                android:text="什么是添加非机构学员的介绍"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</LinearLayout>

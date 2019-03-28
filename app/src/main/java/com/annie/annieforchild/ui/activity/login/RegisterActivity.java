@@ -30,6 +30,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.RegisterPresenter;
 import com.annie.annieforchild.presenter.imp.RegisterPresenterImp;
 import com.annie.annieforchild.ui.activity.child.AddChildActivity;
+import com.annie.annieforchild.ui.activity.child.AddStudentActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.view.RegisterView;
 import com.annie.baselibrary.base.BaseActivity;
@@ -161,7 +162,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
         if (message.what == MethodCode.EVENT_RGISTER) {
             if (message.obj instanceof String) {
                 application.getSystemUtils().setPhone(phone);
-                Intent intent = new Intent(this, AddChildActivity.class);
+//                Intent intent = new Intent(this, AddChildActivity.class);
+                Intent intent = new Intent(this, AddStudentActivity.class);
                 intent.putExtra("from", "register");
                 startActivity(intent);
                 finish();

@@ -1,44 +1,54 @@
 package com.annie.annieforchild.ui.activity.child;
 
+import android.app.Dialog;
+import android.os.CountDownTimer;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.presenter.BindStudentPresenter;
-import com.annie.annieforchild.presenter.imp.BindStudentPresenterImp;
+import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
+import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
+import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.SerialBean;
+import com.annie.annieforchild.presenter.RegisterPresenter;
+import com.annie.annieforchild.presenter.imp.RegisterPresenterImp;
 import com.annie.annieforchild.view.BindStudentView;
+import com.annie.annieforchild.view.RegisterView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * 绑定已有学员
  * Created by WangLei on 2018/2/7 0007
  */
 
-public class BindStudentActivity extends BaseActivity implements BindStudentView, AMapLocationListener, View.OnClickListener {
-    private RecyclerView bindRecycler;
-    private ImageView bindBack, bindSearch;
-    private TextView city, school;
-    private RelativeLayout cityLayout, schoolLayout;
-    private BindStudentPresenter presenter;
+public class BindStudentActivity extends BaseActivity implements RegisterView, OnCheckDoubleClick {
+    private ImageView bindBack;
+    private EditText username, code;
+    private TextView testCode, bindPhone;
+    private Button bindBtn;
+    private CheckDoubleClickListener listener;
+    private AlertHelper helper;
+    private Dialog dialog;
+    private CountDownTimer countDownTimer;
+    private RegisterPresenter presenter;
+    private String usernameText, serialNumber;
+    private SerialBean serialBean;
 
-    //声明AMapLocationClient类对象
-    public AMapLocationClient mLocationClient = null;
-    //声明AMapLocationClientOption对象
-    public AMapLocationClientOption mLocationOption = null;
+    {
+        setRegister(true);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -47,64 +57,98 @@ public class BindStudentActivity extends BaseActivity implements BindStudentView
 
     @Override
     protected void initView() {
-        bindRecycler = findViewById(R.id.bind_recycler);
+        listener = new CheckDoubleClickListener(this);
         bindBack = findViewById(R.id.bind_student_back);
-        bindSearch = findViewById(R.id.bind_search);
-        city = findViewById(R.id.bind_city);
-        school = findViewById(R.id.bind_school);
-        cityLayout = findViewById(R.id.city_layout);
-        schoolLayout = findViewById(R.id.school_layout);
-        bindBack.setOnClickListener(this);
-        bindSearch.setOnClickListener(this);
-        cityLayout.setOnClickListener(this);
-        schoolLayout.setOnClickListener(this);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        bindRecycler.setLayoutManager(manager);
+        testCode = findViewById(R.id.get_test_code);
+        username = findViewById(R.id.username_edit);
+        code = findViewById(R.id.test_code);
+        bindBtn = findViewById(R.id.bind_btn);
+        bindPhone = findViewById(R.id.bind_student_phone);
+        bindBack.setOnClickListener(listener);
+        testCode.setOnClickListener(listener);
+        bindBtn.setOnClickListener(listener);
     }
 
     @Override
     protected void initData() {
-        presenter = new BindStudentPresenterImp(this, this);
+        helper = new AlertHelper(this);
+        dialog = helper.LoadingDialog();
+        presenter = new RegisterPresenterImp(this, this);
         presenter.initViewAndData();
+        countDownTimer = new CountDownTimer(60 * 1000, 1000) {
+            @Override
+            public void onTick(long l) {
+//                getTestCode.setTextSize(12);
+                testCode.setText(l / 1000 + "s后重新发送");
+            }
 
-        //初始化定位
-        mLocationClient = new AMapLocationClient(getApplicationContext());
-        //设置定位回调监听
-        mLocationClient.setLocationListener(this);
-        //初始化AMapLocationClientOption对象
-        mLocationOption = new AMapLocationClientOption();
-        //设置定位模式为AMapLocationMode.Battery_Saving，低功耗模式。
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
-        mLocationOption.setOnceLocation(true);
-        mLocationOption.setHttpTimeOut(20000);
-        mLocationClient.setLocationOption(mLocationOption);
-        mLocationClient.startLocation();
+            @Override
+            public void onFinish() {
+//                getTestCode.setTextSize(14);
+                testCode.setText("获取验证码");
+                testCode.setClickable(true);
+            }
+        };
+    }
 
-        presenter.setBindStudentAdapter(bindRecycler);
+    @Override
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
+            case R.id.bind_student_back:
+                finish();
+                break;
+            case R.id.get_test_code:
+                if (username.getText() != null && !username.getText().toString().equals("") && username.getText().toString().length() != 0 && username.getText().toString().matches("[0-9]+")) {
+                    testCode.setClickable(false);
+                    countDownTimer.start();
+                    usernameText = username.getText().toString().trim();
+                    presenter.getBindVerificationCode(usernameText);
+                } else {
+                    showInfo("请输入学员ID");
+                }
+                break;
+            case R.id.bind_btn:
+                if (ifNext()) {
+                    presenter.bindStudent(username.getText().toString().trim(), code.getText().toString().trim(), serialNumber);
+                } else {
+                    showInfo("输入有误,请重新检查");
+                }
+                break;
+        }
+    }
+
+    private boolean ifNext() {
+        if (username.getText() == null || username.getText().toString().equals("") || username.getText().toString().length() == 0
+                || code.getText() == null || code.getText().toString().equals("") || code.getText().toString().length() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Subscribe
+    public void onMainEventThread(JTMessage message) {
+        if (message.what == MethodCode.EVENT_GETBINDVERIFICATIONCODE) {
+            serialBean = (SerialBean) message.obj;
+            if (serialBean != null) {
+                bindPhone.setText("已发送到" + serialBean.getPhone() != null ? serialBean.getPhone() : "");
+                serialNumber = serialBean.getSerialNumber();
+            }
+        } else if (message.what == MethodCode.EVENT_BINDSTUDENT) {
+            String result = (String) message.obj;
+            if (result != null) {
+                if (result.equals("0")) {
+                    showInfo("绑定失败");
+                } else {
+                    showInfo("绑定成功");
+                }
+            }
+        }
     }
 
     @Override
     protected BasePresenter getPresenter() {
         return null;
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.bind_student_back:
-                finish();
-                break;
-            case R.id.bind_search:
-
-                break;
-            case R.id.city_layout:
-
-                break;
-            case R.id.school_layout:
-
-                break;
-        }
     }
 
     @Override
@@ -114,46 +158,21 @@ public class BindStudentActivity extends BaseActivity implements BindStudentView
 
     @Override
     public void showLoad() {
-
-    }
-
-    @Override
-    public void dismissLoad() {
-
-    }
-
-    @Override
-    public void onLocationChanged(AMapLocation aMapLocation) {
-        if (aMapLocation != null) {
-            if (aMapLocation.getErrorCode() == 0) {
-                city.setText(aMapLocation.getCity());
-                //获取定位时间
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date date = new Date(aMapLocation.getTime());
-                String time = df.format(date);
-
-                showInfo("定位结果:" + "\n"
-                        + "经度:" + aMapLocation.getLongitude() + "\n"
-                        + "纬度:" + aMapLocation.getLatitude() + "\n"
-                        + "国家:" + aMapLocation.getCountry() + "\n"
-                        + "省:" + aMapLocation.getProvince() + "\n"
-                        + "城市:" + aMapLocation.getCity() + "\n"
-                        + "城区:" + aMapLocation.getDistrict() + "\n"
-                        + "街道:" + aMapLocation.getStreet() + "\n"
-                        + "定位时间:" + time);
-
-            } else {
-                //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
-                Log.e("AmapError", "location Error, ErrCode:" + aMapLocation.getErrorCode() + ", errInfo:" + aMapLocation.getErrorInfo());
-                showInfo("定位失败");
-            }
-            mLocationClient.stopLocation();
+        if (dialog != null && !dialog.isShowing()) {
+            dialog.show();
         }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mLocationClient.onDestroy();
+    public void dismissLoad() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        username.requestFocus();
     }
 }

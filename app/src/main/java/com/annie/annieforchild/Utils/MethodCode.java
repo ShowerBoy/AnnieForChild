@@ -195,4 +195,6 @@ public class MethodCode {
     final public static int EVENT_SPECIALCLASS = 146; //体验课具体内容详情新版本
     final public static int EVENT_SPECIALPREHEATING = 147; //综合课预热课
     final public static int EVENT_BINDWEIXIN = 148; //
+    final public static int EVENT_GETBINDVERIFICATIONCODE = 149; //
+    final public static int EVENT_BINDSTUDENT = 150; //
 }

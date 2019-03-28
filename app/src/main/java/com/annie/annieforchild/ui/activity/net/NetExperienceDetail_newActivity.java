@@ -65,6 +65,7 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
     private TextView lesson_1_name, lesson_2_name;
     private TextView title;
     private ImageView back;
+    private String firstTitle, secondTitle, thirdTitle, fourthTitle;
 
     {
         setRegister(true);
@@ -157,7 +158,6 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
     }
 
     void setidshow(View layout, String isshow) {
-
         if (isshow.equals("1")) {
             layout.setVisibility(View.VISIBLE);
         } else {
@@ -173,81 +173,154 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
             empty_layout.setVisibility(View.GONE);
         }
         for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-            switch (netExpClass.getInfo().get(i).getFchaptername()) {
-                case "复习测试":
-                    setidshow(fourstage, netExpClass.getInfo().get(i).getIsshow());
-                    four_title.setText(netExpClass.getInfo().get(i).getFchaptername());
-                    if (netExpClass.getInfo().get(i).getInfo() != null) {
-                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
-                            switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
-                                case "1":
-                                    fourstage_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-                                    break;
-                                case "2":
-                                    fourstage_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-                                    break;
-                                case "3":
-                                    fourstage_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-                                    break;
-                            }
+            if (i == 0) {
+                setidshow(fourstage, netExpClass.getInfo().get(i).getIsshow());
+                four_title.setText(netExpClass.getInfo().get(i).getFchaptername());
+                fourthTitle = netExpClass.getInfo().get(i).getFchaptername();
+                if (netExpClass.getInfo().get(i).getInfo() != null) {
+                    for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
+                        switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
+                            case "1":
+                                fourstage_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+                                break;
+                            case "2":
+                                fourstage_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+                                break;
+                            case "3":
+                                fourstage_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+                                break;
                         }
                     }
-
-                    break;
-                case "课程体验":
-                    setidshow(threestage, netExpClass.getInfo().get(i).getIsshow());
-                    three_title.setText(netExpClass.getInfo().get(i).getFchaptername());
-                    if (netExpClass.getInfo().get(i).getInfo() != null) {
-                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
-                            switch (m) {
-                                case 0:
-                                    lesson_1_name.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-                                    break;
-                                case 1:
-                                    lesson_2_name.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-                            }
+                }
+            } else if (i == 1) {
+                setidshow(threestage, netExpClass.getInfo().get(i).getIsshow());
+                three_title.setText(netExpClass.getInfo().get(i).getFchaptername());
+                thirdTitle = netExpClass.getInfo().get(i).getFchaptername();
+                if (netExpClass.getInfo().get(i).getInfo() != null) {
+                    for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
+                        switch (m) {
+                            case 0:
+                                lesson_1_name.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+                                break;
+                            case 1:
+                                lesson_2_name.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
                         }
                     }
-                    break;
-                case "预热阶段":
-                    setidshow(twostage, netExpClass.getInfo().get(i).getIsshow());
-                    two_title.setText(netExpClass.getInfo().get(i).getFchaptername());
-                    if (netExpClass.getInfo().get(i).getInfo() != null) {
-                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
-                            switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
-                                case "1":
-                                    two_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-                                    break;
-                                case "2":
-                                    two_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-                                    break;
-                                case "3":
-                                    two_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-                                    break;
-                            }
+                }
+            } else if (i == 2) {
+                setidshow(twostage, netExpClass.getInfo().get(i).getIsshow());
+                two_title.setText(netExpClass.getInfo().get(i).getFchaptername());
+                secondTitle = netExpClass.getInfo().get(i).getFchaptername();
+                if (netExpClass.getInfo().get(i).getInfo() != null) {
+                    for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
+                        switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
+                            case "1":
+                                two_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+                                break;
+                            case "2":
+                                two_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+                                break;
+                            case "3":
+                                two_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+                                break;
                         }
                     }
-                    break;
-                case "准备阶段":
-                    setidshow(firstsatge, netExpClass.getInfo().get(i).getIsshow());
-                    first_title.setText(netExpClass.getInfo().get(i).getFchaptername());
-                    if (netExpClass.getInfo().get(i).getInfo() != null) {
-                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
-                            switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
-                                case "1":
-                                    first_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-                                    break;
-                                case "2":
-                                    first_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-                                    break;
-                                case "3":
-                                    first_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-                                    break;
-                            }
+                }
+            } else if (i == 3) {
+                setidshow(firstsatge, netExpClass.getInfo().get(i).getIsshow());
+                first_title.setText(netExpClass.getInfo().get(i).getFchaptername());
+                firstTitle = netExpClass.getInfo().get(i).getFchaptername();
+                if (netExpClass.getInfo().get(i).getInfo() != null) {
+                    for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
+                        switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
+                            case "1":
+                                first_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+                                break;
+                            case "2":
+                                first_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+                                break;
+                            case "3":
+                                first_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+                                break;
                         }
                     }
-                    break;
+                }
             }
+//            switch (netExpClass.getInfo().get(i).getFchaptername()) {
+//                case "复习测试":
+//                    setidshow(fourstage, netExpClass.getInfo().get(i).getIsshow());
+//                    four_title.setText(netExpClass.getInfo().get(i).getFchaptername());
+//                    if (netExpClass.getInfo().get(i).getInfo() != null) {
+//                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
+//                            switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
+//                                case "1":
+//                                    fourstage_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+//                                    break;
+//                                case "2":
+//                                    fourstage_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+//                                    break;
+//                                case "3":
+//                                    fourstage_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+//                                    break;
+//                            }
+//                        }
+//                    }
+//
+//                    break;
+//                case "课程体验":
+//                    setidshow(threestage, netExpClass.getInfo().get(i).getIsshow());
+//                    three_title.setText(netExpClass.getInfo().get(i).getFchaptername());
+//                    if (netExpClass.getInfo().get(i).getInfo() != null) {
+//                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
+//                            switch (m) {
+//                                case 0:
+//                                    lesson_1_name.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+//                                    break;
+//                                case 1:
+//                                    lesson_2_name.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+//                            }
+//                        }
+//                    }
+//                    break;
+//                case "预热阶段":
+//                    setidshow(twostage, netExpClass.getInfo().get(i).getIsshow());
+//                    two_title.setText(netExpClass.getInfo().get(i).getFchaptername());
+//                    if (netExpClass.getInfo().get(i).getInfo() != null) {
+//                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
+//                            switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
+//                                case "1":
+//                                    two_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+//                                    break;
+//                                case "2":
+//                                    two_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+//                                    break;
+//                                case "3":
+//                                    two_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+//                                    break;
+//                            }
+//                        }
+//                    }
+//                    break;
+//                case "准备阶段":
+//                    setidshow(firstsatge, netExpClass.getInfo().get(i).getIsshow());
+//                    first_title.setText(netExpClass.getInfo().get(i).getFchaptername());
+//                    if (netExpClass.getInfo().get(i).getInfo() != null) {
+//                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
+//                            switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
+//                                case "1":
+//                                    first_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+//                                    break;
+//                                case "2":
+//                                    first_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+//                                    break;
+//                                case "3":
+//                                    first_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+//                                    break;
+//                            }
+//                        }
+//                    }
+//                    break;
+//            }
         }
     }
 
@@ -296,77 +369,76 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
     @Override
     public void onCheckDoubleClick(View view) {
         Intent intent;
-
         switch (view.getId()) {
             case R.id.back:
                 finish();
                 break;
             case R.id.first_1:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("准备阶段")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(firstTitle)) {
                         tointent(i, "1", first_1_title, 0);
                     }
                 }
                 break;
             case R.id.first_2:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("准备阶段")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(firstTitle)) {
                         tointent(i, "2", first_2_title, 0);
                     }
                 }
                 break;
             case R.id.first_3:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("准备阶段")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(firstTitle)) {
                         tointent(i, "3", first_3_title, 0);
                     }
                 }
                 break;
             case R.id.two_1:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("预热阶段")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(secondTitle)) {
                         tointent(i, "1", two_1_title, 0);
                     }
                 }
                 break;
             case R.id.two_2:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("预热阶段")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(secondTitle)) {
                         tointent(i, "2", two_2_title, 0);
                     }
                 }
                 break;
             case R.id.two_3:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("预热阶段")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(secondTitle)) {
                         tointent(i, "3", two_3_title, 0);
                     }
                 }
                 break;
             case R.id.fourstage_1:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("复习测试")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(fourthTitle)) {
                         tointent(i, "1", fourstage_1_title, 1);
                     }
                 }
                 break;
             case R.id.fourstage_2:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("复习测试")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(fourthTitle)) {
                         tointent(i, "2", fourstage_2_title, 1);
                     }
                 }
                 break;
             case R.id.fourstage_3:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("复习测试")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(fourthTitle)) {
                         tointent(i, "3", fourstage_3_title, 0);
                     }
                 }
                 break;
             case R.id.lesson_1:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("课程体验")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(thirdTitle)) {
                         if (netExpClass.getInfo().get(i).getInfo() != null) {
                             if (netExpClass.getInfo().get(i).getInfo().size() > 0) {
                                 intent = new Intent(this, LessonActivity.class);
@@ -381,7 +453,7 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
                 break;
             case R.id.lesson_2:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("课程体验")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(thirdTitle)) {
                         if (netExpClass.getInfo().get(i).getInfo() != null) {
                             if (netExpClass.getInfo().get(i).getInfo().size() > 1) {
                                 intent = new Intent(this, LessonActivity.class);
@@ -396,14 +468,14 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
                 break;
             case R.id.lesson_3:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("课程体验")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(thirdTitle)) {
                         presenter.getListeningAndReading("1", netExpClass.getInfo().get(i).getFid(), tag, 0);
                     }
                 }
                 break;
             case R.id.lesson_4:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
-                    if (netExpClass.getInfo().get(i).getFchaptername().equals("课程体验")) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(thirdTitle)) {
                         intent = new Intent(this, NetListenAndReadActivity.class);
                         intent.putExtra("classid", netExpClass.getInfo().get(i).getFid());
                         intent.putExtra("week", "1");
