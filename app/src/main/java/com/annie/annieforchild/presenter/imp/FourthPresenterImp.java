@@ -88,26 +88,26 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
 
                 @Override
                 public void onItemLongClick(View view) {
-//                position = fourthView.getMemberRecycler().getChildAdapterPosition(view);
+                    position = fourthView.getMemberRecycler().getChildAdapterPosition(view);
 //                if (lists.get(position).getUsername().equals(SystemUtils.defaultUsername)) {
 //                    fourthView.showInfo("默认学员不能删除！");
 //                    return;
 //                }
-//                SystemUtils.GeneralDialog(context, "删除学员")
-//                        .setMessage("是否删除当前选中学员？")
-//                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                deleteUsername(lists.get(position).getUsername());
-//                            }
-//                        })
-//                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                dialogInterface.dismiss();
-//                            }
-//                        })
-//                        .show();
+                    SystemUtils.GeneralDialog(context, "删除学员")
+                            .setMessage("是否删除当前选中学员？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    deleteUsername(lists.get(position).getUsername());
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .show();
                 }
             });
             fourthView.getMemberRecycler().setAdapter(adapter);
@@ -266,7 +266,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 message.obj = result;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_DELETEUSERNAME) {
-                fourthView.showInfo((String) result);
+//                fourthView.showInfo((String) result);
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
                  */

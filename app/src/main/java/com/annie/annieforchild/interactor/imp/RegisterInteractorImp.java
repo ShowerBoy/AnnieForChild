@@ -81,11 +81,12 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
     }
 
     @Override
-    public void bindStudent(String username, String code, String serialNumber) {
+    public void bindStudent(String username, String code, String serialNumber, String phone) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.BINDSTUDENT, RequestMethod.POST);
         request.add("username", username);
         request.add("code", code);
         request.add("serialNumber", serialNumber);
+        request.add("phone", phone);
         addQueue(MethodCode.EVENT_BINDSTUDENT, request);
     }
 

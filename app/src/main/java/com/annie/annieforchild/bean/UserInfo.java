@@ -23,9 +23,27 @@ public class UserInfo implements Serializable {
     private String school;
     private String experience;
     private String weixinNum;
+    private String WechatNickname;
+    private String BusinessCard;
     private int status; //0：线下 1：线上
     private int isnetstudent; //是否是网课学员 0:不是 1:是
     private int isfirstbuy; //是否是第一次购买 0:不是 1:是
+
+    public String getWechatNickname() {
+        return WechatNickname;
+    }
+
+    public void setWechatNickname(String wechatNickname) {
+        WechatNickname = wechatNickname;
+    }
+
+    public String getBusinessCard() {
+        return BusinessCard;
+    }
+
+    public void setBusinessCard(String businessCard) {
+        BusinessCard = businessCard;
+    }
 
     public String getWeixinNum() {
         return weixinNum;

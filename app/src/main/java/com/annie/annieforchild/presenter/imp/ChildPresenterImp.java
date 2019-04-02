@@ -83,9 +83,9 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
      * @param birthday
      */
     @Override
-    public void motifyChild(String avatar, String name, String sex, String birthday) {
+    public void motifyChild(String avatar, String name, String sex, String birthday, String WechatNickname, String BusinessCard) {
         viewInfo.showLoad();
-        interactor.motifyChild(avatar, name, sex, birthday);
+        interactor.motifyChild(avatar, name, sex, birthday, WechatNickname, BusinessCard);
     }
 
 

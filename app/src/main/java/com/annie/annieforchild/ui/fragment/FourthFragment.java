@@ -55,7 +55,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  */
 
 public class FourthFragment extends BaseFragment implements FourthView, OnCheckDoubleClick {
-    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout, addressLayout;
+    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, feedbackLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout, addressLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout nectarLayout, levelLayout, recordLayout;
     private ImageView settings, sexIcon, headpic_back;
@@ -128,6 +128,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         swipeRefreshLayout = view.findViewById(R.id.fourth_swipeRefresh);
         periodLayout = view.findViewById(R.id.my_period_layout);
         addressLayout = view.findViewById(R.id.address_layout);
+        feedbackLayout = view.findViewById(R.id.feedback_layout);
         listener = new CheckDoubleClickListener(this);
         myMsgLayout.setOnClickListener(listener);
         toFriendLayout.setOnClickListener(listener);
@@ -143,6 +144,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         periodLayout.setOnClickListener(listener);
         myRecordLayout.setOnClickListener(listener);
         addressLayout.setOnClickListener(listener);
+        feedbackLayout.setOnClickListener(listener);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         member_layout.setLayoutManager(manager);
@@ -176,6 +178,12 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         } else if (message.what == MethodCode.EVENT_UPDATEUSER) {
             presenter.getUserInfo();
         } else if (message.what == MethodCode.EVENT_DELETEUSERNAME) {
+            int result = (int) message.obj;
+            if (result == 0) {
+                showInfo("删除失败");
+            } else {
+                showInfo("删除成功");
+            }
             presenter.getUserInfo();
         } else if (message.what == MethodCode.EVENT_EXCHANGEGOLD) {
             presenter.getUserInfo();
@@ -184,6 +192,8 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         } else if (message.what == MethodCode.EVENT_COMMITREADING) {
             presenter.getUserInfo();
         } else if (message.what == MethodCode.EVENT_PAY) {
+            presenter.getUserInfo();
+        } else if (message.what == MethodCode.EVENT_BINDSTUDENT) {
             presenter.getUserInfo();
         }
 //        else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
@@ -195,6 +205,12 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         if (application.getSystemUtils().getChildTag() == 0) {
             userHeadpic.setImageResource(R.drawable.photo);
             userName.setText("请添加学员");
+            userId.setText("");
+            userOld.setText("");
+            nectarNum.setText("");
+            coinNum.setText("");
+            recordNum.setText("");
+            levelLayout.removeAllViews();
         } else {
             userId.setText(userInfo.getUsername());
             Glide.with(this).load(userInfo.getAvatar()).error(R.drawable.icon_system_photo).into(userHeadpic);
@@ -459,7 +475,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 startActivity(intent);
                 break;
             case R.id.help_layout:
-                //帮助与反馈
+                //帮助
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -470,6 +486,22 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     return;
                 }
                 intent.setClass(getContext(), HelpActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.feedback_layout:
+                //反馈
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (application.getSystemUtils().getChildTag() == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), WebActivity.class);
+                intent.putExtra("title", "反馈");
+                intent.putExtra("url", "http://service.anniekids.net/ProductErrors?FactoryId=3&ProductId=21&name=" + application.getSystemUtils().getDefaultUsername() + "&telphone=" + application.getSystemUtils().getPhone());
                 startActivity(intent);
                 break;
             case R.id.about_layout:

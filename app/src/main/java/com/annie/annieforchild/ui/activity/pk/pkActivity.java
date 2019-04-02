@@ -443,7 +443,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
 //                            new Handler().postDelayed(new Runnable() {
 //                                @Override
 //                                public void run() {
-                                    presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".pcm", score, fileName, record_time, 2, pkUserName, imageUrl, 0, homeworkid, homeworktype);
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".pcm", score, fileName, record_time, 2, pkUserName, imageUrl, 0, homeworkid, homeworktype);
 //                                }
 //                            }, 5000);
 //                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".pcm", score, fileName, record_time, 2, pkUserName, imageUrl, 0, homeworkid, homeworktype);
@@ -596,6 +596,11 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         } else {
             mic1.setVisibility(View.VISIBLE);
             mic2.setVisibility(View.GONE);
+        }
+        if (mediaPlayer == null) {
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setOnPreparedListener(this);
+            mediaPlayer.setOnCompletionListener(this);
         }
         try {
             mediaPlayer.reset();

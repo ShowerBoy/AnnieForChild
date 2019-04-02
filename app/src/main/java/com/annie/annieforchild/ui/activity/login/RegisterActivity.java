@@ -162,7 +162,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
         if (message.what == MethodCode.EVENT_RGISTER) {
             if (message.obj instanceof String) {
                 application.getSystemUtils().setPhone(phone);
-//                Intent intent = new Intent(this, AddChildActivity.class);
                 Intent intent = new Intent(this, AddStudentActivity.class);
                 intent.putExtra("from", "register");
                 startActivity(intent);

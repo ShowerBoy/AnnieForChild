@@ -16,5 +16,5 @@ public interface RegisterInteractor {
 
     void getBindVerificationCode(String username);
 
-    void bindStudent(String username, String code, String serialNumber);
+    void bindStudent(String username, String code, String serialNumber, String phone);
 }

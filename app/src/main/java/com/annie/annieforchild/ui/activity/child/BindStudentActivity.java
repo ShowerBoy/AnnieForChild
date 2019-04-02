@@ -109,7 +109,7 @@ public class BindStudentActivity extends BaseActivity implements RegisterView, O
                 break;
             case R.id.bind_btn:
                 if (ifNext()) {
-                    presenter.bindStudent(username.getText().toString().trim(), code.getText().toString().trim(), serialNumber);
+                    presenter.bindStudent(username.getText().toString().trim(), code.getText().toString().trim(), serialNumber, application.getSystemUtils().getPhone());
                 } else {
                     showInfo("输入有误,请重新检查");
                 }
@@ -141,6 +141,7 @@ public class BindStudentActivity extends BaseActivity implements RegisterView, O
                     showInfo("绑定失败");
                 } else {
                     showInfo("绑定成功");
+                    finish();
                 }
             }
         }

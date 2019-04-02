@@ -80,6 +80,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -198,7 +199,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         webView.getSettings().setDefaultTextEncodingName("utf-8");//设置编码格式
 
         Bundle data = new Bundle();
-        data.putBoolean("standardFullScreen", true);
+        data.putBoolean("standardFullScreen", false);
         //true表示标准全屏，false表示X5全屏；不设置默认false，
         data.putBoolean("supportLiteWnd", false);
         //false：关闭小窗；true：开启小窗；不设置默认true，
@@ -234,7 +235,10 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    view.loadUrl(url);
+                    Map<String, String> header = new HashMap<String, String>();
+                    header.put("username", "anniekids");
+                    view.loadUrl(url, header);
+//                    view.loadUrl(url);
                     if (getValueByName(url, "query1").equals("end")) {
                         finish();
                     } else if (getValueByName(url, "into").equals("1")) {
@@ -387,9 +391,14 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                 }
             });
 
+
             webView.canGoForward();
             webView.canGoBack();
-            webView.loadUrl(url);
+            Map<String, String> header = new HashMap<String, String>();
+            header.put("username", "anniekids");
+//            url = "http://192.168.1.14:8081/?templateid=Video&categoryid=1314&chapterid=1886";
+            webView.loadUrl(url, header);
+//            webView.loadUrl(url);
         }
         if (shareTag == 0) {
             share.setVisibility(View.GONE);
@@ -704,6 +713,12 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                 getWindow().getDecorView().findViewsWithText(outView, "下载该视频", View.FIND_VIEWS_WITH_TEXT);
                 if (outView != null && outView.size() > 0) {
                     outView.get(0).setVisibility(View.GONE);
+                }
+
+                ArrayList<View> outView2 = new ArrayList<View>();
+                getWindow().getDecorView().findViewsWithText(outView2, "缓存", View.FIND_VIEWS_WITH_TEXT);
+                if (outView2 != null && outView2.size() > 0) {
+                    outView2.get(0).setVisibility(View.GONE);
                 }
             }
         });

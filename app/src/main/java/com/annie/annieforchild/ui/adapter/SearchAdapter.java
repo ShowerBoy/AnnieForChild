@@ -59,7 +59,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     public void onBindViewHolder(SearchViewHolder holder, int i) {
         holder.textView.setText(lists.get(i).getBookName());
 
-        Glide.with(context).load(lists.get(i).getBookImageUrl()).into(holder.imageView);
+        Glide.with(context).load(lists.get(i).getBookImageUrl()).error(R.drawable.image_error).into(holder.imageView);
         if (lists.get(i).getAnimationUrl() != null) {
             holder.grindTag.setVisibility(View.GONE);
             holder.readingTag.setVisibility(View.GONE);

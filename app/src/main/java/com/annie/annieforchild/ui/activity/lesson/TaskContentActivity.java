@@ -54,7 +54,7 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
     public static List<String> pathList1, pathList2, pathList3, pathList4; //用户选择图片路径列表
     public static int imageNum1 = 0, imageNum2 = 0, imageNum3 = 0, imageNum4 = 0; //选择图片数量
     private Intent intent;
-    private int classid, type;
+    private int classid, type;//type: 0:课程作业 1:网课作业
     private String week = "", taskTime = "";
     private AlertHelper helper;
     private Dialog dialog;
@@ -279,7 +279,11 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
                     case 1:
                         return "预习作业";
                     case 2:
-                        return "泛听泛读";
+                        if (type == 0) {
+                            return "系列作业";
+                        } else {
+                            return "泛听泛读";
+                        }
                     case 3:
                         return "其他作业";
                     default:

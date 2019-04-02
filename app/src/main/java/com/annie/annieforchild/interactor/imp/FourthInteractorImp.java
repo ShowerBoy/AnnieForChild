@@ -109,6 +109,14 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
             if (what == MethodCode.EVENT_USERINFO) {
                 if (data != null) {
                     UserInfo userInfo = JSON.parseObject(data, UserInfo.class);
+                    if (userInfo == null) {
+                        userInfo = new UserInfo();
+                        application.getSystemUtils().setChildTag(0);
+                        application.getSystemUtils().setDefaultUsername("");
+                    } else {
+                        application.getSystemUtils().setChildTag(1);
+                        application.getSystemUtils().setDefaultUsername(userInfo.getUsername());
+                    }
                     listener.Success(what, userInfo);
                 } else {
                     listener.Error(what, "无数据");
@@ -119,7 +127,9 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
             } else if (what == MethodCode.EVENT_SETDEFAULEUSER) {
                 listener.Success(what, "切换成功");
             } else if (what == MethodCode.EVENT_DELETEUSERNAME) {
-                listener.Success(what, "删除成功");
+                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                int result = dataobj.getInteger("result");
+                listener.Success(what, result);
             } else if (what == MethodCode.EVENT_BINDWEIXIN) {
                 JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
                 int result = dataobj.getInteger("result");

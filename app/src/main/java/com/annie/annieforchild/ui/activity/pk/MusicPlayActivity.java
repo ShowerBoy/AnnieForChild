@@ -450,7 +450,9 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         }
         long pos = (args * MusicService.musicDuration * 1000) / seekBar.getMax();
         MusicService.pos = (int) pos;
-        MusicService.mediaPlayer.seekTo((int) pos);
+        if (MusicService.mediaPlayer != null) {
+            MusicService.mediaPlayer.seekTo((int) pos);
+        }
     }
 
     @Override

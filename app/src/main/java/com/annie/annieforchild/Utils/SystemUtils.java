@@ -936,7 +936,7 @@ public class SystemUtils {
         InputFilter filter = new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                String speChat = "[||]";
+                String speChat = "[`~!@#$%^&*()+=|{}':;'\\[\\]. <>/?~！@#￥%……&*（）——+|{}【】《》‘；：”“’。、？\"]";
                 Pattern pattern = Pattern.compile(speChat);
                 Matcher matcher = pattern.matcher(source.toString());
                 if (matcher.find()) return "";
@@ -1055,7 +1055,6 @@ public class SystemUtils {
         if ((TbsVideo.canUseTbsPlayer(context))) {
             //可以播放视频
             TbsVideo.openVideo(context, url);
-
         } else {
             Toast.makeText(context, "视频播放器没有准备好", Toast.LENGTH_SHORT).show();
         }

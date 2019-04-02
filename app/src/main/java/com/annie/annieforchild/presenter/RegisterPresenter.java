@@ -18,7 +18,7 @@ public interface RegisterPresenter {
 
     void getBindVerificationCode(String username);
 
-    void bindStudent(String username,String code,String serialNumber);
+    void bindStudent(String username, String code, String serialNumber, String phone);
 
     String getSerial_number();
 }

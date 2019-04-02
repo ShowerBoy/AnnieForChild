@@ -272,6 +272,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid, int homeworktype) {
         File file = new File(path);
+        if (!file.exists()){
+
+        }
         FileBinary fileBinary = new FileBinary(file);
         //如果时长小于1秒算成1秒
         if (duration == 0) {

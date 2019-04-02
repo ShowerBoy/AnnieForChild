@@ -493,9 +493,13 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
     }
 
     public void playAll() {
-        if (application.getSystemUtils().isPlayAll()) {
-            if (application.getSystemUtils().getCurrentPage() == tag) {
-                playBook();
+        if (application != null) {
+            if (application.getSystemUtils() != null) {
+                if (application.getSystemUtils().isPlayAll()) {
+                    if (application.getSystemUtils().getCurrentPage() == tag) {
+                        playBook();
+                    }
+                }
             }
         }
     }

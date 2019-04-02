@@ -80,9 +80,9 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
     }
 
     @Override
-    public void bindStudent(String username, String code, String serialNumber) {
+    public void bindStudent(String username, String code, String serialNumber, String phone) {
         registerView.showLoad();
-        interactor.bindStudent(username, code, serialNumber);
+        interactor.bindStudent(username, code, serialNumber, phone);
     }
 
     @Override
@@ -159,6 +159,8 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
             message.obj = error;
             EventBus.getDefault().post(message);
         } else if (what == MethodCode.EVENT_RGISTER) {
+            registerView.showInfo(error);
+        } else if (what == MethodCode.EVENT_BINDSTUDENT) {
             registerView.showInfo(error);
         }
     }

@@ -297,7 +297,8 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         };
     }
 
-    private void Round2() {
+    private void
+    Round2() {
         currentLine = 1;
         isClick = true;
         for (int i = 0; i < lists.size(); i++) {
