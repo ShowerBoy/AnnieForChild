@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -59,8 +60,10 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     private List<NetClass> lists;
     private AlertHelper helper;
     private Dialog dialog;
-    private TextView network_teacher_wx;
     private ConstraintLayout card;
+    private MyNetClass myNetClass;
+    private TextView wx_title,wx_teacher_nikename,wx_teacher_wx,wx_tips;
+    private Button wx_copy_bt;
 
     {
         setRegister(true);
@@ -74,6 +77,11 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     @Override
     protected void initView() {
         card = findViewById(R.id.card);
+        wx_title=findViewById(R.id.wx_title);
+        wx_teacher_nikename=findViewById(R.id.wx_teacher_nikename);
+        wx_teacher_nikename=findViewById(R.id.wx_teacher_nikename);
+        wx_tips=findViewById(R.id.wx_tips);
+        wx_copy_bt=findViewById(R.id.wx_copy_bt);
         back = findViewById(R.id.my_course_back);
         recycler = findViewById(R.id.my_course_recycler);
         empty = findViewById(R.id.empty_layout);
@@ -86,20 +94,8 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
         manager.setScrollEnabled(false);
         recycler.setLayoutManager(manager);
 
-        network_teacher_wx = findViewById(R.id.network_teacher_wx);
-        findViewById(R.id.card).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                //获取剪贴板管理器：
-                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                // 创建普通字符型ClipData
-                ClipData mClipData = ClipData.newPlainText("Label", network_teacher_wx.getText());
-                // 将ClipData内容放到系统剪贴板里。
-                cm.setPrimaryClip(mClipData);
-                Toast.makeText(MyCourseActivity.this, "复制成功", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
+        wx_teacher_wx = findViewById(R.id.wx_teacher_wx);
+        wx_copy_bt.setOnClickListener(listener);
     }
 
     @Override
@@ -160,6 +156,15 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
                 startActivity(intent);
                 finish();
                 break;
+            case R.id.wx_copy_bt:
+                //获取剪贴板管理器：
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                // 创建普通字符型ClipData
+                ClipData mClipData = ClipData.newPlainText("Label", wx_teacher_wx.getText());
+                // 将ClipData内容放到系统剪贴板里。
+                cm.setPrimaryClip(mClipData);
+                Toast.makeText(MyCourseActivity.this, "复制成功", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
@@ -184,7 +189,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
 ////                wxcard_layout.setVisibility(View.GONE);
 //            }
 //            network_teacher_wx.setText(myNetClass.getTeacher() + "（长按复制）");
-            MyNetClass myNetClass = (MyNetClass) message.obj;
+             myNetClass = (MyNetClass) message.obj;
             if (myNetClass != null) {
                 lists.clear();
                 if (myNetClass.getMyList() != null) {
@@ -195,12 +200,23 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
                     card.setVisibility(View.GONE);
                 } else {
                     empty.setVisibility(View.GONE);
-                    card.setVisibility(View.VISIBLE);
+                    setTeacherWX();
                 }
                 adapter.notifyDataSetChanged();
             }
-            network_teacher_wx.setText(myNetClass.getTeacher());
+
         }
+    }
+    void setTeacherWX(){
+        if(myNetClass.getTeacher()==null || myNetClass.getTeacher().length()<=0){
+            card.setVisibility(View.GONE);
+        }else {
+            card.setVisibility(View.VISIBLE);
+        }
+        wx_teacher_wx.setText(myNetClass.getTeacher());
+        wx_title.setText(myNetClass.getTitle());
+        wx_teacher_nikename.setText(myNetClass.getNikename()+":");
+        wx_tips.setText(myNetClass.getTips());
     }
 
     @Override

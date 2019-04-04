@@ -379,6 +379,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 NetSuggest netSuggest = JSON.parseObject(data, NetSuggest.class);
                 listener.Success(what, netSuggest);
             } else if (what == MethodCode.EVENT_GETMYNETCLASS) {
+                Log.e("---",data);
                 MyNetClass myNetClass = JSON.parseObject(data, MyNetClass.class);
                 listener.Success(what, myNetClass);
             } else if (what == MethodCode.EVENT_CONFIRMORDER) {
