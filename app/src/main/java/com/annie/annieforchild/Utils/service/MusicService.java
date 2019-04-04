@@ -281,6 +281,7 @@ public class MusicService extends Service {
                         mediaPlayer.reset();
                         mediaPlayer.setDataSource(musicList.get(listTag).getPath());
                         mediaPlayer.prepareAsync();
+//                        mediaPlayer.start();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

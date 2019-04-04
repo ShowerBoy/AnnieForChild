@@ -80,8 +80,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by wanglei on 2018/3/31.
  */
 
-public class
-PracticeActivity extends BaseActivity implements PlatformActionListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, OnCheckDoubleClick, SongView, PopupWindow.OnDismissListener {
+public class PracticeActivity extends BaseActivity implements PlatformActionListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, OnCheckDoubleClick, SongView, PopupWindow.OnDismissListener {
     private ImageView back, menu, menuCollectImg, menuAddmaterialImg, practiceRecording, bookRead, bookBg, bookBehind, songBehind, pengyouquan, weixin, qq, qqzone, clarify;
     private LottieAnimationView animationView;
     private CircleImageView practiceImage;
