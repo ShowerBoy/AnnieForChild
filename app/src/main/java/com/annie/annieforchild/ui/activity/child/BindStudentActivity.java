@@ -131,7 +131,7 @@ public class BindStudentActivity extends BaseActivity implements RegisterView, O
         if (message.what == MethodCode.EVENT_GETBINDVERIFICATIONCODE) {
             serialBean = (SerialBean) message.obj;
             if (serialBean != null) {
-                bindPhone.setText("已发送到" + serialBean.getPhone() != null ? serialBean.getPhone() : "");
+                bindPhone.setText("已发送到" + (serialBean.getPhone() != null ? serialBean.getPhone() : ""));
                 serialNumber = serialBean.getSerialNumber();
             }
         } else if (message.what == MethodCode.EVENT_BINDSTUDENT) {

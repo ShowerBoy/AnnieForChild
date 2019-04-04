@@ -463,7 +463,6 @@
         <activity
             android:name=".ui.activity.mains.HomePageActivity"
             android:screenOrientation="portrait"></activity>
-
         <activity
             android:name=".ui.activity.net.PayFailActivity"
             android:screenOrientation="portrait"></activity>
@@ -493,16 +492,22 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.net.NetExpFirstVideoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.net.NetExperienceDetail_newActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.net.NetSpecialDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.child.AddStudentActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.MyOrderActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.ConfirmOrderActivity2"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 </manifest>

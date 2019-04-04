@@ -11,7 +11,7 @@ public class MethodCode {
     final public static String HOMEWORKAPI = "homeworkApi/";
     final public static String SEARCHAPI = "SearchApi/";
     final public static String SQUAREAPI = "SquareApi/";
-    final public static String NETCLASSAPI = "NetclassApi/";
+    final public static String NETCLASSAPI = "NetclasstestApi/";
     final public static String SIGNINAPI = "Signin/";
     final public static String TASKAPI = "TaskApi/";
     final public static String SHAREAPI = "ShareApi/";
@@ -197,4 +197,8 @@ public class MethodCode {
     final public static int EVENT_BINDWEIXIN = 148; //
     final public static int EVENT_GETBINDVERIFICATIONCODE = 149; //
     final public static int EVENT_BINDSTUDENT = 150; //
+    final public static int EVENT_GETMYORDERLIST = 151; //
+    final public static int EVENT_GETMYORDERDETAIL = 152; //
+    final public static int EVENT_CONTINUEPAY = 153; //
+    final public static int EVENT_CANCELORDER = 154; //
 }

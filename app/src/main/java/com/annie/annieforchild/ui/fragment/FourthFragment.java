@@ -32,11 +32,13 @@ import com.annie.annieforchild.ui.activity.my.MyCollectionActivity;
 import com.annie.annieforchild.ui.activity.my.MyExchangeActivity;
 import com.annie.annieforchild.ui.activity.my.MyMessageActivity;
 import com.annie.annieforchild.ui.activity.my.MyNectarActivity;
+import com.annie.annieforchild.ui.activity.my.MyOrderActivity;
 import com.annie.annieforchild.ui.activity.my.MyPeriodActivity;
 import com.annie.annieforchild.ui.activity.my.MyRecordActivity;
 import com.annie.annieforchild.ui.activity.my.SettingsActivity;
 import com.annie.annieforchild.ui.activity.my.ToFriendActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
+import com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity2;
 import com.annie.annieforchild.ui.activity.net.MyAddressActivity;
 import com.annie.annieforchild.view.FourthView;
 import com.annie.baselibrary.base.BaseFragment;
@@ -55,7 +57,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  */
 
 public class FourthFragment extends BaseFragment implements FourthView, OnCheckDoubleClick {
-    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, feedbackLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout, addressLayout;
+    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, feedbackLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout, addressLayout, myOrderLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout nectarLayout, levelLayout, recordLayout;
     private ImageView settings, sexIcon, headpic_back;
@@ -129,6 +131,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         periodLayout = view.findViewById(R.id.my_period_layout);
         addressLayout = view.findViewById(R.id.address_layout);
         feedbackLayout = view.findViewById(R.id.feedback_layout);
+        myOrderLayout = view.findViewById(R.id.my_order_layout);
         listener = new CheckDoubleClickListener(this);
         myMsgLayout.setOnClickListener(listener);
         toFriendLayout.setOnClickListener(listener);
@@ -145,6 +148,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         myRecordLayout.setOnClickListener(listener);
         addressLayout.setOnClickListener(listener);
         feedbackLayout.setOnClickListener(listener);
+        myOrderLayout.setOnClickListener(listener);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         member_layout.setLayoutManager(manager);
@@ -592,6 +596,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 startActivity(intent);
                 break;
             case R.id.address_layout:
+                //地址管理
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -603,6 +608,20 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 }
                 intent.setClass(getContext(), MyAddressActivity.class);
                 intent.putExtra("tag", 1);
+                startActivity(intent);
+                break;
+            case R.id.my_order_layout:
+                //我的订单
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (application.getSystemUtils().getChildTag() == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), MyOrderActivity.class);
                 startActivity(intent);
                 break;
         }

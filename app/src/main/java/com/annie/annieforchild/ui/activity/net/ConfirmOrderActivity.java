@@ -111,6 +111,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     private String wxText;
     private int wx_status = -1;
     private int isbuy = -1;
+    private String tradeno, outtradeno;
 
     {
         setRegister(true);
@@ -147,8 +148,6 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         back.setOnClickListener(listener);
         addressLayout.setOnClickListener(listener);
         buyBtn.setOnClickListener(listener);
-//        zhifubaoLayout.setOnClickListener(listener);
-//        wechatLayout.setOnClickListener(listener);
         confirmWechat.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -413,9 +412,9 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         super.onResume();
         if (payment == 1 && wxout_trade_no.length() > 0) {
             if (wx_status == 0) {
-                presenter.OrderQuery("",
-                        wxout_trade_no,
-                        payment);
+                tradeno = "";
+                outtradeno = wxout_trade_no;
+                presenter.OrderQuery("", wxout_trade_no, payment);
             } else if (wx_status == 2) {
                 Toast.makeText(this, "支付取消", Toast.LENGTH_SHORT).show();
             } else if (wx_status == 1) {//支付失败
@@ -460,6 +459,8 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         if (resultInfo.length() > 0) {
                             Payresulrinfo payresulrinfo = JSON.parseObject(resultInfo, Payresulrinfo.class);
+                            tradeno = payresulrinfo.getAlipay_trade_app_pay_response().getTrade_no();
+                            outtradeno = payresulrinfo.getAlipay_trade_app_pay_response().getOut_trade_no();
                             presenter.OrderQuery(payresulrinfo.getAlipay_trade_app_pay_response().getTrade_no(),
                                     payresulrinfo.getAlipay_trade_app_pay_response().getOut_trade_no(),
                                     payment);

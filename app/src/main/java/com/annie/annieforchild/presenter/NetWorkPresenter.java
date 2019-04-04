@@ -29,11 +29,11 @@ public interface NetWorkPresenter {
 
     void getLesson(String lessonid, int type);
 
-    void buySuccess();
+    void buySuccess(String tradeno, String outtradeno, int type);
 
     void getNetExpDetails(int netid);
 
-    void getNetPreheatConsult(String lessonid,int type);
+    void getNetPreheatConsult(String lessonid, int type);
 
     void getListeningAndReading(String week, String classid, int tag, int classify);
 
@@ -46,4 +46,12 @@ public interface NetWorkPresenter {
     void getNetExpDetails_new(int netid);
 
     void getNetSpecialDetail(int netid);
+
+    void getMyOrderList();
+
+    void getMyOrderDetail(int orderIncId);
+
+    void continuePay(int orderIncId, int payment);
+
+    void cancelOrder(int orderIncId, int payment);
 }

@@ -22,6 +22,8 @@ import com.annie.annieforchild.bean.net.SpecialPreHeat;
 import com.annie.annieforchild.bean.net.WechatBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
+import com.annie.annieforchild.bean.order.MyOrder;
+import com.annie.annieforchild.bean.order.OrderDetail;
 import com.annie.annieforchild.interactor.NetWorkInteractor;
 import com.annie.annieforchild.interactor.imp.NetWorkInteractorImp;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
@@ -153,15 +155,39 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
+    public void getMyOrderList() {
+        viewInfo.showLoad();
+        interactor.getMyOrderList();
+    }
+
+    @Override
+    public void getMyOrderDetail(int orderIncId) {
+        viewInfo.showLoad();
+        interactor.getMyOrderDetail(orderIncId);
+    }
+
+    @Override
+    public void continuePay(int orderIncId, int payment) {
+        viewInfo.showLoad();
+        interactor.continuePay(orderIncId, payment);
+    }
+
+    @Override
+    public void cancelOrder(int orderIncId, int payment) {
+        viewInfo.showLoad();
+        interactor.cancelOrder(orderIncId, payment);
+    }
+
+    @Override
     public void getLesson(String lessonid, int type) {
         viewInfo.showLoad();
         interactor.getLesson(lessonid, type);
     }
 
     @Override
-    public void buySuccess() {
+    public void buySuccess(String tradeno, String outtradeno, int type) {
         viewInfo.showLoad();
-        interactor.buySuccess();
+        interactor.buySuccess(tradeno, outtradeno, type);
     }
 
     @Override
@@ -462,6 +488,24 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETMYORDERLIST) {
+                List<MyOrder> lists = (List<MyOrder>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.my.MyOrderActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETMYORDERDETAIL) {
+                OrderDetail orderDetail = (OrderDetail) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity2#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = orderDetail;
                 EventBus.getDefault().post(message);
             }
         }

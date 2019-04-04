@@ -162,6 +162,8 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
             registerView.showInfo(error);
         } else if (what == MethodCode.EVENT_BINDSTUDENT) {
             registerView.showInfo(error);
+        } else if (what == MethodCode.EVENT_GETBINDVERIFICATIONCODE) {
+            registerView.showInfo(error);
         }
     }
 }

@@ -130,7 +130,7 @@ public class MethodType {
     final public static String GETNETEXPDETAILS = "experienceDetails"; //购买的网课具体内容
     final public static String GETPREHEATCONSULT = "PreheatingClass"; //预热课
     final public static String GETLISTENANDREAD = "listeningandreading"; //泛听泛读
-    final public static String ORDERQUERY = "OrderQuery"; //泛听泛读
+    final public static String ORDERQUERY = "OrderQuery"; //订单查询
     final public static String GETWEICLASS = "WeiClass"; //微课堂视频
     final public static String GETCLASSANALYSIS = "ClassAnalysis"; //微课堂视频
     final public static String GETNETEXPDETAILS_NEW = "experienceDetailsnew"; //购买的网课具体内容新版本
@@ -138,5 +138,9 @@ public class MethodType {
     final public static String GETSPECIALLESSON_NEW = "SpecialLessons"; //彩虹条新版本
     final public static String SPECIALCLASS = "SpecialClass"; //综合课
     final public static String SPECIALPREHEATING = "SpecialPreheatingClass"; //综合课预热课
+    final public static String GETMYORDERLIST = "getMyOrderList"; //订单列表
+    final public static String GETMYORDERDETAIL = "getMyOrderDetail"; //订单详情
+    final public static String CONTINUEPAY = "continuePay"; //订单详情
+    final public static String CANCELORDER = "cancelOrder"; //取消订单
 
 }
