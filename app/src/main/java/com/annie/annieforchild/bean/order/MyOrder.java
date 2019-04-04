@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class MyOrder implements Serializable {
     private String orderId;
-    private int orderIncId;
+    private int orderIncrId;
     private String addtime;
     private String price;
     private int paytype;
@@ -28,12 +28,12 @@ public class MyOrder implements Serializable {
         this.orderId = orderId;
     }
 
-    public int getOrderIncId() {
-        return orderIncId;
+    public int getOrderIncrId() {
+        return orderIncrId;
     }
 
-    public void setOrderIncId(int orderIncId) {
-        this.orderIncId = orderIncId;
+    public void setOrderIncrId(int orderIncrId) {
+        this.orderIncrId = orderIncrId;
     }
 
     public String getAddtime() {

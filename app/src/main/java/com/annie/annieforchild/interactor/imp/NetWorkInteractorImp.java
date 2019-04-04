@@ -27,8 +27,10 @@ import com.annie.annieforchild.bean.net.WechatBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
 import com.annie.annieforchild.bean.net.netexpclass.Video_first;
+import com.annie.annieforchild.bean.order.AliOrderBean;
 import com.annie.annieforchild.bean.order.MyOrder;
 import com.annie.annieforchild.bean.order.OrderDetail;
+import com.annie.annieforchild.bean.order.WechatOrderBean;
 import com.annie.annieforchild.interactor.NetWorkInteractor;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
@@ -221,32 +223,34 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void getMyOrderDetail(int orderIncId) {
+    public void getMyOrderDetail(int orderIncrId) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETMYORDERDETAIL, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("orderIncId", orderIncId);
+        request.add("orderIncrId", orderIncrId);
         addQueue(MethodCode.EVENT_GETMYORDERDETAIL, request);
     }
 
     @Override
-    public void continuePay(int orderIncId, int payment) {
+    public void continuePay(int orderIncrId, int payment, int tag) {
         this.payment = payment;
+        this.tag = tag;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.CONTINUEPAY, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("orderIncId", orderIncId);
-        addQueue(MethodCode.EVENT_CONTINUEPAY, request);
+        request.add("orderIncrId", orderIncrId);
+        addQueue(MethodCode.EVENT_CONTINUEPAY + 90000 + tag, request);
     }
 
     @Override
-    public void cancelOrder(int orderIncId, int payment) {
+    public void cancelOrder(int orderIncrId, int payment, int tag) {
         this.payment = payment;
+        this.tag = tag;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.CANCELORDER, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("orderIncId", orderIncId);
-        addQueue(MethodCode.EVENT_CANCELORDER, request);
+        request.add("orderIncrId", orderIncrId);
+        addQueue(MethodCode.EVENT_CANCELORDER + 100000 + tag, request);
     }
 
     @Override
@@ -326,14 +330,15 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void OrderQuery(String tradeno, String outtradeno, int type) {
+    public void OrderQuery(String tradeno, String outtradeno, int type, int tag) {
+        this.tag = tag;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.ORDERQUERY, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("tradeno", tradeno);
         request.add("outtradeno", outtradeno);
         request.add("type", type);
-        addQueue(MethodCode.EVENT_ORDERQUERY, request);
+        addQueue(MethodCode.EVENT_ORDERQUERY + 11000 + tag, request);
 //        startQueue();
     }
 
@@ -451,18 +456,20 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
                 int canbuy = dataobj.getInteger("canbuy");
                 listener.Success(what, canbuy);
-            } else if (what == MethodCode.EVENT_ORDERQUERY) {
+            } else if (what == MethodCode.EVENT_ORDERQUERY + 11000 + tag) {
                 String trade_status = "";
                 if (payment == 0) {
-                    JSONObject jsonObject1 = JSON.parseObject(data);
-                    String response1 = jsonObject1.getString("alipay_trade_query_response");
-                    JSONObject jsonObject2 = JSON.parseObject(response1);
-                    trade_status = jsonObject2.getString("trade_status");
-                    listener.Success(what, trade_status);
+                    AliOrderBean aliOrderBean = JSON.parseObject(data, AliOrderBean.class);
+//                    JSONObject jsonObject1 = JSON.parseObject(data);
+//                    String response1 = jsonObject1.getString("alipay_trade_query_response");
+//                    JSONObject jsonObject2 = JSON.parseObject(response1);
+//                    trade_status = jsonObject2.getString("trade_status");
+                    listener.Success(what, aliOrderBean);
                 } else {
-                    JSONObject jsonObject1 = JSON.parseObject(data);
-                    trade_status = jsonObject1.getString("trade_state");
-                    listener.Success(what, trade_status);
+                    WechatOrderBean wechatOrderBean = JSON.parseObject(data, WechatOrderBean.class);
+//                    JSONObject jsonObject1 = JSON.parseObject(data);
+//                    trade_status = jsonObject1.getString("trade_state");
+                    listener.Success(what, wechatOrderBean);
                 }
             } else if (what == MethodCode.EVENT_GETWEICLASS) {
                 List<Video_first> lists;
@@ -490,8 +497,17 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
             } else if (what == MethodCode.EVENT_GETMYORDERDETAIL) {
                 OrderDetail orderDetail = JSON.parseObject(data, OrderDetail.class);
                 listener.Success(what, orderDetail);
-            } else if (what == MethodCode.EVENT_CONTINUEPAY) {
-
+            } else if (what == MethodCode.EVENT_CONTINUEPAY + 90000 + tag) {
+                if (data != null) {
+                    if (payment == 0) {
+                        listener.Success(what, data);
+                    } else {
+                        WechatBean wechatBean = JSON.parseObject(data, WechatBean.class);
+                        listener.Success(what, wechatBean);
+                    }
+                }
+            } else if (what == MethodCode.EVENT_CANCELORDER + 100000 + tag) {
+                listener.Success(what, "取消订单成功");
             }
         }
     }

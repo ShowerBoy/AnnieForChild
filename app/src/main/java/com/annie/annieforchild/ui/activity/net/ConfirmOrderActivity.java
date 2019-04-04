@@ -44,6 +44,8 @@ import com.annie.annieforchild.bean.net.ListenAndRead;
 import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.bean.net.Payresulrinfo;
 import com.annie.annieforchild.bean.net.WechatBean;
+import com.annie.annieforchild.bean.order.AliOrderBean;
+import com.annie.annieforchild.bean.order.WechatOrderBean;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.my.MyCourseActivity;
@@ -111,7 +113,8 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     private String wxText;
     private int wx_status = -1;
     private int isbuy = -1;
-    private String tradeno, outtradeno;
+    private int tag = 3;
+    private String trade_status;
 
     {
         setRegister(true);
@@ -340,25 +343,30 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         } else if (message.what == MethodCode.EVENT_PAY) {
             wx_status = (int) message.obj;
 
-        } else if (message.what == MethodCode.EVENT_ORDERQUERY) {
+        } else if (message.what == MethodCode.EVENT_ORDERQUERY + 11000 + tag) {
             if (payment == 0) {
-                String trade_status = (String) message.obj;
+                AliOrderBean aliOrderBean = (AliOrderBean) message.obj;
+//                String trade_status = (String) message.obj;
+                trade_status = aliOrderBean.getAlipay_trade_query_response().getTrade_status();
                 if (trade_status.equals("TRADE_SUCCESS")) {
                     Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
-                    intent.putExtra("price", buyPrice);
+                    intent.putExtra("price", "ConfirmOrderActivity");
+                    intent.putExtra("info", aliOrderBean.getSecretaryInfo());
                     startActivity(intent);
                     finish();
                 } else {
                     Intent intent = new Intent(ConfirmOrderActivity.this, PayFailActivity.class);
-                    intent.putExtra("price", buyPrice);
                     startActivity(intent);
                     finish();
                 }
             } else {
-                String trade_status = (String) message.obj;
+                WechatOrderBean wechatOrderBean = (WechatOrderBean) message.obj;
+//                String trade_status = (String) message.obj;
+                trade_status = wechatOrderBean.getTrade_state();
                 if (trade_status.equals("SUCCESS")) {
                     Intent intent = new Intent(ConfirmOrderActivity.this, PaySuccessActivity.class);
-                    intent.putExtra("price", buyPrice);
+                    intent.putExtra("price", "ConfirmOrderActivity");
+                    intent.putExtra("info", wechatOrderBean.getSecretaryInfo());
                     startActivity(intent);
                     finish();
                 } else {
@@ -412,9 +420,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         super.onResume();
         if (payment == 1 && wxout_trade_no.length() > 0) {
             if (wx_status == 0) {
-                tradeno = "";
-                outtradeno = wxout_trade_no;
-                presenter.OrderQuery("", wxout_trade_no, payment);
+                presenter.OrderQuery("", wxout_trade_no, payment, tag);
             } else if (wx_status == 2) {
                 Toast.makeText(this, "支付取消", Toast.LENGTH_SHORT).show();
             } else if (wx_status == 1) {//支付失败
@@ -459,11 +465,9 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         if (resultInfo.length() > 0) {
                             Payresulrinfo payresulrinfo = JSON.parseObject(resultInfo, Payresulrinfo.class);
-                            tradeno = payresulrinfo.getAlipay_trade_app_pay_response().getTrade_no();
-                            outtradeno = payresulrinfo.getAlipay_trade_app_pay_response().getOut_trade_no();
                             presenter.OrderQuery(payresulrinfo.getAlipay_trade_app_pay_response().getTrade_no(),
                                     payresulrinfo.getAlipay_trade_app_pay_response().getOut_trade_no(),
-                                    payment);
+                                    payment, tag);
                         }
                         /**
                          *

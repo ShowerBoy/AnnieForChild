@@ -161,21 +161,25 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void getMyOrderDetail(int orderIncId) {
+    public void getMyOrderDetail(int orderIncrId) {
         viewInfo.showLoad();
-        interactor.getMyOrderDetail(orderIncId);
+        interactor.getMyOrderDetail(orderIncrId);
     }
 
     @Override
-    public void continuePay(int orderIncId, int payment) {
+    public void continuePay(int orderIncrId, int payment, int tag) {
+        this.payment = payment;
+        this.tag = tag;
         viewInfo.showLoad();
-        interactor.continuePay(orderIncId, payment);
+        interactor.continuePay(orderIncrId, payment, tag);
     }
 
     @Override
-    public void cancelOrder(int orderIncId, int payment) {
+    public void cancelOrder(int orderIncrId, int payment, int tag) {
+        this.payment = payment;
+        this.tag = tag;
         viewInfo.showLoad();
-        interactor.cancelOrder(orderIncId, payment);
+        interactor.cancelOrder(orderIncrId, payment, tag);
     }
 
     @Override
@@ -191,9 +195,10 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void OrderQuery(String tradeno, String outtradeno, int type) {
+    public void OrderQuery(String tradeno, String outtradeno, int type, int tag) {
+        this.tag = tag;
         viewInfo.showLoad();
-        interactor.OrderQuery(tradeno, outtradeno, type);
+        interactor.OrderQuery(tradeno, outtradeno, type, tag);
     }
 
     @Override
@@ -456,7 +461,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = result;
                 EventBus.getDefault().post(message);
-            } else if (what == MethodCode.EVENT_ORDERQUERY) {
+            } else if (what == MethodCode.EVENT_ORDERQUERY + 11000 + tag) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity#onMainEventThread(JTMessage)}
                  */
@@ -507,6 +512,33 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = orderDetail;
                 EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_CONTINUEPAY + 90000 + tag) {
+                if (payment == 0) {
+                    /**
+                     * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity2#onMainEventThread(JTMessage)}
+                     */
+                    JTMessage message = new JTMessage();
+                    message.what = what;
+                    message.obj = result;
+                    EventBus.getDefault().post(message);
+                } else {
+                    WechatBean wechatBean = (WechatBean) result;
+                    /**
+                     * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity2#onMainEventThread(JTMessage)}
+                     */
+                    JTMessage message = new JTMessage();
+                    message.what = what;
+                    message.obj = wechatBean;
+                    EventBus.getDefault().post(message);
+                }
+            } else if (what == MethodCode.EVENT_CANCELORDER + 100000 + tag) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity2#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
             }
         }
     }
@@ -519,6 +551,9 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         }
         if (viewInfo != null) {
             viewInfo.dismissLoad();
+            viewInfo.showInfo(error);
+        }
+        if (what == MethodCode.EVENT_CANCELORDER + 100000 + tag) {
             viewInfo.showInfo(error);
         }
     }

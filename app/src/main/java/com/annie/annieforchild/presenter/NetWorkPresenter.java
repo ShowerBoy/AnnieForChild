@@ -39,7 +39,7 @@ public interface NetWorkPresenter {
 
     void buynum(int netid, int type);
 
-    void OrderQuery(String tradeno, String outtradeno, int type);
+    void OrderQuery(String tradeno, String outtradeno, int type,int tag);
 
     void getWeiClass(String fid, int type);
 
@@ -51,7 +51,7 @@ public interface NetWorkPresenter {
 
     void getMyOrderDetail(int orderIncId);
 
-    void continuePay(int orderIncId, int payment);
+    void continuePay(int orderIncrId, int payment, int tag);
 
-    void cancelOrder(int orderIncId, int payment);
+    void cancelOrder(int orderIncrId, int payment, int tag);
 }

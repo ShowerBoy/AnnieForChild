@@ -1,9 +1,13 @@
 package com.annie.annieforchild.ui.activity.net;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,8 +22,10 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Address;
 import com.annie.annieforchild.bean.net.NetClass;
+import com.annie.annieforchild.bean.order.SecretaryInfo;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.my.MyCourseActivity;
+import com.annie.annieforchild.ui.activity.my.MyOrderActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.adapter.MyCourseAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
@@ -36,14 +42,14 @@ public class PaySuccessActivity extends BaseActivity implements ViewInfo, OnChec
     private ImageView back;
     CheckDoubleClickListener listener;
     private TextView ok, price;
-    LinearLayout to_network, to_mylesson;
+    LinearLayout to_network, to_mylesson, xiaomishuLayout;
     NetWorkPresenterImp presenter;
-    List<NetClass> list;
     private AlertHelper helper;
-    private MyCourseAdapter adapter;
-    private RecyclerView recycler;
     private Dialog dialog;
     private String buyPrice;
+    private TextView title, name, teacher, tips;
+    private Button copy;
+    private SecretaryInfo secretaryInfo;
 
     {
         setRegister(true);
@@ -56,24 +62,46 @@ public class PaySuccessActivity extends BaseActivity implements ViewInfo, OnChec
 
     @Override
     protected void initView() {
-        recycler = findViewById(R.id.recycler);
-        price = findViewById(R.id.pay_price);
         listener = new CheckDoubleClickListener(this);
+        price = findViewById(R.id.pay_price);
         back = findViewById(R.id.back);
         ok = findViewById(R.id.ok);
         to_mylesson = findViewById(R.id.to_mylesson);
         to_network = findViewById(R.id.to_network);
+        title = findViewById(R.id.xiaomishu_title);
+        name = findViewById(R.id.xiaomishu_name);
+        teacher = findViewById(R.id.xiaomishu_teacher);
+        tips = findViewById(R.id.xiaomishu_tips);
+        copy = findViewById(R.id.xiaomishu_copy);
+        xiaomishuLayout = findViewById(R.id.xiaomishu_layout);
 
         back.setOnClickListener(listener);
         ok.setOnClickListener(listener);
         to_network.setOnClickListener(listener);
         to_mylesson.setOnClickListener(listener);
+        copy.setOnClickListener(listener);
         if (getIntent() != null) {
             buyPrice = getIntent().getStringExtra("price");
+            secretaryInfo = (SecretaryInfo) getIntent().getSerializableExtra("info");
         }
         if (buyPrice != null) {
-            buyPrice = ConfirmOrderActivity.buyPrice;
+            if (buyPrice.equals("ConfirmOrderActivity")) {
+                buyPrice = ConfirmOrderActivity.buyPrice;
+            } else if (buyPrice.equals("ConfirmOrderActivity2")) {
+                buyPrice = ConfirmOrderActivity2.buyPrice;
+            } else {
+                buyPrice = MyOrderActivity.buyPrice;
+            }
             price.setText("￥" + buyPrice);
+        }
+        if (secretaryInfo != null) {
+            xiaomishuLayout.setVisibility(View.VISIBLE);
+            title.setText(secretaryInfo.getTitle());
+            name.setText(secretaryInfo.getNikename());
+            teacher.setText(secretaryInfo.getTeacher());
+            tips.setText(secretaryInfo.getTips());
+        } else {
+            xiaomishuLayout.setVisibility(View.GONE);
         }
     }
 
@@ -81,26 +109,9 @@ public class PaySuccessActivity extends BaseActivity implements ViewInfo, OnChec
     protected void initData() {
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-        list = new ArrayList<>();
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
 //        presenter.buySuccess();
-        adapter = new MyCourseAdapter(this, list, new OnRecyclerItemClickListener() {
-            @Override
-            public void onItemClick(View view) {
-                int position = recycler.getChildAdapterPosition(view);
-                Intent intent = new Intent(PaySuccessActivity.this, NetSuggestActivity.class);
-                intent.putExtra("netid", list.get(position).getNetId());
-//                intent.putExtra("netName", list.get(position).getNetName());
-                startActivity(intent);
-            }
-
-            @Override
-            public void onItemLongClick(View view) {
-
-            }
-        });
-        recycler.setAdapter(adapter);
     }
 
     @Override
@@ -110,11 +121,7 @@ public class PaySuccessActivity extends BaseActivity implements ViewInfo, OnChec
 
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-        if (message.what == MethodCode.EVENT_BUYSUCCESS) {
-            list.clear();
-            list.addAll((List<NetClass>) message.obj);
-            adapter.notifyDataSetChanged();
-        }
+
     }
 
     @Override
@@ -134,6 +141,15 @@ public class PaySuccessActivity extends BaseActivity implements ViewInfo, OnChec
             case R.id.to_network:
                 NetSuggestActivity.netSuggestActivity.finish();
                 finish();
+                break;
+            case R.id.xiaomishu_copy:
+                //获取剪贴板管理器：
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                // 创建普通字符型ClipData
+                ClipData mClipData = ClipData.newPlainText("Label", teacher.getText());
+                // 将ClipData内容放到系统剪贴板里。
+                cm.setPrimaryClip(mClipData);
+                Toast.makeText(PaySuccessActivity.this, "复制成功", Toast.LENGTH_SHORT).show();
                 break;
 
         }

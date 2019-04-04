@@ -10,6 +10,7 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.order.MyOrder;
+import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyOrderViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
@@ -24,12 +25,17 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderViewHolder> {
     private Context context;
     private List<MyOrder> lists;
     private LayoutInflater inflater;
+    private NetWorkPresenter presenter;
     private OnRecyclerItemClickListener listener;
+    private int paytype, orderIncrId, tag;
+    private String buyPrice;
 
-    public MyOrderAdapter(Context context, List<MyOrder> lists, OnRecyclerItemClickListener listener) {
+    public MyOrderAdapter(Context context, List<MyOrder> lists, int tag, OnRecyclerItemClickListener listener, NetWorkPresenter presenter) {
         this.context = context;
         this.lists = lists;
+        this.tag = tag;
         this.listener = listener;
+        this.presenter = presenter;
         inflater = LayoutInflater.from(context);
     }
 
@@ -78,10 +84,52 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderViewHolder> {
             myOrderViewHolder.state.setTextColor(context.getResources().getColor(R.color.text_color));
             myOrderViewHolder.operateLayout.setVisibility(View.GONE);
         }
+        myOrderViewHolder.confirm.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
+            @Override
+            public void onCheckDoubleClick(View view) {
+                paytype = lists.get(i).getPaytype();
+                orderIncrId = lists.get(i).getOrderIncrId();
+                buyPrice = lists.get(i).getPrice();
+                presenter.continuePay(lists.get(i).getOrderIncrId(), lists.get(i).getPaytype(), tag);
+            }
+        }));
+        myOrderViewHolder.cancel.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
+            @Override
+            public void onCheckDoubleClick(View view) {
+                paytype = lists.get(i).getPaytype();
+                orderIncrId = lists.get(i).getOrderIncrId();
+                buyPrice = lists.get(i).getPrice();
+                presenter.cancelOrder(lists.get(i).getOrderIncrId(), lists.get(i).getPaytype(), tag);
+            }
+        }));
     }
 
     @Override
     public int getItemCount() {
         return lists.size();
+    }
+
+    public int getPaytype() {
+        return paytype;
+    }
+
+    public void setPaytype(int paytype) {
+        this.paytype = paytype;
+    }
+
+    public int getOrderIncrId() {
+        return orderIncrId;
+    }
+
+    public void setOrderIncrId(int orderIncrId) {
+        this.orderIncrId = orderIncrId;
+    }
+
+    public String getBuyPrice() {
+        return buyPrice;
+    }
+
+    public void setBuyPrice(String buyPrice) {
+        this.buyPrice = buyPrice;
     }
 }

@@ -25,6 +25,7 @@ public class MethodCode {
     /**
      * EventBus
      */
+    final public static int EVENT_CONFIRMBUYSUC = -170;
     final public static int EVENT_LESSON = -160;
     final public static int EVENT_ISDROP = -150;
     final public static int EVENT_MUSICSTOP = -140;

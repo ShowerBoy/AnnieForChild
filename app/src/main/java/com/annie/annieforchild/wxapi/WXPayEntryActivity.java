@@ -58,6 +58,8 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
                      *
                      * {@link NetWorkActivity#onMainEventThread(JTMessage)}
                      * {@link ConfirmOrderActivity#onMainEventThread(JTMessage)}
+                     * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity2#onMainEventThread(JTMessage)}
+                     * {@link com.annie.annieforchild.ui.activity.my.MyOrderActivity#onMainEventThread(JTMessage)}
                      */
                     JTMessage message = new JTMessage();
                     message.what = MethodCode.EVENT_PAY;

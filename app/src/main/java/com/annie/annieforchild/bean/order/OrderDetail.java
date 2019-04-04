@@ -13,7 +13,7 @@ public class OrderDetail implements Serializable {
     private String paytime;
     private int paytype;
     private String wxnumber;
-    private int orderIncId;
+    private int orderIncrId;
     private String addtime;
     private String sendtime;
     private String price;
@@ -74,12 +74,12 @@ public class OrderDetail implements Serializable {
         this.wxnumber = wxnumber;
     }
 
-    public int getOrderIncId() {
-        return orderIncId;
+    public int getOrderIncrId() {
+        return orderIncrId;
     }
 
-    public void setOrderIncId(int orderIncId) {
-        this.orderIncId = orderIncId;
+    public void setOrderIncrId(int orderIncrId) {
+        this.orderIncrId = orderIncrId;
     }
 
     public String getAddtime() {
