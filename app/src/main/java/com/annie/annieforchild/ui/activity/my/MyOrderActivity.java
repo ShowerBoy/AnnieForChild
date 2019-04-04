@@ -20,6 +20,7 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.PayResult;
 import com.annie.annieforchild.bean.net.Payresulrinfo;
@@ -41,6 +42,7 @@ import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -83,6 +85,8 @@ public class MyOrderActivity extends BaseActivity implements ViewInfo, OnCheckDo
 
     @Override
     protected void initView() {
+        wxapi = WXAPIFactory.createWXAPI(this, SystemUtils.APP_ID, true);
+        wxapi.registerApp(SystemUtils.APP_ID);
         back = findViewById(R.id.order_back);
         empty = findViewById(R.id.my_order_empty);
         recycler = findViewById(R.id.order_recycler);
@@ -193,6 +197,7 @@ public class MyOrderActivity extends BaseActivity implements ViewInfo, OnCheckDo
                 WechatOrderBean wechatOrderBean = (WechatOrderBean) message.obj;
 //                String trade_status = (String) message.obj;
                 trade_status = wechatOrderBean.getTrade_state();
+                wxout_trade_no = "";
                 if (trade_status.equals("SUCCESS")) {
                     /**
                      * {@link com.annie.annieforchild.ui.activity.my.MyOrderActivity#onMainEventThread(JTMessage)}
@@ -215,7 +220,7 @@ public class MyOrderActivity extends BaseActivity implements ViewInfo, OnCheckDo
             }
         } else if (message.what == MethodCode.EVENT_CONFIRMBUYSUC) {
             presenter.getMyOrderList();
-        } else if (message.what == MethodCode.EVENT_CANCELORDER + 100000 + tag) {
+        } else if (message.what == MethodCode.EVENT_CANCELORDER) {
             presenter.getMyOrderList();
         }
     }
@@ -238,10 +243,12 @@ public class MyOrderActivity extends BaseActivity implements ViewInfo, OnCheckDo
                 presenter.OrderQuery("", wxout_trade_no, paytype, tag);
             } else if (wx_status == 2) {
                 Toast.makeText(this, "支付取消", Toast.LENGTH_SHORT).show();
+                wxout_trade_no = "";
             } else if (wx_status == 1) {//支付失败
                 Intent intent = new Intent(MyOrderActivity.this, PayFailActivity.class);
                 startActivity(intent);
                 finish();
+                wxout_trade_no = "";
             }
         }
     }

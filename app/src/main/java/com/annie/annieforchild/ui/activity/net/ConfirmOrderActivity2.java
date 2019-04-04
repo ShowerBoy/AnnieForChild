@@ -184,6 +184,7 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
                 WechatOrderBean wechatOrderBean = (WechatOrderBean) message.obj;
 //                String trade_status = (String) message.obj;
                 trade_status = wechatOrderBean.getTrade_state();
+                wxout_trade_no = "";
                 if (trade_status.equals("SUCCESS")) {
                     /**
                      * {@link com.annie.annieforchild.ui.activity.my.MyOrderActivity#onMainEventThread(JTMessage)}
@@ -203,7 +204,7 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
                     finish();
                 }
             }
-        } else if (message.what == MethodCode.EVENT_CANCELORDER + 100000 + tag) {
+        } else if (message.what == MethodCode.EVENT_CANCELORDER) {
             String info = (String) message.obj;
             showInfo(info);
             finish();
@@ -303,10 +304,12 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
                 presenter.OrderQuery("", wxout_trade_no, paytype, tag);
             } else if (wx_status == 2) {
                 Toast.makeText(this, "支付取消", Toast.LENGTH_SHORT).show();
+                wxout_trade_no = "";
             } else if (wx_status == 1) {//支付失败
                 Intent intent = new Intent(ConfirmOrderActivity2.this, PayFailActivity.class);
                 startActivity(intent);
                 finish();
+                wxout_trade_no = "";
             }
         }
     }

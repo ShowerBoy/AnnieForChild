@@ -531,7 +531,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                     message.obj = wechatBean;
                     EventBus.getDefault().post(message);
                 }
-            } else if (what == MethodCode.EVENT_CANCELORDER + 100000 + tag) {
+            } else if (what == MethodCode.EVENT_CANCELORDER) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity2#onMainEventThread(JTMessage)}
                  */

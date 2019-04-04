@@ -250,7 +250,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("orderIncrId", orderIncrId);
-        addQueue(MethodCode.EVENT_CANCELORDER + 100000 + tag, request);
+        addQueue(MethodCode.EVENT_CANCELORDER, request);
     }
 
     @Override
@@ -321,6 +321,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
+        request.add("checktype", type);
         if (type == 1) {//1:netsuggest请求 2：confirmorder请求
             addQueue(MethodCode.EVENT_BUYNUM, request);
         } else {
@@ -506,7 +507,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                         listener.Success(what, wechatBean);
                     }
                 }
-            } else if (what == MethodCode.EVENT_CANCELORDER + 100000 + tag) {
+            } else if (what == MethodCode.EVENT_CANCELORDER) {
                 listener.Success(what, "取消订单成功");
             }
         }
