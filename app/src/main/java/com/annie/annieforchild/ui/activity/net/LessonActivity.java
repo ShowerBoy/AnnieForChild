@@ -57,6 +57,7 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
     private String lessonName;
     private AlertHelper helper;
     private Dialog dialog;
+    private String bookName;
 
     {
         setRegister(true);
@@ -109,6 +110,7 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
                         song.setBookId(lists.get(position).getBookId());
                         song.setBookName(lists.get(position).getBookName());
                         song.setBookImageUrl(lists.get(position).getBookImageUrl());
+                        bookName = lists.get(position).getGameName();
                         int bookType;
                         if (lists.get(position).getAudioType() == 0) {
                             bookType = 0;
@@ -172,7 +174,7 @@ public class LessonActivity extends BaseActivity implements View.OnClickListener
             int lessonTag = (int) message.obj;
             if (lessonTag == 1) {
                 application.getSystemUtils().setBackGray(LessonActivity.this, true);
-                application.getSystemUtils().getLessonBack(LessonActivity.this).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                application.getSystemUtils().getLessonBack(LessonActivity.this, bookName).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
             }
         }
     }

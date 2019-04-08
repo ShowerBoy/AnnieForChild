@@ -452,19 +452,22 @@ public class SystemUtils {
      *
      * @return
      */
-    public static PopupWindow getLessonBack(Context context) {
+    public static PopupWindow getLessonBack(Context context, String text) {
         Button button = new Button(context);
+        TextView textView = new TextView(context);
         popupWindow = new PopupWindow(context);
         popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_lesson_back, null, false);
         button = popupView.findViewById(R.id.lesson_back_btn);
+        textView = popupView.findViewById(R.id.lesson_back_line3);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
             }
         });
+        textView.setText(text + "环节");
         popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
         popupWindow.setAnimationStyle(R.style.pop_in_animation2);
         popupWindow.setOutsideTouchable(false);

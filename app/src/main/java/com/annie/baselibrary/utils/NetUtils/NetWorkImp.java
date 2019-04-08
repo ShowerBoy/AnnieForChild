@@ -97,7 +97,7 @@ public abstract class NetWorkImp<T> implements OnResponseListener<T> {
         } else {
 //            ToastHelp.show(BaseApplication.getInstance().getApplicationContext(), R.string.error_unknow);
             Logger.e("错误：" + exception.getMessage());
-            onFail(what, response);
+//            onFail(what, response);
         }
         onFail(what, response);
     }

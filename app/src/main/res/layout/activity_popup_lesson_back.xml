@@ -23,4 +23,53 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lesson_back_line1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lesson_back_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6dp"
+        android:text="和安娃一起学习吧！"
+        android:textColor="@color/text_orange"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/lesson_back_line2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lesson_back_line1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="1dp"
+        android:text="点击下一个环节"
+        android:textColor="@color/text_orange"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/lesson_back_line3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lesson_back_line2"
+        android:layout_alignEnd="@+id/lesson_back_image"
+        android:layout_alignStart="@+id/lesson_back_image"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="1dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/text_orange"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/lesson_back_line4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lesson_back_line3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="1dp"
+        android:text="宝贝完成了"
+        android:textColor="@color/text_orange"
+        android:textSize="16sp" />
 </RelativeLayout>

@@ -52,13 +52,14 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
     NetExp_new netExpClass;
     int netid;
     int tag = 0;
+
     private RelativeLayout empty_layout;
     private TextView four_title, three_title, two_title, first_title;
     private ConstraintLayout fourstage, threestage, twostage, firstsatge;
     private TextView fourstage_1_title, fourstage_2_title, fourstage_3_title;
     private TextView two_1_title, two_2_title, two_3_title;
-    private TextView first_1_title, first_2_title, first_3_title;
-    private LinearLayout first_1, first_2, first_3;
+    private TextView first_1_title, first_2_title, first_3_title, first_4_title;
+    private LinearLayout first_1, first_2, first_3, first_4;
     private LinearLayout two_1, two_2, two_3;
     private LinearLayout fourstage_1, fourstage_2, fourstage_3;
     private LinearLayout lesson_1, lesson_2, lesson_3, lesson_4;
@@ -98,9 +99,11 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
         first_1_title = findViewById(R.id.first_1_title);
         first_2_title = findViewById(R.id.first_2_title);
         first_3_title = findViewById(R.id.first_3_title);
+        first_4_title = findViewById(R.id.first_4_title);
         first_1 = findViewById(R.id.first_1);
         first_2 = findViewById(R.id.first_2);
         first_3 = findViewById(R.id.first_3);
+        first_4 = findViewById(R.id.first_4);
         two_1 = findViewById(R.id.two_1);
         two_2 = findViewById(R.id.two_2);
         two_3 = findViewById(R.id.two_3);
@@ -118,6 +121,7 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
         first_1.setOnClickListener(listner);
         first_2.setOnClickListener(listner);
         first_3.setOnClickListener(listner);
+        first_4.setOnClickListener(listner);
         two_1.setOnClickListener(listner);
         two_2.setOnClickListener(listner);
         two_3.setOnClickListener(listner);
@@ -233,14 +237,17 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
                 if (netExpClass.getInfo().get(i).getInfo() != null) {
                     for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
                         switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
-                            case "1":
+                            case "2":
                                 first_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
                                 break;
-                            case "2":
+                            case "4":
                                 first_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
                                 break;
-                            case "3":
+                            case "1":
                                 first_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
+                                break;
+                            case "3":
+                                first_4_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
                                 break;
                         }
                     }
@@ -346,18 +353,25 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
                         } else {
                             intent.putExtra("title", view.getText());
                         }
-
                         intent.putExtra("flag", 0);//标题是否取消1：取消
                         startActivity(intent);
                     } else {
-                        intent = new Intent(this, NetExpFirstVideoActivity.class);
-                        if (type == 1) {//去掉标题
+                        if (netExpClass.getInfo().get(m).getInfo().get(i).getFsort().equals("4")) {
+                            Intent intent2 = new Intent(this, LessonActivity.class);
+                            intent2.putExtra("lessonId", netExpClass.getInfo().get(m).getInfo().get(i).getFid());
+                            intent2.putExtra("lessonName", netExpClass.getInfo().get(m).getInfo().get(i).getFchaptername());
+                            intent2.putExtra("type", 4);
+                            startActivity(intent2);
                         } else {
-                            intent.putExtra("title", view.getText());
+                            intent = new Intent(this, NetExpFirstVideoActivity.class);
+                            if (type == 1) {//去掉标题
+                            } else {
+                                intent.putExtra("title", view.getText());
+                            }
+                            intent.putExtra("type", 4);
+                            intent.putExtra("fid", fid);
+                            startActivity(intent);
                         }
-                        intent.putExtra("type", 4);
-                        intent.putExtra("fid", fid);
-                        startActivity(intent);
                     }
                 }
 
@@ -376,21 +390,28 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
             case R.id.first_1:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals(firstTitle)) {
-                        tointent(i, "1", first_1_title, 0);
+                        tointent(i, "2", first_1_title, 0);
                     }
                 }
                 break;
             case R.id.first_2:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals(firstTitle)) {
-                        tointent(i, "2", first_2_title, 0);
+                        tointent(i, "4", first_2_title, 0);
                     }
                 }
                 break;
             case R.id.first_3:
                 for (int i = 0; i < netExpClass.getInfo().size(); i++) {
                     if (netExpClass.getInfo().get(i).getFchaptername().equals(firstTitle)) {
-                        tointent(i, "3", first_3_title, 0);
+                        tointent(i, "1", first_3_title, 0);
+                    }
+                }
+                break;
+            case R.id.first_4:
+                for (int i = 0; i < netExpClass.getInfo().size(); i++) {
+                    if (netExpClass.getInfo().get(i).getFchaptername().equals(firstTitle)) {
+                        tointent(i, "3", first_4_title, 0);
                     }
                 }
                 break;
