@@ -60,7 +60,7 @@ import java.util.List;
  * Created by wanglei on 2018/9/22.
  */
 
-public class NetSuggestActivity extends BaseActivity implements GrindEarView, OnCheckDoubleClick, NestedScrollView.OnScrollChangeListener {
+public class NetSuggestActivity extends BaseActivity implements GrindEarView, OnCheckDoubleClick{
     private ImageView back;
     private SliderLayout banner;
     private TextView title, price, event, gotoBuy, net_suggest_summary, goBuy, netCheck;
@@ -453,22 +453,5 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
         return file_maps;
     }
 
-    @Override
-    public void onScrollChange(NestedScrollView nestedScrollView, int x, int y, int i2, int i3) {
-        if (y <= 0) {
-            Linear_title.setBackgroundColor(Color.argb((int) 0, 255, 255, 255));
-            netsuggest_title.setTextColor(Color.argb((int) 0, 69, 69, 69));
-            netsuggest_title.setAlpha(0);
-        } else if (y > 0 && y <= height) {
-            float scale = (float) y / height;
-            float alpha = (255 * scale);
-            Linear_title.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
-            netsuggest_title.setTextColor(Color.argb((int) alpha, 69, 69, 69));
-            netsuggest_title.setAlpha(alpha);
-        } else {
-            Linear_title.setBackgroundColor(Color.argb((int) 255, 255, 255, 255));
-            netsuggest_title.setTextColor(Color.argb((int) 255, 69, 69, 69));
-            netsuggest_title.setAlpha(1);
-        }
-    }
+
 }
