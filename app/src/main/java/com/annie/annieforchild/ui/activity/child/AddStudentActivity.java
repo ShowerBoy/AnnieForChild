@@ -56,6 +56,7 @@ public class AddStudentActivity extends BaseActivity implements OnCheckDoubleCli
                 break;
             case R.id.add_organ_layout:
                 Intent intent = new Intent(this, BindStudentActivity.class);
+                intent.putExtra("from", from);
                 startActivity(intent);
                 break;
             case R.id.add_unorgan_layout:

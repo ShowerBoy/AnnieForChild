@@ -233,7 +233,6 @@ public class NetSpecialDetailActivity extends BaseActivity implements ViewInfo, 
                         }
                     }
                 }
-
                 break;
         }
     }

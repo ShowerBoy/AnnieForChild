@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.activity.child;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.SerialBean;
 import com.annie.annieforchild.presenter.RegisterPresenter;
 import com.annie.annieforchild.presenter.imp.RegisterPresenterImp;
+import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.view.BindStudentView;
 import com.annie.annieforchild.view.RegisterView;
 import com.annie.baselibrary.base.BaseActivity;
@@ -45,6 +47,7 @@ public class BindStudentActivity extends BaseActivity implements RegisterView, O
     private RegisterPresenter presenter;
     private String usernameText, serialNumber;
     private SerialBean serialBean;
+    private String from;
 
     {
         setRegister(true);
@@ -67,6 +70,7 @@ public class BindStudentActivity extends BaseActivity implements RegisterView, O
         bindBack.setOnClickListener(listener);
         testCode.setOnClickListener(listener);
         bindBtn.setOnClickListener(listener);
+        from = getIntent().getStringExtra("from");
     }
 
     @Override
@@ -141,7 +145,15 @@ public class BindStudentActivity extends BaseActivity implements RegisterView, O
                     showInfo("绑定失败");
                 } else {
                     showInfo("绑定成功");
-                    finish();
+                    if (from != null && from.equals("register")) {
+                        Intent intent = new Intent(this, LoginActivity.class);
+                        intent.putExtra("from", from);
+                        startActivity(intent);
+//                        finish();
+                        finishAffinity();
+                    } else {
+                        finish();
+                    }
                 }
             }
         }

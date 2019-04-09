@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
@@ -71,7 +70,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         if (!isTaskRoot()) {
             final Intent intent = getIntent();
             final String intentAction = intent.getAction();
@@ -81,7 +80,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
                 return;
             }
         }
-        super.onCreate(savedInstanceState, persistentState);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -92,7 +91,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
     @Override
     protected void initView() {
         NoHttpUtils.init(this);
-        application= (MyApplication) getApplicationContext();
+        application = (MyApplication) getApplicationContext();
         Uri uri = getIntent().getData();
         if (uri != null) {
             application.getSystemUtils().setUri(uri);

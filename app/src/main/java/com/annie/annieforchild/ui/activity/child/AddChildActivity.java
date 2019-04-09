@@ -83,6 +83,7 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
     private int tag; //来源标示附符 0：注册 1：个人中心添加
     long tenYears = 30L * 365 * 1000 * 60 * 60 * 24L;
     long oneYears = 5L * 365 * 1000 * 60 * 60 * 24L;
+    private String from;
 
     {
         setRegister(true);
@@ -142,6 +143,9 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
         /**
          * {@link com.annie.annieforchild.ui.activity.login.RegisterActivity#onEventMainThread(JTMessage)}
          */
+        if (intent != null) {
+            from = intent.getStringExtra("from");
+        }
         if (intent.getStringExtra("from").equals("register")) {
             //判断是不是第一次进来
 //            pass.setVisibility(View.VISIBLE);
@@ -251,8 +255,10 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
         if (message.what == MethodCode.EVENT_ADDCHILD) {
             if (message.obj instanceof String) {
                 Intent intent = new Intent(this, LoginActivity.class);
+                intent.putExtra("from", from);
                 startActivity(intent);
-                finish();
+//                finish();
+                finishAffinity();
             }
         } else if (message.what == MethodCode.EVENT_ADDCHILD2) {
             finish();

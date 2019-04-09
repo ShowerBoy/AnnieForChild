@@ -82,6 +82,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
     private SharedPreferences.Editor editor;
     private Calendar calendar;
     String logintime, phone, psd;
+    private String from;
     private CheckDoubleClickListener listener;
 
     {
@@ -112,6 +113,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
         intent = getIntent();
         if (intent != null) {
             tag = intent.getStringExtra("tag");
+            from = intent.getStringExtra("from");
         }
         if (tag != null && tag.equals("游客登陆")) {
             youke.setVisibility(View.GONE);
@@ -193,6 +195,17 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
             logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
             application.getNetTime();
             presenter.login(phone, psd, logintime);
+        } else {
+            if (from != null && from.equals("register")) {
+                if (application.getSystemUtils().getPhone() != null && application.getSystemUtils().getPassword() != null) {
+                    phoneNumber.setText(application.getSystemUtils().getPhone());
+                    password.setText(application.getSystemUtils().getPassword());
+                    phone = application.getSystemUtils().getPhone();
+                    psd = application.getSystemUtils().getPassword();
+                    logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
+                    presenter.login(phone, psd, logintime);
+                }
+            }
         }
     }
 

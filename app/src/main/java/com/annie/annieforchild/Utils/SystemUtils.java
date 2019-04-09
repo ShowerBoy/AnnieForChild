@@ -117,6 +117,7 @@ public class SystemUtils {
     private String token; //token
     private String defaultUsername; //默认学员编号
     private String phone; //手机号
+    private String password; //密码
     private String sn; //设备sn号
     private String tag = "游客"; //会员标识
     private String netDate; //网络时间
@@ -1279,5 +1280,13 @@ public class SystemUtils {
 
     public void setDrop(boolean drop) {
         isDrop = drop;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

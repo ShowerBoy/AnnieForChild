@@ -3,7 +3,6 @@ package com.annie.annieforchild.ui.activity.lesson;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.util.TypedValue;

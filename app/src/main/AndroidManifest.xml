@@ -256,10 +256,12 @@
         <activity
             android:name=".ui.activity.child.BindStudentActivity"
             android:screenOrientation="portrait"
+            android:taskAffinity="Add.Child"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity
             android:name=".ui.activity.child.AddChildActivity"
             android:screenOrientation="portrait"
+            android:taskAffinity="Add.Child"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity
             android:name=".ui.activity.lesson.ScheduleActivity"
@@ -501,7 +503,8 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.child.AddStudentActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:taskAffinity="Add.Child"></activity>
         <activity
             android:name=".ui.activity.my.MyOrderActivity"
             android:screenOrientation="portrait"></activity>
