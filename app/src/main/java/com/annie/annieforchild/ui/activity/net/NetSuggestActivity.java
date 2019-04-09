@@ -4,31 +4,26 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,23 +35,17 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.GradientScrollView;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.net.Gift;
 import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.my.MyCourseActivity;
-import com.annie.annieforchild.ui.adapter.NetGiftAdapter;
-import com.annie.annieforchild.ui.adapter.viewHolder.NetSpecialViewHolder;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
+import com.annie.annieforchild.ui.adapter.HeaderViewAdapter;
+import com.annie.annieforchild.ui.adapter.NetSuggestAdapter;
 import com.annie.annieforchild.view.GrindEarView;
-import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.daimajia.slider.library.SliderLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -66,14 +55,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.microedition.khronos.opengles.GL;
-
 /**
  * 网课介绍
  * Created by wanglei on 2018/9/22.
  */
 
-public class NetSuggestActivity extends BaseActivity implements GrindEarView, OnCheckDoubleClick, GradientScrollView.ScrollViewListener {
+public class NetSuggestActivity extends BaseActivity implements GrindEarView, OnCheckDoubleClick{
     private ImageView back;
     private SliderLayout banner;
     private TextView title, price, event, gotoBuy, net_suggest_summary, goBuy, netCheck;
@@ -100,6 +87,13 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
     private PopupWindow popupWindow;
     private View popupView;
     private int flag = 0;//是否选择配套教材 0:否 1:是
+    private RecyclerView recycler;
+    private NetSuggestAdapter adapter;
+    private List<String> imglist;
+    private Context context;
+    private RelativeLayout headview;
+    private int status_height;//状态栏高度
+
 
     {
         setRegister(true);
@@ -112,22 +106,27 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
 
     @Override
     protected void initView() {
+        recycler=findViewById(R.id.net_img_recycler);
+        headview=(RelativeLayout) LayoutInflater.from(this).inflate(
+                R.layout.activity_netsuggest_head, null);
+
         DisplayMetrics dm = this.getResources().getDisplayMetrics();
         width = dm.widthPixels;
-        netsuggest_title = findViewById(R.id.netsuggest_title);
+        netsuggest_title =findViewById(R.id.netsuggest_title);
         netSuggestActivity = this;
-        Linear_title = findViewById(R.id.ll_title);
+        context=this;
+        Linear_title =  findViewById(R.id.ll_title);
         back = findViewById(R.id.net_back);
-        banner = findViewById(R.id.net_banner);
-        title = findViewById(R.id.net_suggest_title);
-        price = findViewById(R.id.net_suggest_price);
-        event = findViewById(R.id.net_suggest_event);
+        banner =  headview.findViewById(R.id.net_banner);
+        title =  headview.findViewById(R.id.net_suggest_title);
+        price =  headview.findViewById(R.id.net_suggest_price);
+        event =  headview.findViewById(R.id.net_suggest_event);
 //        giftRecycler = findViewById(R.id.net_gift_recycler);
         gotoBuy = findViewById(R.id.goto_buy);
 //        present = findViewById(R.id.present_gift);
-        netSuggestLinear = findViewById(R.id.net_suggest_layout);
+//        netSuggestLinear = findViewById(R.id.net_suggest_layout);
 //        netSuggestLayout = findViewById(R.id.net_suggest_linear);
-        net_suggest_summary = findViewById(R.id.net_suggest_summary);
+        net_suggest_summary =  headview.findViewById(R.id.net_suggest_summary);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
         gotoBuy.setOnClickListener(listener);
@@ -135,22 +134,31 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
 //        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
 //        giftRecycler.setLayoutManager(manager);
 
-        scrollView = findViewById(R.id.scrollView);
-        scrollView.setScrollViewListener(this);
         ViewTreeObserver vto = banner.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
+                int resourceId = getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
+                if (resourceId > 0) {
+                    status_height = getApplicationContext().getResources().getDimensionPixelSize(resourceId);
+                }
                 banner.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                height = banner.getHeight() - Linear_title.getHeight();
+                height = banner.getHeight()-50;
             }
         });
-
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        linearLayoutManager.setSmoothScrollbarEnabled(true);
+        linearLayoutManager.setAutoMeasureEnabled(true);
+        recycler.setLayoutManager(linearLayoutManager);
+//        recycler.setHasFixedSize(true);
+        recycler.setNestedScrollingEnabled(false);
     }
 
     @Override
     protected void initData() {
         lists = new ArrayList<>();
+        imglist=new ArrayList<>();
         file_maps = new HashMap<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
@@ -177,8 +185,47 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
         presenter.initViewAndData();
         presenter.getNetSuggest(netid);
 
-    }
+         adapter=new NetSuggestAdapter(this,imglist);
+        HeaderViewAdapter headerViewAdapter = new HeaderViewAdapter(adapter);
+        headerViewAdapter.addHeaderView(headview);
+        recycler.setAdapter(headerViewAdapter);
+        recycler.addOnScrollListener(new OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int x, int y1) {
+                super.onScrolled(recyclerView, x, y1);
+                int[] position = new int[2];
+                banner.getLocationOnScreen(position);
+                int positiony=(position[1]-status_height)*(-1);
+                if(position[1]<0){
+                    if(positiony<=0){
+                        Linear_title.setBackgroundColor(Color.argb((int) 0, 255, 255, 255));
+                        netsuggest_title.setTextColor(Color.argb((int) 0, 69, 69, 69));
+                        netsuggest_title.setAlpha(0);
+                    }else if(positiony>0 && positiony<=height){
+                        float scale = (float) positiony / height;
+                        float alpha = (255 * scale);
+                        Linear_title.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
+                        netsuggest_title.setTextColor(Color.argb((int) alpha, 69, 69, 69));
+                        netsuggest_title.setAlpha(alpha);
+                    }else{
+                        Linear_title.setBackgroundColor(Color.argb((int) 255, 255, 255, 255));
+                        netsuggest_title.setTextColor(Color.argb((int) 255, 69, 69, 69));
+                        netsuggest_title.setAlpha(1);
+                    }
+                }else if(position[1]>0){
+                    Linear_title.setBackgroundColor(Color.argb((int) 0, 255, 255, 255));
+                    netsuggest_title.setTextColor(Color.argb((int) 0, 69, 69, 69));
+                    netsuggest_title.setAlpha(0);
+                }
 
+            }
+        });
+
+    }
     @Override
     protected BasePresenter getPresenter() {
         return null;
@@ -243,32 +290,10 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
 //                    file_maps.put(i,  netSuggest.getTitleImageUrl().get(i));
 //                }
 //            }
-
             if (netSuggest.getNetSuggestUrl() != null && netSuggest.getNetSuggestUrl().size() != 0) {
-                netSuggestLinear.removeAllViews();
-                for (int i = 0; i < netSuggest.getNetSuggestUrl().size(); i++) {
-                    ImageView imageView = new ImageView(this);
-                    imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                    imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//                    Glide.with(this).load(netSuggest.getNetSuggestUrl().get(i)).into(imageView);
-
-                    Glide.with(this).load(netSuggest.getNetSuggestUrl().get(i)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                        @Override
-
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            int imageWidth = resource.getWidth();
-                            int imageHeight = resource.getHeight();
-                            int height = width * imageHeight / imageWidth;
-                            ViewGroup.LayoutParams para = imageView.getLayoutParams();
-
-                            para.height = height;
-
-                            para.width = width;
-                            imageView.setImageBitmap(resource);
-                        }
-                    });
-                    netSuggestLinear.addView(imageView);
-                }
+                imglist.clear();
+                imglist.addAll(netSuggest.getNetSuggestUrl());
+                adapter.notifyDataSetChanged();
             }
             isBuy = netSuggest.getIsBuy();
             if (isBuy == 0) {
@@ -356,41 +381,6 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
         }
     }
 
-    private void createAlertDialog(Activity activity) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity, R.style.myDialog);
-        View view = View.inflate(this, R.layout.activity_net_popupwindow, null);
-        TextView netMaterial = view.findViewById(R.id.net_pop_material);
-        TextView goBuy = view.findViewById(R.id.gotobuy);
-        if (netSuggest.getMaterialPrice() != null) {
-            netMaterial.setText("配套教材  ￥" + netSuggest.getMaterialPrice());
-        }
-
-        goBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                presenter.buynum(netid, 1);//type:1:netsuggest页面请求 2:confirmorder请求
-//                Intent intent = new Intent(activity, ConfirmOrderActivity.class);
-//                intent.putExtra("netid", netid);
-//                intent.putExtra("type", type);
-//                startActivity(intent);
-            }
-        });
-
-        AlertDialog dialog = alertDialog.create();
-        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
-        layoutParams.gravity = Gravity.BOTTOM;
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dialog.getWindow().setContentView(view);
-        dialog.getWindow().setAttributes(layoutParams);
-        dialog.show();
-//        GridLayoutManager manager = new GridLayoutManager(this, 4);
-//        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//        net_gift.setLayoutManager(manager);
-//        net_gift.setAdapter(adapter);
-
-    }
 
     @Override
     public void showInfo(String info) {
@@ -408,26 +398,6 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
-        }
-    }
-
-    //滑动监听 控制状态栏变化
-    @Override
-    public void onScrollChanged(GradientScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if (y <= 0) {
-            Linear_title.setBackgroundColor(Color.argb((int) 0, 255, 255, 255));
-            netsuggest_title.setTextColor(Color.argb((int) 0, 69, 69, 69));
-            netsuggest_title.setAlpha(0);
-        } else if (y > 0 && y <= height) {
-            float scale = (float) y / height;
-            float alpha = (255 * scale);
-            Linear_title.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
-            netsuggest_title.setTextColor(Color.argb((int) alpha, 69, 69, 69));
-            netsuggest_title.setAlpha(alpha);
-        } else {
-            Linear_title.setBackgroundColor(Color.argb((int) 255, 255, 255, 255));
-            netsuggest_title.setTextColor(Color.argb((int) 255, 69, 69, 69));
-            netsuggest_title.setAlpha(1);
         }
     }
 
@@ -482,4 +452,6 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
     public HashMap<Integer, String> getFile_maps() {
         return file_maps;
     }
+
+
 }
