@@ -51,8 +51,10 @@
 
         <RelativeLayout
             android:id="@+id/add_organ_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="38dp"
+            android:layout_marginEnd="38dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/addsutdent_card"
             android:padding="16dp"
@@ -72,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_toEndOf="@+id/add_organ_image"
-                android:text="添加机构学员"
+                android:text="绑定线下机构学员"
                 android:textColor="#7D675B"
                 android:textSize="18sp" />
 
@@ -82,16 +84,18 @@
                 android:layout_alignStart="@+id/add_organ_title"
                 android:layout_below="@+id/add_organ_title"
                 android:layout_marginTop="6dp"
-                android:text="什么是添加机构学员的介绍"
+                android:text="添加已经在线下学习安妮花课程的学员，选择此项绑定学员号"
                 android:textColor="@color/text_color"
                 android:textSize="14sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/add_unorgan_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginEnd="38dp"
             android:background="@drawable/addsutdent_card"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -109,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_toEndOf="@+id/add_unorgan_image"
-                android:text="添加非机构学员"
+                android:text="添加新学员"
                 android:textColor="#7D675B"
                 android:textSize="18sp" />
 
@@ -119,7 +123,7 @@
                 android:layout_alignStart="@+id/add_unorgan_title"
                 android:layout_below="@+id/add_unorgan_title"
                 android:layout_marginTop="6dp"
-                android:text="什么是添加非机构学员的介绍"
+                android:text="未在安妮花线下机构学习，选择此项添加新学员"
                 android:textColor="@color/text_color"
                 android:textSize="14sp" />
         </RelativeLayout>

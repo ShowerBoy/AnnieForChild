@@ -56,6 +56,7 @@ import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
@@ -282,7 +283,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
             musicBtn.stop();
         }
     }
-
 
     @Override
     protected int getLayoutId() {

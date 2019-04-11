@@ -29,6 +29,7 @@ import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -69,11 +70,13 @@ import com.tencent.smtt.sdk.TbsVideo;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -95,8 +98,8 @@ import java.util.regex.PatternSyntaxException;
  */
 
 public class SystemUtils {
-    //    public static String mainUrl = "https://appapi.anniekids.net/api/"; //获取接口对象地址（正式）
-    public static String mainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（测试）
+    public static String mainUrl = "https://testappapi.anniekids.com/api/"; //获取接口对象地址（测试）
+//    public static String mainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（正式）
 
     public static final String APP_ID = "wxcce6f37c8f2e3dc7"; //微信支付
     public static String recordPath = "/record/"; //录制音频地址
@@ -1030,6 +1033,35 @@ public class SystemUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         String result = format.format(today);
         return result;
+    }
+
+    /**
+     * 获取进程号对应的进程名
+     *
+     * @param pid 进程号
+     * @return 进程名
+     */
+    public static String getProcessName(int pid) {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
+            String processName = reader.readLine();
+            if (!TextUtils.isEmpty(processName)) {
+                processName = processName.trim();
+            }
+            return processName;
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return null;
     }
 
 

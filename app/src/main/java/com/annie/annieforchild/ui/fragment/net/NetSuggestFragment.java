@@ -58,14 +58,13 @@ public class NetSuggestFragment extends BaseFragment implements OnCheckDoubleCli
 
     @Override
     protected void initView(View view) {
-
         recycler = view.findViewById(R.id.net_suggest_recycler);
         recycler_bottom = view.findViewById(R.id.net_suggest_recycler_bottom);
         empty = view.findViewById(R.id.net_suggest_empty);
         listener = new CheckDoubleClickListener(this);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recycler.setLayoutManager(manager);
+//        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+//        manager.setOrientation(LinearLayoutManager.VERTICAL);
+//        recycler.setLayoutManager(manager);
 //        recycler.setNestedScrollingEnabled(false);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -75,8 +74,6 @@ public class NetSuggestFragment extends BaseFragment implements OnCheckDoubleCli
         recycler.setLayoutManager(linearLayoutManager);
         recycler.setHasFixedSize(true);
         recycler.setNestedScrollingEnabled(false);
-
-
 
     }
 

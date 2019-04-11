@@ -197,7 +197,7 @@ public class RankingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void fresh() {
-        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).into(headpic);
+        Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).error(R.drawable.icon_system_photo).into(headpic);
         name.setText(application.getSystemUtils().getUserInfo().getName());
         if (squareRankList.getMyRankInfo().getRow_number() != 0) {
             rank.setText("第" + squareRankList.getMyRankInfo().getRow_number() + "名");

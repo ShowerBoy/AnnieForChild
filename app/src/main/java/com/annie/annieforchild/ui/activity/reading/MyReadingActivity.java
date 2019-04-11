@@ -113,16 +113,16 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
             case R.id.my_reading_back:
                 finish();
                 break;
-            case R.id.my_reading_help:
-                Intent intent = new Intent(this, MyLevelActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("tag", "reading");
-                bundle.putString("level", bean.getLevel());
-                bundle.putString("sublevel", bean.getSubLevel());
-                bundle.putString("totalduration", bean.getHistoryTotalDuration());
-                intent.putExtras(bundle);
-                startActivity(intent);
-                break;
+//            case R.id.my_reading_help:
+//                Intent intent = new Intent(this, MyLevelActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("tag", "reading");
+//                bundle.putString("level", bean.getLevel());
+//                bundle.putString("sublevel", bean.getSubLevel());
+//                bundle.putString("totalduration", bean.getHistoryTotalDuration());
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//                break;
             case R.id.my_reading_music:
                 Intent intent1 = new Intent(this, MusicPlayActivity.class);
                 startActivity(intent1);

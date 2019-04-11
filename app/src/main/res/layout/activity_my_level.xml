@@ -89,161 +89,161 @@
             android:max="100"
             android:progressDrawable="@drawable/progress_bar_hor" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="26dp"
-            android:padding="6dp">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_marginTop="26dp"-->
+            <!--android:padding="6dp">-->
 
-            <ImageView
-                android:id="@+id/level_1_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv1_1_f" />
+            <!--<ImageView-->
+                <!--android:id="@+id/level_1_1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv1_1_f" />-->
 
-            <ImageView
-                android:id="@+id/level_1_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv1_2_f" />
+            <!--<ImageView-->
+                <!--android:id="@+id/level_1_2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv1_2_f" />-->
 
-            <ImageView
-                android:id="@+id/level_1_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv1_3_f" />
+            <!--<ImageView-->
+                <!--android:id="@+id/level_1_3"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv1_3_f" />-->
 
-            <ImageView
-                android:id="@+id/level_1_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv1_4_f" />
-        </LinearLayout>
+            <!--<ImageView-->
+                <!--android:id="@+id/level_1_4"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv1_4_f" />-->
+        <!--</LinearLayout>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="6dp">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:padding="6dp">-->
 
-            <ImageView
-                android:id="@+id/level_2_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv2_1_f" />
+            <!--<ImageView-->
+                <!--android:id="@+id/level_2_1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv2_1_f" />-->
 
-            <ImageView
-                android:id="@+id/level_2_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv2_2_f" />
+            <!--<ImageView-->
+                <!--android:id="@+id/level_2_2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv2_2_f" />-->
 
-            <ImageView
-                android:id="@+id/level_2_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv2_3_f" />
+            <!--<ImageView-->
+                <!--android:id="@+id/level_2_3"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv2_3_f" />-->
 
-            <ImageView
-                android:id="@+id/level_2_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv2_4_f" />
-        </LinearLayout>
+            <!--<ImageView-->
+                <!--android:id="@+id/level_2_4"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv2_4_f" />-->
+        <!--</LinearLayout>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="6dp">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:padding="6dp">-->
 
-            <ImageView
-                android:id="@+id/level_3_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv3_1_f" />
+            <!--<ImageView-->
+                <!--android:id="@+id/level_3_1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv3_1_f" />-->
 
-            <ImageView
-                android:id="@+id/level_3_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv3_2_f" />
+            <!--<ImageView-->
+                <!--android:id="@+id/level_3_2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv3_2_f" />-->
 
-            <ImageView
-                android:id="@+id/level_3_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv3_3_f" />
+            <!--<ImageView-->
+                <!--android:id="@+id/level_3_3"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv3_3_f" />-->
 
-            <ImageView
-                android:id="@+id/level_3_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv3_4_f" />
-        </LinearLayout>
+            <!--<ImageView-->
+                <!--android:id="@+id/level_3_4"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv3_4_f" />-->
+        <!--</LinearLayout>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="6dp">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:padding="6dp">-->
 
-            <ImageView
-                android:id="@+id/level_4_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv4_1_f" />
+            <!--<ImageView-->
+                <!--android:id="@+id/level_4_1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv4_1_f" />-->
 
-            <ImageView
-                android:id="@+id/level_4_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv4_2_f" />
+            <!--<ImageView-->
+                <!--android:id="@+id/level_4_2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv4_2_f" />-->
 
-            <ImageView
-                android:id="@+id/level_4_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv4_3_f" />
+            <!--<ImageView-->
+                <!--android:id="@+id/level_4_3"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv4_3_f" />-->
 
-            <ImageView
-                android:id="@+id/level_4_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_grindear_lv4_4_f" />
-        </LinearLayout>
+            <!--<ImageView-->
+                <!--android:id="@+id/level_4_4"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@drawable/icon_grindear_lv4_4_f" />-->
+        <!--</LinearLayout>-->
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

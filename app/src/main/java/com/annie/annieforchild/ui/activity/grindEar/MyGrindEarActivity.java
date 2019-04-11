@@ -111,16 +111,16 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
             case R.id.my_grind_ear_back:
                 finish();
                 break;
-            case R.id.my_grind_ear_help:
-                Intent intent = new Intent(this, MyLevelActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("tag", "grindear");
-                bundle.putString("level", bean.getLevel());
-                bundle.putString("sublevel", bean.getSubLevel());
-                bundle.putString("totalduration", bean.getHistoryTotalDuration());
-                intent.putExtras(bundle);
-                startActivity(intent);
-                break;
+//            case R.id.my_grind_ear_help:
+//                Intent intent = new Intent(this, MyLevelActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("tag", "grindear");
+//                bundle.putString("level", bean.getLevel());
+//                bundle.putString("sublevel", bean.getSubLevel());
+//                bundle.putString("totalduration", bean.getHistoryTotalDuration());
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//                break;
 //            case R.id.input:
 //                //录入
 //                Intent intent1 = new Intent(this, InputActivity.class);

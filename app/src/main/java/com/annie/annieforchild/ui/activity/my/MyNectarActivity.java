@@ -54,9 +54,6 @@ public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnC
     private CircleImageView myNectarHeadpic;
     private XRecyclerView recycler;
     private TextView exchange, myNectarName, myNectarNum;
-    private PopupWindow popupWindow;
-    private View popupView;
-    private int popupWidth, popupHeight;
     private MyNectarAdapter adapter;
     private List<NectarBean> lists;
     private NectarPresenter presenter;
@@ -90,17 +87,6 @@ public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnC
             Bundle bundle = getIntent().getExtras();
             userInfo = (UserInfo) bundle.getSerializable("userinfo");
         }
-        popupWidth = Math.min(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 3 / 4;
-        popupHeight = Math.max(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 3 / 5;
-        popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_image, null, false);
-        popupWindow = new PopupWindow(popupView, popupWidth, popupHeight, false);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                getWindowGray(false);
-            }
-        });
     }
 
     private void initRecycler() {
@@ -148,8 +134,8 @@ public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnC
                 break;
             case R.id.my_nectar_help:
                 //帮助
-                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-                getWindowGray(true);
+                Intent intent1 = new Intent(this, NectarRuleActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.exchange:
                 //兑换

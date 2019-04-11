@@ -3,6 +3,7 @@ package com.annie.annieforchild.ui.fragment;
 import android.app.Dialog;
 import android.content.Intent;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -505,7 +506,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 }
                 intent.setClass(getContext(), WebActivity.class);
                 intent.putExtra("title", "反馈");
-                intent.putExtra("url", "http://service.anniekids.net/ProductErrors?FactoryId=3&ProductId=21&name=" + application.getSystemUtils().getDefaultUsername() + "&telphone=" + application.getSystemUtils().getPhone());
+                intent.putExtra("url", "http://service.anniekids.net/ProductErrors?FactoryId=3&ProductId=21&name=" + application.getSystemUtils().getDefaultUsername() + "&telphone=" + application.getSystemUtils().getPhone() + "&system=" + Build.VERSION.RELEASE + "&version=" + SystemUtils.getVersionName(getContext()));
                 startActivity(intent);
                 break;
             case R.id.about_layout:

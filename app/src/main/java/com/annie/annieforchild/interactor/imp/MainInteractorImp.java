@@ -63,7 +63,6 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
         int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
         String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
         String data = jsonObject.getString(MethodCode.DATA);
-        JSONObject dataObj = jsonObject.getJSONObject(MethodCode.DATA);
         if (errorType == 3) {
             listener.Error(what, errorInfo);
         } else {

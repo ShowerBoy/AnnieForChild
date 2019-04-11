@@ -67,6 +67,7 @@ import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
 import com.tencent.smtt.export.external.interfaces.WebResourceError;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
+import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
@@ -390,6 +391,15 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                     return true;
                 }
             });
+            webView.setDownloadListener(new DownloadListener() {
+                @Override
+                public void onDownloadStart(String s, String s1, String s2, String s3, long l) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    intent.setData(Uri.parse(s));
+                    startActivity(intent);
+                }
+            });
 
 
             webView.canGoForward();
@@ -455,7 +465,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                     mUploadMessage.onReceiveValue(imageUri);
                 }
                 mUploadMessage = null;
-
             }
         }
     }
@@ -554,7 +563,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         return null;
     }
 
-
     /**
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
@@ -582,7 +590,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         return null;
     }
 
-
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is ExternalStorageProvider.
@@ -591,7 +598,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
-
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is DownloadsProvider.
@@ -599,7 +605,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
     public static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
-
 
     /**
      * @param uri The Uri to check.

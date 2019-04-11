@@ -359,29 +359,28 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 intent.setClass(this, MyGrindEarActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.i_want_sing:
-                //我要唱歌
-//                intent.setClass(this, SingingActivity.class);
-                if (application.getSystemUtils().getTag().equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (application.getSystemUtils().getChildTag() == 0) {
-                    SystemUtils.toAddChild(this);
-                    return;
-                }
-                if (singClassifyList == null || singClassifyList.size() == 0) {
-                    showInfo("请稍后");
-                    return;
-                }
-                showLoad();
-                intent.setClass(this, ListenSongActivity.class);
-                Bundle bundle1 = new Bundle();
-                bundle1.putInt("type", 5);
-                bundle1.putSerializable("ClassifyList", (Serializable) singClassifyList);
-                intent.putExtras(bundle1);
-                startActivity(intent);
-                break;
+//            case R.id.i_want_sing:
+//                //我要唱歌
+//                if (application.getSystemUtils().getTag().equals("游客")) {
+//                    SystemUtils.toLogin(this);
+//                    return;
+//                }
+//                if (application.getSystemUtils().getChildTag() == 0) {
+//                    SystemUtils.toAddChild(this);
+//                    return;
+//                }
+//                if (singClassifyList == null || singClassifyList.size() == 0) {
+//                    showInfo("请稍后");
+//                    return;
+//                }
+//                showLoad();
+//                intent.setClass(this, ListenSongActivity.class);
+//                Bundle bundle1 = new Bundle();
+//                bundle1.putInt("type", 5);
+//                bundle1.putSerializable("ClassifyList", (Serializable) singClassifyList);
+//                intent.putExtras(bundle1);
+//                startActivity(intent);
+//                break;
             case R.id.grind_ear_back:
                 finish();
                 break;

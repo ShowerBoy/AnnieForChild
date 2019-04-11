@@ -16,6 +16,7 @@ import com.baidu.mobstat.StatService;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.mob.MobSDK;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.smtt.sdk.QbSdk;
@@ -93,6 +94,16 @@ public class MyApplication extends LitePalApplication {
         if (systemUtils == null) {
             systemUtils = new SystemUtils(this);
         }
+
+        Context context = getApplicationContext();
+        // 获取当前包名
+        String packageName = context.getPackageName();
+        // 获取当前进程名
+        String processName = SystemUtils.getProcessName(android.os.Process.myPid());
+        // 设置是否为上报进程
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
+        strategy.setUploadProcess(processName == null || processName.equals(packageName));
+        CrashReport.initCrashReport(getApplicationContext(), "ff549d1848", true, strategy);
 
 
     }
