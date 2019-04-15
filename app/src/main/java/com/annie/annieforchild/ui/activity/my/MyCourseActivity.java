@@ -84,7 +84,6 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
         card = findViewById(R.id.card);
         wx_title = findViewById(R.id.wx_title);
         wx_teacher_nikename = findViewById(R.id.wx_teacher_nikename);
-        wx_teacher_nikename = findViewById(R.id.wx_teacher_nikename);
         wx_tips = findViewById(R.id.wx_tips);
         wx_copy_bt = findViewById(R.id.wx_copy_bt);
         back = findViewById(R.id.my_course_back);
