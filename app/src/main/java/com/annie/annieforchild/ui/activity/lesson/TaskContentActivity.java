@@ -279,11 +279,7 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
                     case 1:
                         return "预习作业";
                     case 2:
-                        if (type == 0) {
-                            return "系列作业";
-                        } else {
-                            return "泛听泛读";
-                        }
+                        return "泛听泛读";
                     case 3:
                         return "其他作业";
                     default:

@@ -140,7 +140,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         layoutParams.height = height;
         homePicture.setLayoutParams(layoutParams);
 
-
         presenter = new MainPresenterImp(getContext(), this, screenwidth);
         presenter2 = new GrindEarPresenterImp(getContext(), this);
         presenter.initViewAndData();

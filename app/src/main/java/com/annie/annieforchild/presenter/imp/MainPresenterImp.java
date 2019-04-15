@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.Banner;
 import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.bean.JTMessage;
@@ -15,6 +16,7 @@ import com.annie.annieforchild.interactor.imp.MainInteractorImp;
 import com.annie.annieforchild.presenter.MainPresenter;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.MainView;
 import com.annie.baselibrary.base.BasePresenterImp;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -44,12 +46,14 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
 //    private List<Course2> myCourse_lists2;
     private List<Banner> bannerList; //banner列表
     private HashMap<Integer, String> file_maps;
+    private MyApplication application;
     private int screenwidth;
 
     public MainPresenterImp(Context context, MainView mainView, int screenwidth) {
         this.context = context;
         this.mainView = mainView;
         this.screenwidth = screenwidth;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     private void initImageSlide() {
@@ -83,6 +87,14 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
 //        Uri uri = Uri.parse(bannerList.get(slider.getBundle().getInt("extra")).getUrl());
 //        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 //        context.startActivity(intent);
+        if (application.getSystemUtils().getTag().equals("游客")) {
+            SystemUtils.toLogin(context);
+            return;
+        }
+        if (application.getSystemUtils().getChildTag() == 0) {
+            SystemUtils.toAddChild(context);
+            return;
+        }
         if (!bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("")) {
             if (bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("1")) {
                 Intent intent = new Intent(context, NetWorkActivity.class);

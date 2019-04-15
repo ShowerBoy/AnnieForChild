@@ -96,7 +96,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                     musicService = null;
                 }
             };
-            startService(intent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(intent);
+            } else {
+                startService(intent);
+            }
             bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
         }
         initData();

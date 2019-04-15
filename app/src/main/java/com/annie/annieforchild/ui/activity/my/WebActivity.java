@@ -301,15 +301,15 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
 
                     //size等于29是先点全屏，再点播放
                     if (list.size() == 26) {
-//                        list.get(12).setVisibility(View.INVISIBLE);
+                        list.get(12).setVisibility(View.INVISIBLE);
 //                        list.get(13).setVisibility(View.INVISIBLE);
                         list.get(14).setVisibility(View.INVISIBLE);
-                        list.get(23).setVisibility(View.INVISIBLE);
+//                        list.get(23).setVisibility(View.INVISIBLE);
                     } else if (list.size() == 29) {
-//                        list.get(15).setVisibility(View.INVISIBLE);
+                        list.get(15).setVisibility(View.INVISIBLE);
 //                        list.get(16).setVisibility(View.INVISIBLE);
                         list.get(17).setVisibility(View.INVISIBLE);
-                        list.get(26).setVisibility(View.INVISIBLE);
+//                        list.get(26).setVisibility(View.INVISIBLE);
                     }
 //                    WebActivity.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 //                    titleLayout.setVisibility(View.GONE);

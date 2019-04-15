@@ -114,7 +114,6 @@ public class NetExpFirstVideoActivity extends BaseActivity implements ViewInfo, 
         }
     }
 
-
     @Override
     public void showInfo(String info) {
         Toast.makeText(this, info, Toast.LENGTH_SHORT).show();

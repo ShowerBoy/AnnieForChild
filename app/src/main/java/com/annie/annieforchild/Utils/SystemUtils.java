@@ -98,8 +98,8 @@ import java.util.regex.PatternSyntaxException;
  */
 
 public class SystemUtils {
-    public static String mainUrl = "https://testappapi.anniekids.com/api/"; //获取接口对象地址（测试）
-//    public static String mainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（正式）
+    //    public static String mainUrl = "https://testappapi.anniekids.com/api/"; //获取接口对象地址（测试）
+    public static String mainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（正式）
 
     public static final String APP_ID = "wxcce6f37c8f2e3dc7"; //微信支付
     public static String recordPath = "/record/"; //录制音频地址

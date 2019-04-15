@@ -25,15 +25,18 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.MyNetClass;
+import com.annie.annieforchild.bean.net.MyNetTop;
 import com.annie.annieforchild.bean.net.NetClass;
 import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
+import com.annie.annieforchild.ui.activity.net.LessonActivity;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetailActivity;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity;
 import com.annie.annieforchild.ui.activity.net.NetSpecialDetailActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.ui.adapter.MyCourseAdapter;
+import com.annie.annieforchild.ui.adapter.MyCourseTopAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
@@ -53,16 +56,18 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     private ImageView back;
     private TextView gotoNet;
     private LinearLayout empty;
-    private RecyclerView recycler;
+    private RecyclerView recycler, topRecycler;
     private MyCourseAdapter adapter;
+    private MyCourseTopAdapter topAdapter;
     private CheckDoubleClickListener listener;
     private NetWorkPresenter presenter;
     private List<NetClass> lists;
+    private List<MyNetTop> topLists;
     private AlertHelper helper;
     private Dialog dialog;
     private ConstraintLayout card;
     private MyNetClass myNetClass;
-    private TextView wx_title,wx_teacher_nikename,wx_teacher_wx,wx_tips;
+    private TextView wx_title, wx_teacher_nikename, wx_teacher_wx, wx_tips;
     private Button wx_copy_bt;
 
     {
@@ -77,15 +82,16 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     @Override
     protected void initView() {
         card = findViewById(R.id.card);
-        wx_title=findViewById(R.id.wx_title);
-        wx_teacher_nikename=findViewById(R.id.wx_teacher_nikename);
-        wx_teacher_nikename=findViewById(R.id.wx_teacher_nikename);
-        wx_tips=findViewById(R.id.wx_tips);
-        wx_copy_bt=findViewById(R.id.wx_copy_bt);
+        wx_title = findViewById(R.id.wx_title);
+        wx_teacher_nikename = findViewById(R.id.wx_teacher_nikename);
+        wx_teacher_nikename = findViewById(R.id.wx_teacher_nikename);
+        wx_tips = findViewById(R.id.wx_tips);
+        wx_copy_bt = findViewById(R.id.wx_copy_bt);
         back = findViewById(R.id.my_course_back);
         recycler = findViewById(R.id.my_course_recycler);
         empty = findViewById(R.id.empty_layout);
         gotoNet = findViewById(R.id.goto_net);
+        topRecycler = findViewById(R.id.my_course_top_recycler);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
         gotoNet.setOnClickListener(listener);
@@ -93,7 +99,10 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         manager.setScrollEnabled(false);
         recycler.setLayoutManager(manager);
-
+        RecyclerLinearLayoutManager manager2 = new RecyclerLinearLayoutManager(this);
+        manager2.setOrientation(LinearLayoutManager.VERTICAL);
+        manager2.setScrollEnabled(false);
+        topRecycler.setLayoutManager(manager2);
         wx_teacher_wx = findViewById(R.id.wx_teacher_wx);
         wx_copy_bt.setOnClickListener(listener);
     }
@@ -101,6 +110,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
     @Override
     protected void initData() {
         lists = new ArrayList<>();
+        topLists = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         adapter = new MyCourseAdapter(this, lists, new OnRecyclerItemClickListener() {
@@ -135,6 +145,24 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
             }
         });
         recycler.setAdapter(adapter);
+        topAdapter = new MyCourseTopAdapter(this, topLists, new OnRecyclerItemClickListener() {
+
+            @Override
+            public void onItemClick(View view) {
+                int position = topRecycler.getChildAdapterPosition(view);
+                Intent intent = new Intent(MyCourseActivity.this, LessonActivity.class);
+                intent.putExtra("lessonId", topLists.get(position).getFid());
+                intent.putExtra("lessonName", topLists.get(position).getCoursename());
+                intent.putExtra("type", 4);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View view) {
+
+            }
+        });
+        topRecycler.setAdapter(topAdapter);
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
         presenter.getMyNetClass();
@@ -189,9 +217,10 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
 ////                wxcard_layout.setVisibility(View.GONE);
 //            }
 //            network_teacher_wx.setText(myNetClass.getTeacher() + "（长按复制）");
-             myNetClass = (MyNetClass) message.obj;
+            myNetClass = (MyNetClass) message.obj;
             if (myNetClass != null) {
                 lists.clear();
+                topLists.clear();
                 if (myNetClass.getMyList() != null) {
                     lists.addAll(myNetClass.getMyList());
                 }
@@ -202,20 +231,30 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
                     empty.setVisibility(View.GONE);
                     setTeacherWX();
                 }
+                if (myNetClass.getIsshowGift() == 0) {
+                    topRecycler.setVisibility(View.GONE);
+                } else {
+                    topRecycler.setVisibility(View.VISIBLE);
+                    if (myNetClass.getNetclassGift() != null) {
+                        topLists.addAll(myNetClass.getNetclassGift());
+                    }
+                }
                 adapter.notifyDataSetChanged();
+                topAdapter.notifyDataSetChanged();
             }
 
         }
     }
-    void setTeacherWX(){
-        if(myNetClass.getTeacher()==null || myNetClass.getTeacher().length()<=0){
+
+    void setTeacherWX() {
+        if (myNetClass.getTeacher() == null || myNetClass.getTeacher().length() <= 0) {
             card.setVisibility(View.GONE);
-        }else {
+        } else {
             card.setVisibility(View.VISIBLE);
         }
         wx_teacher_wx.setText(myNetClass.getTeacher());
         wx_title.setText(myNetClass.getTitle());
-        wx_teacher_nikename.setText(myNetClass.getNikename()+":");
+        wx_teacher_nikename.setText(myNetClass.getNikename() + ":");
         wx_tips.setText(myNetClass.getTips());
     }
 

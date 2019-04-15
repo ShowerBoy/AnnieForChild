@@ -12,6 +12,26 @@ public class MyNetClass implements Serializable {
     private String nikename;
     private String title;
     private String tips;
+    private List<NetClass> recommendList;
+    private List<NetClass> myList;
+    private List<MyNetTop> netclassGift;
+    private int isshowGift;
+
+    public int getIsshowGift() {
+        return isshowGift;
+    }
+
+    public void setIsshowGift(int isshowGift) {
+        this.isshowGift = isshowGift;
+    }
+
+    public List<MyNetTop> getNetclassGift() {
+        return netclassGift;
+    }
+
+    public void setNetclassGift(List<MyNetTop> netclassGift) {
+        this.netclassGift = netclassGift;
+    }
 
     public String getNikename() {
         return nikename;
@@ -37,8 +57,6 @@ public class MyNetClass implements Serializable {
         this.tips = tips;
     }
 
-    private List<NetClass> recommendList;
-    private List<NetClass> myList;
 
     public String getTeacher() {
         return teacher;
@@ -48,16 +66,18 @@ public class MyNetClass implements Serializable {
         this.teacher = teacher;
     }
 
-
     public void setRecommendList(List<NetClass> recommendList) {
         this.recommendList = recommendList;
     }
+
     public List<NetClass> getRecommendList() {
         return recommendList;
     }
+
     public void setMyList(List<NetClass> myList) {
         this.myList = myList;
     }
+
     public List<NetClass> getMyList() {
         return myList;
     }

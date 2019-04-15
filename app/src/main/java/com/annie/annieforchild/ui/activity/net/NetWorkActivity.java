@@ -73,7 +73,6 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
     private LinearLayout net_suggest_bt_layout;
     private Button to_NetExperience, to_NetTest;
 
-
     {
         setRegister(true);
     }

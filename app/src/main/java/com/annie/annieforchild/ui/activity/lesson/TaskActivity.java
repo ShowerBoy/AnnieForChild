@@ -161,12 +161,12 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
             public void onItemClick(View view) {
                 int position = recycler.getChildAdapterPosition(view);
                 Intent intent = new Intent(TaskActivity.this, TaskContentActivity.class);
-                intent.putExtra("classid", lists.get(position-1).getClassid());
-                intent.putExtra("type", lists.get(position-1).getType());
-                if (lists.get(position-1).getType() == 0) {
-                    intent.putExtra("taskTime", lists.get(position-1).getTasktime());
+                intent.putExtra("classid", lists.get(position - 1).getClassid());
+                intent.putExtra("type", lists.get(position - 1).getType());
+                if (lists.get(position - 1).getType() == 0) {
+                    intent.putExtra("taskTime", lists.get(position - 1).getTasktime());
                 } else {
-                    intent.putExtra("week", lists.get(position-1).getWeek());
+                    intent.putExtra("week", lists.get(position - 1).getWeek());
                 }
                 intent.putExtra("tabPosition", -1);
                 startActivity(intent);

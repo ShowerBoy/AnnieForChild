@@ -32,7 +32,7 @@
             android:layout_toEndOf="@+id/lesson_circle"
             android:text="Greeting"
             android:textColor="#666666"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 </RelativeLayout>
