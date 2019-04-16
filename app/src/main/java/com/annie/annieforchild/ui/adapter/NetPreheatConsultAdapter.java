@@ -89,19 +89,20 @@ public class NetPreheatConsultAdapter extends RecyclerView.Adapter<NetPreheatCon
         holder.welcomeVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(context, VideoActivity.class);
+                Intent intent = new Intent(context, VideoActivity.class);
                 if (i < list1.size()) {
-//                    intent.putExtra("url", list1.get(i).getPath());
-//                    intent.putExtra("imageUrl", list1.get(i).getPicurl());
-//                    intent.putExtra("name", list1.get(i).getTitle());
-                    SystemUtils.startVideo(context, list1.get(i).getPath());
+                    intent.putExtra("url", list1.get(i).getPath());
+                    intent.putExtra("imageUrl", list1.get(i).getPicurl());
+                    intent.putExtra("name", list1.get(i).getTitle());
+//                    SystemUtils.startVideo(context, list1.get(i).getPath());
                 } else {
-//                    intent.putExtra("url", list2.get(i - list1.size()).getPath());
-//                    intent.putExtra("imageUrl", list2.get(i - list1.size()).getPicurl());
-//                    intent.putExtra("name", list2.get(i - list1.size()).getTitle());
-                    SystemUtils.startVideo(context, list2.get(i - list1.size()).getPath());
+                    intent.putExtra("url", list2.get(i - list1.size()).getPath());
+                    intent.putExtra("imageUrl", list2.get(i - list1.size()).getPicurl());
+                    intent.putExtra("name", list2.get(i - list1.size()).getTitle());
+//                    SystemUtils.startVideo(context, list2.get(i - list1.size()).getPath());
                 }
-//                context.startActivity(intent);
+                intent.putExtra("isTime", false);
+                context.startActivity(intent);
             }
         });
     }

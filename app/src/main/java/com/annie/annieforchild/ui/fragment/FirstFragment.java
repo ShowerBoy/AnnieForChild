@@ -60,7 +60,6 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
-import org.litepal.crud.DataSupport;
 
 import java.io.Serializable;
 import java.util.ArrayList;

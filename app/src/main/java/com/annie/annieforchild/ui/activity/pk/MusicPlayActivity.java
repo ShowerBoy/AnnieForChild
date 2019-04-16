@@ -66,7 +66,6 @@ import com.bumptech.glide.Glide;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.Collection;

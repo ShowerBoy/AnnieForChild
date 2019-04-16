@@ -128,7 +128,7 @@
             android:exported="false"
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape">
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="com.tencent.smtt.tbs.video.PLAY" />
@@ -147,14 +147,13 @@
             android:name=".ui.activity.login.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
-        <!--<activity-->
-        <!--android:name=".ui.activity.VideoActivity_new"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:alwaysRetainTaskState="true"-->
-        <!--android:hardwareAccelerated="true"-->
-        <!--android:configChanges="orientation|screenSize|keyboardHidden"-->
-        <!--android:windowSoftInputMode="stateHidden|adjustResize"-->
-        <!--&gt;</activity>-->
+        <activity
+            android:name=".ui.activity.VideoActivity_new"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
         <activity
             android:name=".ui.activity.GuideActivity"
             android:screenOrientation="portrait"
@@ -366,7 +365,7 @@
         <activity
             android:name=".ui.activity.VideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.LeadActivity"
             android:screenOrientation="portrait"></activity>

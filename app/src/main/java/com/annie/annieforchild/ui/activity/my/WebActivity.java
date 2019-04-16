@@ -110,8 +110,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
     private IX5WebChromeClient.CustomViewCallback callback;
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
-    View myVideoView;
-    View myNormalView;
     private final static int FILECHOOSER_RESULTCODE = 1;
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/" + SystemClock.currentThreadTimeMillis() + ".jpg");
     private Uri imageUri;
@@ -275,6 +273,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                         intent.putExtra("lessonTag", 1);
                         startActivity(intent);
                         finish();
+                    } else if (getValueByName(url, "into").equals("5")) {
+                        //录音
+                        SystemUtils.show(WebActivity.this, "录音开始");
                     }
                     return true;
                 }
@@ -683,10 +684,12 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         if (tag) {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.alpha = 0.7f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         } else {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.alpha = 1f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         }
     }

@@ -3,10 +3,8 @@ package com.annie.annieforchild.bean.song;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.annie.annieforchild.bean.book.Release;
 import com.annie.annieforchild.bean.book.ReleaseBean;
 
-import org.litepal.crud.DataSupport;
 
 import java.io.Serializable;
 import java.util.List;

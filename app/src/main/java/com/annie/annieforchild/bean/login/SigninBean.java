@@ -1,6 +1,5 @@
 package com.annie.annieforchild.bean.login;
 
-import org.litepal.crud.DataSupport;
 import org.litepal.crud.LitePalSupport;
 
 /**

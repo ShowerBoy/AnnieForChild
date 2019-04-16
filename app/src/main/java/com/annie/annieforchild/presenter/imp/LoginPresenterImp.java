@@ -36,7 +36,6 @@ import com.yanzhenjie.nohttp.download.DownloadRequest;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
-import org.litepal.crud.DataSupport;
 
 import java.io.File;
 import java.util.ArrayList;

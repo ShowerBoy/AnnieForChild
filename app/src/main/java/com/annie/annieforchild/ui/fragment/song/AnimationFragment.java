@@ -19,6 +19,7 @@ import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.VideoActivity;
+import com.annie.annieforchild.ui.activity.VideoActivity_new;
 import com.annie.annieforchild.ui.adapter.AnimationAdapter;
 import com.annie.annieforchild.ui.adapter.SongAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
@@ -86,13 +87,14 @@ public class AnimationFragment extends BaseFragment implements SongView {
             public void onItemClick(View view) {
                 int position = animationRecycler.getChildAdapterPosition(view);
                 if (lists.get(position - 1).getJurisdiction() == 1) {
-                    SystemUtils.startVideo(getContext(), lists.get(position - 1).getAnimationUrl());
-//                    Intent intent = new Intent(getContext(), VideoActivity.class);
-//                    intent.putExtra("url", lists.get(position - 1).getAnimationUrl());
-//                    intent.putExtra("imageUrl", lists.get(position - 1).getAnimationImageUrl());
-//                    intent.putExtra("name", lists.get(position - 1).getAnimationName());
-//                    intent.putExtra("id", lists.get(position - 1).getAnimationId());
-//                    startActivity(intent);
+//                    SystemUtils.startVideo(getContext(), lists.get(position - 1).getAnimationUrl());
+                    Intent intent = new Intent(getContext(), VideoActivity.class);
+                    intent.putExtra("url", lists.get(position - 1).getAnimationUrl());
+                    intent.putExtra("imageUrl", lists.get(position - 1).getAnimationImageUrl());
+                    intent.putExtra("name", lists.get(position - 1).getAnimationName());
+                    intent.putExtra("id", lists.get(position - 1).getAnimationId());
+                    intent.putExtra("isTime", true);
+                    startActivity(intent);
                 }
             }
 

@@ -10,7 +10,6 @@ import android.os.Parcelable;
 import android.os.SystemClock;
 import android.support.v4.os.ParcelableCompat;
 import android.support.v4.os.ParcelableCompatCreatorCallbacks;
-import android.support.v4.view.KeyEventCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.VelocityTrackerCompat;
@@ -41,7 +40,7 @@ import java.util.Comparator;
  * Created by wanglei on 2018/10/12.
  */
 
-public class LazyViewPager extends ViewGroup{
+public class LazyViewPager extends ViewGroup {
     private static final String TAG = "LazyViewPager";
     private static final boolean DEBUG = false;
     private boolean mNoFocus = false; //if true, keep View don't move
@@ -164,15 +163,12 @@ public class LazyViewPager extends ViewGroup{
          * as part of a programmatically initiated smooth scroll or a user
          * initiated touch scroll.
          *
-         * @param position
-         *            Position index of the first page currently being
-         *            displayed. Page position+1 will be visible if
-         *            positionOffset is nonzero.
-         * @param positionOffset
-         *            Value from [0, 1) indicating the offset from the page at
-         *            position.
-         * @param positionOffsetPixels
-         *            Value in pixels indicating the offset from position.
+         * @param position             Position index of the first page currently being
+         *                             displayed. Page position+1 will be visible if
+         *                             positionOffset is nonzero.
+         * @param positionOffset       Value from [0, 1) indicating the offset from the page at
+         *                             position.
+         * @param positionOffsetPixels Value in pixels indicating the offset from position.
          */
         public void onPageScrolled(int position, float positionOffset,
                                    int positionOffsetPixels);
@@ -181,8 +177,7 @@ public class LazyViewPager extends ViewGroup{
          * This method will be invoked when a new page becomes selected.
          * Animation is not necessarily complete.
          *
-         * @param position
-         *            Position index of the new selected page.
+         * @param position Position index of the new selected page.
          */
         public void onPageSelected(int position);
 
@@ -191,8 +186,7 @@ public class LazyViewPager extends ViewGroup{
          * user begins dragging, when the pager is automatically settling to the
          * current page, or when it is fully stopped/idle.
          *
-         * @param state
-         *            The new scroll state.
+         * @param state The new scroll state.
          * @see android.support.v4.view.ViewPager#SCROLL_STATE_IDLE
          * @see android.support.v4.view.ViewPager#SCROLL_STATE_DRAGGING
          * @see android.support.v4.view.ViewPager#SCROLL_STATE_SETTLING
@@ -202,10 +196,6 @@ public class LazyViewPager extends ViewGroup{
 
     /**
      * Simple implementation of the
-     * {@link com.bxg.news.view.LazyViewPager.OnPageChangeListener}
-     * interface with stub implementations of each method. Extend this if you do
-     * not intend to override every method of
-     * {@link com.bxg.news.view.LazyViewPager.OnPageChangeListener}.
      */
     public static class SimpleOnPageChangeListener implements
             OnPageChangeListener {
@@ -311,8 +301,7 @@ public class LazyViewPager extends ViewGroup{
      * through its first layout there will be a smooth animated transition
      * between the current item and the specified item.
      *
-     * @param item
-     *            Item index to select
+     * @param item Item index to select
      */
     public void setCurrentItem(int item) {
         mPopulatePending = false;
@@ -322,11 +311,9 @@ public class LazyViewPager extends ViewGroup{
     /**
      * Set the currently selected page.
      *
-     * @param item
-     *            Item index to select
-     * @param smoothScroll
-     *            True to smoothly scroll to the new item, false to transition
-     *            immediately
+     * @param item         Item index to select
+     * @param smoothScroll True to smoothly scroll to the new item, false to transition
+     *                     immediately
      */
     public void setCurrentItem(int item, boolean smoothScroll) {
         mPopulatePending = false;
@@ -403,7 +390,7 @@ public class LazyViewPager extends ViewGroup{
      * Set the number of pages that should be retained to either side of the
      * current page in the view hierarchy in an idle state. Pages beyond this
      * limit will be recreated from the adapter when needed.
-     *
+     * <p>
      * <p>
      * This is offered as an optimization. If you know in advance the number of
      * pages you will need to support or have lazy-loading mechanisms in place
@@ -413,14 +400,13 @@ public class LazyViewPager extends ViewGroup{
      * will be spent in layout for newly created view subtrees as the user pages
      * back and forth.
      * </p>
-     *
+     * <p>
      * <p>
      * You should keep this limit low, especially if your pages have complex
      * layouts. This setting defaults to 1.
      * </p>
      *
-     * @param limit
-     *            How many pages will be kept offscreen in an idle state.
+     * @param limit How many pages will be kept offscreen in an idle state.
      */
     public void setOffscreenPageLimit(int limit) {
         if (limit < DEFAULT_OFFSCREEN_PAGES) {
@@ -437,8 +423,7 @@ public class LazyViewPager extends ViewGroup{
     /**
      * Set the margin between pages.
      *
-     * @param marginPixels
-     *            Distance between adjacent pages in pixels
+     * @param marginPixels Distance between adjacent pages in pixels
      * @see #getPageMargin()
      * @see #setPageMarginDrawable(android.graphics.drawable.Drawable)
      * @see #setPageMarginDrawable(int)
@@ -465,8 +450,7 @@ public class LazyViewPager extends ViewGroup{
     /**
      * Set a drawable that will be used to fill the margin between pages.
      *
-     * @param d
-     *            Drawable to display between pages
+     * @param d Drawable to display between pages
      */
     public void setPageMarginDrawable(Drawable d) {
         mMarginDrawable = d;
@@ -479,8 +463,7 @@ public class LazyViewPager extends ViewGroup{
     /**
      * Set a drawable that will be used to fill the margin between pages.
      *
-     * @param resId
-     *            Resource ID of a drawable to display between pages
+     * @param resId Resource ID of a drawable to display between pages
      */
     public void setPageMarginDrawable(int resId) {
         setPageMarginDrawable(getContext().getResources().getDrawable(resId));
@@ -517,10 +500,8 @@ public class LazyViewPager extends ViewGroup{
      * Like {@link android.view.View#scrollBy}, but scroll smoothly instead of
      * immediately.
      *
-     * @param x
-     *            the number of pixels to scroll by on the X axis
-     * @param y
-     *            the number of pixels to scroll by on the Y axis
+     * @param x the number of pixels to scroll by on the X axis
+     * @param y the number of pixels to scroll by on the Y axis
      */
     void smoothScrollTo(int x, int y) {
         smoothScrollTo(x, y, 0);
@@ -530,13 +511,10 @@ public class LazyViewPager extends ViewGroup{
      * Like {@link android.view.View#scrollBy}, but scroll smoothly instead of
      * immediately.
      *
-     * @param x
-     *            the number of pixels to scroll by on the X axis
-     * @param y
-     *            the number of pixels to scroll by on the Y axis
-     * @param velocity
-     *            the velocity associated with a fling, if applicable. (0
-     *            otherwise)
+     * @param x        the number of pixels to scroll by on the X axis
+     * @param y        the number of pixels to scroll by on the Y axis
+     * @param velocity the velocity associated with a fling, if applicable. (0
+     *                 otherwise)
      */
     void smoothScrollTo(int x, int y, int velocity) {
         if (getChildCount() == 0) {
@@ -1045,7 +1023,7 @@ public class LazyViewPager extends ViewGroup{
         }
     }
 
-    public void setNoFocus(boolean b){
+    public void setNoFocus(boolean b) {
         mNoFocus = b;
     }
 
@@ -1412,7 +1390,7 @@ public class LazyViewPager extends ViewGroup{
 
     /**
      * Start a fake drag of the pager.
-     *
+     * <p>
      * <p>
      * A fake drag can be useful if you want to synchronize the motion of the
      * ViewPager with the touch scrolling of another view, while still letting
@@ -1420,14 +1398,13 @@ public class LazyViewPager extends ViewGroup{
      * parallax-scrolling tabs.) Call {@link #fakeDragBy(float)} to simulate the
      * actual drag motion. Call {@link #endFakeDrag()} to complete the fake drag
      * and fling as necessary.
-     *
+     * <p>
      * <p>
      * During a fake drag the ViewPager will ignore all touch events. If a real
      * drag is already in progress, this method will return false.
      *
      * @return true if the fake drag began successfully, false if it could not
-     *         be started.
-     *
+     * be started.
      * @see #fakeDragBy(float)
      * @see #endFakeDrag()
      */
@@ -1488,8 +1465,7 @@ public class LazyViewPager extends ViewGroup{
      * Fake drag by an offset in pixels. You must have called
      * {@link #beginFakeDrag()} first.
      *
-     * @param xOffset
-     *            Offset in pixels to drag by.
+     * @param xOffset Offset in pixels to drag by.
      * @see #beginFakeDrag()
      * @see #endFakeDrag()
      */
@@ -1536,7 +1512,6 @@ public class LazyViewPager extends ViewGroup{
      * Returns true if a fake drag is in progress.
      *
      * @return true if currently in a fake drag, false otherwise.
-     *
      * @see #beginFakeDrag()
      * @see #fakeDragBy(float)
      * @see #endFakeDrag()
@@ -1589,17 +1564,12 @@ public class LazyViewPager extends ViewGroup{
     /**
      * Tests scrollability within child views of v given a delta of dx.
      *
-     * @param v
-     *            View to test for horizontal scrollability
-     * @param checkV
-     *            Whether the view v passed should itself be checked for
-     *            scrollability (true), or just its children (false).
-     * @param dx
-     *            Delta scrolled in pixels
-     * @param x
-     *            X coordinate of the active touch point
-     * @param y
-     *            Y coordinate of the active touch point
+     * @param v      View to test for horizontal scrollability
+     * @param checkV Whether the view v passed should itself be checked for
+     *               scrollability (true), or just its children (false).
+     * @param dx     Delta scrolled in pixels
+     * @param x      X coordinate of the active touch point
+     * @param y      Y coordinate of the active touch point
      * @return true if child views of v can be scrolled by delta of dx.
      */
     protected boolean canScroll(View v, boolean checkV, int dx, int x, int y) {
@@ -1640,8 +1610,7 @@ public class LazyViewPager extends ViewGroup{
      * scrolling from a key event, just as if the event had been dispatched to
      * it by the view hierarchy.
      *
-     * @param event
-     *            The key event to execute.
+     * @param event The key event to execute.
      * @return Return true if the event was handled, else false.
      */
     public boolean executeKeyEvent(KeyEvent event) {
@@ -1655,10 +1624,9 @@ public class LazyViewPager extends ViewGroup{
                     handled = arrowScroll(FOCUS_RIGHT);
                     break;
                 case KeyEvent.KEYCODE_TAB:
-                    if (KeyEventCompat.hasNoModifiers(event)) {
+                    if (event.hasNoModifiers()) {
                         handled = arrowScroll(FOCUS_FORWARD);
-                    } else if (KeyEventCompat.hasModifiers(event,
-                            KeyEvent.META_SHIFT_ON)) {
+                    } else if (event.hasModifiers(KeyEvent.META_SHIFT_ON)) {
                         handled = arrowScroll(FOCUS_BACKWARD);
                     }
                     break;

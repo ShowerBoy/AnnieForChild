@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
+import com.annie.annieforchild.ui.activity.VideoActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.SpecialPreheatItemViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.SpecialPreheatViewHolder;
 import com.bumptech.glide.Glide;
@@ -45,7 +47,13 @@ public class SpecialPreheatItemAdapter extends RecyclerView.Adapter<SpecialPrehe
         specialPreheatItemViewHolder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SystemUtils.startVideo(context, lists.get(i).getPath());
+                Intent intent = new Intent(context, VideoActivity.class);
+                intent.putExtra("url", lists.get(i).getPath());
+                intent.putExtra("imageUrl", lists.get(i).getPicurl());
+                intent.putExtra("name", lists.get(i).getTitle());
+                intent.putExtra("isTime", false);
+                context.startActivity(intent);
+//                SystemUtils.startVideo(context, lists.get(i).getPath());
             }
         });
     }

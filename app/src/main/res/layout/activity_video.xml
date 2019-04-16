@@ -1,18 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <cn.jzvd.JZVideoPlayerStandard
-        android:id="@+id/player_standard"
+    <RelativeLayout
+        android:id="@+id/video_top_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/top_tab_back"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
-    </cn.jzvd.JZVideoPlayerStandard>
+        <ImageView
+            android:id="@+id/video_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_arrow_left2" />
 
-    <VideoView
-        android:id="@+id/video_player"
+    </RelativeLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
-</android.support.constraint.ConstraintLayout>
+        android:background="@color/black">
+
+        <com.universalvideoview.UniversalVideoView
+            android:id="@+id/unVideoView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:uvv_autoRotation="true"
+            app:uvv_fitXY="false">
+
+        </com.universalvideoview.UniversalVideoView>
+
+        <com.universalvideoview.UniversalMediaController
+            android:id="@+id/unMediaController"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:uvv_scalable="true">
+
+        </com.universalvideoview.UniversalMediaController>
+    </FrameLayout>
+
+</LinearLayout>

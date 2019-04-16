@@ -59,7 +59,6 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
-import org.litepal.crud.DataSupport;
 
 import java.lang.invoke.MethodHandle;
 import java.sql.DatabaseMetaData;
@@ -286,13 +285,14 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                     }
                 } else {
                     if (lists.get(position).getJurisdiction() == 1) {
-                        SystemUtils.startVideo(GlobalSearchActivity.this, lists.get(position).getAnimationUrl());
-//                        Intent intent = new Intent(GlobalSearchActivity.this, VideoActivity.class);
-//                        intent.putExtra("url", lists.get(position).getAnimationUrl());
-//                        intent.putExtra("imageUrl", lists.get(position).getBookImageUrl());
-//                        intent.putExtra("name", lists.get(position).getBookName());
-//                        intent.putExtra("id", lists.get(position).getBookId());
-//                        startActivity(intent);
+//                        SystemUtils.startVideo(GlobalSearchActivity.this, lists.get(position).getAnimationUrl());
+                        Intent intent = new Intent(GlobalSearchActivity.this, VideoActivity.class);
+                        intent.putExtra("url", lists.get(position).getAnimationUrl());
+                        intent.putExtra("imageUrl", lists.get(position).getBookImageUrl());
+                        intent.putExtra("name", lists.get(position).getBookName());
+                        intent.putExtra("id", lists.get(position).getBookId());
+                        intent.putExtra("isTime", true);
+                        startActivity(intent);
                     }
                 }
             }

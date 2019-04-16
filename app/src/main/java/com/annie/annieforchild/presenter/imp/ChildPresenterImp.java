@@ -3,11 +3,6 @@ package com.annie.annieforchild.presenter.imp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
-import android.test.ActivityTestCase;
-import android.view.View;
 
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;

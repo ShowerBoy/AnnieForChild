@@ -38,7 +38,6 @@ import com.yanzhenjie.nohttp.download.DownloadRequest;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
-import org.litepal.crud.DataSupport;
 
 import java.io.File;
 import java.util.Calendar;

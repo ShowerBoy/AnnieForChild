@@ -26,7 +26,6 @@ import com.annie.baselibrary.base.BasePresenterImp;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
-import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;

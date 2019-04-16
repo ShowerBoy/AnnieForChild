@@ -356,7 +356,6 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
             totalMoerduo.setText("累计时长：" + hour + "小时" + min + "分钟");
         }
 
-
         min = clockIn.getReadingtotal() / 60;
         second = clockIn.getReadingtotal() % 60;
         hour = 0;
@@ -427,6 +426,7 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
         showInfo("分享成功");
         presenter.shareSuccess(clockIn.getMoerduotoday(), clockIn.getReadingtoday(), clockIn.getSpeakingtoday());
+        presenter.getCardDetail();
         popupWindow.dismiss();
     }
 
