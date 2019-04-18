@@ -371,7 +371,7 @@ public class ReleaseSuccessActivity extends BaseActivity implements OnCheckDoubl
         } else {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.alpha = 1f;
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         }
     }

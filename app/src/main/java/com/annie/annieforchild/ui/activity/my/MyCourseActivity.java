@@ -33,6 +33,7 @@ import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.net.LessonActivity;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetailActivity;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity;
+import com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity2;
 import com.annie.annieforchild.ui.activity.net.NetSpecialDetailActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.ui.adapter.MyCourseAdapter;
@@ -125,7 +126,7 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
                     startActivity(intent);
                 } else if (lists.get(position).getType() == 1) {
                     //新版
-                    Intent intent = new Intent(MyCourseActivity.this, NetExperienceDetail_newActivity.class);
+                    Intent intent = new Intent(MyCourseActivity.this, NetExperienceDetail_newActivity2.class);
                     intent.putExtra("netid", lists.get(position).getNetId());
                     intent.putExtra("netName", lists.get(position).getNetName());
                     startActivity(intent);

@@ -68,6 +68,7 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
     private ImageView back;
     private String firstTitle, secondTitle, thirdTitle, fourthTitle;
 
+
     {
         setRegister(true);
     }
@@ -253,81 +254,6 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
                     }
                 }
             }
-//            switch (netExpClass.getInfo().get(i).getFchaptername()) {
-//                case "复习测试":
-//                    setidshow(fourstage, netExpClass.getInfo().get(i).getIsshow());
-//                    four_title.setText(netExpClass.getInfo().get(i).getFchaptername());
-//                    if (netExpClass.getInfo().get(i).getInfo() != null) {
-//                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
-//                            switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
-//                                case "1":
-//                                    fourstage_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-//                                    break;
-//                                case "2":
-//                                    fourstage_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-//                                    break;
-//                                case "3":
-//                                    fourstage_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-//                                    break;
-//                            }
-//                        }
-//                    }
-//
-//                    break;
-//                case "课程体验":
-//                    setidshow(threestage, netExpClass.getInfo().get(i).getIsshow());
-//                    three_title.setText(netExpClass.getInfo().get(i).getFchaptername());
-//                    if (netExpClass.getInfo().get(i).getInfo() != null) {
-//                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
-//                            switch (m) {
-//                                case 0:
-//                                    lesson_1_name.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-//                                    break;
-//                                case 1:
-//                                    lesson_2_name.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-//                            }
-//                        }
-//                    }
-//                    break;
-//                case "预热阶段":
-//                    setidshow(twostage, netExpClass.getInfo().get(i).getIsshow());
-//                    two_title.setText(netExpClass.getInfo().get(i).getFchaptername());
-//                    if (netExpClass.getInfo().get(i).getInfo() != null) {
-//                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
-//                            switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
-//                                case "1":
-//                                    two_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-//                                    break;
-//                                case "2":
-//                                    two_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-//                                    break;
-//                                case "3":
-//                                    two_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-//                                    break;
-//                            }
-//                        }
-//                    }
-//                    break;
-//                case "准备阶段":
-//                    setidshow(firstsatge, netExpClass.getInfo().get(i).getIsshow());
-//                    first_title.setText(netExpClass.getInfo().get(i).getFchaptername());
-//                    if (netExpClass.getInfo().get(i).getInfo() != null) {
-//                        for (int m = 0; m < netExpClass.getInfo().get(i).getInfo().size(); m++) {
-//                            switch (netExpClass.getInfo().get(i).getInfo().get(m).getFsort()) {
-//                                case "1":
-//                                    first_1_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-//                                    break;
-//                                case "2":
-//                                    first_2_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-//                                    break;
-//                                case "3":
-//                                    first_3_title.setText(netExpClass.getInfo().get(i).getInfo().get(m).getFchaptername());
-//                                    break;
-//                            }
-//                        }
-//                    }
-//                    break;
-//            }
         }
     }
 

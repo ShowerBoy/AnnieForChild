@@ -2,7 +2,6 @@ package com.annie.annieforchild.ui.fragment.song;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -164,7 +163,6 @@ public class ListenSongFragment extends BaseFragment implements SongView {
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETMUSICLIST + 1000 + classId) {
-            recycler.refreshComplete();
             songsList.clear();
             songsList.addAll((List<Song>) message.obj);
             if (songsList.size() == 0) {
@@ -173,8 +171,8 @@ public class ListenSongFragment extends BaseFragment implements SongView {
                 empty.setVisibility(View.GONE);
             }
             songAdapter.notifyDataSetChanged();
+            recycler.refreshComplete();
         } else if (message.what == MethodCode.EVENT_GETREADLIST + 6000 + classId) {
-            recycler.refreshComplete();
             songsList.clear();
             songsList.addAll((List<Song>) message.obj);
             if (songsList.size() == 0) {
@@ -183,6 +181,7 @@ public class ListenSongFragment extends BaseFragment implements SongView {
                 empty.setVisibility(View.GONE);
             }
             songAdapter.notifyDataSetChanged();
+            recycler.refreshComplete();
         } else if (message.what == MethodCode.EVENT_COLLECTCOURSE + 2000 + classId) {
             showInfo((String) message.obj);
             if (type < 6) {
@@ -220,7 +219,6 @@ public class ListenSongFragment extends BaseFragment implements SongView {
                 presenter.getReadList(classId);
             }
         } else if (message.what == MethodCode.EVENT_GETSPOKENLIST + 8000 + classId) {
-            recycler.refreshComplete();
             songsList.clear();
             songsList.addAll((List<Song>) message.obj);
             if (songsList.size() == 0) {
@@ -229,6 +227,7 @@ public class ListenSongFragment extends BaseFragment implements SongView {
                 empty.setVisibility(View.GONE);
             }
             songAdapter.notifyDataSetChanged();
+            recycler.refreshComplete();
         } else if (message.what == MethodCode.EVENT_UNLOCKBOOK + 9000 + classId) {
             showInfo((String) message.obj);
             if (type < 6) {

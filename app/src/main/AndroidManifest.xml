@@ -514,6 +514,9 @@
         <activity
             android:name=".ui.activity.my.NectarRuleActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.NetExperienceDetail_newActivity2"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 </manifest>

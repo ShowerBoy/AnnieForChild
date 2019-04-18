@@ -201,18 +201,6 @@ public class InputBookActivity extends BaseActivity implements SongView, OnCheck
         }
     }
 
-    private void setBackGray(boolean tag) {
-        if (tag) {
-            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-            layoutParams.alpha = 0.7f;
-            getWindow().setAttributes(layoutParams);
-        } else {
-            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-            layoutParams.alpha = 1f;
-            getWindow().setAttributes(layoutParams);
-        }
-    }
-
     @Override
     public void showInfo(String info) {
         Toast.makeText(this, info, Toast.LENGTH_SHORT).show();

@@ -1,5 +1,6 @@
 package com.annie.annieforchild.ui.activity.grindEar;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +9,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.EventLog;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -18,19 +23,24 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
+import com.annie.annieforchild.Utils.views.MyMaxHeightRecyclerView;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
 import com.annie.annieforchild.ui.activity.speaking.MySpeakingActivity;
+import com.annie.annieforchild.ui.adapter.MenuAdapter;
 import com.annie.annieforchild.ui.adapter.SongAdapter;
 import com.annie.annieforchild.ui.fragment.song.AnimationFragment;
 import com.annie.annieforchild.ui.fragment.song.ListenSongFragment;
+import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -43,8 +53,8 @@ import java.util.List;
  */
 
 public class ListenSongActivity extends BaseActivity implements SongView, View.OnClickListener, ViewPager.OnPageChangeListener {
-    private ImageView back, search;
-    private TextView listenTitle;
+    private ImageView back;
+    private TextView listenTitle, search;
     private ArrayList<SongClassify> lists;
     private Intent intent;
     private Bundle bundle;
@@ -62,6 +72,11 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
     private Boolean[] dataBool; //数据加载与否
     private List<ListenSongFragment> fragments;
     private List<AnimationFragment> fragments2;
+    private PopupWindow popupWindow;
+    private View popupView;
+    private int popupWidth, popupHeight;
+    private MyMaxHeightRecyclerView recycler;
+    private MenuAdapter adapter;
 
     @Override
     protected int getLayoutId() {
@@ -175,7 +190,41 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
         }
         //
         initTab();
+        initPop();
         //
+    }
+
+    private void initPop() {
+        popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_listen, null, false);
+        popupWidth = Math.min(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 1 / 3;
+        popupHeight = Math.max(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 1 / 3;
+        popupWindow = new PopupWindow(popupView, popupWidth, WindowManager.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                setBackGray(false);
+            }
+        });
+        recycler = popupView.findViewById(R.id.popup_listen_recycler);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        recycler.setLayoutManager(manager);
+        adapter = new MenuAdapter(this, lists, new OnRecyclerItemClickListener() {
+            @Override
+            public void onItemClick(View view) {
+                int position = recycler.getChildAdapterPosition(view);
+//                showInfo("" + position);
+                mVP.setCurrentItem(position);
+                popupWindow.dismiss();
+            }
+
+            @Override
+            public void onItemLongClick(View view) {
+
+            }
+        });
+        recycler.setAdapter(adapter);
     }
 
     private void initTab() {
@@ -217,8 +266,10 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
                 finish();
                 break;
             case R.id.song_search:
-                Intent intent = new Intent(this, GlobalSearchActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(this, GlobalSearchActivity.class);
+//                startActivity(intent);
+                setBackGray(true);
+                popupWindow.showAsDropDown(search);
                 break;
         }
     }
@@ -311,4 +362,19 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
         message.obj = 0;
         EventBus.getDefault().post(message);
     }
+
+    public void setBackGray(boolean tag) {
+        if (tag) {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.alpha = 0.7f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            getWindow().setAttributes(layoutParams);
+        } else {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.alpha = 1f;
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            getWindow().setAttributes(layoutParams);
+        }
+    }
+
 }

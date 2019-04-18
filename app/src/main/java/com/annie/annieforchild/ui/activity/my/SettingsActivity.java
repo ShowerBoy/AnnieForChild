@@ -21,7 +21,6 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
-import com.annie.annieforchild.bean.login.LoginBean;
 import com.annie.annieforchild.presenter.FourthPresenter;
 import com.annie.annieforchild.presenter.imp.FourthPresenterImp;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;

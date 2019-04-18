@@ -99,7 +99,7 @@ public class VideoActivity extends BaseActivity implements SongView, OnCheckDoub
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                showInfo("onCompletion");
+
             }
         });
     }
@@ -123,6 +123,7 @@ public class VideoActivity extends BaseActivity implements SongView, OnCheckDoub
         }
         videoView.setVideoURI(Uri.parse(url));
         videoView.start();
+
 
         if (isTime) {
             runnable = new Runnable() {

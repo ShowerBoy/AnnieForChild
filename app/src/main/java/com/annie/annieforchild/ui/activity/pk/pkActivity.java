@@ -720,7 +720,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
             getWindow().setAttributes(layoutParams);
         } else {
             layoutParams.alpha = 1f;
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         }
     }

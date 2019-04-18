@@ -444,10 +444,10 @@ public class MusicService extends Service {
                 }
                 if (flag) {
                     if (application.getSystemUtils().getPlayLists().size() < 20) {
-                        application.getSystemUtils().getPlayLists().add(song);
+                        application.getSystemUtils().getPlayLists().add(0, song);
                     } else {
                         application.getSystemUtils().getPlayLists().remove(19);
-                        application.getSystemUtils().getPlayLists().add(song);
+                        application.getSystemUtils().getPlayLists().add(0, song);
                     }
                 }
             }

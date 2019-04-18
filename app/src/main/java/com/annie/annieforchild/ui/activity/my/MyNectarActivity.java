@@ -185,14 +185,4 @@ public class MyNectarActivity extends BaseActivity implements ViewInfo, View.OnC
         }
     }
 
-    private void getWindowGray(boolean tag) {
-        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-        if (tag) {
-            layoutParams.alpha = 0.7f;
-            getWindow().setAttributes(layoutParams);
-        } else {
-            layoutParams.alpha = 1f;
-            getWindow().setAttributes(layoutParams);
-        }
-    }
 }

@@ -6,4 +6,7 @@
         <attr name="firstColor" format="color" />
         <attr name="secondColor" format="color" />
     </declare-styleable>
+    <declare-styleable name="MaxHeightRecyclerView">
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
 </resources>

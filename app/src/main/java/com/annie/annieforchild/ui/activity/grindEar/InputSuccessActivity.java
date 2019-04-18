@@ -102,10 +102,12 @@ public class InputSuccessActivity extends BaseActivity implements OnCheckDoubleC
         if (tag) {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.alpha = 0.7f;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         } else {
             WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
             layoutParams.alpha = 1f;
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         }
     }

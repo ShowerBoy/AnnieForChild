@@ -451,7 +451,7 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
         } else {
             WindowManager.LayoutParams layoutParams = getActivity().getWindow().getAttributes();
             layoutParams.alpha = 1f;
-            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getActivity().getWindow().setAttributes(layoutParams);
         }
     }

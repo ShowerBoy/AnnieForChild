@@ -36,6 +36,7 @@ import com.yanzhenjie.nohttp.download.DownloadRequest;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
+import org.litepal.crud.LitePalSupport;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -220,7 +221,20 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                             SystemUtils.show(context, "没有学员");
                             return;
                         }
-                        bean1.save();
+                        List<LoginBean> loginList = LitePal.findAll(LoginBean.class);
+                        if (loginList != null && loginList.size() != 0) {
+                            boolean flag = true;
+                            for (int i = 0; i < loginList.size(); i++) {
+                                if (loginList.get(i).getDefaultUsername().equals(bean1.getDefaultUsername())) {
+                                    flag = false;
+                                }
+                            }
+                            if (flag) {
+                                bean1.save();
+                            }
+                        } else {
+                            bean1.save();
+                        }
                         application.getSystemUtils().setToken(bean1.getToken());
                         application.getSystemUtils().setDefaultUsername(bean1.getDefaultUsername());
                         if (bean1.getDefaultUsername().equals("")) {
