@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.activity.net;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.NetDetails;
 import com.annie.annieforchild.bean.net.PreheatConsult;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
+import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.bean.net.netexpclass.Video_first;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.adapter.NetExpFirstVideoAdapter;
@@ -43,6 +45,8 @@ public class NetExpFirstVideoActivity extends BaseActivity implements ViewInfo, 
     private TextView title;
     private RecyclerView net_preheatconsult_recyclerview;
     private ConstraintLayout empty_img;
+    private int type, position;
+    private String fid, name, netid, stageid, unitid, classcode;
 
     {
         setRegister(true);
@@ -72,16 +76,26 @@ public class NetExpFirstVideoActivity extends BaseActivity implements ViewInfo, 
         dialog = helper.LoadingDialog();
         lists = new ArrayList<>();
 
-        String fid = getIntent().getStringExtra("fid");
-        String name = getIntent().getStringExtra("title");
-        int type = getIntent().getIntExtra("type", 1);
+        fid = getIntent().getStringExtra("fid");
+        name = getIntent().getStringExtra("title");
+        netid = getIntent().getStringExtra("netid");
+        stageid = getIntent().getStringExtra("stageid");
+        unitid = getIntent().getStringExtra("unitid");
+        classcode = getIntent().getStringExtra("classcode");
+        type = getIntent().getIntExtra("type", 1);
+        position = getIntent().getIntExtra("position", 0);
         title.setText(name);
 
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
-        presenter.getWeiClass(fid, type);
+        if (type == 5) {
+            presenter.videoList(fid, netid, stageid, unitid);
+        } else {
+            presenter.getWeiClass(fid, type);
+        }
 
-        adapter = new NetExpFirstVideoAdapter(this, lists);
+
+        adapter = new NetExpFirstVideoAdapter(this, lists, netid, stageid, unitid, classcode, position);
         net_preheatconsult_recyclerview.setAdapter(adapter);
 
     }
@@ -110,6 +124,22 @@ public class NetExpFirstVideoActivity extends BaseActivity implements ViewInfo, 
                 empty_img.setVisibility(View.GONE);
             } else {
                 empty_img.setVisibility(View.VISIBLE);
+            }
+        } else if (message.what == MethodCode.EVENT_VIDEOLIST) {
+            lists.clear();
+            lists.addAll((List<Video_first>) message.obj);
+            adapter.notifyDataSetChanged();
+            if (lists.size() > 0) {
+                empty_img.setVisibility(View.GONE);
+            } else {
+                empty_img.setVisibility(View.VISIBLE);
+            }
+        } else if (message.what == MethodCode.EVENT_VIDEOPAYRECORD) {
+            VideoFinishBean videoFinishBean = (VideoFinishBean) message.obj;
+            if (videoFinishBean.getResult() == 1) {
+                if (type == 5) {
+                    presenter.videoList(fid, netid, stageid, unitid);
+                }
             }
         }
     }

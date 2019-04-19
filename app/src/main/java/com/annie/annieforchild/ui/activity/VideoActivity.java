@@ -21,17 +21,26 @@ import android.widget.VideoView;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.service.MusicService;
+import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
+import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
+import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
 import com.universalvideoview.UniversalMediaController;
 import com.universalvideoview.UniversalVideoView;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import java.lang.invoke.MethodHandle;
 
 
 /**
@@ -43,16 +52,22 @@ public class VideoActivity extends BaseActivity implements SongView, OnCheckDoub
     private UniversalMediaController mediaController;
     private RelativeLayout topLayout;
     private Intent intent;
-    private String url, imageUrl, name;
-    private int id, duration;
+    private String url, imageUrl, name, classcode;
+    private int id, duration, isFinish, position;
     private GrindEarPresenter presenter;
+    private NetWorkPresenter presenter2;
     private Handler handler = new Handler();
     private AlertHelper helper;
     private Dialog dialog;
     private ImageView back;
+    private String netid, stageid, unitid, chaptercontentid;
     private boolean isTime = false; //是否计时
     private CheckDoubleClickListener listener;
     Runnable runnable;
+
+    {
+        setRegister(true);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -96,12 +111,7 @@ public class VideoActivity extends BaseActivity implements SongView, OnCheckDoub
             public void onBufferingEnd(MediaPlayer mediaPlayer) {
             }
         });
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
 
-            }
-        });
     }
 
     @Override
@@ -112,7 +122,9 @@ public class VideoActivity extends BaseActivity implements SongView, OnCheckDoub
             MusicService.stop();
         }
         presenter = new GrindEarPresenterImp(this, this);
+        presenter2 = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
+        presenter2.initViewAndData();
         intent = getIntent();
         if (intent != null) {
             url = intent.getStringExtra("url");
@@ -120,10 +132,29 @@ public class VideoActivity extends BaseActivity implements SongView, OnCheckDoub
             name = intent.getStringExtra("name");
             id = intent.getIntExtra("id", 0);
             isTime = intent.getBooleanExtra("isTime", false);
+            /**
+             * {@link com.annie.annieforchild.ui.adapter.NetExpFirstVideoAdapter}
+             */
+            netid = intent.getStringExtra("netid");
+            stageid = intent.getStringExtra("stageid");
+            unitid = intent.getStringExtra("unitid");
+            chaptercontentid = intent.getStringExtra("chaptercontentid");
+            classcode = intent.getStringExtra("classcode");
+            isFinish = intent.getIntExtra("isFinish", 0);
+            position = intent.getIntExtra("position", 0);
         }
         videoView.setVideoURI(Uri.parse(url));
         videoView.start();
 
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                //播放结束监听
+                if (isFinish == 0) {
+                    presenter2.videoPayRecord(netid, stageid, unitid, chaptercontentid, isFinish, classcode, position);
+                }
+            }
+        });
 
         if (isTime) {
             runnable = new Runnable() {
@@ -135,6 +166,16 @@ public class VideoActivity extends BaseActivity implements SongView, OnCheckDoub
             };
             duration = 0;
             handler.postDelayed(runnable, 1000);
+        }
+    }
+
+    @Subscribe
+    public void onMainEventThread(JTMessage message) {
+        if (message.what == MethodCode.EVENT_VIDEOPAYRECORD) {
+            VideoFinishBean videoFinishBean = (VideoFinishBean) message.obj;
+            if (videoFinishBean.getResult() == 1) {
+                isFinish = 1;
+            }
         }
     }
 

@@ -631,28 +631,22 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
             case R.id.sign_image:
                 //右上角签到
                 //TODO:
-//                SystemUtils.setBackGray(getActivity(), true);
-//                SystemUtils.getNectarCongratulation(getActivity(), 1).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (application.getSystemUtils().getChildTag() == 0) {
-                    SystemUtils.toAddChild(getContext());
-                    return;
-                }
-                Intent intent1 = new Intent(getContext(), MusicPlayActivity.class);
+//                if (tag.equals("游客")) {
+//                    SystemUtils.toLogin(getContext());
+//                    return;
+//                }
+//                if (application.getSystemUtils().getChildTag() == 0) {
+//                    SystemUtils.toAddChild(getContext());
+//                    return;
+//                }
+//                Intent intent1 = new Intent(getContext(), MusicPlayActivity.class);
+//                startActivity(intent1);
+
+
+                Intent intent1 = new Intent(getContext(), WebActivity.class);
+                intent1.putExtra("url", "https://testh5.imoulife.com/");
+                intent1.putExtra("title", "");
                 startActivity(intent1);
-
-//                Uri uri = Uri.parse("http://m.anniekids.org/1.html");
-
-//                Intent intent1 = new Intent(Intent.ACTION_VIEW, uri);
-//                startActivity(intent1);
-
-//                Intent intent1 = new Intent(getContext(), WebActivity.class);
-//                intent1.putExtra("url", "http://study.anniekids.org/vide7.4.1/index.html");
-//                intent1.putExtra("title", "");
-//                startActivity(intent1);
 
 //                Intent intent1 = new Intent(getContext(), CalendarActivity.class);
 //                startActivity(intent1);

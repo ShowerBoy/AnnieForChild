@@ -52,4 +52,10 @@ public interface NetWorkInteractor {
     void continuePay(int orderIncrId, int payment, int tag);
 
     void cancelOrder(int orderIncrId, int payment, int tag);
+
+    void experienceDetailsV2(int netid);
+
+    void videoPayRecord(String netid, String stageid, String unitid, String chaptercontent_id, int isFinish, String classcode);
+
+    void videoList(String fid, String netid, String stageid, String unitid);
 }

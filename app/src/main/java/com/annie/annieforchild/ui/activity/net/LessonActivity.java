@@ -41,7 +41,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 网课课程列表
+ * 网课课程列表(彩虹条)
  * Created by wanglei on 2018/10/22.
  */
 

@@ -25,6 +25,7 @@ public class MethodCode {
     /**
      * EventBus
      */
+    final public static int EVENT_REFRESH = -180;
     final public static int EVENT_CONFIRMBUYSUC = -170;
     final public static int EVENT_LESSON = -160;
     final public static int EVENT_ISDROP = -150;
@@ -202,4 +203,7 @@ public class MethodCode {
     final public static int EVENT_GETMYORDERDETAIL = 152; //
     final public static int EVENT_CONTINUEPAY = 153; //
     final public static int EVENT_CANCELORDER = 154; //
+    final public static int EVENT_EXPERIENCEDETAILSV2 = 155; //
+    final public static int EVENT_VIDEOPAYRECORD = 156; //
+    final public static int EVENT_VIDEOLIST = 157; //
 }

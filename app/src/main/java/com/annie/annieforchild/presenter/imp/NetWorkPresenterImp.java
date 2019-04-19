@@ -20,6 +20,8 @@ import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.bean.net.PreheatConsult;
 import com.annie.annieforchild.bean.net.SpecialPreHeat;
 import com.annie.annieforchild.bean.net.WechatBean;
+import com.annie.annieforchild.bean.net.experience.ExperienceV2;
+import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
 import com.annie.annieforchild.bean.order.MyOrder;
@@ -55,7 +57,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     private NetWorkInteractor interactor;
     private List<Banner> bannerList;
     private HashMap<Integer, String> file_maps;
-    private int payment, tag;
+    private int payment, tag, position;
 
     public NetWorkPresenterImp(Context context, ViewInfo viewInfo) {
         this.context = context;
@@ -180,6 +182,25 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         this.tag = tag;
         viewInfo.showLoad();
         interactor.cancelOrder(orderIncrId, payment, tag);
+    }
+
+    @Override
+    public void experienceDetailsV2(int netid) {
+        viewInfo.showLoad();
+        interactor.experienceDetailsV2(netid);
+    }
+
+    @Override
+    public void videoPayRecord(String netid, String stageid, String unitid, String chaptercontent_id, int isFinish, String classcode, int position) {
+        this.position = position;
+        viewInfo.showLoad();
+        interactor.videoPayRecord(netid, stageid, unitid, chaptercontent_id, isFinish, classcode);
+    }
+
+    @Override
+    public void videoList(String fid, String netid, String stageid, String unitid) {
+        viewInfo.showLoad();
+        interactor.videoList(fid, netid, stageid, unitid);
     }
 
     @Override
@@ -534,6 +555,35 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
             } else if (what == MethodCode.EVENT_CANCELORDER) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity2#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_EXPERIENCEDETAILSV2) {
+                ExperienceV2 experienceV2 = (ExperienceV2) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity2#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = experienceV2;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_VIDEOPAYRECORD) {
+                VideoFinishBean videoFinishBean = (VideoFinishBean) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetExpFirstVideoActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.VideoActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity2#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = videoFinishBean;
+                message.obj2 = position;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_VIDEOLIST) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetExpFirstVideoActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;

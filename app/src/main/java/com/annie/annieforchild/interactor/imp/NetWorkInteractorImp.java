@@ -24,6 +24,8 @@ import com.annie.annieforchild.bean.net.PreheatConsult;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
 import com.annie.annieforchild.bean.net.SpecialPreHeat;
 import com.annie.annieforchild.bean.net.WechatBean;
+import com.annie.annieforchild.bean.net.experience.ExperienceV2;
+import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
 import com.annie.annieforchild.bean.net.netexpclass.Video_first;
@@ -251,6 +253,41 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("orderIncrId", orderIncrId);
         addQueue(MethodCode.EVENT_CANCELORDER, request);
+    }
+
+    @Override
+    public void experienceDetailsV2(int netid) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.EXPERIENCEDETAILSV2, RequestMethod.POST);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("netid", netid);
+        addQueue(MethodCode.EVENT_EXPERIENCEDETAILSV2, request);
+    }
+
+    @Override
+    public void videoPayRecord(String netid, String stageid, String unitid, String chaptercontent_id, int isFinish, String classcode) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.VIDEOPAYRECORD, RequestMethod.POST);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("netid", netid);
+        request.add("stageid", stageid);
+        request.add("unitid", unitid);
+        request.add("chaptercontent_id", chaptercontent_id);
+        request.add("isfinish", isFinish);
+        request.add("classcode", classcode);
+        addQueue(MethodCode.EVENT_VIDEOPAYRECORD, request);
+    }
+
+    @Override
+    public void videoList(String fid, String netid, String stageid, String unitid) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.VIDEOLIST, RequestMethod.POST);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("fid", fid);
+        request.add("netid", netid);
+        request.add("stageid", stageid);
+        request.add("unitid", unitid);
+        addQueue(MethodCode.EVENT_VIDEOLIST, request);
     }
 
     @Override
@@ -506,9 +543,24 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                         WechatBean wechatBean = JSON.parseObject(data, WechatBean.class);
                         listener.Success(what, wechatBean);
                     }
+
                 }
             } else if (what == MethodCode.EVENT_CANCELORDER) {
                 listener.Success(what, "取消订单成功");
+            } else if (what == MethodCode.EVENT_EXPERIENCEDETAILSV2) {
+                ExperienceV2 experienceV2 = JSON.parseObject(data, ExperienceV2.class);
+                listener.Success(what, experienceV2);
+            } else if (what == MethodCode.EVENT_VIDEOPAYRECORD) {
+                VideoFinishBean videoFinishBean = JSON.parseObject(data, VideoFinishBean.class);
+                listener.Success(what, videoFinishBean);
+            } else if (what == MethodCode.EVENT_VIDEOLIST) {
+                List<Video_first> lists;
+                if (data != null) {
+                    lists = JSON.parseArray(data, Video_first.class);
+                } else {
+                    lists = new ArrayList<>();
+                }
+                listener.Success(what, lists);
             }
         }
     }
@@ -516,7 +568,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     @Override
     protected void onFail(int what, Response response) {
         String error = response.getException().getMessage();
-        listener.Error(what, error);
+        listener.Error(what, "");
     }
 
 }

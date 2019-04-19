@@ -16,8 +16,17 @@ public class NetClass implements Serializable {
     private int isBuy;
     private int count;
     private int type;
+    private int periods;
     private String message;
     private int colour;
+
+    public int getPeriods() {
+        return periods;
+    }
+
+    public void setPeriods(int periods) {
+        this.periods = periods;
+    }
 
     public int getColour() {
         return colour;

@@ -53,8 +53,8 @@ import java.util.List;
  */
 
 public class ListenSongActivity extends BaseActivity implements SongView, View.OnClickListener, ViewPager.OnPageChangeListener {
-    private ImageView back;
-    private TextView listenTitle, search;
+    private ImageView back, search;
+    private TextView listenTitle;
     private ArrayList<SongClassify> lists;
     private Intent intent;
     private Bundle bundle;
@@ -266,10 +266,10 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
                 finish();
                 break;
             case R.id.song_search:
-//                Intent intent = new Intent(this, GlobalSearchActivity.class);
-//                startActivity(intent);
-                setBackGray(true);
-                popupWindow.showAsDropDown(search);
+                Intent intent = new Intent(this, GlobalSearchActivity.class);
+                startActivity(intent);
+//                setBackGray(true);
+//                popupWindow.showAsDropDown(search);
                 break;
         }
     }

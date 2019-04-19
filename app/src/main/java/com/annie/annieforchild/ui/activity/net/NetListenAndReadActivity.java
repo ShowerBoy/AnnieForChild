@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 
 import org.greenrobot.eventbus.Subscribe;
 
+//泛听泛读
 public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     CheckDoubleClickListener listner;
     private ImageView back;

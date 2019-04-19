@@ -483,6 +483,8 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                             presenter.clockinShare(3, bookId);
                             getWindowGray(true);
                             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                        }else{
+                            showInfo("请先录音");
                         }
                     }
                 }

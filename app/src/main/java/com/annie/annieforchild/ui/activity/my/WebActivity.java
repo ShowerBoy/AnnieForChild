@@ -35,6 +35,7 @@ import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -95,7 +96,7 @@ import static com.annie.annieforchild.Utils.PhotoUtils.getPath;
 
 public class WebActivity extends BaseActivity implements View.OnClickListener, PlatformActionListener {
     private WebView webView;
-    private RelativeLayout titleLayout;
+    private RelativeLayout titleLayout, backLayout;
     private ImageView back, share, pengyouquan, weixin, qq, qqzone;
     private Intent mIntent;
     private TextView title;
@@ -116,6 +117,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
     private Bundle bundle;
     private List<Game> lists = null;
     private int position;
+    private int refresh;//判断是否需要返回刷新 0:不需要 1:需要
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -162,6 +164,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         weixin.setOnClickListener(this);
         qq.setOnClickListener(this);
         qqzone.setOnClickListener(this);
+
         popupWindow.setContentView(v);
         popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -216,6 +219,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             shareTag = mIntent.getIntExtra("share", 0);
             aabb = mIntent.getIntExtra("aabb", 0);
             int flag = mIntent.getIntExtra("flag", 0);
+            refresh = mIntent.getIntExtra("refresh", 0);
             if (flag == 1) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             }
@@ -771,6 +775,15 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
 //            ((ViewGroup) webView.getParent()).removeView(webView);
             webView.destroy();
             webView = null;
+            if (refresh == 1) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity2#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = MethodCode.EVENT_REFRESH;
+                message.obj = 1;
+                EventBus.getDefault().post(message);
+            }
         }
         super.onDestroy();
     }

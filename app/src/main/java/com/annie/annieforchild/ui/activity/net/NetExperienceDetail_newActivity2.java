@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.activity.net;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,9 +16,15 @@ import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.net.ListenAndRead;
+import com.annie.annieforchild.bean.net.experience.ExpItemBean;
+import com.annie.annieforchild.bean.net.experience.ExperienceV2;
+import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.bean.net.netexpclass.Info_new;
 import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
+import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
+import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
 import com.annie.annieforchild.ui.adapter.NetExperienceDetailNewAdapter;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
@@ -38,14 +45,15 @@ public class NetExperienceDetail_newActivity2 extends BaseActivity implements Vi
     private ImageView back, empty;
     private TextView title;
     private CheckDoubleClickListener listener;
-    private NetWorkPresenterImp presenter;
+    private NetWorkPresenter presenter;
     private Dialog dialog;
     private AlertHelper helper;
-    private NetExp_new netExpClass;
-    private List<Info_new> lists;
+    private ExperienceV2 experienceV2;
+    private List<ExpItemBean> lists;
     private NetExperienceDetailNewAdapter adapter;
-    private int netid;
+    private int netid, tag = 3;
     private String netName;
+    private ListenAndRead listenAndRead;
 
     {
         setRegister(true);
@@ -81,13 +89,14 @@ public class NetExperienceDetail_newActivity2 extends BaseActivity implements Vi
         lists = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-
-        adapter = new NetExperienceDetailNewAdapter(this, lists);
-        recycler.setAdapter(adapter);
-
         presenter = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
-        presenter.getNetExpDetails_new(netid);
+
+        adapter = new NetExperienceDetailNewAdapter(this, lists, presenter, tag, netid);
+        recycler.setAdapter(adapter);
+
+
+        presenter.experienceDetailsV2(netid);
     }
 
     @Override
@@ -97,17 +106,42 @@ public class NetExperienceDetail_newActivity2 extends BaseActivity implements Vi
 
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-        if (message.what == MethodCode.EVENT_GETNETEXPDETAILS_NEW) {
-            netExpClass = (NetExp_new) message.obj;
-            if (netExpClass.getInfo() != null && netExpClass.getInfo().size() != 0) {
-                scrollView.setVisibility(View.VISIBLE);
-                empty.setVisibility(View.GONE);
-                lists.clear();
-                lists.addAll(netExpClass.getInfo());
-                adapter.notifyDataSetChanged();
+        if (message.what == MethodCode.EVENT_EXPERIENCEDETAILSV2) {
+            experienceV2 = (ExperienceV2) message.obj;
+            if (experienceV2 != null) {
+                if (experienceV2.getPlate() != null && experienceV2.getPlate().size() != 0) {
+                    scrollView.setVisibility(View.VISIBLE);
+                    empty.setVisibility(View.GONE);
+                    lists.clear();
+                    lists.addAll(experienceV2.getPlate());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    scrollView.setVisibility(View.GONE);
+                    empty.setVisibility(View.VISIBLE);
+                }
             } else {
                 scrollView.setVisibility(View.GONE);
                 empty.setVisibility(View.VISIBLE);
+            }
+        } else if (message.what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {
+            listenAndRead = (ListenAndRead) message.obj;
+            if (listenAndRead.getIsshow() == 0) {
+                showInfo("暂无家庭作业");
+            } else {
+                Intent intent = new Intent(this, TaskContentActivity.class);
+                intent.putExtra("classid", listenAndRead.getClassid());
+                intent.putExtra("type", listenAndRead.getType());
+                intent.putExtra("week", listenAndRead.getWeek());
+                intent.putExtra("tabPosition", 0);
+                startActivity(intent);
+            }
+        } else if (message.what == MethodCode.EVENT_REFRESH) {
+            presenter.experienceDetailsV2(netid);
+        } else if (message.what == MethodCode.EVENT_VIDEOPAYRECORD) {
+            VideoFinishBean videoFinishBean = (VideoFinishBean) message.obj;
+            int position = (int) message.obj2;
+            if (experienceV2 != null) {
+                experienceV2.getPlate().get(position).setIsfinish(videoFinishBean.getIsfinish());
             }
         }
     }
