@@ -732,6 +732,12 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                 if (outView2 != null && outView2.size() > 0) {
                     outView2.get(0).setVisibility(View.GONE);
                 }
+
+                ArrayList<View> outView3 = new ArrayList<View>();
+                getWindow().getDecorView().findViewsWithText(outView3, "netclass.anniekids.net", View.FIND_VIEWS_WITH_TEXT);
+                if (outView3 != null && outView3.size() > 0) {
+                    outView3.get(0).setVisibility(View.GONE);
+                }
             }
         });
     }

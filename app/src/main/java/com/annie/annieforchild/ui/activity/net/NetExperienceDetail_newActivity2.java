@@ -109,16 +109,22 @@ public class NetExperienceDetail_newActivity2 extends BaseActivity implements Vi
         if (message.what == MethodCode.EVENT_EXPERIENCEDETAILSV2) {
             experienceV2 = (ExperienceV2) message.obj;
             if (experienceV2 != null) {
-                if (experienceV2.getPlate() != null && experienceV2.getPlate().size() != 0) {
-                    scrollView.setVisibility(View.VISIBLE);
-                    empty.setVisibility(View.GONE);
-                    lists.clear();
-                    lists.addAll(experienceV2.getPlate());
-                    adapter.notifyDataSetChanged();
-                } else {
+                if (experienceV2.getPlaceholdImg() != null && experienceV2.getPlaceholdImg().length() > 0) {
                     scrollView.setVisibility(View.GONE);
                     empty.setVisibility(View.VISIBLE);
+                } else {
+                    if (experienceV2.getPlate() != null && experienceV2.getPlate().size() != 0) {
+                        scrollView.setVisibility(View.VISIBLE);
+                        empty.setVisibility(View.GONE);
+                        lists.clear();
+                        lists.addAll(experienceV2.getPlate());
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        scrollView.setVisibility(View.GONE);
+                        empty.setVisibility(View.VISIBLE);
+                    }
                 }
+
             } else {
                 scrollView.setVisibility(View.GONE);
                 empty.setVisibility(View.VISIBLE);
