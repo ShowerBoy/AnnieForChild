@@ -323,6 +323,13 @@ public class ListenSongActivity extends BaseActivity implements SongView, OnChec
         message.what = MethodCode.EVENT_DATA;
         message.obj = lists.get(position).getClassId();
         EventBus.getDefault().post(message);
+        if (adapter != null) {
+            for (int i = 0; i < lists.size(); i++) {
+                lists.get(i).setSelected(false);
+            }
+            lists.get(position).setSelected(true);
+            adapter.notifyDataSetChanged();
+        }
 //        }
     }
 

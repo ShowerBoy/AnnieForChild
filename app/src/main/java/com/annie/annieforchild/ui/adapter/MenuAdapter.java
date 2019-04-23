@@ -46,6 +46,11 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuViewHolder> {
     @Override
     public void onBindViewHolder(MenuViewHolder menuViewHolder, int i) {
         menuViewHolder.text.setText(lists.get(i).getTitle());
+        if (lists.get(i).isSelected()) {
+            menuViewHolder.text.setTextColor(context.getResources().getColor(R.color.text_orange));
+        } else {
+            menuViewHolder.text.setTextColor(context.getResources().getColor(R.color.text_black));
+        }
     }
 
     @Override
