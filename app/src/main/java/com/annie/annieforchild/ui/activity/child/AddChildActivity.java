@@ -39,6 +39,7 @@ import com.annie.annieforchild.ui.activity.CameraActivity;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.view.AddChildView;
 import com.annie.baselibrary.base.BasePresenter;
+import com.bumptech.glide.Glide;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -73,12 +74,13 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
     private String sex = null, birth = null, headpic = null;
     private PopupWindow popupWindow;
     private SystemUtils systemUtils;
-    private Bitmap headbitmap = null, bitmap = null;
+    private Bitmap bitmap = null;
     private ChildPresenter presenter;
     private LoginPresenter presenter2;
     private AlertHelper helper;
     private Dialog dialog;
     private Intent intent;
+    private String imagePath = null;
     private CheckDoubleClickListener listener;
     private int tag; //来源标示附符 0：注册 1：个人中心添加
     long tenYears = 30L * 365 * 1000 * 60 * 60 * 24L;
@@ -206,12 +208,12 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         if (boy.getId() == i) {
             sex = "男";
-            if (headbitmap == null) {
+            if (imagePath == null) {
                 childHeadPic.setImageResource(R.drawable.icon_system_headpic_boy);
             }
         } else {
             sex = "女";
-            if (headbitmap == null) {
+            if (imagePath == null) {
                 childHeadPic.setImageResource(R.drawable.icon_system_headpic_girl);
             }
         }
@@ -225,7 +227,8 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
 
     @Override
     protected void onImageSelect(Bitmap bitmap, String path) {
-        headbitmap = bitmap;
+//        headbitmap = bitmap;
+        imagePath = path;
         presenter.uploadHeadpic(10000, path);
 //        SystemUtils.show(this, path);
     }
@@ -265,12 +268,14 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
         } else if (message.what == MethodCode.EVENT_UPLOADAVATAR + 10000) {
             if ((String) message.obj != null) {
                 headpic = (String) message.obj;
-                childHeadPic.setImageBitmap(headbitmap);
+//                childHeadPic.setImageBitmap(headbitmap);
+                Glide.with(this).load(headpic).error(R.drawable.icon_system_headpic).into(childHeadPic);
             }
         } else if (message.what == MethodCode.EVENT_UPLOADAVATAR + 10002) {
             if ((String) message.obj != null) {
                 headpic = (String) message.obj;
-                childHeadPic.setImageBitmap(bitmap);
+//                childHeadPic.setImageBitmap(bitmap);
+                Glide.with(this).load(headpic).error(R.drawable.icon_system_headpic).into(childHeadPic);
                 presenter.addChild(headpic, childName.getText().toString(), sex, birth.replace("-", ""), application.getSystemUtils().getPhone());
             }
         }

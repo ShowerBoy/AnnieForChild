@@ -55,7 +55,6 @@ import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.FourthPresenter;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
-import com.annie.annieforchild.ui.activity.CameraActivity;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.child.AddChildActivity;
 import com.annie.annieforchild.ui.activity.child.AddStudentActivity;

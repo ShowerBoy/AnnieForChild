@@ -11,6 +11,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/top_title_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/top_tab_back">
@@ -29,8 +30,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:text="听儿歌"
                 android:textColor="@color/text_black"
                 android:textSize="20sp" />
@@ -42,23 +43,48 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_search" />
+                android:src="@drawable/ic_search"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/song_tab_layout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/white"
-            android:fillViewport="false"
-            app:tabIndicatorColor="@color/clarity"
-            app:tabSelectedTextColor="@color/button_orange"
-            app:tabTextAppearance="@style/CustomTabPageIndicator.Text"
-            app:tabTextColor="@color/text_color">
+            android:layout_height="wrap_content">
 
-        </android.support.design.widget.TabLayout>
+            <RelativeLayout
+                android:id="@+id/choose_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/down_choose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/icon_down_02" />
+            </RelativeLayout>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/song_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="1dp"
+                android:layout_toStartOf="@+id/choose_layout"
+                android:background="@color/white"
+                android:fillViewport="false"
+                app:tabIndicatorColor="@color/clarity"
+                app:tabSelectedTextColor="@color/button_orange"
+                app:tabTextAppearance="@style/CustomTabPageIndicator.Text"
+                app:tabTextColor="@color/text_color">
+
+            </android.support.design.widget.TabLayout>
+        </RelativeLayout>
+
 
         <com.annie.annieforchild.Utils.views.APSTSViewPager
             android:id="@+id/song_viewpager"

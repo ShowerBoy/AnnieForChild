@@ -269,7 +269,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
             collectList.addAll((List<Collection>) message.obj);
             if (collectList.size() != 0) {
                 for (int i = 0; i < collectList.size(); i++) {
-                    if (collectList.get(i).getAudioSource() == 1 || collectList.get(i).getAudioSource() == 2 || collectList.get(i).getAudioSource() == 3 || collectList.get(i).getAudioSource() == 4) {
+                    if (collectList.get(i).getAudioSource() != 100 && collectList.get(i).getAudioSource() != 9) {
                         Song song = new Song();
                         song.setBookId(collectList.get(i).getCourseId());
                         song.setBookName(collectList.get(i).getName());

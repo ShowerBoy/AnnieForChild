@@ -17,12 +17,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.Utils.views.MyMaxHeightRecyclerView;
@@ -52,8 +55,9 @@ import java.util.List;
  * Created by WangLei on 2018/3/13 0013
  */
 
-public class ListenSongActivity extends BaseActivity implements SongView, View.OnClickListener, ViewPager.OnPageChangeListener {
-    private ImageView back, search;
+public class ListenSongActivity extends BaseActivity implements SongView, OnCheckDoubleClick, ViewPager.OnPageChangeListener {
+    private ImageView back, search, upChoose;
+    private RelativeLayout chooseLayout, topLayout;
     private TextView listenTitle;
     private ArrayList<SongClassify> lists;
     private Intent intent;
@@ -77,6 +81,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
     private int popupWidth, popupHeight;
     private MyMaxHeightRecyclerView recycler;
     private MenuAdapter adapter;
+    private CheckDoubleClickListener listener;
 
     @Override
     protected int getLayoutId() {
@@ -85,16 +90,20 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
 
     @Override
     protected void initView() {
+        listener = new CheckDoubleClickListener(this);
         back = findViewById(R.id.song_back);
         listenTitle = findViewById(R.id.listen_title);
         search = findViewById(R.id.song_search);
+        chooseLayout = findViewById(R.id.choose_layout);
+        topLayout = findViewById(R.id.top_title_layout);
 
         //
         mTab = findViewById(R.id.song_tab_layout);
         mVP = findViewById(R.id.song_viewpager);
         //
-        back.setOnClickListener(this);
-        search.setOnClickListener(this);
+        back.setOnClickListener(listener);
+        search.setOnClickListener(listener);
+        chooseLayout.setOnClickListener(listener);
         mVP.setOnPageChangeListener(this);
 
         intent = getIntent();
@@ -196,9 +205,9 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
 
     private void initPop() {
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_listen, null, false);
-        popupWidth = Math.min(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 1 / 3;
-        popupHeight = Math.max(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 1 / 3;
-        popupWindow = new PopupWindow(popupView, popupWidth, WindowManager.LayoutParams.WRAP_CONTENT, true);
+//        popupWidth = Math.min(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 1 / 3;
+//        popupHeight = Math.max(application.getSystemUtils().getWindow_width(), application.getSystemUtils().getWindow_height()) * 1 / 3;
+        popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setOutsideTouchable(false);
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -207,6 +216,8 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
             }
         });
         recycler = popupView.findViewById(R.id.popup_listen_recycler);
+        upChoose = popupView.findViewById(R.id.popup_up_btn);
+        upChoose.setOnClickListener(listener);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(manager);
@@ -260,7 +271,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
     }
 
     @Override
-    public void onClick(View view) {
+    public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
             case R.id.song_back:
                 finish();
@@ -270,6 +281,13 @@ public class ListenSongActivity extends BaseActivity implements SongView, View.O
                 startActivity(intent);
 //                setBackGray(true);
 //                popupWindow.showAsDropDown(search);
+                break;
+            case R.id.choose_layout:
+                setBackGray(true);
+                popupWindow.showAsDropDown(topLayout);
+                break;
+            case R.id.popup_up_btn:
+                popupWindow.dismiss();
                 break;
         }
     }

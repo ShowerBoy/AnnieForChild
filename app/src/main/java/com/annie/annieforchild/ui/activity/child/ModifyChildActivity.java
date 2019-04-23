@@ -58,7 +58,6 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
     private String childSex, birth, childName, avatar, today, wechatnickname, businesscard;
     private UserInfo userInfo;
     private SystemUtils systemUtils;
-    private Bitmap headbitmap;
     private TimePickerDialog datePickerDialog;
     private ChildPresenter presenter;
     private AlertHelper helper;
@@ -209,7 +208,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
 
     @Override
     protected void onImageSelect(Bitmap bitmap, String path) {
-        headbitmap = bitmap;
+//        headbitmap = bitmap;
         presenter.uploadHeadpic(10001, path);
 //        SystemUtils.show(this, path);
     }
