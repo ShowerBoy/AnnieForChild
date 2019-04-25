@@ -97,7 +97,7 @@ import java.util.regex.PatternSyntaxException;
  */
 
 public class SystemUtils {
-//        public static String mainUrl = "https://testappapi.anniekids.com/api/"; //获取接口对象地址（测试）
+    //        public static String mainUrl = "https://testappapi.anniekids.com/api/"; //获取接口对象地址（测试）
     public static String mainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（正式）
 
     public static final String APP_ID = "wxcce6f37c8f2e3dc7"; //微信支付
@@ -438,6 +438,29 @@ public class SystemUtils {
         textView.setText("获得 " + count + " 花蜜奖励");
         popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
         popupWindow.setAnimationStyle(R.style.pop_in_animation);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemUtils.setBackGray((Activity) context, false);
+            }
+        });
+        popupWindow.setContentView(popupView);
+        return popupWindow;
+    }
+
+    /**
+     * 网课礼包
+     *
+     * @return
+     */
+    public static PopupWindow getNetWorkGift(Context context) {
+        popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.MATCH_PARENT);
+        popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_net_work_gift, null, false);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {

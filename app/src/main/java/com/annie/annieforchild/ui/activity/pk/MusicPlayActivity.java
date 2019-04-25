@@ -178,7 +178,6 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         bundle = intent.getExtras();
         musicList = new ArrayList<>();
 
-
         popupView = LayoutInflater.from(this).inflate(R.layout.activity_popup_music_item, null, false);
         popupTitle = popupView.findViewById(R.id.popup_title);
         musicRecycler = popupView.findViewById(R.id.music_list_recycler);
@@ -231,7 +230,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
             audioSource = bundle.getInt("audioSource", 0);
             resourceId = bundle.getInt("resourceId");
             isCollect = bundle.getInt("isCollect");
-            musicPosition = bundle.getInt("musicPosition");
+            musicPosition = bundle.getInt("musicPosition", 0);
             collectType = bundle.getInt("collectType", 0);
             homeworkid = bundle.getInt("homeworkid", 0);
             homeworktype = bundle.getInt("homeworktype", -1);
@@ -397,15 +396,6 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         } else {
             loop.setImageResource(R.drawable.icon_list_loop);
         }
-    }
-
-    public static void Complete() {
-        args = 0;
-        animation.resume();
-        animation.pause();
-        play.setImageResource(R.drawable.icon_music_play_big);
-        start.setText(MusicService.start);
-        seekBar.setProgress(MusicService.pos);
     }
 
     @Override

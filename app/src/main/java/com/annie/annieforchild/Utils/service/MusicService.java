@@ -184,28 +184,12 @@ public class MusicService extends Service {
                 }
                 MusicPlayActivity.end.setText(end);
                 MusicPlayActivity.state = STATE_PLAYING;
-                mediaPlayer.start();
                 MusicPlayActivity.animation.start();
+                mediaPlayer.start();
                 /**
                  * 以下
                  */
                 Glide.with(MusicService.this).load(musicPartList.get(listTag).getImageUrl()).into(MusicPlayActivity.image);
-//                start = "0:00";
-//                MusicPlayActivity.start.setText(start);
-//                MusicPlayActivity.play.setImageResource(R.drawable.icon_music_pause_big);
-//                MusicPlayActivity.name.setText(musicPartList.get(listTag).getName());
-//                if (musicList.get(listTag).getIsCollected() == 0) {
-//                    MusicPlayActivity.collect.setImageResource(R.drawable.icon_player_collection_f);
-//                } else {
-//                    MusicPlayActivity.collect.setImageResource(R.drawable.icon_player_collection_t);
-//                }
-//                Glide.with(MusicService.this).load(musicPartList.get(listTag).getImageUrl()).into(MusicPlayActivity.image);
-//                setMusicTitle(musicPartList.get(listTag).getName(), musicPartList.get(listTag).getImageUrl(), musicOrigin, musicAudioType, musicAudioSource, musicPartList.get(listTag).getBookId(), musicList.get(listTag).getIsCollected(), musicCollectType, musicSongView);
-//                for (int i = 0; i < musicPartList.size(); i++) {
-//                    musicPartList.get(i).setPlaying(false);
-//                }
-//                musicPartList.get(MusicService.listTag).setPlaying(true);
-//                MusicPlayActivity.adapter.notifyDataSetChanged();
             }
         });
         presenter = new GrindEarPresenterImp(this);
@@ -260,7 +244,7 @@ public class MusicService extends Service {
 
     public static void setMusicCollect(int isCollect) {
         musicIsCollect = isCollect;
-        MusicService.musicList.get(listTag).setIsCollected(isCollect);
+        musicList.get(listTag).setIsCollected(isCollect);
     }
 
     //用于开始播放的方法

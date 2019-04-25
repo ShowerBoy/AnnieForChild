@@ -631,17 +631,19 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
             case R.id.sign_image:
                 //右上角签到
                 //TODO:
-                if (tag.equals("游客")) {
-                    SystemUtils.toLogin(getContext());
-                    return;
-                }
-                if (application.getSystemUtils().getChildTag() == 0) {
-                    SystemUtils.toAddChild(getContext());
-                    return;
-                }
-                Intent intent1 = new Intent(getContext(), MusicPlayActivity.class);
-                startActivity(intent1);
+//                if (tag.equals("游客")) {
+//                    SystemUtils.toLogin(getContext());
+//                    return;
+//                }
+//                if (application.getSystemUtils().getChildTag() == 0) {
+//                    SystemUtils.toAddChild(getContext());
+//                    return;
+//                }
+//                Intent intent1 = new Intent(getContext(), MusicPlayActivity.class);
+//                startActivity(intent1);
 
+                SystemUtils.setBackGray(getActivity(), true);
+                SystemUtils.getNetWorkGift(getContext()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
 
 //                Intent intent1 = new Intent(getContext(), WebActivity.class);
 //                intent1.putExtra("url", "https://testh5.imoulife.com/");

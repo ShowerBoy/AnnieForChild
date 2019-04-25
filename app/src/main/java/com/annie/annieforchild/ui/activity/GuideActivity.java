@@ -70,6 +70,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (!isTaskRoot()) {
             final Intent intent = getIntent();
             final String intentAction = intent.getAction();
@@ -79,7 +80,6 @@ public class GuideActivity extends BaseActivity implements LoginView {
                 return;
             }
         }
-        super.onCreate(savedInstanceState);
     }
 
     @Override

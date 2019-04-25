@@ -54,6 +54,8 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.PhotoUtils;
 import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.dsbridge.JsApi;
+import com.annie.annieforchild.Utils.dsbridge.JsEchoApi;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Game;
 import com.annie.annieforchild.bean.song.Song;
@@ -280,7 +282,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                         finish();
                     } else if (getValueByName(url, "into").equals("5")) {
                         //录音
-                        SystemUtils.show(WebActivity.this, "录音开始");
+//                        SystemUtils.show(WebActivity.this, "录音开始");
                     }
                     return true;
                 }
@@ -331,16 +333,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                 @Override
                 public void onHideCustomView() {
                     super.onHideCustomView();
-//                    WebActivity.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//                    if (callback != null) {
-//                        callback.onCustomViewHidden();
-//                        callback = null;
-//                    }
-//                    if (myVideoView != null) {
-//                        ViewGroup viewGroup = (ViewGroup) myVideoView.getParent();
-//                        viewGroup.removeView(myVideoView);
-//                        viewGroup.addView(myNormalView);
-//                    }
                 }
 
                 @Override
@@ -407,9 +399,10 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
                 }
             });
 
-
             webView.canGoForward();
             webView.canGoBack();
+            webView.addJavascriptObject(new JsApi(this, application), null);
+            webView.addJavascriptObject(new JsEchoApi(), "echo");
             Map<String, String> header = new HashMap<String, String>();
             header.put("username", "anniekids");
 //            url = "http://192.168.1.14:8081/?templateid=Video&categoryid=1314&chapterid=1886";
