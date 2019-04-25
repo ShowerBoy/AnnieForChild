@@ -86,6 +86,7 @@ import java.util.Map;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
+import wendu.dsbridge.DWebView;
 
 import static com.annie.annieforchild.Utils.PhotoUtils.getPath;
 
@@ -95,7 +96,7 @@ import static com.annie.annieforchild.Utils.PhotoUtils.getPath;
  */
 
 public class WebActivity extends BaseActivity implements View.OnClickListener, PlatformActionListener {
-    private WebView webView;
+    private DWebView webView;
     private RelativeLayout titleLayout, backLayout;
     private ImageView back, share, pengyouquan, weixin, qq, qqzone;
     private Intent mIntent;

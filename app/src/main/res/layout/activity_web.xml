@@ -54,10 +54,10 @@
             android:progressDrawable="@drawable/pg"
             android:visibility="gone" />
 
-        <com.tencent.smtt.sdk.WebView
+        <wendu.dsbridge.DWebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></com.tencent.smtt.sdk.WebView>
+            android:layout_height="match_parent"></wendu.dsbridge.DWebView>
 
     </LinearLayout>
 </RelativeLayout>
