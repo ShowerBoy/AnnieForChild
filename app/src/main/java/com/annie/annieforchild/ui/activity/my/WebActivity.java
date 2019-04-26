@@ -60,16 +60,10 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Game;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
-import com.annie.annieforchild.ui.activity.net.LessonActivity;
-import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
-import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
-import com.tencent.smtt.export.external.interfaces.WebResourceError;
-import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
-import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
@@ -89,8 +83,6 @@ import java.util.Map;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import wendu.dsbridge.DWebView;
-
-import static com.annie.annieforchild.Utils.PhotoUtils.getPath;
 
 /**
  * 网页

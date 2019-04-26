@@ -150,8 +150,10 @@ public class VideoActivity extends BaseActivity implements SongView, OnCheckDoub
             @Override
             public void onCompletion(MediaPlayer mp) {
                 //播放结束监听
-                if (isFinish == 0) {
-                    presenter2.videoPayRecord(netid, stageid, unitid, chaptercontentid, isFinish, classcode, position);
+                if (!isTime) {
+                    if (isFinish == 0) {
+                        presenter2.videoPayRecord(netid, stageid, unitid, chaptercontentid, isFinish, classcode, position);
+                    }
                 }
             }
         });

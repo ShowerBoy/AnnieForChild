@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,6 +20,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ImageView;
@@ -444,6 +446,11 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                 }
                 presenter.clearTags();
                 tagAdapter.notifyDataSetChanged();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                // 隐藏软键盘
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+                }
                 SystemUtils.setBackGray(GlobalSearchActivity.this, true);
                 popupWindow.showAtLocation(popupView, Gravity.CENTER, startLeft, 0);
                 break;

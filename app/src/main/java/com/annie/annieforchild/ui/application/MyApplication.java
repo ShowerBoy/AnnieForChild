@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.SSLCertificateSocketFactory;
 import android.net.wifi.aware.AttachCallback;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.annie.annieforchild.Utils.MyCrashHandler;
 import com.annie.annieforchild.Utils.SSLSocketClient;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.baselibrary.utils.Utils;
 import com.baidu.mobstat.StatService;
 import com.iflytek.cloud.SpeechConstant;
@@ -105,7 +107,12 @@ public class MyApplication extends LitePalApplication {
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
         CrashReport.initCrashReport(getApplicationContext(), "ff549d1848", true, strategy);
 
-
+        Intent intent = new Intent(this, MusicService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
+        } else {
+            startService(intent);
+        }
     }
 
     @Override
