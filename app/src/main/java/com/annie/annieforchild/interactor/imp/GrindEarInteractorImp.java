@@ -935,6 +935,21 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
 //        startQueue();
     }
 
+    @Override
+    public void uploadimgH5(String path, String title) {
+        File file = new File(path);
+        if (!file.exists()) {
+
+        }
+        FileBinary fileBinary = new FileBinary(file);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.UPLOADIMGH5, RequestMethod.POST);
+//        request.add("token", application.getSystemUtils().getToken());
+//        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("file", fileBinary);
+//        request.add("title", title);
+        addQueue(MethodCode.EVENT_UPLOADIMGH5, request);
+    }
+
 
     @Override
     protected void onNetWorkStart(int what) {
@@ -1212,6 +1227,10 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 listener.Success(what, "删除成功");
             } else if (what == MethodCode.EVENT_CANCELRELEASE + 20000 + type) {
                 listener.Success(what, "取消发布成功");
+            }else if (what == MethodCode.EVENT_UPLOADIMGH5) {
+                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                String fileurl = dataobj.getString("fileurl");
+                listener.Success(what, fileurl);
             }
         }
     }

@@ -642,13 +642,13 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 //                Intent intent1 = new Intent(getContext(), MusicPlayActivity.class);
 //                startActivity(intent1);
 
-                SystemUtils.setBackGray(getActivity(), true);
-                SystemUtils.getNetWorkGift(getContext()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+//                SystemUtils.setBackGray(getActivity(), true);
+//                SystemUtils.getNetWorkGift(getContext()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
 
-//                Intent intent1 = new Intent(getContext(), WebActivity.class);
-//                intent1.putExtra("url", "https://testh5.imoulife.com/");
-//                intent1.putExtra("title", "");
-//                startActivity(intent1);
+                Intent intent1 = new Intent(getContext(), WebActivity.class);
+                intent1.putExtra("url", "http://study.anniekids.org/a-temporary/Sound/index.html");
+                intent1.putExtra("title", "");
+                startActivity(intent1);
 
 //                Intent intent1 = new Intent(getContext(), CalendarActivity.class);
 //                startActivity(intent1);

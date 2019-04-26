@@ -132,4 +132,6 @@ public interface GrindEarInteractor {
     void deleteRecording(int recordingId, int origin, int tag);
 
     void cancelRelease(int bookid, int tag);
+
+    void uploadimgH5(String path, String title);
 }

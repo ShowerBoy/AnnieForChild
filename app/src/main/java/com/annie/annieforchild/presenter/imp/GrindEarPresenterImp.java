@@ -413,7 +413,6 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     }
 
 
-
     /**
      * 获取口语列表
      *
@@ -684,6 +683,12 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
         songView.showLoad();
         type = tag;
         interactor.cancelRelease(bookid, tag);
+    }
+
+    @Override
+    public void uploadimgH5(String path, String title) {
+        songView.showLoad();
+        interactor.uploadimgH5(path, title);
     }
 
     private void initImageSlide() {
@@ -1419,6 +1424,14 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_CANCELRELEASE + 20000 + type) {
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_UPLOADIMGH5) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.my.WebActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;

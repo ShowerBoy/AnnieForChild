@@ -31,7 +31,7 @@ public interface GrindEarPresenter {
 
     void getBookAudioData(int bookId, int pkType, String pkUsername);
 
-    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid,int homeworktype);
+    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid, int homeworktype);
 
     void getPkUsers(int bookId);
 
@@ -136,4 +136,6 @@ public interface GrindEarPresenter {
     void deleteRecording(int recordingId, int origin, int tag);
 
     void cancelRelease(int bookid, int tag);
+
+    void uploadimgH5(String path, String title);
 }

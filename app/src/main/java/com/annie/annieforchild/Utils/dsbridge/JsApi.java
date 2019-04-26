@@ -2,10 +2,14 @@ package com.annie.annieforchild.Utils.dsbridge;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.util.EventLog;
 import android.webkit.JavascriptInterface;
 
+import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.ui.application.MyApplication;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,7 +30,10 @@ public class JsApi {
 
     @JavascriptInterface
     public String doRecord(Object msg) {
-
+        JTMessage message = new JTMessage();
+        message.what = MethodCode.EVENT_WEBRECORD;
+        message.obj = msg;
+        EventBus.getDefault().post(message);
         return msg + "［doRecord syn call］";
     }
 

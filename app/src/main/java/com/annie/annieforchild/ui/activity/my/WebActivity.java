@@ -40,6 +40,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -56,13 +57,18 @@ import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.dsbridge.JsApi;
 import com.annie.annieforchild.Utils.dsbridge.JsEchoApi;
+import com.annie.annieforchild.Utils.pcm2mp3.RecorderAndPlayUtil;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Game;
 import com.annie.annieforchild.bean.song.Song;
+import com.annie.annieforchild.presenter.GrindEarPresenter;
+import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
+import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.example.lamemp3.MP3Recorder;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.ValueCallback;
@@ -72,6 +78,7 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -83,22 +90,25 @@ import java.util.Map;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import wendu.dsbridge.DWebView;
+import wendu.dsbridge.OnReturnValue;
 
 /**
  * 网页
  * Created by wanglei on 2018/3/21.
  */
 
-public class WebActivity extends BaseActivity implements View.OnClickListener, PlatformActionListener {
+public class WebActivity extends BaseActivity implements View.OnClickListener, SongView, PlatformActionListener {
     private DWebView webView;
     private RelativeLayout titleLayout, backLayout;
+    private static final String DIR = "LAME/mp3/";
+    private Button stopRecord;
     private ImageView back, share, pengyouquan, weixin, qq, qqzone;
     private Intent mIntent;
     private TextView title;
     private String url;
     private String titleText;
-    private PopupWindow popupWindow;
-    private View v;
+    private PopupWindow popupWindow, recordPopup;
+    private View v, recordView;
     private ShareUtils shareUtils;
     private int shareTag = 0;
     private int aabb;
@@ -113,6 +123,13 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
     private List<Game> lists = null;
     private int position;
     private int refresh;//判断是否需要返回刷新 0:不需要 1:需要
+    private RecorderAndPlayUtil mRecorderUtil = null;
+    private GrindEarPresenter presenter;
+    private String sentence;
+
+    {
+        setRegister(true);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -177,6 +194,8 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
     @Override
     protected void initData() {
 //        webSettings = webView.getSettings();
+        presenter = new GrindEarPresenterImp(this, this);
+        presenter.initViewAndData();
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setUseWideViewPort(true);
@@ -205,6 +224,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         if (webView.getX5WebViewExtension() != null) {
             webView.getX5WebViewExtension().invokeMiscMethod("setVideoParams", data);
         }
+
+        initMp3();
+        initPopup();
 
         mIntent = getIntent();
 
@@ -407,6 +429,36 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
             share.setVisibility(View.VISIBLE);
         }
         shareUtils = new ShareUtils(this, this);
+    }
+
+    private void initPopup() {
+        recordPopup = new PopupWindow(this);
+        recordPopup.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        recordPopup.setHeight(WindowManager.LayoutParams.MATCH_PARENT);
+        recordView = LayoutInflater.from(this).inflate(R.layout.activity_popup_web_record, null, false);
+        recordPopup.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.clarity)));
+        recordPopup.setOutsideTouchable(false);
+        recordPopup.setFocusable(true);
+        recordPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+//                clarifyLayout.setVisibility(View.GONE);
+                Message message1 = new Message();
+                message1.arg1 = 1;
+                handler2.sendMessage(message1);
+                mRecorderUtil.stopRecording();
+//                showInfo("录音结束:" + Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + sentence + ".mp3");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        presenter.uploadimgH5(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + sentence + ".mp3", "");
+                    }
+                }, 1000);
+            }
+        });
+        stopRecord = recordView.findViewById(R.id.stop_record);
+        stopRecord.setOnClickListener(this);
+        recordPopup.setContentView(recordView);
     }
 
     private void take() {
@@ -625,6 +677,97 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         return result;
     }
 
+    private void initMp3() {
+        mRecorderUtil = new RecorderAndPlayUtil(DIR);
+        mRecorderUtil.getRecorder().setHandle(new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case MP3Recorder.MSG_REC_STARTED:
+                        // 开始录音
+                        break;
+                    case MP3Recorder.MSG_REC_STOPPED:
+                        // 停止录音
+//                        if (mIsSendVoice) {// 是否发送录音
+//                            mIsSendVoice = false;
+//                            audioRecordFinishListener.onFinish(mSecond, mRecorderUtil.getRecorderPath());
+//                        }
+//                        showInfo(mRecorderUtil.getRecorderPath());
+                        break;
+                    case MP3Recorder.MSG_ERROR_GET_MIN_BUFFERSIZE:
+                        initRecording();
+                        showInfo("采样率手机不支持");
+                        break;
+                    case MP3Recorder.MSG_ERROR_CREATE_FILE:
+                        initRecording();
+                        showInfo("创建音频文件出错");
+                        break;
+                    case MP3Recorder.MSG_ERROR_REC_START:
+                        initRecording();
+                        showInfo("初始化录音器出错");
+                        break;
+                    case MP3Recorder.MSG_ERROR_AUDIO_RECORD:
+                        initRecording();
+                        showInfo("录音的时候出错");
+                        break;
+                    case MP3Recorder.MSG_ERROR_AUDIO_ENCODE:
+                        initRecording();
+                        showInfo("编码出错");
+                        break;
+                    case MP3Recorder.MSG_ERROR_WRITE_FILE:
+                        initRecording();
+                        showInfo("文件写入出错");
+                        break;
+                    case MP3Recorder.MSG_ERROR_CLOSE_FILE:
+                        initRecording();
+                        showInfo("文件流关闭出错");
+                        break;
+                }
+            }
+        });
+    }
+
+    private void initRecording() {
+        mRecorderUtil.stopRecording();
+        mRecorderUtil.getRecorderPath();
+    }
+
+    @Subscribe
+    public void onMainEventThread(JTMessage message) {
+        if (message.what == MethodCode.EVENT_WEBRECORD) {
+//            getWindowGray(true);
+//            clarifyLayout.setVisibility(View.VISIBLE);
+            sentence = (String) message.obj;
+            Message message1 = new Message();
+            message1.arg1 = 0;
+            handler2.sendMessage(message1);
+            recordPopup.showAtLocation(recordView, Gravity.CENTER, 0, 0);
+            showInfo("录音开始");
+            mRecorderUtil.startRecording(sentence);
+//            SystemUtils.getWebRecord(this).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+        } else if (message.what == MethodCode.EVENT_UPLOADIMGH5) {
+            String fileUrl = (String) message.obj;
+            webView.callHandler("addValue", new Object[]{fileUrl}, new OnReturnValue<String>() {
+                @Override
+                public void onValue(String s) {
+
+                }
+            });
+        }
+    }
+
+    Handler handler2 = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.arg1 == 0) {
+                getWindowGray(true);
+            } else {
+                getWindowGray(false);
+            }
+        }
+    };
+
     @Override
     protected BasePresenter getPresenter() {
         return null;
@@ -780,4 +923,18 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, P
         super.onDestroy();
     }
 
+    @Override
+    public void showInfo(String info) {
+
+    }
+
+    @Override
+    public void showLoad() {
+
+    }
+
+    @Override
+    public void dismissLoad() {
+
+    }
 }

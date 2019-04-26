@@ -25,6 +25,7 @@ public class MethodCode {
     /**
      * EventBus
      */
+    final public static int EVENT_WEBRECORD = -190;
     final public static int EVENT_REFRESH = -180;
     final public static int EVENT_CONFIRMBUYSUC = -170;
     final public static int EVENT_LESSON = -160;
@@ -183,6 +184,7 @@ public class MethodCode {
     final public static int EVENT_GETHOMEPAGE = 138; //
     final public static int EVENT_GETPRODUCTIONLIST = 139; //
     final public static int EVENT_CANCELRELEASE = 140; //
+    final public static int EVENT_UPLOADIMGH5 = 158; //
 
 
     final public static int EVENT_BUYSUCCESS = 137; //网课购买成功
