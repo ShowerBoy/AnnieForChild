@@ -6,18 +6,28 @@ package com.annie.annieforchild.bean.tongzhi;
  */
 
 public class Notice {
-    private String tag;
+    private int type; //消息类型  暂时只有1 ： 礼包消息	类型：int
+    private String typeName;
     private String title;
-    private String time;
-    private String content;
-    private int notiid;
+    private String createTime;
+    private String contents;
+    private int giftRecordId;
+    private int isChoose; //当 type = 1 时，判断该字段   0：还未选择礼包，点击显示弹窗   1：已经选择完礼包	   类型：int
 
-    public String getTag() {
-        return tag;
+    public int getType() {
+        return type;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public String getTitle() {
@@ -28,27 +38,35 @@ public class Notice {
         this.title = title;
     }
 
-    public String getTime() {
-        return time;
+    public String getCreateTime() {
+        return createTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
-    public String getContent() {
-        return content;
+    public String getContents() {
+        return contents;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setContents(String contents) {
+        this.contents = contents;
     }
 
-    public int getNotiid() {
-        return notiid;
+    public int getGiftRecordId() {
+        return giftRecordId;
     }
 
-    public void setNotiid(int notiid) {
-        this.notiid = notiid;
+    public void setGiftRecordId(int giftRecordId) {
+        this.giftRecordId = giftRecordId;
+    }
+
+    public int getIsChoose() {
+        return isChoose;
+    }
+
+    public void setIsChoose(int isChoose) {
+        this.isChoose = isChoose;
     }
 }

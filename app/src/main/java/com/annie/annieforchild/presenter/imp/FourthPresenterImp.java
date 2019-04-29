@@ -15,6 +15,7 @@ import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.bean.login.SigninBean;
+import com.annie.annieforchild.bean.net.NetGift;
 import com.annie.annieforchild.interactor.FourthInteractor;
 import com.annie.annieforchild.interactor.imp.FourthInteractorImp;
 import com.annie.annieforchild.presenter.FourthPresenter;
@@ -157,6 +158,11 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
         interactor.bindWeixin(weixinNum);
     }
 
+    @Override
+    public void showGifts(int origin, int giftRecordId) {
+        interactor.showGifts(origin, giftRecordId);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void Success(int what, Object result) {
@@ -256,6 +262,8 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 } finally {
                     db.close();
                 }
+                //获取网课礼包
+                showGifts(1, 0);
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.DakaFragment#onMainEventThread(JTMessage)}
                  * {@link com.annie.annieforchild.ui.fragment.FirstFragment#onMainEventThread(JTMessage)}
@@ -280,6 +288,15 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = result;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_SHOWGIFTS) {
+                NetGift netGift = (NetGift) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.MainActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = netGift;
                 EventBus.getDefault().post(message);
             }
         } else {

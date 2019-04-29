@@ -795,6 +795,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
             case R.id.tofriend_qqzone:
                 shareUtils.shareQZone("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + application.getSystemUtils().getDefaultUsername());
                 break;
+            case R.id.stop_record:
+                recordPopup.dismiss();
+                break;
         }
     }
 

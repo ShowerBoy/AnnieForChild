@@ -9,4 +9,86 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:src="@drawable/net_work_gift_bg" />
+
+    <TextView
+        android:id="@+id/net_gift_title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/net_work_gift_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:text="恭喜你"
+        android:textColor="@color/text_orange"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/net_gift_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/net_gift_title1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="6dp"
+        android:text="获得体验课礼包资格"
+        android:textColor="@color/text_orange"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/net_gift_title3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/net_work_gift_image"
+        android:layout_below="@+id/net_gift_title2"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
+        android:text="请选择你要开通的礼包课程"
+        android:textColor="@color/text_color"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/net_gift_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/net_work_gift_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/popupwindow_close" />
+
+    <TextView
+        android:id="@+id/net_gift_floor1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/net_work_gift_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:text="选择确认后不能更改哦"
+        android:textColor="@color/clarity_gray"
+        android:textSize="8sp" />
+
+    <Button
+        android:id="@+id/net_gift_confirm"
+        android:layout_width="110dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/net_gift_floor1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/icon_release_orange"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/net_gift_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/net_gift_confirm"
+        android:layout_alignEnd="@+id/net_work_gift_image"
+        android:layout_alignStart="@+id/net_work_gift_image"
+        android:layout_below="@+id/net_gift_title3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="2dp">
+
+    </android.support.v7.widget.RecyclerView>
+
 </RelativeLayout>

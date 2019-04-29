@@ -24,6 +24,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
@@ -52,16 +53,21 @@ import com.annie.annieforchild.bean.login.HistoryRecord;
 import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.bean.login.SigninBean;
+import com.annie.annieforchild.bean.net.GiftBean;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.FourthPresenter;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
+import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
+import com.annie.annieforchild.ui.activity.MainActivity;
 import com.annie.annieforchild.ui.activity.child.AddChildActivity;
 import com.annie.annieforchild.ui.activity.child.AddStudentActivity;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
+import com.annie.annieforchild.ui.adapter.NetGiftPopupAdapter;
 import com.annie.annieforchild.ui.application.MyApplication;
+import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
 import com.tencent.smtt.sdk.TbsVideo;
 //import com.github.chrisbanes.photoview.PhotoView;
@@ -139,6 +145,7 @@ public class SystemUtils {
     private int window_height;
     private Uri uri;
     private List<Song> playLists; //最近播放列表
+    private NetGiftPopupAdapter netGiftPopupAdapter;
     Context context;
 
     public SystemUtils(Context context) {
@@ -455,11 +462,73 @@ public class SystemUtils {
      *
      * @return
      */
-    public static PopupWindow getNetWorkGift(Context context) {
+    public PopupWindow getNetWorkGift(Context context, int giftRecordId, List<GiftBean> giftList, LoginPresenter presenter) {
+        RecyclerView recyclerView = new RecyclerView(context);
+        ImageView close = new ImageView(context);
+        Button button = new Button(context);
+        RecyclerView finalRecyclerView = recyclerView;
+        netGiftPopupAdapter = new NetGiftPopupAdapter(context, giftList, new OnRecyclerItemClickListener() {
+            @Override
+            public void onItemClick(View view) {
+                int position = finalRecyclerView.getChildAdapterPosition(view);
+                for (int i = 0; i < giftList.size(); i++) {
+                    giftList.get(i).setSelect(false);
+                }
+                if (giftList.get(position).isSelect()) {
+                    giftList.get(position).setSelect(false);
+                } else {
+                    giftList.get(position).setSelect(true);
+                }
+                netGiftPopupAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemLongClick(View view) {
+
+            }
+        });
         popupWindow = new PopupWindow(context);
         popupWindow.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         popupWindow.setHeight(WindowManager.LayoutParams.MATCH_PARENT);
         popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_net_work_gift, null, false);
+        button = popupView.findViewById(R.id.net_gift_confirm);
+        close = popupView.findViewById(R.id.net_gift_close);
+        recyclerView = popupView.findViewById(R.id.net_gift_recycler);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean select = false;
+                int index = 0;
+                for (int i = 0; i < giftList.size(); i++) {
+                    if (giftList.get(i).isSelect()) {
+                        select = true;
+                        index = i;
+                    }
+                }
+                if (select) {
+                    MainActivity.title = giftList.get(index).getTitle();
+                    MainActivity.giftName = giftList.get(index).getGiftName();
+                    presenter.chooseGift(giftList.get(index).getGiftId(), giftRecordId);
+                    popupWindow.dismiss();
+                } else {
+                    show(context, "关闭后可在【我的】-【我的消息】再次开通礼包课程哦~");
+                    popupWindow.dismiss();
+                }
+
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                show(context, "关闭后可在【我的】-【我的消息】再次开通礼包课程哦~");
+                popupWindow.dismiss();
+            }
+        });
+        LinearLayoutManager manager = new LinearLayoutManager(context);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(netGiftPopupAdapter);
+        netGiftPopupAdapter.notifyDataSetChanged();
         popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);

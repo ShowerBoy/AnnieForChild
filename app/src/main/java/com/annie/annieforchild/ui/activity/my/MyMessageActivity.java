@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
+import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.MessagePresenter;
 import com.annie.annieforchild.presenter.imp.MessagePresenterImp;
 import com.annie.annieforchild.ui.fragment.message.GroupMsgFragment;
@@ -21,6 +23,8 @@ import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
+
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * 我的消息
@@ -37,6 +41,10 @@ public class MyMessageActivity extends BaseActivity implements ViewInfo, View.On
     private MessagePresenter presenter;
     private AlertHelper helper;
     private Dialog dialog;
+
+    {
+        setRegister(true);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -63,7 +71,8 @@ public class MyMessageActivity extends BaseActivity implements ViewInfo, View.On
         fragmentAdapter.notifyDataSetChanged();
         pagerTab.setViewPager(mVP);
         pagerTab.setOnPageChangeListener(this);
-        presenter.getMyMessages();
+//        presenter.getMyMessages();
+        presenter.getMessagesList();
     }
 
     @Override
@@ -93,6 +102,13 @@ public class MyMessageActivity extends BaseActivity implements ViewInfo, View.On
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Subscribe
+    public void onMainEventThread(JTMessage message) {
+        if (message.what == MethodCode.EVENT_CHOOSEGIFT) {
+            presenter.getMessagesList();
+        }
     }
 
     @Override

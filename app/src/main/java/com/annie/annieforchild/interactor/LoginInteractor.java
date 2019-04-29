@@ -19,4 +19,8 @@ public interface LoginInteractor {
     void getTags();
 
     void getTagBook(List<Tags> ageList, List<Tags> functionList, List<Tags> themeList, List<Tags> typeList, List<Tags> seriesList, int page);
+
+    void showGifts(int origin, int giftRecordId);
+
+    void chooseGift(int giftId, int giftRecordId);
 }

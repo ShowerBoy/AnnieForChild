@@ -53,10 +53,10 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeViewHolder> {
 
     @Override
     public void onBindViewHolder(NoticeViewHolder holder, int position) {
-        holder.noticeType.setText(lists.get(position).getTag());
+        holder.noticeType.setText(lists.get(position).getTypeName());
         holder.noticeTitle.setText(lists.get(position).getTitle());
-        holder.noticeTime.setText(lists.get(position).getTime().substring(0, 4) + "-" + lists.get(position).getTime().substring(4, 6) + "-" + lists.get(position).getTime().substring(6, 8));
-        holder.noticeContent.setText(lists.get(position).getContent());
+        holder.noticeTime.setText(lists.get(position).getCreateTime());
+        holder.noticeContent.setText(lists.get(position).getContents());
     }
 
     @Override

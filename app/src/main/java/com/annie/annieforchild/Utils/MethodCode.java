@@ -184,7 +184,7 @@ public class MethodCode {
     final public static int EVENT_GETHOMEPAGE = 138; //
     final public static int EVENT_GETPRODUCTIONLIST = 139; //
     final public static int EVENT_CANCELRELEASE = 140; //
-    final public static int EVENT_UPLOADIMGH5 = 158; //
+
 
 
     final public static int EVENT_BUYSUCCESS = 137; //网课购买成功
@@ -208,4 +208,8 @@ public class MethodCode {
     final public static int EVENT_EXPERIENCEDETAILSV2 = 155; //
     final public static int EVENT_VIDEOPAYRECORD = 156; //
     final public static int EVENT_VIDEOLIST = 157; //
+    final public static int EVENT_UPLOADIMGH5 = 158; //
+    final public static int EVENT_SHOWGIFTS = 159; //
+    final public static int EVENT_CHOOSEGIFT = 160; //
+    final public static int EVENT_GETMESSAGESLIST = 161; //
 }

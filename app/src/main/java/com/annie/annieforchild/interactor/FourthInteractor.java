@@ -15,4 +15,6 @@ public interface FourthInteractor {
     void getUserList();
 
     void bindWeixin(String weixinNum);
+
+    void showGifts(int origin, int giftRecordId);
 }

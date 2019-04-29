@@ -16,4 +16,6 @@ public interface FourthPresenter {
     void getUserList();
 
     void bindWeixin(String weixinNum);
+
+    void showGifts(int origin, int giftRecordId);
 }

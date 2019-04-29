@@ -10,6 +10,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.HelpBean;
 import com.annie.annieforchild.bean.record.Record;
 import com.annie.annieforchild.bean.tongzhi.MyNotice;
+import com.annie.annieforchild.bean.tongzhi.Notice;
 import com.annie.annieforchild.interactor.MessageInteractor;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
@@ -115,6 +116,14 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
     }
 
     @Override
+    public void getMessagesList() {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETMESSAGESLIST, RequestMethod.POST);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
+        addQueue(MethodCode.EVENT_GETMESSAGESLIST, request);
+    }
+
+    @Override
     protected void onNetWorkStart(int what) {
 
     }
@@ -158,12 +167,15 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
                 JSONObject dataObj = jsonObject.getJSONObject(MethodCode.DATA);
                 String shareUrl = dataObj.getString("shareUrl");
                 listener.Success(what, shareUrl);
+            } else if (what == MethodCode.EVENT_GETMESSAGESLIST) {
+                List<Notice> lists = JSON.parseArray(data, Notice.class);
+                listener.Success(what, lists);
             }
         }
     }
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Error(what, response.getException().getMessage());
+//        listener.Error(what, response.getException().getMessage());
     }
 }

@@ -17,6 +17,7 @@ import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.login.LoginBean;
 import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.bean.login.SigninBean;
+import com.annie.annieforchild.bean.net.NetGift;
 import com.annie.annieforchild.bean.search.BookClassify;
 import com.annie.annieforchild.bean.search.Books;
 import com.annie.annieforchild.bean.search.SearchContent;
@@ -57,6 +58,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
     private LoginInteractor interactor;
     private List<Tags> ageList, functionList, themeList, typeList, seriesList;
     private MyApplication application;
+    private int origin;
 //    private Timer timer;
 //    private TimerTask task;
 
@@ -158,6 +160,17 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
         themeList.clear();
         typeList.clear();
         seriesList.clear();
+    }
+
+    @Override
+    public void showGifts(int origin, int giftRecordId) {
+        this.origin = origin;
+        interactor.showGifts(origin, giftRecordId);
+    }
+
+    @Override
+    public void chooseGift(int giftId, int giftRecordId) {
+        interactor.chooseGift(giftId, giftRecordId);
     }
 
     @Override
@@ -272,6 +285,8 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                                 application.getSystemUtils().getSigninBean().save();
                             }
 
+                            //获取网课礼包
+                            showGifts(1, 0);
                         }
                         /**
                          * {@link LoginActivity#onEventMainThread(JTMessage)}
@@ -366,6 +381,24 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = searchContent;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_SHOWGIFTS + 110000 + origin) {
+                NetGift netGift = (NetGift) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.MainActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.fragment.message.NoticeFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = netGift;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_CHOOSEGIFT) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.MainActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
                 EventBus.getDefault().post(message);
             }
         }

@@ -81,18 +81,18 @@ public class GroupMsgFragment extends BaseFragment {
      */
     @Subscribe
     public void onMainEventThread(JTMessage message) {
-        if (message.what == -1) {
-            MyNotice myNotice = (MyNotice) message.obj;
-            lists.clear();
-            lists.addAll(myNotice.getMessages());
-            adapter.notifyDataSetChanged();
-            if (lists.size() == 0) {
-                groupmsgRecycler.setVisibility(View.GONE);
-                empty.setVisibility(View.VISIBLE);
-            } else {
-                groupmsgRecycler.setVisibility(View.VISIBLE);
-                empty.setVisibility(View.GONE);
-            }
-        }
+//        if (message.what == -1) {
+//            MyNotice myNotice = (MyNotice) message.obj;
+//            lists.clear();
+//            lists.addAll(myNotice.getMessages());
+//            adapter.notifyDataSetChanged();
+//            if (lists.size() == 0) {
+//                groupmsgRecycler.setVisibility(View.GONE);
+//                empty.setVisibility(View.VISIBLE);
+//            } else {
+//                groupmsgRecycler.setVisibility(View.VISIBLE);
+//                empty.setVisibility(View.GONE);
+//            }
+//        }
     }
 }

@@ -125,6 +125,9 @@ public class MethodType {
     final public static String GETBINDVERIFICATIONCODE = "getBindVerificationCode"; //获取绑定订购学员验证码
     final public static String BINDSTUDENT = "bindStudent"; //绑定订购学员
     final public static String UPLOADIMGH5 = "uploadimgH5"; //网页上传录音
+    final public static String SHOWGIFTS = "showGifts"; //获取网页礼包弹窗
+    final public static String CHOOSEGIFT = "chooseGift"; //选择礼包
+    final public static String GETMESSAGESLIST = "getMessagesList"; //获取群消息
 
     final public static String GETLESSON = "ParentChildlessons"; //亲子课
     final public static String BUYSUCCESS = "buySuccess"; //购买网课成功获取推荐课程

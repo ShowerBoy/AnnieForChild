@@ -87,6 +87,11 @@ public class MessagePresenterImp extends BasePresenterImp implements MessagePres
         interactor.shareTo();
     }
 
+    @Override
+    public void getMessagesList() {
+        interactor.getMessagesList();
+    }
+
     /**
      * @param what
      * @param result
@@ -148,6 +153,15 @@ public class MessagePresenterImp extends BasePresenterImp implements MessagePres
                 message.what = what;
                 message.obj = result;
                 EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_GETMESSAGESLIST) {
+                List<Notice> lists = (List<Notice>) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.message.NoticeFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = lists;
+                EventBus.getDefault().post(message);
             }
         }
     }
@@ -155,6 +169,12 @@ public class MessagePresenterImp extends BasePresenterImp implements MessagePres
     @Override
     public void Error(int what, String error) {
         viewInfo.dismissLoad();
-        viewInfo.showInfo(error);
+        if (what == MethodCode.EVENT_GETMESSAGESLIST) {
+
+        } else {
+            viewInfo.showInfo(error);
+        }
+
+
     }
 }

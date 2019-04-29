@@ -249,6 +249,11 @@ public class MusicService extends Service {
 
     //用于开始播放的方法
     public static void play() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            mediaPlayer.stop();
+            mediaPlayer.seekTo(0);
+        }
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
             isPlay = true;
             if (pos != 0) {

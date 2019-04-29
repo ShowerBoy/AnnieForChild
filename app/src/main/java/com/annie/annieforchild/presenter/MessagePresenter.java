@@ -20,4 +20,6 @@ public interface MessagePresenter {
     void exchangeGold(int nectar);
 
     void shareTo();
+
+    void getMessagesList();
 }

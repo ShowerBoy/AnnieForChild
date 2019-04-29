@@ -25,6 +25,10 @@ public interface LoginPresenter {
 
     void clearTags();
 
+    void showGifts(int origin, int giftRecordId);
+
+    void chooseGift(int giftId, int giftRecordId);
+
     List<Tags> getAgeList();
 
     List<Tags> getFunctionList();

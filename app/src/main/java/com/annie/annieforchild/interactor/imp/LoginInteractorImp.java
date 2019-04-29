@@ -12,6 +12,7 @@ import com.annie.annieforchild.bean.Tags;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.login.MainBean;
+import com.annie.annieforchild.bean.net.NetGift;
 import com.annie.annieforchild.bean.search.BookClassify;
 import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.search.Books;
@@ -36,6 +37,7 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
     private Context context;
     private RequestListener listener;
     private MyApplication application;
+    private int origin;
 
     public LoginInteractorImp(Context context, RequestListener listener) {
         this.context = context;
@@ -150,6 +152,27 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
     }
 
     @Override
+    public void showGifts(int origin, int giftRecordId) {
+        this.origin = origin;
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SHOWGIFTS, RequestMethod.POST);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("origin", origin);
+        request.add("giftRecordId", giftRecordId);
+        addQueue(MethodCode.EVENT_SHOWGIFTS + 110000 + origin, request);
+    }
+
+    @Override
+    public void chooseGift(int giftId, int giftRecordId) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.CHOOSEGIFT, RequestMethod.POST);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("giftId", giftId);
+        request.add("giftRecordId", giftRecordId);
+        addQueue(MethodCode.EVENT_CHOOSEGIFT, request);
+    }
+
+    @Override
     protected void onNetWorkStart(int what) {
 
     }
@@ -179,8 +202,8 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
             } else if (what == MethodCode.EVENT_GLOBALSEARCH) {
                 String data = jsonObject.getString(MethodCode.DATA);
                 if (data != null) {
-                SearchContent searchContent = JSON.parseObject(data, SearchContent.class);
-                listener.Success(what, searchContent);
+                    SearchContent searchContent = JSON.parseObject(data, SearchContent.class);
+                    listener.Success(what, searchContent);
                 } else {
                     listener.Success(what, new SearchContent());
                 }
@@ -204,6 +227,13 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
                 } else {
                     listener.Success(what, new SearchContent());
                 }
+            } else if (what == MethodCode.EVENT_SHOWGIFTS + 110000 + origin) {
+                String data = jsonObject.getString(MethodCode.DATA);
+                NetGift netGift = JSON.parseObject(data, NetGift.class);
+                listener.Success(what, netGift);
+            } else if (what == MethodCode.EVENT_CHOOSEGIFT) {
+                String data = jsonObject.getString(MethodCode.DATA);
+                listener.Success(what, data);
             }
         }
     }

@@ -18,4 +18,6 @@ public interface MessageInteractor {
     void exchangeGold(int nectar);
 
     void shareTo();
+
+    void getMessagesList();
 }

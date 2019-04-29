@@ -9,6 +9,7 @@ import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.UserInfo;
+import com.annie.annieforchild.bean.net.NetGift;
 import com.annie.annieforchild.interactor.FourthInteractor;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
@@ -87,6 +88,16 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
     }
 
     @Override
+    public void showGifts(int origin, int giftRecordId) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SHOWGIFTS, RequestMethod.POST);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("origin", origin);
+        request.add("giftRecordId", giftRecordId);
+        addQueue(MethodCode.EVENT_SHOWGIFTS, request);
+    }
+
+    @Override
     protected void onNetWorkStart(int what) {
 
     }
@@ -134,6 +145,9 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
                 JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
                 int result = dataobj.getInteger("result");
                 listener.Success(what, result);
+            } else if (what == MethodCode.EVENT_SHOWGIFTS) {
+                NetGift netGift = JSON.parseObject(data, NetGift.class);
+                listener.Success(what, netGift);
             }
         }
     }

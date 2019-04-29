@@ -20,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UpdateBean;
+import com.annie.annieforchild.bean.net.NetGift;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
@@ -72,6 +74,8 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
     private AlertHelper helper;
     private Dialog dialog;
     private ProgressDialog progressDialog;
+    public static String title, giftName;
+    private int origin = 1;
 
     {
         setRegister(true);
@@ -316,6 +320,24 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
 //            if (musicService != null) {
             MusicService.stop();
 //            }
+        } else if (message.what == MethodCode.EVENT_SHOWGIFTS + 110000 + origin) {
+            NetGift netGift = (NetGift) message.obj;
+            if (netGift != null) {
+                if (netGift.getIsshow() == 1) {
+                    //TODO:显示弹窗
+                    SystemUtils.setBackGray(this, true);
+                    application.getSystemUtils().getNetWorkGift(this, netGift.getGiftRecordId(), netGift.getGiftList(), presenter).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                }
+            }
+        } else if (message.what == MethodCode.EVENT_CHOOSEGIFT) {
+            String result = (String) message.obj;
+            if (result != null) {
+                if (result.equals("0")) {
+                    showInfo("您已选择" + title + " " + giftName + " 请到【课程】-【我的网课】中查看");
+                } else {
+
+                }
+            }
         }
     }
 
