@@ -511,8 +511,7 @@ public class SystemUtils {
                     presenter.chooseGift(giftList.get(index).getGiftId(), giftRecordId);
                     popupWindow.dismiss();
                 } else {
-                    show(context, "关闭后可在【我的】-【我的消息】再次开通礼包课程哦~");
-                    popupWindow.dismiss();
+                    show(context, "请选择礼包");
                 }
 
             }
