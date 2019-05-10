@@ -78,7 +78,7 @@ public class NoticeFragment extends BaseFragment implements ViewInfo {
                 int position = noticeRecycler.getChildAdapterPosition(view);
                 if (lists.get(position - 1).getIsChoose() == 0) {
                     //TODO:
-                    presenter.showGifts(2, lists.get(position - 1).getGiftRecordId());
+//                    presenter.showGifts(2, lists.get(position - 1).getGiftRecordId());
 //                    SystemUtils.setBackGray(getActivity(), true);
 //                    application.getSystemUtils().getNetWorkGift(getContext(), netGift.getGiftRecordId(), netGift.getGiftList(), presenter).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
                 }

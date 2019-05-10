@@ -35,6 +35,7 @@ import com.annie.annieforchild.ui.activity.net.NetExperienceDetailActivity;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity2;
 import com.annie.annieforchild.ui.activity.net.NetSpecialDetailActivity;
+import com.annie.annieforchild.ui.activity.net.NetSpecialDetailActivity2;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.ui.adapter.MyCourseAdapter;
 import com.annie.annieforchild.ui.adapter.MyCourseTopAdapter;
@@ -119,7 +120,8 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
                 int position = recycler.getChildAdapterPosition(view);
                 if (lists.get(position).getType() == 0) {
                     //专项
-                    Intent intent = new Intent(MyCourseActivity.this, NetSpecialDetailActivity.class);
+//                    Intent intent = new Intent(MyCourseActivity.this, NetSpecialDetailActivity.class);
+                    Intent intent = new Intent(MyCourseActivity.this, NetSpecialDetailActivity2.class);
                     intent.putExtra("netid", lists.get(position).getNetId());
                     intent.putExtra("netName", lists.get(position).getNetName());
                     intent.putExtra("color", lists.get(position).getColour());

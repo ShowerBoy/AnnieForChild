@@ -13,5 +13,5 @@ public interface ChildPresenter {
 
     void addChild(String headpic, String name, String sex, String birthday, String phone);
 
-    void motifyChild(String avatar, String name, String sex, String birthday, String WechatNickname, String BusinessCard);
+    void motifyChild(String avatar, String name, String sex, String birthday, String WechatNickname, String wechatNum, String BusinessCard);
 }

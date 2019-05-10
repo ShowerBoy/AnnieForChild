@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 综合课(弃用)
  * Created by wanglei on 2019/3/13.
  */
 
@@ -45,7 +46,7 @@ public class NetSpecialDetailActivity extends BaseActivity implements ViewInfo, 
     private RelativeLayout empty_layout, detail_layout, firstLayout1, firstLayout2, firstLayout3, firstLayout4;
     private ConstraintLayout firstsatge;
     private RecyclerView recycler;
-    private TextView title, firstTitle, firstTitle1, firstTitle2, firstTitle3, firstTitle4;
+    private TextView title, firstTitle;
     private ImageView back;
     private CheckDoubleClickListener listner;
     private Dialog dialog;
@@ -76,10 +77,6 @@ public class NetSpecialDetailActivity extends BaseActivity implements ViewInfo, 
         detail_layout = findViewById(R.id.detail_layout);
         firstsatge = findViewById(R.id.firstsatge);
         firstTitle = findViewById(R.id.first_title);
-        firstTitle1 = findViewById(R.id.first_1_title);
-        firstTitle2 = findViewById(R.id.first_2_title);
-        firstTitle3 = findViewById(R.id.first_3_title);
-        firstTitle4 = findViewById(R.id.first_4_title);
         firstLayout1 = findViewById(R.id.first_1);
         firstLayout2 = findViewById(R.id.first_2);
         firstLayout3 = findViewById(R.id.first_3);

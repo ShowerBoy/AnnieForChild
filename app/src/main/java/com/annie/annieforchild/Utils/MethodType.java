@@ -149,5 +149,8 @@ public class MethodType {
     final public static String EXPERIENCEDETAILSV2 = "experienceDetailsV2"; //新版体验课V2
     final public static String VIDEOPAYRECORD = "videoPayRecord"; //视频播放结束回调
     final public static String VIDEOLIST = "videoList"; //V2体验课视频列表
+    final public static String SPECIALCLASSV2 = "SpecialClassV2"; //
+    final public static String TASKLIST = "taskList"; //
+    final public static String TASKDETAIL = "taskDetail"; //
 
 }

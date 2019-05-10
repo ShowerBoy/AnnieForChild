@@ -796,6 +796,7 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         }
     }
 
+
     @Override
     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
         showInfo("分享成功");

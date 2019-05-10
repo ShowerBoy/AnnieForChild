@@ -24,6 +24,15 @@ public class NetSuggest implements Serializable {
     private String event;
     private int count;
     private String message;
+    private String wxnumber;
+
+    public String getWxnumber() {
+        return wxnumber;
+    }
+
+    public void setWxnumber(String wxnumber) {
+        this.wxnumber = wxnumber;
+    }
 
     public String getMessage() {
         return message;

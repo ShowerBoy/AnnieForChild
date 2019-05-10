@@ -51,11 +51,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ModifyChildActivity extends CameraActivity implements AddChildView, OnCheckDoubleClick, OnDateSetListener {
     private ImageView modifyChildBack;
     private CircleImageView modify_headpic;
-    private RelativeLayout detailHeadpicLayout, detailNameLayout, detailSexLayout, detailBirthdayLayout, detailQrcodeLayout, wechatnickLayout, businessCardLayout;
-    private TextView detailName, detailSex, detailBirthday, edit, wechatNickname, businessCard;
+    private RelativeLayout detailHeadpicLayout, detailNameLayout, detailSexLayout, detailBirthdayLayout, detailQrcodeLayout, wechatnickLayout, businessCardLayout, wechatnumLayout;
+    private TextView detailName, detailSex, detailBirthday, edit, wechatNickname, businessCard, wechatnumText;
     private EditText editText;
     private String[] strings;
-    private String childSex, birth, childName, avatar, today, wechatnickname, businesscard;
+    private String childSex, birth, childName, avatar, today, wechatnickname, wechatNum, businesscard;
     private UserInfo userInfo;
     private SystemUtils systemUtils;
     private TimePickerDialog datePickerDialog;
@@ -96,6 +96,8 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
         businessCardLayout = findViewById(R.id.business_card_layout);
         wechatNickname = findViewById(R.id.wechat_nickname);
         businessCard = findViewById(R.id.business_card);
+        wechatnumLayout = findViewById(R.id.wechat_num_layout);
+        wechatnumText = findViewById(R.id.wechat_num_text);
         listener = new CheckDoubleClickListener(this);
         detailHeadpicLayout.setOnClickListener(listener);
         detailNameLayout.setOnClickListener(listener);
@@ -106,6 +108,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
         edit.setOnClickListener(listener);
         wechatnickLayout.setOnClickListener(listener);
         businessCardLayout.setOnClickListener(listener);
+        wechatnumLayout.setOnClickListener(listener);
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
     }
@@ -141,6 +144,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
             avatar = userInfo.getAvatar();
             birth = userInfo.getBirthday();
             wechatnickname = userInfo.getWechatNickname();
+            wechatNum = userInfo.getWeixinNum();
             businesscard = userInfo.getBusinessCard();
 
             if (userInfo.getSex() != null) {
@@ -164,6 +168,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
                 }
             }
             wechatNickname.setText(userInfo.getWechatNickname() != null ? userInfo.getWechatNickname() : "");
+            wechatnumText.setText(userInfo.getWechatNickname() != null ? userInfo.getWeixinNum() : "");
             businessCard.setText(userInfo.getBusinessCard() != null ? userInfo.getBusinessCard() : "");
         }
     }
@@ -202,6 +207,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
         userInfo.setBirthday(birth);
         userInfo.setAvatar(avatar);
         userInfo.setWechatNickname(wechatnickname);
+        userInfo.setWeixinNum(wechatNum);
         userInfo.setBusinessCard(businesscard);
         initialize();
     }
@@ -367,7 +373,7 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
                     }
                     isEdit = false;
                     edit.setText("编辑");
-                    presenter.motifyChild(avatar, childName, childSex, birth, wechatnickname, businesscard);
+                    presenter.motifyChild(avatar, childName, childSex, birth, wechatnickname, wechatNum, businesscard);
                 } else {
                     isEdit = true;
                     edit.setText("完成");
@@ -421,7 +427,35 @@ public class ModifyChildActivity extends CameraActivity implements AddChildView,
                                     }
                                     businesscard = editText.getText().toString();
                                     businessCard.setText(businesscard);
-//                                presenter.motifyChild(userInfo.getAvatar(), childName, userInfo.getSex(), userInfo.getBirthday());
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+                }
+                break;
+            case R.id.wechat_num_layout:
+                if (isEdit) {
+                    editText = new EditText(this);
+                    editText.setText(wechatNum);
+                    SystemUtils.setEditTextInhibitInputSpeChat2(editText);
+                    SystemUtils.GeneralDialog(this, "修改微信号")
+                            .setIcon(R.mipmap.ic_launcher_round)
+                            .setView(editText)
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (editText.getText().toString() == null || editText.getText().toString().trim().length() == 0) {
+                                        SystemUtils.show(ModifyChildActivity.this, "微信号不得为空");
+                                        dialogInterface.dismiss();
+                                        return;
+                                    }
+                                    wechatNum = editText.getText().toString();
+                                    wechatnumText.setText(wechatNum);
                                     dialogInterface.dismiss();
                                 }
                             })

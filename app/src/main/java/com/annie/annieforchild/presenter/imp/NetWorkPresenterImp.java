@@ -20,6 +20,8 @@ import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.bean.net.PreheatConsult;
 import com.annie.annieforchild.bean.net.SpecialPreHeat;
 import com.annie.annieforchild.bean.net.WechatBean;
+import com.annie.annieforchild.bean.net.experience.EveryDetail;
+import com.annie.annieforchild.bean.net.experience.EveryTaskList;
 import com.annie.annieforchild.bean.net.experience.ExperienceV2;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
@@ -201,6 +203,24 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     public void videoList(String fid, String netid, String stageid, String unitid) {
         viewInfo.showLoad();
         interactor.videoList(fid, netid, stageid, unitid);
+    }
+
+    @Override
+    public void SpecialClassV2(int netid) {
+        viewInfo.showLoad();
+        interactor.SpecialClassV2(netid);
+    }
+
+    @Override
+    public void taskList(int netid) {
+        viewInfo.showLoad();
+        interactor.taskList(netid);
+    }
+
+    @Override
+    public void taskDetail(int netid, int num) {
+        viewInfo.showLoad();
+        interactor.taskDetail(netid, num);
     }
 
     @Override
@@ -589,6 +609,35 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = result;
                 EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_SPECIALCLASSV2) {
+                ExperienceV2 experienceV2 = (ExperienceV2) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetSpecialDetailActivity2#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+
+
+                message.obj = experienceV2;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_TASKLIST) {
+                EveryTaskList everyTaskList = (EveryTaskList) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.EveryDayTaskActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = everyTaskList;
+                EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_TASKDETAIL) {
+                EveryDetail everyDetail = (EveryDetail) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.EveryDayTaskActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = everyDetail;
+                EventBus.getDefault().post(message);
             }
         }
     }
@@ -601,10 +650,12 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         }
         if (viewInfo != null) {
             viewInfo.dismissLoad();
-            viewInfo.showInfo(error);
         }
         if (what == MethodCode.EVENT_CANCELORDER + 100000 + tag) {
             viewInfo.showInfo(error);
+        } else if (what == MethodCode.EVENT_BUYNETWORK) {
+            viewInfo.showInfo(error);
         }
+
     }
 }

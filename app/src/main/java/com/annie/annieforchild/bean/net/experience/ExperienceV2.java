@@ -11,7 +11,25 @@ public class ExperienceV2 implements Serializable {
     private String openclassTime;
     private String placeholdImg;
     private String classcode;
+    private TyProcess tyProcess;
+    private EveryTasks tasks;
     private List<ExpItemBean> plate;
+
+    public EveryTasks getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(EveryTasks tasks) {
+        this.tasks = tasks;
+    }
+
+    public TyProcess getTyProcess() {
+        return tyProcess;
+    }
+
+    public void setTyProcess(TyProcess tyProcess) {
+        this.tyProcess = tyProcess;
+    }
 
     public String getClasscode() {
         return classcode;

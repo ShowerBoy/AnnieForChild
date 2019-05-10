@@ -286,7 +286,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                             }
 
                             //获取网课礼包
-                            showGifts(1, 0);
+//                            showGifts(1, 0);
                         }
                         /**
                          * {@link LoginActivity#onEventMainThread(JTMessage)}

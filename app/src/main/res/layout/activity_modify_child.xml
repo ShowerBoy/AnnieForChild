@@ -228,6 +228,49 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/wechat_num_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:paddingBottom="12dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp">
+
+        <TextView
+            android:id="@+id/wechat_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:text="微信号"
+            android:textColor="@color/text_black"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/arrow_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_arrow_right2" />
+
+        <TextView
+            android:id="@+id/wechat_num_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:layout_toEndOf="@+id/wechat_num"
+            android:layout_toStartOf="@+id/arrow_8"
+            android:text=""
+            android:textAlignment="textEnd"
+            android:textColor="@color/text_color"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/wechat_nick_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -212,4 +212,7 @@ public class MethodCode {
     final public static int EVENT_SHOWGIFTS = 159; //
     final public static int EVENT_CHOOSEGIFT = 160; //
     final public static int EVENT_GETMESSAGESLIST = 161; //
+    final public static int EVENT_SPECIALCLASSV2 = 162; //
+    final public static int EVENT_TASKLIST = 163; //
+    final public static int EVENT_TASKDETAIL = 164; //
 }

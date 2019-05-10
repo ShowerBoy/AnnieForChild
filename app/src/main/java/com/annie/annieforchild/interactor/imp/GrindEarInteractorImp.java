@@ -136,12 +136,28 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request6.add("username", application.getSystemUtils().getDefaultUsername());
         request6.add("token", application.getSystemUtils().getToken());
         request6.add("type", 3);
+        //磨耳朵添加19.5.9
+        FastJsonRequest request7 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
+        request7.add("username", application.getSystemUtils().getDefaultUsername());
+        request7.add("token", application.getSystemUtils().getToken());
+        request7.add("type", 7);
+        FastJsonRequest request8 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
+        request8.add("username", application.getSystemUtils().getDefaultUsername());
+        request8.add("token", application.getSystemUtils().getToken());
+        request8.add("type", 8);
+        FastJsonRequest request9 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
+        request9.add("username", application.getSystemUtils().getDefaultUsername());
+        request9.add("token", application.getSystemUtils().getToken());
+        request9.add("type", 9);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES1, request1);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES2, request2);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES3, request3);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES4, request4);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES5, request5);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES11, request6);
+        addQueue(MethodCode.EVENT_GETMUSICCLASSES7, request7);
+        addQueue(MethodCode.EVENT_GETMUSICCLASSES8, request8);
+        addQueue(MethodCode.EVENT_GETMUSICCLASSES9, request9);
 //        startQueue();
     }
 
@@ -1015,6 +1031,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                     songList = new ArrayList<>();
                 }
                 listener.Success(what, songList);
+
             } else if (what == MethodCode.EVENT_GETREADLIST + 6000 + classId) {
                 List<Song> songList;
                 if (data != null) {

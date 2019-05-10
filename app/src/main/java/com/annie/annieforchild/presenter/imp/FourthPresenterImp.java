@@ -19,6 +19,7 @@ import com.annie.annieforchild.bean.net.NetGift;
 import com.annie.annieforchild.interactor.FourthInteractor;
 import com.annie.annieforchild.interactor.imp.FourthInteractorImp;
 import com.annie.annieforchild.presenter.FourthPresenter;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
 import com.annie.annieforchild.ui.adapter.MemberAdapter;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
@@ -262,8 +263,16 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 } finally {
                     db.close();
                 }
+
+                MusicService.musicTitle = null;
+                MusicService.musicPartList.clear();
+                MusicService.musicList.clear();
+                MusicService.isPlay = false;
+                MusicService.start = "0:00";
+                MusicService.end = "";
+//                MusicPlayActivity.adapter.notifyDataSetChanged();
                 //获取网课礼包
-                showGifts(1, 0);
+//                showGifts(1, 0);
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.DakaFragment#onMainEventThread(JTMessage)}
                  * {@link com.annie.annieforchild.ui.fragment.FirstFragment#onMainEventThread(JTMessage)}

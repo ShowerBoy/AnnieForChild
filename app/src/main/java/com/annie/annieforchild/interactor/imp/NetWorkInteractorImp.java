@@ -24,6 +24,9 @@ import com.annie.annieforchild.bean.net.PreheatConsult;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
 import com.annie.annieforchild.bean.net.SpecialPreHeat;
 import com.annie.annieforchild.bean.net.WechatBean;
+import com.annie.annieforchild.bean.net.experience.EveryDetail;
+import com.annie.annieforchild.bean.net.experience.EveryTaskList;
+import com.annie.annieforchild.bean.net.experience.EveryTasks;
 import com.annie.annieforchild.bean.net.experience.ExperienceV2;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
@@ -288,6 +291,34 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("stageid", stageid);
         request.add("unitid", unitid);
         addQueue(MethodCode.EVENT_VIDEOLIST, request);
+    }
+
+    @Override
+    public void SpecialClassV2(int netid) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALCLASSV2, RequestMethod.POST);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("netid", netid);
+        addQueue(MethodCode.EVENT_SPECIALCLASSV2, request);
+    }
+
+    @Override
+    public void taskList(int netid) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.TASKLIST, RequestMethod.POST);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("netid", netid);
+        addQueue(MethodCode.EVENT_TASKLIST, request);
+    }
+
+    @Override
+    public void taskDetail(int netid, int num) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.TASKDETAIL, RequestMethod.POST);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("netid", netid);
+        request.add("num", num);
+        addQueue(MethodCode.EVENT_TASKDETAIL, request);
     }
 
     @Override
@@ -561,6 +592,15 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     lists = new ArrayList<>();
                 }
                 listener.Success(what, lists);
+            } else if (what == MethodCode.EVENT_SPECIALCLASSV2) {
+                ExperienceV2 experienceV2 = JSON.parseObject(data, ExperienceV2.class);
+                listener.Success(what, experienceV2);
+            } else if (what == MethodCode.EVENT_TASKLIST) {
+                EveryTaskList everyTaskList = JSON.parseObject(data, EveryTaskList.class);
+                listener.Success(what, everyTaskList);
+            } else if (what == MethodCode.EVENT_TASKDETAIL) {
+                EveryDetail everyDetail = JSON.parseObject(data, EveryDetail.class);
+                listener.Success(what, everyDetail);
             }
         }
     }

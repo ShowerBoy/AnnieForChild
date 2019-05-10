@@ -87,7 +87,7 @@ public class SettingsActivity extends BaseActivity implements FourthView, View.O
         } catch (Exception e) {
             e.printStackTrace();
         }
-        weixinText.setText(application.getSystemUtils().getUserInfo().getWeixinNum() != null ? application.getSystemUtils().getUserInfo().getWeixinNum() : "");
+//        weixinText.setText(application.getSystemUtils().getUserInfo().getWeixinNum() != null ? application.getSystemUtils().getUserInfo().getWeixinNum() : "");
     }
 
     @Override
@@ -176,8 +176,8 @@ public class SettingsActivity extends BaseActivity implements FourthView, View.O
                         .create().show();
                 break;
             case R.id.bind_wechat_layout:
-                SystemUtils.setBackGray(this, true);
-                SystemUtils.getBindWeixin(this, presenter).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+//                SystemUtils.setBackGray(this, true);
+//                SystemUtils.getBindWeixin(this, presenter).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
                 break;
         }
     }
@@ -185,14 +185,14 @@ public class SettingsActivity extends BaseActivity implements FourthView, View.O
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_BINDWEIXIN) {
-            int result = (int) message.obj;
-            if (result == 0) {
-                showInfo("绑定失败");
-            } else {
-                weixinText.setText(SystemUtils.weixinNum);
-                application.getSystemUtils().getUserInfo().setWeixinNum(SystemUtils.weixinNum);
-                showInfo("绑定成功");
-            }
+//            int result = (int) message.obj;
+//            if (result == 0) {
+//                showInfo("绑定失败");
+//            } else {
+//                weixinText.setText(SystemUtils.weixinNum);
+//                application.getSystemUtils().getUserInfo().setWeixinNum(SystemUtils.weixinNum);
+//                showInfo("绑定成功");
+//            }
         }
     }
 

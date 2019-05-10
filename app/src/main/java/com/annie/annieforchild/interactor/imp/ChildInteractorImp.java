@@ -61,7 +61,7 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
     }
 
     @Override
-    public void motifyChild(String avatar, String name, String sex, String birthday, String WechatNickname, String BusinessCard) {
+    public void motifyChild(String avatar, String name, String sex, String birthday, String WechatNickname, String wechatNum, String BusinessCard) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.UPDATEUSERINFO, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
@@ -70,6 +70,7 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
         request.add("sex", sex);
         request.add("birthday", birthday);
         request.add("WechatNickname", WechatNickname);
+        request.add("weixinNum", wechatNum);
         request.add("BusinessCard", BusinessCard);
         addQueue(MethodCode.EVENT_UPDATEUSER, request);
 //        startQueue();

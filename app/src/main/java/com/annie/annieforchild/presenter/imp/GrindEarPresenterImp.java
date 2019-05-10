@@ -803,7 +803,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES6) {
                 List<SongClassify> lists = (List<SongClassify>) result;
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.reading.ReadingActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -812,7 +812,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES7) {
                 List<SongClassify> lists = (List<SongClassify>) result;
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.reading.ReadingActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -821,7 +821,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES8) {
                 List<SongClassify> lists = (List<SongClassify>) result;
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.reading.ReadingActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -830,7 +830,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES9) {
                 List<SongClassify> lists = (List<SongClassify>) result;
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.reading.ReadingActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -839,7 +839,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES10) {
                 List<SongClassify> lists = (List<SongClassify>) result;
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.reading.ReadingActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -848,7 +848,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES11) {
                 List<SongClassify> lists = (List<SongClassify>) result;
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.reading.ReadingActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;

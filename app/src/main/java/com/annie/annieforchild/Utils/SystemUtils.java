@@ -1045,7 +1045,7 @@ public class SystemUtils {
 
     //String regEx = "[^a-zA-Z0-9\u4E00-\u9FA5]";//只允许字母、数字和汉字
     public static String stringFilter(String str) throws PatternSyntaxException {
-        String regEx = "[^a-zA-Z0-9\u4E00-\u9FA5]";//只允许字母、数字和汉字
+        String regEx = "[^a-zA-Z0-9_\u4E00-\u9FA5]";//只允许字母、数字和汉字
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(str);
         return m.replaceAll("").trim();

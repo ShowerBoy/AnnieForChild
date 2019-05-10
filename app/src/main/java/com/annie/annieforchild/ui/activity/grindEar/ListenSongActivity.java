@@ -64,7 +64,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, OnChec
     private Bundle bundle;
     private AlertHelper helper;
     private Dialog dialog;
-    private int type, audioType, audioSource;
+    private int type, audioType, audioSource, grindType;
 
     //    private AdvancedPagerSlidingTabStrip mTab;
     private TabLayout mTab;
@@ -111,6 +111,7 @@ public class ListenSongActivity extends BaseActivity implements SongView, OnChec
         if (intent != null) {
             bundle = intent.getExtras();
             type = bundle.getInt("type");
+            grindType = bundle.getInt("grindType", 0);
             if (type == 1) {
                 listenTitle.setText("听儿歌");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
@@ -144,17 +145,29 @@ public class ListenSongActivity extends BaseActivity implements SongView, OnChec
             } else if (type == 7) {
                 listenTitle.setText("分级读物");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
-                audioType = 1;
+                if (grindType == 7) {
+                    audioType = 0;
+                } else {
+                    audioType = 1;
+                }
                 audioSource = 6;
             } else if (type == 8) {
                 listenTitle.setText("桥梁书");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
-                audioType = 1;
+                if (grindType == 8) {
+                    audioType = 0;
+                } else {
+                    audioType = 1;
+                }
                 audioSource = 7;
             } else if (type == 9) {
                 listenTitle.setText("章节书");
                 lists = (ArrayList<SongClassify>) getIntent().getSerializableExtra("ClassifyList");
-                audioType = 1;
+                if (grindType == 9) {
+                    audioType = 0;
+                } else {
+                    audioType = 1;
+                }
                 audioSource = 8;
             } else if (type == 10) {
                 listenTitle.setText("我要朗读");

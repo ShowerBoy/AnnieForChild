@@ -49,7 +49,7 @@ import static com.annie.annieforchild.ui.activity.pk.MusicPlayActivity.STATE_STO
  * Created by wanglei on 2018/7/20.
  */
 
-public class MusicService extends Service {
+public class MusicService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
     public static MediaPlayer mediaPlayer; //声明操作媒体的对象
     public static int pos = 0; //记录播放的位置
     public static boolean isPlay; //false:未播放 true:播放中
@@ -75,23 +75,96 @@ public class MusicService extends Service {
     private static MyApplication application;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+//                mediaPlayer.release();
+        if (isPlay) {
+            if (singleLoop) {
+                if (duration > 2) {
+                    presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
+                    duration = 0;
+                }
+                pos = 0;
+                play();
+                addPlayLists(musicList.get(listTag), listTag);
+            } else {
+                listTag++;
+                if (listTag >= musicNum) {
+                    //列表循环
+                    addPlayLists(musicList.get(listTag - 1), listTag - 1);
+                    listTag = 0;
+                    pos = 0;
+                    play();
+                    if (MusicPlayActivity.isLyric) {
+                        MusicPlayActivity.isLyric = false;
+                        MusicPlayActivity.image.setVisibility(View.VISIBLE);
+                        MusicPlayActivity.lyricRecycler.setVisibility(View.GONE);
+                    }
+                } else {
+                    //下一首
+                    if (duration > 2) {
+                        presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
+                        duration = 0;
+                    }
+                    addPlayLists(musicList.get(listTag - 1), listTag - 1);
+                    pos = 0;
+                    play();
+                    if (MusicPlayActivity.isLyric) {
+                        MusicPlayActivity.isLyric = false;
+                        MusicPlayActivity.image.setVisibility(View.VISIBLE);
+                        MusicPlayActivity.lyricRecycler.setVisibility(View.GONE);
+                    }
+                }
+            }
+        } else {
+
+        }
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        musicDuration = mediaPlayer.getDuration() / 1000;
+        int second = musicDuration % 60;
+        String sss;
+        if (second < 10) {
+            sss = "0" + second;
+            end = musicDuration / 60 + ":" + sss;
+        } else {
+            end = musicDuration / 60 + ":" + second;
+        }
+        MusicPlayActivity.end.setText(end);
+        MusicPlayActivity.state = STATE_PLAYING;
+        MusicPlayActivity.animation.start();
+        mediaPlayer.start();
+        /**
+         * 以下
+         */
+        Glide.with(MusicService.this).load(musicPartList.get(listTag).getImageUrl()).into(MusicPlayActivity.image);
+    }
+
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        mediaPlayer.release();
+        mediaPlayer = null;
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnCompletionListener(this);
+        mediaPlayer.setOnBufferingUpdateListener(this);
+        mediaPlayer.setOnPreparedListener(this);
+        mediaPlayer.setOnErrorListener(this);
+        return false;
+    }
+
+    @Override
+    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+        MusicPlayActivity.seekBar.setSecondaryProgress(percent);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public class MyBinder extends Binder {
         public MusicService getService() {
             //绑定服务同时进行播放
 //            play();
             return MusicService.this;
-        }
-
-        public void bPlay() {
-            play();
-        }
-
-        public void bPause() {
-            pause();
-        }
-
-        public void bStop() {
-            stop();
         }
     }
 
@@ -113,85 +186,10 @@ public class MusicService extends Service {
             mediaPlayer.setLooping(false);
         }
         //监听播放结束，释放资源
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-//                mediaPlayer.release();
-                if (isPlay) {
-                    if (singleLoop) {
-                        if (duration > 0) {
-                            presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
-                            duration = 0;
-                        }
-                        pos = 0;
-                        play();
-                        addPlayLists(musicList.get(listTag), listTag);
-                    } else {
-                        listTag++;
-                        if (listTag >= musicNum) {
-                            //列表循环
-                            addPlayLists(musicList.get(listTag - 1), listTag - 1);
-                            listTag = 0;
-                            pos = 0;
-                            play();
-                            if (MusicPlayActivity.isLyric) {
-                                MusicPlayActivity.isLyric = false;
-                                MusicPlayActivity.image.setVisibility(View.VISIBLE);
-                                MusicPlayActivity.lyricRecycler.setVisibility(View.GONE);
-                            }
-                        } else {
-                            //下一首
-                            if (duration > 0) {
-                                presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
-                                duration = 0;
-                            }
-                            addPlayLists(musicList.get(listTag - 1), listTag - 1);
-                            pos = 0;
-                            play();
-                            if (MusicPlayActivity.isLyric) {
-                                MusicPlayActivity.isLyric = false;
-                                MusicPlayActivity.image.setVisibility(View.VISIBLE);
-                                MusicPlayActivity.lyricRecycler.setVisibility(View.GONE);
-                            }
-                        }
-                    }
-                } else {
-
-                }
-            }
-        });
-        mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
-            @Override
-            public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                MusicPlayActivity.seekBar.setSecondaryProgress(percent);
-//                int currentProgress = MusicPlayActivity.seekBar.getMax() * mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration();
-            }
-        });
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-//                musicSongView.dismissLoad();
-//                MusicPlayActivity.animation.start();
-                musicDuration = mediaPlayer.getDuration() / 1000;
-                int second = musicDuration % 60;
-                String sss;
-                if (second < 10) {
-                    sss = "0" + second;
-                    end = musicDuration / 60 + ":" + sss;
-                } else {
-                    end = musicDuration / 60 + ":" + second;
-                }
-                MusicPlayActivity.end.setText(end);
-                MusicPlayActivity.state = STATE_PLAYING;
-                MusicPlayActivity.animation.start();
-                mediaPlayer.start();
-                /**
-                 * 以下
-                 */
-                Glide.with(MusicService.this).load(musicPartList.get(listTag).getImageUrl()).into(MusicPlayActivity.image);
-            }
-        });
+        mediaPlayer.setOnCompletionListener(this);
+        mediaPlayer.setOnBufferingUpdateListener(this);
+        mediaPlayer.setOnPreparedListener(this);
+        mediaPlayer.setOnErrorListener(this);
         presenter = new GrindEarPresenterImp(this);
         presenter.initViewAndData();
     }
@@ -250,27 +248,27 @@ public class MusicService extends Service {
     //用于开始播放的方法
     public static void play() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
-            mediaPlayer.stop();
+//            mediaPlayer.pause();
             mediaPlayer.seekTo(0);
+            mediaPlayer.stop();
+
         }
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
             isPlay = true;
             if (pos != 0) {
                 MusicPlayActivity.state = STATE_PLAYING;
                 //根据指定位置进行播放
-//                MusicPlayActivity.animation.start();
-                mediaPlayer.seekTo(pos);
                 mediaPlayer.start();
+                mediaPlayer.seekTo(pos);
             } else {
                 MusicPlayActivity.state = STATE_PREPARE;
                 try {
                     /*数组越界*/
                     if (musicList != null && musicList.size() > 0) {
+                        mediaPlayer.stop();
                         mediaPlayer.reset();
                         mediaPlayer.setDataSource(musicList.get(listTag).getPath());
                         mediaPlayer.prepareAsync();
-//                        mediaPlayer.start();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -352,7 +350,7 @@ public class MusicService extends Service {
             if (MusicPlayActivity.animation != null) {
                 MusicPlayActivity.animation.pause();
             }
-            if (duration > 0) {
+            if (duration > 2) {
                 presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
                 duration = 0;
             }
@@ -361,12 +359,13 @@ public class MusicService extends Service {
 
     //停止播放
     public static void stop() {
-        if (mediaPlayer != null) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             MusicPlayActivity.state = STATE_STOP;
             isPlay = false;
-            mediaPlayer.pause();
-            mediaPlayer.stop();
+//            mediaPlayer.pause();
             mediaPlayer.seekTo(0);
+            mediaPlayer.stop();
+
 
             pos = 0; //停止后播放位置置为0
             //
@@ -409,7 +408,7 @@ public class MusicService extends Service {
                 MusicPlayActivity.animation.resume();
                 MusicPlayActivity.animation.pause();
             }
-            if (duration > 0) {
+            if (duration > 2) {
                 presenter.uploadAudioTime(musicOrigin, musicAudioType, musicAudioSource, musicResourceId, duration);
                 duration = 0;
             }

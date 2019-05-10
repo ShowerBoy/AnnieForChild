@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,10 +26,12 @@ import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
+import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.adapter.NetExperienceDetailNewAdapter;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.bumptech.glide.Glide;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -36,14 +39,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * V2体验课
  * Created by wanglei on 2019/4/16.
  */
 
 public class NetExperienceDetail_newActivity2 extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     private NestedScrollView scrollView;
+    private RelativeLayout tyLayout, everyDayLayout;
     private RecyclerView recycler;
-    private ImageView back, empty;
-    private TextView title;
+    private ImageView back, empty, tyImage;
+    private TextView title, tyTitle, everyDayTitle;
     private CheckDoubleClickListener listener;
     private NetWorkPresenter presenter;
     private Dialog dialog;
@@ -72,7 +77,14 @@ public class NetExperienceDetail_newActivity2 extends BaseActivity implements Vi
         back = findViewById(R.id.coursedetail_new_back);
         empty = findViewById(R.id.empty_soon);
         title = findViewById(R.id.coursedetail_new_title);
+        tyLayout = findViewById(R.id.ty_layout);
+        tyTitle = findViewById(R.id.ty_title);
+        tyImage = findViewById(R.id.ty_image);
+        everyDayLayout = findViewById(R.id.every_day_layout);
+        everyDayTitle = findViewById(R.id.every_day_title);
         back.setOnClickListener(listener);
+        tyLayout.setOnClickListener(listener);
+        everyDayLayout.setOnClickListener(listener);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -110,8 +122,26 @@ public class NetExperienceDetail_newActivity2 extends BaseActivity implements Vi
             experienceV2 = (ExperienceV2) message.obj;
             if (experienceV2 != null) {
                 if (experienceV2.getPlaceholdImg() != null && experienceV2.getPlaceholdImg().length() > 0) {
-                    scrollView.setVisibility(View.GONE);
-                    empty.setVisibility(View.VISIBLE);
+                    recycler.setVisibility(View.GONE);
+                    if (experienceV2.getTyProcess() != null) {
+                        if (experienceV2.getTyProcess().getIsshow() == 1) {
+                            tyLayout.setVisibility(View.VISIBLE);
+                            tyTitle.setText(experienceV2.getTyProcess().getTitle());
+                            Glide.with(this).load(experienceV2.getTyProcess().getUrl()).error(R.drawable.online_card_6).into(tyImage);
+                        } else {
+                            tyLayout.setVisibility(View.GONE);
+                        }
+                    }
+                    if (experienceV2.getTasks() != null) {
+                        if (experienceV2.getTasks().getIsshow() == 1) {
+                            everyDayLayout.setVisibility(View.VISIBLE);
+                            everyDayTitle.setText(experienceV2.getTasks().getTitle());
+                        } else {
+                            everyDayLayout.setVisibility(View.GONE);
+                        }
+                    }
+//                    scrollView.setVisibility(View.GONE);
+//                    empty.setVisibility(View.VISIBLE);
                 } else {
                     if (experienceV2.getPlate() != null && experienceV2.getPlate().size() != 0) {
                         scrollView.setVisibility(View.VISIBLE);
@@ -120,8 +150,26 @@ public class NetExperienceDetail_newActivity2 extends BaseActivity implements Vi
                         lists.addAll(experienceV2.getPlate());
                         adapter.notifyDataSetChanged();
                     } else {
-                        scrollView.setVisibility(View.GONE);
-                        empty.setVisibility(View.VISIBLE);
+                        recycler.setVisibility(View.GONE);
+//                        scrollView.setVisibility(View.GONE);
+//                        empty.setVisibility(View.VISIBLE);
+                    }
+                    if (experienceV2.getTyProcess() != null) {
+                        if (experienceV2.getTyProcess().getIsshow() == 1) {
+                            tyLayout.setVisibility(View.VISIBLE);
+                            tyTitle.setText(experienceV2.getTyProcess().getTitle());
+                            Glide.with(this).load(experienceV2.getTyProcess().getUrl()).error(R.drawable.online_card_6).into(tyImage);
+                        } else {
+                            tyLayout.setVisibility(View.GONE);
+                        }
+                    }
+                    if (experienceV2.getTasks() != null) {
+                        if (experienceV2.getTasks().getIsshow() == 1) {
+                            everyDayLayout.setVisibility(View.VISIBLE);
+                            everyDayTitle.setText(experienceV2.getTasks().getTitle());
+                        } else {
+                            everyDayLayout.setVisibility(View.GONE);
+                        }
                     }
                 }
 
@@ -157,6 +205,18 @@ public class NetExperienceDetail_newActivity2 extends BaseActivity implements Vi
         switch (view.getId()) {
             case R.id.coursedetail_new_back:
                 finish();
+                break;
+            case R.id.ty_layout:
+                Intent intent = new Intent(this, WebActivity.class);
+                intent.putExtra("url", experienceV2.getTyProcess().getUrl());
+                intent.putExtra("title", experienceV2.getTyProcess().getTitle());
+                startActivity(intent);
+                break;
+            case R.id.every_day_layout:
+                Intent intent1 = new Intent(this, EveryDayTaskActivity.class);
+                intent1.putExtra("netid", netid);
+                intent1.putExtra("netName", netName);
+                startActivity(intent1);
                 break;
         }
     }

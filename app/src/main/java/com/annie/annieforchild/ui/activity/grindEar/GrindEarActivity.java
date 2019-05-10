@@ -56,7 +56,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
     private AnimationDrawable musicBtn;
     private ImageView grindEarBack, iWantGrindEar, iWantSing, music, search;
     private SliderLayout grindEarSlide;
-    private LinearLayout songLayout, poetryLayout, picturebookLayout, accompLayout, dialogueLayout, animationLayout;
+    private LinearLayout songLayout, poetryLayout, picturebookLayout, accompLayout, dialogueLayout, animationLayout, fenjiduwuLayout, qiaoliangshuLayout, zhangjieshuLayout;
     private RelativeLayout recentlyPlay, myCollection;
     private AlertHelper helper;
     private Dialog dialog;
@@ -70,6 +70,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
     private List<SongClassify> picturebookClassifyList;
     private List<SongClassify> singClassifyList;
     private List<SongClassify> animationClassifyList;
+
+    private List<SongClassify> xugouClassifyList;
+    private List<SongClassify> feixugouClassifyList;
+    private List<SongClassify> zhangjieClassifyList;
     //    private List<Song> lists;
     private List<RadioBean> lists;
     private List<Collection> collectList;
@@ -103,6 +107,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
         search = findViewById(R.id.grind_ear_search);
         recentlyPlay = findViewById(R.id.recently_play);
         myCollection = findViewById(R.id.my_collection);
+        fenjiduwuLayout = findViewById(R.id.fenjiduwu_layout);
+        qiaoliangshuLayout = findViewById(R.id.qiaoliangshu_layout);
+        zhangjieshuLayout = findViewById(R.id.zhangjieshu_layout);
+
         listener = new CheckDoubleClickListener(this);
         iWantGrindEar.setOnClickListener(listener);
         iWantSing.setOnClickListener(listener);
@@ -117,6 +125,9 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
         search.setOnClickListener(listener);
         recentlyPlay.setOnClickListener(listener);
         myCollection.setOnClickListener(listener);
+        fenjiduwuLayout.setOnClickListener(listener);
+        qiaoliangshuLayout.setOnClickListener(listener);
+        zhangjieshuLayout.setOnClickListener(listener);
 
         musicBtn = (AnimationDrawable) music.getDrawable();
         musicBtn.setOneShot(false);
@@ -142,6 +153,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
         picturebookClassifyList = new ArrayList<>();
         singClassifyList = new ArrayList<>();
         animationClassifyList = new ArrayList<>();
+
+        xugouClassifyList = new ArrayList<>();
+        feixugouClassifyList = new ArrayList<>();
+        zhangjieClassifyList = new ArrayList<>();
         collectList = new ArrayList<>();
         file_maps = new HashMap<>();
         presenter = new GrindEarPresenterImp(this, this);
@@ -213,6 +228,15 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
         } else if (message.what == MethodCode.EVENT_GETMUSICCLASSES11) {
             dialogueClassifyList.clear();
             dialogueClassifyList.addAll((List<SongClassify>) message.obj);
+        } else if (message.what == MethodCode.EVENT_GETMUSICCLASSES7) {
+            xugouClassifyList.clear();
+            xugouClassifyList.addAll((List<SongClassify>) message.obj);
+        } else if (message.what == MethodCode.EVENT_GETMUSICCLASSES8) {
+            feixugouClassifyList.clear();
+            feixugouClassifyList.addAll((List<SongClassify>) message.obj);
+        } else if (message.what == MethodCode.EVENT_GETMUSICCLASSES9) {
+            zhangjieClassifyList.clear();
+            zhangjieClassifyList.addAll((List<SongClassify>) message.obj);
         } else if (message.what == MethodCode.EVENT_GETLISTENING) {
             GrindEarData grindEarData = (GrindEarData) message.obj;
             lists.clear();
@@ -514,6 +538,75 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 bundle7.putInt("type", 3);
                 bundle7.putSerializable("ClassifyList", (Serializable) dialogueClassifyList);
                 intent.putExtras(bundle7);
+                startActivity(intent);
+                break;
+            case R.id.fenjiduwu_layout:
+                //分级读物
+                if (application.getSystemUtils().getTag().equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (application.getSystemUtils().getChildTag() == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (xugouClassifyList == null || xugouClassifyList.size() == 0) {
+                    showInfo("请稍后");
+                    return;
+                }
+                showLoad();
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle8 = new Bundle();
+                bundle8.putInt("type", 7);
+                bundle8.putSerializable("ClassifyList", (Serializable) xugouClassifyList);
+                bundle8.putInt("grindType", 7);
+                intent.putExtras(bundle8);
+                startActivity(intent);
+                break;
+            case R.id.qiaoliangshu_layout:
+                //桥梁书
+                if (application.getSystemUtils().getTag().equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (application.getSystemUtils().getChildTag() == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (feixugouClassifyList == null || feixugouClassifyList.size() == 0) {
+                    showInfo("请稍后");
+                    return;
+                }
+                showLoad();
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle9 = new Bundle();
+                bundle9.putInt("type", 8);
+                bundle9.putSerializable("ClassifyList", (Serializable) feixugouClassifyList);
+                bundle9.putInt("grindType", 8);
+                intent.putExtras(bundle9);
+                startActivity(intent);
+                break;
+            case R.id.zhangjieshu_layout:
+                //章节书
+                if (application.getSystemUtils().getTag().equals("游客")) {
+                    SystemUtils.toLogin(this);
+                    return;
+                }
+                if (application.getSystemUtils().getChildTag() == 0) {
+                    SystemUtils.toAddChild(this);
+                    return;
+                }
+                if (zhangjieClassifyList == null || zhangjieClassifyList.size() == 0) {
+                    showInfo("请稍后");
+                    return;
+                }
+                showLoad();
+                intent.setClass(this, ListenSongActivity.class);
+                Bundle bundle10 = new Bundle();
+                bundle10.putInt("type", 9);
+                bundle10.putSerializable("ClassifyList", (Serializable) zhangjieClassifyList);
+                bundle10.putInt("grindType", 9);
+                intent.putExtras(bundle10);
                 startActivity(intent);
                 break;
             case R.id.grind_music:

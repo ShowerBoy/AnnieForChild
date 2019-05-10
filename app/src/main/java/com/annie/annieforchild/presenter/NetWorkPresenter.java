@@ -60,4 +60,10 @@ public interface NetWorkPresenter {
     void videoPayRecord(String netid, String stageid, String unitid, String chaptercontent_id, int isFinish, String classcode, int position);
 
     void videoList(String fid, String netid, String stageid, String unitid);
+
+    void SpecialClassV2(int netid);
+
+    void taskList(int netid);
+
+    void taskDetail(int netid, int num);
 }
