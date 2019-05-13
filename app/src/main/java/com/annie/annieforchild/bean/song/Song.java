@@ -20,6 +20,7 @@ import java.util.List;
 public class Song implements Serializable {
     private String bookName;
     private String bookImageUrl;
+    private int audioSource;
     private int count;
     private int bookId;
     private float lastScore;
@@ -38,6 +39,14 @@ public class Song implements Serializable {
     private int ismoerduo;
     private int isyuedu;
     private String path;
+
+    public int getAudioSource() {
+        return audioSource;
+    }
+
+    public void setAudioSource(int audioSource) {
+        this.audioSource = audioSource;
+    }
 
     public String getPath() {
         return path;

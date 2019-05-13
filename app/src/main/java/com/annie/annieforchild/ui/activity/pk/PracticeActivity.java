@@ -102,7 +102,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
     private int popupWidth;
     private AlertHelper helper;
     private Dialog dialog;
-    private MediaPlayer mediaPlayer, mediaPlayer2;
+    private MediaPlayer mediaPlayer2;
     private float star;
     private int audioType, audioSource, type;
     private boolean isClick = true;
@@ -318,11 +318,8 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
         lists = new ArrayList<>();
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-        mediaPlayer = new MediaPlayer();
         mediaPlayer2 = new MediaPlayer();
-        mediaPlayer.setOnPreparedListener(this);
         mediaPlayer2.setOnPreparedListener(this);
-        mediaPlayer.setOnCompletionListener(this);
         mediaPlayer2.setOnCompletionListener(this);
         /**
          * {@link com.annie.annieforchild.ui.activity.GlobalSearchActivity}
@@ -560,25 +557,6 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
             animationView.loop(false);
             animationView.playAnimation();
             SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
-        }
-    }
-
-    private void playUrl(String url) {
-        if (mediaPlayer == null) {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setOnPreparedListener(this);
-            mediaPlayer.setOnCompletionListener(this);
-        }
-        try {
-            mediaPlayer.reset();
-            mediaPlayer.setDataSource(url);
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-            isClick = true;
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            isClick = true;
         }
     }
 
@@ -1218,32 +1196,37 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        if (mp == mediaPlayer) {
-            mediaPlayer.start();
-        } else {
-            mediaPlayer2.start();
-        }
+//        if (mp == mediaPlayer) {
+//            mediaPlayer.start();
+//        } else {
+        mediaPlayer2.start();
+//        }
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        if (mp == mediaPlayer) {
-            isClick = true;
-            isPlay = false;
-            isFinish++;
-            tag2 = true;
-        } else {
-            isClick = true;
-            isPlay = false;
-            play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_play2_t), null, null);
-        }
+//        if (mp == mediaPlayer) {
+//            isClick = true;
+//            isPlay = false;
+//            isFinish++;
+//            tag2 = true;
+//        } else {
+        isClick = true;
+        isPlay = false;
+        play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_play2_t), null, null);
+//        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mediaPlayer != null) {
-            mediaPlayer.pause();
+        if (mediaPlayer2 != null) {
+            if (mediaPlayer2.isPlaying()) {
+                mediaPlayer2.pause();
+                mediaPlayer2.stop();
+            }
+            mediaPlayer2.release();
+            mediaPlayer2 = null;
         }
         isClick = true;
         isPlay = false;
@@ -1252,12 +1235,12 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
+        if (mediaPlayer2 != null) {
+            if (mediaPlayer2.isPlaying()) {
+                mediaPlayer2.stop();
             }
-            mediaPlayer.release();
-            mediaPlayer = null;
+            mediaPlayer2.release();
+            mediaPlayer2 = null;
         }
         if (handler != null && runnable != null) {
             handler.removeCallbacks(runnable);

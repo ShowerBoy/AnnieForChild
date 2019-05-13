@@ -623,9 +623,9 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
                     return;
                 }
                 if (MusicService.musicIsCollect == 0) {
-                    presenter.collectCourse(collectType, MusicService.musicAudioSource, MusicService.musicResourceId, classId);
+                    presenter.collectCourse(collectType,MusicService.musicList.get(MusicService.listTag).getAudioSource(), MusicService.musicList.get(MusicService.listTag).getBookId(), classId);
                 } else {
-                    presenter.cancelCollection(collectType, MusicService.musicAudioSource, MusicService.musicResourceId, classId);
+                    presenter.cancelCollection(collectType, MusicService.musicList.get(MusicService.listTag).getAudioSource(), MusicService.musicList.get(MusicService.listTag).getBookId(), classId);
                 }
                 break;
             case R.id.music_lyric:

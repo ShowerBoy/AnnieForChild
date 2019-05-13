@@ -300,6 +300,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                         song.setBookImageUrl(collectList.get(i).getImageUrl());
                         song.setPath(collectList.get(i).getPath());
                         song.setIsCollected(collectList.get(i).getIsCollected());
+                        song.setAudioSource(collectList.get(i).getAudioSource());
                         lists2.add(song);
                     }
                 }

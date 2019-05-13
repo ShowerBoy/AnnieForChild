@@ -224,6 +224,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
             musicPart.setBookId(musicList.get(i).getBookId());
             musicPart.setImageUrl(musicList.get(i).getBookImageUrl());
             musicPart.setMusicUrl(musicList.get(i).getPath());
+            musicPart.setAudioSource(musicList.get(i).getAudioSource());
             musicPartList.add(musicPart);
         }
     }
@@ -265,7 +266,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                 try {
                     /*数组越界*/
                     if (musicList != null && musicList.size() > 0) {
-                        mediaPlayer.stop();
+//                        mediaPlayer.stop();
                         mediaPlayer.reset();
                         mediaPlayer.setDataSource(musicList.get(listTag).getPath());
                         mediaPlayer.prepareAsync();
@@ -292,7 +293,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                 }
 
 //                Glide.with(MusicService.this).load(musicPartList.get(listTag).getImageUrl()).into(MusicPlayActivity.image);
-                setMusicTitle(musicPartList.get(listTag).getName(), musicPartList.get(listTag).getImageUrl(), musicOrigin, musicAudioType, musicAudioSource, musicPartList.get(listTag).getBookId(), musicList.get(listTag).getIsCollected(), musicCollectType, musicSongView);
+                setMusicTitle(musicPartList.get(listTag).getName(), musicPartList.get(listTag).getImageUrl(), musicOrigin, musicAudioType, musicPartList.get(listTag).getAudioSource(), musicPartList.get(listTag).getBookId(), musicList.get(listTag).getIsCollected(), musicCollectType, musicSongView);
                 for (int i = 0; i < musicPartList.size(); i++) {
                     musicPartList.get(i).setPlaying(false);
                 }
@@ -378,6 +379,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                     song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());
                     song.setPath(musicPartList.get(listTag).getMusicUrl());
                     song.setIsCollected(musicList.get(listTag).getIsCollected());
+                    song.setAudioSource(musicList.get(listTag).getAudioSource());
                     addPlayLists(song, listTag);
                 } else {
                     boolean flag = true;
@@ -392,6 +394,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                         song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());
                         song.setPath(musicPartList.get(listTag).getMusicUrl());
                         song.setIsCollected(musicList.get(listTag).getIsCollected());
+                        song.setAudioSource(musicList.get(listTag).getAudioSource());
                         addPlayLists(song, listTag);
                     }
                 }

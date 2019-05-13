@@ -10,8 +10,17 @@ public class MusicPart implements Serializable {
     private String musicUrl;
     private String name;
     private int bookId;
+    private int audioSource;
     private String imageUrl;
     private boolean isPlaying = false;
+
+    public int getAudioSource() {
+        return audioSource;
+    }
+
+    public void setAudioSource(int audioSource) {
+        this.audioSource = audioSource;
+    }
 
     public int getBookId() {
         return bookId;
