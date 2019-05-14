@@ -7,6 +7,7 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
@@ -36,7 +37,9 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.IOException;
 import java.net.ProtocolException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -73,6 +76,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     private static GrindEarPresenter presenter;
     public static SongView musicSongView;
     private static MyApplication application;
+    private static Map<String, String> headers;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -135,6 +139,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         MusicPlayActivity.end.setText(end);
         MusicPlayActivity.state = STATE_PLAYING;
         MusicPlayActivity.animation.start();
+
         mediaPlayer.start();
         /**
          * 以下
@@ -180,9 +185,15 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         application = (MyApplication) getApplicationContext();
         musicList = new ArrayList<>();
         musicPartList = new ArrayList<>();
+        headers = new HashMap<>();
+        headers.put("Content-Type", "audio/mp3"); // change content type if necessary
+        headers.put("Accept-Ranges", "bytes");
+        headers.put("Status", "206");
+        headers.put("Cache-control", "no-cache");
         //初始化播放对象
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();
+//            mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse("http://demoapi.anniekids.net/Public/netclass/empty.mp3"));
             mediaPlayer.setLooping(false);
         }
         //监听播放结束，释放资源
