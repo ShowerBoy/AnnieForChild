@@ -58,6 +58,8 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
         request.add("serialNumber", serialNumber);
         request.add("code", code);
         request.add("newPhone", newPhone);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_CHANGEPHONE, request);
 //        startQueue();
     }
@@ -83,10 +85,13 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
     @Override
     public void bindStudent(String username, String code, String serialNumber, String phone) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.BINDSTUDENT, RequestMethod.POST);
+        request.add("token", application.getSystemUtils().getToken());
         request.add("username", username);
         request.add("code", code);
         request.add("serialNumber", serialNumber);
         request.add("phone", phone);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_BINDSTUDENT, request);
     }
 
@@ -109,6 +114,8 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
         JSONObject data = jsonObject.getJSONObject(MethodCode.DATA);
         if (errorType == 3) {
             listener.Error(what, errorInfo);
+        } else if (errorType == 1) {
+            listener.Error(MethodCode.EVENT_RELOGIN, errorInfo);
         } else {
             if (what == MethodCode.EVENT_VERIFICATION_CODE) {
                 JSONObject data2 = jsonObject.getJSONObject(MethodCode.DATA);

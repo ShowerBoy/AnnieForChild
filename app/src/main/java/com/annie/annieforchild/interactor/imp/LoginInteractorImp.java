@@ -50,6 +50,8 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.LOGIN, RequestMethod.POST);
         request.add("phone", phone);
         request.add("password", password);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_LOGIN, request);
 //        startQueue();
     }
@@ -62,6 +64,8 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("keyword", keyword);
         request.add("page", page);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GLOBALSEARCH, request);
 //        startQueue();
     }
@@ -81,6 +85,8 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SEARCHAPI + MethodType.GETTAGS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETTAGS, request);
 //        startQueue();
     }
@@ -91,6 +97,8 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SEARCHAPI + MethodType.GETTAGBOOKTEST, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         request.add("page", page);
         if (ageList.size() != 0) {
             String age = null;
@@ -159,6 +167,8 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         request.add("token", application.getSystemUtils().getToken());
         request.add("origin", origin);
         request.add("giftRecordId", giftRecordId);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_SHOWGIFTS + 110000 + origin, request);
     }
 
@@ -169,6 +179,8 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         request.add("token", application.getSystemUtils().getToken());
         request.add("giftId", giftId);
         request.add("giftRecordId", giftRecordId);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_CHOOSEGIFT, request);
     }
 
@@ -190,6 +202,8 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
         if (errorType == 3) {
             listener.Error(what, errorInfo);
+        } else if (errorType == 1) {
+            listener.Error(MethodCode.EVENT_RELOGIN, errorInfo);
         } else {
             if (what == MethodCode.EVENT_LOGIN) {
                 MainBean bean = JSON.parseObject(jsonString, MainBean.class);

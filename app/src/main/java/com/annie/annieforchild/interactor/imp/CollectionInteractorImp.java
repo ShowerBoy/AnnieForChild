@@ -41,6 +41,8 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("type", type);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         if (type == 1) {
             addQueue(MethodCode.EVENT_MYCOLLECTIONS1, request);
         } else if (type == 2) {
@@ -61,6 +63,8 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
         request.add("audioSource", audioSource);
         request.add("type", type);
         request.add("courseId", courseId);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         if (type == 1) {
             addQueue(MethodCode.EVENT_CANCELCOLLECTION1, request);
         } else if (type == 2) {
@@ -92,6 +96,8 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
         String data = jsonObject.getString(MethodCode.DATA);
         if (errorType == 3) {
             listener.Error(what, errorInfo);
+        } else if (errorType == 1) {
+            listener.Error(MethodCode.EVENT_RELOGIN, errorInfo);
         } else {
             if (what == MethodCode.EVENT_MYCOLLECTIONS1) {
                 List<Collection> lists = JSON.parseArray(data, Collection.class);

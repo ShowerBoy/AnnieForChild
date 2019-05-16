@@ -42,6 +42,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETMYMESSAGES, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETMYMESSAGES, request);
 //        startQueue();
     }
@@ -51,6 +53,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETHELP, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETHELP, request);
 //        startQueue();
     }
@@ -61,6 +65,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.NEWMYRECORDINGS, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_MYRECORDINGS, request);
 //        startQueue();
     }
@@ -73,6 +79,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("origin", origin);
         request.add("recordingId", recordingId);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_DELETERECORDING, request);
 //        startQueue();
     }
@@ -92,6 +100,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("content", content);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_FEEDBACK, request);
 //        startQueue();
     }
@@ -102,6 +112,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("nectar", nectar);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_EXCHANGEGOLD, request);
 //        startQueue();
     }
@@ -111,6 +123,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.SHARETO, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_SHARETO, request);
 //        startQueue();
     }
@@ -120,6 +134,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETMESSAGESLIST, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETMESSAGESLIST, request);
     }
 
@@ -142,6 +158,8 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
         String data = jsonObject.getString(MethodCode.DATA);
         if (errorType == 3) {
             listener.Error(what, errorInfo);
+        } else if (errorType == 1) {
+            listener.Error(MethodCode.EVENT_RELOGIN, errorInfo);
         } else {
             if (what == MethodCode.EVENT_GETMYMESSAGES) {
                 MyNotice myNotice = JSON.parseObject(data, MyNotice.class);

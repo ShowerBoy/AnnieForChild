@@ -1,5 +1,7 @@
 package com.annie.annieforchild.Utils;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -22,7 +24,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -103,7 +107,7 @@ import java.util.regex.PatternSyntaxException;
  */
 
 public class SystemUtils {
-    //        public static String mainUrl = "https://testappapi.anniekids.com/api/"; //获取接口对象地址（测试）
+//    public static String mainUrl = "https://testappapi.anniekids.com/api/"; //获取接口对象地址（测试）
     public static String mainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（正式）
 
     public static final String APP_ID = "wxcce6f37c8f2e3dc7"; //微信支付
@@ -129,6 +133,7 @@ public class SystemUtils {
     private String sn; //设备sn号
     private String tag = "游客"; //会员标识
     private String netDate; //网络时间
+    public static final String deviceType = "android"; //设备类型
     private Thread countDownThread; //倒计时两分钟线程
     private boolean playAll = false; //播放全文
     private int currentPage = 0; //当前播放页
@@ -146,6 +151,7 @@ public class SystemUtils {
     private Uri uri;
     private List<Song> playLists; //最近播放列表
     private NetGiftPopupAdapter netGiftPopupAdapter;
+    private boolean isReLogin = false; //重新登陆
     Context context;
 
     public SystemUtils(Context context) {
@@ -1154,6 +1160,30 @@ public class SystemUtils {
         return null;
     }
 
+    /**
+     * 获取手机IMEI
+     *
+     * @param context
+     * @return
+     */
+    @SuppressLint("MissingPermission")
+    public static final String getIMEI(Context context) {
+        try {
+            //实例化TelephonyManager对象
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            //获取IMEI号
+            String imei = telephonyManager.getDeviceId();
+            //在次做个验证，也不是什么时候都能获取到的啊
+            if (imei == null) {
+                imei = "";
+            }
+            return imei;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
 
     public static int pixelToDp(Context context, int pixel) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -1410,5 +1440,13 @@ public class SystemUtils {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isReLogin() {
+        return isReLogin;
+    }
+
+    public void setReLogin(boolean reLogin) {
+        isReLogin = reLogin;
     }
 }

@@ -41,9 +41,13 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERINFO, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERLIST, RequestMethod.POST);
         request2.add("username", application.getSystemUtils().getDefaultUsername());
         request2.add("token", application.getSystemUtils().getToken());
+        request2.add("deviceID", application.getSystemUtils().getSn());
+        request2.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_USERINFO, request);
         addQueue(MethodCode.EVENT_USERLIST, request2);
 //        startQueue();
@@ -55,6 +59,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("defaultUser", defaultUser);
         request.add("token", application.getSystemUtils().getToken());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_SETDEFAULEUSER, request);
         startQueue();
     }
@@ -65,6 +71,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("deleteUsername", deleteUsername);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_DELETEUSERNAME, request);
 //        startQueue();
     }
@@ -74,6 +82,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERLIST, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_USERLIST, request);
 //        startQueue();
     }
@@ -84,6 +94,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("weixinNum", weixinNum);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_BINDWEIXIN, request);
     }
 
@@ -94,6 +106,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         request.add("token", application.getSystemUtils().getToken());
         request.add("origin", origin);
         request.add("giftRecordId", giftRecordId);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_SHOWGIFTS, request);
     }
 
@@ -116,6 +130,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         String data = jsonObject.getString(MethodCode.DATA);
         if (errorType == 3) {
             listener.Error(what, errorInfo);
+        } else if (errorType == 1) {
+            listener.Error(MethodCode.EVENT_RELOGIN, errorInfo);
         } else {
             if (what == MethodCode.EVENT_USERINFO) {
                 if (data != null) {

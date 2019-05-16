@@ -1,21 +1,29 @@
 package com.annie.annieforchild.presenter.imp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.SerialBean;
 import com.annie.annieforchild.interactor.RegisterInteractor;
 import com.annie.annieforchild.interactor.imp.RegisterInteractorImp;
 import com.annie.annieforchild.presenter.RegisterPresenter;
+import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.RegisterView;
 import com.annie.baselibrary.base.BasePresenterImp;
 import com.yanzhenjie.nohttp.rest.Response;
 
 import org.greenrobot.eventbus.EventBus;
+
+import static android.content.Context.MODE_MULTI_PROCESS;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * 注册
@@ -150,6 +158,36 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
     public void Error(int what, String error) {
         registerView.dismissLoad();
 //        registerView.showInfo(error);
+        if (what == MethodCode.EVENT_RELOGIN) {
+            if (!application.getSystemUtils().isReLogin()) {
+                application.getSystemUtils().setReLogin(true);
+                registerView.showInfo("该账号已在别处登陆");
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
+                MusicService.musicTitle = null;
+                MusicService.musicImageUrl = null;
+                SharedPreferences preferences = context.getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.remove("phone");
+                editor.remove("psd");
+                editor.commit();
+                application.getSystemUtils().getPhoneSN().setUsername(null);
+                application.getSystemUtils().getPhoneSN().setLastlogintime(null);
+                application.getSystemUtils().getPhoneSN().setSystem(null);
+                application.getSystemUtils().getPhoneSN().setBitcode(null);
+                application.getSystemUtils().setDefaultUsername(null);
+                application.getSystemUtils().setToken(null);
+                application.getSystemUtils().getPhoneSN().save();
+                application.getSystemUtils().setOnline(false);
+                ActivityCollector.finishAll();
+                Intent intent2 = new Intent(context, LoginActivity.class);
+                context.startActivity(intent2);
+                return;
+            } else {
+                return;
+            }
+        }
         if (what == MethodCode.EVENT_RESETPASSWORD) {
             /**
              * {@link com.annie.annieforchild.ui.activity.login.ModifyPsdActivity#onMainEventThread(JTMessage)}

@@ -39,6 +39,8 @@ public class NectarInteractorImp extends NetWorkImp implements NectarInteractor 
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETNECTAR, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETNECTAR, request);
 //        startQueue();
     }
@@ -62,6 +64,8 @@ public class NectarInteractorImp extends NetWorkImp implements NectarInteractor 
         String data = jsonObject.getString(MethodCode.DATA);
         if (errorType == 3) {
             listener.Error(what, errorInfo);
+        } else if (errorType == 1) {
+            listener.Error(MethodCode.EVENT_RELOGIN, errorInfo);
         } else {
             if (what == MethodCode.EVENT_GETNECTAR) {
                 MyNectar myNectar = JSON.parseObject(data, MyNectar.class);

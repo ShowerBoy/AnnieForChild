@@ -2,10 +2,13 @@ package com.annie.annieforchild.presenter.imp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.Banner;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Address;
@@ -31,9 +34,11 @@ import com.annie.annieforchild.bean.order.OrderDetail;
 import com.annie.annieforchild.interactor.NetWorkInteractor;
 import com.annie.annieforchild.interactor.imp.NetWorkInteractorImp;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
+import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.activity.net.NetPreheatClassActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BasePresenterImp;
@@ -48,6 +53,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.content.Context.MODE_MULTI_PROCESS;
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by wanglei on 2018/9/22.
  */
@@ -60,15 +68,18 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     private List<Banner> bannerList;
     private HashMap<Integer, String> file_maps;
     private int payment, tag, position;
+    private MyApplication application;
 
     public NetWorkPresenterImp(Context context, ViewInfo viewInfo) {
         this.context = context;
         this.viewInfo = viewInfo;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     public NetWorkPresenterImp(Context context, GrindEarView grindEarView) {
         this.context = context;
         this.grindEarView = grindEarView;
+        application = (MyApplication) context.getApplicationContext();
     }
 
     @Override
@@ -650,6 +661,41 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         }
         if (viewInfo != null) {
             viewInfo.dismissLoad();
+        }
+        if (what == MethodCode.EVENT_RELOGIN) {
+            if (!application.getSystemUtils().isReLogin()) {
+                application.getSystemUtils().setReLogin(true);
+                if (grindEarView != null) {
+                    grindEarView.showInfo("该账号已在别处登陆");
+                }
+                if (viewInfo != null) {
+                    viewInfo.showInfo("该账号已在别处登陆");
+                }
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
+                MusicService.musicTitle = null;
+                MusicService.musicImageUrl = null;
+                SharedPreferences preferences = context.getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.remove("phone");
+                editor.remove("psd");
+                editor.commit();
+                application.getSystemUtils().getPhoneSN().setUsername(null);
+                application.getSystemUtils().getPhoneSN().setLastlogintime(null);
+                application.getSystemUtils().getPhoneSN().setSystem(null);
+                application.getSystemUtils().getPhoneSN().setBitcode(null);
+                application.getSystemUtils().setDefaultUsername(null);
+                application.getSystemUtils().setToken(null);
+                application.getSystemUtils().getPhoneSN().save();
+                application.getSystemUtils().setOnline(false);
+                ActivityCollector.finishAll();
+                Intent intent2 = new Intent(context, LoginActivity.class);
+                context.startActivity(intent2);
+                return;
+            } else {
+                return;
+            }
         }
         if (what == MethodCode.EVENT_CANCELORDER + 100000 + tag) {
             viewInfo.showInfo(error);

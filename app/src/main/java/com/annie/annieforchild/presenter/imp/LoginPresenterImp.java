@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
 import com.alibaba.fastjson.JSON;
+import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.SearchTag;
 import com.annie.annieforchild.bean.Tags;
@@ -44,6 +47,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.content.Context.MODE_MULTI_PROCESS;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * 登陆
@@ -223,6 +229,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                 } else {
                     //成功
                     SQLiteDatabase db = LitePal.getDatabase();
+                    application.getSystemUtils().setReLogin(false);
 //                      DataSupport.deleteAll(SigninBean.class);
                     try {
                         LoginBean bean1 = JSON.parseObject(bean.getData(), LoginBean.class);
@@ -408,8 +415,38 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
     public void Error(int what, String error) {
         if (loginView != null) {
             loginView.dismissLoad();
-            loginView.showInfo(error);
         }
+        if (what == MethodCode.EVENT_RELOGIN) {
+            if (!application.getSystemUtils().isReLogin()) {
+                application.getSystemUtils().setReLogin(true);
+                loginView.showInfo("该账号已在别处登陆");
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
+                MusicService.musicTitle = null;
+                MusicService.musicImageUrl = null;
+                SharedPreferences preferences = context.getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.remove("phone");
+                editor.remove("psd");
+                editor.commit();
+                application.getSystemUtils().getPhoneSN().setUsername(null);
+                application.getSystemUtils().getPhoneSN().setLastlogintime(null);
+                application.getSystemUtils().getPhoneSN().setSystem(null);
+                application.getSystemUtils().getPhoneSN().setBitcode(null);
+                application.getSystemUtils().setDefaultUsername(null);
+                application.getSystemUtils().setToken(null);
+                application.getSystemUtils().getPhoneSN().save();
+                application.getSystemUtils().setOnline(false);
+                ActivityCollector.finishAll();
+                Intent intent2 = new Intent(context, LoginActivity.class);
+                context.startActivity(intent2);
+                return;
+            } else {
+                return;
+            }
+        }
+        loginView.showInfo(error);
         if (what == MethodCode.EVENT_LOGIN) {
             /**
              * {@link com.annie.annieforchild.ui.activity.GuideActivity#onMainEventThread(JTMessage)}

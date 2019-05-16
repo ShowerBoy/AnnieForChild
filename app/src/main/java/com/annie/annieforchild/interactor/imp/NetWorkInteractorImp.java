@@ -83,6 +83,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETHOMEDATA, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETNETHOMEDATA, request);
 //        startQueue();
     }
@@ -92,6 +94,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETSUGGEST, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         request.add("netid", netid);
         addQueue(MethodCode.EVENT_GETNETSUGGEST, request);
 //        startQueue();
@@ -102,6 +106,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETMYNETCLASS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETMYNETCLASS, request);
 //        startQueue();
     }
@@ -112,6 +118,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_CONFIRMORDER, request);
 //        startQueue();
     }
@@ -121,6 +129,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETMYADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETMYADDRESS, request);
 //        startQueue();
     }
@@ -133,6 +143,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("name", name);
         request.add("phone", phone);
         request.add("address", address);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_ADDADDRESS, request);
 //        startQueue();
     }
@@ -146,6 +158,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("name", name);
         request.add("phone", phone);
         request.add("address", address);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_EDITADDRESS, request);
 //        startQueue();
     }
@@ -156,6 +170,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("addressid", addressid);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_DELETEADDRESS, request);
 //        startQueue();
     }
@@ -173,6 +189,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("ismaterial", ismaterial);
         request.add("payment", payment);
         request.add("wxnumber", wxnumber);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
 //        request.add("giftid", giftid);
         addQueue(MethodCode.EVENT_BUYNETWORK, request);
 //        startQueue();
@@ -184,6 +202,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETNETDETAILS, request);
 //        startQueue();
     }
@@ -195,6 +215,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETNETEXPDETAILS, request);
 //        startQueue();
     }
@@ -205,6 +227,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
 //        request.add("netid", 22);
         addQueue(MethodCode.EVENT_GETNETEXPDETAILS_NEW, request);
 //        startQueue();
@@ -216,6 +240,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_SPECIALCLASS, request);
     }
 
@@ -224,6 +250,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETMYORDERLIST, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETMYORDERLIST, request);
     }
 
@@ -233,6 +261,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("orderIncrId", orderIncrId);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETMYORDERDETAIL, request);
     }
 
@@ -244,6 +274,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("orderIncrId", orderIncrId);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_CONTINUEPAY + 90000 + tag, request);
     }
 
@@ -255,6 +287,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("orderIncrId", orderIncrId);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_CANCELORDER, request);
     }
 
@@ -264,6 +298,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_EXPERIENCEDETAILSV2, request);
     }
 
@@ -278,6 +314,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("chaptercontent_id", chaptercontent_id);
         request.add("isfinish", isFinish);
         request.add("classcode", classcode);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_VIDEOPAYRECORD, request);
     }
 
@@ -290,6 +328,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("netid", netid);
         request.add("stageid", stageid);
         request.add("unitid", unitid);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_VIDEOLIST, request);
     }
 
@@ -299,6 +339,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_SPECIALCLASSV2, request);
     }
 
@@ -308,6 +350,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_TASKLIST, request);
     }
 
@@ -318,6 +362,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
         request.add("num", num);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_TASKDETAIL, request);
     }
 
@@ -333,6 +379,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         }
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
 
         addQueue(MethodCode.EVENT_GETLESSON, request);
 //        startQueue();
@@ -346,6 +394,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("tradeno", tradeno);
         request.add("outtradeno", outtradeno);
         request.add("type", type);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_BUYSUCCESS, request);
 //        startQueue();
     }
@@ -358,6 +408,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
             request.add("token", application.getSystemUtils().getToken());
             request.add("username", application.getSystemUtils().getDefaultUsername());
             request.add("lessonid", Integer.parseInt(lessonid));
+            request.add("deviceID", application.getSystemUtils().getSn());
+            request.add("deviceType", SystemUtils.deviceType);
             addQueue(MethodCode.EVENT_GETPREHEATCONSULT, request);
         } else if (type == 2) {
             //综合课预热课
@@ -365,6 +417,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
             request.add("token", application.getSystemUtils().getToken());
             request.add("username", application.getSystemUtils().getDefaultUsername());
             request.add("lessonid", Integer.parseInt(lessonid));
+            request.add("deviceID", application.getSystemUtils().getSn());
+            request.add("deviceType", SystemUtils.deviceType);
             addQueue(MethodCode.EVENT_SPECIALPREHEATING, request);
         }
 //        startQueue();
@@ -379,6 +433,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("classid", classid);
         request.add("week", week);
         request.add("classify", classify);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag, request);
 //        startQueue();
     }
@@ -390,6 +446,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
         request.add("checktype", type);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         if (type == 1) {//1:netsuggest请求 2：confirmorder请求
             addQueue(MethodCode.EVENT_BUYNUM, request);
         } else {
@@ -407,6 +465,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("tradeno", tradeno);
         request.add("outtradeno", outtradeno);
         request.add("type", type);
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_ORDERQUERY + 11000 + tag, request);
 //        startQueue();
     }
@@ -426,6 +486,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         }
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
 
         addQueue(MethodCode.EVENT_GETWEICLASS, request);
     }
@@ -445,6 +507,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
         if (errorType == 3) {
             listener.Error(what, errorInfo);
+        } else if (errorType == 1) {
+            listener.Error(MethodCode.EVENT_RELOGIN, errorInfo);
         } else {
             if (what == MethodCode.EVENT_GETNETHOMEDATA) {
                 NetWork netWork = JSON.parseObject(data, NetWork.class);

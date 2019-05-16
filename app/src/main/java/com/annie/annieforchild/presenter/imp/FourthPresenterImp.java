@@ -3,11 +3,13 @@ package com.annie.annieforchild.presenter.imp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.View;
 
+import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.service.MusicService;
@@ -19,6 +21,7 @@ import com.annie.annieforchild.bean.net.NetGift;
 import com.annie.annieforchild.interactor.FourthInteractor;
 import com.annie.annieforchild.interactor.imp.FourthInteractorImp;
 import com.annie.annieforchild.presenter.FourthPresenter;
+import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
 import com.annie.annieforchild.ui.adapter.MemberAdapter;
 import com.annie.annieforchild.ui.application.MyApplication;
@@ -33,6 +36,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.content.Context.MODE_MULTI_PROCESS;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * 我的
@@ -265,8 +271,12 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 }
 
                 MusicService.musicTitle = null;
-                MusicService.musicPartList.clear();
-                MusicService.musicList.clear();
+                if (MusicService.musicPartList != null) {
+                    MusicService.musicPartList.clear();
+                }
+                if (MusicService.musicList != null) {
+                    MusicService.musicList.clear();
+                }
                 MusicService.isPlay = false;
                 MusicService.start = "0:00";
                 MusicService.end = "";
@@ -315,6 +325,37 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
 
     @Override
     public void Error(int what, String error) {
+        fourthView.dismissLoad();
+        if (what == MethodCode.EVENT_RELOGIN) {
+            if (!application.getSystemUtils().isReLogin()) {
+                application.getSystemUtils().setReLogin(true);
+                fourthView.showInfo("该账号已在别处登陆");
+                if (MusicService.isPlay) {
+                    MusicService.stop();
+                }
+                MusicService.musicTitle = null;
+                MusicService.musicImageUrl = null;
+                SharedPreferences preferences = context.getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.remove("phone");
+                editor.remove("psd");
+                editor.commit();
+                application.getSystemUtils().getPhoneSN().setUsername(null);
+                application.getSystemUtils().getPhoneSN().setLastlogintime(null);
+                application.getSystemUtils().getPhoneSN().setSystem(null);
+                application.getSystemUtils().getPhoneSN().setBitcode(null);
+                application.getSystemUtils().setDefaultUsername(null);
+                application.getSystemUtils().setToken(null);
+                application.getSystemUtils().getPhoneSN().save();
+                application.getSystemUtils().setOnline(false);
+                ActivityCollector.finishAll();
+                Intent intent2 = new Intent(context, LoginActivity.class);
+                context.startActivity(intent2);
+                return;
+            } else {
+                return;
+            }
+        }
         /**
          * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
          */
@@ -322,7 +363,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
         message.setWhat(what);
         message.setObj(error);
         EventBus.getDefault().post(message);
-        fourthView.dismissLoad();
+
         fourthView.showInfo(error);
     }
 }

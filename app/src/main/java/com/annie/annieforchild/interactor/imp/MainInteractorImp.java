@@ -42,6 +42,8 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
         } else {
             request.add("username", "");
         }
+        request.add("deviceID", application.getSystemUtils().getSn());
+        request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_GETHOMEDATA, request);
 //        startQueue();
     }
@@ -65,6 +67,8 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
         String data = jsonObject.getString(MethodCode.DATA);
         if (errorType == 3) {
             listener.Error(what, errorInfo);
+        } else if (errorType == 1) {
+            listener.Error(MethodCode.EVENT_RELOGIN, errorInfo);
         } else {
             HomeData homeData = JSON.parseObject(data, HomeData.class);
 //            String banner = dataObj.getString("bannerList");
