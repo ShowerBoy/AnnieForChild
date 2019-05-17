@@ -152,8 +152,7 @@
             android:name=".ui.activity.VideoActivity_new"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeFullscreen"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
         <activity
             android:name=".ui.activity.GuideActivity"
@@ -523,6 +522,9 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.net.EveryDayTaskActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.pk.MusicPlayActivity2"
             android:screenOrientation="portrait"></activity>
 
     </application>

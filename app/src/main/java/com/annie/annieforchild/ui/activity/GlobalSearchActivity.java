@@ -288,7 +288,8 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                 } else {
                     if (lists.get(position).getJurisdiction() == 1) {
 //                        SystemUtils.startVideo(GlobalSearchActivity.this, lists.get(position).getAnimationUrl());
-                        Intent intent = new Intent(GlobalSearchActivity.this, VideoActivity.class);
+//                        Intent intent = new Intent(GlobalSearchActivity.this, VideoActivity.class);
+                        Intent intent = new Intent(GlobalSearchActivity.this, VideoActivity_new.class);
                         intent.putExtra("url", lists.get(position).getAnimationUrl());
                         intent.putExtra("imageUrl", lists.get(position).getBookImageUrl());
                         intent.putExtra("name", lists.get(position).getBookName());

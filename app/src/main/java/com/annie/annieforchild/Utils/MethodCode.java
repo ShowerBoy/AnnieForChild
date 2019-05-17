@@ -26,6 +26,8 @@ public class MethodCode {
      * EventBus
      */
     final public static int EVENT_RELOGIN = -2000; //重新登陆
+    final public static int EVENT_MUSICSERVICE2 = -210;
+    final public static int EVENT_MUSICSERVICE = -200;
     final public static int EVENT_WEBRECORD = -190;
     final public static int EVENT_REFRESH = -180;
     final public static int EVENT_CONFIRMBUYSUC = -170;

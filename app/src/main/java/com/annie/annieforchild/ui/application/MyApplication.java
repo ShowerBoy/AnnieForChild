@@ -13,6 +13,7 @@ import com.annie.annieforchild.Utils.MyCrashHandler;
 import com.annie.annieforchild.Utils.SSLSocketClient;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.service.MusicService;
+import com.annie.annieforchild.Utils.service.MusicService2;
 import com.annie.baselibrary.utils.Utils;
 import com.baidu.mobstat.StatService;
 import com.iflytek.cloud.SpeechConstant;
@@ -107,11 +108,10 @@ public class MyApplication extends LitePalApplication {
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
         CrashReport.initCrashReport(getApplicationContext(), "ff549d1848", true, strategy);
 
-        Intent intent = new Intent(this, MusicService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent);
+            getApplicationContext().startForegroundService(new Intent(this, MusicService2.class));
         } else {
-            startService(intent);
+            getApplicationContext().startService(new Intent(this, MusicService2.class));
         }
     }
 

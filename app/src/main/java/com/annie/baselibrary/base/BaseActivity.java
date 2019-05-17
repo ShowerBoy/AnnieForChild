@@ -37,13 +37,12 @@ import butterknife.Unbinder;
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity {
     protected P mPresenter;
     private Unbinder mUnbinder;
-    private boolean register;
-    protected MusicService.MyBinder mBinder;
-    protected MusicService musicService;
+    protected boolean register;
+//    protected MusicService.MyBinder mBinder;
+//    protected MusicService musicService;
     //        protected MusicConnection myConnection = new MusicConnection();
     protected ServiceConnection myConnection;
     private MyBroadCastRecevier myBroadCastRecevier;
-    private Intent intent;
     protected MyApplication application;
 
     public void setRegister(boolean register) {
@@ -79,30 +78,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                 mPresenter.attach((BaseView) this);
         }
         initView();
-        if (musicService == null) {
-            //首次播放绑定服务
-            intent = new Intent(this, MusicService.class);
-            myConnection = new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
-                    mBinder = (MusicService.MyBinder) service;
-                    musicService = mBinder.getService();
-//                    initData();
-                }
-
-                @Override
-                public void onServiceDisconnected(ComponentName name) {
-//                    myConnection = null;
-                    musicService = null;
-                }
-            };
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                startForegroundService(intent);
-//            } else {
-//                startService(intent);
-//            }
-            bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
-        }
         initData();
 
     }
@@ -137,9 +112,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         mUnbinder.unbind();
         if (mPresenter != null) {
             mPresenter.detach();
-        }
-        if (myConnection != null) {
-            unbindService(myConnection);
         }
 //        stopService(intent);
     }

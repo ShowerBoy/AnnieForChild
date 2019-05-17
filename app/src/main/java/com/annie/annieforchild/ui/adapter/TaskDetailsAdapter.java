@@ -21,6 +21,7 @@ import com.annie.annieforchild.bean.task.TaskBean;
 import com.annie.annieforchild.bean.task.TaskFade;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.activity.VideoActivity;
+import com.annie.annieforchild.ui.activity.VideoActivity_new;
 import com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.TaskDetailsViewHolder;
@@ -264,7 +265,8 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                     if (lists.get(i).getAnimationUrl() != null && lists.get(i).getAnimationUrl().length() != 0) {
                         //TODO：播放动画
 //                        SystemUtils.startVideo(context, lists.get(i).getAnimationUrl());
-                        Intent intent = new Intent(context, VideoActivity.class);
+//                        Intent intent = new Intent(context, VideoActivity.class);
+                        Intent intent = new Intent(context, VideoActivity_new.class);
                         intent.putExtra("url", lists.get(i).getAnimationUrl());
                         intent.putExtra("imageUrl", lists.get(i).getBookimage());
                         intent.putExtra("name", lists.get(i).getBookname());

@@ -12,6 +12,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.Collection;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.ui.activity.VideoActivity;
+import com.annie.annieforchild.ui.activity.VideoActivity_new;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.CollectionViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnMyItemClickListener;
@@ -65,7 +66,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewHolder
             public void onClick(View v) {
                 if (lists.get(position).getAudioSource() == 100) {
 //                    SystemUtils.startVideo(context, lists.get(position).getAnimationUrl());
-                    Intent intent = new Intent(context, VideoActivity.class);
+//                    Intent intent = new Intent(context, VideoActivity.class);
+                    Intent intent = new Intent(context, VideoActivity_new.class);
                     intent.putExtra("url", lists.get(position).getAnimationUrl());
                     intent.putExtra("imageUrl", lists.get(position).getImageUrl());
                     intent.putExtra("name", lists.get(position).getName());

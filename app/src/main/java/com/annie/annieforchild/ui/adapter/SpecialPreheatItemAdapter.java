@@ -11,6 +11,7 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
 import com.annie.annieforchild.ui.activity.VideoActivity;
+import com.annie.annieforchild.ui.activity.VideoActivity_new;
 import com.annie.annieforchild.ui.adapter.viewHolder.SpecialPreheatItemViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.SpecialPreheatViewHolder;
 import com.bumptech.glide.Glide;
@@ -47,7 +48,8 @@ public class SpecialPreheatItemAdapter extends RecyclerView.Adapter<SpecialPrehe
         specialPreheatItemViewHolder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, VideoActivity.class);
+//                Intent intent = new Intent(context, VideoActivity.class);
+                Intent intent = new Intent(context, VideoActivity_new.class);
                 intent.putExtra("url", lists.get(i).getPath());
                 intent.putExtra("imageUrl", lists.get(i).getPicurl());
                 intent.putExtra("name", lists.get(i).getTitle());

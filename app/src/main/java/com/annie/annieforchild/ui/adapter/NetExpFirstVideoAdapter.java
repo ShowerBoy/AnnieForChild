@@ -13,6 +13,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
 import com.annie.annieforchild.bean.net.netexpclass.Video_first;
 import com.annie.annieforchild.ui.activity.VideoActivity;
+import com.annie.annieforchild.ui.activity.VideoActivity_new;
 import com.annie.annieforchild.ui.activity.my.WebActivity2;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetPreheatConsultViewHolder;
 import com.bumptech.glide.Glide;
@@ -62,7 +63,8 @@ public class NetExpFirstVideoAdapter extends RecyclerView.Adapter<NetPreheatCons
         holder.welcomeVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, VideoActivity.class);
+//                Intent intent = new Intent(context, VideoActivity.class);
+                Intent intent = new Intent(context, VideoActivity_new.class);
                 intent.putExtra("url", list1.get(i).getPath());
                 intent.putExtra("imageUrl", list1.get(i).getPicurl());
                 intent.putExtra("name", list1.get(i).getTitle());

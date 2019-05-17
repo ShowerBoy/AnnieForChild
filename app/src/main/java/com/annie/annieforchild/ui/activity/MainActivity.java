@@ -173,7 +173,8 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
                         startActivity(intent);
                     } else if (bookType.equals("2")) {
 //                        SystemUtils.startVideo(this, animationurl);
-                        Intent intent = new Intent(this, VideoActivity.class);
+//                        Intent intent = new Intent(this, VideoActivity.class);
+                        Intent intent = new Intent(this, VideoActivity_new.class);
                         intent.putExtra("url", animationurl);
                         intent.putExtra("imageUrl", bookurl);
                         intent.putExtra("name", bookname);
