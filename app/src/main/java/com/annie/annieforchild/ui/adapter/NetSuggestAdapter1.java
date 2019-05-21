@@ -6,6 +6,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class NetSuggestAdapter1 extends RecyclerView.Adapter{
     private List<String> lists,list_middle;
     private LayoutInflater inflater;
     private int width,heigth;
+    private float density;
 
     public NetSuggestAdapter1(Context context, List<String> lists, List<String> list_middle) {
         this.context = context;
@@ -40,8 +42,11 @@ public class NetSuggestAdapter1 extends RecyclerView.Adapter{
         this.list_middle=list_middle;
         inflater = LayoutInflater.from(context);
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
+
         heigth = dm.heightPixels;
         width = dm.widthPixels;
+
+         density = dm.density;
 
     }
 
@@ -99,6 +104,10 @@ public class NetSuggestAdapter1 extends RecyclerView.Adapter{
         }else{ // 尾部
             NetSuggestAdapter1.FootHolder footHolder=(NetSuggestAdapter1.FootHolder)holder;
 
+            ViewGroup.LayoutParams linearParams =footHolder.viewpager_layout.getLayoutParams();
+
+            linearParams.height = (int) (420*density);
+            footHolder.viewpager_layout.setLayoutParams(linearParams);
             if(list_middle.size()<1){
                 footHolder.viewpager_layout.setVisibility(View.GONE);
             }else{
