@@ -15,7 +15,6 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.pldroidplayer.Config;
 import com.annie.annieforchild.Utils.pldroidplayer.MediaController;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
@@ -24,6 +23,7 @@ import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
+import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLOnAudioFrameListener;
@@ -43,7 +43,7 @@ import java.util.Arrays;
  * Created by wanglei on 2018/6/19.
  */
 
-public class VideoActivity_new extends BaseActivity implements SongView {
+public class VideoActivity_new extends BaseMusicActivity implements SongView {
     String videoPath;
     private static final String TAG = VideoActivity_new.class.getSimpleName();
 
@@ -151,9 +151,6 @@ public class VideoActivity_new extends BaseActivity implements SongView {
     protected void initData() {
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-        if (MusicService.isPlay) {
-            MusicService.stop();
-        }
         presenter = new GrindEarPresenterImp(this, this);
         presenter2 = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();
@@ -379,6 +376,7 @@ public class VideoActivity_new extends BaseActivity implements SongView {
     @Override
     protected void onResume() {
         super.onResume();
+        allowBindService();
         mVideoView.start();
         if (isTime) {
             runnable = new Runnable() {
@@ -395,6 +393,7 @@ public class VideoActivity_new extends BaseActivity implements SongView {
 
     @Override
     protected void onPause() {
+        allowUnBindService();
         super.onPause();
         mMediaController.getWindow().dismiss();
         mVideoView.pause();
@@ -437,6 +436,18 @@ public class VideoActivity_new extends BaseActivity implements SongView {
             if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
                 dialog.dismiss();
             }
+        }
+    }
+
+    @Override
+    public void onPublish(int progress) {
+
+    }
+
+    @Override
+    public void onChange(int position) {
+        if (musicService.isPlaying()) {
+            musicService.stop();
         }
     }
 }

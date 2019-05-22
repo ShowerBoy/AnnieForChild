@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.record.Record;
 import com.annie.annieforchild.ui.activity.my.MyRecordActivity;
@@ -108,16 +107,15 @@ public class MyReleaseAdapter extends RecyclerView.Adapter<MyReleaseViewHolder> 
 //                if (isClick) {
 
                 if (!isPlay) {
-                    if (MusicService.isPlay) {
-                        /**
-                         * {@link MyRecordActivity#onMainEventThread(JTMessage)}
-                         */
-                        JTMessage message = new JTMessage();
-                        message.what = MethodCode.EVENT_MUSICSTOP;
-                        message.obj = 0;
-                        EventBus.getDefault().post(message);
-//                        MusicService.stop();
-                    }
+
+                    /**
+                     * {@link MyRecordActivity#onMainEventThread(JTMessage)}
+                     */
+                    JTMessage message = new JTMessage();
+                    message.what = MethodCode.EVENT_MUSICSTOP;
+                    message.obj = 0;
+                    EventBus.getDefault().post(message);
+
                     holder = finalHolder1;
                     urlList.clear();
                     urlList.addAll(lists.get(position).getUrl());

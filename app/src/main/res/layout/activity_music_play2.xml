@@ -12,7 +12,7 @@
         android:background="@color/top_tab_back">
 
         <ImageView
-            android:id="@+id/music_play_back"
+            android:id="@+id/music_play_back2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -35,7 +35,7 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/anwa_radio"
+            android:id="@+id/anwa_radio2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -48,13 +48,12 @@
             android:gravity="center"
             android:text="安娃电台"
             android:textColor="@color/text_black"
-            android:textSize="16sp"
-            android:visibility="gone" />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/music_title"
+        android:id="@+id/music_title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top_layout3"
@@ -71,14 +70,15 @@
         android:id="@+id/music_relative"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/music_title"
+        android:layout_below="@+id/music_title2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/music_image"
+            android:id="@+id/music_image2"
             android:layout_width="220dp"
-            android:layout_height="220dp" />
+            android:layout_height="220dp"
+            android:src="@drawable/image_music_empty" />
 
     </RelativeLayout>
 
@@ -87,7 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/music_menu"
-        android:layout_below="@+id/music_title"
+        android:layout_below="@+id/music_title2"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
@@ -123,7 +123,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/music_loop"
+            android:id="@+id/music_loop2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -131,7 +131,7 @@
             android:src="@drawable/icon_list_loop" />
 
         <ImageView
-            android:id="@+id/music_last"
+            android:id="@+id/music_last2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -139,14 +139,14 @@
             android:src="@drawable/icon_music_last" />
 
         <ImageView
-            android:id="@+id/music_play"
+            android:id="@+id/music_play2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:src="@drawable/icon_music_play_big" />
 
         <ImageView
-            android:id="@+id/music_next"
+            android:id="@+id/music_next2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -154,7 +154,7 @@
             android:src="@drawable/icon_music_next" />
 
         <ImageView
-            android:id="@+id/music_list"
+            android:id="@+id/music_list2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -167,26 +167,26 @@
         android:id="@+id/music_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/music_seekbar"
+        android:layout_above="@+id/music_seekbar2"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="36dp"
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/music_collected"
+            android:id="@+id/music_collected2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="48dp"
             android:src="@drawable/icon_player_collection_f" />
 
         <ImageView
-            android:id="@+id/music_lyric"
+            android:id="@+id/music_lyric2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_player_lyrics" />
 
         <ImageView
-            android:id="@+id/music_record"
+            android:id="@+id/music_record2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
@@ -202,7 +202,7 @@
         android:layout_marginBottom="32dp">
 
         <TextView
-            android:id="@+id/start_time"
+            android:id="@+id/start_time2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -210,7 +210,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/end_time"
+            android:id="@+id/end_time2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -219,7 +219,7 @@
     </RelativeLayout>
 
     <SeekBar
-        android:id="@+id/music_seekbar"
+        android:id="@+id/music_seekbar2"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/seekbar_layout"
@@ -228,7 +228,7 @@
         android:thumb="@drawable/icon_seekbar_thumb" />
 
     <ImageView
-        android:id="@+id/music_share"
+        android:id="@+id/music_share2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

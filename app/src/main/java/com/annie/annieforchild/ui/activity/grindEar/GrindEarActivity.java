@@ -20,7 +20,6 @@ import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.Collection;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.GrindEarData;
@@ -31,10 +30,11 @@ import com.annie.annieforchild.presenter.CollectionPresenter;
 import com.annie.annieforchild.presenter.imp.CollectionPresenterImp;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
-import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
 import com.annie.annieforchild.ui.adapter.RadioAdapter;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.baselibrary.base.BaseActivity;
+import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.daimajia.slider.library.SliderLayout;
 
@@ -51,7 +51,7 @@ import java.util.List;
  * Created by WangLei on 2018/1/18 0018
  */
 
-public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCheckDoubleClick {
+public class GrindEarActivity extends BaseMusicActivity implements GrindEarView, OnCheckDoubleClick {
     private RecyclerView recycler;
     private AnimationDrawable musicBtn;
     private ImageView grindEarBack, iWantGrindEar, iWantSing, music, search;
@@ -131,11 +131,7 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
 
         musicBtn = (AnimationDrawable) music.getDrawable();
         musicBtn.setOneShot(false);
-        if (MusicService.isPlay) {
-            musicBtn.start();
-        } else {
-            musicBtn.stop();
-        }
+
 
 //        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -271,11 +267,9 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
              */
             Collections.shuffle(lists);
             int musicPosition = 0;
-            if (MusicService.isPlay) {
-//                mBinder.bStop();
-                MusicService.stop();
-            }
-            Intent intent = new Intent(this, MusicPlayActivity.class);
+//            Intent intent = new Intent(this, MusicPlayActivity.class);
+            SystemUtils.MusicType = 1;
+            Intent intent = new Intent(this, MusicPlayActivity2.class);
             Bundle bundle = new Bundle();
             bundle.putString("type", "radio");
             bundle.putInt("resourceId", lists.get(musicPosition).getBookId());
@@ -304,7 +298,9 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                         lists2.add(song);
                     }
                 }
-                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+//                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+                SystemUtils.MusicType = 1;
+                Intent intent1 = new Intent(this, MusicPlayActivity2.class);
                 if (lists2.size() != 0) {
                     int musicPosition = 0;
                     Bundle bundle = new Bundle();
@@ -317,9 +313,6 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     bundle.putInt("audioSource", collectList.get(musicPosition).getAudioSource());
                     bundle.putInt("collectType", 1);
                     intent1.putExtras(bundle);
-                }
-                if (MusicService.isPlay) {
-                    MusicService.stop();
                 }
                 startActivity(intent1);
             } else {
@@ -611,7 +604,10 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 startActivity(intent);
                 break;
             case R.id.grind_music:
-                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+//                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+                SystemUtils.MusicType = 0;
+                Intent intent1 = new Intent(this, MusicPlayActivity2.class);
+                intent1.putExtra("radioDismiss", 1);
                 startActivity(intent1);
                 break;
             case R.id.grind_ear_search:
@@ -628,22 +624,21 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                     SystemUtils.toAddChild(this);
                     return;
                 }
-                if (application.getSystemUtils().getPlayLists() != null && application.getSystemUtils().getPlayLists().size() != 0) {
-                    if (MusicService.isPlay) {
-//                        mBinder.bStop();
-//                        if (musicService != null) {
-//                            musicService.stop();
-//                        }
-                        MusicService.stop();
-                    }
-                    Intent intent4 = new Intent(this, MusicPlayActivity.class);
+                if (SystemUtils.playLists != null && SystemUtils.playLists.size() != 0) {
+//                    Intent intent4 = new Intent(this, MusicPlayActivity.class);
+                    SystemUtils.MusicType = 1;
+                    Intent intent4 = new Intent(this, MusicPlayActivity2.class);
                     Bundle bundle = new Bundle();
-                    bundle.putInt("resourceId", application.getSystemUtils().getPlayLists().get(0).getBookId());
-                    bundle.putSerializable("list", (Serializable) application.getSystemUtils().getPlayLists());
                     bundle.putString("type", "collection");
-                    bundle.putString("name", application.getSystemUtils().getPlayLists().get(0).getBookName());
-                    bundle.putString("image", application.getSystemUtils().getPlayLists().get(0).getBookImageUrl());
-                    bundle.putInt("isCollect", application.getSystemUtils().getPlayLists().get(0).getIsCollected());
+                    bundle.putSerializable("list", (Serializable) SystemUtils.playLists);
+                    bundle.putSerializable("song", SystemUtils.playLists.get(0));
+                    bundle.putSerializable("musicPosition", 0);
+                    bundle.putString("name", SystemUtils.playLists.get(0).getBookName());
+                    bundle.putString("image", SystemUtils.playLists.get(0).getBookImageUrl());
+                    bundle.putInt("isCollect", SystemUtils.playLists.get(0).getIsCollected());
+                    bundle.putInt("origin", 3);
+                    bundle.putInt("audioSource", SystemUtils.playLists.get(0).getAudioSource());
+                    bundle.putInt("resourceId", SystemUtils.playLists.get(0).getBookId());
                     intent4.putExtras(bundle);
                     startActivity(intent4);
                 } else {
@@ -664,6 +659,33 @@ public class GrindEarActivity extends BaseActivity implements GrindEarView, OnCh
                 presenter2.getMyCollections(1);
                 break;
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+    }
+
+    @Override
+    protected void onPause() {
+        allowUnBindService();
+        super.onPause();
+    }
+
+    @Override
+    public void onPublish(int progress) {
+
+    }
+
+    @Override
+    public void onChange(int position) {
+        if (musicBtn != null) {
+            if (musicService.isPlaying()) {
+                musicBtn.start();
+            } else {
+                musicBtn.stop();
+            }
+        }
     }
 }

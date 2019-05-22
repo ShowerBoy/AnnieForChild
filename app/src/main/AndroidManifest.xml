@@ -143,6 +143,9 @@
         <service
             android:name=".Utils.service.MusicService"
             android:enabled="true"></service>
+        <service
+            android:name=".Utils.service.MusicService2"
+            android:enabled="true"></service>
 
         <activity
             android:name=".ui.activity.login.LoginActivity"
@@ -231,13 +234,15 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.grindEar.GrindEarActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:taskAffinity="Radio.finish"></activity>
         <activity
             android:name=".ui.activity.grindEar.SingingActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.reading.ReadingActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:taskAffinity="Radio.finish"></activity>
         <activity
             android:name=".ui.activity.login.RegisterActivity"
             android:screenOrientation="portrait"></activity>
@@ -455,7 +460,8 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.speaking.SpeakingActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:taskAffinity="Radio.finish"></activity>
         <activity
             android:name=".ui.activity.XiangXueActivity"
             android:screenOrientation="portrait"></activity>
@@ -525,7 +531,8 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.pk.MusicPlayActivity2"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:taskAffinity="Radio.finish"></activity>
 
     </application>
 </manifest>

@@ -23,9 +23,7 @@ import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.grindEar.InputActivity;
-import com.annie.annieforchild.ui.activity.grindEar.MyGrindEarActivity;
-import com.annie.annieforchild.ui.activity.grindEar.MyLevelActivity;
-import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
 import com.annie.annieforchild.ui.fragment.mygrindear.TodayGrindEarFragment;
 import com.annie.annieforchild.ui.fragment.mygrindear.TotalGrindEarFragment;
 import com.annie.annieforchild.ui.fragment.myreading.TodayReadingFragment;
@@ -124,7 +122,9 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
 //                startActivity(intent);
 //                break;
             case R.id.my_reading_music:
-                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+                SystemUtils.MusicType = 0;
+//                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+                Intent intent1 = new Intent(this, MusicPlayActivity2.class);
                 startActivity(intent1);
                 break;
         }

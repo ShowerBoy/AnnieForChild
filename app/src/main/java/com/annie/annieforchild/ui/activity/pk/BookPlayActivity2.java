@@ -34,7 +34,6 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.ShareBean;
@@ -47,6 +46,7 @@ import com.annie.annieforchild.ui.fragment.book.BookPlayFragment;
 import com.annie.annieforchild.ui.fragment.book.BookPlayFragment2;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
+import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,7 +64,7 @@ import cn.sharesdk.framework.PlatformActionListener;
  * Created by wanglei on 2018/10/9.
  */
 
-public class BookPlayActivity2 extends BaseActivity implements PlatformActionListener, SongView, OnCheckDoubleClick {
+public class BookPlayActivity2 extends BaseMusicActivity implements PlatformActionListener, SongView, OnCheckDoubleClick {
     public static APSTSViewPager viewPager;
     private RelativeLayout bookPlay2Layout, pageLayout;
     private ImageView back, share, pengyouquan, weixin, qq, qqzone, nextDrop;
@@ -292,10 +292,6 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
             clarityBack.setVisibility(View.VISIBLE);
             nextDrop.setVisibility(View.VISIBLE);
             iknow.setVisibility(View.VISIBLE);
-        } else if (message.what == MethodCode.EVENT_MUSICSTOP) {
-//            if (musicService != null) {
-                MusicService.stop();
-//            }
         }
     }
 
@@ -655,6 +651,30 @@ public class BookPlayActivity2 extends BaseActivity implements PlatformActionLis
     public void onCancel(Platform platform, int i) {
         showInfo("分享取消");
         popupWindow.dismiss();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+    }
+
+    @Override
+    protected void onPause() {
+        allowUnBindService();
+        super.onPause();
+    }
+
+    @Override
+    public void onPublish(int progress) {
+
+    }
+
+    @Override
+    public void onChange(int position) {
+        if (musicService.isPlaying()) {
+            musicService.stop();
+        }
     }
 
     class BookPlayFragmentAdapter extends FragmentStatePagerAdapter {

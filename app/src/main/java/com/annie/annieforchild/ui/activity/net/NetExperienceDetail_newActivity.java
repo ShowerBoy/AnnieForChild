@@ -22,7 +22,6 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.ListenAndRead;
 import com.annie.annieforchild.bean.net.netexpclass.FirstStageitem;
@@ -153,13 +152,6 @@ public class NetExperienceDetail_newActivity extends BaseActivity implements Vie
         presenter.initViewAndData();
         presenter.getNetExpDetails_new(netid);
 
-
-        if (MusicService.isPlay) {
-//            if (musicService != null) {
-//                musicService.stop();
-//            }
-            MusicService.stop();
-        }
     }
 
     void setidshow(View layout, String isshow) {

@@ -25,7 +25,6 @@ import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.song.SongClassify;
@@ -45,7 +44,7 @@ import com.annie.annieforchild.ui.activity.mains.SquareActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity2;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
-import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
 import com.annie.annieforchild.ui.activity.speaking.SpeakingActivity;
@@ -275,11 +274,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         searchLayout.setFocusableInTouchMode(true);
         searchLayout.requestFocus();
 
-        if (MusicService.isPlay) {
-            musicBtn.start();
-        } else {
-            musicBtn.stop();
-        }
     }
 
     @Override
@@ -639,7 +633,9 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
-                Intent intent1 = new Intent(getContext(), MusicPlayActivity.class);
+//                Intent intent1 = new Intent(getContext(), MusicPlayActivity.class);
+                SystemUtils.MusicType = 0;
+                Intent intent1 = new Intent(getContext(), MusicPlayActivity2.class);
                 startActivity(intent1);
 
 //                SystemUtils.setBackGray(getActivity(), true);

@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import com.annie.annieforchild.R;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BaseFragment;
+import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -23,7 +24,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
  * 在value文件夹中的dimens.xml里面复写fixed_height_bottom_padding（默认是10dp，值越小，间距越大。适合的模式是BottomNavigationBar.MODE_FIXED）
  */
 
-public abstract class QuickNavigationBarActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
+public abstract class QuickNavigationBarActivity extends BaseMusicActivity implements BottomNavigationBar.OnTabSelectedListener {
 
     //    @BindView(R.id.tabFrame)
     FrameLayout tabFrame;

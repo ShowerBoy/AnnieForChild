@@ -137,7 +137,7 @@ public class ReleaseSuccessActivity extends BaseActivity implements OnCheckDoubl
         dialog = helper.LoadingDialog();
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
-        adapter = new BookEndAdapter(this, lists, null, presenter, false);
+        adapter = new BookEndAdapter(this, lists, null, presenter, null, false);
         recycler.setAdapter(adapter);
 
         presenter.releaseSuccess(bookId);

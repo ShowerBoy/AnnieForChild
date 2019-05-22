@@ -16,8 +16,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MusicManager;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.song.Song;
+import com.annie.annieforchild.presenter.GrindEarPresenter;
+import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.pili.pldroid.player.PLOnBufferingUpdateListener;
@@ -26,7 +32,10 @@ import com.pili.pldroid.player.PLOnErrorListener;
 import com.pili.pldroid.player.PLOnInfoListener;
 import com.pili.pldroid.player.PLOnPreparedListener;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -34,33 +43,25 @@ import java.util.concurrent.Executors;
  * Created by wanglei on 2019/5/17.
  */
 
-public class MusicService2 extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
+public class MusicService2 extends Service {
     private Notification notification;//通知栏
-    //    private MediaPlayer mediaPlayer;
     private PLMediaPlayer mMediaPlayer;
     private AVOptions mAVOptions;
-    private static final String TAG = MusicService.class.getSimpleName();
-    private int musicIndex; //播放位置
+    private static final String TAG = MusicService2.class.getSimpleName();
+    private int musicIndex = -1; //播放位置
     private int musicPos; //播放进度
     private OnMusicEventListener mListener;
     private ExecutorService mProgressUpdatedListener = Executors.newSingleThreadExecutor();
     private PowerManager.WakeLock mWakeLock = null;//获取设备电源锁，防止锁屏后服务被停止
+    private boolean singleLoop = false; //是否单曲循环
+    private boolean isLyric = false; //是否显示歌词
+    private GrindEarPresenter presenter;
+    private int duration; //播放时长
+    public static int lastMusicPos; //上次播放进度
+    public static int lastMusicDuration; //上次播放总时长
 
     public MusicService2() {
 
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        next();
-    }
-
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        start();
-        if (mListener != null) {
-            mListener.onChange(musicIndex);
-        }
     }
 
     public class MyBinder extends Binder {
@@ -133,10 +134,10 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
          */
         MusicManager.getInstance().initMusicList();
 //        musicIndex = (int) SpUtils.get(this, Constants.PLAY_POS, 0);
-        musicIndex = 0;
-        if (getPlayingPosition() < 0) {
-            musicIndex = 0;
-        }
+        musicIndex = -1;
+//        if (getMusicIndex() < 0) {
+//            musicIndex = 0;
+//        }
         /**
          * mode1
          */
@@ -152,19 +153,25 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
         // the unit of timeout is ms
         mAVOptions.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
         // 1 -> hw codec enable, 0 -> disable [recommended]
-        mAVOptions.setInteger(AVOptions.KEY_MEDIACODEC, 0);
+        mAVOptions.setInteger(AVOptions.KEY_MEDIACODEC, 2);
         mAVOptions.setInteger(AVOptions.KEY_START_POSITION, 0);
-        mMediaPlayer = new PLMediaPlayer(getApplicationContext(), mAVOptions);
-        mMediaPlayer.setLooping(false);
-        mMediaPlayer.setOnPreparedListener(mOnPreparedListener);
-        mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
-        mMediaPlayer.setOnErrorListener(mOnErrorListener);
-        mMediaPlayer.setOnInfoListener(mOnInfoListener);
-        mMediaPlayer.setOnBufferingUpdateListener(mOnBufferingUpdateListener);
-        mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-
+        try {
+            mMediaPlayer = new PLMediaPlayer(getApplicationContext(), mAVOptions);
+            mMediaPlayer.setLooping(false);
+            mMediaPlayer.setOnPreparedListener(mOnPreparedListener);
+            mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+            mMediaPlayer.setOnErrorListener(mOnErrorListener);
+            mMediaPlayer.setOnInfoListener(mOnInfoListener);
+            mMediaPlayer.setOnBufferingUpdateListener(mOnBufferingUpdateListener);
+            mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+        } catch (UnsatisfiedLinkError e) {
+            e.printStackTrace();
+        }
 
         mProgressUpdatedListener.execute(mPublishProgressRunnable);
+
+        presenter = new GrindEarPresenterImp(this);
+        presenter.initViewAndData();
     }
 
     /**
@@ -183,7 +190,7 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
         if (position >= MusicManager.getInstance().musicList.size()) {
             position = MusicManager.getInstance().musicList.size() - 1;
         }
-
+        duration = 0;
         /**
          * mode1
          */
@@ -199,6 +206,10 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
         /**
          * mode2
          */
+
+        if (isLyric) {
+            isLyric = false;
+        }
         try {
             mMediaPlayer.setDataSource(MusicManager.getInstance().musicList.get(position).getPath());
             mMediaPlayer.prepareAsync();
@@ -207,6 +218,15 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
         }
 
         musicIndex = position;
+
+        JTMessage message = new JTMessage();
+        message.what = MethodCode.EVENT_MUSIC;
+        message.obj = true;
+        EventBus.getDefault().post(message);
+
+        //加入最近播放
+        addPlayLists(MusicManager.getInstance().musicList.get(musicIndex), musicIndex);
+
 //        SpUtils.put(Constants.PLAY_POS, musicIndex);
         return musicIndex;
     }
@@ -217,6 +237,7 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
      * @return 当前播放的位置 默认为0
      */
     public int resume() {
+        duration = 0;
         /**
          * mode1
          */
@@ -236,6 +257,11 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
         if (isPlaying())
             return -1;
         mMediaPlayer.start();
+        JTMessage message = new JTMessage();
+        message.what = MethodCode.EVENT_MUSIC;
+        message.obj = true;
+        EventBus.getDefault().post(message);
+
         return musicIndex;
     }
 
@@ -250,8 +276,7 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
      */
     public int pause() {
         if (MusicManager.getInstance().musicList.size() == 0) {
-            Toast.makeText(getApplicationContext(),
-                    "当前手机没有MP3文件", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "当前手机没有MP3文件", Toast.LENGTH_LONG).show();
             return -1;
         }
         /**
@@ -267,6 +292,48 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
         if (!isPlaying())
             return -1;
         mMediaPlayer.pause();
+        JTMessage message = new JTMessage();
+        message.what = MethodCode.EVENT_MUSIC;
+        message.obj = false;
+        EventBus.getDefault().post(message);
+        if (duration > 2) {
+            presenter.uploadAudioTime(3, 0, MusicPlayActivity2.audioSource, MusicManager.getInstance().musicList.get(musicIndex).getBookId(), duration);
+            duration = 0;
+        }
+        return musicIndex;
+    }
+
+    /**
+     * 停止播放
+     *
+     * @return 当前播放的位置
+     */
+    public int stop() {
+        if (MusicManager.getInstance().musicList.size() == 0) {
+            return -1;
+        }
+        /**
+         * mode1
+         */
+//        if (!isPlaying())
+//            return -1;
+//        mediaPlayer.pause();
+
+        /**
+         * mode2
+         */
+        if (!isPlaying())
+            return -1;
+        mMediaPlayer.pause();
+        mMediaPlayer.stop();
+        JTMessage message = new JTMessage();
+        message.what = MethodCode.EVENT_MUSIC;
+        message.obj = false;
+        EventBus.getDefault().post(message);
+        if (duration > 2) {
+            presenter.uploadAudioTime(3, 0, MusicPlayActivity2.audioSource, MusicManager.getInstance().musicList.get(musicIndex).getBookId(), duration);
+            duration = 0;
+        }
         return musicIndex;
     }
 
@@ -302,10 +369,19 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
      * @return 当前播放的位置
      */
     public int next() {
-        if (musicIndex >= MusicManager.getInstance().musicList.size() - 1) {
-            return play(0);
+        if (isLyric) {
+            isLyric = false;
         }
-        return play(musicIndex + 1);
+        if (duration > 2) {
+            presenter.uploadAudioTime(3, 0, MusicPlayActivity2.audioSource, MusicManager.getInstance().musicList.get(musicIndex).getBookId(), duration);
+            duration = 0;
+        }
+        if (musicIndex >= MusicManager.getInstance().musicList.size() - 1) {
+            musicIndex = 0;
+            return play(musicIndex);
+        }
+        musicIndex = musicIndex + 1;
+        return play(musicIndex);
     }
 
     /**
@@ -314,10 +390,19 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
      * @return 当前播放的位置
      */
     public int last() {
-        if (musicIndex <= 0) {
-            return play(MusicManager.getInstance().musicList.size() - 1);
+        if (isLyric) {
+            isLyric = false;
         }
-        return play(musicIndex - 1);
+        if (duration > 2) {
+            presenter.uploadAudioTime(3, 0, MusicPlayActivity2.audioSource, MusicManager.getInstance().musicList.get(musicIndex).getBookId(), duration);
+            duration = 0;
+        }
+        if (musicIndex <= 0) {
+            musicIndex = MusicManager.getInstance().musicList.size() - 1;
+            return play(musicIndex);
+        }
+        musicIndex = musicIndex - 1;
+        return play(musicIndex);
     }
 
     // 申请设备电源锁
@@ -364,6 +449,7 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
                  */
                 if (mMediaPlayer != null && mMediaPlayer.isPlaying() && mListener != null) {
                     mListener.onPublish((int) mMediaPlayer.getCurrentPosition());
+                    duration++;
                 }
             /*
              * SystemClock.sleep(millis) is a utility function very similar
@@ -372,7 +458,7 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
 			 * Thread.interrupt(), as it will preserve the interrupted state
 			 * of the thread. 这种sleep方式不会被Thread.interrupt()所打断
 			 */
-                SystemClock.sleep(200);
+                SystemClock.sleep(1000);
             }
         }
     };
@@ -404,8 +490,50 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
         }
     }
 
-    public int getPlayingPosition() {
+    public int getMusicIndex() {
         return musicIndex;
+    }
+
+    public void setMusicIndex(int musicIndex) {
+        this.musicIndex = musicIndex;
+    }
+
+    public boolean isSingleLoop() {
+        return singleLoop;
+    }
+
+    public void setSingleLoop(boolean singleLoop) {
+        this.singleLoop = singleLoop;
+    }
+
+    public boolean isLyric() {
+        return isLyric;
+    }
+
+    public void setLyric(boolean lyric) {
+        isLyric = lyric;
+    }
+
+    public int getMusicPos() {
+        return musicPos;
+    }
+
+    public void setMusicPos(int musicPos) {
+        this.musicPos = musicPos;
+    }
+
+    public int getCurrentDuration() {
+        if (!isPlaying())
+            return 0;
+        /**
+         * mode1
+         */
+//        return mediaPlayer.getDuration();
+
+        /**
+         * mode2
+         */
+        return (int) mMediaPlayer.getCurrentPosition();
     }
 
     /**
@@ -478,7 +606,7 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
     private PLOnInfoListener mOnInfoListener = new PLOnInfoListener() {
         @Override
         public void onInfo(int what, int extra) {
-            Log.i(TAG, "OnInfo, what = " + what + ", extra = " + extra);
+//            Log.i(TAG, "OnInfo, what = " + what + ", extra = " + extra);
             switch (what) {
                 case PLOnInfoListener.MEDIA_INFO_BUFFERING_START:
                     break;
@@ -494,7 +622,7 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
     private PLOnBufferingUpdateListener mOnBufferingUpdateListener = new PLOnBufferingUpdateListener() {
         @Override
         public void onBufferingUpdate(int percent) {
-            Log.d(TAG, "onBufferingUpdate: " + percent + "%");
+//            Log.d(TAG, "onBufferingUpdate: " + percent + "%");
         }
     };
 
@@ -509,8 +637,16 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
     private PLOnCompletionListener mOnCompletionListener = new PLOnCompletionListener() {
         @Override
         public void onCompletion() {
+            if (duration > 2) {
+                presenter.uploadAudioTime(3, 0, MusicPlayActivity2.audioSource, MusicManager.getInstance().musicList.get(musicIndex).getBookId(), duration);
+                duration = 0;
+            }
             Log.d(TAG, "Play Completed !");
-            next();
+            if (singleLoop) {
+                play(musicIndex);
+            } else {
+                next();
+            }
         }
     };
 
@@ -539,5 +675,31 @@ public class MusicService2 extends Service implements MediaPlayer.OnCompletionLi
             return true;
         }
     };
+
+    public void addPlayLists(Song song, int listTag) {
+        if (MusicManager.getInstance().musicList != null && MusicManager.getInstance().musicList.size() > 0) {
+            if (SystemUtils.playLists == null) {
+                SystemUtils.playLists = new ArrayList<>();
+            }
+            if (SystemUtils.playLists.size() == 0) {
+                SystemUtils.playLists.add(song);
+            } else {
+                boolean flag = true;
+                for (int i = 0; i < SystemUtils.playLists.size(); i++) {
+                    if (SystemUtils.playLists.get(i).getBookId() == MusicManager.getInstance().musicList.get(listTag).getBookId()) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    if (SystemUtils.playLists.size() < 20) {
+                        SystemUtils.playLists.add(0, song);
+                    } else {
+                        SystemUtils.playLists.remove(19);
+                        SystemUtils.playLists.add(0, song);
+                    }
+                }
+            }
+        }
+    }
 
 }

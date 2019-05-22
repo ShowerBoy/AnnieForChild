@@ -328,34 +328,34 @@ public class MusicPlayActivity extends BaseActivity implements SongView, OnCheck
         dialog = helper.LoadingDialog();
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
-        adapter = new MusicListAdapter(this, MusicService.musicPartList, new OnRecyclerItemClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onItemClick(View view) {
-                int position = musicRecycler.getChildAdapterPosition(view);
-                if (!MusicService.musicPartList.get(position).isPlaying()) {
-                    if (MusicService.isPlay) {
-                        MusicService.stop();
+//        adapter = new MusicListAdapter(this, MusicService.musicPartList, new OnRecyclerItemClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//            @Override
+//            public void onItemClick(View view) {
+//                int position = musicRecycler.getChildAdapterPosition(view);
+//                if (!MusicService.musicPartList.get(position).isPlaying()) {
+//                    if (MusicService.isPlay) {
 //                        MusicService.stop();
-                    }
-                    MusicService.listTag = position;
-                    if (isLyric) {
-                        isLyric = false;
-                        image.setVisibility(View.VISIBLE);
-//                        lyricRecycler.setVisibility(View.GONE);
-                        lyricLayout.setVisibility(View.GONE);
-                    }
-                    MusicService.pos = 0;
-                    MusicService.play();
-//                    musicService.play();
-                }
-            }
-
-            @Override
-            public void onItemLongClick(View view) {
-
-            }
-        });
+////                        MusicService.stop();
+//                    }
+//                    MusicService.listTag = position;
+//                    if (isLyric) {
+//                        isLyric = false;
+//                        image.setVisibility(View.VISIBLE);
+////                        lyricRecycler.setVisibility(View.GONE);
+//                        lyricLayout.setVisibility(View.GONE);
+//                    }
+//                    MusicService.pos = 0;
+//                    MusicService.play();
+////                    musicService.play();
+//                }
+//            }
+//
+//            @Override
+//            public void onItemLongClick(View view) {
+//
+//            }
+//        });
         musicRecycler.setAdapter(adapter);
 
         lyricAdapter = new LyricAdapter(this, lyricList);

@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.Utils.service.MusicService2;
 import com.annie.annieforchild.bean.JTMessage;
@@ -17,7 +18,8 @@ import org.greenrobot.eventbus.EventBus;
  * Created by wanglei on 2019/5/17.
  */
 
-public abstract class BaseMusicActivity extends BaseActivity{
+public abstract class BaseMusicActivity extends BaseActivity {
+    protected boolean musicStart = false; //播放开关
     protected MusicService2.MyBinder mBinder;
     protected MusicService2 musicService;
     protected ServiceConnection myConnection = new ServiceConnection() {
@@ -26,16 +28,22 @@ public abstract class BaseMusicActivity extends BaseActivity{
             mBinder = (MusicService2.MyBinder) service;
             musicService = mBinder.getService();
             musicService.setOnMusicEventListener(mMusicEventListener);
-            onChange(musicService.getPlayingPosition());
-            if (register) {
-                if (!musicService.isPlaying()) {
-                    JTMessage message = new JTMessage();
-                    message.what = MethodCode.EVENT_MUSICSERVICE;
-                    EventBus.getDefault().post(message);
-                } else {
-                    JTMessage message = new JTMessage();
-                    message.what = MethodCode.EVENT_MUSICSERVICE2;
-                    EventBus.getDefault().post(message);
+//            if (SystemUtils.MusicType == 0) {
+//                musicService.setMusicPos(MusicService2.lastMusicPos);
+//                musicService.setMusicIndex(MusicService2.lastMusicDuration);
+//            }
+            onChange(musicService.getMusicIndex());
+            if (SystemUtils.MusicType == 1) {
+                if (musicStart) {
+                    if (!musicService.isPlaying()) {
+                        JTMessage message = new JTMessage();
+                        message.what = MethodCode.EVENT_UNPLAYING;
+                        EventBus.getDefault().post(message);
+                    } else {
+                        JTMessage message = new JTMessage();
+                        message.what = MethodCode.EVENT_ISPLAYING;
+                        EventBus.getDefault().post(message);
+                    }
                 }
             }
         }

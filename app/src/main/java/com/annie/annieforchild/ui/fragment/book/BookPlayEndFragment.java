@@ -18,8 +18,6 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.book.Release;
@@ -112,7 +110,7 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
         mediaPlayer.setOnCompletionListener(this);
         presenter = new GrindEarPresenterImp(getContext(), this);
         presenter.initViewAndData();
-        adapter = new BookEndAdapter(getContext(), lists, this, presenter, false);
+        adapter = new BookEndAdapter(getContext(), lists, this, presenter, null, false);
         bookEndRecycler.setAdapter(adapter);
         recommendAdapter = new GrindEarAdapter(getContext(), recommendList, new OnRecyclerItemClickListener() {
             @Override

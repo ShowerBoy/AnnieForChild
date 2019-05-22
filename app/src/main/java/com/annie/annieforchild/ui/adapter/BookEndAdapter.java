@@ -18,7 +18,7 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.service.MusicService;
+import com.annie.annieforchild.Utils.service.MusicService2;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.book.Release;
 import com.annie.annieforchild.bean.book.ReleaseBean;
@@ -54,6 +54,7 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
     private boolean tag; //有赞 没有赞
     private BookEndViewHolder holder;
     private GrindEarPresenter presenter;
+    private MusicService2 musicService;
     private int position;
 
     public boolean isPlay() {
@@ -64,11 +65,12 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
         isPlay = play;
     }
 
-    public BookEndAdapter(Context context, List<ReleaseBean> lists, BookPlayEndFragment fragment, GrindEarPresenter presenter, boolean tag) {
+    public BookEndAdapter(Context context, List<ReleaseBean> lists, BookPlayEndFragment fragment, GrindEarPresenter presenter, MusicService2 musicService, boolean tag) {
         this.context = context;
         this.lists = lists;
         this.fragment = fragment;
         this.presenter = presenter;
+        this.musicService = musicService;
         this.tag = tag;
         inflater = LayoutInflater.from(context);
         urlList = new ArrayList<>();
@@ -148,15 +150,10 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
                             isPlay = false;
                         }
                     } else {
-                        if (MusicService.isPlay) {
-                            /**
-                             * {@link com.annie.annieforchild.ui.activity.pk.BookPlayActivity2#onMainEventThread(JTMessage)}
-                             */
-                            JTMessage message = new JTMessage();
-                            message.what = MethodCode.EVENT_MUSICSTOP;
-                            message.obj = 0;
-                            EventBus.getDefault().post(message);
-//                            MusicService.stop();
+                        if (musicService != null) {
+                            if (musicService.isPlaying()) {
+                                musicService.stop();
+                            }
                         }
                         holder = bookEndViewHolder;
                         urlList.clear();

@@ -42,6 +42,7 @@ import com.annie.annieforchild.ui.adapter.MyCourseTopAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
+import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -54,7 +55,7 @@ import java.util.List;
  * Created by wanglei on 2018/9/25.
  */
 
-public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
+public class MyCourseActivity extends BaseMusicActivity implements ViewInfo, OnCheckDoubleClick {
     private ImageView back;
     private TextView gotoNet;
     private LinearLayout empty;
@@ -121,6 +122,11 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
                 if (lists.get(position).getType() == 0) {
                     //专项
 //                    Intent intent = new Intent(MyCourseActivity.this, NetSpecialDetailActivity.class);
+                    if (musicService != null) {
+                        if (musicService.isPlaying()) {
+                            musicService.stop();
+                        }
+                    }
                     Intent intent = new Intent(MyCourseActivity.this, NetSpecialDetailActivity2.class);
                     intent.putExtra("netid", lists.get(position).getNetId());
                     intent.putExtra("netName", lists.get(position).getNetName());
@@ -129,12 +135,22 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
                 } else if (lists.get(position).getType() == 1) {
                     if (lists.get(position).getPeriods() > 3) {
                         //新版体验课V2
+                        if (musicService != null) {
+                            if (musicService.isPlaying()) {
+                                musicService.stop();
+                            }
+                        }
                         Intent intent = new Intent(MyCourseActivity.this, NetExperienceDetail_newActivity2.class);
                         intent.putExtra("netid", lists.get(position).getNetId());
                         intent.putExtra("netName", lists.get(position).getNetName());
                         startActivity(intent);
                     } else {
                         //新版
+                        if (musicService != null) {
+                            if (musicService.isPlaying()) {
+                                musicService.stop();
+                            }
+                        }
                         Intent intent = new Intent(MyCourseActivity.this, NetExperienceDetail_newActivity.class);
                         intent.putExtra("netid", lists.get(position).getNetId());
                         intent.putExtra("netName", lists.get(position).getNetName());
@@ -142,6 +158,11 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
                     }
                 } else if (lists.get(position).getType() == 2) {
                     //旧版
+                    if (musicService != null) {
+                        if (musicService.isPlaying()) {
+                            musicService.stop();
+                        }
+                    }
                     Intent intent = new Intent(MyCourseActivity.this, NetExperienceDetailActivity.class);
                     intent.putExtra("netid", lists.get(position).getNetId());
                     intent.putExtra("netName", lists.get(position).getNetName());
@@ -159,6 +180,11 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
 
             @Override
             public void onItemClick(View view) {
+                if (musicService != null) {
+                    if (musicService.isPlaying()) {
+                        musicService.stop();
+                    }
+                }
                 int position = topRecycler.getChildAdapterPosition(view);
                 Intent intent = new Intent(MyCourseActivity.this, LessonActivity.class);
                 intent.putExtra("lessonId", topLists.get(position).getFid());
@@ -190,6 +216,11 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
                 finish();
                 break;
             case R.id.goto_net:
+                if (musicService != null) {
+                    if (musicService.isPlaying()) {
+                        musicService.stop();
+                    }
+                }
                 Intent intent = new Intent(this, NetWorkActivity.class);
                 startActivity(intent);
                 finish();
@@ -285,5 +316,27 @@ public class MyCourseActivity extends BaseActivity implements ViewInfo, OnCheckD
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+    }
+
+    @Override
+    protected void onPause() {
+        allowUnBindService();
+        super.onPause();
+    }
+
+    @Override
+    public void onPublish(int progress) {
+
+    }
+
+    @Override
+    public void onChange(int position) {
+
     }
 }

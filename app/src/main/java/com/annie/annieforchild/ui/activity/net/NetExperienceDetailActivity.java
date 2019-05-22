@@ -26,7 +26,6 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.net.ListenAndRead;
@@ -155,12 +154,6 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
         adapter = new NetExperienceDetailAdapter(this, lists, presenter, tag);
         net_coursedetail_recyclerview.setAdapter(adapter);
 
-        if (MusicService.isPlay) {
-//            if (musicService != null) {
-//                musicService.stop();
-//            }
-            MusicService.stop();
-        }
     }
 
     void refresh() {

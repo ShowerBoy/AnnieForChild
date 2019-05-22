@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.annie.annieforchild.Utils.MyCrashHandler;
 import com.annie.annieforchild.Utils.SSLSocketClient;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.Utils.service.MusicService2;
 import com.annie.baselibrary.utils.Utils;
 import com.baidu.mobstat.StatService;

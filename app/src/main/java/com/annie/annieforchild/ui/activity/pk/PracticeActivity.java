@@ -34,11 +34,11 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.MusicManager;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.pcm2mp3.RecorderAndPlayUtil;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.ShareBean;
@@ -54,6 +54,7 @@ import com.annie.annieforchild.ui.adapter.BookEndAdapter;
 import com.annie.annieforchild.ui.adapter.PkUserPopupAdapter;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
+import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
 import com.example.lamemp3.MP3Recorder;
@@ -80,7 +81,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by wanglei on 2018/3/31.
  */
 
-public class PracticeActivity extends BaseActivity implements PlatformActionListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, OnCheckDoubleClick, SongView, PopupWindow.OnDismissListener {
+public class PracticeActivity extends BaseMusicActivity implements PlatformActionListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, OnCheckDoubleClick, SongView, PopupWindow.OnDismissListener {
     private ImageView back, menu, menuCollectImg, menuAddmaterialImg, practiceRecording, bookRead, bookBg, bookBehind, songBehind, pengyouquan, weixin, qq, qqzone, clarify;
     private LottieAnimationView animationView;
     private CircleImageView practiceImage;
@@ -397,8 +398,7 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
         popupGrid.setAdapter(popupAdapter);
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
-        adapter = new BookEndAdapter(this, lists, null, presenter, true);
-        practiceRecycler.setAdapter(adapter);
+
         practiceTitle.setText(song.getBookName());
         presenter.getBookScore(song.getBookId(), bookType, true);
 
@@ -436,13 +436,6 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
     protected BasePresenter getPresenter() {
         return null;
     }
-
-    Handler myHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    };
 
     /**
      * {@link GrindEarPresenterImp#Success(int, Object)}
@@ -601,8 +594,12 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     SystemUtils.toAddChild(this);
                     return;
                 }
-                if (MusicService.isPlay) {
-                    MusicService.stop();
+                if (musicService != null) {
+                    if (musicService.isPlaying()) {
+                        musicService.stop();
+                    }
+                } else {
+                    return;
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -626,11 +623,12 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     SystemUtils.toAddChild(this);
                     return;
                 }
-                if (MusicService.isPlay) {
-//                    if (musicService != null) {
-//                        musicService.stop();
-//                    }
-                    MusicService.stop();
+                if (musicService != null) {
+                    if (musicService.isPlaying()) {
+                        musicService.stop();
+                    }
+                } else {
+                    return;
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -653,11 +651,12 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     SystemUtils.toAddChild(this);
                     return;
                 }
-                if (MusicService.isPlay) {
-//                    if (musicService != null) {
-//                        musicService.stop();
-//                    }
-                    MusicService.stop();
+                if (musicService != null) {
+                    if (musicService.isPlaying()) {
+                        musicService.stop();
+                    }
+                } else {
+                    return;
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -697,11 +696,12 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     SystemUtils.toAddChild(this);
                     return;
                 }
-                if (MusicService.isPlay) {
-//                    if (musicService != null) {
-//                        musicService.stop();
-//                    }
-                    MusicService.stop();
+                if (musicService != null) {
+                    if (musicService.isPlaying()) {
+                        musicService.stop();
+                    }
+                } else {
+                    return;
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -745,11 +745,12 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     SystemUtils.toAddChild(this);
                     return;
                 }
-                if (MusicService.isPlay) {
-//                    if (musicService != null) {
-//                        musicService.stop();
-//                    }
-                    MusicService.stop();
+                if (musicService != null) {
+                    if (musicService.isPlaying()) {
+                        musicService.stop();
+                    }
+                } else {
+                    return;
                 }
                 if (adapter != null) {
                     adapter.stopMedia();
@@ -797,90 +798,49 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                 }
                 if (isClick) {
                     if (!isRecord) {
-                        if (MusicService.isPlay) {
-                            if (bookType == 0) {
-                                if (song1 != null && song1.getBookName() != null) {
-                                    if (MusicService.musicTitle != null && MusicService.musicTitle.equals(song1.getBookName())) {
-                                        Intent intent2 = new Intent(this, MusicPlayActivity.class);
-                                        startActivity(intent2);
-                                    } else {
-                                        if (resourUrl_list.size() != 0) {
-//                                            if (musicService != null) {
-//                                                musicService.stop();
-//                                            }
-                                            MusicService.stop();
-                                            Intent intent2 = new Intent(this, MusicPlayActivity.class);
-                                            Bundle bundle = new Bundle();
-//                                            if (audioSource != MusicService.musicAudioSource) {
-                                            if (!resourUrl_list.equals(MusicService.musicList)) {
-                                                bundle.putSerializable("list", (Serializable) resourUrl_list);
-                                            }
-                                            bundle.putSerializable("song", song1);
-                                            bundle.putSerializable("musicPosition", musicPosition);
-                                            bundle.putString("name", song1.getBookName());
-                                            bundle.putString("image", song1.getBookImageUrl());
-                                            bundle.putString("myResourceUrl", song1.getMyResourceUrl());
-                                            bundle.putInt("isCollect", song1.getIsCollected());
-                                            bundle.putInt("collectType", collectType);
-                                            bundle.putInt("origin", 3);
-                                            bundle.putInt("audioType", audioType);
-                                            bundle.putInt("audioSource", audioSource);
-                                            bundle.putInt("resourceId", song.getBookId());
-                                            bundle.putInt("homeworkid", homeworkid);
-                                            bundle.putInt("homeworktype", homeworktype);
-                                            intent2.putExtras(bundle);
-                                            startActivity(intent2);
-                                        }
-                                    }
-                                }
-                            } else {
-//                                if (musicService != null) {
-//                                    musicService.stop();
-//                                }
-                                MusicService.stop();
-                                Intent intent3 = new Intent(this, BookPlayActivity2.class);
-                                intent3.putExtra("bookId", song.getBookId());
-                                intent3.putExtra("imageUrl", song.getBookImageUrl());
-                                intent3.putExtra("audioType", audioType);
-                                intent3.putExtra("audioSource", audioSource);
-                                intent3.putExtra("title", song.getBookName());
-                                intent3.putExtra("homeworkid", homeworkid);
-                                intent3.putExtra("homeworktype", homeworktype);
-                                startActivity(intent3);
-                            }
+                        if (musicService == null) {
+                            return;
+                        }
+                        if (song1 == null || resourUrl_list.size() == 0) {
+                            return;
+                        }
+                        if (bookType == 0) {
+                            SystemUtils.MusicType = 1;
+                            Intent intent2 = new Intent(this, MusicPlayActivity2.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("list", (Serializable) resourUrl_list);
+                            bundle.putSerializable("song", song1);
+                            bundle.putSerializable("musicPosition", musicPosition);
+                            bundle.putString("name", song1.getBookName());
+                            bundle.putString("image", song1.getBookImageUrl());
+                            bundle.putInt("collectType", collectType);
+                            bundle.putString("myResourceUrl", song1.getMyResourceUrl());
+                            bundle.putInt("isCollect", song1.getIsCollected());
+                            bundle.putInt("origin", 3);
+                            bundle.putInt("audioType", audioType);
+                            bundle.putInt("audioSource", audioSource);
+                            bundle.putInt("resourceId", song.getBookId());
+                            bundle.putInt("homeworkid", homeworkid);
+                            bundle.putInt("homeworktype", homeworktype);
+                            intent2.putExtras(bundle);
+                            startActivity(intent2);
                         } else {
-                            if (bookType == 0) {
-                                if (song1 != null && resourUrl_list.size() != 0) {
-                                    Intent intent2 = new Intent(this, MusicPlayActivity.class);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable("list", (Serializable) resourUrl_list);
-                                    bundle.putSerializable("song", song1);
-                                    bundle.putSerializable("musicPosition", musicPosition);
-                                    bundle.putString("name", song1.getBookName());
-                                    bundle.putString("image", song1.getBookImageUrl());
-                                    bundle.putInt("collectType", collectType);
-                                    bundle.putString("myResourceUrl", song1.getMyResourceUrl());
-                                    bundle.putInt("isCollect", song1.getIsCollected());
-                                    bundle.putInt("origin", 3);
-                                    bundle.putInt("audioType", audioType);
-                                    bundle.putInt("audioSource", audioSource);
-                                    bundle.putInt("resourceId", song.getBookId());
-                                    bundle.putInt("homeworkid", homeworkid);
-                                    bundle.putInt("homeworktype", homeworktype);
-                                    intent2.putExtras(bundle);
-                                    startActivity(intent2);
+                            if (musicService != null) {
+                                if (musicService.isPlaying()) {
+                                    musicService.stop();
                                 }
                             } else {
-                                Intent intent3 = new Intent(this, BookPlayActivity2.class);
-                                intent3.putExtra("bookId", song.getBookId());
-                                intent3.putExtra("imageUrl", song.getBookImageUrl());
-                                intent3.putExtra("audioType", audioType);
-                                intent3.putExtra("audioSource", audioSource);
-                                intent3.putExtra("title", song.getBookName());
-                                intent3.putExtra("homeworkid", homeworkid);
-                                intent3.putExtra("homeworktype", homeworktype);
-                                startActivity(intent3);
+                                return;
                             }
+                            Intent intent3 = new Intent(this, BookPlayActivity2.class);
+                            intent3.putExtra("bookId", song.getBookId());
+                            intent3.putExtra("imageUrl", song.getBookImageUrl());
+                            intent3.putExtra("audioType", audioType);
+                            intent3.putExtra("audioSource", audioSource);
+                            intent3.putExtra("title", song.getBookName());
+                            intent3.putExtra("homeworkid", homeworkid);
+                            intent3.putExtra("homeworktype", homeworktype);
+                            startActivity(intent3);
                         }
                     }
                 }
@@ -901,9 +861,6 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     SystemUtils.toAddChild(this);
                     return;
                 }
-//                if (MusicService.isPlay) {
-//                    MusicService.stop();
-//                }
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
                 String date = simpleDateFormat.format(new Date());
                 Material material = new Material();
@@ -972,125 +929,54 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
                     SystemUtils.toAddChild(this);
                     return;
                 }
-                if (MusicService.isPlay) {
-//                    if (musicService != null) {
-//                        musicService.stop();
-//                    }
-                    MusicService.stop();
+                if (adapter != null) {
+                    adapter.stopMedia();
                 }
-                if (bookType == 1) {
-                    if (isClick) {
-                        if (!isRecord) {
-                            if (MusicService.isPlay) {
-//                                if (musicService != null) {
-//                                    musicService.stop();
-//                                }
-                                MusicService.stop();
-                                Intent intent5 = new Intent(this, BookPlayActivity2.class);
-                                intent5.putExtra("bookId", song.getBookId());
-                                intent5.putExtra("imageUrl", song.getBookImageUrl());
-                                intent5.putExtra("audioType", audioType);
-                                intent5.putExtra("audioSource", audioSource);
-                                intent5.putExtra("title", song.getBookName());
-                                intent5.putExtra("homeworkid", homeworkid);
-                                startActivity(intent5);
-                            } else {
-                                Intent intent6 = new Intent(this, BookPlayActivity2.class);
-                                intent6.putExtra("bookId", song.getBookId());
-                                intent6.putExtra("imageUrl", song.getBookImageUrl());
-                                intent6.putExtra("audioType", audioType);
-                                intent6.putExtra("audioSource", audioSource);
-                                intent6.putExtra("title", song.getBookName());
-                                intent6.putExtra("homeworkid", homeworkid);
-                                startActivity(intent6);
-                            }
+                if (isClick) {
+                    if (!isRecord) {
+                        if (musicService == null) {
+                            return;
                         }
-                    }
-                } else {
-                    if (adapter != null) {
-                        adapter.stopMedia();
-                    }
-                    if (isClick) {
-                        if (!isRecord) {
-                            if (MusicService.isPlay) {
-                                if (bookType == 0) {
-                                    if (song1 != null && song1.getBookName() != null) {
-                                        if (MusicService.musicTitle != null && MusicService.musicTitle.equals(song1.getBookName())) {
-                                            Intent intent2 = new Intent(this, MusicPlayActivity.class);
-                                            startActivity(intent2);
-                                        } else {
-                                            if (resourUrl_list.size() != 0) {
-//                                                if (musicService != null) {
-//                                                    musicService.stop();
-//                                                }
-                                                MusicService.stop();
-                                                Intent intent2 = new Intent(this, MusicPlayActivity.class);
-                                                Bundle bundle2 = new Bundle();
-//                                            if (audioSource != MusicService.musicAudioSource) {
-                                                if (!resourUrl_list.equals(MusicService.musicList)) {
-                                                    bundle2.putSerializable("list", (Serializable) resourUrl_list);
-                                                }
-                                                bundle2.putSerializable("song", song1);
-                                                bundle2.putSerializable("musicPosition", musicPosition);
-                                                bundle2.putString("name", song1.getBookName());
-                                                bundle2.putString("image", song1.getBookImageUrl());
-                                                bundle2.putInt("isCollect", song1.getIsCollected());
-                                                bundle2.putInt("collectType", collectType);
-                                                bundle2.putInt("origin", 3);
-                                                bundle2.putInt("audioType", audioType);
-                                                bundle2.putInt("audioSource", audioSource);
-                                                bundle2.putInt("resourceId", song.getBookId());
-                                                bundle2.putInt("homeworkid", homeworkid);
-                                                intent2.putExtras(bundle2);
-                                                startActivity(intent2);
-                                            }
-                                        }
-                                    }
-                                } else {
-//                                    if (musicService != null) {
-//                                        musicService.stop();
-//                                    }
-                                    MusicService.stop();
-                                    Intent intent4 = new Intent(this, BookPlayActivity2.class);
-                                    intent4.putExtra("bookId", song.getBookId());
-                                    intent4.putExtra("imageUrl", song.getBookImageUrl());
-                                    intent4.putExtra("audioType", audioType);
-                                    intent4.putExtra("audioSource", audioSource);
-                                    intent4.putExtra("title", song.getBookName());
-                                    intent4.putExtra("homeworkid", homeworkid);
-                                    startActivity(intent4);
+                        if (song1 == null || resourUrl_list.size() == 0) {
+                            return;
+                        }
+                        if (bookType == 0) {
+                            SystemUtils.MusicType = 1;
+                            Intent intent2 = new Intent(this, MusicPlayActivity2.class);
+                            Bundle bundle2 = new Bundle();
+                            bundle2.putSerializable("list", (Serializable) resourUrl_list);
+                            bundle2.putSerializable("song", song1);
+                            bundle2.putSerializable("musicPosition", musicPosition);
+                            bundle2.putString("name", song1.getBookName());
+                            bundle2.putString("image", song1.getBookImageUrl());
+                            bundle2.putInt("collectType", collectType);
+                            bundle2.putString("myResourceUrl", song1.getMyResourceUrl());
+                            bundle2.putInt("isCollect", song1.getIsCollected());
+                            bundle2.putInt("origin", 3);
+                            bundle2.putInt("audioType", audioType);
+                            bundle2.putInt("audioSource", audioSource);
+                            bundle2.putInt("resourceId", song.getBookId());
+                            bundle2.putInt("homeworkid", homeworkid);
+                            bundle2.putInt("homeworktype", homeworktype);
+                            intent2.putExtras(bundle2);
+                            startActivity(intent2);
+                        } else {
+                            if (musicService != null) {
+                                if (musicService.isPlaying()) {
+                                    musicService.stop();
                                 }
                             } else {
-                                if (bookType == 0) {
-                                    if (song1 != null && resourUrl_list.size() != 0) {
-                                        Intent intent2 = new Intent(this, MusicPlayActivity.class);
-                                        Bundle bundle3 = new Bundle();
-                                        bundle3.putSerializable("list", (Serializable) resourUrl_list);
-                                        bundle3.putSerializable("song", song1);
-                                        bundle3.putSerializable("musicPosition", musicPosition);
-                                        bundle3.putString("name", song1.getBookName());
-                                        bundle3.putString("image", song1.getBookImageUrl());
-                                        bundle3.putInt("collectType", collectType);
-                                        bundle3.putInt("isCollect", song1.getIsCollected());
-                                        bundle3.putInt("origin", 3);
-                                        bundle3.putInt("audioType", audioType);
-                                        bundle3.putInt("audioSource", audioSource);
-                                        bundle3.putInt("resourceId", song.getBookId());
-                                        bundle3.putInt("homeworkid", homeworkid);
-                                        intent2.putExtras(bundle3);
-                                        startActivity(intent2);
-                                    }
-                                } else {
-                                    Intent intent5 = new Intent(this, BookPlayActivity2.class);
-                                    intent5.putExtra("bookId", song.getBookId());
-                                    intent5.putExtra("imageUrl", song.getBookImageUrl());
-                                    intent5.putExtra("audioType", audioType);
-                                    intent5.putExtra("audioSource", audioSource);
-                                    intent5.putExtra("title", song.getBookName());
-                                    intent5.putExtra("homeworkid", homeworkid);
-                                    startActivity(intent5);
-                                }
+                                return;
                             }
+                            Intent intent4 = new Intent(this, BookPlayActivity2.class);
+                            intent4.putExtra("bookId", song.getBookId());
+                            intent4.putExtra("imageUrl", song.getBookImageUrl());
+                            intent4.putExtra("audioType", audioType);
+                            intent4.putExtra("audioSource", audioSource);
+                            intent4.putExtra("title", song.getBookName());
+                            intent4.putExtra("homeworkid", homeworkid);
+                            intent4.putExtra("homeworktype", homeworktype);
+                            startActivity(intent4);
                         }
                     }
                 }
@@ -1218,7 +1104,14 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+    }
+
+    @Override
     protected void onPause() {
+        allowUnBindService();
         super.onPause();
         if (mediaPlayer2 != null) {
             if (mediaPlayer2.isPlaying()) {
@@ -1278,4 +1171,15 @@ public class PracticeActivity extends BaseActivity implements PlatformActionList
         popupWindow3.dismiss();
     }
 
+    @Override
+    public void onPublish(int progress) {
+
+    }
+
+    @Override
+    public void onChange(int position) {
+        adapter = new BookEndAdapter(this, lists, null, presenter, musicService, true);
+        practiceRecycler.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
 }

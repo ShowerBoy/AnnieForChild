@@ -1,6 +1,5 @@
 package com.annie.annieforchild.ui.activity;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,7 +34,6 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.SearchTag;
 import com.annie.annieforchild.bean.Tags;
@@ -54,6 +52,7 @@ import com.annie.annieforchild.ui.adapter.TagAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.LoginView;
 import com.annie.baselibrary.base.BaseActivity;
+import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.google.android.flexbox.FlexboxLayout;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
@@ -71,7 +70,7 @@ import java.util.List;
  * Created by wanglei on 2018/5/4.
  */
 
-public class GlobalSearchActivity extends BaseActivity implements LoginView, View.OnClickListener {
+public class GlobalSearchActivity extends BaseMusicActivity implements LoginView, View.OnClickListener {
     private SearchView searchView;
     private EditText editText, hintText;
     private LinearLayout historyLinear;
@@ -241,11 +240,10 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                         } else {
                             if (lists.get(position).getIsyuedu() == 1) {
                                 if (lists.get(position).getTag().equals("校园生活故事1") || lists.get(position).getTag().equals("校园生活故事2") || lists.get(position).getTag().equals("神奇树屋")) {
-                                    if (MusicService.isPlay) {
-//                                        if (musicService != null) {
-//                                            musicService.stop();
-//                                        }
-                                        MusicService.stop();
+                                    if (musicService != null) {
+                                        if (musicService.isPlaying()) {
+                                            musicService.stop();
+                                        }
                                     }
                                     Intent intent = new Intent(GlobalSearchActivity.this, BookPlayActivity2.class);
                                     intent.putExtra("bookId", song.getBookId());
@@ -289,6 +287,11 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
                     if (lists.get(position).getJurisdiction() == 1) {
 //                        SystemUtils.startVideo(GlobalSearchActivity.this, lists.get(position).getAnimationUrl());
 //                        Intent intent = new Intent(GlobalSearchActivity.this, VideoActivity.class);
+                        if (musicService != null) {
+                            if (musicService.isPlaying()) {
+                                musicService.stop();
+                            }
+                        }
                         Intent intent = new Intent(GlobalSearchActivity.this, VideoActivity_new.class);
                         intent.putExtra("url", lists.get(position).getAnimationUrl());
                         intent.putExtra("imageUrl", lists.get(position).getBookImageUrl());
@@ -576,5 +579,27 @@ public class GlobalSearchActivity extends BaseActivity implements LoginView, Vie
         layoutParams.setMargins(margin, marginTop, margin, 0);
         textView.setLayoutParams(layoutParams);
         return textView;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+    }
+
+    @Override
+    protected void onPause() {
+        allowUnBindService();
+        super.onPause();
+    }
+
+    @Override
+    public void onPublish(int progress) {
+
+    }
+
+    @Override
+    public void onChange(int position) {
+
     }
 }

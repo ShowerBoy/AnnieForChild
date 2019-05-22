@@ -49,7 +49,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.bean.book.Line;
@@ -107,7 +106,7 @@ import java.util.regex.PatternSyntaxException;
  */
 
 public class SystemUtils {
-//    public static String mainUrl = "https://testappapi.anniekids.com/api/"; //获取接口对象地址（测试）
+    //    public static String mainUrl = "https://testappapi.anniekids.com/api/"; //获取接口对象地址（测试）
     public static String mainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（正式）
 
     public static final String APP_ID = "wxcce6f37c8f2e3dc7"; //微信支付
@@ -149,9 +148,10 @@ public class SystemUtils {
     private int window_width;
     private int window_height;
     private Uri uri;
-    private List<Song> playLists; //最近播放列表
+    public static List<Song> playLists; //最近播放列表
     private NetGiftPopupAdapter netGiftPopupAdapter;
     private boolean isReLogin = false; //重新登陆
+    public static int MusicType = 0;//0：重新进入 1：列表进入
     Context context;
 
     public SystemUtils(Context context) {
@@ -794,9 +794,9 @@ public class SystemUtils {
                 Intent intent = new Intent(context, PracticeActivity.class);
                 intent.putExtra("song", song);
                 intent.putExtra("type", type);
-                intent.putExtra("audioType", audioType);
-                intent.putExtra("audioSource", audioSource);
-                intent.putExtra("collectType", collectType);
+                intent.putExtra("audioType", 0);
+                intent.putExtra("audioSource", 0);
+                intent.putExtra("collectType", 1);
                 intent.putExtra("bookType", 0);
                 context.startActivity(intent);
                 popupWindow.dismiss();
@@ -807,9 +807,6 @@ public class SystemUtils {
             @Override
             public void onClick(View v) {
                 if (tag.equals("校园生活故事1") || tag.equals("校园生活故事2") || tag.equals("神奇树屋")) {
-                    if (MusicService.isPlay) {
-//                        MusicService.stop();
-                    }
                     Intent intent = new Intent(context, BookPlayActivity2.class);
                     intent.putExtra("bookId", song.getBookId());
                     intent.putExtra("imageUrl", song.getBookImageUrl());
@@ -821,9 +818,9 @@ public class SystemUtils {
                     Intent intent = new Intent(context, PracticeActivity.class);
                     intent.putExtra("song", song);
                     intent.putExtra("type", type);
-                    intent.putExtra("audioType", audioType);
-                    intent.putExtra("audioSource", audioSource);
-                    intent.putExtra("collectType", collectType);
+                    intent.putExtra("audioType", 1);
+                    intent.putExtra("audioSource", 0);
+                    intent.putExtra("collectType", 2);
                     intent.putExtra("bookType", 1);
                     context.startActivity(intent);
                 }
@@ -1078,6 +1075,12 @@ public class SystemUtils {
         }
     }
 
+    /**
+     * 秒to小时
+     *
+     * @param second
+     * @return
+     */
     public static String secToHour(int second) {
         String time;
         int min = second / 60;
@@ -1097,6 +1100,53 @@ public class SystemUtils {
             }
             min = min - hour * 60;
             time = hour + "小时" + min + "分钟";
+        }
+        return time;
+    }
+
+    /**
+     * 音频时间转换
+     *
+     * @param second
+     * @return
+     */
+    public static String mediaTimeTrans(int second) {
+        String time;
+        int sec = second / 1000;
+        int min = sec / 60;
+        int hour = min / 60;
+        if (min <= 0) {
+            sec = sec - min * 60;
+            if (sec < 10) {
+                time = "0:0" + sec;
+            } else {
+                time = "0:" + sec;
+            }
+        } else {
+            if (hour <= 0) {
+                sec = sec - min * 60;
+                if (sec < 10) {
+                    time = min + ":0" + sec;
+                } else {
+                    time = min + ":" + sec;
+                }
+            } else {
+                sec = sec - min * 60;
+                min = min - hour * 60;
+                if (sec < 10) {
+                    if (min < 10) {
+                        time = hour + ":0" + min + ":0" + sec;
+                    } else {
+                        time = hour + ":" + min + ":0" + sec;
+                    }
+                } else {
+                    if (min < 10) {
+                        time = hour + ":0" + min + ":" + sec;
+                    } else {
+                        time = hour + ":" + min + ":" + sec;
+                    }
+                }
+            }
         }
         return time;
     }
@@ -1214,7 +1264,31 @@ public class SystemUtils {
         } else {
             Toast.makeText(context, "视频播放器没有准备好", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    /**
+     * Glide加载前判断activity是否存活
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isValidContextForGlide(final Context context) {
+        if (context == null) {
+            return false;
+        }
+        if (context instanceof Activity) {
+            final Activity activity = (Activity) context;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                if (activity.isDestroyed() || activity.isFinishing()) {
+                    return false;
+                }
+            } else {
+                if (activity.isFinishing()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 
@@ -1416,14 +1490,6 @@ public class SystemUtils {
 
     public void setUri(Uri uri) {
         this.uri = uri;
-    }
-
-    public List<Song> getPlayLists() {
-        return playLists;
-    }
-
-    public void setPlayLists(List<Song> playLists) {
-        this.playLists = playLists;
     }
 
     public boolean isDrop() {

@@ -39,6 +39,15 @@ public class Song implements Serializable {
     private int ismoerduo;
     private int isyuedu;
     private String path;
+    private boolean isPlaying = false;
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
 
     public int getAudioSource() {
         return audioSource;

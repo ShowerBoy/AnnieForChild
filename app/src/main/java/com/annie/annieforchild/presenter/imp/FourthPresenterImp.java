@@ -12,7 +12,6 @@ import android.view.View;
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
@@ -22,7 +21,6 @@ import com.annie.annieforchild.interactor.FourthInteractor;
 import com.annie.annieforchild.interactor.imp.FourthInteractorImp;
 import com.annie.annieforchild.presenter.FourthPresenter;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
-import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
 import com.annie.annieforchild.ui.adapter.MemberAdapter;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
@@ -190,17 +188,14 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 lists.addAll((List<UserInfo2>) result);
                 adapter.notifyDataSetChanged();
             } else if (what == MethodCode.EVENT_SETDEFAULEUSER) {
-                if (MusicService.isPlay) {
-//                    fourthView.getBinder().bStop();
-                    /**
-                     * {@link com.annie.annieforchild.ui.fragment.FourthFragment}
-                     */
-                    JTMessage message = new JTMessage();
-                    message.what = MethodCode.EVENT_MUSICSTOP;
-                    message.obj = 0;
-                    EventBus.getDefault().post(message);
-//                    MusicService.stop();
-                }
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.FourthFragment}
+                 */
+                JTMessage message1 = new JTMessage();
+                message1.what = MethodCode.EVENT_MUSICSTOP;
+                message1.obj = 0;
+                EventBus.getDefault().post(message1);
+
                 application.getSystemUtils().setDefaultUsername(lists.get(position).getUsername());
                 getUserInfo();
                 fourthView.showInfo((String) result);
@@ -270,22 +265,24 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                     db.close();
                 }
 
-                MusicService.musicTitle = null;
-                if (MusicService.musicPartList != null) {
-                    MusicService.musicPartList.clear();
-                }
-                if (MusicService.musicList != null) {
-                    MusicService.musicList.clear();
-                }
-                MusicService.isPlay = false;
-                MusicService.start = "0:00";
-                MusicService.end = "";
+//                MusicService.musicTitle = null;
+//                if (MusicService.musicPartList != null) {
+//                    MusicService.musicPartList.clear();
+//                }
+//                if (MusicService.musicList != null) {
+//                    MusicService.musicList.clear();
+//                }
+//                MusicService.isPlay = false;
+//                MusicService.start = "0:00";
+//                MusicService.end = "";
+
 //                MusicPlayActivity.adapter.notifyDataSetChanged();
                 //获取网课礼包
 //                showGifts(1, 0);
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.DakaFragment#onMainEventThread(JTMessage)}
                  * {@link com.annie.annieforchild.ui.fragment.FirstFragment#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.MainActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
@@ -330,11 +327,12 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
                 fourthView.showInfo("该账号已在别处登陆");
-                if (MusicService.isPlay) {
-                    MusicService.stop();
-                }
-                MusicService.musicTitle = null;
-                MusicService.musicImageUrl = null;
+
+                JTMessage message = new JTMessage();
+                message.what = MethodCode.EVENT_RELOGIN;
+                message.obj = 1;
+                EventBus.getDefault().post(message);
+
                 SharedPreferences preferences = context.getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.remove("phone");

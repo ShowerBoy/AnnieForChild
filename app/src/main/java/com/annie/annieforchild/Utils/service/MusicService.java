@@ -384,7 +384,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
             Song song = new Song();
             /**/
             if (musicPartList != null && musicPartList.size() > 0) {
-                if (application.getSystemUtils().getPlayLists() != null && application.getSystemUtils().getPlayLists().size() == 0) {
+                if (SystemUtils.playLists != null && SystemUtils.playLists.size() == 0) {
                     song.setBookId(musicPartList.get(listTag).getBookId());
                     song.setBookName(musicPartList.get(listTag).getName());
                     song.setBookImageUrl(musicPartList.get(listTag).getImageUrl());
@@ -394,8 +394,8 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                     addPlayLists(song, listTag);
                 } else {
                     boolean flag = true;
-                    for (int i = 0; i < application.getSystemUtils().getPlayLists().size(); i++) {
-                        if (application.getSystemUtils().getPlayLists().get(i).getBookId() == musicPartList.get(listTag).getBookId()) {
+                    for (int i = 0; i < SystemUtils.playLists.size(); i++) {
+                        if (SystemUtils.playLists.get(i).getBookId() == musicPartList.get(listTag).getBookId()) {
                             flag = false;
                         }
                     }
@@ -431,29 +431,29 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     }
 
     private static void addPlayLists(Song song, int listTag) {
-        if (musicPartList != null && musicPartList.size() > 0) {
-            if (application.getSystemUtils().getPlayLists() == null) {
-                application.getSystemUtils().setPlayLists(new ArrayList<>());
-            }
-            if (application.getSystemUtils().getPlayLists() != null && application.getSystemUtils().getPlayLists().size() == 0) {
-                application.getSystemUtils().getPlayLists().add(song);
-            } else {
-                boolean flag = true;
-                for (int i = 0; i < application.getSystemUtils().getPlayLists().size(); i++) {
-                    if (application.getSystemUtils().getPlayLists().get(i).getBookId() == musicPartList.get(listTag).getBookId()) {
-                        flag = false;
-                    }
-                }
-                if (flag) {
-                    if (application.getSystemUtils().getPlayLists().size() < 20) {
-                        application.getSystemUtils().getPlayLists().add(0, song);
-                    } else {
-                        application.getSystemUtils().getPlayLists().remove(19);
-                        application.getSystemUtils().getPlayLists().add(0, song);
-                    }
-                }
-            }
-        }
+//        if (musicPartList != null && musicPartList.size() > 0) {
+//            if (application.getSystemUtils().getPlayLists() == null) {
+//                application.getSystemUtils().setPlayLists(new ArrayList<>());
+//            }
+//            if (application.getSystemUtils().getPlayLists() != null && application.getSystemUtils().getPlayLists().size() == 0) {
+//                application.getSystemUtils().getPlayLists().add(song);
+//            } else {
+//                boolean flag = true;
+//                for (int i = 0; i < application.getSystemUtils().getPlayLists().size(); i++) {
+//                    if (application.getSystemUtils().getPlayLists().get(i).getBookId() == musicPartList.get(listTag).getBookId()) {
+//                        flag = false;
+//                    }
+//                }
+//                if (flag) {
+//                    if (application.getSystemUtils().getPlayLists().size() < 20) {
+//                        application.getSystemUtils().getPlayLists().add(0, song);
+//                    } else {
+//                        application.getSystemUtils().getPlayLists().remove(19);
+//                        application.getSystemUtils().getPlayLists().add(0, song);
+//                    }
+//                }
+//            }
+//        }
     }
 
     @SuppressLint("HandlerLeak")

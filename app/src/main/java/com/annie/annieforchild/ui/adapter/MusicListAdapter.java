@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.song.MusicPart;
+import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.ui.adapter.viewHolder.MusicListViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 
@@ -20,11 +21,11 @@ import java.util.List;
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListViewHolder> {
     private Context context;
-    private List<MusicPart> lists;
+    private List<Song> lists;
     private LayoutInflater inflater;
     private OnRecyclerItemClickListener listener;
 
-    public MusicListAdapter(Context context, List<MusicPart> lists, OnRecyclerItemClickListener listener) {
+    public MusicListAdapter(Context context, List<Song> lists, OnRecyclerItemClickListener listener) {
         this.context = context;
         this.lists = lists;
         this.listener = listener;
@@ -46,7 +47,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListViewHolder> 
 
     @Override
     public void onBindViewHolder(MusicListViewHolder musicListViewHolder, int i) {
-        musicListViewHolder.name.setText(lists.get(i).getName());
+        musicListViewHolder.name.setText(lists.get(i).getBookName());
         if (lists.get(i).isPlaying()) {
             musicListViewHolder.name.setTextColor(context.getResources().getColor(R.color.text_orange));
         } else {

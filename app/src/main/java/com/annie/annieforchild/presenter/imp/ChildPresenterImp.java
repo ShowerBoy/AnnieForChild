@@ -8,8 +8,6 @@ import android.content.SharedPreferences;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.interactor.ChildInteractor;
 import com.annie.annieforchild.interactor.imp.ChildInteractorImp;
@@ -151,11 +149,12 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
                 viewInfo.showInfo("该账号已在别处登陆");
-                if (MusicService.isPlay) {
-                    MusicService.stop();
-                }
-                MusicService.musicTitle = null;
-                MusicService.musicImageUrl = null;
+
+                JTMessage message = new JTMessage();
+                message.what = MethodCode.EVENT_RELOGIN;
+                message.obj = 1;
+                EventBus.getDefault().post(message);
+
                 SharedPreferences preferences = context.getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.remove("phone");
@@ -178,33 +177,6 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
             }
         }
         viewInfo.showInfo(error);
-        if (what == MethodCode.EVENT_RELOGIN) {
-            if (MusicService.isPlay) {
-//                                    if (musicService != null) {
-//                                        musicService.stop();
-//                                    }
-                MusicService.stop();
-            }
-            MusicService.musicTitle = null;
-            MusicService.musicImageUrl = null;
-            SharedPreferences preferences = context.getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.remove("phone");
-            editor.remove("psd");
-            editor.commit();
-            application.getSystemUtils().getPhoneSN().setUsername(null);
-            application.getSystemUtils().getPhoneSN().setLastlogintime(null);
-            application.getSystemUtils().getPhoneSN().setSystem(null);
-            application.getSystemUtils().getPhoneSN().setBitcode(null);
-            application.getSystemUtils().setDefaultUsername(null);
-            application.getSystemUtils().setToken(null);
-            application.getSystemUtils().getPhoneSN().save();
-            application.getSystemUtils().setOnline(false);
-            ActivityCollector.finishAll();
-            Intent intent2 = new Intent(context, LoginActivity.class);
-            context.startActivity(intent2);
-            return;
-        }
         if (what == MethodCode.EVENT_UPDATEUSER) {
             /**
              * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}

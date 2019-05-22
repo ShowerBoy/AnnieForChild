@@ -45,11 +45,21 @@ public class MusicManager {
 
     /**
      * 更新播放列表
+     *
      * @param list
      */
     public void updateMusicList(List<Song> list) {
         musicList.clear();
         musicList.addAll(list);
+    }
+
+    /**
+     * 清空播放列表
+     */
+    public void clearMusicList() {
+        if (musicList != null) {
+            musicList.clear();
+        }
     }
 
 

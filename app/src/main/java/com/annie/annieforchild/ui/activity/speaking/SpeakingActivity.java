@@ -19,7 +19,6 @@ import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.ReadingData;
 import com.annie.annieforchild.bean.song.Song;
@@ -28,13 +27,14 @@ import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.grindEar.ListenSongActivity;
-import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
 import com.annie.annieforchild.ui.adapter.GrindEarAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.GrindEarView;
 import com.annie.baselibrary.base.BaseActivity;
+import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.daimajia.slider.library.SliderLayout;
 
@@ -49,7 +49,7 @@ import java.util.List;
  * Created by wanglei on 2018/11/8.
  */
 
-public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick, GrindEarView {
+public class SpeakingActivity extends BaseMusicActivity implements OnCheckDoubleClick, GrindEarView {
     private RecyclerView recycler;
     private AnimationDrawable musicBtn;
     private ImageView speakingBack, music, search;
@@ -101,11 +101,6 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
 
         musicBtn = (AnimationDrawable) music.getDrawable();
         musicBtn.setOneShot(false);
-        if (MusicService.isPlay) {
-            musicBtn.start();
-        } else {
-            musicBtn.stop();
-        }
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -281,7 +276,8 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
                 startActivity(intent2);
                 break;
             case R.id.speaking_music:
-                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+                Intent intent1 = new Intent(this, MusicPlayActivity2.class);
+                intent1.putExtra("radioDismiss", 1);
                 startActivity(intent1);
                 break;
         }
@@ -345,6 +341,34 @@ public class SpeakingActivity extends BaseActivity implements OnCheckDoubleClick
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+    }
+
+    @Override
+    protected void onPause() {
+        allowUnBindService();
+        super.onPause();
+    }
+
+    @Override
+    public void onPublish(int progress) {
+
+    }
+
+    @Override
+    public void onChange(int position) {
+        if (musicBtn != null) {
+            if (musicService.isPlaying()) {
+                musicBtn.start();
+            } else {
+                musicBtn.stop();
+            }
         }
     }
 }

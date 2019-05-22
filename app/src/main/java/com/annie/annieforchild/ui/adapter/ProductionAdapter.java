@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.rank.Production;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
@@ -145,16 +144,13 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
                         isPlay = false;
                     }
                 } else {
-                    if (MusicService.isPlay) {
-                        /**
-                         * {@link MyRecordActivity#onMainEventThread(JTMessage)}
-                         */
-                        JTMessage message = new JTMessage();
-                        message.what = MethodCode.EVENT_MUSICSTOP;
-                        message.obj = 0;
-                        EventBus.getDefault().post(message);
-//                        MusicService.stop();
-                    }
+                    /**
+                     * {@link MyRecordActivity#onMainEventThread(JTMessage)}
+                     */
+                    JTMessage message = new JTMessage();
+                    message.what = MethodCode.EVENT_MUSICSTOP;
+                    message.obj = 0;
+                    EventBus.getDefault().post(message);
                     holder = productionViewHolder;
                     urlList.clear();
                     urlList.addAll(lists.get(i).getUrl());

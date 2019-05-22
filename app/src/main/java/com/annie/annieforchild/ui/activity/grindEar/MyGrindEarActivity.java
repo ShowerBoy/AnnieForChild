@@ -23,7 +23,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
-import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
 import com.annie.annieforchild.ui.fragment.mygrindear.TodayGrindEarFragment;
 import com.annie.annieforchild.ui.fragment.mygrindear.TotalGrindEarFragment;
 import com.annie.annieforchild.view.GrindEarView;
@@ -128,7 +128,9 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
 //                startActivity(intent1);
 //                break;
             case R.id.my_grind_music:
-                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+//                Intent intent1 = new Intent(this, MusicPlayActivity.class);
+                SystemUtils.MusicType = 0;
+                Intent intent1 = new Intent(this, MusicPlayActivity2.class);
                 startActivity(intent1);
                 break;
         }

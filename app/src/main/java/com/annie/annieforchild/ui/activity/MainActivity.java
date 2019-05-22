@@ -28,8 +28,8 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.MusicManager;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.net.NetGift;
@@ -188,7 +188,7 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
     }
 
     private void initSoundPool(Context context) {
-        application.getSystemUtils().setPlayLists(new ArrayList<>());
+        SystemUtils.playLists = new ArrayList<>();
         application.getSystemUtils().animMusicMap = new HashMap<>();
         application.getSystemUtils().animPool = new SoundPool(11, AudioManager.STREAM_MUSIC, 0);
         application.getSystemUtils().animMusicMap.put(1, application.getSystemUtils().animPool.load(context, R.raw.amazing, 1));
@@ -318,9 +318,11 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
                         .show();
             }
         } else if (message.what == MethodCode.EVENT_MUSICSTOP) {
-//            if (musicService != null) {
-            MusicService.stop();
-//            }
+            if (musicService != null) {
+                if (musicService.isPlaying()) {
+                    musicService.stop();
+                }
+            }
         } else if (message.what == MethodCode.EVENT_SHOWGIFTS + 110000 + origin) {
             NetGift netGift = (NetGift) message.obj;
             if (netGift != null) {
@@ -339,6 +341,17 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
 
                 }
             }
+        } else if (message.what == MethodCode.EVENT_SETDEFAULEUSER) {
+            MusicManager.getInstance().clearMusicList();
+            SystemUtils.playLists.clear();
+        } else if (message.what == MethodCode.EVENT_RELOGIN) {
+            if (musicService != null) {
+                if (musicService.isPlaying()) {
+                    musicService.stop();
+                }
+            }
+            MusicManager.getInstance().clearMusicList();
+            SystemUtils.playLists.clear();
         }
     }
 
@@ -424,5 +437,27 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
             application.getSystemUtils().getTask().cancel();
             application.getSystemUtils().setTask(null);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+    }
+
+    @Override
+    protected void onPause() {
+        allowUnBindService();
+        super.onPause();
+    }
+
+    @Override
+    public void onPublish(int progress) {
+
+    }
+
+    @Override
+    public void onChange(int position) {
+
     }
 }

@@ -19,7 +19,6 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.material.Material;
 import com.annie.annieforchild.bean.schedule.Schedule;
 import com.annie.annieforchild.bean.song.Song;

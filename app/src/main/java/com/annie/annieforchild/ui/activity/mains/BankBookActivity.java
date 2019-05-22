@@ -14,17 +14,19 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
-import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
 import com.annie.annieforchild.ui.fragment.bankbook.GrindEarBankBookFragment;
 import com.annie.annieforchild.ui.fragment.bankbook.ReadingBankBookFragment;
 import com.annie.annieforchild.ui.fragment.bankbook.SpeakingBankBookFragment;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
+import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
@@ -35,7 +37,7 @@ import org.greenrobot.eventbus.Subscribe;
  * Created by wanglei on 2018/9/18.
  */
 
-public class BankBookActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, SongView {
+public class BankBookActivity extends BaseMusicActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, SongView {
     private ImageView back, music;
     private AnimationDrawable musicBtn;
     private AdvancedPagerSlidingTabStrip mTab;
@@ -68,11 +70,6 @@ public class BankBookActivity extends BaseActivity implements View.OnClickListen
 
         musicBtn = (AnimationDrawable) music.getDrawable();
         musicBtn.setOneShot(false);
-        if (MusicService.isPlay) {
-            musicBtn.start();
-        } else {
-            musicBtn.stop();
-        }
     }
 
     @Override
@@ -104,7 +101,9 @@ public class BankBookActivity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.bank_book_music:
-                Intent intent = new Intent(this, MusicPlayActivity.class);
+//                Intent intent = new Intent(this, MusicPlayActivity.class);
+                SystemUtils.MusicType = 0;
+                Intent intent = new Intent(this, MusicPlayActivity2.class);
                 startActivity(intent);
                 break;
         }
@@ -143,7 +142,7 @@ public class BankBookActivity extends BaseActivity implements View.OnClickListen
             if (musicBtn != null) {
                 if ((boolean) (message.obj)) {
                     musicBtn.start();
-                }else{
+                } else {
                     musicBtn.stop();
                 }
             }
@@ -166,6 +165,34 @@ public class BankBookActivity extends BaseActivity implements View.OnClickListen
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+    }
+
+    @Override
+    protected void onPause() {
+        allowUnBindService();
+        super.onPause();
+    }
+
+    @Override
+    public void onPublish(int progress) {
+
+    }
+
+    @Override
+    public void onChange(int position) {
+        if (musicBtn != null) {
+            if (musicService.isPlaying()) {
+                musicBtn.start();
+            } else {
+                musicBtn.stop();
+            }
         }
     }
 

@@ -17,7 +17,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
-import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity;
+import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
 import com.annie.annieforchild.ui.fragment.myreading.TodayReadingFragment;
 import com.annie.annieforchild.ui.fragment.myreading.TotalReadingFragment;
 import com.annie.annieforchild.ui.fragment.myspeaking.TodaySpeakingFragment;
@@ -109,7 +109,9 @@ public class MySpeakingActivity extends BaseActivity implements SongView, View.O
                 finish();
                 break;
             case R.id.my_speaking_music:
-                Intent intent = new Intent(this, MusicPlayActivity.class);
+                SystemUtils.MusicType = 0;
+//                Intent intent = new Intent(this, MusicPlayActivity.class);
+                Intent intent = new Intent(this, MusicPlayActivity2.class);
                 startActivity(intent);
                 break;
         }

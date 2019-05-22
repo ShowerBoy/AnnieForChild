@@ -8,7 +8,6 @@ import android.os.Bundle;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.Banner;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Address;
@@ -671,11 +670,12 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 if (viewInfo != null) {
                     viewInfo.showInfo("该账号已在别处登陆");
                 }
-                if (MusicService.isPlay) {
-                    MusicService.stop();
-                }
-                MusicService.musicTitle = null;
-                MusicService.musicImageUrl = null;
+
+                JTMessage message = new JTMessage();
+                message.what = MethodCode.EVENT_RELOGIN;
+                message.obj = 1;
+                EventBus.getDefault().post(message);
+
                 SharedPreferences preferences = context.getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.remove("phone");

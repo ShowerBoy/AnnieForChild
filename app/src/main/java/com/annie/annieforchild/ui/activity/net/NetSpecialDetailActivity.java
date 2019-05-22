@@ -17,7 +17,6 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.ListenAndRead;
@@ -113,9 +112,6 @@ public class NetSpecialDetailActivity extends BaseActivity implements ViewInfo, 
         recycler.setAdapter(adapter);
 
         presenter.getNetSpecialDetail(netid);
-        if (MusicService.isPlay) {
-            MusicService.stop();
-        }
     }
 
     @Override

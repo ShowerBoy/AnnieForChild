@@ -34,7 +34,6 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.pcm2mp3.RecorderAndPlayUtil;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.AudioBean;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.ShareBean;
@@ -483,19 +482,13 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                             presenter.clockinShare(3, bookId);
                             getWindowGray(true);
                             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-                        }else{
+                        } else {
                             showInfo("请先录音");
                         }
                     }
                 }
                 break;
             case R.id.recording_preview:
-                if (MusicService.isPlay) {
-//                    if (musicService != null) {
-//                        musicService.stop();
-//                    }
-                    MusicService.stop();
-                }
                 if (!isClick) {
                     return;
                 }
@@ -541,12 +534,6 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                 }
                 break;
             case R.id.recording_record:
-                if (MusicService.isPlay) {
-//                    if (musicService != null) {
-//                        musicService.stop();
-//                    }
-                    MusicService.stop();
-                }
                 if (isRecordPlay) {
                     return;
                 }
@@ -583,12 +570,6 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                 }
                 break;
             case R.id.recording_play:
-                if (MusicService.isPlay) {
-//                    if (musicService != null) {
-//                        musicService.stop();
-//                    }
-                    MusicService.stop();
-                }
                 if (isPlay) {
                     return;
                 }
@@ -900,16 +881,10 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-//        if (MusicService.isPlay) {
-//        if (musicService != null) {
-//            musicService.stop();
-//        }
-            MusicService.stop();
-//        }
+
     }
 
     @Override
@@ -946,6 +921,7 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
         isClick = true;
         isPlay = false;
         isRecordPlay = false;
+        SystemUtils.MusicType = 0;
     }
 
     @Override
