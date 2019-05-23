@@ -6,6 +6,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class NetSuggestAdapter1 extends RecyclerView.Adapter{
     private List<String> lists,list_middle;
     private LayoutInflater inflater;
     private int width,heigth;
+    private float density;
 
     public NetSuggestAdapter1(Context context, List<String> lists, List<String> list_middle) {
         this.context = context;
@@ -40,8 +42,11 @@ public class NetSuggestAdapter1 extends RecyclerView.Adapter{
         this.list_middle=list_middle;
         inflater = LayoutInflater.from(context);
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
+
         heigth = dm.heightPixels;
         width = dm.widthPixels;
+
+         density = dm.density;
 
     }
 
@@ -68,18 +73,18 @@ public class NetSuggestAdapter1 extends RecyclerView.Adapter{
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType == TYPE_CONTENT){
             View itemView = inflater.inflate(R.layout.activity_net_suggest_fragment_item,parent,false);
-            return new NetSuggestAdapter1.ContentHolder(itemView);
+            return new ContentHolder(itemView);
         }else{
             View itemView =inflater.inflate(R.layout.activity_net_suggestfragment_item2,parent,false);
-            return new NetSuggestAdapter1.FootHolder(itemView);
+            return new FootHolder(itemView);
         }
     }
 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof NetSuggestAdapter1.ContentHolder){ // 内容
-            NetSuggestAdapter1.ContentHolder myHolder = (NetSuggestAdapter1.ContentHolder) holder;
+        if(holder instanceof ContentHolder){ // 内容
+            ContentHolder myHolder = (ContentHolder) holder;
 
             Glide.with(context).load(lists.get(position)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
@@ -97,14 +102,18 @@ public class NetSuggestAdapter1 extends RecyclerView.Adapter{
 //            Glide.with(context).load(lists.get(position)).into(myHolder.image);
 
         }else{ // 尾部
-            NetSuggestAdapter1.FootHolder footHolder=(NetSuggestAdapter1.FootHolder)holder;
+            FootHolder footHolder=(FootHolder)holder;
 
+            ViewGroup.LayoutParams linearParams =footHolder.viewpager_layout.getLayoutParams();
+
+            linearParams.height = (int) (420*density);
+            footHolder.viewpager_layout.setLayoutParams(linearParams);
             if(list_middle.size()<1){
                 footHolder.viewpager_layout.setVisibility(View.GONE);
             }else{
                 footHolder.viewpager_layout.setVisibility(View.VISIBLE);
                 footHolder.viewPager.setOffscreenPageLimit(3);
-                footHolder.viewPager.setPageMargin(50);
+                footHolder.viewPager.setPageMargin(40);
                 pagerAdapter pageradapter=new pagerAdapter();
                 footHolder.viewPager.setAdapter(pageradapter);
             }
@@ -154,7 +163,7 @@ public class NetSuggestAdapter1 extends RecyclerView.Adapter{
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(context);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 //            imageView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             Glide.with(context).load(list_middle.get(position)).fitCenter().into(imageView);
             container.addView(imageView);

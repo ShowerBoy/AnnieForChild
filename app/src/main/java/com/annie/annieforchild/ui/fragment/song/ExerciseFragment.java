@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.PhotoActivity;
 import com.annie.annieforchild.ui.adapter.ExerciseAdapter;
+import com.annie.annieforchild.ui.adapter.Exercise_newAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseFragment;
@@ -31,6 +33,7 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +47,7 @@ public class ExerciseFragment extends BaseFragment implements SongView, View.OnC
     private XRecyclerView exerciseList;
     private Page page;
     private List<Line> lists;
-    private ExerciseAdapter adapter;
+    private Exercise_newAdapter adapter;
     private AlertHelper helper;
     private Dialog dialog;
     private GrindEarPresenter presenter;
@@ -81,7 +84,7 @@ public class ExerciseFragment extends BaseFragment implements SongView, View.OnC
         Glide.with(getContext()).load(page.getPageImage()).placeholder(R.drawable.book_image_loading).error(R.drawable.book_image_loadfail).fitCenter().into(pageImage);
         lists.addAll(page.getLineContent());
 
-        adapter = new ExerciseAdapter(getContext(), this, title, lists, bookId, presenter, audioType, audioSource, page.getPageImage(), 1, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
+        adapter = new Exercise_newAdapter(getActivity(), getContext(), this, title, lists, bookId, presenter, audioType, audioSource, page.getPageImage(), 1, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 int positon = exerciseList.getChildAdapterPosition(view);
@@ -142,11 +145,13 @@ public class ExerciseFragment extends BaseFragment implements SongView, View.OnC
      *
      * @param message
      */
-    @Subscribe
+//    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
             AudioBean bean = (AudioBean) message.obj;
-            page.getLineContent().get(bean.getLineId()).setMyResourceUrl(bean.getResourceUrl());
+            Log.e("'''",bean.getResourceUrl()+"");
+            page.getLineContent().get(bean.getLineId()-1).setMyResourceUrl(bean.getResourceUrl());
             refresh();
         } else if (message.what == MethodCode.EVENT_MUSICPLAY) {
             int sss = (int) message.obj;

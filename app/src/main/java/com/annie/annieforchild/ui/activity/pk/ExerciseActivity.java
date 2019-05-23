@@ -25,6 +25,7 @@ import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.adapter.ExerciseAdapter;
+import com.annie.annieforchild.ui.adapter.Exercise_newAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
@@ -49,7 +50,7 @@ public class ExerciseActivity extends BaseActivity implements OnCheckDoubleClick
     private XRecyclerView exerciseList;
     private List<Line> lists;
     private Book book;
-    private ExerciseAdapter adapter;
+    private Exercise_newAdapter adapter;
     private GrindEarPresenter presenter;
     private Intent intent;
     private int bookId;
@@ -121,7 +122,7 @@ public class ExerciseActivity extends BaseActivity implements OnCheckDoubleClick
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
 
-        adapter = new ExerciseAdapter(this, this, title, lists, bookId, presenter, audioType, audioSource, imageUrl, 1, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
+        adapter = new Exercise_newAdapter(this,this, this, title, lists, bookId, presenter, audioType, audioSource, imageUrl, 1, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 int positon = exerciseList.getChildAdapterPosition(view);
