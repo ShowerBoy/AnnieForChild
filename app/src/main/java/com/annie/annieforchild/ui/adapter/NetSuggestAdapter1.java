@@ -105,7 +105,6 @@ public class NetSuggestAdapter1 extends RecyclerView.Adapter{
             FootHolder footHolder=(FootHolder)holder;
 
             ViewGroup.LayoutParams linearParams =footHolder.viewpager_layout.getLayoutParams();
-
             linearParams.height = (int) (420*density);
             footHolder.viewpager_layout.setLayoutParams(linearParams);
             if(list_middle.size()<1){

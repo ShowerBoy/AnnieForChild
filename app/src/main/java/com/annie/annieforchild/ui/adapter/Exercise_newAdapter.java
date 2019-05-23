@@ -425,7 +425,6 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
 //                isClick = true;
 //                return;
 //            }
-            Log.e("uuuurl",lists.get(itemnum).getMyResourceUrl());
                 player.setDataSource(lists.get(itemnum).getMyResourceUrl());
                 player.prepare();
             if(!player.isPlaying()){
