@@ -151,7 +151,8 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
             if (lists.get(i).isSelect()) {
                 exerciseViewHolder.exerciseLayout.setVisibility(View.VISIBLE);
                 exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_black));
-                fileName = lists.get(i).getEnTitle().replace(".", "") + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
+                fileName = lists.get(i).getEnTitle().replace(".", "").length()>30 ? lists.get(i).getEnTitle().replace(".", "").substring(0,28)
+                        :lists.get(i).getEnTitle().replace(".", "") + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
             } else {
                 exerciseViewHolder.exerciseLayout.setVisibility(View.GONE);
                 exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_color));
@@ -320,7 +321,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                             BigDecimal bg = new BigDecimal(num / 20);
                             double num1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                             lists.get(i).setScore((float) num1);
-                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName+ ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
                             Log.e("说话结束2", result.pronAccuracy+"");
                             notifyDataSetChanged();
                         }
