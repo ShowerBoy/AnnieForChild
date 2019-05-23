@@ -753,6 +753,8 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
 
                 }
             });
+        } else if (message.what == MethodCode.EVENT_WEBSHARE) {
+
         }
     }
 

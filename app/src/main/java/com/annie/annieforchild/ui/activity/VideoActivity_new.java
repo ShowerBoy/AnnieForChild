@@ -293,7 +293,11 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
         @Override
         public void onCompletion() {
             Log.i(TAG, "Play Completed !");
-            SystemUtils.show(VideoActivity_new.this, "Play Completed !");
+            if (!isTime) {
+                if (isFinish == 0) {
+                    presenter2.videoPayRecord(netid, stageid, unitid, chaptercontentid, isFinish, classcode, position);
+                }
+            }
             if (!mIsLiveStreaming) {
                 mMediaController.refreshProgress();
             }

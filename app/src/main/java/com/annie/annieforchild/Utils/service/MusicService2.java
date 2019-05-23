@@ -57,8 +57,6 @@ public class MusicService2 extends Service {
     private boolean isLyric = false; //是否显示歌词
     private GrindEarPresenter presenter;
     private int duration; //播放时长
-    public static int lastMusicPos; //上次播放进度
-    public static int lastMusicDuration; //上次播放总时长
 
     public MusicService2() {
 

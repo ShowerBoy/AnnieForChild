@@ -26,6 +26,7 @@ public class MethodCode {
      * EventBus
      */
     final public static int EVENT_RELOGIN = -2000; //重新登陆
+    final public static int EVENT_WEBSHARE = -220;
     final public static int EVENT_UNPLAYING = -210; //没在播放
     final public static int EVENT_ISPLAYING = -200; //在播放
     final public static int EVENT_WEBRECORD = -190;

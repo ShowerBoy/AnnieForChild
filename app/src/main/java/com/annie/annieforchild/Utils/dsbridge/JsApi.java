@@ -38,6 +38,15 @@ public class JsApi {
     }
 
     @JavascriptInterface
+    public String doShare(Object msg) {
+        JTMessage message = new JTMessage();
+        message.what = MethodCode.EVENT_WEBSHARE;
+        message.obj = msg;
+        EventBus.getDefault().post(message);
+        return msg + "［doRecord syn call］";
+    }
+
+    @JavascriptInterface
     public void testAsyn(Object msg, CompletionHandler<String> handler) {
         handler.complete(msg + " [doRecord asyn call]");
     }
