@@ -218,7 +218,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
             exerciseViewHolder.speak.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!isPlay && !isRecordPlay) {
+                    if (!isPlay && !isRecordPlay) {
                         onRecord(exerciseViewHolder, i);
                     }
                 }
@@ -252,20 +252,20 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        play(exerciseViewHolder,i);
+                                        play(exerciseViewHolder, i);
                                     }
                                 }).start();
                                 exerciseViewHolder.play.setImageResource(R.drawable.icon_stop_medium);
                             }
                         }
-                    }else{
+                    } else {
                         //停止播放
                         isClick = true;
                         isRecordPlay = false;
                         isSpeakReady = false;
                         if (player != null) {
                             try {
-                                if(player.isPlaying()){
+                                if (player.isPlaying()) {
                                     player.pause();
                                     player.stop();
                                     player.seekTo(0);
@@ -303,7 +303,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
             oral.setListener(new TAIOralEvaluationListener() {
                 @Override
                 public void onEvaluationData(final TAIOralEvaluationData data, final TAIOralEvaluationRet result, final TAIError error) {
-                    SystemUtils.saveFile(data.audio,Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/", fileName+".mp3");
+                    SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/", fileName + ".mp3");
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -312,8 +312,8 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                             }
                             songView.showLoad();
                             isRecording = false;
-                            isClick=true;
-                            oral=null;
+                            isClick = true;
+                            oral = null;
                             ExerciseActivity2.viewPager.setNoFocus(false);
                             viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
                             double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
@@ -321,7 +321,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                             double num1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                             lists.get(i).setScore((float) num1);
                             presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
-                            Log.e("说话结束2", result.pronAccuracy+"");
+                            Log.e("说话结束2", result.pronAccuracy + "");
                             notifyDataSetChanged();
                         }
                     });
@@ -365,10 +365,10 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                             if (error.code == TAIErrCode.SUCC) {
                                 ExerciseActivity2.viewPager.setNoFocus(true);
                                 isRecording = true;
-                                isClick=false;
-                                isPlay=false;
-                                isSpeakReady=false;
-                                isRecordPlay=false;
+                                isClick = false;
+                                isPlay = false;
+                                isSpeakReady = false;
+                                isRecordPlay = false;
                                 record_time = 0;
                                 SystemUtils.show(context, "说话开始");
                                 Log.e("说话开始", error.desc + "---" + error.code);
@@ -416,8 +416,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
     }
 
 
-
-    public void play(ExerciseViewHolder exerciseViewHolder,int itemnum) {
+    public void play(ExerciseViewHolder exerciseViewHolder, int itemnum) {
         try {
             //从音频文件中读取声音
 //            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".mp3");
@@ -425,9 +424,9 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
 //                isClick = true;
 //                return;
 //            }
-                player.setDataSource(lists.get(itemnum).getMyResourceUrl());
-                player.prepare();
-            if(!player.isPlaying()){
+            player.setDataSource(lists.get(itemnum).getMyResourceUrl());
+            player.prepare();
+            if (!player.isPlaying()) {
                 player.start();
             }
         } catch (FileNotFoundException e) {
@@ -455,7 +454,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
             }
-            if(player!=null){
+            if (player != null) {
                 if (player.isPlaying()) {
                     player.stop();
                 }
@@ -481,7 +480,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
     }
 
     public void stopRecord() {
-        if(oral!=null && oral.isRecording()){
+        if (oral != null && oral.isRecording()) {
             oral.stopRecordAndEvaluation(new TAIOralEvaluationCallback() {
                 @Override
                 public void onResult(final TAIError error) {
