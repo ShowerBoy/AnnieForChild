@@ -151,17 +151,14 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
             if (lists.get(i).isSelect()) {
                 exerciseViewHolder.exerciseLayout.setVisibility(View.VISIBLE);
                 exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_black));
-                fileName = lists.get(i).getEnTitle().replace(".", "").length()>30 ? lists.get(i).getEnTitle().replace(".", "").substring(0,28)
-                        :lists.get(i).getEnTitle().replace(".", "") + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
+                fileName = ((lists.get(i).getEnTitle().replace(".", "").length()>30) ? lists.get(i).getEnTitle().replace(".", "").substring(0,28)
+                        :lists.get(i).getEnTitle().replace(".", "")) + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
             } else {
                 exerciseViewHolder.exerciseLayout.setVisibility(View.GONE);
                 exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_color));
             }
 
-//            String fileName = lists.get(i).getEnTitle().replace(".", "") + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
-            String fileName2 = lists.get(i).getEnTitle().replace(".", "") + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName2 + ".mp3");
-            if (file.exists()) {
+            if (lists.get(i).getMyResourceUrl().length()>0) {
                 exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
             } else {
                 exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big_f);
@@ -293,8 +290,8 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-//                            songView.showLoad();
                             SystemUtils.show(context, "说话结束");
+                            songView.showLoad();
                             Log.e("说话结束", error.desc + "---" + error.code);
                         }
                     });
@@ -315,6 +312,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                             isRecording = false;
                             isClick=true;
                             oral=null;
+
                             ExerciseActivity2.viewPager.setNoFocus(false);
                             viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
                             double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
@@ -323,6 +321,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                             lists.get(i).setScore((float) num1);
                             presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName+ ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
                             Log.e("说话结束2", result.pronAccuracy+"");
+                            SystemUtils.deleteSingleFile(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/"+ fileName+".mp3");//上传后删除文件
                             notifyDataSetChanged();
                         }
                     });

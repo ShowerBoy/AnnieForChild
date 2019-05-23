@@ -150,7 +150,6 @@ public class ExerciseFragment extends BaseFragment implements SongView, View.OnC
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
             AudioBean bean = (AudioBean) message.obj;
-            Log.e("'''",bean.getResourceUrl()+"");
             page.getLineContent().get(bean.getLineId()-1).setMyResourceUrl(bean.getResourceUrl());
             refresh();
         } else if (message.what == MethodCode.EVENT_MUSICPLAY) {
