@@ -42,6 +42,7 @@ import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.PhotoActivity;
 import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
 import com.annie.annieforchild.ui.adapter.ExerciseAdapter;
+import com.annie.annieforchild.ui.adapter.Exercise_newAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
@@ -77,7 +78,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
     private XRecyclerView exerciseList;
     private List<Line> lists;
     private static final String DIR = "LAME/mp3/";
-    private ExerciseAdapter adapter;
+    private Exercise_newAdapter adapter;
     private GrindEarPresenter presenter;
     private MediaPlayer mediaPlayer, mediaPlayer2;
     private RecorderAndPlayUtil mRecorderUtil = null;
@@ -143,7 +144,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
         animationCode = page.getAnimationCode();
         initAnimation(animationCode);
         totalSign = lists.size();
-        adapter = new ExerciseAdapter(getContext(), this, "", lists, 0, presenter, 0, 0, "", 0, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
+        adapter = new Exercise_newAdapter(getActivity(), getContext(), this, "", lists, 0, presenter, 0, 0, "", 0, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
 //                if (isPlay) {
