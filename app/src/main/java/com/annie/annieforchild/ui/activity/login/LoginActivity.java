@@ -165,6 +165,13 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
 //        DataSupport.deleteAll(SigninBean.class);
         List<PhoneSN> list = LitePal.findAll(PhoneSN.class);
         if (list != null && list.size() != 0) {
+            if (list.get(list.size() - 1).getSn() == null) {
+                if (tm.getSimSerialNumber() != null) {
+                    list.get(list.size() - 1).setSn(tm.getSimSerialNumber());
+                } else {
+                    list.get(list.size() - 1).setSn(UUID.randomUUID().toString());
+                }
+            }
             application.getSystemUtils().setPhoneSN(list.get(list.size() - 1));
             application.getSystemUtils().setSn(list.get(list.size() - 1).getSn());
         } else {

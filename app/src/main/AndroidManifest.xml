@@ -375,9 +375,6 @@
             android:name=".ui.activity.LeadActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".ui.activity.my.IntroductionActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
             android:name=".ui.activity.grindEar.InputBookActivity"
             android:screenOrientation="portrait"></activity>
         <activity

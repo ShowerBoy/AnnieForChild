@@ -633,7 +633,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
-//                Intent intent1 = new Intent(getContext(), MusicPlayActivity.class);
                 SystemUtils.MusicType = 0;
                 Intent intent1 = new Intent(getContext(), MusicPlayActivity2.class);
                 startActivity(intent1);
@@ -642,7 +641,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 //                application.getSystemUtils().getNetWorkGift(getContext()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
 
 //                Intent intent1 = new Intent(getContext(), WebActivity.class);
-//                intent1.putExtra("url", "http://study.anniekids.org/a-temporary/AAA1/AAA1.html");
+//                intent1.putExtra("url", "http://study.anniekids.org/a-temporary/test/test.html");
 //                intent1.putExtra("title", "");
 //                startActivity(intent1);
 

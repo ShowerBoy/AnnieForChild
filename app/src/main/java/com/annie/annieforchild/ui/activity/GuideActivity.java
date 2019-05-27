@@ -1,6 +1,8 @@
 package com.annie.annieforchild.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +13,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -44,6 +47,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 /**
  * 引导页
@@ -62,6 +66,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
     private Dialog dialog;
     private SQLiteDatabase db;
     public String TAG = "GuideActivity";
+    private TelephonyManager tm;
     private MyApplication application;
 
     {
@@ -91,6 +96,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
     protected void initView() {
         NoHttpUtils.init(this);
         application = (MyApplication) getApplicationContext();
+        tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         Uri uri = getIntent().getData();
         if (uri != null) {
             application.getSystemUtils().setUri(uri);
@@ -169,10 +175,20 @@ public class GuideActivity extends BaseActivity implements LoginView {
         timer.schedule(task, 2 * 1000);
     }
 
+    @SuppressLint("MissingPermission")
     private void signin() {
         if (preferences.getString("phone", null) != null && preferences.getString("psd", null) != null) {
             List<PhoneSN> list = LitePal.findAll(PhoneSN.class);
             if (list != null && list.size() != 0) {
+                if (list.get(list.size() - 1).getSn() == null) {
+                    PhoneSN phoneSN = list.get(list.size() - 1);
+                    if (tm.getSimSerialNumber() != null) {
+                        phoneSN.setSn(tm.getSimSerialNumber());
+                    } else {
+                        phoneSN.setSn(UUID.randomUUID().toString());
+                    }
+                    phoneSN.save();
+                }
                 application.getSystemUtils().setPhoneSN(list.get(list.size() - 1));
                 application.getSystemUtils().setSn(list.get(list.size() - 1).getSn());
             }

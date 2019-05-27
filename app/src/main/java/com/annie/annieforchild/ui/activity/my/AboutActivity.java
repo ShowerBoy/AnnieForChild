@@ -65,7 +65,9 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(intent);
                 break;
             case R.id.gongneng_layout:
-                Intent intent1 = new Intent(this, IntroductionActivity.class);
+                Intent intent1 = new Intent(this, WebActivity.class);
+                intent1.putExtra("title", "功能介绍");
+                intent1.putExtra("url", "https://demoapi.anniekids.net/Api/ShareApi/FunctionIntroduction");
                 startActivity(intent1);
                 break;
         }

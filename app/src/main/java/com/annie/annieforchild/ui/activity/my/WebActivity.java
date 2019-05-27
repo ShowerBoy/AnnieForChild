@@ -43,6 +43,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -58,7 +59,9 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.dsbridge.JsApi;
 import com.annie.annieforchild.Utils.dsbridge.JsEchoApi;
 import com.annie.annieforchild.Utils.pcm2mp3.RecorderAndPlayUtil;
+import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.WebShare;
 import com.annie.annieforchild.bean.net.Game;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
@@ -103,12 +106,13 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
     private static final String DIR = "LAME/mp3/";
     private Button stopRecord;
     private ImageView back, share, pengyouquan, weixin, qq, qqzone;
+    private LinearLayout pengyouquanLayout, wechatLayout, qqLayout, qqzoneLayout;
     private Intent mIntent;
     private TextView title;
     private String url;
     private String titleText;
-    private PopupWindow popupWindow, recordPopup;
-    private View v, recordView;
+    private PopupWindow popupWindow, recordPopup, popupWindow2;
+    private View v, recordView, popupView2;
     private ShareUtils shareUtils;
     private int shareTag = 0;
     private int aabb;
@@ -126,6 +130,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
     private RecorderAndPlayUtil mRecorderUtil = null;
     private GrindEarPresenter presenter;
     private String sentence;
+    private WebShare webShare;
 
     {
         setRegister(true);
@@ -186,6 +191,31 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
             @Override
             public void onDismiss() {
                 getWindowGray(false);
+            }
+        });
+
+        popupWindow2 = new PopupWindow(this);
+        popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_share_popup2, null, false);
+        pengyouquanLayout = popupView2.findViewById(R.id.pengyouquan_layout);
+        wechatLayout = popupView2.findViewById(R.id.wechat_layout);
+        qqLayout = popupView2.findViewById(R.id.qq_layout);
+        qqzoneLayout = popupView2.findViewById(R.id.qqzone_layout);
+        pengyouquanLayout.setOnClickListener(this);
+        wechatLayout.setOnClickListener(this);
+        qqLayout.setOnClickListener(this);
+        qqzoneLayout.setOnClickListener(this);
+        popupWindow2.setContentView(popupView2);
+        popupWindow2.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow2.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow2.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        popupWindow2.setOutsideTouchable(false);
+        popupWindow2.setFocusable(true);
+        popupWindow2.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                Message message1 = new Message();
+                message1.arg1 = 1;
+                handler2.sendMessage(message1);
             }
         });
     }
@@ -754,7 +784,11 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
                 }
             });
         } else if (message.what == MethodCode.EVENT_WEBSHARE) {
-
+            webShare = (WebShare) message.obj;
+            Message message1 = new Message();
+            message1.arg1 = 0;
+            handler2.sendMessage(message1);
+            popupWindow2.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
         }
     }
 
@@ -800,6 +834,23 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
             case R.id.stop_record:
                 recordPopup.dismiss();
                 break;
+            case R.id.pengyouquan_layout:
+                popupWindow2.dismiss();
+                shareUtils.shareWechatMoments(webShare.getTitle(), webShare.getContent(), webShare.getImageUrl(), webShare.getUrl());
+                break;
+            case R.id.wechat_layout:
+                popupWindow2.dismiss();
+                shareUtils.shareWechat(webShare.getTitle(), webShare.getContent(), webShare.getImageUrl(), webShare.getUrl());
+                break;
+            case R.id.qq_layout:
+                popupWindow2.dismiss();
+                shareUtils.shareQQ(webShare.getTitle(), webShare.getContent(), webShare.getImageUrl(), webShare.getUrl());
+                break;
+            case R.id.qqzone_layout:
+                popupWindow2.dismiss();
+                shareUtils.shareQZone(webShare.getTitle(), webShare.getContent(), webShare.getImageUrl(), webShare.getUrl());
+                break;
+
         }
     }
 

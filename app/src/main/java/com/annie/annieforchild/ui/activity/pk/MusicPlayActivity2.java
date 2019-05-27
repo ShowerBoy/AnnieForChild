@@ -700,7 +700,9 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
 
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+            if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
+                dialog.dismiss();
+            }
         }
     }
 }

@@ -150,8 +150,8 @@ public class ExerciseFragment extends BaseFragment implements SongView, View.OnC
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
             AudioBean bean = (AudioBean) message.obj;
-            Log.e("'''",bean.getResourceUrl()+"");
-            page.getLineContent().get(bean.getLineId()-1).setMyResourceUrl(bean.getResourceUrl());
+            Log.e("'''", bean.getResourceUrl() + "");
+            page.getLineContent().get(bean.getLineId() - 1).setMyResourceUrl(bean.getResourceUrl());
             refresh();
         } else if (message.what == MethodCode.EVENT_MUSICPLAY) {
             int sss = (int) message.obj;
@@ -184,14 +184,18 @@ public class ExerciseFragment extends BaseFragment implements SongView, View.OnC
     @Override
     public void showLoad() {
         if (dialog != null && !dialog.isShowing()) {
-            dialog.show();
+            if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
+                dialog.show();
+            }
         }
     }
 
     @Override
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+            if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
+                dialog.dismiss();
+            }
         }
     }
 

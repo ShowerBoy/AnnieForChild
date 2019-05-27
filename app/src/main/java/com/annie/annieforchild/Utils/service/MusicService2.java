@@ -149,7 +149,7 @@ public class MusicService2 extends Service {
          */
         mAVOptions = new AVOptions();
         // the unit of timeout is ms
-        mAVOptions.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
+        mAVOptions.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 15 * 1000);
         // 1 -> hw codec enable, 0 -> disable [recommended]
         mAVOptions.setInteger(AVOptions.KEY_MEDIACODEC, 2);
         mAVOptions.setInteger(AVOptions.KEY_START_POSITION, 0);
@@ -657,16 +657,16 @@ public class MusicService2 extends Service {
                     /**
                      * SDK will do reconnecting automatically
                      */
-                    SystemUtils.show(getApplicationContext(), "IO Error !");
+//                    SystemUtils.show(getApplicationContext(), "IO Error !");
                     return false;
                 case PLOnErrorListener.ERROR_CODE_OPEN_FAILED:
-                    SystemUtils.show(getApplicationContext(), "failed to open player !");
+//                    SystemUtils.show(getApplicationContext(), "failed to open player !");
                     break;
                 case PLOnErrorListener.ERROR_CODE_SEEK_FAILED:
-                    SystemUtils.show(getApplicationContext(), "failed to seek !");
+//                    SystemUtils.show(getApplicationContext(), "failed to seek !");
                     break;
                 default:
-                    SystemUtils.show(getApplicationContext(), "unknown error !");
+//                    SystemUtils.show(getApplicationContext(), "unknown error !");
                     break;
             }
 //            finish();

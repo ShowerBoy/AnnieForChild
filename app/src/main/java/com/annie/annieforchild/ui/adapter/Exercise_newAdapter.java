@@ -151,19 +151,28 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
             if (lists.get(i).isSelect()) {
                 exerciseViewHolder.exerciseLayout.setVisibility(View.VISIBLE);
                 exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_black));
-                fileName = lists.get(i).getEnTitle().replace(".", "") + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
+                String fileName2 = lists.get(i).getEnTitle().replace(".", "");
+                if (fileName2.length() > 50) {
+                    fileName2 = fileName2.substring(0, 50);
+                }
+                fileName = fileName2 + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
             } else {
                 exerciseViewHolder.exerciseLayout.setVisibility(View.GONE);
                 exerciseViewHolder.textView.setTextColor(context.getResources().getColor(R.color.text_color));
             }
 
 //            String fileName = lists.get(i).getEnTitle().replace(".", "") + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
-            String fileName2 = lists.get(i).getEnTitle().replace(".", "") + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName2 + ".mp3");
-            if (file.exists()) {
-                exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
-            } else {
+//            String fileName2 = lists.get(i).getEnTitle().replace(".", "") + "-" + lists.get(i).getPageid() + "-" + lists.get(i).getLineId();
+//            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName2 + ".mp3");
+//            if (file.exists()) {
+//                exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
+//            } else {
+//                exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big_f);
+//            }
+            if (lists.get(i).getMyResourceUrl() == null || lists.get(i).getMyResourceUrl().length() == 0) {
                 exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big_f);
+            } else {
+                exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
             }
             exerciseViewHolder.textView.setText(lists.get(i).getEnTitle());
             exerciseViewHolder.exercise_score.setText(lists.get(i).getScore() + "");
@@ -293,6 +302,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                         @Override
                         public void run() {
 //                            songView.showLoad();
+                            songView.showLoad();
                             SystemUtils.show(context, "说话结束");
                             Log.e("说话结束", error.desc + "---" + error.code);
                         }
@@ -310,7 +320,6 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                             if (error.code != TAIErrCode.SUCC) {
                                 SystemUtils.show(context, "说话结束");
                             }
-                            songView.showLoad();
                             isRecording = false;
                             isClick = true;
                             oral = null;

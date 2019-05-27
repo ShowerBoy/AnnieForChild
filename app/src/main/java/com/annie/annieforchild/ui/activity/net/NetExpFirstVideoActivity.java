@@ -159,7 +159,9 @@ public class NetExpFirstVideoActivity extends BaseActivity implements ViewInfo, 
     @Override
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+            if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
+                dialog.dismiss();
+            }
         }
     }
 }

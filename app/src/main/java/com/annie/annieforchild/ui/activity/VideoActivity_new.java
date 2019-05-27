@@ -103,7 +103,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
         int codec = getIntent().getIntExtra("mediaCodec", AVOptions.MEDIA_CODEC_SW_DECODE);
         AVOptions options = new AVOptions();
         // the unit of timeout is ms
-        options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
+        options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 15 * 1000);
         // 1 -> hw codec enable, 0 -> disable [recommended]
         options.setInteger(AVOptions.KEY_MEDIACODEC, codec);
         options.setInteger(AVOptions.KEY_LIVE_STREAMING, mIsLiveStreaming ? 1 : 0);
@@ -168,13 +168,13 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
         mVideoView.setDisplayAspectRatio(mDisplayAspectRatio);
         switch (mVideoView.getDisplayAspectRatio()) {
             case PLVideoView.ASPECT_RATIO_ORIGIN:
-                showInfo("Origin mode");
+                showInfo("默认模式 !");
                 break;
             case PLVideoView.ASPECT_RATIO_FIT_PARENT:
-                showInfo("Fit parent !");
+                showInfo("自适应大小 !");
                 break;
             case PLVideoView.ASPECT_RATIO_PAVED_PARENT:
-                showInfo("Paved parent !");
+                showInfo("铺满屏幕 !");
                 break;
             case PLVideoView.ASPECT_RATIO_16_9:
                 showInfo("16 : 9 !");
@@ -269,19 +269,19 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
                     /**
                      * SDK will do reconnecting automatically
                      */
-                    Log.e(TAG, "IO Error!");
+//                    Log.e(TAG, "IO Error!");
                     return false;
                 case PLOnErrorListener.ERROR_CODE_OPEN_FAILED:
-                    showInfo("failed to open player !");
+//                    showInfo("failed to open player !");
                     break;
                 case PLOnErrorListener.ERROR_CODE_SEEK_FAILED:
-                    showInfo("failed to seek !");
+//                    showInfo("failed to seek !");
                     return true;
                 case PLOnErrorListener.ERROR_CODE_CACHE_FAILED:
-                    showInfo("failed to cache url !");
+//                    showInfo("failed to cache url !");
                     break;
                 default:
-                    showInfo("unknown error !");
+//                    showInfo("unknown error !");
                     break;
             }
             finish();

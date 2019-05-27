@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,16 +45,32 @@ import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.adapter.ChallengeAdapter;
+import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnCountFinishListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
+import com.example.lamemp3.PrivateInfo;
 import com.iflytek.cloud.EvaluatorListener;
 import com.iflytek.cloud.EvaluatorResult;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechEvaluator;
+import com.tencent.taisdk.TAIErrCode;
+import com.tencent.taisdk.TAIError;
+import com.tencent.taisdk.TAIOralEvaluation;
+import com.tencent.taisdk.TAIOralEvaluationCallback;
+import com.tencent.taisdk.TAIOralEvaluationData;
+import com.tencent.taisdk.TAIOralEvaluationEvalMode;
+import com.tencent.taisdk.TAIOralEvaluationFileType;
+import com.tencent.taisdk.TAIOralEvaluationListener;
+import com.tencent.taisdk.TAIOralEvaluationParam;
+import com.tencent.taisdk.TAIOralEvaluationRet;
+import com.tencent.taisdk.TAIOralEvaluationServerType;
+import com.tencent.taisdk.TAIOralEvaluationStorageMode;
+import com.tencent.taisdk.TAIOralEvaluationTextMode;
+import com.tencent.taisdk.TAIOralEvaluationWorkMode;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -63,6 +80,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -120,6 +138,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
     private int round = 0; //轮数
     private Animation leftToRight, rightToLeft;
     private CheckDoubleClickListener listener;
+    private TAIOralEvaluation oral;
 
     {
         setRegister(true);
@@ -258,7 +277,9 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                 challengeSpeak.setImageResource(R.drawable.icon_speak_big_f);
                 circleProgressBar.setProgress(0);
                 isPlay = false;
-                mIse.stopEvaluating();
+//                mIse.stopEvaluating();
+
+                onRecord(fileName, currentLine);
 
                 if (round == 0) {
                     float progresses = (float) currentLine / totalLines;
@@ -297,8 +318,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         };
     }
 
-    private void
-    Round2() {
+    private void Round2() {
         currentLine = 1;
         isClick = true;
         for (int i = 0; i < lists.size(); i++) {
@@ -707,18 +727,6 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         mediaPlayer.start();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-            }
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-    }
-
     private void getWindowGray(boolean tag) {
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
         if (tag) {
@@ -767,7 +775,8 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                         circleProgressBar.setProgress(0);
                         isPlay = false;
                         isClick = false;
-                        mIse.stopEvaluating();
+//                        mIse.stopEvaluating();
+                        onRecord(fileName, currentLine);
 
                         if (round == 0) {
                             float progresses = (float) currentLine / totalLines;
@@ -808,7 +817,16 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                         challengeSpeak.setImageResource(R.drawable.icon_stop_big);
                         timer.start();
                         isPlay = true;
-                        startRecord(currentLine);
+
+//                        startRecord(currentLine);
+                        String fileName2 = lists.get(currentLine - 1).getEnTitle().replace(".", "").trim();
+                        if (fileName2.length() > 50) {
+                            fileName2 = fileName2.substring(0, 50);
+                        }
+                        fileName = fileName2;
+
+
+                        onRecord(fileName, currentLine);
                     }
                 }
                 break;
@@ -854,6 +872,108 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
             case R.id.try_again2:
                 finish();
                 break;
+        }
+    }
+
+    public void onRecord(String name, int i) {
+        if (oral == null) {
+            oral = new TAIOralEvaluation();
+        }
+        if (oral.isRecording()) {
+            oral.stopRecordAndEvaluation(new TAIOralEvaluationCallback() {
+                @Override
+                public void onResult(final TAIError error) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+//                            songView.showLoad();
+//                            SystemUtils.show(ChallengeActivity.this, "说话结束");
+                            isRecording = false;
+                            Log.e("说话结束", error.desc + "---" + error.code);
+                        }
+                    });
+                }
+            });
+        } else {
+            oral.setListener(new TAIOralEvaluationListener() {
+                @Override
+                public void onEvaluationData(final TAIOralEvaluationData data, final TAIOralEvaluationRet result, final TAIError error) {
+                    SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/", name + ".mp3");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (error.code != TAIErrCode.SUCC) {
+//                                SystemUtils.show(ChallengeActivity.this, "说话结束");
+                            }
+                            oral = null;
+                            double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
+                            BigDecimal bg = new BigDecimal(num / 20);
+                            double num1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+//                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + name + ".mp3", (float) num1, name + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + name + ".mp3", (float) num1, name, record_time, 1, "", imageUrl, 0, homeworkid, homeworktype);
+                            Log.e("说话结束2", result.pronAccuracy + "");
+                        }
+                    });
+                }
+            });
+
+            TAIOralEvaluationParam param = new TAIOralEvaluationParam();
+            param.context = this;
+            param.sessionId = UUID.randomUUID().toString();
+            param.appId = PrivateInfo.appId;
+            param.soeAppId = PrivateInfo.soeAppId;
+            param.secretId = PrivateInfo.secretId;
+            param.secretKey = PrivateInfo.secretKey;
+            param.token = PrivateInfo.token;
+            //流式传输0，一次性传输1，
+            param.workMode = TAIOralEvaluationWorkMode.ONCE;
+            param.evalMode = TAIOralEvaluationEvalMode.PARAGRAPH;//单词模式0，句子模式1，段落模式2，自由说模式3
+            //是否存储 1
+            param.storageMode = TAIOralEvaluationStorageMode.ENABLE;
+            param.fileType = TAIOralEvaluationFileType.MP3;
+            param.serverType = TAIOralEvaluationServerType.ENGLISH;
+            param.textMode = TAIOralEvaluationTextMode.NORMAL;
+            //苛刻指数1.0-4.0
+            param.scoreCoeff = 1.0;
+            param.refText = lists.get(i - 1).getEnTitle();
+            if (param.workMode == TAIOralEvaluationWorkMode.STREAM) {
+                param.timeout = 5;
+                param.retryTimes = 5;
+            } else {
+                param.timeout = 30;
+                param.retryTimes = 0;
+            }
+            //分片大小
+            oral.setFragSize(10 * 1024);
+            oral.startRecordAndEvaluation(param, new TAIOralEvaluationCallback() {
+                @Override
+                public void onResult(final TAIError error) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (error.code == TAIErrCode.SUCC) {
+//                                SystemUtils.show(ChallengeActivity.this, "说话开始");
+                                record_time = 0;
+                                isRecording = true;
+                                handler.postDelayed(runnable, 1000);
+                                Log.e("说话开始", error.desc + "---" + error.code);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 }

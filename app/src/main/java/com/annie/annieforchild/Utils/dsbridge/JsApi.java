@@ -5,13 +5,15 @@ import android.os.CountDownTimer;
 import android.util.EventLog;
 import android.webkit.JavascriptInterface;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.WebShare;
 import com.annie.annieforchild.ui.application.MyApplication;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import wendu.dsbridge.CompletionHandler;
 
@@ -39,9 +41,11 @@ public class JsApi {
 
     @JavascriptInterface
     public String doShare(Object msg) {
+        String msgs = msg.toString();
+        WebShare webShare = JSON.parseObject(msgs, WebShare.class);
         JTMessage message = new JTMessage();
         message.what = MethodCode.EVENT_WEBSHARE;
-        message.obj = msg;
+        message.obj = webShare;
         EventBus.getDefault().post(message);
         return msg + "［doRecord syn call］";
     }
