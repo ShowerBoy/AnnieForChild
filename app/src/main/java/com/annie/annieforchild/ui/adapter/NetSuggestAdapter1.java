@@ -85,21 +85,19 @@ public class NetSuggestAdapter1 extends RecyclerView.Adapter{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof ContentHolder){ // 内容
             ContentHolder myHolder = (ContentHolder) holder;
-
-            Glide.with(context).load(lists.get(position)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    int imageWidth = resource.getWidth();
-                    int imageHeight = resource.getHeight();
-                    int height = width * imageHeight / imageWidth;
-                    ViewGroup.LayoutParams para =  myHolder.image.getLayoutParams();
-                    para.height = height;
-                    para.width = width;
-                    myHolder.image.setImageBitmap(resource);
-                }
-            });
-
-//            Glide.with(context).load(lists.get(position)).into(myHolder.image);
+//            Glide.with(context).load(lists.get(position)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+//                @Override
+//                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+//                    int imageWidth = resource.getWidth();
+//                    int imageHeight = resource.getHeight();
+//                    int height = width * imageHeight / imageWidth;
+//                    ViewGroup.LayoutParams para =  myHolder.image.getLayoutParams();
+//                    para.height = height;
+//                    para.width = width;
+//                    myHolder.image.setImageBitmap(resource);
+//                }
+//            });
+            Glide.with(context).load(lists.get(position)).into(myHolder.image);
 
         }else{ // 尾部
             FootHolder footHolder=(FootHolder)holder;
