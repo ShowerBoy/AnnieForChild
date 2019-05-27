@@ -4,6 +4,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -89,6 +90,7 @@ public class NetSuggestFragment extends BaseFragment implements OnCheckDoubleCli
             if (netWork != null) {
                 list_top.clear();
                 list_top.addAll(netWork.getSuggestList().getTop());
+
                 list_middle.clear();
                 list_middle.addAll(netWork.getSuggestList().getMiddle());
                 list_bottom.clear();

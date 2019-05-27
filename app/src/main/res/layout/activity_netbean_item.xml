@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/netExp_content_layout"
     android:background="@drawable/icon_my_course_bg"
     android:padding="16dp">
 
@@ -12,6 +13,7 @@
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="2dp"
+        android:layout_marginBottom="15dp"
         android:scaleType="fitCenter"
         android:src="@drawable/image_grindear" />
 
@@ -60,7 +62,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            >
 
             <TextView
                 android:id="@+id/net_price"

@@ -48,19 +48,19 @@ public class NetSuggestAdapter extends RecyclerView.Adapter<NetSuggestViewHolder
 
     @Override
     public void onBindViewHolder(NetSuggestViewHolder netSuggestViewHolder, int i) {
-//        Glide.with(context).load(lists.get(i)).into(netSuggestViewHolder.image);
-        Glide.with( netSuggestViewHolder.image.getContext()).load(lists.get(i)).asBitmap().placeholder(R.drawable.back_white) .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                int imageWidth = resource.getWidth();
-                int imageHeight = resource.getHeight();
-                int height = width * imageHeight / imageWidth;
-                ViewGroup.LayoutParams para =  netSuggestViewHolder.image.getLayoutParams();
-                para.height = height;
-                para.width = width;
-                netSuggestViewHolder.image.setImageBitmap(resource);
-            }
-        });
+        Glide.with(context).load(lists.get(i)).into(netSuggestViewHolder.image);
+//        Glide.with( netSuggestViewHolder.image.getContext()).load(lists.get(i)).asBitmap().placeholder(R.drawable.back_white) .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+//            @Override
+//            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+//                int imageWidth = resource.getWidth();
+//                int imageHeight = resource.getHeight();
+//                int height = width * imageHeight / imageWidth;
+//                ViewGroup.LayoutParams para =  netSuggestViewHolder.image.getLayoutParams();
+//                para.height = height;
+//                para.width = width;
+//                netSuggestViewHolder.image.setImageBitmap(resource);
+//            }
+//        });
     }
 
     @Override
