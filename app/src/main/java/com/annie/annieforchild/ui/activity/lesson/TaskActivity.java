@@ -115,8 +115,6 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
                 }
             }
         }
-
-
         if (fragmentCount == 2) {
             taskLayout.setVisibility(View.VISIBLE);
             recycler.setVisibility(View.GONE);

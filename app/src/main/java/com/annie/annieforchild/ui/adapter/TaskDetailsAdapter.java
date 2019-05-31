@@ -43,7 +43,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
     private LayoutInflater inflater;
     private GrindEarPresenter presenter;
     //    private boolean isLike, isListen;
-    private int taskid, type, position;
+    private int cid, taskid, type, position;
 
     public TaskDetailsAdapter(Context context, List<Homework> lists, GrindEarPresenter presenter, int taskid, int type) {
         this.context = context;
@@ -134,7 +134,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                 if (lists.get(i).getIsfinish() == 0) {
                     if (homeworkList.get(i).isLike() && homeworkList.get(i).isListen()) {
                         position = i;
-                        presenter.completeTask(taskid, type, homeworkList.get(i).getLikes(), homeworkList.get(i).getListens(), lists.get(i).getHomeworkid());
+                        presenter.completeTask(lists.get(i).getCid(), taskid, type, homeworkList.get(i).getLikes(), homeworkList.get(i).getListens(), lists.get(i).getHomeworkid());
                     } else {
                         SystemUtils.show(context, "请选择“喜欢程度”和“听的情况”");
                     }

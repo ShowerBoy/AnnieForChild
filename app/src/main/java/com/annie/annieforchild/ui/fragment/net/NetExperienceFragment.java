@@ -94,9 +94,12 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
+        manager.setSmoothScrollbarEnabled(true);
+        manager.setAutoMeasureEnabled(true);
+
         experienceList.setLayoutManager(manager);
         experienceList.setNestedScrollingEnabled(false);
-
+        experienceList.setHasFixedSize(true);
     }
 
     @Override
