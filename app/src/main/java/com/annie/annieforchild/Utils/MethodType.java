@@ -113,6 +113,7 @@ public class MethodType {
     final public static String ADDLIKES = "addlikes"; //
     final public static String CANCELLIKES = "Cancellikes"; //
     final public static String SHARECOIN = "shareCoin"; //
+    final public static String SHARECOINTEST = "shareCointest"; //
     final public static String GETRADIO = "getRadio"; //
     final public static String GETLYRIC = "getLyric"; //
     final public static String LUCKDRAW = "luckDraw"; //

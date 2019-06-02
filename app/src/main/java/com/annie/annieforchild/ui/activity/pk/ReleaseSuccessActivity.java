@@ -25,6 +25,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.ShareBean;
+import com.annie.annieforchild.bean.ShareCoin;
 import com.annie.annieforchild.bean.book.Release;
 import com.annie.annieforchild.bean.book.ReleaseBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
@@ -163,55 +164,89 @@ public class ReleaseSuccessActivity extends BaseActivity implements OnCheckDoubl
             if (isShare == 1) {
                 return;
             }
-            animationView.setVisibility(View.VISIBLE);
-            clarityBack.setVisibility(View.VISIBLE);
-            if (record == 0) {
-                if (shareType == 0) {
-                    animationView.setImageAssetsFolder("coin10/");
-                    animationView.setAnimation("coin10.json");
-                    animationView.loop(false);
-                    animationView.playAnimation();
+
+            ShareCoin shareCoin = (ShareCoin) message.obj;
+            if (shareCoin != null) {
+                if (shareCoin.getIsGold() == 0) {
+                    animationView.setVisibility(View.VISIBLE);
+                    clarityBack.setVisibility(View.VISIBLE);
+                    if (shareCoin.getGoldCount() == 1) {
+                        animationView.setImageAssetsFolder("coin1/");
+                        animationView.setAnimation("coin1.json");
+                        animationView.loop(false);
+                        animationView.playAnimation();
+                    } else if (shareCoin.getGoldCount() == 2) {
+                        animationView.setImageAssetsFolder("coin2/");
+                        animationView.setAnimation("coin2.json");
+                        animationView.loop(false);
+                        animationView.playAnimation();
+                    } else if (shareCoin.getGoldCount() == 3) {
+                        animationView.setImageAssetsFolder("coin3/");
+                        animationView.setAnimation("coin3.json");
+                        animationView.loop(false);
+                        animationView.playAnimation();
+                    } else if (shareCoin.getGoldCount() == 4) {
+                        animationView.setImageAssetsFolder("coin4/");
+                        animationView.setAnimation("coin4.json");
+                        animationView.loop(false);
+                        animationView.playAnimation();
+                    } else if (shareCoin.getGoldCount() == 5) {
+                        animationView.setImageAssetsFolder("coin5/");
+                        animationView.setAnimation("coin5.json");
+                        animationView.loop(false);
+                        animationView.playAnimation();
+                    } else if (shareCoin.getGoldCount() == 6) {
+                        animationView.setImageAssetsFolder("coin6/");
+                        animationView.setAnimation("coin6.json");
+                        animationView.loop(false);
+                        animationView.playAnimation();
+                    } else if (shareCoin.getGoldCount() == 7) {
+                        animationView.setImageAssetsFolder("coin7/");
+                        animationView.setAnimation("coin7.json");
+                        animationView.loop(false);
+                        animationView.playAnimation();
+                    } else if (shareCoin.getGoldCount() == 8) {
+                        animationView.setImageAssetsFolder("coin8/");
+                        animationView.setAnimation("coin8.json");
+                        animationView.loop(false);
+                        animationView.playAnimation();
+                    } else if (shareCoin.getGoldCount() == 9) {
+                        animationView.setImageAssetsFolder("coin9/");
+                        animationView.setAnimation("coin9.json");
+                        animationView.loop(false);
+                        animationView.playAnimation();
+                    } else {
+                        animationView.setImageAssetsFolder("coin10/");
+                        animationView.setAnimation("coin10.json");
+                        animationView.loop(false);
+                        animationView.playAnimation();
+                    }
+                    SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
+                    animationView.addAnimatorListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            animationView.setVisibility(View.GONE);
+                            clarityBack.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
                 } else {
-                    animationView.setImageAssetsFolder("coin5/");
-                    animationView.setAnimation("coin5.json");
-                    animationView.loop(false);
-                    animationView.playAnimation();
-                }
-            } else {
-                if (shareType == 0) {
-                    animationView.setImageAssetsFolder("coin4/");
-                    animationView.setAnimation("coin4.json");
-                    animationView.loop(false);
-                    animationView.playAnimation();
-                } else {
-                    animationView.setImageAssetsFolder("coin2/");
-                    animationView.setAnimation("coin2.json");
-                    animationView.loop(false);
-                    animationView.playAnimation();
+                    showInfo("今日获得金币已达上限");
                 }
             }
-            SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
-            animationView.addAnimatorListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    animationView.setVisibility(View.GONE);
-                    clarityBack.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
         }
     }
 

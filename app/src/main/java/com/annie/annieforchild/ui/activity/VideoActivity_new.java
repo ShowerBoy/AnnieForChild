@@ -103,7 +103,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
         int codec = getIntent().getIntExtra("mediaCodec", AVOptions.MEDIA_CODEC_SW_DECODE);
         AVOptions options = new AVOptions();
         // the unit of timeout is ms
-        options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 15 * 1000);
+        options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
         // 1 -> hw codec enable, 0 -> disable [recommended]
         options.setInteger(AVOptions.KEY_MEDIACODEC, codec);
         options.setInteger(AVOptions.KEY_LIVE_STREAMING, mIsLiveStreaming ? 1 : 0);
@@ -269,6 +269,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
                     /**
                      * SDK will do reconnecting automatically
                      */
+//                    showInfo("网速异常，请检查网络");
 //                    Log.e(TAG, "IO Error!");
                     return false;
                 case PLOnErrorListener.ERROR_CODE_OPEN_FAILED:

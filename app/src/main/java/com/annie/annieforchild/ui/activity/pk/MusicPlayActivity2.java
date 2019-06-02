@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -37,6 +39,7 @@ import com.annie.annieforchild.Utils.ShareUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.ShareBean;
+import com.annie.annieforchild.bean.ShareCoin;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
@@ -64,8 +67,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, OnCheckDoubleClick, SeekBar.OnSeekBarChangeListener, PlatformActionListener, PopupWindow.OnDismissListener {
-    private ImageView back, last, next, list, loop, share, pengyouquan, weixin, qq, qqzone, lyric, record, clarity;
+    private ImageView back, last, next, list, loop, share, lyric, record, clarity;
     private RelativeLayout lyricLayout;
+    private LinearLayout pengyouquan, weixin, qq, qqzone;
     private LottieAnimationView animationView;
     private ImageView play, collect;
     private TextView shareCancel, anwaRadio, coinCount, popupTitle, noLyric;
@@ -154,6 +158,7 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
         anwaRadio.setOnClickListener(listener);
         seekBar.setOnSeekBarChangeListener(this);
         seekBar.setEnabled(true);
+        initPopup();
     }
 
     @Override
@@ -163,7 +168,6 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
         radioDismiss = intent.getIntExtra("radioDismiss", 0);
         bundle = intent.getExtras();
         setAnimation();
-        initPopup();
         shareUtils = new ShareUtils(this, this);
         if (bundle != null) {
             musicTitle = bundle.getString("name");
@@ -246,10 +250,10 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
         popupWindow2 = new PopupWindow(this);
         popupView2 = LayoutInflater.from(this).inflate(R.layout.activity_share_daka_item2, null, false);
         coinCount = popupView2.findViewById(R.id.coin_count);
-        pengyouquan = popupView2.findViewById(R.id.share_daka_pengyouquan);
-        weixin = popupView2.findViewById(R.id.share_daka_weixin);
-        qq = popupView2.findViewById(R.id.share_daka_qq);
-        qqzone = popupView2.findViewById(R.id.share_daka_qqzone);
+        pengyouquan = popupView2.findViewById(R.id.pengyouquan_lt);
+        weixin = popupView2.findViewById(R.id.wechat_lt);
+        qq = popupView2.findViewById(R.id.qq_lt);
+        qqzone = popupView2.findViewById(R.id.qqzone_lt);
         shareCancel = popupView2.findViewById(R.id.daka_share_cancel2);
         pengyouquan.setOnClickListener(listener);
         weixin.setOnClickListener(listener);
@@ -325,41 +329,72 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
             collect.setImageResource(R.drawable.icon_player_collection_f);
             MusicManager.getInstance().musicList.get(musicService.getMusicIndex()).setIsCollected(0);
         } else if (message.what == MethodCode.EVENT_SHARECOIN) {
-            animationView.setVisibility(View.VISIBLE);
-            clarity.setVisibility(View.VISIBLE);
-            if (shareType == 0) {
-                animationView.setImageAssetsFolder("coin4/");
-                animationView.setAnimation("coin4.json");
-            } else {
-                animationView.setImageAssetsFolder("coin2/");
-                animationView.setAnimation("coin2.json");
+            ShareCoin shareCoin = (ShareCoin) message.obj;
+            if (shareCoin != null) {
+                if (shareCoin.getIsGold() == 0) {
+                    animationView.setVisibility(View.VISIBLE);
+                    clarity.setVisibility(View.VISIBLE);
+                    if (shareCoin.getGoldCount() == 1) {
+                        animationView.setImageAssetsFolder("coin1/");
+                        animationView.setAnimation("coin1.json");
+                    } else if (shareCoin.getGoldCount() == 2) {
+                        animationView.setImageAssetsFolder("coin2/");
+                        animationView.setAnimation("coin2.json");
+                    } else if (shareCoin.getGoldCount() == 3) {
+                        animationView.setImageAssetsFolder("coin3/");
+                        animationView.setAnimation("coin3.json");
+                    } else if (shareCoin.getGoldCount() == 4) {
+                        animationView.setImageAssetsFolder("coin4/");
+                        animationView.setAnimation("coin4.json");
+                    } else if (shareCoin.getGoldCount() == 5) {
+                        animationView.setImageAssetsFolder("coin5/");
+                        animationView.setAnimation("coin5.json");
+                    } else if (shareCoin.getGoldCount() == 6) {
+                        animationView.setImageAssetsFolder("coin6/");
+                        animationView.setAnimation("coin6.json");
+                    } else if (shareCoin.getGoldCount() == 7) {
+                        animationView.setImageAssetsFolder("coin7/");
+                        animationView.setAnimation("coin7.json");
+                    } else if (shareCoin.getGoldCount() == 8) {
+                        animationView.setImageAssetsFolder("coin8/");
+                        animationView.setAnimation("coin8.json");
+                    } else if (shareCoin.getGoldCount() == 9) {
+                        animationView.setImageAssetsFolder("coin9/");
+                        animationView.setAnimation("coin9.json");
+                    } else {
+                        animationView.setImageAssetsFolder("coin10/");
+                        animationView.setAnimation("coin10.json");
+                    }
+                    animationView.addAnimatorListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            animationView.setVisibility(View.GONE);
+                            clarity.setVisibility(View.GONE);
+                            animation.cancel();
+                            animation.clone();
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+                    animationView.loop(false);
+                    animationView.playAnimation();
+                    SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
+                } else {
+                    showInfo("今日获得金币已达上限");
+                }
             }
-            animationView.addAnimatorListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    animationView.setVisibility(View.GONE);
-                    clarity.setVisibility(View.GONE);
-                    animation.cancel();
-                    animation.clone();
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-            animationView.loop(false);
-            animationView.playAnimation();
-            SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
         } else if (message.what == MethodCode.EVENT_MUSICSTOP) {
             if (musicService != null) {
                 if (musicService.isPlaying()) {
@@ -479,25 +514,25 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
                 startActivity(intent1);
                 finishAffinity();
                 break;
-            case R.id.share_daka_pengyouquan:
+            case R.id.pengyouquan_lt:
                 shareType = 0;
                 if (url != null && url.length() != 0) {
                     shareUtils.shareWechatMoments("我和我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在安娃电台听《" + MusicManager.getInstance().musicList.get(musicPosition).getBookName() + "》", "安娃电台喊你磨耳朵啦...", MusicManager.getInstance().musicList.get(musicPosition).getBookImageUrl(), url);
                 }
                 break;
-            case R.id.share_daka_weixin:
+            case R.id.wechat_lt:
                 shareType = 1;
                 if (url != null && url.length() != 0) {
                     shareUtils.shareWechat("我和我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在安娃电台听《" + MusicManager.getInstance().musicList.get(musicPosition).getBookName() + "》", "安娃电台喊你磨耳朵啦...", MusicManager.getInstance().musicList.get(musicPosition).getBookImageUrl(), url);
                 }
                 break;
-            case R.id.share_daka_qq:
+            case R.id.qq_lt:
                 shareType = 2;
                 if (url != null && url.length() != 0) {
                     shareUtils.shareQQ("我和我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在安娃电台听《" + MusicManager.getInstance().musicList.get(musicPosition).getBookName() + "》", "安娃电台喊你磨耳朵啦...", MusicManager.getInstance().musicList.get(musicPosition).getBookImageUrl(), url);
                 }
                 break;
-            case R.id.share_daka_qqzone:
+            case R.id.qqzone_lt:
                 shareType = 3;
                 if (url != null && url.length() != 0) {
                     shareUtils.shareQZone("我和我家宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在安娃电台听《" + MusicManager.getInstance().musicList.get(musicPosition).getBookName() + "》", "安娃电台喊你磨耳朵啦...", MusicManager.getInstance().musicList.get(musicPosition).getBookImageUrl(), url);
@@ -658,12 +693,18 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
 
     @Override
     public void onError(Platform platform, int i, Throwable throwable) {
+//        Log.d("ShareSDK", "onError ---->  分享失败" + throwable.getStackTrace().toString());
+//        Log.d("ShareSDK", "onError ---->  分享失败" + throwable.getMessage());
         showInfo("分享取消");
+        throwable.getMessage();
+        throwable.printStackTrace();
+
         popupWindow2.dismiss();
     }
 
     @Override
     public void onCancel(Platform platform, int i) {
+//        Log.d("ShareSDK", "onCancel ---->  分享取消");
         showInfo("分享取消");
         popupWindow2.dismiss();
     }

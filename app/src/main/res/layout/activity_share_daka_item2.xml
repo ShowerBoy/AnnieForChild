@@ -52,6 +52,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/qq_lt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="22dp"
@@ -73,6 +74,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/qqzone_lt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
@@ -105,6 +107,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/pengyouquan_lt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="22dp"
@@ -126,6 +129,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/wechat_lt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"

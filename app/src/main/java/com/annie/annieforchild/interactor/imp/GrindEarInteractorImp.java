@@ -14,6 +14,7 @@ import com.annie.annieforchild.bean.ClockIn;
 import com.annie.annieforchild.bean.DurationStatis;
 import com.annie.annieforchild.bean.PkResult;
 import com.annie.annieforchild.bean.ReadingData;
+import com.annie.annieforchild.bean.ShareCoin;
 import com.annie.annieforchild.bean.record.Record;
 import com.annie.annieforchild.bean.ShareBean;
 import com.annie.annieforchild.bean.UserInfo2;
@@ -994,6 +995,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void shareCoin(int record, int type) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SHAREAPI + MethodType.SHARECOIN, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SHAREAPI + MethodType.SHARECOINTEST, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("record", record);
@@ -1375,7 +1377,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             } else if (what == MethodCode.EVENT_CANCELLIKES) {
                 listener.Success(what, "取消点赞");
             } else if (what == MethodCode.EVENT_SHARECOIN) {
-                listener.Success(what, jsonString);
+                ShareCoin shareCoin = JSON.parseObject(data, ShareCoin.class);
+                listener.Success(what, shareCoin);
+//                listener.Success(what, jsonString);
             } else if (what == MethodCode.EVENT_GETRADIO) {
                 List<Song> lists = JSON.parseArray(data, Song.class);
                 listener.Success(what, lists);
@@ -1388,7 +1392,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 }
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_LUCKDRAW) {
-
+                AudioBean audioBean = JSON.parseObject(data, AudioBean.class);
+                listener.Success(what, audioBean);
             } else if (what == MethodCode.EVENT_GETHOMEPAGE) {
                 Hpbean hpbean = JSON.parseObject(data, Hpbean.class);
                 listener.Success(what, hpbean);

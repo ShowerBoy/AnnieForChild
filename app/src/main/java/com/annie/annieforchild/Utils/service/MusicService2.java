@@ -3,9 +3,11 @@ package com.annie.annieforchild.Utils.service;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
@@ -13,6 +15,7 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
@@ -23,6 +26,8 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
+import com.annie.annieforchild.ui.activity.GuideActivity;
+import com.annie.annieforchild.ui.activity.MainActivity;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
@@ -56,6 +61,7 @@ public class MusicService2 extends Service {
     private boolean singleLoop = false; //是否单曲循环
     private boolean isLyric = false; //是否显示歌词
     private GrindEarPresenter presenter;
+    private RemoteViews remoteViews;//通知栏布局
     private int duration; //播放时长
 
     public MusicService2() {
@@ -92,7 +98,9 @@ public class MusicService2 extends Service {
     @Override
     public void onDestroy() {
         release();
-        stopForeground(true);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            stopForeground(true);
+        }
         super.onDestroy();
     }
 
@@ -100,7 +108,9 @@ public class MusicService2 extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 //        startForeground(1, notification);//让服务前台运行
-        startForeground(1, notification);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            startForeground(1, notification);
+        }
         return Service.START_STICKY;
 //        return super.onStartCommand(intent, flags, startId);
     }
@@ -115,16 +125,44 @@ public class MusicService2 extends Service {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationChannel mChannel = null;
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             mChannel = new NotificationChannel("000", "安妮花", NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(mChannel);
             notification = new Notification.Builder(getApplicationContext(), "000").build();
+            //标记位，设置通知栏一直存在
+            notification.flags = Notification.FLAG_ONGOING_EVENT;
 //            startForeground(1, notification);
         } else {
-            notification = new Notification(R.drawable.app_icon, "歌曲正在播放", System.currentTimeMillis());
+//            Intent intent = new Intent(this, GuideActivity.class); //点击了之后进入的一个Actity
+//            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+//            notification = new Notification(R.drawable.app_icon, "歌曲正在播放", System.currentTimeMillis());
+//            notification = new Notification.Builder(getApplicationContext())
+//                    .setTicker("安妮花")
+//                    .setContentTitle("通知")
+//                    .setContentText("歌曲播放")
+//                    .setSmallIcon(R.drawable.app_icon)//设置图标
+//                    .setContentIntent(pendingIntent)//点击之后的页面
+//                    .setAutoCancel(true)
+//                    .build();
+//            remoteViews = new RemoteViews(getPackageName(), R.layout.play_notification);
+//            notification = new Notification(R.drawable.app_icon, "歌曲正在播放", System.currentTimeMillis());
+//            notification.contentIntent = pendingIntent;
+//            notification.contentView = remoteViews;
         }
-        //标记位，设置通知栏一直存在
-        notification.flags = Notification.FLAG_ONGOING_EVENT;
+
+
+//        Notification noti = new Notification.Builder(this)
+//                .setTicker("安妮花")
+//                .setContentTitle("通知")
+//                .setContentText("歌曲正在播放")
+//                .setSmallIcon(R.drawable.app_icon)//设置图标
+//                .setDefaults(Notification.DEFAULT_SOUND)//设置声音
+//                .setContentIntent(pendingIntent)//点击之后的页面
+//                .build();
+//
+//        NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+//        manager.notify(666,noti);
 
 
         /**
@@ -149,7 +187,7 @@ public class MusicService2 extends Service {
          */
         mAVOptions = new AVOptions();
         // the unit of timeout is ms
-        mAVOptions.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 15 * 1000);
+        mAVOptions.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
         // 1 -> hw codec enable, 0 -> disable [recommended]
         mAVOptions.setInteger(AVOptions.KEY_MEDIACODEC, 2);
         mAVOptions.setInteger(AVOptions.KEY_START_POSITION, 0);
@@ -657,8 +695,8 @@ public class MusicService2 extends Service {
                     /**
                      * SDK will do reconnecting automatically
                      */
-//                    SystemUtils.show(getApplicationContext(), "IO Error !");
-                    return false;
+//                    SystemUtils.show(getApplicationContext(), "网速异常，请检查网络");
+//                    return false;
                 case PLOnErrorListener.ERROR_CODE_OPEN_FAILED:
 //                    SystemUtils.show(getApplicationContext(), "failed to open player !");
                     break;

@@ -37,6 +37,7 @@ import com.annie.annieforchild.Utils.pcm2mp3.RecorderAndPlayUtil;
 import com.annie.annieforchild.bean.AudioBean;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.ShareBean;
+import com.annie.annieforchild.bean.ShareCoin;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
@@ -415,49 +416,81 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                 popupWindow.dismiss();
             }
             showLuckDrawLayout(false);
-            if (shareType == 0) {
-                coinAnimationView.setImageAssetsFolder("coin10/");
-                coinAnimationView.setAnimation("coin10.json");
-//                animationView.loop(false);
-//                animationView.playAnimation();
-            } else {
-                coinAnimationView.setImageAssetsFolder("coin5/");
-                coinAnimationView.setAnimation("coin5.json");
-//                animationView.loop(false);
-//                animationView.playAnimation();
+
+            ShareCoin shareCoin = (ShareCoin) message.obj;
+            if (shareCoin != null) {
+                if (shareCoin.getIsGold() == 0) {
+                    if (shareCoin.getGoldCount() == 1) {
+                        coinAnimationView.setImageAssetsFolder("coin1/");
+                        coinAnimationView.setAnimation("coin1.json");
+                    } else if (shareCoin.getGoldCount() == 2) {
+                        coinAnimationView.setImageAssetsFolder("coin2/");
+                        coinAnimationView.setAnimation("coin2.json");
+                    } else if (shareCoin.getGoldCount() == 3) {
+                        coinAnimationView.setImageAssetsFolder("coin3/");
+                        coinAnimationView.setAnimation("coin3.json");
+                    } else if (shareCoin.getGoldCount() == 4) {
+                        coinAnimationView.setImageAssetsFolder("coin4/");
+                        coinAnimationView.setAnimation("coin4.json");
+                    } else if (shareCoin.getGoldCount() == 5) {
+                        coinAnimationView.setImageAssetsFolder("coin5/");
+                        coinAnimationView.setAnimation("coin5.json");
+                    } else if (shareCoin.getGoldCount() == 6) {
+                        coinAnimationView.setImageAssetsFolder("coin6/");
+                        coinAnimationView.setAnimation("coin6.json");
+                    } else if (shareCoin.getGoldCount() == 7) {
+                        coinAnimationView.setImageAssetsFolder("coin7/");
+                        coinAnimationView.setAnimation("coin7.json");
+                    } else if (shareCoin.getGoldCount() == 8) {
+                        coinAnimationView.setImageAssetsFolder("coin8/");
+                        coinAnimationView.setAnimation("coin8.json");
+                    } else if (shareCoin.getGoldCount() == 9) {
+                        coinAnimationView.setImageAssetsFolder("coin9/");
+                        coinAnimationView.setAnimation("coin9.json");
+                    } else {
+                        coinAnimationView.setImageAssetsFolder("coin10/");
+                        coinAnimationView.setAnimation("coin10.json");
+                    }
+                    coinAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            coinAnimationView.setVisibility(View.GONE);
+                            setClarity(false);
+                            showLuckDrawLayout(false);
+                            animation.cancel();
+                            animation.clone();
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+                    coinAnimationView.loop(false);
+                    coinAnimationView.playAnimation();
+                    coinAnimationView.setVisibility(View.VISIBLE);
+                    SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
+                } else {
+                    showInfo("今日获得金币已达上限");
+                }
             }
-            coinAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                }
 
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    coinAnimationView.setVisibility(View.GONE);
-                    setClarity(false);
-                    showLuckDrawLayout(false);
-                    animation.cancel();
-                    animation.clone();
-//                    animationView.clearColorFilters();
-//                    animationView.reverseAnimation();
+        } else if (message.what == MethodCode.EVENT_LUCKDRAW) {
+            AudioBean audioBean = (AudioBean) message.obj;
+            if (audioBean != null) {
+                if (audioBean.getIsNectar() == 1) {
+                    showInfo("今日获得花蜜已达上限");
                 }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-//                    animationView.setVisibility(View.GONE);
-//                    showLuckDrawLayout(false);
-//                    setClarity(false);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-            coinAnimationView.loop(false);
-            coinAnimationView.playAnimation();
-            coinAnimationView.setVisibility(View.VISIBLE);
-            SystemUtils.animPool.play(SystemUtils.animMusicMap.get(11), 1, 1, 0, 0, 1);
+            }
         }
     }
 

@@ -15,6 +15,7 @@ import com.annie.annieforchild.bean.ClockIn;
 import com.annie.annieforchild.bean.PkResult;
 import com.annie.annieforchild.bean.ReadingData;
 import com.annie.annieforchild.bean.ShareBean;
+import com.annie.annieforchild.bean.ShareCoin;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Release;
@@ -1149,6 +1150,15 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
 
             } else if (what == MethodCode.EVENT_UPLOADAUDIOTIME) {
 
+            } else if (what == MethodCode.EVENT_LUCKDRAW) {
+                AudioBean audioBean = (AudioBean) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.pk.RecordingActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = audioBean;
+                EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_MYPERIOD) {
                 PeriodBean periodBean = (PeriodBean) result;
                 /**
@@ -1367,12 +1377,17 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 message.obj = result;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_SHARECOIN) {
+                ShareCoin shareCoin = (ShareCoin) result;
                 /**
+                 * {@link com.annie.annieforchild.ui.activity.pk.ReleaseSuccessActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.pk.ReleaseSuccessActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.pk.ReleaseSuccessActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.activity.pk.ReleaseSuccessActivity#onMainEventThread(JTMessage)}
                  * {@link com.annie.annieforchild.ui.activity.pk.ReleaseSuccessActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
-                message.obj = result;
+                message.obj = shareCoin;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_GETRADIO) {
                 List<Song> lists = (List<Song>) result;

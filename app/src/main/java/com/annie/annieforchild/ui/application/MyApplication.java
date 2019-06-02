@@ -41,6 +41,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.net.ssl.SSLContext;
+
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -78,13 +80,14 @@ public class MyApplication extends LitePalApplication {
         };
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(), cb);
-
         InitializationConfig config = InitializationConfig.newBuilder(MyApplication.this)
                 .cacheStore(new DBCacheStore(MyApplication.this).setEnable(false))
                 .cookieStore(new DBCookieStore(MyApplication.this).setEnable(false))
                 .networkExecutor(new OkHttpNetworkExecutor())
                 .sslSocketFactory(SSLSocketClient.getSSLSocketFactory())
+                .hostnameVerifier(SSLSocketClient.getHostnameVerifier())
                 .build();
+
         NoHttp.initialize(config);
         SpeechUtility.createUtility(MyApplication.this, SpeechConstant.APPID + "=5aab99b5");
         Utils.init(this);

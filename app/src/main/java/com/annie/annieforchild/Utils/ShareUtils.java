@@ -69,12 +69,11 @@ public class ShareUtils {
         shareParams.setTitle(title);
         shareParams.setUrl(url);
         shareParams.setImagePath(null);
-//        shareParams.setImagePath(file.getAbsolutePath());
-//        shareParams.setImagePath(application.getSystemUtils().getUserInfo() != null ? application.getSystemUtils().getUserInfo().getAvatar() : "");
         if (imageUrl == null) {
             shareParams.setImageUrl(application.getSystemUtils().getUserInfo() != null ? application.getSystemUtils().getUserInfo().getAvatar() : "");
         } else {
             shareParams.setImageUrl(imageUrl);
+//            shareParams.setImageUrl("https://osscdn.anniekids.net/weidiandu/Songs/mobaobao1/Head_Shoulders_Knees_And_Toes/pic/fm.jpg");
         }
         shareParams.setShareType(Platform.SHARE_WEBPAGE);
         platform.setPlatformActionListener(listener);

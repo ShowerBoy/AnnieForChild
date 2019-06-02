@@ -7,15 +7,15 @@ android {
     configurations.all {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
     }
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.1"
 
     defaultConfig {
         applicationId "com.annie.annieforchild"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 42
-        versionName "1.1.30"
+        versionCode 43
+        versionName "1.1.31"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -60,12 +60,12 @@ MobSDK {
     ShareSDK {
         devInfo {
             Wechat {
-                appId "wxcacacb4196e0dc91"
-                appSecret "5c28b6fdf84d9330d524dfba1fa66f52"
+                appId "wxcce6f37c8f2e3dc7"
+                appSecret "a60885ef26af24f8aa2afbfa2ba6f7d3"
             }
             WechatMoments {
-                appId "wxcacacb4196e0dc91"
-                appSecret "5c28b6fdf84d9330d524dfba1fa66f52"
+                appId "wxcce6f37c8f2e3dc7"
+                appSecret "a60885ef26af24f8aa2afbfa2ba6f7d3"
             }
             QQ {
                 appId "1106894364"
@@ -87,10 +87,10 @@ configurations.all {
 
 dependencies {
     //    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:appcompat-v7:27.1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
-    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:recyclerview-v7:27.1.1'
+    compile 'com.android.support:design:27.1.1'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:1.0.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
