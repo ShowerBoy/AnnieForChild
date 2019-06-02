@@ -87,7 +87,7 @@ public interface GrindEarPresenter {
 
     void taskDetails(int classid, int type, String week, String taskTime, int classify);
 
-    void completeTask(int taskid, int type, int likes, int listen, int homeworkid);
+    void completeTask(int cid,int taskid, int type, int likes, int listen, int homeworkid);
 
     void uploadTaskImage(int taskid, List<String> path, int type);
 

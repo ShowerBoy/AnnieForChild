@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class Homework implements Serializable {
     private int bookid;
+    private int cid;
     private int homeworkid;
     private String animationUrl;
     private String taskrequirement;
@@ -20,6 +21,14 @@ public class Homework implements Serializable {
     private int listen;
     private String chaptertitle;
     private String type;
+
+    public int getCid() {
+        return cid;
+    }
+
+    public void setCid(int cid) {
+        this.cid = cid;
+    }
 
     public String getAnimationUrl() {
         return animationUrl;

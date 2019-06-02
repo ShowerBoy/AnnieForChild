@@ -228,56 +228,59 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
             exerciseViewHolder.play.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (isClick) {
-                        if (!isPlay) {
-                            if (isRecordPlay) {
-                                //停止播放
-                                isClick = true;
-                                isRecordPlay = false;
-                                isSpeakReady = false;
-                                if (player != null) {
-                                    try {
+                    if(lists.get(i).getMyResourceUrl() != null && lists.get(i).getMyResourceUrl().length() > 0){
+                        if (isClick) {
+                            if (!isPlay) {
+                                if (isRecordPlay) {
+                                    //停止播放
+                                    isClick = true;
+                                    isRecordPlay = false;
+                                    isSpeakReady = false;
+                                    if (player != null) {
+                                        try {
+                                            player.pause();
+                                            player.stop();
+                                            player.seekTo(0);
+                                        } catch (IllegalStateException e) {
+                                            e.printStackTrace();
+                                        }
+                                        exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
+                                    }
+
+                                } else {
+                                    //开始播放
+                                    isClick = false;
+                                    isRecordPlay = true;
+                                    isSpeakReady = true;
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            play(exerciseViewHolder, i);
+                                        }
+                                    }).start();
+                                    exerciseViewHolder.play.setImageResource(R.drawable.icon_stop_medium);
+                                }
+                            }
+                        } else {
+                            //停止播放
+                            isClick = true;
+                            isRecordPlay = false;
+                            isSpeakReady = false;
+                            if (player != null) {
+                                try {
+                                    if (player.isPlaying()) {
                                         player.pause();
                                         player.stop();
                                         player.seekTo(0);
-                                    } catch (IllegalStateException e) {
-                                        e.printStackTrace();
                                     }
-                                    exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
+                                } catch (IllegalStateException e) {
+                                    e.printStackTrace();
                                 }
-
-                            } else {
-                                //开始播放
-                                isClick = false;
-                                isRecordPlay = true;
-                                isSpeakReady = true;
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        play(exerciseViewHolder, i);
-                                    }
-                                }).start();
-                                exerciseViewHolder.play.setImageResource(R.drawable.icon_stop_medium);
+                                exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
                             }
-                        }
-                    } else {
-                        //停止播放
-                        isClick = true;
-                        isRecordPlay = false;
-                        isSpeakReady = false;
-                        if (player != null) {
-                            try {
-                                if (player.isPlaying()) {
-                                    player.pause();
-                                    player.stop();
-                                    player.seekTo(0);
-                                }
-                            } catch (IllegalStateException e) {
-                                e.printStackTrace();
-                            }
-                            exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
                         }
                     }
+
                 }
             });
         }
@@ -414,9 +417,12 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
 
     private void playUrl(String url) {
         try {
-            mediaPlayer.reset();
+//            mediaPlayer.reset();
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepare();
+            if (!mediaPlayer.isPlaying()) {
+                mediaPlayer.start();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -446,6 +452,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
             public void onCompletion(MediaPlayer mp) {//表示播放完毕
                 isSpeakReady = false;
                 isRecordPlay = false;
+                Log.e("11","end");
                 player.reset();//释放资源
                 isClick = true;
                 Message message = new Message();
@@ -513,6 +520,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
     public void onCompletion(MediaPlayer mp) {
         isClick = true;
         isPlay = false;
+        mediaPlayer.reset();
         //TODO:
         new Thread(new Runnable() {
             @Override

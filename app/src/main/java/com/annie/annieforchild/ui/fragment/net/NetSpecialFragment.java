@@ -86,8 +86,11 @@ public class NetSpecialFragment extends BaseFragment implements OnCheckDoubleCli
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
+        manager.setSmoothScrollbarEnabled(true);
+        manager.setAutoMeasureEnabled(true);
         specialList.setLayoutManager(manager);
         specialList.setNestedScrollingEnabled(false);
+        specialList.setHasFixedSize(true);
 
 
     }

@@ -528,10 +528,10 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param homeworkid
      */
     @Override
-    public void completeTask(int taskid, int type, int likes, int listen, int homeworkid) {
+    public void completeTask(int cid, int taskid, int type, int likes, int listen, int homeworkid) {
         this.taskid = taskid;
         songView.showLoad();
-        interactor.completeTask(taskid, type, likes, listen, homeworkid);
+        interactor.completeTask(cid, taskid, type, likes, listen, homeworkid);
     }
 
     /**

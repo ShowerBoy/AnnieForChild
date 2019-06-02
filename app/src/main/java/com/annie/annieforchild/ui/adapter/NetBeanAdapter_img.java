@@ -132,7 +132,7 @@ public class NetBeanAdapter_img extends RecyclerView.Adapter {
            });
        }else{
            BottonHolder bottonHolder=(BottonHolder)holder;
-           Glide.with(context).load(lists_bottom.get(i-lists.size()-1)).into(bottonHolder.image);
+           Glide.with(context) .load(lists_bottom.get(i-lists.size()-1)).placeholder(R.drawable.rotate_pro). into(bottonHolder.image);
        }
     }
 

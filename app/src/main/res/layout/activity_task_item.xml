@@ -3,8 +3,11 @@
     android:id="@+id/task_relative"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/icon_task_bg"
-    android:padding="18dp">
+    android:background="@drawable/white_back"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="15dp"
+    android:padding="15dp">
 
     <TextView
         android:id="@+id/task_times"
@@ -14,7 +17,7 @@
         android:layout_alignParentTop="true"
         android:text="第21次课"
         android:textColor="@color/text_black"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/task_class"
@@ -24,7 +27,7 @@
         android:layout_toEndOf="@+id/task_times"
         android:text="班级：S108"
         android:textColor="@color/text_black"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/task_title"
@@ -34,7 +37,7 @@
         android:layout_marginTop="3dp"
         android:text="Phase1-AP1-108s"
         android:textColor="@color/text_black"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/task_teacher"
@@ -56,7 +59,7 @@
         android:layout_marginTop="3dp"
         android:text="2018-08-21"
         android:textColor="@color/text_color"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 
     <RelativeLayout
         android:id="@+id/task_status_layout"
@@ -148,6 +151,7 @@
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:visibility="gone"
         android:background="@drawable/icon_orange_btn2"
         android:gravity="center"
         android:text="查看详情"

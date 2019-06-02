@@ -2,6 +2,7 @@ package com.annie.annieforchild.interactor.imp;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -770,7 +771,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     }
 
     @Override
-    public void completeTask(int taskid, int type, int likes, int listen, int homeworkid) {
+    public void completeTask(int cid, int taskid, int type, int likes, int listen, int homeworkid) {
         this.taskid = taskid;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.COMPLETETASK, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
@@ -781,6 +782,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("homeworkid", homeworkid);
         request.add("deviceID", application.getSystemUtils().getSn());
         request.add("deviceType", SystemUtils.deviceType);
+        request.add("cid",cid);
         addQueue(MethodCode.EVENT_COMPLETETASK + 70000 + taskid, request);
 //        startQueue();
     }
@@ -1299,12 +1301,14 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             } else if (what == MethodCode.EVENT_SUGGESTPERIOD) {
                 listener.Success(what, "提异成功");
             } else if (what == MethodCode.EVENT_MYTASK) {
+                Log.e("2221",data);
                 TaskBean taskBean = JSON.parseObject(data, TaskBean.class);
                 if (taskBean == null) {
                     taskBean = new TaskBean();
                 }
                 listener.Success(what, taskBean);
             } else if (what == MethodCode.EVENT_TASKDETAILS + 50000 + classify) {
+                Log.e("222",data);
                 TaskDetails taskDetails = JSON.parseObject(data, TaskDetails.class);
                 if (taskDetails == null) {
                     taskDetails = new TaskDetails();
@@ -1312,6 +1316,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 listener.Success(what, taskDetails);
             } else if (what == MethodCode.EVENT_COMPLETETASK + 70000 + taskid) {
                 int result;
+                Log.e("taskcomplete",data+"");
                 if (data != null) {
                     JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
                     result = dataobj.getInteger("result");
