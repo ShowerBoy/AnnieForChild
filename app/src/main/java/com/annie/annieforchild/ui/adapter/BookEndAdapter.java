@@ -283,7 +283,9 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
     Handler handler2 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            holder.play.setImageResource(R.drawable.icon_practice_play);
+            if (holder.play != null) {
+                holder.play.setImageResource(R.drawable.icon_practice_play);
+            }
         }
     };
 

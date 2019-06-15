@@ -33,6 +33,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.net.NetGift;
+import com.annie.annieforchild.bean.net.netexpclass.VideoList;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
@@ -60,6 +61,7 @@ import com.zhy.m.permission.PermissionGrant;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -174,12 +176,26 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
                     } else if (bookType.equals("2")) {
 //                        SystemUtils.startVideo(this, animationurl);
 //                        Intent intent = new Intent(this, VideoActivity.class);
+
+                        List<VideoList> list = new ArrayList<>();
+                        VideoList videoList = new VideoList();
+                        videoList.setTitle(bookname);
+                        videoList.setPicurl(bookurl);
+                        videoList.setUrl(animationurl);
+                        list.add(videoList);
+
                         Intent intent = new Intent(this, VideoActivity_new.class);
-                        intent.putExtra("url", animationurl);
-                        intent.putExtra("imageUrl", bookurl);
-                        intent.putExtra("name", bookname);
-                        intent.putExtra("id", bookid);
+//                intent.putExtra("url", lists.get(i).getPath().get(0));
+//                intent.putExtra("imageUrl", lists.get(i).getPicurl());
+//                intent.putExtra("name", lists.get(i).getTitle());
                         intent.putExtra("isTime", true);
+                        intent.putExtra("isDefinition", false);
+                        intent.putExtra("animationId", bookid);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("videoList", (Serializable) list);
+                        bundle.putInt("videoPos", 0);
+                        intent.putExtras(bundle);
+
                         startActivity(intent);
                     }
                 }

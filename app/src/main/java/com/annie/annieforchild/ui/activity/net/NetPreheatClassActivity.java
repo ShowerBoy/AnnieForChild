@@ -162,14 +162,18 @@ public class NetPreheatClassActivity extends BaseActivity implements ViewInfo, O
     @Override
     public void showLoad() {
         if (dialog != null && !dialog.isShowing()) {
-            dialog.show();
+            if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
+                dialog.show();
+            }
         }
     }
 
     @Override
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+            if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
+                dialog.dismiss();
+            }
         }
     }
 }

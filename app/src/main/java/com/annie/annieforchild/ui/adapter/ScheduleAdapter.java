@@ -3,6 +3,7 @@ package com.annie.annieforchild.ui.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.ScheduleViewHolder;
 import com.bumptech.glide.Glide;
+
+import java.io.Serializable;
 
 /**
  * Created by wanglei on 2018/8/8.
@@ -126,22 +129,38 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                                 intent.putExtra("title", song.getBookName());
                                                 context.startActivity(intent);
                                             } else {
+                                                int musicPosition = 0;
+                                                for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                                        musicPosition = j;
+                                                    }
+                                                }
                                                 Intent intent = new Intent(context, PracticeActivity.class);
                                                 intent.putExtra("song", song);
                                                 intent.putExtra("type", 0);
                                                 intent.putExtra("audioType", totalSchedule.getFamily().get(finalI).getAudioType());
                                                 intent.putExtra("audioSource", totalSchedule.getFamily().get(finalI).getAudioSource());
                                                 intent.putExtra("collectType", totalSchedule.getFamily().get(finalI).getAudioType() + 1);
+                                                intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                                intent.putExtra("musicPosition", musicPosition);
                                                 intent.putExtra("bookType", 1);
                                                 context.startActivity(intent);
                                             }
                                         } else {
+                                            int musicPosition = 0;
+                                            for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                                    musicPosition = j;
+                                                }
+                                            }
                                             Intent intent = new Intent(context, PracticeActivity.class);
                                             intent.putExtra("song", song);
                                             intent.putExtra("type", 0);
                                             intent.putExtra("audioType", totalSchedule.getFamily().get(finalI).getAudioType());
                                             intent.putExtra("audioSource", totalSchedule.getFamily().get(finalI).getAudioSource());
                                             intent.putExtra("collectType", totalSchedule.getFamily().get(finalI).getAudioType() + 1);
+                                            intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                            intent.putExtra("musicPosition", musicPosition);
                                             intent.putExtra("bookType", 0);
                                             context.startActivity(intent);
                                         }
@@ -200,22 +219,38 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                                     intent.putExtra("title", song.getBookName());
                                                     context.startActivity(intent);
                                                 } else {
+                                                    int musicPosition = 0;
+                                                    for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                                            musicPosition = j;
+                                                        }
+                                                    }
                                                     Intent intent = new Intent(context, PracticeActivity.class);
                                                     intent.putExtra("song", song);
                                                     intent.putExtra("type", 0);
                                                     intent.putExtra("audioType", totalSchedule.getTeacher().get(finalI2).getAudioType());
                                                     intent.putExtra("audioSource", totalSchedule.getTeacher().get(finalI2).getAudioSource());
                                                     intent.putExtra("collectType", totalSchedule.getTeacher().get(finalI2).getAudioType() + 1);
+                                                    intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                                    intent.putExtra("musicPosition", musicPosition);
                                                     intent.putExtra("bookType", 1);
                                                     context.startActivity(intent);
                                                 }
                                             } else {
+                                                int musicPosition = 0;
+                                                for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                                        musicPosition = j;
+                                                    }
+                                                }
                                                 Intent intent = new Intent(context, PracticeActivity.class);
                                                 intent.putExtra("song", song);
                                                 intent.putExtra("type", 0);
                                                 intent.putExtra("audioType", totalSchedule.getTeacher().get(finalI2).getAudioType());
                                                 intent.putExtra("audioSource", totalSchedule.getTeacher().get(finalI2).getAudioSource());
                                                 intent.putExtra("collectType", totalSchedule.getTeacher().get(finalI2).getAudioType() + 1);
+                                                intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                                intent.putExtra("musicPosition", musicPosition);
                                                 intent.putExtra("bookType", 0);
                                                 context.startActivity(intent);
                                             }
@@ -281,22 +316,38 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                         intent.putExtra("title", song.getBookName());
                                         context.startActivity(intent);
                                     } else {
+                                        int musicPosition = 0;
+                                        for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                            if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                                musicPosition = j;
+                                            }
+                                        }
                                         Intent intent = new Intent(context, PracticeActivity.class);
                                         intent.putExtra("song", song);
                                         intent.putExtra("type", 0);
                                         intent.putExtra("audioType", totalSchedule.getFamily().get(finalI).getAudioType());
                                         intent.putExtra("audioSource", totalSchedule.getFamily().get(finalI).getAudioSource());
                                         intent.putExtra("collectType", totalSchedule.getFamily().get(finalI).getAudioType() + 1);
+                                        intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                        intent.putExtra("musicPosition", musicPosition);
                                         intent.putExtra("bookType", 1);
                                         context.startActivity(intent);
                                     }
                                 } else {
+                                    int musicPosition = 0;
+                                    for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                            musicPosition = j;
+                                        }
+                                    }
                                     Intent intent = new Intent(context, PracticeActivity.class);
                                     intent.putExtra("song", song);
                                     intent.putExtra("type", 0);
                                     intent.putExtra("audioType", totalSchedule.getFamily().get(finalI).getAudioType());
                                     intent.putExtra("audioSource", totalSchedule.getFamily().get(finalI).getAudioSource());
                                     intent.putExtra("collectType", totalSchedule.getFamily().get(finalI).getAudioType() + 1);
+                                    intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                    intent.putExtra("musicPosition", musicPosition);
                                     intent.putExtra("bookType", 0);
                                     context.startActivity(intent);
                                 }
@@ -355,22 +406,38 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                             intent.putExtra("title", song.getBookName());
                                             context.startActivity(intent);
                                         } else {
+                                            int musicPosition = 0;
+                                            for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                                    musicPosition = j;
+                                                }
+                                            }
                                             Intent intent = new Intent(context, PracticeActivity.class);
                                             intent.putExtra("song", song);
                                             intent.putExtra("type", 0);
                                             intent.putExtra("audioType", totalSchedule.getTeacher().get(finalI2).getAudioType());
                                             intent.putExtra("audioSource", totalSchedule.getTeacher().get(finalI2).getAudioSource());
                                             intent.putExtra("collectType", totalSchedule.getTeacher().get(finalI2).getAudioType() + 1);
+                                            intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                            intent.putExtra("musicPosition", musicPosition);
                                             intent.putExtra("bookType", 1);
                                             context.startActivity(intent);
                                         }
                                     } else {
+                                        int musicPosition = 0;
+                                        for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                            if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                                musicPosition = j;
+                                            }
+                                        }
                                         Intent intent = new Intent(context, PracticeActivity.class);
                                         intent.putExtra("song", song);
                                         intent.putExtra("type", 0);
                                         intent.putExtra("audioType", totalSchedule.getTeacher().get(finalI2).getAudioType());
                                         intent.putExtra("audioSource", totalSchedule.getTeacher().get(finalI2).getAudioSource());
                                         intent.putExtra("collectType", totalSchedule.getTeacher().get(finalI2).getAudioType() + 1);
+                                        intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                        intent.putExtra("musicPosition", musicPosition);
                                         intent.putExtra("bookType", 0);
                                         context.startActivity(intent);
                                     }
@@ -436,22 +503,38 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                     intent.putExtra("title", song.getBookName());
                                     context.startActivity(intent);
                                 } else {
+                                    int musicPosition = 0;
+                                    for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                            musicPosition = j;
+                                        }
+                                    }
                                     Intent intent = new Intent(context, PracticeActivity.class);
                                     intent.putExtra("song", song);
                                     intent.putExtra("type", 0);
                                     intent.putExtra("audioType", totalSchedule.getTeacher().get(finalI2).getAudioType());
                                     intent.putExtra("audioSource", totalSchedule.getTeacher().get(finalI2).getAudioSource());
                                     intent.putExtra("collectType", totalSchedule.getTeacher().get(finalI2).getAudioType() + 1);
+                                    intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                    intent.putExtra("musicPosition", musicPosition);
                                     intent.putExtra("bookType", 1);
                                     context.startActivity(intent);
                                 }
                             } else {
+                                int musicPosition = 0;
+                                for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                        musicPosition = j;
+                                    }
+                                }
                                 Intent intent = new Intent(context, PracticeActivity.class);
                                 intent.putExtra("song", song);
                                 intent.putExtra("type", 0);
                                 intent.putExtra("audioType", totalSchedule.getTeacher().get(finalI2).getAudioType());
                                 intent.putExtra("audioSource", totalSchedule.getTeacher().get(finalI2).getAudioSource());
                                 intent.putExtra("collectType", totalSchedule.getTeacher().get(finalI2).getAudioType() + 1);
+                                intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                intent.putExtra("musicPosition", musicPosition);
                                 intent.putExtra("bookType", 0);
                                 context.startActivity(intent);
                             }
@@ -555,22 +638,38 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                         intent.putExtra("title", song.getBookName());
                                         context.startActivity(intent);
                                     } else {
+                                        int musicPosition = 0;
+                                        for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                            if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                                musicPosition = j;
+                                            }
+                                        }
                                         Intent intent = new Intent(context, PracticeActivity.class);
                                         intent.putExtra("song", song);
                                         intent.putExtra("type", 0);
                                         intent.putExtra("audioType", totalSchedule.getFamily().get(finalI).getAudioType());
                                         intent.putExtra("audioSource", totalSchedule.getFamily().get(finalI).getAudioSource());
                                         intent.putExtra("collectType", totalSchedule.getFamily().get(finalI).getAudioType() + 1);
+                                        intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                        intent.putExtra("musicPosition", musicPosition);
                                         intent.putExtra("bookType", 1);
                                         context.startActivity(intent);
                                     }
                                 } else {
+                                    int musicPosition = 0;
+                                    for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                            musicPosition = j;
+                                        }
+                                    }
                                     Intent intent = new Intent(context, PracticeActivity.class);
                                     intent.putExtra("song", song);
                                     intent.putExtra("type", 0);
                                     intent.putExtra("audioType", totalSchedule.getFamily().get(finalI).getAudioType());
                                     intent.putExtra("audioSource", totalSchedule.getFamily().get(finalI).getAudioSource());
                                     intent.putExtra("collectType", totalSchedule.getFamily().get(finalI).getAudioType() + 1);
+                                    intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                    intent.putExtra("musicPosition", musicPosition);
                                     intent.putExtra("bookType", 0);
                                     context.startActivity(intent);
                                 }
@@ -629,22 +728,38 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                             intent.putExtra("title", song.getBookName());
                                             context.startActivity(intent);
                                         } else {
+                                            int musicPosition = 0;
+                                            for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                                    musicPosition = j;
+                                                }
+                                            }
                                             Intent intent = new Intent(context, PracticeActivity.class);
                                             intent.putExtra("song", song);
                                             intent.putExtra("type", 0);
                                             intent.putExtra("audioType", totalSchedule.getTeacher().get(finalI2).getAudioType());
                                             intent.putExtra("audioSource", totalSchedule.getTeacher().get(finalI2).getAudioSource());
                                             intent.putExtra("collectType", totalSchedule.getTeacher().get(finalI2).getAudioType() + 1);
+                                            intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                            intent.putExtra("musicPosition", musicPosition);
                                             intent.putExtra("bookType", 1);
                                             context.startActivity(intent);
                                         }
                                     } else {
+                                        int musicPosition = 0;
+                                        for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                            if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                                musicPosition = j;
+                                            }
+                                        }
                                         Intent intent = new Intent(context, PracticeActivity.class);
                                         intent.putExtra("song", song);
                                         intent.putExtra("type", 0);
                                         intent.putExtra("audioType", totalSchedule.getTeacher().get(finalI2).getAudioType());
                                         intent.putExtra("audioSource", totalSchedule.getTeacher().get(finalI2).getAudioSource());
                                         intent.putExtra("collectType", totalSchedule.getTeacher().get(finalI2).getAudioType() + 1);
+                                        intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                        intent.putExtra("musicPosition", musicPosition);
                                         intent.putExtra("bookType", 0);
                                         context.startActivity(intent);
                                     }
@@ -712,22 +827,38 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 intent.putExtra("title", song.getBookName());
                                 context.startActivity(intent);
                             } else {
+                                int musicPosition = 0;
+                                for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                        musicPosition = j;
+                                    }
+                                }
                                 Intent intent = new Intent(context, PracticeActivity.class);
                                 intent.putExtra("song", song);
                                 intent.putExtra("type", 0);
                                 intent.putExtra("audioType", totalSchedule.getFamily().get(finalI).getAudioType());
                                 intent.putExtra("audioSource", totalSchedule.getFamily().get(finalI).getAudioSource());
                                 intent.putExtra("collectType", totalSchedule.getFamily().get(finalI).getAudioType() + 1);
+                                intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                intent.putExtra("musicPosition", musicPosition);
                                 intent.putExtra("bookType", 1);
                                 context.startActivity(intent);
                             }
                         } else {
+                            int musicPosition = 0;
+                            for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                    musicPosition = j;
+                                }
+                            }
                             Intent intent = new Intent(context, PracticeActivity.class);
                             intent.putExtra("song", song);
                             intent.putExtra("type", 0);
                             intent.putExtra("audioType", totalSchedule.getFamily().get(finalI).getAudioType());
                             intent.putExtra("audioSource", totalSchedule.getFamily().get(finalI).getAudioSource());
                             intent.putExtra("collectType", totalSchedule.getFamily().get(finalI).getAudioType() + 1);
+                            intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                            intent.putExtra("musicPosition", musicPosition);
                             intent.putExtra("bookType", 0);
                             context.startActivity(intent);
                         }
@@ -789,22 +920,38 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                     intent.putExtra("title", song.getBookName());
                                     context.startActivity(intent);
                                 } else {
+                                    int musicPosition = 0;
+                                    for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                            musicPosition = j;
+                                        }
+                                    }
                                     Intent intent = new Intent(context, PracticeActivity.class);
                                     intent.putExtra("song", song);
                                     intent.putExtra("type", 0);
                                     intent.putExtra("audioType", totalSchedule.getTeacher().get(finalI2).getAudioType());
                                     intent.putExtra("audioSource", totalSchedule.getTeacher().get(finalI2).getAudioSource());
                                     intent.putExtra("collectType", totalSchedule.getTeacher().get(finalI2).getAudioType() + 1);
+                                    intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                    intent.putExtra("musicPosition", musicPosition);
                                     intent.putExtra("bookType", 1);
                                     context.startActivity(intent);
                                 }
                             } else {
+                                int musicPosition = 0;
+                                for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                        musicPosition = j;
+                                    }
+                                }
                                 Intent intent = new Intent(context, PracticeActivity.class);
                                 intent.putExtra("song", song);
                                 intent.putExtra("type", 0);
                                 intent.putExtra("audioType", totalSchedule.getTeacher().get(finalI2).getAudioType());
                                 intent.putExtra("audioSource", totalSchedule.getTeacher().get(finalI2).getAudioSource());
                                 intent.putExtra("collectType", totalSchedule.getTeacher().get(finalI2).getAudioType() + 1);
+                                intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                intent.putExtra("musicPosition", musicPosition);
                                 intent.putExtra("bookType", 0);
                                 context.startActivity(intent);
                             }
@@ -871,26 +1018,43 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 intent.putExtra("title", song.getBookName());
                                 context.startActivity(intent);
                             } else {
+                                int musicPosition = 0;
+                                for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                        musicPosition = j;
+                                    }
+                                }
                                 Intent intent = new Intent(context, PracticeActivity.class);
                                 intent.putExtra("song", song);
                                 intent.putExtra("type", 0);
                                 intent.putExtra("audioType", totalSchedule.getTeacher().get(finalI2).getAudioType());
                                 intent.putExtra("audioSource", totalSchedule.getTeacher().get(finalI2).getAudioSource());
                                 intent.putExtra("collectType", totalSchedule.getTeacher().get(finalI2).getAudioType() + 1);
+                                intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                                intent.putExtra("musicPosition", musicPosition);
                                 intent.putExtra("bookType", 1);
                                 context.startActivity(intent);
                             }
                         } else {
+                            int musicPosition = 0;
+                            for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
+                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                    musicPosition = j;
+                                }
+                            }
                             Intent intent = new Intent(context, PracticeActivity.class);
                             intent.putExtra("song", song);
                             intent.putExtra("type", 0);
                             intent.putExtra("audioType", totalSchedule.getTeacher().get(finalI2).getAudioType());
                             intent.putExtra("audioSource", totalSchedule.getTeacher().get(finalI2).getAudioSource());
                             intent.putExtra("collectType", totalSchedule.getTeacher().get(finalI2).getAudioType() + 1);
+                            intent.putExtra("songList", (Serializable) totalSchedule.getMoerduolist());
+                            intent.putExtra("musicPosition", musicPosition);
                             intent.putExtra("bookType", 0);
                             context.startActivity(intent);
                         }
                     }
+
                 });
             }
         } else {

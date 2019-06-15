@@ -86,7 +86,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
     private List<Song> moerduoList, readingList, speakingList, freeList;
     public static List<SongClassify> spokenList;
     private Song meiriyige, meiriyishi, meiriyidu;
-    private View error;
     private String tag;
     private AlertHelper helper;
     private Dialog dialog;
@@ -187,7 +186,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         signImage = view.findViewById(R.id.sign_image);
         homePicture = view.findViewById(R.id.home_picture);
 //        msgFlipper = view.findViewById(R.id.msg_flipper);
-        error = view.findViewById(R.id.network_error_layout);
         moreMoerduo = view.findViewById(R.id.more_moerduo);
         moreReading = view.findViewById(R.id.more_reading);
         moreSpoken = view.findViewById(R.id.more_spoken);
@@ -459,7 +457,9 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 
     @Override
     public void showInfo(String info) {
-        Toast.makeText(getContext(), info, Toast.LENGTH_SHORT).show();
+        if (mContext != null) {
+            Toast.makeText(mContext, info, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -647,7 +647,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 
 //                Intent intent1 = new Intent(getContext(), CalendarActivity.class);
 //                startActivity(intent1);
-
 
 
 //                if (application.getSystemUtils().getTag().equals("游客")) {

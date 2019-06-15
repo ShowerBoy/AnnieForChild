@@ -15,6 +15,7 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.AnimationData;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.net.netexpclass.VideoList;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
@@ -29,6 +30,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -86,17 +88,26 @@ public class AnimationFragment extends BaseFragment implements SongView {
             @Override
             public void onItemClick(View view) {
                 int position = animationRecycler.getChildAdapterPosition(view);
-                if (lists.get(position - 1).getJurisdiction() == 1) {
-//                    SystemUtils.startVideo(getContext(), lists.get(position - 1).getAnimationUrl());
-//                    Intent intent = new Intent(getContext(), VideoActivity.class);
-                    Intent intent = new Intent(getContext(), VideoActivity_new.class);
-                    intent.putExtra("url", lists.get(position - 1).getAnimationUrl());
-                    intent.putExtra("imageUrl", lists.get(position - 1).getAnimationImageUrl());
-                    intent.putExtra("name", lists.get(position - 1).getAnimationName());
-                    intent.putExtra("id", lists.get(position - 1).getAnimationId());
-                    intent.putExtra("isTime", true);
-                    startActivity(intent);
+                List<VideoList> list = new ArrayList<>();
+                for (int j = 0; j < lists.size(); j++) {
+                    VideoList videoList = new VideoList();
+                    videoList.setTitle(lists.get(j).getAnimationName());
+                    videoList.setPicurl(lists.get(j).getAnimationImageUrl());
+                    videoList.setUrl(lists.get(j).getAnimationUrl());
+                    list.add(videoList);
                 }
+                Intent intent = new Intent(getContext(), VideoActivity_new.class);
+                intent.putExtra("isTime", true);
+                intent.putExtra("isDefinition", false);
+
+                intent.putExtra("animationId", lists.get(position - 1).getAnimationId());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("videoList", (Serializable) list);
+                bundle.putInt("videoPos", position - 1);
+                intent.putExtras(bundle);
+
+
+                startActivity(intent);
             }
 
             @Override

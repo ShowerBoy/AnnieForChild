@@ -21,6 +21,7 @@ import com.annie.annieforchild.bean.net.PreheatConsult;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.bean.net.netexpclass.Video_first;
+import com.annie.annieforchild.bean.net.netexpclass.Video_second;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.adapter.NetExpFirstVideoAdapter;
 import com.annie.annieforchild.ui.adapter.NetPreheatConsultAdapter;
@@ -41,7 +42,7 @@ public class NetExpFirstVideoActivity extends BaseActivity implements ViewInfo, 
     private AlertHelper helper;
     private NetExpFirstVideoAdapter adapter;
     private NetWorkPresenterImp presenter;
-    private List<Video_first> lists;
+    private List<Video_second> lists;
     private TextView title;
     private RecyclerView net_preheatconsult_recyclerview;
     private ConstraintLayout empty_img;
@@ -118,7 +119,7 @@ public class NetExpFirstVideoActivity extends BaseActivity implements ViewInfo, 
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETWEICLASS) {
             lists.clear();
-            lists.addAll((List<Video_first>) message.obj);
+            lists.addAll((List<Video_second>) message.obj);
             adapter.notifyDataSetChanged();
             if (lists.size() > 0) {
                 empty_img.setVisibility(View.GONE);
@@ -127,7 +128,7 @@ public class NetExpFirstVideoActivity extends BaseActivity implements ViewInfo, 
             }
         } else if (message.what == MethodCode.EVENT_VIDEOLIST) {
             lists.clear();
-            lists.addAll((List<Video_first>) message.obj);
+            lists.addAll((List<Video_second>) message.obj);
             adapter.notifyDataSetChanged();
             if (lists.size() > 0) {
                 empty_img.setVisibility(View.GONE);

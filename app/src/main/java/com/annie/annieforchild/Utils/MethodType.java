@@ -37,6 +37,7 @@ public class MethodType {
     final public static String GETMUSICLIST = "getMusicList"; //获取儿歌列表
     final public static String GETMUSICLISTTEST = "getMusicListtest"; //获取儿歌列表
     final public static String MYSCHEDULE = "mySchedule"; //我的课表
+    final public static String MYSCHEDULEV2 = "myScheduleV2"; //我的课表
     final public static String ADDSCHEDULE = "addSchedule"; //添加课表
     final public static String EDITSCHEDULE = "editSchedule"; //编辑课表
     final public static String DELETESCHEDULE = "deleteSchedule"; //删除课表
@@ -80,6 +81,7 @@ public class MethodType {
     final public static String UPLOADAUDIOTIMETEST = "uploadAudioTimetest"; //上传音频时长
     final public static String MYCALENDAR = "myCalendar"; //
     final public static String MONTHCALENDAR = "monthCalendar"; //当月课程
+    final public static String MONTHCALENDARV2 = "monthCalendarV2"; //当月课程
     final public static String MYPERIOD = "myPeriod"; //课时核对
     final public static String SUGGESTPERIOD = "suggestPeriod"; //课时提异
     final public static String MYTASK = "myTask"; //我的作业
@@ -137,12 +139,16 @@ public class MethodType {
     final public static String GETLISTENANDREAD = "listeningandreading"; //泛听泛读
     final public static String ORDERQUERY = "OrderQuery"; //订单查询
     final public static String GETWEICLASS = "WeiClass"; //微课堂视频
+    final public static String GETWEICLASSV2 = "WeiClassV2"; //微课堂视频(ver.2)
     final public static String GETCLASSANALYSIS = "ClassAnalysis"; //微课堂视频
+    final public static String GETCLASSANALYSISV2 = "ClassAnalysisV2"; //微课堂视频(ver.2)
     final public static String GETNETEXPDETAILS_NEW = "experienceDetailsnew"; //购买的网课具体内容新版本
     final public static String GETSPECIAL_NEW = "Specialweiclass"; //购买的网课具体内容新版本
+    final public static String GETSPECIAL_NEWV2 = "SpecialweiclassV2"; //购买的网课具体内容新版本(ver.2)
     final public static String GETSPECIALLESSON_NEW = "SpecialLessons"; //彩虹条新版本
     final public static String SPECIALCLASS = "SpecialClass"; //综合课
     final public static String SPECIALPREHEATING = "SpecialPreheatingClass"; //综合课预热课
+    final public static String SPECIALPREHEATINGV2 = "SpecialPreheatingClassV2"; //综合课预热课(ver.2)
     final public static String GETMYORDERLIST = "getMyOrderList"; //订单列表
     final public static String GETMYORDERDETAIL = "getMyOrderDetail"; //订单详情
     final public static String CONTINUEPAY = "continuePay"; //订单详情
@@ -150,8 +156,10 @@ public class MethodType {
     final public static String EXPERIENCEDETAILSV2 = "experienceDetailsV2"; //新版体验课V2
     final public static String VIDEOPAYRECORD = "videoPayRecord"; //视频播放结束回调
     final public static String VIDEOLIST = "videoList"; //V2体验课视频列表
+    final public static String VIDEOLISTV2 = "videoListV2"; //V2体验课视频列表(ver.2)
     final public static String SPECIALCLASSV2 = "SpecialClassV2"; //
     final public static String TASKLIST = "taskList"; //
     final public static String TASKDETAIL = "taskDetail"; //
+
 
 }

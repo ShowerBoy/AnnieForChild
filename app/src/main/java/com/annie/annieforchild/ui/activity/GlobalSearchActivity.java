@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewCompat;
@@ -38,6 +39,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.SearchTag;
 import com.annie.annieforchild.bean.Tags;
 import com.annie.annieforchild.bean.login.HistoryRecord;
+import com.annie.annieforchild.bean.net.netexpclass.VideoList;
 import com.annie.annieforchild.bean.search.Books;
 import com.annie.annieforchild.bean.search.SearchContent;
 import com.annie.annieforchild.bean.song.Song;
@@ -61,6 +63,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
 
+import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
 import java.sql.DatabaseMetaData;
 import java.util.ArrayList;
@@ -292,12 +295,29 @@ public class GlobalSearchActivity extends BaseMusicActivity implements LoginView
                                 musicService.stop();
                             }
                         }
+                        //TODO:
+
+                        List<VideoList> list = new ArrayList<>();
+                        for (int j = 0; j < lists.size(); j++) {
+                            if (lists.get(j).getAnimationUrl() != null) {
+                                VideoList videoList = new VideoList();
+                                videoList.setTitle(lists.get(j).getBookName());
+                                videoList.setPicurl(lists.get(j).getBookImageUrl());
+                                videoList.setUrl(lists.get(j).getAnimationUrl());
+                                list.add(videoList);
+                            }
+                        }
                         Intent intent = new Intent(GlobalSearchActivity.this, VideoActivity_new.class);
-                        intent.putExtra("url", lists.get(position).getAnimationUrl());
-                        intent.putExtra("imageUrl", lists.get(position).getBookImageUrl());
-                        intent.putExtra("name", lists.get(position).getBookName());
-                        intent.putExtra("id", lists.get(position).getBookId());
                         intent.putExtra("isTime", true);
+                        intent.putExtra("isDefinition", false);
+
+                        intent.putExtra("animationId", lists.get(position).getBookId());
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("videoList", (Serializable) list);
+                        bundle.putInt("videoPos", position);
+                        intent.putExtras(bundle);
+
+
                         startActivity(intent);
                     }
                 }

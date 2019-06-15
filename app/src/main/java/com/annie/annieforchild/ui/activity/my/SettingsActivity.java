@@ -21,6 +21,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
+import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.presenter.FourthPresenter;
 import com.annie.annieforchild.presenter.imp.FourthPresenterImp;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
@@ -153,6 +154,9 @@ public class SettingsActivity extends BaseActivity implements FourthView, View.O
                                 editor.remove("phone");
                                 editor.remove("psd");
                                 editor.commit();
+                                if (application.getSystemUtils().getPhoneSN() == null) {
+                                    application.getSystemUtils().setPhoneSN(new PhoneSN());
+                                }
                                 application.getSystemUtils().getPhoneSN().setUsername(null);
                                 application.getSystemUtils().getPhoneSN().setLastlogintime(null);
                                 application.getSystemUtils().getPhoneSN().setSystem(null);

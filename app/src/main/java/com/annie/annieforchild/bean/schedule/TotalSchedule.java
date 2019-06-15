@@ -1,5 +1,7 @@
 package com.annie.annieforchild.bean.schedule;
 
+import com.annie.annieforchild.bean.song.Song;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,6 +15,15 @@ public class TotalSchedule implements Serializable {
     private List<Schedule> family;
     private List<Schedule> teacher;
     private String time;
+    private List<Song> moerduolist;
+
+    public List<Song> getMoerduolist() {
+        return moerduolist;
+    }
+
+    public void setMoerduolist(List<Song> moerduolist) {
+        this.moerduolist = moerduolist;
+    }
 
     public String getTime() {
         return time;

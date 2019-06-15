@@ -21,6 +21,7 @@ public class Song implements Serializable {
     private String bookName;
     private String bookImageUrl;
     private int audioSource;
+    private int audioType;
     private int count;
     private int bookId;
     private float lastScore;
@@ -40,6 +41,14 @@ public class Song implements Serializable {
     private int isyuedu;
     private String path;
     private boolean isPlaying = false;
+
+    public int getAudioType() {
+        return audioType;
+    }
+
+    public void setAudioType(int audioType) {
+        this.audioType = audioType;
+    }
 
     public boolean isPlaying() {
         return isPlaying;

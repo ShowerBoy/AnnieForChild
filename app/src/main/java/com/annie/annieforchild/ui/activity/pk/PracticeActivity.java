@@ -1038,7 +1038,9 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                         } else {
                             shareUtils.shareWechat("我和宝宝" + application.getSystemUtils().getUserInfo().getName() + "正在听《" + song.getBookName() + "》", "安妮花-磨耳朵 流利读 地道说", song.getBookImageUrl(), url);
                         }
+
                     }
+
                 }
                 break;
             case R.id.share_daka_qq:

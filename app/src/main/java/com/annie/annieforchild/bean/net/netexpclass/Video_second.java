@@ -1,17 +1,20 @@
 package com.annie.annieforchild.bean.net.netexpclass;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- *
+ * Created by wanglei on 2019/6/4.
  */
-public class Video_first {
+
+public class Video_second implements Serializable{
     private String chaptercontent_id;
     private int isFinish;
     private String title;
     private String subtitle;
     private String picurl;
-    private String path;
+    //    private String path;
+    private List<VideoDefiniList> path;
 
     public String getChaptercontent_id() {
         return chaptercontent_id;
@@ -53,11 +56,11 @@ public class Video_first {
         this.picurl = picurl;
     }
 
-    public String getPath() {
+    public List<VideoDefiniList> getPath() {
         return path;
     }
 
-    public void setPath(String path) {
+    public void setPath(List<VideoDefiniList> path) {
         this.path = path;
     }
 }

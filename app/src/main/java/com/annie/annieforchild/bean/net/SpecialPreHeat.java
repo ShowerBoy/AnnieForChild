@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SpecialPreHeat implements Serializable {
     private String pretitle;
-    private List<PreheatConsultList> content;
+    private List<PreheatConsultList2> content;
 
     public String getPretitle() {
         return pretitle;
@@ -19,11 +19,11 @@ public class SpecialPreHeat implements Serializable {
         this.pretitle = pretitle;
     }
 
-    public List<PreheatConsultList> getContent() {
+    public List<PreheatConsultList2> getContent() {
         return content;
     }
 
-    public void setContent(List<PreheatConsultList> content) {
+    public void setContent(List<PreheatConsultList2> content) {
         this.content = content;
     }
 }

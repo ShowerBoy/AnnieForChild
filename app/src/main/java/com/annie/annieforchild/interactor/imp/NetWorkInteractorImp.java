@@ -32,6 +32,7 @@ import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
 import com.annie.annieforchild.bean.net.netexpclass.Video_first;
+import com.annie.annieforchild.bean.net.netexpclass.Video_second;
 import com.annie.annieforchild.bean.order.AliOrderBean;
 import com.annie.annieforchild.bean.order.MyOrder;
 import com.annie.annieforchild.bean.order.OrderDetail;
@@ -321,7 +322,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void videoList(String fid, String netid, String stageid, String unitid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.VIDEOLIST, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.VIDEOLIST, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.VIDEOLISTV2, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("fid", fid);
@@ -413,7 +415,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
             addQueue(MethodCode.EVENT_GETPREHEATCONSULT, request);
         } else if (type == 2) {
             //综合课预热课
-            FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALPREHEATING, RequestMethod.POST);
+//            FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALPREHEATING, RequestMethod.POST);
+            FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALPREHEATINGV2, RequestMethod.POST);
             request.add("token", application.getSystemUtils().getToken());
             request.add("username", application.getSystemUtils().getDefaultUsername());
             request.add("lessonid", Integer.parseInt(lessonid));
@@ -475,13 +478,16 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     public void getWeiClass(String fid, int type) {
         FastJsonRequest request;
         if (type == 1) {//微课堂
-            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETWEICLASS, RequestMethod.POST);
+//            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETWEICLASS, RequestMethod.POST);
+            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETWEICLASSV2, RequestMethod.POST);
             request.add("fid", fid);
         } else if (type == 4) {//新版本的开班活动等
-            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETSPECIAL_NEW, RequestMethod.POST);
+//            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETSPECIAL_NEW, RequestMethod.POST);
+            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETSPECIAL_NEWV2, RequestMethod.POST);
             request.add("fid", fid);
         } else {
-            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETCLASSANALYSIS, RequestMethod.POST);
+//            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETCLASSANALYSIS, RequestMethod.POST);
+            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETCLASSANALYSISV2, RequestMethod.POST);
             request.add("fid", fid);
         }
         request.add("token", application.getSystemUtils().getToken());
@@ -605,9 +611,9 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     listener.Success(what, wechatOrderBean);
                 }
             } else if (what == MethodCode.EVENT_GETWEICLASS) {
-                List<Video_first> lists;
+                List<Video_second> lists;
                 if (data != null) {
-                    lists = JSON.parseArray(data, Video_first.class);
+                    lists = JSON.parseArray(data, Video_second.class);
                 } else {
                     lists = new ArrayList<>();
                 }
@@ -649,9 +655,9 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 VideoFinishBean videoFinishBean = JSON.parseObject(data, VideoFinishBean.class);
                 listener.Success(what, videoFinishBean);
             } else if (what == MethodCode.EVENT_VIDEOLIST) {
-                List<Video_first> lists;
+                List<Video_second> lists;
                 if (data != null) {
-                    lists = JSON.parseArray(data, Video_first.class);
+                    lists = JSON.parseArray(data, Video_second.class);
                 } else {
                     lists = new ArrayList<>();
                 }

@@ -155,7 +155,12 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
         playBack.setOnClickListener(listener);
         recordBack.setOnClickListener(listener);
         releaseBack.setOnClickListener(listener);
-        Glide.with(getContext()).load(application.getSystemUtils().getUserInfo().getAvatar()).into(headpic);
+        if (application.getSystemUtils().getUserInfo().getAvatar() != null) {
+            Glide.with(getContext()).load(application.getSystemUtils().getUserInfo().getAvatar()).error(R.drawable.icon_system_headpic).into(headpic);
+        }else{
+            Glide.with(getContext()).load(R.drawable.icon_system_headpic).error(R.drawable.icon_system_headpic).into(headpic);
+        }
+
         name.setText(application.getSystemUtils().getUserInfo().getName());
         RecyclerLinearLayoutManager layoutManager = new RecyclerLinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

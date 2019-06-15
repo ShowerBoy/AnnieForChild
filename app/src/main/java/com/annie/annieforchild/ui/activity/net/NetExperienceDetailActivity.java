@@ -76,8 +76,8 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
     private ImageView firstsatge_1_img, firstsatge_2_img, firstsatge_3_img, firstsatge_4_img;
     NestedScrollView listView;
     List<FirstStageitem> firstStagelist;
-    int num=0;
-    int num_type=0;
+    int num = 0;
+    int num_type = 0;
 
     {
         setRegister(true);
@@ -157,78 +157,78 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
     }
 
     void refresh() {
-        firstStagelist=new ArrayList<>();
+        firstStagelist = new ArrayList<>();
         firstStagelist.add(netExpClass.getFirststage().getQuestionnaire());
         firstStagelist.add(netExpClass.getFirststage().getWeiclass());
         firstStagelist.add(netExpClass.getFirststage().getClassanalysis());
         firstStagelist.add(netExpClass.getFirststage().getCommonproblem());
 
-        for(int i=0;i<firstStagelist.size();i++){
-            num+=firstStagelist.get(i).getIsshow();
+        for (int i = 0; i < firstStagelist.size(); i++) {
+            num += firstStagelist.get(i).getIsshow();
         }
-        if(num==2){
+        if (num == 2) {
             firstsatge_1.setVisibility(View.VISIBLE);
             firstsatge_2.setVisibility(View.VISIBLE);
             firstsatge_3.setVisibility(View.GONE);
             firstsatge_4.setVisibility(View.GONE);
-            if(firstStagelist.get(0).getIsshow()==1 && firstStagelist.get(2).getIsshow()==1){
+            if (firstStagelist.get(0).getIsshow() == 1 && firstStagelist.get(2).getIsshow() == 1) {
                 firstsatge_1_name.setText(firstStagelist.get(0).getName());
                 firstsatge_2_name.setText(firstStagelist.get(2).getName());
-                setbackground(firstsatge_2_img,2);
-                num_type=1;
-            }else if(firstStagelist.get(0).getIsshow()==1 && firstStagelist.get(3).getIsshow()==1){
+                setbackground(firstsatge_2_img, 2);
+                num_type = 1;
+            } else if (firstStagelist.get(0).getIsshow() == 1 && firstStagelist.get(3).getIsshow() == 1) {
                 firstsatge_1_name.setText(firstStagelist.get(0).getName());
                 firstsatge_2_name.setText(firstStagelist.get(3).getName());
-                setbackground(firstsatge_2_img,3);
-                num_type=2;
-            }else if(firstStagelist.get(1).getIsshow()==1 && firstStagelist.get(2).getIsshow()==1){
+                setbackground(firstsatge_2_img, 3);
+                num_type = 2;
+            } else if (firstStagelist.get(1).getIsshow() == 1 && firstStagelist.get(2).getIsshow() == 1) {
                 firstsatge_1_name.setText(firstStagelist.get(1).getName());
                 firstsatge_2_name.setText(firstStagelist.get(2).getName());
-                setbackground(firstsatge_1_img,1);
-                setbackground(firstsatge_2_img,2);
-                num_type=3;
-            }else if(firstStagelist.get(1).getIsshow()==1 && firstStagelist.get(3).getIsshow()==1){
+                setbackground(firstsatge_1_img, 1);
+                setbackground(firstsatge_2_img, 2);
+                num_type = 3;
+            } else if (firstStagelist.get(1).getIsshow() == 1 && firstStagelist.get(3).getIsshow() == 1) {
                 firstsatge_1_name.setText(firstStagelist.get(1).getName());
                 firstsatge_2_name.setText(firstStagelist.get(3).getName());
-                setbackground(firstsatge_1_img,1);
-                setbackground(firstsatge_2_img,3);
-                num_type=4;
+                setbackground(firstsatge_1_img, 1);
+                setbackground(firstsatge_2_img, 3);
+                num_type = 4;
             }
-        }else if(num==3){
+        } else if (num == 3) {
             firstsatge_1.setVisibility(View.VISIBLE);
             firstsatge_2.setVisibility(View.VISIBLE);
             firstsatge_3.setVisibility(View.VISIBLE);
             firstsatge_4.setVisibility(View.GONE);
-            if(firstStagelist.get(0).getIsshow()==0){
+            if (firstStagelist.get(0).getIsshow() == 0) {
                 firstsatge_1_name.setText(firstStagelist.get(1).getName());
                 firstsatge_2_name.setText(firstStagelist.get(2).getName());
                 firstsatge_3_name.setText(firstStagelist.get(3).getName());
-                setbackground(firstsatge_1_img,1);
-                setbackground(firstsatge_2_img,2);
-                setbackground(firstsatge_3_img,3);
-            }else if(firstStagelist.get(1).getIsshow()==0){
+                setbackground(firstsatge_1_img, 1);
+                setbackground(firstsatge_2_img, 2);
+                setbackground(firstsatge_3_img, 3);
+            } else if (firstStagelist.get(1).getIsshow() == 0) {
                 firstsatge_1_name.setText(firstStagelist.get(0).getName());
                 firstsatge_2_name.setText(firstStagelist.get(2).getName());
                 firstsatge_3_name.setText(firstStagelist.get(3).getName());
-                setbackground(firstsatge_1_img,0);
-                setbackground(firstsatge_2_img,2);
-                setbackground(firstsatge_3_img,3);
-            }else if(firstStagelist.get(2).getIsshow()==0){
+                setbackground(firstsatge_1_img, 0);
+                setbackground(firstsatge_2_img, 2);
+                setbackground(firstsatge_3_img, 3);
+            } else if (firstStagelist.get(2).getIsshow() == 0) {
                 firstsatge_1_name.setText(firstStagelist.get(0).getName());
                 firstsatge_2_name.setText(firstStagelist.get(1).getName());
                 firstsatge_3_name.setText(firstStagelist.get(3).getName());
-                setbackground(firstsatge_1_img,0);
-                setbackground(firstsatge_2_img,1);
-                setbackground(firstsatge_3_img,3);
-            }else if(firstStagelist.get(3).getIsshow()==0){
+                setbackground(firstsatge_1_img, 0);
+                setbackground(firstsatge_2_img, 1);
+                setbackground(firstsatge_3_img, 3);
+            } else if (firstStagelist.get(3).getIsshow() == 0) {
                 firstsatge_1_name.setText(firstStagelist.get(0).getName());
                 firstsatge_2_name.setText(firstStagelist.get(1).getName());
                 firstsatge_3_name.setText(firstStagelist.get(2).getName());
-                setbackground(firstsatge_1_img,0);
-                setbackground(firstsatge_2_img,1);
-                setbackground(firstsatge_3_img,2);
+                setbackground(firstsatge_1_img, 0);
+                setbackground(firstsatge_2_img, 1);
+                setbackground(firstsatge_3_img, 2);
             }
-        } else{
+        } else {
             layoutIsShow(firstsatge_1, netExpClass.getFirststage().getQuestionnaire().getIsshow());
             layoutIsShow(firstsatge_2, netExpClass.getFirststage().getWeiclass().getIsshow());
             layoutIsShow(firstsatge_3, netExpClass.getFirststage().getClassanalysis().getIsshow());
@@ -257,8 +257,9 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
             layout.setVisibility(View.VISIBLE);
         }
     }
-    void setbackground(View view,int type){
-        switch(type){
+
+    void setbackground(View view, int type) {
+        switch (type) {
             case 0:
                 view.setBackgroundResource(R.drawable.practise2to3_icon_homeworkquestionnaire);
                 break;
@@ -287,36 +288,35 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
                 finish();
                 break;
             case R.id.firstsatge_1:
-                if(num==2){
-                    if(num_type>2){
+                if (num == 2) {
+                    if (num_type > 2) {
                         intent = new Intent(NetExperienceDetailActivity.this, NetExpFirstVideoActivity.class);
                         intent.putExtra("title", "安妮鲜花微课堂");
                         intent.putExtra("type", 1);
                         intent.putExtra("fid", netExpClass.getFid());
                         startActivity(intent);
-                    }else{
+                    } else {
                         intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
                         intent.putExtra("url", netExpClass.getFirststage().getQuestionnaire().getUrl());
                         intent.putExtra("title", "填写问卷");
                         intent.putExtra("flag", 0);//标题是否取消1：取消
                         startActivity(intent);
                     }
-                }else if(num==3){
-                    if(firstStagelist.get(0).getIsshow()==0){
+                } else if (num == 3) {
+                    if (firstStagelist.get(0).getIsshow() == 0) {
                         intent = new Intent(NetExperienceDetailActivity.this, NetExpFirstVideoActivity.class);
                         intent.putExtra("title", "安妮鲜花微课堂");
                         intent.putExtra("type", 1);
                         intent.putExtra("fid", netExpClass.getFid());
                         startActivity(intent);
-                    }else{
+                    } else {
                         intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
                         intent.putExtra("url", netExpClass.getFirststage().getQuestionnaire().getUrl());
                         intent.putExtra("title", "填写问卷");
                         intent.putExtra("flag", 0);//标题是否取消1：取消
                         startActivity(intent);
                     }
-                }
-                else{
+                } else {
                     intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
                     intent.putExtra("url", netExpClass.getFirststage().getQuestionnaire().getUrl());
                     intent.putExtra("title", "填写问卷");
@@ -325,36 +325,35 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
                 }
                 break;
             case R.id.firstsatge_2:
-                if(num==2){
-                    if(num_type==1 || num_type==3){
+                if (num == 2) {
+                    if (num_type == 1 || num_type == 3) {
                         intent = new Intent(NetExperienceDetailActivity.this, NetExpFirstVideoActivity.class);
                         intent.putExtra("title", "课程解析");
                         intent.putExtra("type", 2);
                         intent.putExtra("fid", netExpClass.getFid());
                         startActivity(intent);
-                    }else{
+                    } else {
                         intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
                         intent.putExtra("url", netExpClass.getFirststage().getCommonproblem().getUrl());
                         intent.putExtra("title", "常见问题");
                         intent.putExtra("flag", 0);//标题是否取消1：取消
                         startActivity(intent);
                     }
-                }else if(num==3){
-                    if(firstStagelist.get(0).getIsshow()==0 || firstStagelist.get(1).getIsshow()==0){
+                } else if (num == 3) {
+                    if (firstStagelist.get(0).getIsshow() == 0 || firstStagelist.get(1).getIsshow() == 0) {
                         intent = new Intent(NetExperienceDetailActivity.this, NetExpFirstVideoActivity.class);
                         intent.putExtra("title", "课程解析");
                         intent.putExtra("type", 2);
                         intent.putExtra("fid", netExpClass.getFid());
                         startActivity(intent);
-                    }else{
+                    } else {
                         intent = new Intent(NetExperienceDetailActivity.this, NetExpFirstVideoActivity.class);
                         intent.putExtra("title", "安妮鲜花微课堂");
                         intent.putExtra("type", 1);
                         intent.putExtra("fid", netExpClass.getFid());
                         startActivity(intent);
                     }
-                }
-                else{
+                } else {
                     intent = new Intent(NetExperienceDetailActivity.this, NetExpFirstVideoActivity.class);
                     intent.putExtra("title", "安妮鲜花微课堂");
                     intent.putExtra("type", 1);
@@ -363,21 +362,21 @@ public class NetExperienceDetailActivity extends BaseActivity implements ViewInf
                 }
                 break;
             case R.id.firstsatge_3:
-                if(num==3){
-                    if(firstStagelist.get(3).getIsshow()!=0){
+                if (num == 3) {
+                    if (firstStagelist.get(3).getIsshow() != 0) {
                         intent = new Intent(NetExperienceDetailActivity.this, WebActivity.class);
                         intent.putExtra("url", netExpClass.getFirststage().getCommonproblem().getUrl());
                         intent.putExtra("title", "常见问题");
                         intent.putExtra("flag", 0);//标题是否取消1：取消
                         startActivity(intent);
-                    }else{
+                    } else {
                         intent = new Intent(NetExperienceDetailActivity.this, NetExpFirstVideoActivity.class);
                         intent.putExtra("title", "课程解析");
                         intent.putExtra("type", 2);
                         intent.putExtra("fid", netExpClass.getFid());
                         startActivity(intent);
                     }
-                }else{
+                } else {
                     intent = new Intent(NetExperienceDetailActivity.this, NetExpFirstVideoActivity.class);
                     intent.putExtra("title", "课程解析");
                     intent.putExtra("type", 2);

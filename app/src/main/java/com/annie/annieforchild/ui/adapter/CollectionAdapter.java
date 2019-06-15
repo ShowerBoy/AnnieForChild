@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.Collection;
+import com.annie.annieforchild.bean.net.netexpclass.VideoList;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.ui.activity.VideoActivity;
 import com.annie.annieforchild.ui.activity.VideoActivity_new;
@@ -19,6 +21,8 @@ import com.annie.annieforchild.ui.interfaces.OnMyItemClickListener;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,12 +71,25 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewHolder
                 if (lists.get(position).getAudioSource() == 100) {
 //                    SystemUtils.startVideo(context, lists.get(position).getAnimationUrl());
 //                    Intent intent = new Intent(context, VideoActivity.class);
+                    //TODO:列表
+                    List<VideoList> list = new ArrayList<>();
+                    for (int j = 0; j < lists.size(); j++) {
+                        VideoList videoList = new VideoList();
+                        videoList.setTitle(lists.get(j).getName());
+                        videoList.setPicurl(lists.get(j).getImageUrl());
+                        videoList.setUrl(lists.get(j).getAnimationUrl());
+                        list.add(videoList);
+                    }
                     Intent intent = new Intent(context, VideoActivity_new.class);
-                    intent.putExtra("url", lists.get(position).getAnimationUrl());
-                    intent.putExtra("imageUrl", lists.get(position).getImageUrl());
-                    intent.putExtra("name", lists.get(position).getName());
-                    intent.putExtra("id", lists.get(position).getCourseId());
+
                     intent.putExtra("isTime", true);
+                    intent.putExtra("isDefinition", false);
+
+                    intent.putExtra("animationId", lists.get(position).getCourseId());
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("videoList", (Serializable) list);
+                    bundle.putInt("videoPos", position);
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
                 } else {
                     Song song = new Song();

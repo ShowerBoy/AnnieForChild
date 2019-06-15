@@ -1509,6 +1509,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 application.getSystemUtils().setOnline(false);
                 ActivityCollector.finishAll();
                 Intent intent2 = new Intent(context, LoginActivity.class);
+                intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent2);
                 return;
             } else {

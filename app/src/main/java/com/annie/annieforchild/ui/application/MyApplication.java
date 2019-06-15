@@ -65,21 +65,24 @@ public class MyApplication extends LitePalApplication {
         super.onCreate();
 ////        NoHttp.initialize(MyApplication.this);
         //非wifi情况下，主动下载x5内核
-        QbSdk.setDownloadWithoutWifi(true);
-        //搜集本地tbs内核信息并上报服务器，服务器返回结果决定使用哪个内核。
-        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
-            @Override
-            public void onViewInitFinished(boolean arg0) {
-                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
-            }
+        if (!QbSdk.isTbsCoreInited()) {
+            QbSdk.setDownloadWithoutWifi(true);
+            //搜集本地tbs内核信息并上报服务器，服务器返回结果决定使用哪个内核。
+            QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
+                @Override
+                public void onViewInitFinished(boolean arg0) {
+                    //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
+                }
 
-            @Override
-            public void onCoreInitFinished() {
+                @Override
+                public void onCoreInitFinished() {
 
-            }
-        };
-        //x5内核初始化接口
-        QbSdk.initX5Environment(getApplicationContext(), cb);
+                }
+            };
+            //x5内核初始化接口
+            QbSdk.initX5Environment(getApplicationContext(), cb);
+        }
+
         InitializationConfig config = InitializationConfig.newBuilder(MyApplication.this)
                 .cacheStore(new DBCacheStore(MyApplication.this).setEnable(false))
                 .cookieStore(new DBCookieStore(MyApplication.this).setEnable(false))
@@ -91,7 +94,7 @@ public class MyApplication extends LitePalApplication {
         NoHttp.initialize(config);
         SpeechUtility.createUtility(MyApplication.this, SpeechConstant.APPID + "=5aab99b5");
         Utils.init(this);
-        initJpush();
+//        initJpush();
         MobSDK.init(this);
         StatService.start(this);
         MyCrashHandler handler = new MyCrashHandler(this);

@@ -1,12 +1,10 @@
 package com.annie.annieforchild.ui.activity.lesson;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -19,23 +17,18 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.decorators.EventDecorator;
 import com.annie.annieforchild.Utils.decorators.MySelectorDecorator;
 import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.schedule.TotalSchedule;
-import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.SchedulePresenter;
-import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
 import com.annie.annieforchild.ui.adapter.MonthScheduleAdapter;
 import com.annie.annieforchild.ui.adapter.ScheduleAdapter;
 import com.annie.annieforchild.view.ScheduleView;
-import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -63,6 +56,7 @@ public class ScheduleActivity2 extends BaseActivity implements OnDateSelectedLis
     private TotalSchedule totalSchedule;
     private ScheduleAdapter adapter;
     private MonthScheduleAdapter monthAdapter;
+
     private List<TotalSchedule> lists;
     private SchedulePresenter presenter;
     private TimePickerDialog timePickerDialog;
@@ -244,6 +238,11 @@ public class ScheduleActivity2 extends BaseActivity implements OnDateSelectedLis
                 totalSchedule.setTeacher(schedule.getTeacher());
             } else {
                 totalSchedule.setTeacher(new ArrayList<>());
+            }
+            if (schedule.getMoerduolist() != null) {
+                totalSchedule.setMoerduolist(schedule.getMoerduolist());
+            } else {
+                totalSchedule.setMoerduolist(new ArrayList<>());
             }
             if (schedule.getOffline() != null && schedule.getOffline().size() != 0
                     || schedule.getOnline() != null && schedule.getOnline().size() != 0

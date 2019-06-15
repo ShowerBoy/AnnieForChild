@@ -330,7 +330,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
 
                             presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName+ ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
                             Log.e("说话结束2", result.pronAccuracy+"");
-                            SystemUtils.deleteSingleFile(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/"+ fileName+".mp3");//上传后删除文件
+//                            SystemUtils.deleteSingleFile(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/"+ fileName+".mp3");//上传后删除文件
 
                             notifyDataSetChanged();
                         }
@@ -452,7 +452,6 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
             public void onCompletion(MediaPlayer mp) {//表示播放完毕
                 isSpeakReady = false;
                 isRecordPlay = false;
-                Log.e("11","end");
                 player.reset();//释放资源
                 isClick = true;
                 Message message = new Message();

@@ -35,7 +35,7 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
     NetWorkPresenterImp presenter;
     private Dialog dialog;
     private AlertHelper helper;
-    private LinearLayout no_content;
+    private LinearLayout no_content, listenLayout;
     private ListenAndRead listenAndRead;
     private ImageView listenandread_img;
     private Button to_listenandread;
@@ -54,6 +54,7 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
     @Override
     protected void initView() {
         to_listenandread = findViewById(R.id.to_listenandread);
+        listenLayout = findViewById(R.id.listen_layout);
         listner = new CheckDoubleClickListener(this);
         back = findViewById(R.id.back);
         no_content = findViewById(R.id.no_content);
@@ -85,12 +86,15 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
         if (message.what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {
             to_listenandread.setVisibility(View.VISIBLE);
             listenAndRead = (ListenAndRead) message.obj;
+            Glide.with(this).load(listenAndRead.getPath()).placeholder(R.drawable.book_image_loading).dontAnimate().into(listenandread_img);
             if (listenAndRead.getIsshow() == 0) {
                 no_content.setVisibility(View.VISIBLE);
+                listenLayout.setVisibility(View.GONE);
             } else {
                 no_content.setVisibility(View.GONE);
+                listenLayout.setVisibility(View.VISIBLE);
             }
-            Glide.with(this).load(listenAndRead.getPath()).placeholder(R.drawable.book_image_loading).dontAnimate().into(listenandread_img);
+
         }
     }
 

@@ -309,6 +309,6 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
                 return;
             }
         }
-        scheduleView.showInfo(error);
+//        scheduleView.showInfo(error);
     }
 }

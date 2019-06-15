@@ -255,7 +255,9 @@ public class ListenSongFragment extends BaseFragment implements SongView {
 
     @Override
     public void showInfo(String info) {
-        Toast.makeText(getContext(), info, Toast.LENGTH_SHORT).show();
+        if (mContext != null) {
+            Toast.makeText(mContext, info, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -37,7 +37,12 @@ public class MyNectarAdapter extends RecyclerView.Adapter<MyNectarViewHolder> {
     @Override
     public void onBindViewHolder(MyNectarViewHolder holder, int position) {
         holder.incomeName.setText(lists.get(position).getDetail());
-        int second = Integer.parseInt(lists.get(position).getDuration());
+        int second;
+        if (lists.get(position).getDuration() != null) {
+            second = Integer.parseInt(lists.get(position).getDuration());
+        } else {
+            second = 0;
+        }
         if (lists.get(position).getType() == 0) {
             if (second >= 60) {
                 holder.incomeTime.setText("（" + second / 60 + "分钟）");

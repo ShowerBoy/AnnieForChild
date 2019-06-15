@@ -357,6 +357,7 @@ public class MediaController extends FrameLayout implements IMediaController {
                 || keyCode == KeyEvent.KEYCODE_MENU) {
             hide();
             return true;
+
         } else {
             show(sDefaultTimeout);
         }

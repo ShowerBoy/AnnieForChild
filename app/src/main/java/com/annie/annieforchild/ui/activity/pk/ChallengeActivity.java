@@ -826,6 +826,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                         fileName = fileName2;
 
 
+
                         onRecord(fileName, currentLine);
                     }
                 }
@@ -867,9 +868,11 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
 //                Intent intent = new Intent(this, ChallengeActivity.class);
 //                intent.putExtra("bookId", bookId);
 //                startActivity(intent);
+                popupWindow.dismiss();
                 finish();
                 break;
             case R.id.try_again2:
+                popupWindow2.dismiss();
                 finish();
                 break;
         }

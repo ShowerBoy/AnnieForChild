@@ -131,20 +131,20 @@ public class MaterialActivity extends BaseActivity implements View.OnClickListen
             if (position >= 0 && position < 3) {
                 switch (position) {
                     case 0:
-                        if (null == supportingMaterialFragment) {
-                            supportingMaterialFragment = SupportingMaterialFragment.instance();
-                        }
-                        return supportingMaterialFragment;
-                    case 1:
-                        if (null == supplementaryMaterialFragment) {
-                            supplementaryMaterialFragment = SupplementaryMaterialFragment.instance();
-                        }
-                        return supplementaryMaterialFragment;
-                    case 2:
                         if (null == optionalMaterialFragment) {
                             optionalMaterialFragment = OptionalMaterialFragment.instance();
                         }
                         return optionalMaterialFragment;
+                    case 1:
+                        if (null == supportingMaterialFragment) {
+                            supportingMaterialFragment = SupportingMaterialFragment.instance();
+                        }
+                        return supportingMaterialFragment;
+                    case 2:
+                        if (null == supplementaryMaterialFragment) {
+                            supplementaryMaterialFragment = SupplementaryMaterialFragment.instance();
+                        }
+                        return supplementaryMaterialFragment;
                     default:
                         break;
                 }
@@ -162,11 +162,11 @@ public class MaterialActivity extends BaseActivity implements View.OnClickListen
             if (position >= 0 && position < 3) {
                 switch (position) {
                     case 0:
-                        return "配套教材";
-                    case 1:
-                        return "补充教材";
-                    case 2:
                         return "自选教材";
+                    case 1:
+                        return "配套教材";
+                    case 2:
+                        return "补充教材";
                     default:
                         break;
                 }

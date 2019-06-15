@@ -338,7 +338,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid, int homeworktype) {
         File file = new File(path);
         if (!file.exists()) {
-
+            return;
         }
         FileBinary fileBinary = new FileBinary(file);
         //如果时长小于1秒算成1秒
@@ -782,7 +782,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("homeworkid", homeworkid);
         request.add("deviceID", application.getSystemUtils().getSn());
         request.add("deviceType", SystemUtils.deviceType);
-        request.add("cid",cid);
+        request.add("cid", cid);
         addQueue(MethodCode.EVENT_COMPLETETASK + 70000 + taskid, request);
 //        startQueue();
     }
@@ -1301,14 +1301,14 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             } else if (what == MethodCode.EVENT_SUGGESTPERIOD) {
                 listener.Success(what, "提异成功");
             } else if (what == MethodCode.EVENT_MYTASK) {
-                Log.e("2221",data);
+                Log.e("2221", data);
                 TaskBean taskBean = JSON.parseObject(data, TaskBean.class);
                 if (taskBean == null) {
                     taskBean = new TaskBean();
                 }
                 listener.Success(what, taskBean);
             } else if (what == MethodCode.EVENT_TASKDETAILS + 50000 + classify) {
-                Log.e("222",data);
+                Log.e("222", data);
                 TaskDetails taskDetails = JSON.parseObject(data, TaskDetails.class);
                 if (taskDetails == null) {
                     taskDetails = new TaskDetails();
@@ -1316,7 +1316,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 listener.Success(what, taskDetails);
             } else if (what == MethodCode.EVENT_COMPLETETASK + 70000 + taskid) {
                 int result;
-                Log.e("taskcomplete",data+"");
+                Log.e("taskcomplete", data + "");
                 if (data != null) {
                     JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
                     result = dataobj.getInteger("result");

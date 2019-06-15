@@ -15,6 +15,7 @@ import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.material.Material;
+import com.annie.annieforchild.bean.net.netexpclass.VideoList;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.task.Homework;
 import com.annie.annieforchild.bean.task.TaskBean;
@@ -27,6 +28,7 @@ import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.TaskDetailsViewHolder;
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -266,12 +268,22 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                         //TODO：播放动画
 //                        SystemUtils.startVideo(context, lists.get(i).getAnimationUrl());
 //                        Intent intent = new Intent(context, VideoActivity.class);
+                        List<VideoList> list = new ArrayList<>();
+                        VideoList videoList = new VideoList();
+                        videoList.setTitle(lists.get(i).getBookname());
+                        videoList.setPicurl(lists.get(i).getBookimage());
+                        videoList.setUrl(lists.get(i).getAnimationUrl());
+                        list.add(videoList);
+
                         Intent intent = new Intent(context, VideoActivity_new.class);
-                        intent.putExtra("url", lists.get(i).getAnimationUrl());
-                        intent.putExtra("imageUrl", lists.get(i).getBookimage());
-                        intent.putExtra("name", lists.get(i).getBookname());
-                        intent.putExtra("id", lists.get(i).getBookid());
                         intent.putExtra("isTime", true);
+                        intent.putExtra("isDefinition", false);
+                        intent.putExtra("animationId", lists.get(i).getBookid());
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("videoList", (Serializable) list);
+                        bundle.putInt("videoPos", 0);
+                        intent.putExtras(bundle);
+
                         context.startActivity(intent);
                     } else {
 

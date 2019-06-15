@@ -396,20 +396,26 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
 
     @Override
     public void showInfo(String info) {
-        Toast.makeText(getContext(), info, Toast.LENGTH_SHORT).show();
+        if (mContext != null) {
+            Toast.makeText(mContext, info, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void showLoad() {
         if (dialog != null && !dialog.isShowing()) {
-            dialog.show();
+            if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
+                dialog.show();
+            }
         }
     }
 
     @Override
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+            if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
+                dialog.dismiss();
+            }
         }
     }
 

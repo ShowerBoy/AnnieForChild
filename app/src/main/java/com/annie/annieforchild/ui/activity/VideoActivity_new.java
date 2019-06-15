@@ -1,28 +1,42 @@
 package com.annie.annieforchild.ui.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
+import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.pldroidplayer.Config;
 import com.annie.annieforchild.Utils.pldroidplayer.MediaController;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
+import com.annie.annieforchild.bean.net.netexpclass.VideoDefiniList;
+import com.annie.annieforchild.bean.net.netexpclass.VideoList;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.view.SongView;
-import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.pili.pldroid.player.AVOptions;
@@ -38,15 +52,17 @@ import com.pili.pldroid.player.widget.PLVideoView;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by wanglei on 2018/6/19.
  */
 
-public class VideoActivity_new extends BaseMusicActivity implements SongView {
+public class VideoActivity_new extends BaseMusicActivity implements SongView, OnCheckDoubleClick {
     String videoPath;
     private static final String TAG = VideoActivity_new.class.getSimpleName();
-
+    private LinearLayout clarifyBack;
+    private TextView definition, p480, p720, p1080, last, next;
     private PLVideoView mVideoView;
     private int mDisplayAspectRatio = PLVideoView.ASPECT_RATIO_FIT_PARENT;
     private MediaController mMediaController;
@@ -54,15 +70,22 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
     private AlertHelper helper;
     private Dialog dialog;
     private String classcode;
-    private int id, duration, isFinish, position;
+    private int animationId, duration, isFinish, position, videoPos;
     private GrindEarPresenter presenter;
     private NetWorkPresenter presenter2;
     private String netid, stageid, unitid, chaptercontentid;
     private boolean isTime = false; //是否计时
     private Handler handler = new Handler();
+    private List<VideoList> videoList; //视频列表
+    private PopupWindow defiPopup;
+    private View defiPopupView;
+    private PowerManager pManager;
+    private PowerManager.WakeLock mWakeLock;
+    private CheckDoubleClickListener listener;
+    private int netWorkstate;
+    private boolean isDefinition;//判断是否有清晰度
     Runnable runnable;
-
-    private boolean mIsLiveStreaming;
+    private Intent intent;
 
     {
         setRegister(true);
@@ -75,57 +98,75 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
 
     @Override
     protected void initView() {
+        listener = new CheckDoubleClickListener(this);
         mVideoView = findViewById(R.id.plvideoView);
         loadingView = findViewById(R.id.LoadingView);
+        definition = findViewById(R.id.definition);
+        clarifyBack = findViewById(R.id.clarify_back);
+        next = findViewById(R.id.next);
+        last = findViewById(R.id.last);
+        definition.setOnClickListener(listener);
+        last.setOnClickListener(listener);
+        next.setOnClickListener(listener);
         mVideoView.setBufferingIndicator(loadingView);
 
+        intent = getIntent();
 //        View mCoverView = findViewById(R.id.CoverView);
 //        mVideoView.setCoverView(mCoverView);
-        Intent intent = getIntent();
-        if (intent != null) {
-            videoPath = intent.getStringExtra("url");
-            id = intent.getIntExtra("id", 0);
-            isTime = intent.getBooleanExtra("isTime", false);
-            /**
-             * {@link com.annie.annieforchild.ui.adapter.NetExpFirstVideoAdapter}
-             */
-            netid = intent.getStringExtra("netid");
-            stageid = intent.getStringExtra("stageid");
-            unitid = intent.getStringExtra("unitid");
-            chaptercontentid = intent.getStringExtra("chaptercontentid");
-            classcode = intent.getStringExtra("classcode");
-            isFinish = intent.getIntExtra("isFinish", 0);
-            position = intent.getIntExtra("position", 0);
+//        videoPath = intent.getStringExtra("url");
+
+        isTime = intent.getBooleanExtra("isTime", false);
+        isDefinition = intent.getBooleanExtra("isDefinition", false);
+
+        isFinish = intent.getIntExtra("isFinish", 0);
+        animationId = intent.getIntExtra("animationId", 0);
+        /**
+         * {@link com.annie.annieforchild.ui.adapter.NetExpFirstVideoAdapter}
+         */
+        netid = intent.getStringExtra("netid");
+        stageid = intent.getStringExtra("stageid");
+        unitid = intent.getStringExtra("unitid");
+        chaptercontentid = intent.getStringExtra("chaptercontentid");
+        classcode = intent.getStringExtra("classcode");
+        position = intent.getIntExtra("position", 0);
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            videoList = (List<VideoList>) bundle.getSerializable("videoList");
+            videoPos = bundle.getInt("videoPos");
         }
 
+        initPopup();
+        initPLVideoView();
+    }
 
-        // 1 -> hw codec enable, 0 -> disable [recommended]
-        int codec = getIntent().getIntExtra("mediaCodec", AVOptions.MEDIA_CODEC_SW_DECODE);
+    @Override
+    protected void initData() {
+        helper = new AlertHelper(this);
+        dialog = helper.LoadingDialog();
+        presenter = new GrindEarPresenterImp(this, this);
+        presenter2 = new NetWorkPresenterImp(this, this);
+        presenter.initViewAndData();
+        presenter2.initViewAndData();
+        netWorkstate = checkNetWorkType();
+        if (netWorkstate == 1) {
+            showInfo("当前网络为：wifi");
+        } else if (netWorkstate == 2) {
+            showInfo("当前网络为：流量");
+        } else {
+            showInfo("无网络");
+        }
+    }
+
+    private void initPLVideoView() {
         AVOptions options = new AVOptions();
         // the unit of timeout is ms
         options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
         // 1 -> hw codec enable, 0 -> disable [recommended]
-        options.setInteger(AVOptions.KEY_MEDIACODEC, codec);
-        options.setInteger(AVOptions.KEY_LIVE_STREAMING, mIsLiveStreaming ? 1 : 0);
-        boolean disableLog = getIntent().getBooleanExtra("disable-log", false);
+        options.setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_SW_DECODE);
+        options.setInteger(AVOptions.KEY_LIVE_STREAMING, 0);
         // options.setString(AVOptions.KEY_DNS_SERVER, "127.0.0.1");
-        options.setInteger(AVOptions.KEY_LOG_LEVEL, disableLog ? 5 : 0);
-        boolean cache = getIntent().getBooleanExtra("cache", false);
-        if (!mIsLiveStreaming && cache) {
-            options.setString(AVOptions.KEY_CACHE_DIR, Config.DEFAULT_CACHE_DIR);
-        }
-        boolean vcallback = getIntent().getBooleanExtra("video-data-callback", false);
-        if (vcallback) {
-            options.setInteger(AVOptions.KEY_VIDEO_DATA_CALLBACK, 1);
-        }
-        boolean acallback = getIntent().getBooleanExtra("audio-data-callback", false);
-        if (acallback) {
-            options.setInteger(AVOptions.KEY_AUDIO_DATA_CALLBACK, 1);
-        }
-        if (!mIsLiveStreaming) {
-            int startPos = getIntent().getIntExtra("start-pos", 0);
-            options.setInteger(AVOptions.KEY_START_POSITION, startPos * 1000);
-        }
+        options.setInteger(AVOptions.KEY_LOG_LEVEL, 0);
+        options.setInteger(AVOptions.KEY_START_POSITION, 0);
         // options.setString(AVOptions.KEY_COMP_DRM_KEY,"cWoosgRk");
         mVideoView.setAVOptions(options);
 
@@ -139,22 +180,52 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
         mVideoView.setOnAudioFrameListener(mOnAudioFrameListener);
 
         mVideoView.setVideoPath(videoPath);
-        mVideoView.setLooping(getIntent().getBooleanExtra("loop", false));
+        mVideoView.setLooping(false);
 
         // You can also use a custom `MediaController` widget
-        mMediaController = new MediaController(this, !mIsLiveStreaming, mIsLiveStreaming);
+        mMediaController = new MediaController(this, true, false);
         mMediaController.setOnClickSpeedAdjustListener(mOnClickSpeedAdjustListener);
         mVideoView.setMediaController(mMediaController);
     }
 
-    @Override
-    protected void initData() {
-        helper = new AlertHelper(this);
-        dialog = helper.LoadingDialog();
-        presenter = new GrindEarPresenterImp(this, this);
-        presenter2 = new NetWorkPresenterImp(this, this);
-        presenter.initViewAndData();
-        presenter2.initViewAndData();
+    private void initPopup() {
+        if (!isDefinition) {
+            definition.setVisibility(View.GONE);
+            videoPath = videoList.get(videoPos).getUrl();
+            return;
+        }
+        videoPath = videoList.get(videoPos).getPath().get(0).getUrl();
+        definition.setVisibility(View.VISIBLE);
+        defiPopup = new PopupWindow(this);
+        defiPopupView = LayoutInflater.from(this).inflate(R.layout.activity_difi_popup, null, false);
+        defiPopup.setContentView(defiPopupView);
+        defiPopup.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.clarity)));
+        defiPopup.setOutsideTouchable(false);
+        defiPopup.setFocusable(true);
+
+        p480 = defiPopupView.findViewById(R.id.p_480);
+        p720 = defiPopupView.findViewById(R.id.p_720);
+        p1080 = defiPopupView.findViewById(R.id.p_1080);
+        p480.setOnClickListener(listener);
+        p720.setOnClickListener(listener);
+        p1080.setOnClickListener(listener);
+        for (int i = 0; i < videoList.get(videoPos).getPath().size(); i++) {
+            if (videoList.get(videoPos).getPath().get(i).getType() == 1) {
+                p480.setVisibility(View.VISIBLE);
+            } else if (videoList.get(videoPos).getPath().get(i).getType() == 2) {
+                p720.setVisibility(View.VISIBLE);
+            } else if (videoList.get(videoPos).getPath().get(i).getType() == 3) {
+                p1080.setVisibility(View.VISIBLE);
+            }
+        }
+        if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
+            definition.setText("标清");
+        } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
+            definition.setText("高清");
+        } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
+            definition.setText("超清");
+        }
+
     }
 
     @Override
@@ -292,6 +363,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
 
     private PLOnCompletionListener mOnCompletionListener = new PLOnCompletionListener() {
         @Override
+
         public void onCompletion() {
             Log.i(TAG, "Play Completed !");
             if (!isTime) {
@@ -299,9 +371,10 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
                     presenter2.videoPayRecord(netid, stageid, unitid, chaptercontentid, isFinish, classcode, position);
                 }
             }
-            if (!mIsLiveStreaming) {
-                mMediaController.refreshProgress();
-            }
+            mMediaController.refreshProgress();
+            clarifyBack.setVisibility(View.VISIBLE);
+            mVideoView.setClickable(false);
+
             //finish();
         }
     };
@@ -352,6 +425,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
         public void onClickNormal() {
             // 0x0001/0x0001 = 2
             mVideoView.setPlaySpeed(0X00010001);
+            clarifyBack.setVisibility(View.GONE);
         }
 
         @Override
@@ -381,6 +455,9 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
     @Override
     protected void onResume() {
         super.onResume();
+        pManager = ((PowerManager) getSystemService(POWER_SERVICE));
+        mWakeLock = pManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, TAG);
+        mWakeLock.acquire();
         allowBindService();
         mVideoView.start();
         if (isTime) {
@@ -400,13 +477,16 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
     protected void onPause() {
         allowUnBindService();
         super.onPause();
+        if (null != mWakeLock) {
+            mWakeLock.release();
+        }
         mMediaController.getWindow().dismiss();
         mVideoView.pause();
         if (isTime) {
             if (duration < 1) {
                 duration = 1;
             }
-            presenter.uploadAudioTime(3, 0, 100, id, duration);
+            presenter.uploadAudioTime(3, 0, 100, animationId, duration);
         }
     }
 
@@ -453,6 +533,94 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView {
     public void onChange(int position) {
         if (musicService.isPlaying()) {
             musicService.stop();
+        }
+    }
+
+    @Override
+    public void onCheckDoubleClick(View view) {
+        switch (view.getId()) {
+            case R.id.definition:
+                defiPopup.showAsDropDown(definition);
+                break;
+            case R.id.p_480:
+                definition.setText("标清");
+                mVideoView.pause();
+                mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(0).getUrl());
+                mVideoView.start();
+                defiPopup.dismiss();
+                break;
+            case R.id.p_720:
+                definition.setText("高清");
+                mVideoView.pause();
+                if (p480.getVisibility() == View.VISIBLE) {
+                    mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(1).getUrl());
+                } else {
+                    mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(0).getUrl());
+                }
+                mVideoView.start();
+                defiPopup.dismiss();
+                break;
+            case R.id.p_1080:
+                definition.setText("超清");
+                mVideoView.pause();
+                if (p480.getVisibility() == View.VISIBLE) {
+                    if (p720.getVisibility() == View.VISIBLE) {
+                        mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(2).getUrl());
+                    } else {
+                        mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(1).getUrl());
+                    }
+                } else {
+                    if (p720.getVisibility() == View.VISIBLE) {
+                        mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(1).getUrl());
+                    } else {
+                        mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(0).getUrl());
+                    }
+                }
+                mVideoView.start();
+                defiPopup.dismiss();
+                break;
+
+            case R.id.last:
+                videoPos--;
+                if (videoPos < 0) {
+                    videoPos = videoList.size() - 1;
+                }
+                initPopup();
+                mVideoView.setVideoPath(videoPath);
+                clarifyBack.setVisibility(View.GONE);
+                mVideoView.start();
+                break;
+            case R.id.next:
+                videoPos++;
+                if (videoPos >= videoList.size()) {
+                    videoPos = 0;
+                }
+                initPopup();
+                mVideoView.setVideoPath(videoPath);
+                clarifyBack.setVisibility(View.GONE);
+                mVideoView.start();
+                break;
+        }
+    }
+
+    /**
+     * 检查网络类型 0：无网络 1：wifi 2：流量
+     *
+     * @return
+     */
+    private int checkNetWorkType() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeInfo = connMgr.getActiveNetworkInfo();
+        if (activeInfo != null && activeInfo.isConnected()) {
+            if (activeInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                return 1;
+            } else if (activeInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                return 2;
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
         }
     }
 }

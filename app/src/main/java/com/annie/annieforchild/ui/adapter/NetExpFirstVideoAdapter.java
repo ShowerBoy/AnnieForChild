@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,9 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
+import com.annie.annieforchild.bean.net.netexpclass.VideoList;
 import com.annie.annieforchild.bean.net.netexpclass.Video_first;
+import com.annie.annieforchild.bean.net.netexpclass.Video_second;
 import com.annie.annieforchild.ui.activity.VideoActivity;
 import com.annie.annieforchild.ui.activity.VideoActivity_new;
 import com.annie.annieforchild.ui.activity.my.WebActivity2;
@@ -19,6 +22,8 @@ import com.annie.annieforchild.ui.adapter.viewHolder.NetPreheatConsultViewHolder
 import com.bumptech.glide.Glide;
 import com.tencent.smtt.sdk.TbsVideo;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,12 +31,13 @@ import java.util.List;
 
 public class NetExpFirstVideoAdapter extends RecyclerView.Adapter<NetPreheatConsultViewHolder> {
     private Context context;
-    private List<Video_first> list1;
+    //    private List<Video_first> list1;
+    private List<Video_second> list1;
     private String netid, stageid, unitid, classcode;
     private int position;
     private LayoutInflater inflater;
 
-    public NetExpFirstVideoAdapter(Context context, List<Video_first> list1, String netid, String stageid, String unitid, String classcode, int position) {
+    public NetExpFirstVideoAdapter(Context context, List<Video_second> list1, String netid, String stageid, String unitid, String classcode, int position) {
         this.context = context;
         this.list1 = list1;
         this.netid = netid;
@@ -64,18 +70,48 @@ public class NetExpFirstVideoAdapter extends RecyclerView.Adapter<NetPreheatCons
             @Override
             public void onClick(View v) {
 //                Intent intent = new Intent(context, VideoActivity.class);
+//                Intent intent = new Intent(context, VideoActivity_new.class);
+//                intent.putExtra("url", list1.get(i).getPath().get(0));
+//                intent.putExtra("imageUrl", list1.get(i).getPicurl());
+//                intent.putExtra("name", list1.get(i).getTitle());
+//                intent.putExtra("netid", netid);
+//                intent.putExtra("stageid", stageid);
+//                intent.putExtra("unitid", unitid);
+//                intent.putExtra("chaptercontentid", list1.get(i).getChaptercontent_id());
+//                intent.putExtra("classcode", classcode);
+//
+//                intent.putExtra("isFinish", list1.get(i).getIsFinish());
+//                intent.putExtra("position", position);
+//                intent.putExtra("isTime", false);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("urlList", (Serializable) list1.get(i).getPath());
+//                intent.putExtras(bundle);
+
+
+                List<VideoList> list = new ArrayList<>();
+                for (int j = 0; j < list1.size(); j++) {
+                    VideoList videoList = new VideoList();
+                    videoList.setTitle(list1.get(j).getTitle());
+                    videoList.setPicurl(list1.get(j).getPicurl());
+                    videoList.setUrl(list1.get(j).getPath().get(0).getUrl());
+                    videoList.setPath(list1.get(j).getPath());
+                    list.add(videoList);
+                }
                 Intent intent = new Intent(context, VideoActivity_new.class);
-                intent.putExtra("url", list1.get(i).getPath());
-                intent.putExtra("imageUrl", list1.get(i).getPicurl());
-                intent.putExtra("name", list1.get(i).getTitle());
+                intent.putExtra("isTime", false);
+                intent.putExtra("isDefinition", true);
+
                 intent.putExtra("netid", netid);
+
                 intent.putExtra("stageid", stageid);
                 intent.putExtra("unitid", unitid);
                 intent.putExtra("chaptercontentid", list1.get(i).getChaptercontent_id());
                 intent.putExtra("classcode", classcode);
-                intent.putExtra("isFinish", list1.get(i).getIsFinish());
-                intent.putExtra("position", position);
-                intent.putExtra("isTime", false);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("videoList", (Serializable) list);
+                bundle.putInt("videoPos", i);
+                intent.putExtras(bundle);
+
                 context.startActivity(intent);
 //                SystemUtils.startVideo(context, list1.get(i).getPath());
             }
