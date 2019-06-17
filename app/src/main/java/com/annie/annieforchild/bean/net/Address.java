@@ -11,8 +11,15 @@ public class Address implements Serializable {
     private String name;
     private String phone;
     private String address;
+    private String provinces;
     private int isDefault;
+    public String getProvinces() {
+        return provinces;
+    }
 
+    public void setProvinces(String provinces) {
+        this.provinces = provinces;
+    }
     public int getIsDefault() {
         return isDefault;
     }

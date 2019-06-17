@@ -54,7 +54,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressViewHolder> {
             holder.checkbox.setVisibility(View.VISIBLE);
             holder.name.setText(lists.get(i).getName());
             holder.phone.setText(lists.get(i).getPhone());
-            holder.address.setText(lists.get(i).getAddress());
+            holder.address.setText(lists.get(i).getProvinces()+lists.get(i).getAddress());
 //        if(lists.get(i).getIsDefault()==0){//0不是默认地址
 //            holder.checkbox.setChecked(false);
 //        }else{
@@ -87,7 +87,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressViewHolder> {
             holder.checkbox.setVisibility(View.GONE);
             holder.name.setText(lists.get(i).getName());
             holder.phone.setText(lists.get(i).getPhone());
-            holder.address.setText(lists.get(i).getAddress());
+            holder.address.setText(lists.get(i).getProvinces()+lists.get(i).getAddress());
             holder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

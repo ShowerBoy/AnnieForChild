@@ -3,6 +3,7 @@ package com.annie.annieforchild.ui.activity.net;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -14,20 +15,29 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
+import com.annie.annieforchild.Utils.GetJsonDataUtil;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Address;
+import com.annie.annieforchild.bean.net.ShengBean;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.invoke.MethodHandle;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 添加收货地址
@@ -37,8 +47,9 @@ import java.lang.invoke.MethodHandle;
 public class AddAddressActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     private ImageView back, delete;
     private TextView btn;
+    private TextView add_address_province;
     private EditText Addname, Addphone, Addaddress;
-    private String name, phone, address;
+    private String name, phone, address,provinces;
     private NetWorkPresenter presenter;
     private CheckDoubleClickListener listener;
     private Intent intent;
@@ -46,6 +57,13 @@ public class AddAddressActivity extends BaseActivity implements ViewInfo, OnChec
     private int addressId;
     private AlertHelper helper;
     private Dialog dialog;
+    //  省
+    private List<ShengBean> options1Items = new ArrayList<ShengBean>();
+    //  市
+    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
+    //  区
+    private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
+
 
     {
         setRegister(true);
@@ -65,6 +83,8 @@ public class AddAddressActivity extends BaseActivity implements ViewInfo, OnChec
         Addphone = findViewById(R.id.add_address_phone);
         Addaddress = findViewById(R.id.add_address_address);
         listener = new CheckDoubleClickListener(this);
+        add_address_province = findViewById(R.id.add_address_province);
+        add_address_province.setOnClickListener(listener);
         back.setOnClickListener(listener);
         btn.setOnClickListener(listener);
         delete.setOnClickListener(listener);
@@ -119,6 +139,7 @@ public class AddAddressActivity extends BaseActivity implements ViewInfo, OnChec
             Addname.setText(address.getName());
             Addphone.setText(address.getPhone());
             Addaddress.setText(address.getAddress());
+            add_address_province.setText(address.getProvinces());
             btn.setText("修改");
         } else {
             isEdit = false;
@@ -143,15 +164,21 @@ public class AddAddressActivity extends BaseActivity implements ViewInfo, OnChec
     @Override
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
+            case R.id.add_address_province:
+                // 解析数据
+                parseData();
+                // 展示省市区选择器
+                showPickerView();
+                break;
             case R.id.add_address_back:
                 finish();
                 break;
             case R.id.add_address_queding:
                 if (isCorrect()) {
                     if (isEdit) {
-                        presenter.editAddress(addressId, name, phone, address);
+                        presenter.editAddress(addressId, name, phone, address,provinces);
                     } else {
-                        presenter.addAddress(name, phone, address);
+                        presenter.addAddress(name, phone, address,provinces);
                     }
                 } else {
                     showInfo("请填写完整信息");
@@ -182,7 +209,9 @@ public class AddAddressActivity extends BaseActivity implements ViewInfo, OnChec
         name = Addname.getText().toString().trim();
         phone = Addphone.getText().toString().trim();
         address = Addaddress.getText().toString().trim();
-        if (name != null && name.length() != 0 && phone != null && phone.length() != 0 && address != null && address.length() != 0) {
+        provinces = add_address_province.getText().toString().trim();
+        if (name != null && name.length() != 0 && phone != null && phone.length() != 0 && address != null && address.length() != 0
+         && provinces!=null && provinces.length()!=0) {
             return true;
         } else {
             return false;
@@ -220,5 +249,73 @@ public class AddAddressActivity extends BaseActivity implements ViewInfo, OnChec
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
+    }
+    /**
+     * 展示选择器
+     */
+    private void showPickerView() {// 弹出选择器
+
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                String tx = options1Items.get(options1).name +
+                        options2Items.get(options1).get(options2) +
+                        options3Items.get(options1).get(options2).get(options3);
+
+                add_address_province.setText(tx);
+            }
+        })
+
+                .setTitleText("城市选择")
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .build();
+
+        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+        pvOptions.show();
+    }
+    /**
+     * 解析数据并组装成自己想要的list
+     */
+    private void parseData(){
+        String jsonStr = new GetJsonDataUtil().getJson(this, "province.json");//获取assets目录下的json文件数据
+//     数据解析
+        Gson gson =new Gson();
+        java.lang.reflect.Type type =new TypeToken<List<ShengBean>>(){}.getType();
+        List<ShengBean>shengList=gson.fromJson(jsonStr, type);
+//     把解析后的数据组装成想要的list
+        options1Items = shengList;
+//     遍历省
+        for(int i = 0; i <shengList.size() ; i++) {
+//         存放城市
+            ArrayList<String> cityList = new ArrayList<>();
+//         存放区
+            ArrayList<ArrayList<String>> province_AreaList = new ArrayList<>();
+//         遍历市
+            for(int c = 0; c <shengList.get(i).city.size() ; c++) {
+//        拿到城市名称
+                String cityName = shengList.get(i).city.get(c).name;
+                cityList.add(cityName);
+
+                ArrayList<String> city_AreaList = new ArrayList<>();//该城市的所有地区列表
+                if (shengList.get(i).city.get(c).area == null || shengList.get(i).city.get(c).area.size() == 0) {
+                    city_AreaList.add("");
+                } else {
+                    city_AreaList.addAll(shengList.get(i).city.get(c).area);
+                }
+                province_AreaList.add(city_AreaList);
+            }
+            /**
+             * 添加城市数据
+             */
+            options2Items.add(cityList);
+            /**
+             * 添加地区数据
+             */
+            options3Items.add(province_AreaList);
+        }
+
     }
 }

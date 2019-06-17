@@ -100,11 +100,44 @@
                 android:theme="@style/MyEditText" />
         </LinearLayout>
 
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:background="@color/light_gray2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="6dp"
+            android:paddingEnd="6dp"
+            android:paddingStart="16dp"
+            android:paddingTop="6dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="所在地区"
+                android:textColor="@color/text_black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/add_address_province"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_marginStart="12dp"
+                android:paddingBottom="10dp"
+                android:backgroundTint="@color/white"
+                android:text=""
+                android:textColor="@color/text_color"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@color/light_gray2" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -556,7 +556,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                         if (netSuggest.getAddress().get(i).getAddressId() == addressId) {
                             name.setText(netSuggest.getAddress().get(i).getName());
                             phone.setText(netSuggest.getAddress().get(i).getPhone());
-                            address.setText(netSuggest.getAddress().get(i).getAddress());
+                            address.setText(netSuggest.getAddress().get(i).getProvinces()+netSuggest.getAddress().get(i).getAddress());
                         }
                     }
                 } else {

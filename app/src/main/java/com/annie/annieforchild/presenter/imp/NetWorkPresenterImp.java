@@ -120,15 +120,15 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void addAddress(String name, String phone, String address) {
+    public void addAddress(String name, String phone, String address,String provinces) {
         viewInfo.showLoad();
-        interactor.addAddress(name, phone, address);
+        interactor.addAddress(name, phone, address, provinces);
     }
 
     @Override
-    public void editAddress(int addressid, String name, String phone, String address) {
+    public void editAddress(int addressid, String name, String phone, String address,String provinces) {
         viewInfo.showLoad();
-        interactor.editAddress(addressid, name, phone, address);
+        interactor.editAddress(addressid, name, phone, address, provinces);
     }
 
     @Override

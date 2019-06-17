@@ -115,6 +115,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     @Override
     public void confirmOrder(int netid) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.CONFIRMORDER, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + "NetclassTestApi/" + MethodType.CONFIRMORDER, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
@@ -127,6 +128,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     @Override
     public void getMyAddress() {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETMYADDRESS, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl +"NetclassTestApi/"+ MethodType.GETMYADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("deviceID", application.getSystemUtils().getSn());
@@ -136,13 +138,15 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void addAddress(String name, String phone, String address) {
+    public void addAddress(String name, String phone, String address,String provinces) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.ADDADDRESS, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl +"NetclassTestApi/"+ MethodType.ADDADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("name", name);
         request.add("phone", phone);
         request.add("address", address);
+        request.add("provinces", provinces);
         request.add("deviceID", application.getSystemUtils().getSn());
         request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_ADDADDRESS, request);
@@ -150,14 +154,16 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void editAddress(int addressid, String name, String phone, String address) {
+    public void editAddress(int addressid, String name, String phone, String address,String provinces) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.EDITADDRESS, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl +"NetclassTestApi/" + MethodType.EDITADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("addressid", addressid);
         request.add("name", name);
         request.add("phone", phone);
         request.add("address", address);
+        request.add("provinces", provinces);
         request.add("deviceID", application.getSystemUtils().getSn());
         request.add("deviceType", SystemUtils.deviceType);
         addQueue(MethodCode.EVENT_EDITADDRESS, request);
