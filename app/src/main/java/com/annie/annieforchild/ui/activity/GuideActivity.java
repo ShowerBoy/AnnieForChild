@@ -191,6 +191,15 @@ public class GuideActivity extends BaseActivity implements LoginView {
                 }
                 application.getSystemUtils().setPhoneSN(list.get(list.size() - 1));
                 application.getSystemUtils().setSn(list.get(list.size() - 1).getSn());
+            }else{
+                if (tm.getSimSerialNumber() != null) {
+                    application.getSystemUtils().setSn(tm.getSimSerialNumber());
+                } else {
+                    application.getSystemUtils().setSn(UUID.randomUUID().toString());
+                }
+                application.getSystemUtils().setPhoneSN(new PhoneSN());
+                application.getSystemUtils().getPhoneSN().setSn(application.getSystemUtils().getSn());
+                application.getSystemUtils().getPhoneSN().save();
             }
             phone = preferences.getString("phone", null);
             psd = preferences.getString("psd", null);
