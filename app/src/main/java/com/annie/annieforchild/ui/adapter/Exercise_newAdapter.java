@@ -320,18 +320,19 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                             isRecording = false;
                             isClick = true;
                             oral = null;
-
                             ExerciseActivity2.viewPager.setNoFocus(false);
                             viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
                             double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
                             BigDecimal bg = new BigDecimal(num / 20);
                             double num1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                             lists.get(i).setScore((float) num1);
-
-                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName+ ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
-                            Log.e("说话结束2", result.pronAccuracy+"");
-//                            SystemUtils.deleteSingleFile(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/"+ fileName+".mp3");//上传后删除文件
-
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName+ ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
+                                }
+                            }, 1500);
+                             Log.e("说话结束2", result.pronAccuracy+"");
                             notifyDataSetChanged();
                         }
                     });

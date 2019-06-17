@@ -17,9 +17,9 @@ public interface NetWorkPresenter {
 
     void getMyAddress();
 
-    void addAddress(String name, String phone, String address);
+    void addAddress(String name, String phone, String address,String provinces);
 
-    void editAddress(int addressid, String name, String phone, String address);
+    void editAddress(int addressid, String name, String phone, String address,String provinces);
 
     void deleteAddress(int addressid);
 
