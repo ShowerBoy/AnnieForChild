@@ -294,6 +294,8 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
             } else {
                 if (MusicManager.getInstance().musicList == null || MusicManager.getInstance().musicList.size() == 0) {
                     isClick = false;
+                } else {
+                    isClick = true;
                 }
             }
         } else if (message.what == MethodCode.EVENT_UNPLAYING) {
@@ -306,6 +308,8 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
             } else {
                 if (MusicManager.getInstance().musicList == null || MusicManager.getInstance().musicList.size() == 0) {
                     isClick = false;
+                } else {
+                    isClick = true;
                 }
             }
         } else if (message.what == MethodCode.EVENT_GETLYRIC) {
@@ -430,7 +434,7 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
                 break;
             case R.id.music_list2:
                 //播放列表
-                if (!musicStart) {
+                if (MusicManager.getInstance().musicList == null || MusicManager.getInstance().musicList.size() == 0) {
                     return;
                 }
                 /*报错，出现内存泄漏问题，故加入界面退出加入onDestroy销毁popupwindow*/
@@ -439,7 +443,7 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
                 break;
             case R.id.music_loop2:
                 //循环模式
-                if (!musicStart) {
+                if (MusicManager.getInstance().musicList == null || MusicManager.getInstance().musicList.size() == 0) {
                     return;
                 }
                 if (musicService.isSingleLoop()) {
@@ -454,7 +458,7 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
                 break;
             case R.id.music_share2:
                 //分享
-                if (!musicStart) {
+                if (MusicManager.getInstance().musicList == null || MusicManager.getInstance().musicList.size() == 0) {
                     return;
                 }
                 presenter.clockinShare(2, MusicManager.getInstance().musicList.get(musicService.getMusicIndex()).getBookId());
@@ -463,7 +467,7 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
                 break;
             case R.id.music_lyric2:
                 //歌词
-                if (!musicStart) {
+                if (MusicManager.getInstance().musicList == null || MusicManager.getInstance().musicList.size() == 0) {
                     return;
                 }
                 if (musicService.isLyric()) {
@@ -479,7 +483,7 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
                 break;
             case R.id.music_collected2:
                 //收藏
-                if (!musicStart) {
+                if (MusicManager.getInstance().musicList == null || MusicManager.getInstance().musicList.size() == 0) {
                     return;
                 }
                 if (MusicManager.getInstance().musicList.get(musicService.getMusicIndex()).getIsCollected() == 0) {
@@ -490,7 +494,7 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
                 break;
             case R.id.music_record2:
                 //录音
-                if (!musicStart) {
+                if (MusicManager.getInstance().musicList == null || MusicManager.getInstance().musicList.size() == 0) {
                     return;
                 }
                 if (musicService.isPlaying()) {
