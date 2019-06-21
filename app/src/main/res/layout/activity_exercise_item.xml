@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text="0分"
+            android:text=""
             android:textColor="@color/text_red"
             android:textSize="14sp" />
     </RelativeLayout>

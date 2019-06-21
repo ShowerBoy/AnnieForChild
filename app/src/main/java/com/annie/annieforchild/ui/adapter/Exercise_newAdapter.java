@@ -166,9 +166,10 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                 exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big_f);
             } else {
                 exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
+                exerciseViewHolder.exercise_score.setText(lists.get(i).getScore() + "");
             }
             exerciseViewHolder.textView.setText(lists.get(i).getEnTitle());
-            exerciseViewHolder.exercise_score.setText(lists.get(i).getScore() + "");
+
             exerciseViewHolder.preview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -298,9 +299,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                         @Override
                         public void run() {
                             songView.showLoad();
-
                             SystemUtils.show(context, "说话结束");
-                            songView.showLoad();
                             Log.e("说话结束", error.desc + "---" + error.code);
                         }
                     });
@@ -315,25 +314,34 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                         @Override
                         public void run() {
                             if (error.code != TAIErrCode.SUCC) {
-                                SystemUtils.show(context, "说话结束");
+//                                SystemUtils.show(context, "说话结束");
                             }
                             isRecording = false;
                             isClick = true;
                             oral = null;
+                            Log.e("口语评测", result+"///"+error.desc);
                             ExerciseActivity2.viewPager.setNoFocus(false);
                             viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
-                            double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
-                            BigDecimal bg = new BigDecimal(num / 20);
-                            double num1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                            lists.get(i).setScore((float) num1);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName+ ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
-                                }
-                            }, 1500);
-                             Log.e("说话结束2", result.pronAccuracy+"");
-                            notifyDataSetChanged();
+                            if(result!=null){
+                                double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
+                                BigDecimal bg = new BigDecimal(num / 20);
+                                double num1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                lists.get(i).setScore((float) num1);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName+ ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
+                                    }
+                                }, 1500);
+                                Log.e("说话结束2", result.pronAccuracy+"");
+//                                notifyDataSetChanged();
+                            }else{
+                                Log.e("eee",error.code+"");
+                                songView.dismissLoad();
+//                                if(error.code==3){
+                                    SystemUtils.show(context, "上传失败，请稍后再试");
+//                                }
+                            }
                         }
                     });
                 }
