@@ -392,7 +392,6 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
         }
     }
 
-
     @Override
     public int getItemCount() {
         return lists != null ? lists.size() : 0;

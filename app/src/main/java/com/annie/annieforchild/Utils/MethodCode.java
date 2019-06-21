@@ -5,6 +5,7 @@ package com.annie.annieforchild.Utils;
  * Created by WangLei on 2018/1/30
  */
 public class MethodCode {
+    final public static String VERSION = "v1/";
     final public static String SYSTEMAPI = "systemApi/";
     final public static String PERSONAPI = "personApi/";
     final public static String HOMEPAGEAPI = "HomepageApi/";

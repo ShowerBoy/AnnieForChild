@@ -165,10 +165,12 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         // the unit of timeout is ms
         options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
         // 1 -> hw codec enable, 0 -> disable [recommended]
-        options.setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_SW_DECODE);
+        options.setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_AUTO);
         options.setInteger(AVOptions.KEY_LIVE_STREAMING, 0);
         // options.setString(AVOptions.KEY_DNS_SERVER, "127.0.0.1");
         options.setInteger(AVOptions.KEY_LOG_LEVEL, 0);
+
+
         options.setInteger(AVOptions.KEY_START_POSITION, 0);
         // options.setString(AVOptions.KEY_COMP_DRM_KEY,"cWoosgRk");
         mVideoView.setAVOptions(options);
@@ -400,8 +402,8 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     private PLOnVideoFrameListener mOnVideoFrameListener = new PLOnVideoFrameListener() {
         @Override
         public void onVideoFrameAvailable(byte[] data, int size, int width, int height, int format, long ts) {
-            Log.i(TAG, "onVideoFrameAvailable: " + size + ", " + width + " x " + height + ", " + format + ", " + ts);
-            if (format == PLOnVideoFrameListener.VIDEO_FORMAT_SEI && bytesToHex(Arrays.copyOfRange(data, 19, 23)).equals("74733634")) {
+//            Log.i(TAG, "onVideoFrameAvailable: " + size + ", " + width + " x " + height + ", " + format + ", " + ts);
+//            if (format == PLOnVideoFrameListener.VIDEO_FORMAT_SEI && bytesToHex(Arrays.copyOfRange(data, 19, 23)).equals("74733634")) {
                 // If the RTMP stream is from Qiniu
                 // Add &addtssei=true to the end of URL to enable SEI timestamp.
                 // Format of the byte array:
@@ -412,8 +414,8 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 // 19-22:   ts64                        Magic string to mark this stream is from Qiniu
                 // 23-30:   timestamp                   The timestamp
                 // 31:      0x80                        Magic hex in ffmpeg
-                Log.i(TAG, " timestamp: " + Long.valueOf(bytesToHex(Arrays.copyOfRange(data, 23, 31)), 16));
-            }
+//                Log.i(TAG, " timestamp: " + Long.valueOf(bytesToHex(Arrays.copyOfRange(data, 23, 31)), 16));
+//            }
         }
     };
 

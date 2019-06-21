@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.annie.annieforchild.R;
 import com.pili.pldroid.player.IMediaController;
 
 import java.util.Locale;
@@ -68,6 +69,7 @@ public class MediaController extends FrameLayout implements IMediaController {
     private static final int NEXT_BUTTON_ID = Resources.getSystem().getIdentifier("next", "id", "android");
     private static final int REW_BUTTON_ID = Resources.getSystem().getIdentifier("rew", "id", "android");
     private static final int PAUSE_BUTTON_ID = Resources.getSystem().getIdentifier("pause", "id", "android");
+//    private static final int PAUSE_BUTTON_ID = R.drawable.icon_music_play;
     private static final int MEDIACONTROLLER_PROGRESS_ID = Resources.getSystem().getIdentifier("mediacontroller_progress", "id", "android");
     private static final int END_TIME_ID = Resources.getSystem().getIdentifier("time", "id", "android");
     private static final int CURRENT_TIME_ID = Resources.getSystem().getIdentifier("time_current", "id", "android");
@@ -116,6 +118,7 @@ public class MediaController extends FrameLayout implements IMediaController {
         mOnClickSpeedAdjustListener = listener;
     }
 
+
     private boolean initController(Context context) {
         mUseFastForward = true;
         mContext = context.getApplicationContext();
@@ -145,8 +148,7 @@ public class MediaController extends FrameLayout implements IMediaController {
      * @return The controller view.
      */
     protected View makeControllerView() {
-        return ((LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(MEDIA_CONTROLLER_ID, this);
+        return ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(MEDIA_CONTROLLER_ID, this);
     }
 
     private void initControllerView(View v) {
@@ -187,9 +189,11 @@ public class MediaController extends FrameLayout implements IMediaController {
                 SeekBar seeker = (SeekBar) mProgress;
                 seeker.setOnSeekBarChangeListener(mSeekListener);
                 seeker.setThumbOffset(1);
+//                seeker.setThumb(getResources().getDrawable(R.drawable.icon_seekbar_thumb));
             }
             mProgress.setMax(1000);
             mProgress.setEnabled(!mDisableProgress);
+//            mProgress.setProgressDrawable(getResources().getDrawable(R.drawable.seekbar_drawable));
         }
 
         mEndTime = (TextView) v.findViewById(END_TIME_ID);

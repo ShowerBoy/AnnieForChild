@@ -1158,6 +1158,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES1) {
                 List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
                 listener.Success(what, classifyList);
+
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES2) {
                 List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
                 listener.Success(what, classifyList);

@@ -14,6 +14,7 @@ public class PreheatConsultList2 implements Serializable {
     private String picurl;
     private String subtitle;
     private List<VideoDefiniList> path;
+//    private String path;
 
     public String getTitle() {
         return title;
@@ -46,4 +47,13 @@ public class PreheatConsultList2 implements Serializable {
     public void setPath(List<VideoDefiniList> path) {
         this.path = path;
     }
+
+
+//    public String getPath() {
+//        return path;
+//    }
+//
+//    public void setPath(String path) {
+//        this.path = path;
+//    }
 }
