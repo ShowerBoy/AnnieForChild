@@ -42,8 +42,9 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("file", fileBinary);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_UPLOADAVATAR, request);
 //        startQueue();
     }
@@ -58,8 +59,9 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
         request.add("sex", sex);
         request.add("birthday", birthday);
         request.add("phone", phone);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_ADDCHILD, request);
 //        startQueue();
     }
@@ -76,8 +78,9 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
         request.add("WechatNickname", WechatNickname);
         request.add("weixinNum", wechatNum);
         request.add("BusinessCard", BusinessCard);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_UPDATEUSER, request);
 //        startQueue();
     }
@@ -99,19 +102,14 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
         int status = jsonObject.getInteger(MethodCode.STATUS);
         String msg = jsonObject.getString(MethodCode.MSG);
         String data = jsonObject.getString(MethodCode.DATA);
-        if (status == 3) {
-            listener.Error(what, msg);
-        }  else if (status == 1) {
-            listener.Error(MethodCode.EVENT_RELOGIN, msg);
-        }else {
+        if (status == 0) {
             if (what == MethodCode.EVENT_ADDCHILD) {
                 if (data != null) {
-                    //请求成功
                     JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
                     String username = dataobj.getString("username");
                     listener.Success(what, username);
                 } else {
-                    listener.Error(what, "没有数据");
+                    listener.Error(what, 7, "没有数据");
                 }
             } else if (what == MethodCode.EVENT_UPDATEUSER) {
                 listener.Success(what, "修改成功");
@@ -120,13 +118,14 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
                 String avatarUrl = dataObj.getString(MethodCode.AVATARUEL);
                 listener.Success(what, avatarUrl);
             }
+        } else {
+            listener.Error(what, status, msg);
         }
     }
 
     @Override
     protected void onFail(int what, Response response) {
-        Log.v("", response + "");
         Exception exception = response.getException();
-        listener.Error(what, "请求失败");
+        listener.Fail(what, exception.getMessage());
     }
 }

@@ -41,13 +41,15 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERINFO, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERLIST, RequestMethod.POST);
         request2.add("username", application.getSystemUtils().getDefaultUsername());
         request2.add("token", application.getSystemUtils().getToken());
-        request2.add("deviceID", application.getSystemUtils().getSn());
-        request2.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_USERINFO, request);
         addQueue(MethodCode.EVENT_USERLIST, request2);
 //        startQueue();
@@ -59,8 +61,9 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("defaultUser", defaultUser);
         request.add("token", application.getSystemUtils().getToken());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_SETDEFAULEUSER, request);
         startQueue();
     }
@@ -71,8 +74,9 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("deleteUsername", deleteUsername);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_DELETEUSERNAME, request);
 //        startQueue();
     }
@@ -82,8 +86,9 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERLIST, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_USERLIST, request);
 //        startQueue();
     }
@@ -94,8 +99,9 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("weixinNum", weixinNum);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_BINDWEIXIN, request);
     }
 
@@ -106,8 +112,9 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         request.add("token", application.getSystemUtils().getToken());
         request.add("origin", origin);
         request.add("giftRecordId", giftRecordId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_SHOWGIFTS, request);
     }
 
@@ -128,13 +135,9 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         int status = jsonObject.getInteger(MethodCode.STATUS);
         String msg = jsonObject.getString(MethodCode.MSG);
         String data = jsonObject.getString(MethodCode.DATA);
-        if (status == 3) {
-            listener.Error(what, msg);
-        } else if (status == 1) {
-            listener.Error(MethodCode.EVENT_RELOGIN, msg);
-        } else {
+        if (status == 0) {
             if (what == MethodCode.EVENT_USERINFO) {
-                if (data != null) {
+//                if (data != null) {
                     UserInfo userInfo = JSON.parseObject(data, UserInfo.class);
                     if (userInfo == null) {
                         userInfo = new UserInfo();
@@ -145,9 +148,9 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
                         application.getSystemUtils().setDefaultUsername(userInfo.getUsername());
                     }
                     listener.Success(what, userInfo);
-                } else {
-                    listener.Error(what, "无数据");
-                }
+//                } else {
+//                    listener.Error(what, "无数据");
+//                }
             } else if (what == MethodCode.EVENT_USERLIST) {
                 List<UserInfo2> list = JSON.parseArray(data, UserInfo2.class);
                 listener.Success(what, list);
@@ -165,11 +168,13 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
                 NetGift netGift = JSON.parseObject(data, NetGift.class);
                 listener.Success(what, netGift);
             }
+        } else {
+            listener.Error(what, status, msg);
         }
     }
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Error(what, "请求失败");
+        listener.Fail(what, response.getException().getMessage());
     }
 }

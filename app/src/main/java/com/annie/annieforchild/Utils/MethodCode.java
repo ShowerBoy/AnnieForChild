@@ -17,6 +17,11 @@ public class MethodCode {
     final public static String NETCLASSAPI = "NetclassApi/";
     final public static String SIGNINAPI = "Signin/";
     final public static String SHAREAPI = "ShareApi/";
+
+    final public static String DEVICETYPE = "deviceType";
+    final public static String DEVICEID = "deviceID";
+    final public static String APPVERSION = "appVersion";
+
     final public static String STATUS = "status";
     final public static String MSG = "msg";
     final public static String DATA = "data";

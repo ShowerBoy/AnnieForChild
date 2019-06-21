@@ -42,8 +42,8 @@ public class SecondFragment2 extends BaseFragment implements SecondView, OnDateS
 
     @Override
     protected void initData() {
-        presenter = new SecondPresenterImp(getContext(), this);
-        presenter.initViewAndData();
+//        presenter = new SecondPresenterImp(getContext(), this);
+//        presenter.initViewAndData();
     }
 
     @Override

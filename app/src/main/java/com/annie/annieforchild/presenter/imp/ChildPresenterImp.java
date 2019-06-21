@@ -143,9 +143,10 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
     }
 
     @Override
-    public void Error(int what, String error) {
+    public void Error(int what, int status, String error) {
         viewInfo.dismissLoad();
-        if (what == MethodCode.EVENT_RELOGIN) {
+        if (status == 1) {
+            //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
                 viewInfo.showInfo("该账号已在别处登陆");
@@ -175,9 +176,24 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
             } else {
                 return;
             }
-        }
-        viewInfo.showInfo(error);
-        if (what == MethodCode.EVENT_UPDATEUSER) {
+        } else if (status == 2) {
+            //升级
+
+        } else if (status == 3) {
+            //参数错误
+
+        } else if (status == 4) {
+            //服务器错误
+
+        } else if (status == 5) {
+            //账号或密码错误
+
+        } else if (status == 6) {
+            //获取验证码失败
+
+        } else if (status == 7) {
+            //通用错误
+            viewInfo.showInfo(error);
             /**
              * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
              *  {@link com.annie.annieforchild.ui.activity.child.ModifyChildActivity#onMainEventThread(JTMessage)}
@@ -186,6 +202,14 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
             message2.what = what;
             message2.obj = error;
             EventBus.getDefault().post(message2);
+        }
+
+    }
+
+    @Override
+    public void Fail(int what, String error) {
+        if (viewInfo != null) {
+            viewInfo.dismissLoad();
         }
     }
 }

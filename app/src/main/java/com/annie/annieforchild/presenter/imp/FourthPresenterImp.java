@@ -321,9 +321,10 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
     }
 
     @Override
-    public void Error(int what, String error) {
+    public void Error(int what, int status, String error) {
         fourthView.dismissLoad();
-        if (what == MethodCode.EVENT_RELOGIN) {
+        if (status == 1) {
+            //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
                 fourthView.showInfo("该账号已在别处登陆");
@@ -353,15 +354,41 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
             } else {
                 return;
             }
-        }
-        /**
-         * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
-         */
-        JTMessage message = new JTMessage();
-        message.setWhat(what);
-        message.setObj(error);
-        EventBus.getDefault().post(message);
+        } else if (status == 2) {
+            //升级
 
-        fourthView.showInfo(error);
+        }  else if (status == 3) {
+            //参数错误
+
+        } else if (status == 4) {
+            //服务器错误
+
+        } else if (status == 5) {
+            //账号或密码错误
+
+        } else if (status == 6) {
+            //获取验证码失败
+
+        }  else if (status == 7) {
+            //通用错误
+
+        }
+
+//        /**
+//         * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
+//         */
+//        JTMessage message = new JTMessage();
+//        message.setWhat(what);
+//        message.setObj(error);
+//        EventBus.getDefault().post(message);
+
+//        fourthView.showInfo(error);
+    }
+
+    @Override
+    public void Fail(int what, String error) {
+        if (fourthView != null) {
+            fourthView.dismissLoad();
+        }
     }
 }

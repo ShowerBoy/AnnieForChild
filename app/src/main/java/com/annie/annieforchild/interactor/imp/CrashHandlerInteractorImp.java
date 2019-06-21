@@ -55,7 +55,7 @@ public class CrashHandlerInteractorImp extends NetWorkImp {
         int status = jsonObject.getInteger(MethodCode.STATUS);
         String msg = jsonObject.getString(MethodCode.MSG);
         if (status == 3) {
-            listener.Error(what, msg);
+            listener.Error(what, status, msg);
         } else {
             listener.Success(what, response);
         }
@@ -63,6 +63,6 @@ public class CrashHandlerInteractorImp extends NetWorkImp {
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Error(what, response.getException().getMessage());
+        listener.Fail(what, response.getException().getMessage());
     }
 }

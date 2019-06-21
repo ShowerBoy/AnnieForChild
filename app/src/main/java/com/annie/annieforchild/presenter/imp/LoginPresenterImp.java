@@ -411,11 +411,12 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
     }
 
     @Override
-    public void Error(int what, String error) {
+    public void Error(int what, int status, String error) {
         if (loginView != null) {
             loginView.dismissLoad();
         }
-        if (what == MethodCode.EVENT_RELOGIN) {
+        if (status == 1) {
+            //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
                 loginView.showInfo("该账号已在别处登陆");
@@ -445,17 +446,40 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
             } else {
                 return;
             }
+        } else if (status == 2) {
+            //升级
+
+        } else if (status == 3) {
+            //参数错误
+
+        } else if (status == 4) {
+            //服务器错误
+
+        } else if (status == 5) {
+            //账号或密码错误
+
+        } else if (status == 6) {
+            //获取验证码失败
+
+        } else if (status == 7) {
+            if (what == MethodCode.EVENT_LOGIN) {
+                loginView.showInfo(error);
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.GuideActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = MethodCode.EVENT_ERROR;
+                message.obj = error;
+                EventBus.getDefault().post(message);
+                application.getSystemUtils().setOnline(false);
+            }
         }
-        loginView.showInfo(error);
-        if (what == MethodCode.EVENT_LOGIN) {
-            /**
-             * {@link com.annie.annieforchild.ui.activity.GuideActivity#onMainEventThread(JTMessage)}
-             */
-            JTMessage message = new JTMessage();
-            message.what = MethodCode.EVENT_ERROR;
-            message.obj = error;
-            EventBus.getDefault().post(message);
-            application.getSystemUtils().setOnline(false);
+    }
+
+    @Override
+    public void Fail(int what, String error) {
+        if (loginView != null) {
+            loginView.dismissLoad();
         }
     }
 }

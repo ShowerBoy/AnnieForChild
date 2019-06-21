@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.ClassList;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.course.OnlineCourse;
@@ -276,9 +277,10 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
     }
 
     @Override
-    public void Error(int what, String error) {
+    public void Error(int what, int status, String error) {
         scheduleView.dismissLoad();
-        if (what == MethodCode.EVENT_RELOGIN) {
+        if (status == 1) {
+            //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
                 scheduleView.showInfo("该账号已在别处登陆");
@@ -308,7 +310,30 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
             } else {
                 return;
             }
+        } else if (status == 2) {
+            //升级
+
+        } else if (status == 3) {
+            //参数错误
+
+        } else if (status == 4) {
+            //服务器错误
+
+        } else if (status == 5) {
+            //账号或密码错误
+
+        } else if (status == 6) {
+            //获取验证码失败
+
+        } else if (status == 7) {
+            scheduleView.showInfo(error);
         }
-//        scheduleView.showInfo(error);
+    }
+
+    @Override
+    public void Fail(int what, String error) {
+        if (scheduleView != null) {
+            scheduleView.dismissLoad();
+        }
     }
 }

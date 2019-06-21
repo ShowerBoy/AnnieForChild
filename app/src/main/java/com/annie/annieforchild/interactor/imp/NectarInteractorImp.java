@@ -39,8 +39,9 @@ public class NectarInteractorImp extends NetWorkImp implements NectarInteractor 
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETNECTAR, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETNECTAR, request);
 //        startQueue();
     }
@@ -62,20 +63,19 @@ public class NectarInteractorImp extends NetWorkImp implements NectarInteractor 
         int status = jsonObject.getInteger(MethodCode.STATUS);
         String msg = jsonObject.getString(MethodCode.MSG);
         String data = jsonObject.getString(MethodCode.DATA);
-        if (status == 3) {
-            listener.Error(what, msg);
-        } else if (status == 1) {
-            listener.Error(MethodCode.EVENT_RELOGIN, msg);
-        } else {
+        if (status == 0) {
             if (what == MethodCode.EVENT_GETNECTAR) {
                 MyNectar myNectar = JSON.parseObject(data, MyNectar.class);
                 listener.Success(what, myNectar);
             }
+        }else{
+            listener.Error(what, status, msg);
         }
     }
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Error(what, response.getException().getMessage());
+        listener.Fail(what, response.getException().getMessage());
+
     }
 }

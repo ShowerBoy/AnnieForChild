@@ -73,8 +73,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETLISTENING, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETLISTENING, request);
 //        startQueue();
     }
@@ -84,8 +85,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMYLISTENING, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETMYLISTENING, request);
 //        startQueue();
     }
@@ -99,8 +101,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("type", type);
         request.add("audioSource", audioSource);
         request.add("courseId", courseId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_COLLECTCOURSE + 2000 + classId, request);
 //        startQueue();
     }
@@ -114,8 +117,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("audioSource", audioSource);
         request.add("type", type);
         request.add("courseId", courseId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_CANCELCOLLECTION1 + 3000 + classId, request);
 //        startQueue();
     }
@@ -126,57 +130,66 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request1.add("username", application.getSystemUtils().getDefaultUsername());
         request1.add("token", application.getSystemUtils().getToken());
         request1.add("type", 1);
-        request1.add("deviceID", application.getSystemUtils().getSn());
-        request1.add("deviceType", SystemUtils.deviceType);
+        request1.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request1.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request1.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request2.add("username", application.getSystemUtils().getDefaultUsername());
         request2.add("token", application.getSystemUtils().getToken());
         request2.add("type", 2);
-        request2.add("deviceID", application.getSystemUtils().getSn());
-        request2.add("deviceType", SystemUtils.deviceType);
+        request2.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request2.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request2.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request3 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request3.add("username", application.getSystemUtils().getDefaultUsername());
         request3.add("token", application.getSystemUtils().getToken());
         request3.add("type", 0);
-        request3.add("deviceID", application.getSystemUtils().getSn());
-        request3.add("deviceType", SystemUtils.deviceType);
+        request3.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request3.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request3.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request4 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request4.add("username", application.getSystemUtils().getDefaultUsername());
         request4.add("token", application.getSystemUtils().getToken());
         request4.add("type", 4);
-        request4.add("deviceID", application.getSystemUtils().getSn());
-        request4.add("deviceType", SystemUtils.deviceType);
+        request4.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request4.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request4.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request5 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request5.add("username", application.getSystemUtils().getDefaultUsername());
         request5.add("token", application.getSystemUtils().getToken());
         request5.add("type", 5);
-        request5.add("deviceID", application.getSystemUtils().getSn());
-        request5.add("deviceType", SystemUtils.deviceType);
+        request5.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request5.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request5.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request6 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request6.add("username", application.getSystemUtils().getDefaultUsername());
         request6.add("token", application.getSystemUtils().getToken());
         request6.add("type", 3);
-        request6.add("deviceID", application.getSystemUtils().getSn());
-        request6.add("deviceType", SystemUtils.deviceType);
+        request6.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request6.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request6.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         //磨耳朵添加19.5.9
         FastJsonRequest request7 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request7.add("username", application.getSystemUtils().getDefaultUsername());
         request7.add("token", application.getSystemUtils().getToken());
         request7.add("type", 7);
-        request7.add("deviceID", application.getSystemUtils().getSn());
-        request7.add("deviceType", SystemUtils.deviceType);
+        request7.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request7.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request7.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request8 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request8.add("username", application.getSystemUtils().getDefaultUsername());
         request8.add("token", application.getSystemUtils().getToken());
         request8.add("type", 8);
-        request8.add("deviceID", application.getSystemUtils().getSn());
-        request8.add("deviceType", SystemUtils.deviceType);
+        request8.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request8.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request8.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request9 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request9.add("username", application.getSystemUtils().getDefaultUsername());
         request9.add("token", application.getSystemUtils().getToken());
         request9.add("type", 9);
-        request9.add("deviceID", application.getSystemUtils().getSn());
-        request9.add("deviceType", SystemUtils.deviceType);
+        request9.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request9.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request9.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETMUSICCLASSES1, request1);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES2, request2);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES3, request3);
@@ -195,32 +208,37 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request1.add("username", application.getSystemUtils().getDefaultUsername());
         request1.add("token", application.getSystemUtils().getToken());
         request1.add("type", 6);
-        request1.add("deviceID", application.getSystemUtils().getSn());
-        request1.add("deviceType", SystemUtils.deviceType);
+        request1.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request1.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request1.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request2.add("username", application.getSystemUtils().getDefaultUsername());
         request2.add("token", application.getSystemUtils().getToken());
         request2.add("type", 7);
-        request2.add("deviceID", application.getSystemUtils().getSn());
-        request2.add("deviceType", SystemUtils.deviceType);
+        request2.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request2.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request2.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request3 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request3.add("username", application.getSystemUtils().getDefaultUsername());
         request3.add("token", application.getSystemUtils().getToken());
         request3.add("type", 8);
-        request3.add("deviceID", application.getSystemUtils().getSn());
-        request3.add("deviceType", SystemUtils.deviceType);
+        request3.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request3.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request3.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request4 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request4.add("username", application.getSystemUtils().getDefaultUsername());
         request4.add("token", application.getSystemUtils().getToken());
         request4.add("type", 9);
-        request4.add("deviceID", application.getSystemUtils().getSn());
-        request4.add("deviceType", SystemUtils.deviceType);
+        request4.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request4.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request4.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request5 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request5.add("username", application.getSystemUtils().getDefaultUsername());
         request5.add("token", application.getSystemUtils().getToken());
         request5.add("type", 10);
-        request5.add("deviceID", application.getSystemUtils().getSn());
-        request5.add("deviceType", SystemUtils.deviceType);
+        request5.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request5.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request5.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETMUSICCLASSES6, request1);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES7, request2);
         addQueue(MethodCode.EVENT_GETMUSICCLASSES8, request3);
@@ -236,8 +254,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("classId", classId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         this.classId = classId;
         addQueue(MethodCode.EVENT_GETMUSICLIST + 1000 + classId, request);
 //        startQueue();
@@ -250,8 +269,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("type", type);
         request.add("duration", duration);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_COMMITDURATION, request);
 //        for (int i = 0; i < type.length; i++) {
 //            if (!duration[i].equals("0")) {
@@ -275,15 +295,17 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request.add("username", application.getSystemUtils().getDefaultUsername());
             request.add("token", application.getSystemUtils().getToken());
             request.add("bookId", bookId);
-            request.add("deviceID", application.getSystemUtils().getSn());
-            request.add("deviceType", SystemUtils.deviceType);
+            request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+            request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+            request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
             FastJsonRequest request1 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETBOOKSCORE, RequestMethod.POST);
             request1.add("username", application.getSystemUtils().getDefaultUsername());
             request1.add("token", application.getSystemUtils().getToken());
             request1.add("bookId", bookId);
             request1.add("record", record);
-            request1.add("deviceID", application.getSystemUtils().getSn());
-            request1.add("deviceType", SystemUtils.deviceType);
+            request1.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+            request1.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+            request1.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
             addQueue(MethodCode.EVENT_ACCESSBOOK, request);
             addQueue(MethodCode.EVENT_GETBOOKSCORE, request1);
 //            startQueue();
@@ -293,8 +315,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request.add("token", application.getSystemUtils().getToken());
             request.add("bookId", bookId);
             request.add("record", record);
-            request.add("deviceID", application.getSystemUtils().getSn());
-            request.add("deviceType", SystemUtils.deviceType);
+            request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+            request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+            request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
             addQueue(MethodCode.EVENT_GETBOOKSCORE, request);
 //            startQueue();
         }
@@ -308,8 +331,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("bookId", bookId);
         request.add("pkType", pkType);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         if (pkUsername != null) {
             request.add("pkUsername", pkUsername);
         }
@@ -366,8 +390,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         if (origin == 2) {
             request.add("pkUsername", pkUsername);
         }
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_UPLOADAUDIO, request);
 //        startQueue();
     }
@@ -378,8 +403,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("bookId", bookId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETPKUSERS, request);
 //        startQueue();
     }
@@ -393,8 +419,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("bookId", bookId);
         request.add("pkUsername", pkUsername);
         request.add("pkType", pkType);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETPKRESULT, request);
 //        startQueue();
     }
@@ -408,8 +435,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("bookId", bookId);
         request.add("audioSource", audioSource);
         request.add("type", type);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_JOINMATERIAL + 4000 + classId, request);
 //        startQueue();
     }
@@ -421,8 +449,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("bookId", bookId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_CANCELMATERIAL + 5000 + classId, request);
 //        startQueue();
     }
@@ -434,8 +463,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("spaceType", spaceType);
         request.add("timeType", timeType);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETRANK, request);
 //        startQueue();
     }
@@ -445,8 +475,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SQUAREAPI + MethodType.GETSQUARERANK, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETSQUARERANK, request);
 //        startQueue();
     }
@@ -459,8 +490,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("resourceType", resourceType);
         request.add("timeType", timeType);
         request.add("locationType", locationType);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETSQUARERANKLIST, request);
 //        startQueue();
     }
@@ -471,8 +503,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("likeUsername", likeUsername);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_LIKESTUDENT, request);
 //        startQueue();
     }
@@ -483,8 +516,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("cancelLikeUsername", cancelLikeUsername);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_CANCELLIKESTUDENT, request);
 //        startQueue();
     }
@@ -494,8 +528,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETREADING, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETREADING, request);
 //        startQueue();
     }
@@ -505,8 +540,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMYREADING, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETMYREADING, request);
         startQueue();
     }
@@ -520,8 +556,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("duration", duration);
         request.add("books", books);
         request.add("words", words);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_COMMITREADING, request);
 //        for (int i = 0; i < type.length; i++) {
 //            if (!duration[i].equals("0")) {
@@ -545,8 +582,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("timeType", timeType);
         request.add("locationType", locationType);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETDURATIONSTATISTICS, request);
 //        startQueue();
     }
@@ -557,8 +595,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("classId", classId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         this.classId = classId;
         addQueue(MethodCode.EVENT_GETREADLIST + 6000 + classId, request);
 //        startQueue();
@@ -569,8 +608,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETQRCODE, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETQRCODE, request);
 //        startQueue();
     }
@@ -582,8 +622,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("title", title);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETANIMATIONLIST + 7000 + classId, request);
 //        startQueue();
     }
@@ -598,32 +639,37 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request1.add("username", application.getSystemUtils().getDefaultUsername());
         request1.add("token", application.getSystemUtils().getToken());
         request1.add("type", 11);
-        request1.add("deviceID", application.getSystemUtils().getSn());
-        request1.add("deviceType", SystemUtils.deviceType);
+        request1.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request1.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request1.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request2.add("username", application.getSystemUtils().getDefaultUsername());
         request2.add("token", application.getSystemUtils().getToken());
         request2.add("type", 12);
-        request2.add("deviceID", application.getSystemUtils().getSn());
-        request2.add("deviceType", SystemUtils.deviceType);
+        request2.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request2.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request2.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request3 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request3.add("username", application.getSystemUtils().getDefaultUsername());
         request3.add("token", application.getSystemUtils().getToken());
         request3.add("type", 13);
-        request3.add("deviceID", application.getSystemUtils().getSn());
-        request3.add("deviceType", SystemUtils.deviceType);
+        request3.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request3.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request3.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request4 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request4.add("username", application.getSystemUtils().getDefaultUsername());
         request4.add("token", application.getSystemUtils().getToken());
         request4.add("type", 14);
-        request4.add("deviceID", application.getSystemUtils().getSn());
-        request4.add("deviceType", SystemUtils.deviceType);
+        request4.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request4.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request4.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         FastJsonRequest request5 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMUSICCLASSES, RequestMethod.POST);
         request5.add("username", application.getSystemUtils().getDefaultUsername());
         request5.add("token", application.getSystemUtils().getToken());
         request5.add("type", 15);
-        request5.add("deviceID", application.getSystemUtils().getSn());
-        request5.add("deviceType", SystemUtils.deviceType);
+        request5.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request5.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request5.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
 //        addQueue(MethodCode.EVENT_GETSPOKENCLASSES, request);
         addQueue(MethodCode.EVENT_GETSPOKENCLASSES1, request1);
         addQueue(MethodCode.EVENT_GETSPOKENCLASSES2, request2);
@@ -641,8 +687,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("classId", classId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETSPOKENLIST + 8000 + classId, request);
 //        startQueue();
     }
@@ -661,8 +708,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("bookName", stringBuffer.toString());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_COMMITBOOK, request);
 //        startQueue();
     }
@@ -681,8 +729,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("type", type);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_IWANTLISTEN, request);
 //        startQueue();
     }
@@ -693,8 +742,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("bookId", bookId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_ACCESSBOOK, request);
 //        startQueue();
     }
@@ -710,8 +760,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("audioSource", audioSource);
         request.add("resourseId", resourseId);
         request.add("duration", duration);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_UPLOADAUDIOTIME, request);
 //        startQueue();
     }
@@ -721,8 +772,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYPERIOD, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_MYPERIOD, request);
 //        startQueue();
     }
@@ -733,8 +785,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("periodid", periodid);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_SUGGESTPERIOD, request);
 //        startQueue();
     }
@@ -744,8 +797,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.MYTASK, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_MYTASK, request);
 //        startQueue();
     }
@@ -759,8 +813,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("classid", classid);
         request.add("classify", classify);
         request.add("type", type);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         if (type == 0) {
             request.add("tasktime", taskTime);
         } else {
@@ -780,8 +835,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("likes", likes);
         request.add("listen", listen);
         request.add("homeworkid", homeworkid);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         request.add("cid", cid);
         addQueue(MethodCode.EVENT_COMPLETETASK + 70000 + taskid, request);
 //        startQueue();
@@ -799,8 +855,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request.add("taskid", taskid);
             request.add("type", type);
             request.add("file", fileBinary);
-            request.add("deviceID", application.getSystemUtils().getSn());
-            request.add("deviceType", SystemUtils.deviceType);
+            request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+            request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+            request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
             addQueue(MethodCode.EVENT_UPLOADTASKIMAGE + 40000 + taskid, request);
         }
 //        startQueue();
@@ -816,8 +873,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("type", type);
         request.add("taskid", taskid);
         request.add("remarks", remarks);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_SUBMITTASK + 60000 + taskid, request);
 //        startQueue();
     }
@@ -828,8 +886,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("type", type);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         if (bookid != -1) {
             request.add("bookid", bookid);
         }
@@ -842,8 +901,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETCARDDETAIL, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETCARDDETAIL, request);
 //        startQueue();
     }
@@ -856,8 +916,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("moerduo", moerduo);
         request.add("yuedu", yuedu);
         request.add("kouyu", kouyu);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_SHARESUCCESS, request);
 //        startQueue();
     }
@@ -867,8 +928,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETMYSPEAKING, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETMYSPEAKING, request);
 //        startQueue();
     }
@@ -880,8 +942,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("type", type);
         request.add("duration", duration);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_COMMITSPEAKING, request);
 //        for (int i = 0; i < type.length; i++) {
 //            if (!duration[i].equals("0")) {
@@ -905,8 +968,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("nectar", nectar);
         request.add("bookname", bookname);
         request.add("bookid", bookid);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_UNLOCKBOOK + 9000 + classId, request);
 //        startQueue();
     }
@@ -916,8 +980,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETSPEAKING, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETSPEAKING, request);
 //        startQueue();
     }
@@ -928,8 +993,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("bookid", bookId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETRELEASE, request);
 //        startQueue();
     }
@@ -940,8 +1006,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("bookid", bookId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_RELEASEBOOK, request);
 //        startQueue();
     }
@@ -952,8 +1019,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("bookid", bookId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_RELEASESUCCESS, request);
 //        startQueue();
     }
@@ -964,8 +1032,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("id", id);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_PLAYTIMES, request);
 //        startQueue();
     }
@@ -976,8 +1045,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("id", id);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_ADDLIKES, request);
 //        startQueue();
     }
@@ -988,8 +1058,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("id", id);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_CANCELLIKES, request);
 //        startQueue();
     }
@@ -1002,8 +1073,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("record", record);
         request.add("type", type);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_SHARECOIN, request);
 //        startQueue();
     }
@@ -1015,8 +1087,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("radioid", radioid);
         request.add("type", type);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETRADIO, request);
 //        startQueue();
     }
@@ -1027,8 +1100,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("bookid", bookid);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETLYRIC, request);
 //        startQueue();
     }
@@ -1040,8 +1114,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("nectar", nectar);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_LUCKDRAW, request);
 //        startQueue();
     }
@@ -1052,8 +1127,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("otherusername", otherusername);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETHOMEPAGE, request);
 //        startQueue();
     }
@@ -1065,8 +1141,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("otherusername", otherusername);
         request.add("page", page);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETPRODUCTIONLIST, request);
 //        startQueue();
     }
@@ -1080,8 +1157,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("type", type);
         request.add("page", page);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_MYRECORDINGS + 10000 + type, request);
 //        startQueue();
     }
@@ -1095,8 +1173,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("origin", origin);
         request.add("recordingId", recordingId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_DELETERECORDING + 30000 + type, request);
 //        startQueue();
     }
@@ -1108,8 +1187,9 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("bookid", bookid);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_CANCELRELEASE + 20000 + type, request);
 //        startQueue();
     }
@@ -1147,11 +1227,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         int status = jsonObject.getInteger(MethodCode.STATUS);
         String msg = jsonObject.getString(MethodCode.MSG);
         String data = jsonObject.getString(MethodCode.DATA);
-        if (status == 3) {
-            listener.Error(what, msg);
-        } else if (status == 1) {
-            listener.Error(MethodCode.EVENT_RELOGIN, msg);
-        } else {
+        if (status == 0) {
             if (what == MethodCode.EVENT_GETLISTENING) {
                 GrindEarData grindEarData = JSON.parseObject(data, GrindEarData.class);
                 listener.Success(what, grindEarData);
@@ -1421,12 +1497,14 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                 String fileurl = dataobj.getString("fileurl");
                 listener.Success(what, fileurl);
             }
+        } else {
+            listener.Error(what, status, msg);
         }
     }
 
     @Override
     protected void onFail(int what, Response response) {
         String error = response.getException().getMessage();
-        listener.Error(what, error);
+        listener.Fail(what, error);
     }
 }

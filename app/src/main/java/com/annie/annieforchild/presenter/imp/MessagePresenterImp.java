@@ -177,9 +177,10 @@ public class MessagePresenterImp extends BasePresenterImp implements MessagePres
     }
 
     @Override
-    public void Error(int what, String error) {
+    public void Error(int what, int status, String error) {
         viewInfo.dismissLoad();
-        if (what == MethodCode.EVENT_RELOGIN) {
+        if (status == 1) {
+            //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
                 viewInfo.showInfo("该账号已在别处登陆");
@@ -209,13 +210,30 @@ public class MessagePresenterImp extends BasePresenterImp implements MessagePres
             } else {
                 return;
             }
-        }
-        if (what == MethodCode.EVENT_GETMESSAGESLIST) {
+        } else if (status == 2) {
+            //升级
 
-        } else {
+        } else if (status == 3) {
+            //参数错误
+
+        } else if (status == 4) {
+            //服务器错误
+
+        } else if (status == 5) {
+            //账号或密码错误
+
+        } else if (status == 6) {
+            //获取验证码失败
+
+        } else if (status == 7) {
             viewInfo.showInfo(error);
         }
+    }
 
-
+    @Override
+    public void Fail(int what, String error) {
+        if (viewInfo != null) {
+            viewInfo.dismissLoad();
+        }
     }
 }

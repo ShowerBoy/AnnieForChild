@@ -44,8 +44,9 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("date", date);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_MYSCHEDULE, request);
 
 
@@ -58,8 +59,9 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("type", type);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         if (type == 0) {
             addQueue(MethodCode.EVENT_GETALLMATERIALLIST1, request);
         } else if (type == 1) {
@@ -82,8 +84,9 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("stop", end);
         request.add("audioType", audioType);
         request.add("audioSource", audioSource);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_ADDSCHEDULE, request);
 //        startQueue();
     }
@@ -95,8 +98,9 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("startDate", startDate);
         request.add("endDate", endDate);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_TOTALSCHEDULE, request);
 //        startQueue();
     }
@@ -112,8 +116,9 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("totalDays", totalDays);
         request.add("start", start);
         request.add("stop", end);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_EDITSCHEDULE, request);
 //        startQueue();
     }
@@ -124,8 +129,9 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("scheduleId", scheduleId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_DELETESCHEDULE, request);
 //        startQueue();
     }
@@ -135,8 +141,9 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYCOURSESONLINE, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_MYCOURSESONLINE, request);
 //        startQueue();
     }
@@ -146,8 +153,9 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYCOURSESOFFLINE, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_MYCOURSESOFFLINE, request);
         startQueue();
     }
@@ -157,8 +165,9 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYTEACHINGMATERIALS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_MYTEACHINGMATERIALS, request);
 //        startQueue();
     }
@@ -169,8 +178,9 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("date", date);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_MYCALENDAR, request);
 //        startQueue();
     }
@@ -182,8 +192,9 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("date", date);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_MONTHCALENDAR, request);
 //        startQueue();
     }
@@ -205,11 +216,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         int status = jsonObject.getInteger(MethodCode.STATUS);
         String msg = jsonObject.getString(MethodCode.MSG);
         String data = jsonObject.getString(MethodCode.DATA);
-        if (status == 3) {
-            listener.Error(what, msg);
-        } else if (status == 1) {
-            listener.Error(MethodCode.EVENT_RELOGIN, msg);
-        } else {
+        if (status == 0) {
             if (what == MethodCode.EVENT_MYSCHEDULE) {
                 TotalSchedule totalSchedule = JSON.parseObject(data, TotalSchedule.class);
                 listener.Success(what, totalSchedule);
@@ -253,11 +260,13 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
                 }
                 listener.Success(what, lists);
             }
+        } else {
+            listener.Error(what, status, msg);
         }
     }
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Error(what, response.getException().getMessage());
+        listener.Fail(what, response.getException().getMessage());
     }
 }

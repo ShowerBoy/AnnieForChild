@@ -145,7 +145,12 @@ public class MyCrashHandler implements Thread.UncaughtExceptionHandler, RequestL
     }
 
     @Override
-    public void Error(int what, String error) {
+    public void Error(int what, int status, String error) {
+
+    }
+
+    @Override
+    public void Fail(int what, String error) {
 
     }
 }

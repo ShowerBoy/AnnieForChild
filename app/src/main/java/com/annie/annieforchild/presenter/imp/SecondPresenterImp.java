@@ -28,4 +28,14 @@ public class SecondPresenterImp extends BasePresenterImp implements SecondPresen
     public void Success(int what, Object result) {
 
     }
+
+    @Override
+    public void Error(int what, int status, String error) {
+
+    }
+
+    @Override
+    public void Fail(int what, String error) {
+
+    }
 }

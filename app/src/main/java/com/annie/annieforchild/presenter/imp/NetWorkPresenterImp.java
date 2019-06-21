@@ -120,13 +120,13 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void addAddress(String name, String phone, String address,String provinces) {
+    public void addAddress(String name, String phone, String address, String provinces) {
         viewInfo.showLoad();
         interactor.addAddress(name, phone, address, provinces);
     }
 
     @Override
-    public void editAddress(int addressid, String name, String phone, String address,String provinces) {
+    public void editAddress(int addressid, String name, String phone, String address, String provinces) {
         viewInfo.showLoad();
         interactor.editAddress(addressid, name, phone, address, provinces);
     }
@@ -653,15 +653,15 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void Error(int what, String error) {
-        super.Error(what, error);
+    public void Error(int what, int status, String error) {
         if (grindEarView != null) {
             grindEarView.dismissLoad();
         }
         if (viewInfo != null) {
             viewInfo.dismissLoad();
         }
-        if (what == MethodCode.EVENT_RELOGIN) {
+        if (status == 1) {
+            //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
                 if (grindEarView != null) {
@@ -696,12 +696,38 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
             } else {
                 return;
             }
-        }
-        if (what == MethodCode.EVENT_CANCELORDER + 100000 + tag) {
-            viewInfo.showInfo(error);
-        } else if (what == MethodCode.EVENT_BUYNETWORK) {
-            viewInfo.showInfo(error);
+        } else if (status == 2) {
+            //升级
+
+        } else if (status == 3) {
+            //参数错误
+
+        } else if (status == 4) {
+            //服务器错误
+
+        } else if (status == 5) {
+            //账号或密码错误
+
+        } else if (status == 6) {
+            //获取验证码失败
+
+        } else if (status == 7) {
+            if (what == MethodCode.EVENT_CANCELORDER + 100000 + tag) {
+                viewInfo.showInfo(error);
+            } else if (what == MethodCode.EVENT_BUYNETWORK) {
+                viewInfo.showInfo(error);
+            }
         }
 
+    }
+
+    @Override
+    public void Fail(int what, String error) {
+        if (grindEarView != null) {
+            grindEarView.dismissLoad();
+        }
+        if (viewInfo != null) {
+            viewInfo.dismissLoad();
+        }
     }
 }

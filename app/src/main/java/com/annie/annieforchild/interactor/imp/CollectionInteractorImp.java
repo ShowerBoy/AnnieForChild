@@ -41,8 +41,9 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("type", type);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         if (type == 1) {
             addQueue(MethodCode.EVENT_MYCOLLECTIONS1, request);
         } else if (type == 2) {
@@ -63,8 +64,9 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
         request.add("audioSource", audioSource);
         request.add("type", type);
         request.add("courseId", courseId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         if (type == 1) {
             addQueue(MethodCode.EVENT_CANCELCOLLECTION1, request);
         } else if (type == 2) {
@@ -94,11 +96,7 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
         int status = jsonObject.getInteger(MethodCode.STATUS);
         String msg = jsonObject.getString(MethodCode.MSG);
         String data = jsonObject.getString(MethodCode.DATA);
-        if (status == 3) {
-            listener.Error(what, msg);
-        } else if (status == 1) {
-            listener.Error(MethodCode.EVENT_RELOGIN, msg);
-        } else {
+        if (status == 0) {
             if (what == MethodCode.EVENT_MYCOLLECTIONS1) {
                 List<Collection> lists = JSON.parseArray(data, Collection.class);
                 if (lists != null && lists.size() != 0) {
@@ -136,11 +134,13 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
             } else if (what == MethodCode.EVENT_CANCELCOLLECTION0) {
                 listener.Success(what, "取消收藏成功");
             }
+        } else {
+            listener.Error(what, status, msg);
         }
     }
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Error(what, response.getException().getMessage());
+        listener.Fail(what, response.getException().getMessage());
     }
 }

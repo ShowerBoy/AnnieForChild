@@ -35,15 +35,16 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
 
     @Override
     public void getHomeData(String tag) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI  + MethodType.GETHOMEDATA, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETHOMEDATA, RequestMethod.POST);
         if (tag.equals("会员")) {
             request.add("username", application.getSystemUtils().getDefaultUsername());
             request.add("token", application.getSystemUtils().getToken());
         } else {
             request.add("username", "");
         }
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETHOMEDATA, request);
 //        startQueue();
     }
@@ -65,11 +66,7 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
         int status = jsonObject.getInteger(MethodCode.STATUS);
         String msg = jsonObject.getString(MethodCode.MSG);
         String data = jsonObject.getString(MethodCode.DATA);
-        if (status == 3) {
-            listener.Error(what, msg);
-        } else if (status == 1) {
-            listener.Error(MethodCode.EVENT_RELOGIN, msg);
-        } else {
+        if (status == 0) {
             HomeData homeData = JSON.parseObject(data, HomeData.class);
 //            String banner = dataObj.getString("bannerList");
 //            List<Banner> bannerList = JSON.parseArray(banner, Banner.class);
@@ -78,6 +75,8 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
 //            String myCourse = dataObj.getString("myCourseList");
 //            List<Course> myCourseList = JSON.parseArray(myCourse, Course.class);
             listener.Success(what, homeData);
+        } else {
+            listener.Error(what, status, msg);
         }
     }
 
@@ -85,6 +84,6 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
     protected void onFail(int what, Response response) {
         Log.v("", response + "");
         Exception exception = response.getException();
-        listener.Error(what, "请求失败");
+        listener.Fail(what, exception.getMessage());
     }
 }

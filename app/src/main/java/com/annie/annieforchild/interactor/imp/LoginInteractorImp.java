@@ -50,8 +50,9 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.LOGIN, RequestMethod.POST);
         request.add("phone", phone);
         request.add("password", password);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_LOGIN, request);
 //        startQueue();
     }
@@ -64,8 +65,9 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("keyword", keyword);
         request.add("page", page);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GLOBALSEARCH, request);
 //        startQueue();
     }
@@ -85,8 +87,9 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SEARCHAPI + MethodType.GETTAGS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETTAGS, request);
 //        startQueue();
     }
@@ -97,8 +100,9 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SEARCHAPI + MethodType.GETTAGBOOKTEST, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         request.add("page", page);
         if (ageList.size() != 0) {
             String age = null;
@@ -167,8 +171,9 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         request.add("token", application.getSystemUtils().getToken());
         request.add("origin", origin);
         request.add("giftRecordId", giftRecordId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_SHOWGIFTS + 110000 + origin, request);
     }
 
@@ -179,8 +184,9 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         request.add("token", application.getSystemUtils().getToken());
         request.add("giftId", giftId);
         request.add("giftRecordId", giftRecordId);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_CHOOSEGIFT, request);
     }
 
@@ -200,18 +206,14 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         JSONObject jsonObject = JSON.parseObject(jsonString);
         int status = jsonObject.getInteger(MethodCode.STATUS);
         String msg = jsonObject.getString(MethodCode.MSG);
-        if (status == 3) {
-            listener.Error(what, msg);
-        } else if (status == 1) {
-            listener.Error(MethodCode.EVENT_RELOGIN, msg);
-        } else {
+        if (status == 0) {
             if (what == MethodCode.EVENT_LOGIN) {
                 MainBean bean = JSON.parseObject(jsonString, MainBean.class);
                 if (bean != null) {
                     //请求成功
                     listener.Success(what, bean);
                 } else {
-                    listener.Error(what, "没有数据");
+                    listener.Error(what, 7, "没有数据");
                 }
             } else if (what == MethodCode.EVENT_GLOBALSEARCH) {
                 String data = jsonObject.getString(MethodCode.DATA);
@@ -249,11 +251,13 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
                 String data = jsonObject.getString(MethodCode.DATA);
                 listener.Success(what, data);
             }
+        } else {
+            listener.Error(what, status, msg);
         }
     }
 
     @Override
     protected void onFail(int what, Response response) {
-//        listener.Error(what, response.getException().getMessage());
+        listener.Fail(what, response.getException().getMessage());
     }
 }

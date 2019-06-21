@@ -11,5 +11,7 @@ public interface RequestListener<T> {
 
     void Success(int what, T result);
 
-    void Error(int what, String error);
+    void Error(int what, int status, String error);
+
+    void Fail(int what, String error);
 }

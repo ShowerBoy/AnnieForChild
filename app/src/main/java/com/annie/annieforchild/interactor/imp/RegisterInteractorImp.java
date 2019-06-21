@@ -58,8 +58,9 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
         request.add("serialNumber", serialNumber);
         request.add("code", code);
         request.add("newPhone", newPhone);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_CHANGEPHONE, request);
 //        startQueue();
     }
@@ -90,8 +91,9 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
         request.add("code", code);
         request.add("serialNumber", serialNumber);
         request.add("phone", phone);
-        request.add("deviceID", application.getSystemUtils().getSn());
-        request.add("deviceType", SystemUtils.deviceType);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_BINDSTUDENT, request);
     }
 
@@ -112,11 +114,7 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
         int status = jsonObject.getInteger(MethodCode.STATUS);
         String msg = jsonObject.getString(MethodCode.MSG);
         JSONObject data = jsonObject.getJSONObject(MethodCode.DATA);
-        if (status == 3) {
-            listener.Error(what, msg);
-        } else if (status == 1) {
-            listener.Error(MethodCode.EVENT_RELOGIN, msg);
-        } else {
+        if (status == 0) {
             if (what == MethodCode.EVENT_VERIFICATION_CODE) {
                 JSONObject data2 = jsonObject.getJSONObject(MethodCode.DATA);
                 String serial_number = data2.getString(MethodCode.SERIALNUMBER);
@@ -136,11 +134,13 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
                 String result = data.getString("result");
                 listener.Success(what, result);
             }
+        } else {
+            listener.Error(what, status, msg);
         }
     }
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Error(what, "请求失败");
+        listener.Fail(what, response.getException().getMessage());
     }
 }

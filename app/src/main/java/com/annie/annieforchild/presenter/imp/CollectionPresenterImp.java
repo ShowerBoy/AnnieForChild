@@ -149,9 +149,10 @@ public class CollectionPresenterImp extends BasePresenterImp implements Collecti
     }
 
     @Override
-    public void Error(int what, String error) {
+    public void Error(int what, int status, String error) {
         collectionView.dismissLoad();
-        if (what == MethodCode.EVENT_RELOGIN) {
+        if (status == 1) {
+            //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
                 collectionView.showInfo("该账号已在别处登陆");
@@ -181,7 +182,31 @@ public class CollectionPresenterImp extends BasePresenterImp implements Collecti
             } else {
                 return;
             }
+        } else if (status == 2) {
+            //升级
+
+        } else if (status == 3) {
+            //参数错误
+
+        } else if (status == 4) {
+            //服务器错误
+
+        } else if (status == 5) {
+            //账号或密码错误
+
+        } else if (status == 6) {
+            //获取验证码失败
+
+        } else if (status == 7) {
+            //通用错误
+
         }
-        collectionView.showInfo(error);
+    }
+
+    @Override
+    public void Fail(int what, String error) {
+        if (collectionView != null) {
+            collectionView.dismissLoad();
+        }
     }
 }
