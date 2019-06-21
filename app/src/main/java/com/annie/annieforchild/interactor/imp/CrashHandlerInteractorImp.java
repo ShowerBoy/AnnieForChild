@@ -52,10 +52,10 @@ public class CrashHandlerInteractorImp extends NetWorkImp {
     protected void onSuccess(int what, Object response) {
         String jsonString = response.toString();
         JSONObject jsonObject = JSON.parseObject(jsonString);
-        int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
-        String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
-        if (errorType == 3) {
-            listener.Error(what, errorInfo);
+        int status = jsonObject.getInteger(MethodCode.STATUS);
+        String msg = jsonObject.getString(MethodCode.MSG);
+        if (status == 3) {
+            listener.Error(what, msg);
         } else {
             listener.Success(what, response);
         }

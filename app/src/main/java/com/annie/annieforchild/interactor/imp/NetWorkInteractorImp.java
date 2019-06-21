@@ -513,14 +513,14 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 //        }
 
         JSONObject jsonObject = JSON.parseObject(jsonString);
-        int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
-        String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
+        int status = jsonObject.getInteger(MethodCode.STATUS);
+        String msg = jsonObject.getString(MethodCode.MSG);
         String data = jsonObject.getString(MethodCode.DATA);
 
-        if (errorType == 3) {
-            listener.Error(what, errorInfo);
-        } else if (errorType == 1) {
-            listener.Error(MethodCode.EVENT_RELOGIN, errorInfo);
+        if (status == 3) {
+            listener.Error(what, msg);
+        } else if (status == 1) {
+            listener.Error(MethodCode.EVENT_RELOGIN, msg);
         } else {
             if (what == MethodCode.EVENT_GETNETHOMEDATA) {
                 NetWork netWork = JSON.parseObject(data, NetWork.class);

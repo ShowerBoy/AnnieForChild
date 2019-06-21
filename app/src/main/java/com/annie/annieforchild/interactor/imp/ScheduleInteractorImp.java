@@ -202,13 +202,13 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
     protected void onSuccess(int what, Object response) {
         String jsonString = response.toString();
         JSONObject jsonObject = JSON.parseObject(jsonString);
-        int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
-        String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
+        int status = jsonObject.getInteger(MethodCode.STATUS);
+        String msg = jsonObject.getString(MethodCode.MSG);
         String data = jsonObject.getString(MethodCode.DATA);
-        if (errorType == 3) {
-            listener.Error(what, errorInfo);
-        } else if (errorType == 1) {
-            listener.Error(MethodCode.EVENT_RELOGIN, errorInfo);
+        if (status == 3) {
+            listener.Error(what, msg);
+        } else if (status == 1) {
+            listener.Error(MethodCode.EVENT_RELOGIN, msg);
         } else {
             if (what == MethodCode.EVENT_MYSCHEDULE) {
                 TotalSchedule totalSchedule = JSON.parseObject(data, TotalSchedule.class);

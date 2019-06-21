@@ -6,18 +6,19 @@ package com.annie.annieforchild.Utils;
  */
 public class MethodCode {
     final public static String VERSION = "v1/";
-    final public static String SYSTEMAPI = "systemApi/";
-    final public static String PERSONAPI = "personApi/";
-    final public static String HOMEPAGEAPI = "HomepageApi/";
+    final public static String SYSTEMAPI = "System/";
+    final public static String HOMEPAGEAPI = "Homepage/";
     final public static String HOMEWORKAPI = "homeworkApi/";
-    final public static String SEARCHAPI = "SearchApi/";
+    final public static String PERSONAPI = "Person/";
+    final public static String TASKAPI = "Task/";
+    final public static String SEARCHAPI = "Search/";
+
     final public static String SQUAREAPI = "SquareApi/";
     final public static String NETCLASSAPI = "NetclassApi/";
     final public static String SIGNINAPI = "Signin/";
-    final public static String TASKAPI = "TaskApi/";
     final public static String SHAREAPI = "ShareApi/";
-    final public static String ERRTYPE = "errType";
-    final public static String ERRINFO = "errInfo";
+    final public static String STATUS = "status";
+    final public static String MSG = "msg";
     final public static String DATA = "data";
     final public static String SERIALNUMBER = "serialNumber"; //流水号
     final public static String TOKEN = "token";

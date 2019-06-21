@@ -198,12 +198,12 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
     protected void onSuccess(int what, Object response) {
         String jsonString = response.toString();
         JSONObject jsonObject = JSON.parseObject(jsonString);
-        int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
-        String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
-        if (errorType == 3) {
-            listener.Error(what, errorInfo);
-        } else if (errorType == 1) {
-            listener.Error(MethodCode.EVENT_RELOGIN, errorInfo);
+        int status = jsonObject.getInteger(MethodCode.STATUS);
+        String msg = jsonObject.getString(MethodCode.MSG);
+        if (status == 3) {
+            listener.Error(what, msg);
+        } else if (status == 1) {
+            listener.Error(MethodCode.EVENT_RELOGIN, msg);
         } else {
             if (what == MethodCode.EVENT_LOGIN) {
                 MainBean bean = JSON.parseObject(jsonString, MainBean.class);
