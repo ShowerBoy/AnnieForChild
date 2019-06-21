@@ -10,6 +10,15 @@ import org.litepal.crud.LitePalSupport;
 public class LoginBean extends LitePalSupport {
     private String token;
     private String defaultUsername;
+    private int parentid;
+
+    public int getParentid() {
+        return parentid;
+    }
+
+    public void setParentid(int parentid) {
+        this.parentid = parentid;
+    }
 
     public String getToken() {
         return token;

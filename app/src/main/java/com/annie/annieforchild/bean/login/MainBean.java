@@ -8,24 +8,24 @@ import org.litepal.crud.LitePalSupport;
  */
 
 public class MainBean extends LitePalSupport {
-    String errInfo;
-    int errType;
+    String msg;
+    int status;
     String data; //获取到的主接口地址
 
-    public String getErrInfo() {
-        return errInfo;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setErrInfo(String errInfo) {
-        this.errInfo = errInfo;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public int getErrType() {
-        return errType;
+    public int getStatus() {
+        return status;
     }
 
-    public void setErrType(int errType) {
-        this.errType = errType;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getData() {
@@ -38,10 +38,6 @@ public class MainBean extends LitePalSupport {
 
     @Override
     public String toString() {
-        return "MainBean{" +
-                "errInfo='" + errInfo + '\'' +
-                ", errType=" + errType +
-                ", data='" + data + '\'' +
-                '}';
+        return super.toString();
     }
 }

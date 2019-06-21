@@ -8,11 +8,11 @@ public class MethodCode {
     final public static String VERSION = "v1/";
     final public static String SYSTEMAPI = "System/";
     final public static String HOMEPAGEAPI = "Homepage/";
-    final public static String HOMEWORKAPI = "homeworkApi/";
     final public static String PERSONAPI = "Person/";
     final public static String TASKAPI = "Task/";
     final public static String SEARCHAPI = "Search/";
 
+    final public static String HOMEWORKAPI = "homeworkApi/";
     final public static String SQUAREAPI = "SquareApi/";
     final public static String NETCLASSAPI = "NetclassApi/";
     final public static String SIGNINAPI = "Signin/";

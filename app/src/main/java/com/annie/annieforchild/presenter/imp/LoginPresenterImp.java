@@ -211,21 +211,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
         if (result != null) {
             if (what == MethodCode.EVENT_LOGIN) {
                 MainBean bean = (MainBean) result;
-                if (bean.getErrType() == 1) {
-                    //重新登录
-                } else if (bean.getErrType() == 2) {
-                    //升级
-                    bean.save();
-                } else if (bean.getErrType() == 4) {
-                    //更新接口地址
-                    List<MainBean> lists = LitePal.findAll(MainBean.class);
-                    if (lists != null && lists.size() != 0) {
-                        MainBean bean1 = lists.get(lists.size() - 1);
-                        bean1.setData(bean.getData());
-                        bean1.save();
-                        application.getSystemUtils().setMainBean(bean1);
-                    }
-                } else {
+                if (bean.getStatus() == 1)  {
                     //成功
                     SQLiteDatabase db = LitePal.getDatabase();
                     application.getSystemUtils().setReLogin(false);
