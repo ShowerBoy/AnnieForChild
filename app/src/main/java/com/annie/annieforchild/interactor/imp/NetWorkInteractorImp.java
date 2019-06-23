@@ -132,7 +132,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getMyAddress() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETMYADDRESS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.ADDRESSAPI + MethodType.GETMYADDRESS, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl +"NetclassTestApi/"+ MethodType.GETMYADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
@@ -143,30 +143,15 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 //        startQueue();
     }
 
-    @Override
-    public void addAddress(String name, String phone, String address, String provinces) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.ADDADDRESS, RequestMethod.POST);
-//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl +"NetclassTestApi/"+ MethodType.ADDADDRESS, RequestMethod.POST);
-        request.add("token", application.getSystemUtils().getToken());
-        request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("name", name);
-        request.add("phone", phone);
-        request.add("address", address);
-        request.add("provinces", provinces);
-        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
-        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
-        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
-        addQueue(MethodCode.EVENT_ADDADDRESS, request);
-//        startQueue();
-    }
 
     @Override
-    public void editAddress(int addressid, String name, String phone, String address, String provinces) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.EDITADDRESS, RequestMethod.POST);
-//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl +"NetclassTestApi/" + MethodType.EDITADDRESS, RequestMethod.POST);
+    public void addOrUpdateAddress(int addressid, String name, String phone, String address, String provinces) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.ADDRESSAPI + MethodType.EDITADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("addressid", addressid);
+        if(addressid!=-1){
+            request.add("addressid", addressid);
+        }
         request.add("name", name);
         request.add("phone", phone);
         request.add("address", address);
@@ -174,13 +159,17 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
-        addQueue(MethodCode.EVENT_EDITADDRESS, request);
+        if(addressid!=-1){
+            addQueue(MethodCode.EVENT_ADDADDRESS, request);
+        }else{
+            addQueue(MethodCode.EVENT_EDITADDRESS, request);
+        }
 //        startQueue();
     }
 
     @Override
     public void deleteAddress(int addressid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.DELETEADDRESS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.ADDRESSAPI + MethodType.DELETEADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("addressid", addressid);

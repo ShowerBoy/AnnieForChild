@@ -119,16 +119,11 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         interactor.getMyAddress();
     }
 
-    @Override
-    public void addAddress(String name, String phone, String address, String provinces) {
-        viewInfo.showLoad();
-        interactor.addAddress(name, phone, address, provinces);
-    }
 
     @Override
-    public void editAddress(int addressid, String name, String phone, String address, String provinces) {
+    public void addOrUpdateAddress(int addressid, String name, String phone, String address, String provinces) {
         viewInfo.showLoad();
-        interactor.editAddress(addressid, name, phone, address, provinces);
+        interactor.addOrUpdateAddress(addressid, name, phone, address, provinces);
     }
 
     @Override

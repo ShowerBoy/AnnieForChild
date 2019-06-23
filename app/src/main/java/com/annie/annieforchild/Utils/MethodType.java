@@ -102,7 +102,7 @@ public class MethodType {
     final public static String CONFIRMORDER = "confirmOrder"; //订单确认
     final public static String GETMYADDRESS = "getMyAddress"; //我的收货地址
     final public static String ADDADDRESS = "addAddress"; //添加收货地址
-    final public static String EDITADDRESS = "editAddress"; //修改收货地址
+    final public static String EDITADDRESS = "addOrUpdateAddress"; //修改收货地址
     final public static String DELETEADDRESS = "deleteAddress"; //删除收货地址
     final public static String BUYNETWORK = "buyNetWork"; //购买网课
     final public static String GETNETDETAILS = "getNetDetails"; //网课详情

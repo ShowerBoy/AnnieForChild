@@ -176,9 +176,9 @@ public class AddAddressActivity extends BaseActivity implements ViewInfo, OnChec
             case R.id.add_address_queding:
                 if (isCorrect()) {
                     if (isEdit) {
-                        presenter.editAddress(addressId, name, phone, address,provinces);
+                        presenter.addOrUpdateAddress(addressId, name, phone, address,provinces);
                     } else {
-                        presenter.addAddress(name, phone, address,provinces);
+                        presenter.addOrUpdateAddress(-1,name, phone, address,provinces);
                     }
                 } else {
                     showInfo("请填写完整信息");

@@ -11,6 +11,7 @@ public class MethodCode {
     final public static String PERSONAPI = "Person/";
     final public static String TASKAPI = "Task/";
     final public static String SEARCHAPI = "Search/";
+    final public static String ADDRESSAPI = "Address/";
 
     final public static String HOMEWORKAPI = "homeworkApi/";
     final public static String SQUAREAPI = "SquareApi/";
