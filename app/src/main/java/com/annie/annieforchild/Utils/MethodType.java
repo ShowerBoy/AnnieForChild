@@ -9,7 +9,7 @@ public class MethodType {
     final public static String GET_VERIFICATION_CODE = "getVerificationCode"; //获取验证码 1
     final public static String REGISTER = "register"; //注册 2
     final public static String LOGIN = "login"; //登陆 3
-    final public static String GETUSERINFO = "getStudentInfo"; //获取个人信息 4
+    final public static String GETUSERINFO = "getUserInfo"; //获取个人信息 4
     final public static String REGISTERUSER = "registerUser"; //注册学员 5
     final public static String GETUSERLIST = "getUserList"; //获取学员列表 6
     final public static String UPDATEUSERINFO = "updateUserInfo"; //修改个人信息 7

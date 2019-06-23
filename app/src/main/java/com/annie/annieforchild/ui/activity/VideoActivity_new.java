@@ -52,6 +52,7 @@ import com.pili.pldroid.player.PLOnVideoFrameListener;
 import com.pili.pldroid.player.PLOnVideoSizeChangedListener;
 import com.pili.pldroid.player.widget.PLVideoView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Arrays;
@@ -87,6 +88,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     private CheckDoubleClickListener listener;
     private int netWorkstate;
     private boolean isDefinition;//判断是否有清晰度
+    private int isWeb; //判断是否是网页视频播放 0:不是 1:是
     Runnable runnable;
     private Intent intent;
 
@@ -123,6 +125,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
 
         isFinish = intent.getIntExtra("isFinish", 0);
         animationId = intent.getIntExtra("animationId", 0);
+        isWeb = intent.getIntExtra("isWeb", 0);
         /**
          * {@link com.annie.annieforchild.ui.adapter.NetExpFirstVideoAdapter}
          */
@@ -378,7 +381,18 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 }
             }
             mMediaController.refreshProgress();
-            clarifyBack.setVisibility(View.VISIBLE);
+            if (videoList.size() > 1) {
+                clarifyBack.setVisibility(View.VISIBLE);
+            } else {
+                clarifyBack.setVisibility(View.GONE);
+            }
+            if (isWeb == 1) {
+                JTMessage message = new JTMessage();
+                message.what = MethodCode.EVENT_WEBVIDEO;
+                message.obj = "播放结束";
+                EventBus.getDefault().post(message);
+                finish();
+            }
             mVideoView.setClickable(false);
 
             //finish();
@@ -404,16 +418,16 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         public void onVideoFrameAvailable(byte[] data, int size, int width, int height, int format, long ts) {
 //            Log.i(TAG, "onVideoFrameAvailable: " + size + ", " + width + " x " + height + ", " + format + ", " + ts);
 //            if (format == PLOnVideoFrameListener.VIDEO_FORMAT_SEI && bytesToHex(Arrays.copyOfRange(data, 19, 23)).equals("74733634")) {
-                // If the RTMP stream is from Qiniu
-                // Add &addtssei=true to the end of URL to enable SEI timestamp.
-                // Format of the byte array:
-                // 0:       SEI TYPE                    This is part of h.264 standard.
-                // 1:       unregistered user data      This is part of h.264 standard.
-                // 2:       payload length              This is part of h.264 standard.
-                // 3-18:    uuid                        This is part of h.264 standard.
-                // 19-22:   ts64                        Magic string to mark this stream is from Qiniu
-                // 23-30:   timestamp                   The timestamp
-                // 31:      0x80                        Magic hex in ffmpeg
+            // If the RTMP stream is from Qiniu
+            // Add &addtssei=true to the end of URL to enable SEI timestamp.
+            // Format of the byte array:
+            // 0:       SEI TYPE                    This is part of h.264 standard.
+            // 1:       unregistered user data      This is part of h.264 standard.
+            // 2:       payload length              This is part of h.264 standard.
+            // 3-18:    uuid                        This is part of h.264 standard.
+            // 19-22:   ts64                        Magic string to mark this stream is from Qiniu
+            // 23-30:   timestamp                   The timestamp
+            // 31:      0x80                        Magic hex in ffmpeg
 //                Log.i(TAG, " timestamp: " + Long.valueOf(bytesToHex(Arrays.copyOfRange(data, 23, 31)), 16));
 //            }
         }

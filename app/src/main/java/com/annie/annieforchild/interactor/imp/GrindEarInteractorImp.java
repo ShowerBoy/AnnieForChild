@@ -621,7 +621,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.GETANIMATIONLIST, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
-        request.add("title", title);
+        request.add("classId", classId);
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
@@ -1234,7 +1234,6 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES1) {
                 List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
                 listener.Success(what, classifyList);
-
             } else if (what == MethodCode.EVENT_GETMUSICCLASSES2) {
                 List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
                 listener.Success(what, classifyList);
@@ -1504,7 +1503,6 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
 
     @Override
     protected void onFail(int what, Response response) {
-        String error = response.getException().getMessage();
-        listener.Fail(what, error);
+        listener.Fail(what, "");
     }
 }

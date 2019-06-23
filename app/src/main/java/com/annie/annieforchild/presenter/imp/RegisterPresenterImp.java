@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
@@ -193,7 +194,7 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
 
         } else if (status == 3) {
             //参数错误
-
+            Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
         } else if (status == 4) {
             //服务器错误
 
@@ -217,6 +218,8 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
             } else if (what == MethodCode.EVENT_BINDSTUDENT) {
                 registerView.showInfo(error);
             } else if (what == MethodCode.EVENT_GETBINDVERIFICATIONCODE) {
+                registerView.showInfo(error);
+            } else if (what == MethodCode.EVENT_CHANGEPHONE) {
                 registerView.showInfo(error);
             }
         }

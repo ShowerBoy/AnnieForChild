@@ -63,13 +63,13 @@ public class MessagePresenterImp extends BasePresenterImp implements MessagePres
     @Override
     public void myRecordings() {
         viewInfo.showLoad();
-        interactor.myRecordings();
+//        interactor.myRecordings();
     }
 
     @Override
     public void deleteRecording(int recordingId, int origin) {
         viewInfo.showLoad();
-        interactor.deleteRecording(recordingId, origin);
+//        interactor.deleteRecording(recordingId, origin);
     }
 
     @Override

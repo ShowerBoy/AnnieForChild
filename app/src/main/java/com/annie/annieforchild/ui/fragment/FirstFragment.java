@@ -27,6 +27,7 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.net.netexpclass.VideoList;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.bean.tongzhi.Msgs;
 import com.annie.annieforchild.bean.login.PhoneSN;
@@ -37,6 +38,7 @@ import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.presenter.imp.MainPresenterImp;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.MainActivity;
+import com.annie.annieforchild.ui.activity.VideoActivity_new;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2;
 import com.annie.annieforchild.ui.activity.mains.BankBookActivity;
@@ -633,17 +635,19 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
-                SystemUtils.MusicType = 0;
-                Intent intent1 = new Intent(getContext(), MusicPlayActivity2.class);
-                startActivity(intent1);
+                //正式
+//                SystemUtils.MusicType = 0;
+//                Intent intent1 = new Intent(getContext(), MusicPlayActivity2.class);
+//                startActivity(intent1);
+
 
 //                SystemUtils.setBackGray(getActivity(), true);
 //                application.getSystemUtils().getNetWorkGift(getContext()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
 
-//                Intent intent1 = new Intent(getContext(), WebActivity.class);
-//                intent1.putExtra("url", "http://study.anniekids.org/a-temporary/test/test.html");
-//                intent1.putExtra("title", "");
-//                startActivity(intent1);
+                Intent intent1 = new Intent(getContext(), WebActivity.class);
+                intent1.putExtra("url", "http://study.anniekids.org/a-temporary/test/index.html");
+                intent1.putExtra("title", "");
+                startActivity(intent1);
 
 //                Intent intent1 = new Intent(getContext(), CalendarActivity.class);
 //                startActivity(intent1);

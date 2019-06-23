@@ -47,9 +47,9 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         FastJsonRequest request2 = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERLIST, RequestMethod.POST);
         request2.add("username", application.getSystemUtils().getDefaultUsername());
         request2.add("token", application.getSystemUtils().getToken());
-        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
-        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
-        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
+        request2.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request2.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request2.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_USERINFO, request);
         addQueue(MethodCode.EVENT_USERLIST, request2);
 //        startQueue();
@@ -83,14 +83,7 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
 
     @Override
     public void getUserList() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETUSERLIST, RequestMethod.POST);
-        request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("token", application.getSystemUtils().getToken());
-        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
-        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
-        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
-        addQueue(MethodCode.EVENT_USERLIST, request);
-//        startQueue();
+        //getUserInfo()
     }
 
     @Override
@@ -175,6 +168,6 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Fail(what, response.getException().getMessage());
+        listener.Fail(what, "");
     }
 }

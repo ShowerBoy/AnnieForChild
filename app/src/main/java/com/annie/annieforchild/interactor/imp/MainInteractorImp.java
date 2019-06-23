@@ -82,8 +82,6 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
 
     @Override
     protected void onFail(int what, Response response) {
-        Log.v("", response + "");
-        Exception exception = response.getException();
-        listener.Fail(what, exception.getMessage());
+        listener.Fail(what, "");
     }
 }

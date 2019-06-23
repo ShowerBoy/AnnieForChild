@@ -113,13 +113,14 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
         JSONObject jsonObject = JSON.parseObject(jsonString);
         int status = jsonObject.getInteger(MethodCode.STATUS);
         String msg = jsonObject.getString(MethodCode.MSG);
-        JSONObject data = jsonObject.getJSONObject(MethodCode.DATA);
+//        JSONObject data = jsonObject.getJSONObject(MethodCode.DATA);
         if (status == 0) {
             if (what == MethodCode.EVENT_VERIFICATION_CODE) {
                 JSONObject data2 = jsonObject.getJSONObject(MethodCode.DATA);
                 String serial_number = data2.getString(MethodCode.SERIALNUMBER);
                 listener.Success(what, serial_number);
             } else if (what == MethodCode.EVENT_RGISTER) {
+                JSONObject data = jsonObject.getJSONObject(MethodCode.DATA);
                 String token = data.getString(MethodCode.TOKEN);
                 listener.Success(what, token);
             } else if (what == MethodCode.EVENT_CHANGEPHONE) {
@@ -131,6 +132,7 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
                 SerialBean serialBean = JSON.parseObject(dataString, SerialBean.class);
                 listener.Success(what, serialBean);
             } else if (what == MethodCode.EVENT_BINDSTUDENT) {
+                JSONObject data = jsonObject.getJSONObject(MethodCode.DATA);
                 String result = data.getString("result");
                 listener.Success(what, result);
             }
@@ -141,6 +143,6 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Fail(what, response.getException().getMessage());
+        listener.Fail(what, "");
     }
 }

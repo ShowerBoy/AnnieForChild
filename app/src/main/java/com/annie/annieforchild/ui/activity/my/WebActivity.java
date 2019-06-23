@@ -789,6 +789,14 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
             message1.arg1 = 0;
             handler2.sendMessage(message1);
             popupWindow2.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+        } else if (message.what == MethodCode.EVENT_WEBVIDEO) {
+            String msg = (String) message.obj;
+            webView.callHandler("endVideo", new Object[]{msg}, new OnReturnValue<String>() {
+                @Override
+                public void onValue(String s) {
+
+                }
+            });
         }
     }
 

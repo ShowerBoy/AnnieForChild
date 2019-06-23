@@ -109,7 +109,7 @@ public abstract class CameraActivity extends BaseActivity {
 
                                 @Override
                                 public void onSuccess(File file) {
-                                    onImageSelect(null, file.getAbsolutePath());
+                                    onImageSelect(null, file.getPath());
                                 }
 
                                 @Override
@@ -117,29 +117,6 @@ public abstract class CameraActivity extends BaseActivity {
 
                                 }
                             }).launch();
-
-//                    ContentResolver resolver = getContentResolver();
-//                    Uri originalUri = data.getData();
-//                    try {
-//                        Bitmap photo = MediaStore.Images.Media.getBitmap(resolver, originalUri);
-//                        if (photo != null) {
-//                            Bitmap smallBitmap;
-//                            if (photo.getWidth() < 500 || photo.getHeight() < 500) {
-//                                smallBitmap = ImageTools.zoomBitmap(photo, photo.getWidth() / 1, photo.getHeight() / 1);
-//                            } else {
-//                                smallBitmap = ImageTools.zoomBitmap(photo, photo.getWidth() / SCALE, photo.getHeight() / SCALE);
-//                            }
-//                            String photoName = UUID.randomUUID().toString();
-//                            ImageTools.savePhotoToSDCard(smallBitmap, Environment.getExternalStorageDirectory().getPath() + "/annie/", photoName + ".JPEG");
-//                            onImageSelect(smallBitmap, Environment.getExternalStorageDirectory().getPath() + "/annie/" + photoName + ".JPEG");
-//                            return;
-//                        }
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    onImageSelect(null, null);
                     break;
 
                 default:

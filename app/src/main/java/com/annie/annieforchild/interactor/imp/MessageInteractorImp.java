@@ -63,29 +63,29 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
 
     @Override
     public void myRecordings() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGS, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.MYRECORDINGS, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.NEWMYRECORDINGS, RequestMethod.POST);
-        request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("token", application.getSystemUtils().getToken());
-        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
-        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
-        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
-        addQueue(MethodCode.EVENT_MYRECORDINGS, request);
+//        request.add("username", application.getSystemUtils().getDefaultUsername());
+//        request.add("token", application.getSystemUtils().getToken());
+//        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+//        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+//        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
+//        addQueue(MethodCode.EVENT_MYRECORDINGS, request);
 //        startQueue();
     }
 
     @Override
     public void deleteRecording(int recordingId, int origin) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETERECORDING, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.DELETERECORDING, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.NEWDELETERECORDING, RequestMethod.POST);
-        request.add("username", application.getSystemUtils().getDefaultUsername());
-        request.add("token", application.getSystemUtils().getToken());
-        request.add("origin", origin);
-        request.add("recordingId", recordingId);
-        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
-        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
-        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
-        addQueue(MethodCode.EVENT_DELETERECORDING, request);
+//        request.add("username", application.getSystemUtils().getDefaultUsername());
+//        request.add("token", application.getSystemUtils().getToken());
+//        request.add("origin", origin);
+//        request.add("recordingId", recordingId);
+//        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+//        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+//        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
+//        addQueue(MethodCode.EVENT_DELETERECORDING, request);
 //        startQueue();
     }
 
@@ -169,7 +169,7 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
                 MyNotice myNotice = JSON.parseObject(data, MyNotice.class);
                 listener.Success(what, myNotice);
             } else if (what == MethodCode.EVENT_FEEDBACK) {
-                listener.Success(what, "提交成功");
+                listener.Success(what, msg);
             } else if (what == MethodCode.EVENT_GETHELP) {
                 List<HelpBean> lists = JSON.parseArray(data, HelpBean.class);
                 listener.Success(what, lists);
@@ -184,7 +184,7 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
             } else if (what == MethodCode.EVENT_DELETERECORDING) {
                 listener.Success(what, "删除成功");
             } else if (what == MethodCode.EVENT_EXCHANGEGOLD) {
-                listener.Success(what, "兑换成功");
+                listener.Success(what, msg);
             } else if (what == MethodCode.EVENT_SHARETO) {
                 JSONObject dataObj = jsonObject.getJSONObject(MethodCode.DATA);
                 String shareUrl = dataObj.getString("shareUrl");

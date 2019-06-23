@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.View;
+import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
@@ -357,7 +358,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
         } else if (status == 2) {
             //升级
 
-        }  else if (status == 3) {
+        } else if (status == 3) {
             //参数错误
 
         } else if (status == 4) {
@@ -369,9 +370,9 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
         } else if (status == 6) {
             //获取验证码失败
 
-        }  else if (status == 7) {
+        } else if (status == 7) {
             //通用错误
-
+            Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
         }
 
 //        /**

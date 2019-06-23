@@ -211,7 +211,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
         if (result != null) {
             if (what == MethodCode.EVENT_LOGIN) {
                 MainBean bean = (MainBean) result;
-                if (bean.getStatus() == 1)  {
+                if (bean.getStatus() == 0) {
                     //成功
                     SQLiteDatabase db = LitePal.getDatabase();
                     application.getSystemUtils().setReLogin(false);
@@ -443,7 +443,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
 
         } else if (status == 5) {
             //账号或密码错误
-
+            loginView.showInfo(error);
         } else if (status == 6) {
             //获取验证码失败
 

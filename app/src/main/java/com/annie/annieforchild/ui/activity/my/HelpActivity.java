@@ -20,7 +20,6 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.MessagePresenter;
 import com.annie.annieforchild.presenter.imp.MessagePresenterImp;
 import com.annie.annieforchild.ui.adapter.HelpAdapter;
-import com.annie.annieforchild.ui.fragment.help.FeedBackFragment;
 import com.annie.annieforchild.ui.fragment.help.HelpFragment;
 import com.annie.annieforchild.ui.fragment.message.GroupMsgFragment;
 import com.annie.annieforchild.ui.fragment.message.NoticeFragment;
