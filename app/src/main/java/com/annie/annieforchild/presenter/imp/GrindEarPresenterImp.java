@@ -1518,6 +1518,16 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
 
         } else if (status == 3) {
             //参数错误
+            if (grindEarView != null) {
+                grindEarView.showInfo(error+"");
+            }
+            if (songView != null) {
+                songView.showInfo(error+"");
+            }
+            if (viewInfo != null) {
+                viewInfo.showInfo(error+"");
+            }
+
 
         } else if (status == 4) {
             //服务器错误

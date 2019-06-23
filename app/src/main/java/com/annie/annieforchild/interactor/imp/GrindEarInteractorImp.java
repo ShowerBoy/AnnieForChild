@@ -854,7 +854,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request.add("username", application.getSystemUtils().getDefaultUsername());
             request.add("taskid", taskid);
             request.add("type", type);
-            request.add("file", fileBinary);
+            request.add("userfile", fileBinary);
             request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
             request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
             request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
@@ -1394,12 +1394,13 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             } else if (what == MethodCode.EVENT_COMPLETETASK + 70000 + taskid) {
                 int result;
                 Log.e("taskcomplete", data + "");
-                if (data != null) {
-                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
-                    result = dataobj.getInteger("result");
-                } else {
-                    result = 1;
-                }
+                result=0;
+//                if (data != null) {
+//                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+//                    result = dataobj.getInteger("result");
+//                } else {
+//                    result = 1;
+//                }
                 listener.Success(what, result);
             } else if (what == MethodCode.EVENT_UPLOADTASKIMAGE + 40000 + taskid) {
                 listener.Success(what, "");

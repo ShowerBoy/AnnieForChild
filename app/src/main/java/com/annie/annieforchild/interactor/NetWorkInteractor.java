@@ -15,9 +15,7 @@ public interface NetWorkInteractor {
 
     void getMyAddress();
 
-    void addAddress(String name, String phone, String address,String provinces);
-
-    void editAddress(int addressid, String name, String phone, String address,String provinces);
+    void addOrUpdateAddress(int addressid, String name, String phone, String address,String provinces);
 
     void deleteAddress(int addressid);
 
