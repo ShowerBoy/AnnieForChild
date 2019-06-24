@@ -697,6 +697,15 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
 
         } else if (status == 3) {
             //参数错误
+            if(what==MethodCode.EVENT_GETMYADDRESS){
+                viewInfo.showInfo(error);
+            }else if(what==MethodCode.EVENT_ADDADDRESS){
+                viewInfo.showInfo(error);
+            }else if(what==MethodCode.EVENT_EDITADDRESS){
+                viewInfo.showInfo(error);
+            }else if(what==MethodCode.EVENT_DELETEADDRESS){
+                viewInfo.showInfo(error);
+            }
 
         } else if (status == 4) {
             //服务器错误

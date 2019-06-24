@@ -428,7 +428,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     @Override
     public void joinMaterial(int bookId, int audioSource, int type, int classId) {
         this.classId = classId;
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.JOINMATERIAL, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.JOINMATERIAL, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("bookId", bookId);
@@ -852,7 +852,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             request.add("username", application.getSystemUtils().getDefaultUsername());
             request.add("taskid", taskid);
             request.add("type", type);
-            request.add("userfile", fileBinary);
+            request.add("file", fileBinary);
             request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
             request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
             request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));

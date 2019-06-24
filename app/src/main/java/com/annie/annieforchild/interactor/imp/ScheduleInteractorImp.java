@@ -55,7 +55,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void getMaterialClass(int type) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.GETALLMATERIALLIST, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETALLMATERIALLIST, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("type", type);
@@ -244,9 +244,9 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
             } else if (what == MethodCode.EVENT_MYCOURSESOFFLINE) {
 
             } else if (what == MethodCode.EVENT_MYTEACHINGMATERIALS) {
-                JSONObject dataObj = jsonObject.getJSONObject(MethodCode.DATA);
-                String optional = dataObj.getString("optional");
-                List<Material> lists = JSON.parseArray(optional, Material.class);
+//                JSONObject dataObj = jsonObject.getJSONObject(MethodCode.DATA);
+//                String optional = dataObj.getString("optional");
+                List<Material> lists = JSON.parseArray(data, Material.class);
                 listener.Success(what, lists);
             } else if (what == MethodCode.EVENT_MYCALENDAR) {
                 List<String> lists = JSON.parseArray(data, String.class);
