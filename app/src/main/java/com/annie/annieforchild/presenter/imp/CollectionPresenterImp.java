@@ -187,6 +187,7 @@ public class CollectionPresenterImp extends BasePresenterImp implements Collecti
 
         } else if (status == 3) {
             //参数错误
+            collectionView.showInfo(error+"");
 
         } else if (status == 4) {
             //服务器错误
