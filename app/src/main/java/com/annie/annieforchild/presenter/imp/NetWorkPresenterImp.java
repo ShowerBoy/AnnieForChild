@@ -372,6 +372,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity#onMainEventThread(JTMessage)}
                  */
+
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = netSuggest;

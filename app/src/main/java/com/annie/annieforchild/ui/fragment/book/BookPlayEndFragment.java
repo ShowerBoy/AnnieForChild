@@ -157,7 +157,7 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
         releaseBack.setOnClickListener(listener);
         if (application.getSystemUtils().getUserInfo().getAvatar() != null) {
             Glide.with(getContext()).load(application.getSystemUtils().getUserInfo().getAvatar()).error(R.drawable.icon_system_headpic).into(headpic);
-        }else{
+        } else {
             Glide.with(getContext()).load(R.drawable.icon_system_headpic).error(R.drawable.icon_system_headpic).into(headpic);
         }
 
@@ -197,19 +197,14 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
                 recommendAdapter.notifyDataSetChanged();
             }
         } else if (message.what == MethodCode.EVENT_RELEASEBOOK) {
-            int result = (int) message.obj;
-            if (result == 1) {
-                showInfo("发布成功!");
-                Intent intent = new Intent(getContext(), ReleaseSuccessActivity.class);
-                intent.putExtra("bookId", bookId);
-                intent.putExtra("bookName", bookName);
-                intent.putExtra("imageUrl", imageUrl);
-                intent.putExtra("audioType", audioType);
-                startActivity(intent);
-                getActivity().finish();
-            } else {
-                showInfo("发布失败!");
-            }
+            showInfo("发布成功!");
+            Intent intent = new Intent(getContext(), ReleaseSuccessActivity.class);
+            intent.putExtra("bookId", bookId);
+            intent.putExtra("bookName", bookName);
+            intent.putExtra("imageUrl", imageUrl);
+            intent.putExtra("audioType", audioType);
+            startActivity(intent);
+            getActivity().finish();
         }
     }
 

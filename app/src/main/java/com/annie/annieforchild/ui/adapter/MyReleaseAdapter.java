@@ -92,7 +92,7 @@ public class MyReleaseAdapter extends RecyclerView.Adapter<MyReleaseViewHolder> 
             myReleaseViewHolder.target.setText("地道说");
         }
         myReleaseViewHolder.myRecordContent.setText(lists.get(position).getTitle() + "（" + lists.get(position).getDuration() + "秒）");
-        myReleaseViewHolder.myRecordDate.setText(lists.get(position).getTime().substring(0, 4) + "-" + lists.get(position).getTime().substring(4, 6) + "-" + lists.get(position).getTime().substring(6, 8));
+        myReleaseViewHolder.myRecordDate.setText(lists.get(position).getTime());
         Glide.with(context).load(lists.get(position).getImageUrl()).error(R.drawable.image_loading).into(myReleaseViewHolder.myRecordImage);
         MyReleaseViewHolder finalHolder1 = myReleaseViewHolder;
         myReleaseViewHolder.myRecordPlay.setOnClickListener(new View.OnClickListener() {

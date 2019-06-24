@@ -12,12 +12,13 @@ public class MethodCode {
     final public static String TASKAPI = "Task/";
     final public static String SEARCHAPI = "Search/";
     final public static String ADDRESSAPI = "Address/";
+    final public static String SHAREAPI = "Share/";
+    final public static String CLASSSCHEDULE = "ClassSchedule/";
 
     final public static String HOMEWORKAPI = "homeworkApi/";
     final public static String SQUAREAPI = "SquareApi/";
     final public static String NETCLASSAPI = "NetclassApi/";
     final public static String SIGNINAPI = "Signin/";
-    final public static String SHAREAPI = "ShareApi/";
 
     final public static String DEVICETYPE = "deviceType";
     final public static String DEVICEID = "deviceID";
@@ -25,6 +26,8 @@ public class MethodCode {
 
     final public static String STATUS = "status";
     final public static String MSG = "msg";
+    final public static String ERRTYPE = "errType";
+    final public static String ERRINFO = "errInfo";
     final public static String DATA = "data";
     final public static String SERIALNUMBER = "serialNumber"; //流水号
     final public static String TOKEN = "token";

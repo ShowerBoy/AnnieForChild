@@ -39,8 +39,8 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void mySchedule(String date) {
-//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYSCHEDULE, RequestMethod.POST);
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYSCHEDULEV2, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MYSCHEDULE, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MYSCHEDULEV2, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("date", date);
@@ -55,7 +55,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void getMaterialClass(int type) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.GETALLMATERIALLIST, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.GETALLMATERIALLIST, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("type", type);
@@ -74,7 +74,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void addSchedule(int materialId, String startDate, int totalDays, String start, String end, int audioType, int audioSource) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.ADDSCHEDULE, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.ADDSCHEDULE, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("materialId", materialId);
@@ -93,7 +93,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void totalSchedule(String startDate, String endDate) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.TOTALSCHEDULE, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.TOTALSCHEDULE, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("startDate", startDate);
@@ -107,7 +107,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void editSchedule(int scheduleId, int materialId, String startDate, int totalDays, String start, String end) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.EDITSCHEDULE, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.EDITSCHEDULE, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("scheduleId", scheduleId);
@@ -125,7 +125,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void deleteSchedule(int scheduleId) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.DELETESCHEDULE, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.DELETESCHEDULE, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("scheduleId", scheduleId);
@@ -138,7 +138,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void myCoursesOnline() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYCOURSESONLINE, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MYCOURSESONLINE, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
@@ -150,7 +150,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void myCoursesOffline() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYCOURSESOFFLINE, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MYCOURSESOFFLINE, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
@@ -162,7 +162,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void myTeachingMaterials() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYTEACHINGMATERIALS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MYTEACHINGMATERIALS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
@@ -174,7 +174,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void myCalendar(String date) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MYCALENDAR, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MYCALENDAR, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("date", date);
@@ -187,8 +187,8 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void monthCalendar(String date) {
-//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MONTHCALENDAR, RequestMethod.POST);
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEWORKAPI + MethodType.MONTHCALENDARV2, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MONTHCALENDAR, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MONTHCALENDARV2, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("date", date);
@@ -267,6 +267,6 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Fail(what, response.getException().getMessage());
+        listener.Fail(what, "");
     }
 }

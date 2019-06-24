@@ -81,7 +81,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getNetHomeData() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETHOMEDATA, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETHOMEDATA, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
@@ -93,7 +93,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getNetSuggest(int netid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETSUGGEST, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETSUGGEST, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
@@ -106,7 +106,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getMyNetClass() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETMYNETCLASS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETMYNETCLASS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
@@ -118,7 +118,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void confirmOrder(int netid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.CONFIRMORDER, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.CONFIRMORDER, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + "NetclassTestApi/" + MethodType.CONFIRMORDER, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
@@ -132,7 +132,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getMyAddress() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.ADDRESSAPI + MethodType.GETMYADDRESS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.ADDRESSAPI + MethodType.GETMYADDRESS, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl +"NetclassTestApi/"+ MethodType.GETMYADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
@@ -146,10 +146,10 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void addOrUpdateAddress(int addressid, String name, String phone, String address, String provinces) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.ADDRESSAPI + MethodType.EDITADDRESS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.ADDRESSAPI + MethodType.EDITADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
-        if(addressid!=-1){
+        if (addressid != -1) {
             request.add("addressid", addressid);
         }
         request.add("name", name);
@@ -159,9 +159,9 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
-        if(addressid!=-1){
+        if (addressid != -1) {
             addQueue(MethodCode.EVENT_ADDADDRESS, request);
-        }else{
+        } else {
             addQueue(MethodCode.EVENT_EDITADDRESS, request);
         }
 //        startQueue();
@@ -169,7 +169,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void deleteAddress(int addressid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.ADDRESSAPI + MethodType.DELETEADDRESS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.ADDRESSAPI + MethodType.DELETEADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("addressid", addressid);
@@ -184,7 +184,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid) {
         this.payment = payment;
 //        JavaBeanRequest request = new JavaBeanRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNETWORK, String.class);
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNETWORK, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNETWORK, RequestMethod.POST);
 //        WLStringRequest request = new WLStringRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNETWORK, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
@@ -203,7 +203,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getNetDetails(int netid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETDETAILS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETDETAILS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
@@ -217,7 +217,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     @Override
     public void getNetExpDetails(int netid) {
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETEXPDETAILS, RequestMethod.POST);
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETEXPDETAILS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETEXPDETAILS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
@@ -230,7 +230,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getNetExpDetails_new(int netid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETEXPDETAILS_NEW, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETNETEXPDETAILS_NEW, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
@@ -244,7 +244,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getNetSpecialDetail(int netid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALCLASS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALCLASS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
@@ -256,7 +256,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getMyOrderList() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETMYORDERLIST, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI + MethodType.GETMYORDERLIST, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
@@ -267,7 +267,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getMyOrderDetail(int orderIncrId) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.GETMYORDERDETAIL, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI + MethodType.GETMYORDERDETAIL, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("orderIncrId", orderIncrId);
@@ -281,7 +281,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     public void continuePay(int orderIncrId, int payment, int tag) {
         this.payment = payment;
         this.tag = tag;
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.CONTINUEPAY, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI + MethodType.CONTINUEPAY, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("orderIncrId", orderIncrId);
@@ -295,7 +295,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     public void cancelOrder(int orderIncrId, int payment, int tag) {
         this.payment = payment;
         this.tag = tag;
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.CANCELORDER, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI + MethodType.CANCELORDER, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("orderIncrId", orderIncrId);
@@ -307,7 +307,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void experienceDetailsV2(int netid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.EXPERIENCEDETAILSV2, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.EXPERIENCEDETAILSV2, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
@@ -319,7 +319,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void videoPayRecord(String netid, String stageid, String unitid, String chaptercontent_id, int isFinish, String classcode) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.VIDEOPAYRECORD, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.VIDEOPAYRECORD, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
@@ -337,7 +337,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     @Override
     public void videoList(String fid, String netid, String stageid, String unitid) {
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.VIDEOLIST, RequestMethod.POST);
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.VIDEOLISTV2, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.VIDEOLISTV2, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("fid", fid);
@@ -352,7 +352,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void SpecialClassV2(int netid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALCLASSV2, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALCLASSV2, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
@@ -364,7 +364,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void taskList(int netid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.TASKLIST, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.TASKLIST, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
@@ -376,7 +376,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void taskDetail(int netid, int num) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.TASKDETAIL, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.TASKDETAIL, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
@@ -391,10 +391,10 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     public void getLesson(String lessonid, int type) {
         FastJsonRequest request;
         if (type == 4) {//彩虹条新版本
-            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETSPECIALLESSON_NEW, RequestMethod.POST);
+            request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETSPECIALLESSON_NEW, RequestMethod.POST);
             request.add("fid", lessonid);
         } else {
-            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETLESSON, RequestMethod.POST);
+            request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETLESSON, RequestMethod.POST);
             request.add("lessonid", lessonid);
         }
         request.add("token", application.getSystemUtils().getToken());
@@ -409,7 +409,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void buySuccess(String tradeno, String outtradeno, int type) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.BUYSUCCESS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.BUYSUCCESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("tradeno", tradeno);
@@ -426,7 +426,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     public void getNetPreheatConsult(String lessonid, int type) {
         if (type == 1) {
             //体验课预热课
-            FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETPREHEATCONSULT, RequestMethod.POST);
+            FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETPREHEATCONSULT, RequestMethod.POST);
             request.add("token", application.getSystemUtils().getToken());
             request.add("username", application.getSystemUtils().getDefaultUsername());
             request.add("lessonid", Integer.parseInt(lessonid));
@@ -437,7 +437,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         } else if (type == 2) {
             //综合课预热课
 //            FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALPREHEATING, RequestMethod.POST);
-            FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALPREHEATINGV2, RequestMethod.POST);
+            FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.SPECIALPREHEATINGV2, RequestMethod.POST);
             request.add("token", application.getSystemUtils().getToken());
             request.add("username", application.getSystemUtils().getDefaultUsername());
             request.add("lessonid", Integer.parseInt(lessonid));
@@ -452,7 +452,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     @Override
     public void getListeningAndReading(String week, String classid, int tag, int classify) {
         this.tag = tag;
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETLISTENANDREAD, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETLISTENANDREAD, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("classid", classid);
@@ -467,7 +467,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void buynum(int netid, int type) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNUM, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNUM, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("netid", netid);
@@ -486,7 +486,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     @Override
     public void OrderQuery(String tradeno, String outtradeno, int type, int tag) {
         this.tag = tag;
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.ORDERQUERY, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.ORDERQUERY, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("tradeno", tradeno);
@@ -504,15 +504,15 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         FastJsonRequest request;
         if (type == 1) {//微课堂
 //            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETWEICLASS, RequestMethod.POST);
-            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETWEICLASSV2, RequestMethod.POST);
+            request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETWEICLASSV2, RequestMethod.POST);
             request.add("fid", fid);
         } else if (type == 4) {//新版本的开班活动等
 //            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETSPECIAL_NEW, RequestMethod.POST);
-            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETSPECIAL_NEWV2, RequestMethod.POST);
+            request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETSPECIAL_NEWV2, RequestMethod.POST);
             request.add("fid", fid);
         } else {
 //            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETCLASSANALYSIS, RequestMethod.POST);
-            request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.GETCLASSANALYSISV2, RequestMethod.POST);
+            request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.GETCLASSANALYSISV2, RequestMethod.POST);
             request.add("fid", fid);
         }
         request.add("token", application.getSystemUtils().getToken());
@@ -533,10 +533,10 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 //        }
 
         JSONObject jsonObject = JSON.parseObject(jsonString);
-        int status = jsonObject.getInteger(MethodCode.STATUS);
-        String msg = jsonObject.getString(MethodCode.MSG);
+        int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
+        String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
         String data = jsonObject.getString(MethodCode.DATA);
-        if (status == 0) {
+        if (errorType == 0) {
             if (what == MethodCode.EVENT_GETNETHOMEDATA) {
                 NetWork netWork = JSON.parseObject(data, NetWork.class);
                 listener.Success(what, netWork);
@@ -694,14 +694,13 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 listener.Success(what, everyDetail);
             }
         } else {
-            listener.Error(what, status, msg);
+            listener.Error(what, errorType, errorInfo);
         }
     }
 
     @Override
     protected void onFail(int what, Response response) {
-        String error = response.getException().getMessage();
-        listener.Fail(what, error);
+        listener.Fail(what, "");
     }
 
 }

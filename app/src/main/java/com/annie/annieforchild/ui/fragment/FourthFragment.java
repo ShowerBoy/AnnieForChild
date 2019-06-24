@@ -23,6 +23,7 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
+import com.annie.annieforchild.bean.child.ChildBean;
 import com.annie.annieforchild.presenter.FourthPresenter;
 import com.annie.annieforchild.presenter.imp.FourthPresenterImp;
 import com.annie.annieforchild.ui.activity.child.ModifyChildActivity;
@@ -183,11 +184,13 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         } else if (message.what == MethodCode.EVENT_UPDATEUSER) {
             presenter.getUserInfo();
         } else if (message.what == MethodCode.EVENT_DELETEUSERNAME) {
-            int result = (int) message.obj;
+            ChildBean childBean = (ChildBean) message.obj;
+            int result = childBean.getResult();
             if (result == 0) {
                 showInfo("删除失败");
             } else {
                 showInfo("删除成功");
+                application.getSystemUtils().setDefaultUsername(childBean.getUsername());
             }
             presenter.getUserInfo();
         } else if (message.what == MethodCode.EVENT_EXCHANGEGOLD) {

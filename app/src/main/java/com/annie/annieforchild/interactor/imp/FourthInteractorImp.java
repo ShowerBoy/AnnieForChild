@@ -9,6 +9,7 @@ import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.UserInfo;
+import com.annie.annieforchild.bean.child.ChildBean;
 import com.annie.annieforchild.bean.net.NetGift;
 import com.annie.annieforchild.interactor.FourthInteractor;
 import com.annie.annieforchild.ui.application.MyApplication;
@@ -131,16 +132,16 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         if (status == 0) {
             if (what == MethodCode.EVENT_USERINFO) {
 //                if (data != null) {
-                    UserInfo userInfo = JSON.parseObject(data, UserInfo.class);
-                    if (userInfo == null) {
-                        userInfo = new UserInfo();
-                        application.getSystemUtils().setChildTag(0);
-                        application.getSystemUtils().setDefaultUsername("");
-                    } else {
-                        application.getSystemUtils().setChildTag(1);
-                        application.getSystemUtils().setDefaultUsername(userInfo.getUsername());
-                    }
-                    listener.Success(what, userInfo);
+                UserInfo userInfo = JSON.parseObject(data, UserInfo.class);
+                if (userInfo == null) {
+                    userInfo = new UserInfo();
+                    application.getSystemUtils().setChildTag(0);
+                    application.getSystemUtils().setDefaultUsername("");
+                } else {
+                    application.getSystemUtils().setChildTag(1);
+                    application.getSystemUtils().setDefaultUsername(userInfo.getUsername());
+                }
+                listener.Success(what, userInfo);
 //                } else {
 //                    listener.Error(what, "无数据");
 //                }
@@ -150,9 +151,8 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
             } else if (what == MethodCode.EVENT_SETDEFAULEUSER) {
                 listener.Success(what, "切换成功");
             } else if (what == MethodCode.EVENT_DELETEUSERNAME) {
-                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
-                int result = dataobj.getInteger("result");
-                listener.Success(what, result);
+                ChildBean childBean = JSON.parseObject(data, ChildBean.class);
+                listener.Success(what, childBean);
             } else if (what == MethodCode.EVENT_BINDWEIXIN) {
                 JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
                 int result = dataobj.getInteger("result");

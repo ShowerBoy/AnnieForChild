@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
@@ -1519,13 +1520,13 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
         } else if (status == 3) {
             //参数错误
             if (grindEarView != null) {
-                grindEarView.showInfo(error+"");
+                grindEarView.showInfo(error + "");
             }
             if (songView != null) {
-                songView.showInfo(error+"");
+                songView.showInfo(error + "");
             }
             if (viewInfo != null) {
-                viewInfo.showInfo(error+"");
+                viewInfo.showInfo(error + "");
             }
 
 
@@ -1538,7 +1539,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
         } else if (status == 6) {
             //获取验证码失败
 
-        }  else if (status == 7) {
+        } else if (status == 7) {
             //通用错误
             if (what == MethodCode.EVENT_GETCARDDETAIL) {
                 ClockIn clockIn = null;
@@ -1586,6 +1587,8 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 message.what = MethodCode.EVENT_ERROR;
                 message.obj = error;
                 EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_RELEASEBOOK) {
+                Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             }
         }
     }
