@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -219,31 +220,47 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
                 break;
             case R.id.next_btn:
                 if (isClick) {
-                    if (ifNext()) {
-                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                                MPermissions.requestPermissions(this, 3, new String[]{
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                });
-                            } else {
-                                showInfo("无法正常使用安妮花，请开通存储权限！请设置");
-                                Intent localIntent = new Intent();
-                                localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                if (Build.VERSION.SDK_INT >= 9) {
-                                    localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-                                    localIntent.setData(Uri.fromParts("package", getPackageName(), null));
-                                } else if (Build.VERSION.SDK_INT <= 8) {
-                                    localIntent.setAction(Intent.ACTION_VIEW);
-                                    localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
-                                    localIntent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
-                                }
-                                startActivity(localIntent);
-                            }
+                    if (phone_number.getText().toString().equals("") || phone_number.getText().toString().length() != 11 || phone_number.getText().toString().contains(" ")) {
+                        showInfo("手机号输入有误");
+                        return;
+                    }
+                    if (test_code.getText().toString().contains(" ") || test_code.getText().toString().equals("")) {
+                        showInfo("验证码输入有误");
+                        return;
+                    }
+                    if (password.getText().toString().equals("") || password.getText().toString().length() == 0) {
+                        showInfo("请输入密码");
+                        return;
+                    }
+                    if (confirm_password.getText().toString().equals("") || confirm_password.getText().toString().length() == 0) {
+                        showInfo("请输入确认密码");
+                        return;
+                    }
+                    if (password.getText().toString().length() != confirm_password.getText().toString().length() || !password.getText().toString().equals(confirm_password.getText().toString())) {
+                        showInfo("输入密码不一致");
+                        return;
+                    }
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            MPermissions.requestPermissions(this, 3, new String[]{
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            });
                         } else {
-                            presenter.register(phone_number.getText().toString(), test_code.getText().toString(), password.getText().toString());
+                            showInfo("无法正常使用安妮花，请开通存储权限！请设置");
+                            Intent localIntent = new Intent();
+                            localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            if (Build.VERSION.SDK_INT >= 9) {
+                                localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                                localIntent.setData(Uri.fromParts("package", getPackageName(), null));
+                            } else if (Build.VERSION.SDK_INT <= 8) {
+                                localIntent.setAction(Intent.ACTION_VIEW);
+                                localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
+                                localIntent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
+                            }
+                            startActivity(localIntent);
                         }
                     } else {
-                        showInfo("输入有误,请重新检查");
+                        presenter.register(phone_number.getText().toString(), test_code.getText().toString(), password.getText().toString());
                     }
                 }
                 break;

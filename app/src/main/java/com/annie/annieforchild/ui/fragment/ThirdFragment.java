@@ -193,7 +193,7 @@ public class ThirdFragment extends BaseFragment implements OnCheckDoubleClick {
                     String lat = aaa.split(",")[1].trim();
                     Intent intent = new Intent(getContext(), WebActivity.class);
 //                intent.putExtra("url", SystemUtils.mainUrl + "Signin/jump?lng=" + lng + "&lat=" + lat);
-                    intent.putExtra("url", SystemUtils.mainUrl + "Signin/CenterSearch?location=" + lng + "," + lat);
+                    intent.putExtra("url", SystemUtils.netMainUrl + "Signin/CenterSearch?location=" + lng + "," + lat);
                     intent.putExtra("title", "中心查询");
                     getContext().startActivity(intent);
                 }

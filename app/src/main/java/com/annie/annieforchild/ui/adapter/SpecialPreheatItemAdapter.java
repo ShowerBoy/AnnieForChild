@@ -72,6 +72,7 @@ public class SpecialPreheatItemAdapter extends RecyclerView.Adapter<SpecialPrehe
 //                intent.putExtra("url", lists.get(i).getPath().get(0));
 //                intent.putExtra("imageUrl", lists.get(i).getPicurl());
 //                intent.putExtra("name", lists.get(i).getTitle());
+                intent.putExtra("isFinish", 1);
                 intent.putExtra("isTime", false);
                 intent.putExtra("isDefinition", true);
                 Bundle bundle = new Bundle();

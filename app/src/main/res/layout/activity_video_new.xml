@@ -38,7 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
             android:layout_margin="12dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/definition"
@@ -64,7 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|left"
             android:layout_margin="12dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -77,6 +79,15 @@
         </LinearLayout>
 
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/top_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/clarify_back"

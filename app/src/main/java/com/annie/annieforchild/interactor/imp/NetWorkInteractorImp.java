@@ -256,7 +256,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getMyOrderList() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI + MethodType.GETMYORDERLIST, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI2 + MethodType.GETMYORDERLIST, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
@@ -267,7 +267,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getMyOrderDetail(int orderIncrId) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI + MethodType.GETMYORDERDETAIL, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI2 + MethodType.GETMYORDERDETAIL, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("orderIncrId", orderIncrId);
@@ -281,7 +281,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     public void continuePay(int orderIncrId, int payment, int tag) {
         this.payment = payment;
         this.tag = tag;
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI + MethodType.CONTINUEPAY, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI2 + MethodType.CONTINUEPAY, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("orderIncrId", orderIncrId);
@@ -295,7 +295,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     public void cancelOrder(int orderIncrId, int payment, int tag) {
         this.payment = payment;
         this.tag = tag;
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI + MethodType.CANCELORDER, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI2 + MethodType.CANCELORDER, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("orderIncrId", orderIncrId);

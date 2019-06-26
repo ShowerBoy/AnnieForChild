@@ -518,7 +518,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/light_gray" />
+                android:background="@color/light_gray"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/my_exchange_layout"
@@ -528,7 +529,8 @@
                 android:paddingBottom="12dp"
                 android:paddingEnd="12dp"
                 android:paddingStart="16dp"
-                android:paddingTop="12dp">
+                android:paddingTop="12dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/my_exchange"

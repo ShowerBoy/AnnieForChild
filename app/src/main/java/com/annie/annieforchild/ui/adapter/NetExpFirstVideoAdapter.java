@@ -34,10 +34,10 @@ public class NetExpFirstVideoAdapter extends RecyclerView.Adapter<NetPreheatCons
     //    private List<Video_first> list1;
     private List<Video_second> list1;
     private String netid, stageid, unitid, classcode;
-    private int position;
+    private int position, type;
     private LayoutInflater inflater;
 
-    public NetExpFirstVideoAdapter(Context context, List<Video_second> list1, String netid, String stageid, String unitid, String classcode, int position) {
+    public NetExpFirstVideoAdapter(Context context, List<Video_second> list1, String netid, String stageid, String unitid, String classcode, int position, int type) {
         this.context = context;
         this.list1 = list1;
         this.netid = netid;
@@ -45,6 +45,7 @@ public class NetExpFirstVideoAdapter extends RecyclerView.Adapter<NetPreheatCons
         this.unitid = unitid;
         this.classcode = classcode;
         this.position = position;
+        this.type = type;
         inflater = LayoutInflater.from(context);
     }
 
@@ -98,6 +99,9 @@ public class NetExpFirstVideoAdapter extends RecyclerView.Adapter<NetPreheatCons
                     list.add(videoList);
                 }
                 Intent intent = new Intent(context, VideoActivity_new.class);
+                if (type != 5) {
+                    intent.putExtra("isFinish", 1);
+                }
                 intent.putExtra("isTime", false);
                 intent.putExtra("isDefinition", true);
 

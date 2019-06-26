@@ -3,9 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="12dp"
-    android:paddingEnd="12dp"
-    android:paddingTop="12dp">
+    android:background="#CC000000"
+    android:paddingBottom="12dp">
 
     <TextView
         android:id="@+id/p_480"
@@ -15,7 +14,10 @@
         android:layout_marginBottom="12dp"
         android:text="标清"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="16sp"
+        android:paddingTop="12dp"
+        android:paddingStart="12dp"
+        android:paddingRight="12dp"
         android:visibility="gone" />
 
     <TextView
@@ -24,9 +26,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="12dp"
+        android:paddingTop="12dp"
+        android:paddingStart="12dp"
+        android:paddingRight="12dp"
         android:text="高清"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:visibility="gone" />
 
     <TextView
@@ -34,8 +39,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:paddingTop="12dp"
+        android:paddingStart="12dp"
+        android:paddingRight="12dp"
         android:text="超清"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:visibility="gone" />
 </LinearLayout>

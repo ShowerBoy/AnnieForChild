@@ -62,10 +62,14 @@ public class MediaController extends FrameLayout implements IMediaController {
     private ImageButton mPrevButton;
     private ImageButton mBack;
     private ImageButton mMenu;
+    private TextView mDefinition;
 
     private boolean mUseFastForward;
     private boolean mShowPrev;
     private boolean mShowNext;
+    private boolean mShowDefi;
+
+    private String definition = "标清";
 
     private static final int IC_MEDIA_PAUSE_ID = Resources.getSystem().getIdentifier("ic_media_pause", "drawable", "android");
     private static final int IC_MEDIA_PLAY_ID = Resources.getSystem().getIdentifier("ic_media_play", "drawable", "android");
@@ -100,6 +104,8 @@ public class MediaController extends FrameLayout implements IMediaController {
         void onClickBack();
 
         void onClickMenu();
+
+        void onClickDefi();
     }
 
     public MediaController(Context context, AttributeSet attrs) {
@@ -115,12 +121,13 @@ public class MediaController extends FrameLayout implements IMediaController {
             initFloatingWindow();
     }
 
-    public MediaController(Context context, boolean useFastForward, boolean disableProgressBar, boolean showPrev, boolean showNext) {
+    public MediaController(Context context, boolean useFastForward, boolean disableProgressBar, boolean showPrev, boolean showNext, boolean showDefi) {
         this(context);
         mUseFastForward = useFastForward;
         mDisableProgress = disableProgressBar;
         mShowPrev = showPrev;
         mShowNext = showNext;
+        mShowDefi = showDefi;
     }
 
     public MediaController(Context context, boolean useFastForward) {
@@ -245,6 +252,11 @@ public class MediaController extends FrameLayout implements IMediaController {
 
         mMenu = v.findViewById(R.id.mt_menu);
         mMenu.setOnClickListener(mMenuListener);
+
+        mDefinition = v.findViewById(R.id.mt_definition);
+        mDefinition.setVisibility(mShowDefi ? View.VISIBLE : View.GONE);
+        mDefinition.setText(definition);
+        mDefinition.setOnClickListener(mDefiListener);
     }
 
     /**
@@ -538,6 +550,15 @@ public class MediaController extends FrameLayout implements IMediaController {
         }
     };
 
+    private OnClickListener mDefiListener = new OnClickListener() {
+        public void onClick(View v) {
+            if (mOnClickSpeedAdjustListener != null) {
+                mOnClickSpeedAdjustListener.onClickDefi();
+            }
+//            show(sDefaultTimeout);
+        }
+    };
+
     /**
      * Set the view that acts as the anchor for the control view.
      * <p>
@@ -610,8 +631,7 @@ public class MediaController extends FrameLayout implements IMediaController {
                             + mAnchor.getHeight());
 
                     mWindow.setAnimationStyle(mAnimStyle);
-                    mWindow.showAtLocation(mAnchor, Gravity.BOTTOM,
-                            anchorRect.left, 0);
+                    mWindow.showAtLocation(mAnchor, Gravity.BOTTOM, anchorRect.left, 0);
 
                     mRoof.setAnimationStyle(mAnimStyle);
                     mRoof.showAtLocation(mAnchor, Gravity.TOP, anchorRect.left, 0);
@@ -621,8 +641,7 @@ public class MediaController extends FrameLayout implements IMediaController {
                             + mRoot.getHeight());
 
                     mWindow.setAnimationStyle(mAnimStyle);
-                    mWindow.showAtLocation(mRoot, Gravity.BOTTOM,
-                            anchorRect.left, 0);
+                    mWindow.showAtLocation(mRoot, Gravity.BOTTOM, anchorRect.left, 0);
 
                     mRoof.setAnimationStyle(mAnimStyle);
                     mRoof.showAtLocation(mAnchor, Gravity.TOP, anchorRect.left, 0);
@@ -637,8 +656,7 @@ public class MediaController extends FrameLayout implements IMediaController {
 
         if (timeout != 0) {
             mHandler.removeMessages(FADE_OUT);
-            mHandler.sendMessageDelayed(mHandler.obtainMessage(FADE_OUT),
-                    timeout);
+            mHandler.sendMessageDelayed(mHandler.obtainMessage(FADE_OUT), timeout);
         }
     }
 
@@ -657,11 +675,12 @@ public class MediaController extends FrameLayout implements IMediaController {
             }
             try {
                 mHandler.removeMessages(SHOW_PROGRESS);
-                if (mFromXml)
+                if (mFromXml) {
                     setVisibility(View.GONE);
-                else
+                } else {
                     mWindow.dismiss();
-                mRoof.dismiss();
+                    mRoof.dismiss();
+                }
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG, "MediaController already removed");
             }
@@ -698,5 +717,18 @@ public class MediaController extends FrameLayout implements IMediaController {
 
     public long getSeekPosition() {
         return mSeekPosition;
+    }
+
+    public void setShowDefi(boolean mShowDefi) {
+        this.mShowDefi = mShowDefi;
+        mDefinition.setVisibility(mShowDefi ? View.VISIBLE : View.GONE);
+    }
+
+    public void setDefiText(String text) {
+        definition = text;
+    }
+
+    public void hideMC(){
+        hide();
     }
 }

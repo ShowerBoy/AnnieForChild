@@ -96,7 +96,7 @@ public class NetExpFirstVideoActivity extends BaseActivity implements ViewInfo, 
         }
 
 
-        adapter = new NetExpFirstVideoAdapter(this, lists, netid, stageid, unitid, classcode, position);
+        adapter = new NetExpFirstVideoAdapter(this, lists, netid, stageid, unitid, classcode, position,type);
         net_preheatconsult_recyclerview.setAdapter(adapter);
 
     }

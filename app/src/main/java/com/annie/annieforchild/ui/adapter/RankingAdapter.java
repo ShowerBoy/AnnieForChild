@@ -63,7 +63,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankViewHolder> {
             rankViewHolder.medal.setVisibility(View.GONE);
             rankViewHolder.hexagon.setVisibility(View.VISIBLE);
             rankViewHolder.rank_number.setVisibility(View.VISIBLE);
-            rankViewHolder.rank_number.setText(lists.get(i).getRow_number() + "");
+            rankViewHolder.rank_number.setText((i + 1) + "");
         }
         Glide.with(context).load(lists.get(i).getAvatar()).error(R.drawable.icon_system_photo).into(rankViewHolder.headpic);
         rankViewHolder.name.setText(lists.get(i).getName());

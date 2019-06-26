@@ -17,6 +17,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,7 +68,7 @@ import java.util.List;
 public class VideoActivity_new extends BaseMusicActivity implements SongView, OnCheckDoubleClick {
     String videoPath;
     private static final String TAG = VideoActivity_new.class.getSimpleName();
-    private LinearLayout clarifyBack;
+    private LinearLayout clarifyBack, topLayout;
     private TextView definition, p480, p720, p1080, last, next;
     private PLVideoView mVideoView;
     private int mDisplayAspectRatio = PLVideoView.ASPECT_RATIO_FIT_PARENT;
@@ -110,6 +111,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         loadingView = findViewById(R.id.LoadingView);
         definition = findViewById(R.id.definition);
         clarifyBack = findViewById(R.id.clarify_back);
+        topLayout = findViewById(R.id.top_linearLayout);
         next = findViewById(R.id.next);
         last = findViewById(R.id.last);
         definition.setOnClickListener(listener);
@@ -193,7 +195,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         mVideoView.setLooping(false);
 
         // You can also use a custom `MediaController` widget
-        mMediaController = new MediaController(this, true, false, false, false);
+        mMediaController = new MediaController(this, true, false, false, false, isDefinition);
         mMediaController.setOnClickSpeedAdjustListener(mOnClickSpeedAdjustListener);
         mVideoView.setMediaController(mMediaController);
     }
@@ -219,6 +221,9 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         p480.setOnClickListener(listener);
         p720.setOnClickListener(listener);
         p1080.setOnClickListener(listener);
+        p480.setVisibility(View.GONE);
+        p720.setVisibility(View.GONE);
+        p1080.setVisibility(View.GONE);
         for (int i = 0; i < videoList.get(videoPos).getPath().size(); i++) {
             if (videoList.get(videoPos).getPath().get(i).getType() == 1) {
                 p480.setVisibility(View.VISIBLE);
@@ -345,6 +350,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     private PLOnErrorListener mOnErrorListener = new PLOnErrorListener() {
         @Override
         public boolean onError(int errorCode) {
+
             Log.e(TAG, "Error happened, errorCode = " + errorCode);
             switch (errorCode) {
                 case PLOnErrorListener.ERROR_CODE_IO_ERROR:
@@ -481,6 +487,12 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         public void onClickMenu() {
             changeWindowConf();
         }
+
+        @Override
+        public void onClickDefi() {
+            defiPopup.showAtLocation(topLayout, Gravity.TOP + Gravity.RIGHT, 100, 0);
+            mMediaController.hideMC();
+        }
     };
 
     private String bytesToHex(byte[] bytes) {
@@ -583,17 +595,17 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
             case R.id.definition:
-                defiPopup.showAsDropDown(definition);
+//                defiPopup.showAsDropDown(definition);
                 break;
             case R.id.p_480:
-                definition.setText("标清");
+                mMediaController.setDefiText("标清");
                 mVideoView.pause();
                 mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(0).getUrl());
                 mVideoView.start();
                 defiPopup.dismiss();
                 break;
             case R.id.p_720:
-                definition.setText("高清");
+                mMediaController.setDefiText("高清");
                 mVideoView.pause();
                 if (p480.getVisibility() == View.VISIBLE) {
                     mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(1).getUrl());
@@ -604,7 +616,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 defiPopup.dismiss();
                 break;
             case R.id.p_1080:
-                definition.setText("超清");
+                mMediaController.setDefiText("超清");
                 mVideoView.pause();
                 if (p480.getVisibility() == View.VISIBLE) {
                     if (p720.getVisibility() == View.VISIBLE) {
@@ -622,13 +634,13 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 mVideoView.start();
                 defiPopup.dismiss();
                 break;
-
             case R.id.last:
                 videoPos--;
                 if (videoPos < 0) {
                     videoPos = videoList.size() - 1;
                 }
                 initPopup();
+                mMediaController.setShowDefi(isDefinition);
                 mVideoView.setVideoPath(videoPath);
                 clarifyBack.setVisibility(View.GONE);
                 mVideoView.start();
@@ -639,6 +651,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     videoPos = 0;
                 }
                 initPopup();
+                mMediaController.setShowDefi(isDefinition);
                 mVideoView.setVideoPath(videoPath);
                 clarifyBack.setVisibility(View.GONE);
                 mVideoView.start();
