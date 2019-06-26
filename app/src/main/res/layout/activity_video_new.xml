@@ -93,6 +93,7 @@
         android:id="@+id/clarify_back"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerVertical="true"
         android:background="@color/clarity_gray"
         android:gravity="center"
         android:orientation="horizontal"

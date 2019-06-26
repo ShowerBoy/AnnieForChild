@@ -91,6 +91,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     private CheckDoubleClickListener listener;
     private int netWorkstate;
     private boolean isDefinition;//判断是否有清晰度
+    private boolean isComplete = false;//判断是否播放完成
     private int isWeb; //判断是否是网页视频播放 0:不是 1:是
     Runnable runnable;
     private Intent intent;
@@ -173,7 +174,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
         // 1 -> hw codec enable, 0 -> disable [recommended]
         options.setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_AUTO);
-        options.setInteger(AVOptions.KEY_LIVE_STREAMING, 0);
+        options.setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
         // options.setString(AVOptions.KEY_DNS_SERVER, "127.0.0.1");
         options.setInteger(AVOptions.KEY_LOG_LEVEL, 0);
 
@@ -365,7 +366,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     break;
                 case PLOnErrorListener.ERROR_CODE_SEEK_FAILED:
 //                    showInfo("failed to seek !");
-                    return true;
+                    return false;
                 case PLOnErrorListener.ERROR_CODE_CACHE_FAILED:
 //                    showInfo("failed to cache url !");
                     break;
@@ -401,8 +402,8 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 EventBus.getDefault().post(message);
                 finish();
             }
-            mVideoView.setClickable(false);
-
+            isComplete = true;
+//            mMediaController.setEnabled(false);
             //finish();
         }
     };
@@ -424,19 +425,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     private PLOnVideoFrameListener mOnVideoFrameListener = new PLOnVideoFrameListener() {
         @Override
         public void onVideoFrameAvailable(byte[] data, int size, int width, int height, int format, long ts) {
-//            Log.i(TAG, "onVideoFrameAvailable: " + size + ", " + width + " x " + height + ", " + format + ", " + ts);
-//            if (format == PLOnVideoFrameListener.VIDEO_FORMAT_SEI && bytesToHex(Arrays.copyOfRange(data, 19, 23)).equals("74733634")) {
-            // If the RTMP stream is from Qiniu
-            // Add &addtssei=true to the end of URL to enable SEI timestamp.
-            // Format of the byte array:
-            // 0:       SEI TYPE                    This is part of h.264 standard.
-            // 1:       unregistered user data      This is part of h.264 standard.
-            // 2:       payload length              This is part of h.264 standard.
-            // 3-18:    uuid                        This is part of h.264 standard.
-            // 19-22:   ts64                        Magic string to mark this stream is from Qiniu
-            // 23-30:   timestamp                   The timestamp
-            // 31:      0x80                        Magic hex in ffmpeg
-//                Log.i(TAG, " timestamp: " + Long.valueOf(bytesToHex(Arrays.copyOfRange(data, 23, 31)), 16));
+
 //            }
         }
     };
@@ -452,8 +441,17 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         @Override
         public void onClickNormal() {
             // 0x0001/0x0001 = 2
-            mVideoView.setPlaySpeed(0X00010001);
-            clarifyBack.setVisibility(View.GONE);
+            if (isComplete) {
+                mMediaController.hideMC();
+                mVideoView.setVideoPath(videoPath);
+                mVideoView.setPlaySpeed(0X00010001);
+                clarifyBack.setVisibility(View.GONE);
+                mVideoView.start();
+                isComplete = false;
+            } else {
+                mVideoView.setPlaySpeed(0X00010001);
+                clarifyBack.setVisibility(View.GONE);
+            }
         }
 
         @Override
@@ -514,6 +512,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         mWakeLock.acquire();
         allowBindService();
         mVideoView.start();
+        isComplete = false;
         if (isTime) {
             runnable = new Runnable() {
                 @Override
@@ -602,6 +601,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 mVideoView.pause();
                 mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(0).getUrl());
                 mVideoView.start();
+                isComplete = false;
                 defiPopup.dismiss();
                 break;
             case R.id.p_720:
@@ -613,6 +613,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(0).getUrl());
                 }
                 mVideoView.start();
+                isComplete = false;
                 defiPopup.dismiss();
                 break;
             case R.id.p_1080:
@@ -632,6 +633,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     }
                 }
                 mVideoView.start();
+                isComplete = false;
                 defiPopup.dismiss();
                 break;
             case R.id.last:
@@ -644,6 +646,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 mVideoView.setVideoPath(videoPath);
                 clarifyBack.setVisibility(View.GONE);
                 mVideoView.start();
+                isComplete = false;
                 break;
             case R.id.next:
                 videoPos++;
@@ -655,6 +658,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 mVideoView.setVideoPath(videoPath);
                 clarifyBack.setVisibility(View.GONE);
                 mVideoView.start();
+                isComplete = false;
                 break;
         }
     }

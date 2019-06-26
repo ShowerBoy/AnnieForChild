@@ -41,7 +41,7 @@ public class MediaController extends FrameLayout implements IMediaController {
     private int mAnimStyle;
     private View mAnchor;
     private View mRoot;
-    private View mRoofView;
+    private View mRView;
     private ProgressBar mProgress;
     private TextView mEndTime, mCurrentTime;
     private long mDuration;
@@ -144,7 +144,6 @@ public class MediaController extends FrameLayout implements IMediaController {
         mOnClickSpeedAdjustListener = listener;
     }
 
-
     private boolean initController(Context context) {
         mUseFastForward = true;
         mContext = context.getApplicationContext();
@@ -154,10 +153,11 @@ public class MediaController extends FrameLayout implements IMediaController {
 
     @Override
     public void onFinishInflate() {
-        if (mRoot != null)
+        if (mRoot != null) {
             initControllerView(mRoot);
-        if (mRoofView != null) {
-            initRoofView(mRoofView);
+        }
+        if (mRView != null) {
+            initRoofView(mRView);
         }
         super.onFinishInflate();
     }
@@ -273,6 +273,7 @@ public class MediaController extends FrameLayout implements IMediaController {
             if (mPauseButton != null && !mPlayer.canPause())
                 mPauseButton.setEnabled(false);
         } catch (IncompatibleClassChangeError ex) {
+
         }
     }
 
@@ -399,9 +400,7 @@ public class MediaController extends FrameLayout implements IMediaController {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
-        if (event.getRepeatCount() == 0
-                && (keyCode == KeyEvent.KEYCODE_HEADSETHOOK
-                || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_SPACE)) {
+        if (event.getRepeatCount() == 0 && (keyCode == KeyEvent.KEYCODE_HEADSETHOOK || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_SPACE)) {
             doPauseResume();
             show(sDefaultTimeout);
             if (mPauseButton != null)
@@ -437,7 +436,6 @@ public class MediaController extends FrameLayout implements IMediaController {
     private void updatePausePlay() {
         if (mRoot == null || mPauseButton == null)
             return;
-
         if (mPlayer.isPlaying())
             mPauseButton.setImageResource(IC_MEDIA_PAUSE_ID);
         else
@@ -467,7 +465,6 @@ public class MediaController extends FrameLayout implements IMediaController {
                 return;
             }
 
-
             final long newposition = (long) (mDuration * progress) / 1000;
             String time = generateTime(newposition);
             if (mInstantSeeking) {
@@ -492,7 +489,7 @@ public class MediaController extends FrameLayout implements IMediaController {
             mHandler.removeMessages(SHOW_PROGRESS);
             mAM.setStreamMute(AudioManager.STREAM_MUSIC, false);
             mDragging = false;
-            mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
+            mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 2000);
         }
     };
 
@@ -581,13 +578,13 @@ public class MediaController extends FrameLayout implements IMediaController {
             mWindow.setHeight(LayoutParams.WRAP_CONTENT);
 
             //new
-            mRoofView = makeRoofView();
-            mRoof.setContentView(mRoofView);
+            mRView = makeRoofView();
+            mRoof.setContentView(mRView);
             mRoof.setWidth(LayoutParams.MATCH_PARENT);
             mRoof.setHeight(LayoutParams.WRAP_CONTENT);
         }
         initControllerView(mRoot);
-        initRoofView(mRoofView);
+        initRoofView(mRView);
     }
 
     @Override
@@ -615,8 +612,9 @@ public class MediaController extends FrameLayout implements IMediaController {
                     mAnchor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                 }
             }
-            if (mPauseButton != null)
+            if (mPauseButton != null) {
                 mPauseButton.requestFocus();
+            }
             disableUnsupportedButtons();
 
             if (mFromXml) {
@@ -703,6 +701,9 @@ public class MediaController extends FrameLayout implements IMediaController {
         }
         if (mProgress != null && !mDisableProgress)
             mProgress.setEnabled(enabled);
+        if (mDefinition != null) {
+            mDefinition.setEnabled(enabled);
+        }
         disableUnsupportedButtons();
         super.setEnabled(enabled);
     }
@@ -728,7 +729,7 @@ public class MediaController extends FrameLayout implements IMediaController {
         definition = text;
     }
 
-    public void hideMC(){
+    public void hideMC() {
         hide();
     }
 }
