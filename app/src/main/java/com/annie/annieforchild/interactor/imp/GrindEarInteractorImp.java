@@ -1400,7 +1400,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             } else if (what == MethodCode.EVENT_UPLOADTASKIMAGE + 40000 + taskid) {
                 listener.Success(what, "");
             } else if (what == MethodCode.EVENT_SUBMITTASK + 60000 + taskid) {
-                listener.Success(what, data);
+                listener.Success(what, msg);
             } else if (what == MethodCode.EVENT_CLOCKINSHARE) {
                 ShareBean shareBean = JSON.parseObject(data, ShareBean.class);
 //                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
