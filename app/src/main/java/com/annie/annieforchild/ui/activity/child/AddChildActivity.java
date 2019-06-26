@@ -397,7 +397,11 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
                         }
                     }
                 } else {
-                    SystemUtils.show(this, "输入有误，请重新输入");
+                    if(sex==null){
+                        SystemUtils.show(this, "请选择性别");
+                    }else{
+                        SystemUtils.show(this, "输入有误，请重新输入");
+                    }
                 }
                 break;
             case R.id.bind_student:
