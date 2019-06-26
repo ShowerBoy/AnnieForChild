@@ -71,6 +71,11 @@ public class ModifyPsdActivity extends BaseActivity implements RegisterView, OnC
         back.setOnClickListener(listener);
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
+        SystemUtils.setEditTextInhibitInputSpace(modifyPsd);
+        SystemUtils.setEditTextInhibitInputSpace(confirmPsd2);
+        SystemUtils.setEditTextInhibitInputSpace(testCode2);
+        SystemUtils.setEditTextInhibitInputSpace(phoneNumber2);
+
     }
 
     @Override
