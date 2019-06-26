@@ -1,12 +1,15 @@
 package com.annie.annieforchild.ui.activity.net;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -76,6 +79,7 @@ public class AddAddressActivity extends BaseActivity implements ViewInfo, OnChec
 
     @Override
     protected void initView() {
+        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         back = findViewById(R.id.add_address_back);
         btn = findViewById(R.id.add_address_queding);
         delete = findViewById(R.id.add_address_delete);
@@ -165,6 +169,8 @@ public class AddAddressActivity extends BaseActivity implements ViewInfo, OnChec
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
             case R.id.add_address_province:
+                InputMethodManager imm =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
                 // 解析数据
                 parseData();
                 // 展示省市区选择器
