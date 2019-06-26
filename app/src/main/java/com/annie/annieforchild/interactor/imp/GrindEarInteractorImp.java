@@ -1498,6 +1498,6 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Fail(what, "");
+        listener.Fail(what, "系统发生错误");
     }
 }

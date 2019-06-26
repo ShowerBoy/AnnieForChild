@@ -132,7 +132,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getMyAddress() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.ADDRESSAPI + MethodType.GETMYADDRESS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.ADDRESSAPI + MethodType.GETMYADDRESS, RequestMethod.POST);
 //        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl +"NetclassTestApi/"+ MethodType.GETMYADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
@@ -146,7 +146,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void addOrUpdateAddress(int addressid, String name, String phone, String address, String provinces) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.ADDRESSAPI + MethodType.EDITADDRESS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.ADDRESSAPI + MethodType.EDITADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         if (addressid != -1) {
@@ -160,16 +160,16 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         if (addressid != -1) {
-            addQueue(MethodCode.EVENT_ADDADDRESS, request);
-        } else {
             addQueue(MethodCode.EVENT_EDITADDRESS, request);
+        } else {
+            addQueue(MethodCode.EVENT_ADDADDRESS, request);
         }
 //        startQueue();
     }
 
     @Override
     public void deleteAddress(int addressid) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.ADDRESSAPI + MethodType.DELETEADDRESS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.ADDRESSAPI + MethodType.DELETEADDRESS, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("addressid", addressid);
@@ -531,25 +531,13 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 //            listener.Success(what, jsonString);
 //            return;
 //        }
-
         JSONObject jsonObject = JSON.parseObject(jsonString);
-        int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
-        String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
-        String data = jsonObject.getString(MethodCode.DATA);
-        if (errorType == 0) {
-            if (what == MethodCode.EVENT_GETNETHOMEDATA) {
-                NetWork netWork = JSON.parseObject(data, NetWork.class);
-                listener.Success(what, netWork);
-            } else if (what == MethodCode.EVENT_GETNETSUGGEST) {
-                NetSuggest netSuggest = JSON.parseObject(data, NetSuggest.class);
-                listener.Success(what, netSuggest);
-            } else if (what == MethodCode.EVENT_GETMYNETCLASS) {
-                MyNetClass myNetClass = JSON.parseObject(data, MyNetClass.class);
-                listener.Success(what, myNetClass);
-            } else if (what == MethodCode.EVENT_CONFIRMORDER) {
-                NetSuggest netSuggest = JSON.parseObject(data, NetSuggest.class);
-                listener.Success(what, netSuggest);
-            } else if (what == MethodCode.EVENT_GETMYADDRESS) {
+
+        if (what == MethodCode.EVENT_GETMYADDRESS) {
+            int status = jsonObject.getInteger(MethodCode.STATUS);
+            String msg = jsonObject.getString(MethodCode.MSG);
+            String data = jsonObject.getString(MethodCode.DATA);
+            if (status == 0) {
                 if (data != null) {
                     List<Address> lists = JSON.parseArray(data, Address.class);
                     listener.Success(what, lists);
@@ -557,150 +545,192 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     List<Address> lists = new ArrayList<>();
                     listener.Success(what, lists);
                 }
-            } else if (what == MethodCode.EVENT_ADDADDRESS) {
+            } else {
+                listener.Error(what, status, msg);
+            }
+        } else if (what == MethodCode.EVENT_ADDADDRESS) {
+            int status = jsonObject.getInteger(MethodCode.STATUS);
+            String msg = jsonObject.getString(MethodCode.MSG);
+            String data = jsonObject.getString(MethodCode.DATA);
+            if (status == 0) {
                 listener.Success(what, "添加成功");
-            } else if (what == MethodCode.EVENT_EDITADDRESS) {
+            } else {
+                listener.Error(what, status, msg);
+            }
+        } else if (what == MethodCode.EVENT_EDITADDRESS) {
+            int status = jsonObject.getInteger(MethodCode.STATUS);
+            String msg = jsonObject.getString(MethodCode.MSG);
+            String data = jsonObject.getString(MethodCode.DATA);
+            if (status == 0) {
                 listener.Success(what, "修改成功");
-            } else if (what == MethodCode.EVENT_DELETEADDRESS) {
+            } else {
+                listener.Error(what, status, msg);
+            }
+        } else if (what == MethodCode.EVENT_DELETEADDRESS) {
+            int status = jsonObject.getInteger(MethodCode.STATUS);
+            String msg = jsonObject.getString(MethodCode.MSG);
+            String data = jsonObject.getString(MethodCode.DATA);
+            if (status == 0) {
                 listener.Success(what, "删除成功");
-            } else if (what == MethodCode.EVENT_GETNETDETAILS) {
-                List<NetDetails> lists;
-                if (data != null) {
-                    lists = JSON.parseArray(data, NetDetails.class);
-                } else {
-                    lists = new ArrayList<>();
-                }
-                listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_BUYNETWORK) {
-                if (data != null) {
-                    if (payment == 0) {
-                        listener.Success(what, data);
+            } else {
+                listener.Error(what, status, msg);
+            }
+        } else {
+            int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
+            String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
+            String data = jsonObject.getString(MethodCode.DATA);
+            if (errorType == 0) {
+                if (what == MethodCode.EVENT_GETNETHOMEDATA) {
+                    NetWork netWork = JSON.parseObject(data, NetWork.class);
+                    listener.Success(what, netWork);
+                } else if (what == MethodCode.EVENT_GETNETSUGGEST) {
+                    NetSuggest netSuggest = JSON.parseObject(data, NetSuggest.class);
+                    listener.Success(what, netSuggest);
+                } else if (what == MethodCode.EVENT_GETMYNETCLASS) {
+                    MyNetClass myNetClass = JSON.parseObject(data, MyNetClass.class);
+                    listener.Success(what, myNetClass);
+                } else if (what == MethodCode.EVENT_CONFIRMORDER) {
+                    NetSuggest netSuggest = JSON.parseObject(data, NetSuggest.class);
+                    listener.Success(what, netSuggest);
+                } else if (what == MethodCode.EVENT_GETNETDETAILS) {
+                    List<NetDetails> lists;
+                    if (data != null) {
+                        lists = JSON.parseArray(data, NetDetails.class);
                     } else {
-                        WechatBean wechatBean = JSON.parseObject(data, WechatBean.class);
-                        listener.Success(what, wechatBean);
+                        lists = new ArrayList<>();
                     }
-                }
-            } else if (what == MethodCode.EVENT_GETLESSON) {
-                List<Game> lists;
-                if (data != null) {
-                    lists = JSON.parseArray(data, Game.class);
-                } else {
-                    lists = new ArrayList<>();
-                }
-                listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_BUYSUCCESS) {
-                List<NetClass> lists;
-                if (data != null) {
-                    lists = JSON.parseArray(data, NetClass.class);
-                } else {
-                    lists = new ArrayList<>();
-                }
-                listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_GETNETEXPDETAILS) {
-                NetExpClass netExpClass = JSON.parseObject(data, NetExpClass.class);
-                listener.Success(what, netExpClass);
-            } else if (what == MethodCode.EVENT_GETNETEXPDETAILS_NEW) {
-                NetExp_new netExpClass = JSON.parseObject(data, NetExp_new.class);
-                listener.Success(what, netExpClass);
-            } else if (what == MethodCode.EVENT_GETPREHEATCONSULT) {
-                PreheatConsult preheatConsult = JSON.parseObject(data, PreheatConsult.class);
-                listener.Success(what, preheatConsult);
-            } else if (what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {
-                ListenAndRead listenAndRead = JSON.parseObject(data, ListenAndRead.class);
-                listener.Success(what, listenAndRead);
-            } else if (what == MethodCode.EVENT_BUYNUM) {
-                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
-                int canbuy = dataobj.getInteger("canbuy");
-                listener.Success(what, canbuy);
-            } else if (what == MethodCode.EVENT_BUYNUM1) {
-                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
-                int canbuy = dataobj.getInteger("canbuy");
-                listener.Success(what, canbuy);
-            } else if (what == MethodCode.EVENT_ORDERQUERY + 11000 + tag) {
-                String trade_status = "";
-                if (payment == 0) {
-                    AliOrderBean aliOrderBean = JSON.parseObject(data, AliOrderBean.class);
+                    listener.Success(what, lists);
+                } else if (what == MethodCode.EVENT_BUYNETWORK) {
+                    if (data != null) {
+                        if (payment == 0) {
+                            listener.Success(what, data);
+                        } else {
+                            WechatBean wechatBean = JSON.parseObject(data, WechatBean.class);
+                            listener.Success(what, wechatBean);
+                        }
+                    }
+                } else if (what == MethodCode.EVENT_GETLESSON) {
+                    List<Game> lists;
+                    if (data != null) {
+                        lists = JSON.parseArray(data, Game.class);
+                    } else {
+                        lists = new ArrayList<>();
+                    }
+                    listener.Success(what, lists);
+                } else if (what == MethodCode.EVENT_BUYSUCCESS) {
+                    List<NetClass> lists;
+                    if (data != null) {
+                        lists = JSON.parseArray(data, NetClass.class);
+                    } else {
+                        lists = new ArrayList<>();
+                    }
+                    listener.Success(what, lists);
+                } else if (what == MethodCode.EVENT_GETNETEXPDETAILS) {
+                    NetExpClass netExpClass = JSON.parseObject(data, NetExpClass.class);
+                    listener.Success(what, netExpClass);
+                } else if (what == MethodCode.EVENT_GETNETEXPDETAILS_NEW) {
+                    NetExp_new netExpClass = JSON.parseObject(data, NetExp_new.class);
+                    listener.Success(what, netExpClass);
+                } else if (what == MethodCode.EVENT_GETPREHEATCONSULT) {
+                    PreheatConsult preheatConsult = JSON.parseObject(data, PreheatConsult.class);
+                    listener.Success(what, preheatConsult);
+                } else if (what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {
+                    ListenAndRead listenAndRead = JSON.parseObject(data, ListenAndRead.class);
+                    listener.Success(what, listenAndRead);
+                } else if (what == MethodCode.EVENT_BUYNUM) {
+                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                    int canbuy = dataobj.getInteger("canbuy");
+                    listener.Success(what, canbuy);
+                } else if (what == MethodCode.EVENT_BUYNUM1) {
+                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                    int canbuy = dataobj.getInteger("canbuy");
+                    listener.Success(what, canbuy);
+                } else if (what == MethodCode.EVENT_ORDERQUERY + 11000 + tag) {
+                    String trade_status = "";
+                    if (payment == 0) {
+                        AliOrderBean aliOrderBean = JSON.parseObject(data, AliOrderBean.class);
 //                    JSONObject jsonObject1 = JSON.parseObject(data);
 //                    String response1 = jsonObject1.getString("alipay_trade_query_response");
 //                    JSONObject jsonObject2 = JSON.parseObject(response1);
 //                    trade_status = jsonObject2.getString("trade_status");
-                    listener.Success(what, aliOrderBean);
-                } else {
-                    WechatOrderBean wechatOrderBean = JSON.parseObject(data, WechatOrderBean.class);
+                        listener.Success(what, aliOrderBean);
+                    } else {
+                        WechatOrderBean wechatOrderBean = JSON.parseObject(data, WechatOrderBean.class);
 //                    JSONObject jsonObject1 = JSON.parseObject(data);
 //                    trade_status = jsonObject1.getString("trade_state");
-                    listener.Success(what, wechatOrderBean);
-                }
-            } else if (what == MethodCode.EVENT_GETWEICLASS) {
-                List<Video_second> lists;
-                if (data != null) {
-                    lists = JSON.parseArray(data, Video_second.class);
-                } else {
-                    lists = new ArrayList<>();
-                }
-                listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_SPECIALCLASS) {
-                NetSpecialDetail netSpecialDetail = JSON.parseObject(data, NetSpecialDetail.class);
-                listener.Success(what, netSpecialDetail);
-            } else if (what == MethodCode.EVENT_SPECIALPREHEATING) {
-                List<SpecialPreHeat> lists = JSON.parseArray(data, SpecialPreHeat.class);
-                if (lists == null) {
-                    lists = new ArrayList<>();
-                }
-                listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_GETMYORDERLIST) {
-                List<MyOrder> lists = JSON.parseArray(data, MyOrder.class);
-                if (lists == null) {
-                    lists = new ArrayList<>();
-                }
-                listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_GETMYORDERDETAIL) {
-                OrderDetail orderDetail = JSON.parseObject(data, OrderDetail.class);
-                listener.Success(what, orderDetail);
-            } else if (what == MethodCode.EVENT_CONTINUEPAY + 90000 + tag) {
-                if (data != null) {
-                    if (payment == 0) {
-                        listener.Success(what, data);
-                    } else {
-                        WechatBean wechatBean = JSON.parseObject(data, WechatBean.class);
-                        listener.Success(what, wechatBean);
+                        listener.Success(what, wechatOrderBean);
                     }
+                } else if (what == MethodCode.EVENT_GETWEICLASS) {
+                    List<Video_second> lists;
+                    if (data != null) {
+                        lists = JSON.parseArray(data, Video_second.class);
+                    } else {
+                        lists = new ArrayList<>();
+                    }
+                    listener.Success(what, lists);
+                } else if (what == MethodCode.EVENT_SPECIALCLASS) {
+                    NetSpecialDetail netSpecialDetail = JSON.parseObject(data, NetSpecialDetail.class);
+                    listener.Success(what, netSpecialDetail);
+                } else if (what == MethodCode.EVENT_SPECIALPREHEATING) {
+                    List<SpecialPreHeat> lists = JSON.parseArray(data, SpecialPreHeat.class);
+                    if (lists == null) {
+                        lists = new ArrayList<>();
+                    }
+                    listener.Success(what, lists);
+                } else if (what == MethodCode.EVENT_GETMYORDERLIST) {
+                    List<MyOrder> lists = JSON.parseArray(data, MyOrder.class);
+                    if (lists == null) {
+                        lists = new ArrayList<>();
+                    }
+                    listener.Success(what, lists);
+                } else if (what == MethodCode.EVENT_GETMYORDERDETAIL) {
+                    OrderDetail orderDetail = JSON.parseObject(data, OrderDetail.class);
+                    listener.Success(what, orderDetail);
+                } else if (what == MethodCode.EVENT_CONTINUEPAY + 90000 + tag) {
+                    if (data != null) {
+                        if (payment == 0) {
+                            listener.Success(what, data);
+                        } else {
+                            WechatBean wechatBean = JSON.parseObject(data, WechatBean.class);
+                            listener.Success(what, wechatBean);
+                        }
 
+                    }
+                } else if (what == MethodCode.EVENT_CANCELORDER) {
+                    listener.Success(what, "取消订单成功");
+                } else if (what == MethodCode.EVENT_EXPERIENCEDETAILSV2) {
+                    ExperienceV2 experienceV2 = JSON.parseObject(data, ExperienceV2.class);
+                    listener.Success(what, experienceV2);
+                } else if (what == MethodCode.EVENT_VIDEOPAYRECORD) {
+                    VideoFinishBean videoFinishBean = JSON.parseObject(data, VideoFinishBean.class);
+                    listener.Success(what, videoFinishBean);
+                } else if (what == MethodCode.EVENT_VIDEOLIST) {
+                    List<Video_second> lists;
+                    if (data != null) {
+                        lists = JSON.parseArray(data, Video_second.class);
+                    } else {
+                        lists = new ArrayList<>();
+                    }
+                    listener.Success(what, lists);
+                } else if (what == MethodCode.EVENT_SPECIALCLASSV2) {
+                    ExperienceV2 experienceV2 = JSON.parseObject(data, ExperienceV2.class);
+                    listener.Success(what, experienceV2);
+                } else if (what == MethodCode.EVENT_TASKLIST) {
+                    EveryTaskList everyTaskList = JSON.parseObject(data, EveryTaskList.class);
+                    listener.Success(what, everyTaskList);
+                } else if (what == MethodCode.EVENT_TASKDETAIL) {
+                    EveryDetail everyDetail = JSON.parseObject(data, EveryDetail.class);
+                    listener.Success(what, everyDetail);
                 }
-            } else if (what == MethodCode.EVENT_CANCELORDER) {
-                listener.Success(what, "取消订单成功");
-            } else if (what == MethodCode.EVENT_EXPERIENCEDETAILSV2) {
-                ExperienceV2 experienceV2 = JSON.parseObject(data, ExperienceV2.class);
-                listener.Success(what, experienceV2);
-            } else if (what == MethodCode.EVENT_VIDEOPAYRECORD) {
-                VideoFinishBean videoFinishBean = JSON.parseObject(data, VideoFinishBean.class);
-                listener.Success(what, videoFinishBean);
-            } else if (what == MethodCode.EVENT_VIDEOLIST) {
-                List<Video_second> lists;
-                if (data != null) {
-                    lists = JSON.parseArray(data, Video_second.class);
-                } else {
-                    lists = new ArrayList<>();
-                }
-                listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_SPECIALCLASSV2) {
-                ExperienceV2 experienceV2 = JSON.parseObject(data, ExperienceV2.class);
-                listener.Success(what, experienceV2);
-            } else if (what == MethodCode.EVENT_TASKLIST) {
-                EveryTaskList everyTaskList = JSON.parseObject(data, EveryTaskList.class);
-                listener.Success(what, everyTaskList);
-            } else if (what == MethodCode.EVENT_TASKDETAIL) {
-                EveryDetail everyDetail = JSON.parseObject(data, EveryDetail.class);
-                listener.Success(what, everyDetail);
+            } else {
+                listener.Error(what, 3, errorInfo);
             }
-        } else {
-            listener.Error(what, errorType, errorInfo);
         }
     }
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Fail(what, "");
+        listener.Fail(what, "系统发生错误");
     }
 
 }

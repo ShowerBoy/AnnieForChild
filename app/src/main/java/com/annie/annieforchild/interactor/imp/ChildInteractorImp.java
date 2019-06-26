@@ -125,7 +125,6 @@ public class ChildInteractorImp extends NetWorkImp implements ChildInteractor {
 
     @Override
     protected void onFail(int what, Response response) {
-        Exception exception = response.getException();
-        listener.Fail(what, exception.getMessage());
+        listener.Fail(what, "系统发生错误");
     }
 }

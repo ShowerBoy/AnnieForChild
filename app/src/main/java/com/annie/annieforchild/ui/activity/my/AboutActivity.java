@@ -61,13 +61,13 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
             case R.id.user_protocol_layout:
                 Intent intent = new Intent(this, WebActivity.class);
                 intent.putExtra("title", "用户协议");
-                intent.putExtra("url", "https://demoapi.anniekids.net/api/ShareApi/UserRegistrationProtocol");
+                intent.putExtra("url", "https://testapici.anniekids.com/Api/index.php/v1//Share/UserRegistrationProtocol");
                 startActivity(intent);
                 break;
             case R.id.gongneng_layout:
                 Intent intent1 = new Intent(this, WebActivity.class);
                 intent1.putExtra("title", "功能介绍");
-                intent1.putExtra("url", "https://demoapi.anniekids.net/Api/ShareApi/FunctionIntroduction");
+                intent1.putExtra("url", "https://testapici.anniekids.com/Api/index.php/v1//Share/FunctionIntroduction");
                 startActivity(intent1);
                 break;
         }

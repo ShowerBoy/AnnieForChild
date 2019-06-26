@@ -3,6 +3,7 @@ package com.annie.annieforchild.presenter.imp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
@@ -283,7 +284,7 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
             //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
-                scheduleView.showInfo("该账号已在别处登陆");
+                scheduleView.showInfo(error);
 
                 JTMessage message = new JTMessage();
                 message.what = MethodCode.EVENT_RELOGIN;
@@ -335,5 +336,6 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
         if (scheduleView != null) {
             scheduleView.dismissLoad();
         }
+        Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

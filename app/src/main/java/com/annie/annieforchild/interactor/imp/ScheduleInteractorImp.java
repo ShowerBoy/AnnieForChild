@@ -39,8 +39,8 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void mySchedule(String date) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MYSCHEDULE, RequestMethod.POST);
-//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MYSCHEDULEV2, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MYSCHEDULE, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MYSCHEDULEV2, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("date", date);
@@ -187,8 +187,8 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     public void monthCalendar(String date) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MONTHCALENDAR, RequestMethod.POST);
-//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MONTHCALENDARV2, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MONTHCALENDAR, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.CLASSSCHEDULE + MethodType.MONTHCALENDARV2, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("date", date);
@@ -267,6 +267,6 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Fail(what, "");
+        listener.Fail(what, "系统发生错误");
     }
 }

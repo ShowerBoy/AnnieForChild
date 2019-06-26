@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
@@ -661,10 +662,10 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
                 if (grindEarView != null) {
-                    grindEarView.showInfo("该账号已在别处登陆");
+                    grindEarView.showInfo(error);
                 }
                 if (viewInfo != null) {
-                    viewInfo.showInfo("该账号已在别处登陆");
+                    viewInfo.showInfo(error);
                 }
 
                 JTMessage message = new JTMessage();
@@ -697,16 +698,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
 
         } else if (status == 3) {
             //参数错误
-            if(what==MethodCode.EVENT_GETMYADDRESS){
-                viewInfo.showInfo(error);
-            }else if(what==MethodCode.EVENT_ADDADDRESS){
-                viewInfo.showInfo(error);
-            }else if(what==MethodCode.EVENT_EDITADDRESS){
-                viewInfo.showInfo(error);
-            }else if(what==MethodCode.EVENT_DELETEADDRESS){
-                viewInfo.showInfo(error);
-            }
-
+            viewInfo.showInfo(error);
         } else if (status == 4) {
             //服务器错误
 
@@ -734,5 +726,6 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         if (viewInfo != null) {
             viewInfo.dismissLoad();
         }
+        Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

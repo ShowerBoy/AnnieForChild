@@ -328,7 +328,7 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
             //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
-                fourthView.showInfo("该账号已在别处登陆");
+                fourthView.showInfo(error);
 
                 JTMessage message = new JTMessage();
                 message.what = MethodCode.EVENT_RELOGIN;
@@ -391,5 +391,6 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
         if (fourthView != null) {
             fourthView.dismissLoad();
         }
+        Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

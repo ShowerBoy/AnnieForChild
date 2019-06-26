@@ -141,6 +141,6 @@ public class CollectionInteractorImp extends NetWorkImp implements CollectionInt
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Fail(what, response.getException().getMessage());
+        listener.Fail(what, "系统发生错误");
     }
 }

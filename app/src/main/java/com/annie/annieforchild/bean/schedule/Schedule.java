@@ -10,12 +10,12 @@ public class Schedule implements Serializable {
     private String date;
     private String start;
     private String stop;
-    private int scheduleId;
+    private int scheduleid;
     private String detail;
-    private String bookImageUrl;
+    private String bookimageurl;
     private int audioType;
     private int audioSource;
-    private int bookId;
+    private int bookid;
 
     private int type; //1:线上 2:线下
 
@@ -33,22 +33,6 @@ public class Schedule implements Serializable {
 
     public void setAudioSource(int audioSource) {
         this.audioSource = audioSource;
-    }
-
-    public String getBookImageUrl() {
-        return bookImageUrl;
-    }
-
-    public void setBookImageUrl(String bookImageUrl) {
-        this.bookImageUrl = bookImageUrl;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
     }
 
     public int getType() {
@@ -83,12 +67,28 @@ public class Schedule implements Serializable {
         this.stop = stop;
     }
 
-    public int getScheduleId() {
-        return scheduleId;
+    public int getScheduleid() {
+        return scheduleid;
     }
 
-    public void setScheduleId(int scheduleId) {
-        this.scheduleId = scheduleId;
+    public void setScheduleid(int scheduleid) {
+        this.scheduleid = scheduleid;
+    }
+
+    public String getBookimageurl() {
+        return bookimageurl;
+    }
+
+    public void setBookimageurl(String bookimageurl) {
+        this.bookimageurl = bookimageurl;
+    }
+
+    public int getBookid() {
+        return bookid;
+    }
+
+    public void setBookid(int bookid) {
+        this.bookid = bookid;
     }
 
     public String getDetail() {

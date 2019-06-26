@@ -3,6 +3,7 @@ package com.annie.annieforchild.presenter.imp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
@@ -73,7 +74,7 @@ public class NectarPresenterImp extends BasePresenterImp implements NectarPresen
             //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
-                viewInfo.showInfo("该账号已在别处登陆");
+                viewInfo.showInfo(error);
                 if (MusicService.isPlay) {
                     MusicService.stop();
                 }
@@ -124,5 +125,6 @@ public class NectarPresenterImp extends BasePresenterImp implements NectarPresen
         if (viewInfo != null) {
             viewInfo.dismissLoad();
         }
+        Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

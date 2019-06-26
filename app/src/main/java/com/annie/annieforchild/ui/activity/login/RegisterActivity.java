@@ -214,7 +214,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
                 //用户协议
                 Intent intent = new Intent(this, WebActivity.class);
                 intent.putExtra("title", "用户协议");
-                intent.putExtra("url", "https://demoapi.anniekids.net/api/ShareApi/UserRegistrationProtocol");
+                intent.putExtra("url", "https://testapici.anniekids.com/Api/index.php/v1//Share/UserRegistrationProtocol");
                 startActivity(intent);
                 break;
             case R.id.next_btn:

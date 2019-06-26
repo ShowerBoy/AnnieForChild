@@ -105,7 +105,7 @@ public class OnlineScheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                         context.startActivity(intent);
                                         dialog.dismiss();
                                     } else {
-                                        presenter.deleteSchedule(lists.get(position).getScheduleId());
+                                        presenter.deleteSchedule(lists.get(position).getScheduleid());
                                         dialog.dismiss();
                                     }
                                 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.annie.annieforchild.Utils.ActivityCollector;
@@ -405,7 +406,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
             //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
-                loginView.showInfo("该账号已在别处登陆");
+                loginView.showInfo(error);
 
                 JTMessage message = new JTMessage();
                 message.what = MethodCode.EVENT_RELOGIN;
@@ -467,5 +468,6 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
         if (loginView != null) {
             loginView.dismissLoad();
         }
+        Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

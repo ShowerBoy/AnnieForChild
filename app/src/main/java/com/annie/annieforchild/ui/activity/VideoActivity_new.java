@@ -3,6 +3,8 @@ package com.annie.annieforchild.ui.activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
@@ -191,7 +193,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         mVideoView.setLooping(false);
 
         // You can also use a custom `MediaController` widget
-        mMediaController = new MediaController(this, true, false);
+        mMediaController = new MediaController(this, true, false, false, false);
         mMediaController.setOnClickSpeedAdjustListener(mOnClickSpeedAdjustListener);
         mVideoView.setMediaController(mMediaController);
     }
@@ -459,6 +461,26 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             // 0x0001/0x0002 = 0.5
             mVideoView.setPlaySpeed(0X00010002);
         }
+
+        @Override
+        public void onClickPrev() {
+            showInfo("上一首");
+        }
+
+        @Override
+        public void onClickNext() {
+            showInfo("下一首");
+        }
+
+        @Override
+        public void onClickBack() {
+            finish();
+        }
+
+        @Override
+        public void onClickMenu() {
+            changeWindowConf();
+        }
     };
 
     private String bytesToHex(byte[] bytes) {
@@ -501,6 +523,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             mWakeLock.release();
         }
         mMediaController.getWindow().dismiss();
+        mMediaController.getWindowRoof().dismiss();
         mVideoView.pause();
         if (isTime) {
             if (duration < 1) {
@@ -641,6 +664,18 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             }
         } else {
             return 0;
+        }
+    }
+
+    private void changeWindowConf() {
+        Configuration mConfiguration = this.getResources().getConfiguration(); //获取设置的配置信息
+        int ori = mConfiguration.orientation; //获取屏幕方向
+        if (ori == mConfiguration.ORIENTATION_LANDSCAPE) {
+            //横屏
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//强制为竖屏
+        } else if (ori == mConfiguration.ORIENTATION_PORTRAIT) {
+            //竖屏
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//强制为横屏
         }
     }
 }

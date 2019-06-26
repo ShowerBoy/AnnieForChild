@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
@@ -149,7 +150,7 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
             //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
-                viewInfo.showInfo("该账号已在别处登陆");
+                viewInfo.showInfo(error);
 
                 JTMessage message = new JTMessage();
                 message.what = MethodCode.EVENT_RELOGIN;
@@ -211,5 +212,6 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
         if (viewInfo != null) {
             viewInfo.dismissLoad();
         }
+        Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

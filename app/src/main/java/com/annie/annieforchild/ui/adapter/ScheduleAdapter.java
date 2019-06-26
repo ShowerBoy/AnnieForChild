@@ -73,7 +73,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                         scheduleViewHolder.title.setText("线上课程");
                         scheduleViewHolder.line.setVisibility(View.VISIBLE);
                         scheduleViewHolder.delete.setVisibility(View.GONE);
-                        Glide.with(context).load(totalSchedule.getOnline().get(i).getBookImageUrl()).into(scheduleViewHolder.image);
+                        Glide.with(context).load(totalSchedule.getOnline().get(i).getBookimageurl()).into(scheduleViewHolder.image);
                         scheduleViewHolder.text.setText(totalSchedule.getOnline().get(i).getDetail());
                     } else {
                         i = i - totalSchedule.getOnline().size();
@@ -96,7 +96,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        presenter.deleteSchedule(totalSchedule.getFamily().get(finalI1).getScheduleId());
+                                                        presenter.deleteSchedule(totalSchedule.getFamily().get(finalI1).getScheduleid());
                                                     }
                                                 })
                                                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -108,7 +108,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                                 .show();
                                     }
                                 });
-                                Glide.with(context).load(totalSchedule.getFamily().get(i).getBookImageUrl()).into(scheduleViewHolder.image);
+                                Glide.with(context).load(totalSchedule.getFamily().get(i).getBookimageurl()).into(scheduleViewHolder.image);
                                 scheduleViewHolder.text.setText(totalSchedule.getFamily().get(i).getDetail());
                                 int finalI = i;
                                 scheduleViewHolder.scheduleLayout.setOnClickListener(new View.OnClickListener() {
@@ -116,8 +116,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                     public void onClick(View v) {
                                         Song song = new Song();
                                         song.setBookName(totalSchedule.getFamily().get(finalI).getDetail());
-                                        song.setBookImageUrl(totalSchedule.getFamily().get(finalI).getBookImageUrl());
-                                        song.setBookId(totalSchedule.getFamily().get(finalI).getBookId());
+                                        song.setBookImageUrl(totalSchedule.getFamily().get(finalI).getBookimageurl());
+                                        song.setBookId(totalSchedule.getFamily().get(finalI).getBookid());
 
                                         if (totalSchedule.getFamily().get(finalI).getAudioType() == 1) {
                                             if (totalSchedule.getFamily().get(finalI).getAudioSource() == 8) {
@@ -131,7 +131,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                             } else {
                                                 int musicPosition = 0;
                                                 for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookid()) {
                                                         musicPosition = j;
                                                     }
                                                 }
@@ -149,7 +149,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                         } else {
                                             int musicPosition = 0;
                                             for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookid()) {
                                                     musicPosition = j;
                                                 }
                                             }
@@ -185,7 +185,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
-                                                            presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleId());
+                                                            presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleid());
                                                         }
                                                     })
                                                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -198,7 +198,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                         }
                                     });
                                     scheduleViewHolder.text.setText(totalSchedule.getTeacher().get(i).getDetail());
-                                    Glide.with(context).load(totalSchedule.getTeacher().get(i).getBookImageUrl()).into(scheduleViewHolder.image);
+                                    Glide.with(context).load(totalSchedule.getTeacher().get(i).getBookimageurl()).into(scheduleViewHolder.image);
                                     scheduleViewHolder.line.setVisibility(View.GONE);
                                     int finalI2 = i;
                                     scheduleViewHolder.scheduleLayout.setOnClickListener(new View.OnClickListener() {
@@ -206,8 +206,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                         public void onClick(View v) {
                                             Song song = new Song();
                                             song.setBookName(totalSchedule.getTeacher().get(finalI2).getDetail());
-                                            song.setBookImageUrl(totalSchedule.getTeacher().get(finalI2).getBookImageUrl());
-                                            song.setBookId(totalSchedule.getTeacher().get(finalI2).getBookId());
+                                            song.setBookImageUrl(totalSchedule.getTeacher().get(finalI2).getBookimageurl());
+                                            song.setBookId(totalSchedule.getTeacher().get(finalI2).getBookid());
 
                                             if (totalSchedule.getTeacher().get(finalI2).getAudioType() == 1) {
                                                 if (totalSchedule.getTeacher().get(finalI2).getAudioSource() == 8) {
@@ -221,7 +221,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                                 } else {
                                                     int musicPosition = 0;
                                                     for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookid()) {
                                                             musicPosition = j;
                                                         }
                                                     }
@@ -239,7 +239,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                             } else {
                                                 int musicPosition = 0;
                                                 for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookid()) {
                                                         musicPosition = j;
                                                     }
                                                 }
@@ -282,7 +282,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                presenter.deleteSchedule(totalSchedule.getFamily().get(finalI1).getScheduleId());
+                                                presenter.deleteSchedule(totalSchedule.getFamily().get(finalI1).getScheduleid());
                                             }
                                         })
                                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -295,7 +295,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                             }
                         });
                         scheduleViewHolder.line.setVisibility(View.VISIBLE);
-                        Glide.with(context).load(totalSchedule.getFamily().get(i).getBookImageUrl()).into(scheduleViewHolder.image);
+                        Glide.with(context).load(totalSchedule.getFamily().get(i).getBookimageurl()).into(scheduleViewHolder.image);
                         scheduleViewHolder.text.setText(totalSchedule.getFamily().get(i).getDetail());
                         int finalI = i;
                         scheduleViewHolder.scheduleLayout.setOnClickListener(new View.OnClickListener() {
@@ -303,8 +303,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                             public void onClick(View v) {
                                 Song song = new Song();
                                 song.setBookName(totalSchedule.getFamily().get(finalI).getDetail());
-                                song.setBookImageUrl(totalSchedule.getFamily().get(finalI).getBookImageUrl());
-                                song.setBookId(totalSchedule.getFamily().get(finalI).getBookId());
+                                song.setBookImageUrl(totalSchedule.getFamily().get(finalI).getBookimageurl());
+                                song.setBookId(totalSchedule.getFamily().get(finalI).getBookid());
 
                                 if (totalSchedule.getFamily().get(finalI).getAudioType() == 1) {
                                     if (totalSchedule.getFamily().get(finalI).getAudioSource() == 8) {
@@ -318,7 +318,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                     } else {
                                         int musicPosition = 0;
                                         for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                            if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                            if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookid()) {
                                                 musicPosition = j;
                                             }
                                         }
@@ -336,7 +336,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 } else {
                                     int musicPosition = 0;
                                     for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookid()) {
                                             musicPosition = j;
                                         }
                                     }
@@ -372,7 +372,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleId());
+                                                    presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleid());
                                                 }
                                             })
                                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -385,7 +385,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 }
                             });
                             scheduleViewHolder.text.setText(totalSchedule.getTeacher().get(i).getDetail());
-                            Glide.with(context).load(totalSchedule.getTeacher().get(i).getBookImageUrl()).into(scheduleViewHolder.image);
+                            Glide.with(context).load(totalSchedule.getTeacher().get(i).getBookimageurl()).into(scheduleViewHolder.image);
                             scheduleViewHolder.line.setVisibility(View.GONE);
                             int finalI2 = i;
                             scheduleViewHolder.scheduleLayout.setOnClickListener(new View.OnClickListener() {
@@ -393,8 +393,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 public void onClick(View v) {
                                     Song song = new Song();
                                     song.setBookName(totalSchedule.getTeacher().get(finalI2).getDetail());
-                                    song.setBookImageUrl(totalSchedule.getTeacher().get(finalI2).getBookImageUrl());
-                                    song.setBookId(totalSchedule.getTeacher().get(finalI2).getBookId());
+                                    song.setBookImageUrl(totalSchedule.getTeacher().get(finalI2).getBookimageurl());
+                                    song.setBookId(totalSchedule.getTeacher().get(finalI2).getBookid());
 
                                     if (totalSchedule.getTeacher().get(finalI2).getAudioType() == 1) {
                                         if (totalSchedule.getTeacher().get(finalI2).getAudioSource() == 8) {
@@ -408,7 +408,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                         } else {
                                             int musicPosition = 0;
                                             for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookid()) {
                                                     musicPosition = j;
                                                 }
                                             }
@@ -426,7 +426,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                     } else {
                                         int musicPosition = 0;
                                         for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                            if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                            if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookid()) {
                                                 musicPosition = j;
                                             }
                                         }
@@ -469,7 +469,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleId());
+                                            presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleid());
                                         }
                                     })
                                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -482,7 +482,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                         }
                     });
                     scheduleViewHolder.text.setText(totalSchedule.getTeacher().get(i).getDetail());
-                    Glide.with(context).load(totalSchedule.getTeacher().get(i).getBookImageUrl()).into(scheduleViewHolder.image);
+                    Glide.with(context).load(totalSchedule.getTeacher().get(i).getBookimageurl()).into(scheduleViewHolder.image);
                     scheduleViewHolder.line.setVisibility(View.GONE);
                     int finalI2 = i;
                     scheduleViewHolder.scheduleLayout.setOnClickListener(new View.OnClickListener() {
@@ -490,8 +490,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                         public void onClick(View v) {
                             Song song = new Song();
                             song.setBookName(totalSchedule.getTeacher().get(finalI2).getDetail());
-                            song.setBookImageUrl(totalSchedule.getTeacher().get(finalI2).getBookImageUrl());
-                            song.setBookId(totalSchedule.getTeacher().get(finalI2).getBookId());
+                            song.setBookImageUrl(totalSchedule.getTeacher().get(finalI2).getBookimageurl());
+                            song.setBookId(totalSchedule.getTeacher().get(finalI2).getBookid());
 
                             if (totalSchedule.getTeacher().get(finalI2).getAudioType() == 1) {
                                 if (totalSchedule.getTeacher().get(finalI2).getAudioSource() == 8) {
@@ -505,7 +505,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 } else {
                                     int musicPosition = 0;
                                     for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookid()) {
                                             musicPosition = j;
                                         }
                                     }
@@ -523,7 +523,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                             } else {
                                 int musicPosition = 0;
                                 for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookid()) {
                                         musicPosition = j;
                                     }
                                 }
@@ -567,7 +567,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleId());
+                                        presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleid());
                                     }
                                 })
                                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -579,7 +579,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 .show();
                     }
                 });
-                Glide.with(context).load(totalSchedule.getOnline().get(i).getBookImageUrl()).into(scheduleViewHolder.image);
+                Glide.with(context).load(totalSchedule.getOnline().get(i).getBookimageurl()).into(scheduleViewHolder.image);
                 scheduleViewHolder.text.setText(totalSchedule.getOnline().get(i).getDetail());
             } else {
                 scheduleViewHolder.titleLayout.setVisibility(View.VISIBLE);
@@ -604,7 +604,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                presenter.deleteSchedule(totalSchedule.getFamily().get(finalI1).getScheduleId());
+                                                presenter.deleteSchedule(totalSchedule.getFamily().get(finalI1).getScheduleid());
                                             }
                                         })
                                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -617,7 +617,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                             }
                         });
                         scheduleViewHolder.line.setVisibility(View.VISIBLE);
-                        Glide.with(context).load(totalSchedule.getFamily().get(i).getBookImageUrl()).into(scheduleViewHolder.image);
+                        Glide.with(context).load(totalSchedule.getFamily().get(i).getBookimageurl()).into(scheduleViewHolder.image);
                         scheduleViewHolder.text.setText(totalSchedule.getFamily().get(i).getDetail());
                         int finalI = i;
                         scheduleViewHolder.scheduleLayout.setOnClickListener(new View.OnClickListener() {
@@ -625,8 +625,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                             public void onClick(View v) {
                                 Song song = new Song();
                                 song.setBookName(totalSchedule.getFamily().get(finalI).getDetail());
-                                song.setBookImageUrl(totalSchedule.getFamily().get(finalI).getBookImageUrl());
-                                song.setBookId(totalSchedule.getFamily().get(finalI).getBookId());
+                                song.setBookImageUrl(totalSchedule.getFamily().get(finalI).getBookimageurl());
+                                song.setBookId(totalSchedule.getFamily().get(finalI).getBookid());
 
                                 if (totalSchedule.getFamily().get(finalI).getAudioType() == 1) {
                                     if (totalSchedule.getFamily().get(finalI).getAudioSource() == 8) {
@@ -640,7 +640,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                     } else {
                                         int musicPosition = 0;
                                         for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                            if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                            if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookid()) {
                                                 musicPosition = j;
                                             }
                                         }
@@ -658,7 +658,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 } else {
                                     int musicPosition = 0;
                                     for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookid()) {
                                             musicPosition = j;
                                         }
                                     }
@@ -694,7 +694,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleId());
+                                                    presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleid());
                                                 }
                                             })
                                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -707,7 +707,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 }
                             });
                             scheduleViewHolder.text.setText(totalSchedule.getTeacher().get(i).getDetail());
-                            Glide.with(context).load(totalSchedule.getTeacher().get(i).getBookImageUrl()).into(scheduleViewHolder.image);
+                            Glide.with(context).load(totalSchedule.getTeacher().get(i).getBookimageurl()).into(scheduleViewHolder.image);
                             scheduleViewHolder.line.setVisibility(View.GONE);
                             int finalI2 = i;
                             scheduleViewHolder.scheduleLayout.setOnClickListener(new View.OnClickListener() {
@@ -715,8 +715,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 public void onClick(View v) {
                                     Song song = new Song();
                                     song.setBookName(totalSchedule.getTeacher().get(finalI2).getDetail());
-                                    song.setBookImageUrl(totalSchedule.getTeacher().get(finalI2).getBookImageUrl());
-                                    song.setBookId(totalSchedule.getTeacher().get(finalI2).getBookId());
+                                    song.setBookImageUrl(totalSchedule.getTeacher().get(finalI2).getBookimageurl());
+                                    song.setBookId(totalSchedule.getTeacher().get(finalI2).getBookid());
 
                                     if (totalSchedule.getTeacher().get(finalI2).getAudioType() == 1) {
                                         if (totalSchedule.getTeacher().get(finalI2).getAudioSource() == 8) {
@@ -730,7 +730,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                         } else {
                                             int musicPosition = 0;
                                             for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookid()) {
                                                     musicPosition = j;
                                                 }
                                             }
@@ -748,7 +748,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                     } else {
                                         int musicPosition = 0;
                                         for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                            if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                            if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookid()) {
                                                 musicPosition = j;
                                             }
                                         }
@@ -793,7 +793,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        presenter.deleteSchedule(totalSchedule.getFamily().get(finalI1).getScheduleId());
+                                        presenter.deleteSchedule(totalSchedule.getFamily().get(finalI1).getScheduleid());
                                     }
                                 })
                                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -806,7 +806,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                     }
                 });
                 scheduleViewHolder.line.setVisibility(View.VISIBLE);
-                Glide.with(context).load(totalSchedule.getFamily().get(i).getBookImageUrl()).into(scheduleViewHolder.image);
+                Glide.with(context).load(totalSchedule.getFamily().get(i).getBookimageurl()).into(scheduleViewHolder.image);
                 scheduleViewHolder.text.setText(totalSchedule.getFamily().get(i).getDetail());
                 int finalI = i;
                 scheduleViewHolder.scheduleLayout.setOnClickListener(new View.OnClickListener() {
@@ -814,8 +814,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                     public void onClick(View v) {
                         Song song = new Song();
                         song.setBookName(totalSchedule.getFamily().get(finalI).getDetail());
-                        song.setBookImageUrl(totalSchedule.getFamily().get(finalI).getBookImageUrl());
-                        song.setBookId(totalSchedule.getFamily().get(finalI).getBookId());
+                        song.setBookImageUrl(totalSchedule.getFamily().get(finalI).getBookimageurl());
+                        song.setBookId(totalSchedule.getFamily().get(finalI).getBookid());
 
                         if (totalSchedule.getFamily().get(finalI).getAudioType() == 1) {
                             if (totalSchedule.getFamily().get(finalI).getAudioSource() == 8) {
@@ -829,7 +829,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                             } else {
                                 int musicPosition = 0;
                                 for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookid()) {
                                         musicPosition = j;
                                     }
                                 }
@@ -846,8 +846,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                             }
                         } else {
                             int musicPosition = 0;
+
                             for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookId()) {
+                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getFamily().get(finalI).getBookid()) {
                                     musicPosition = j;
                                 }
                             }
@@ -886,7 +887,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleId());
+                                            presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleid());
                                         }
                                     })
                                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -899,7 +900,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                         }
                     });
                     scheduleViewHolder.text.setText(totalSchedule.getTeacher().get(i).getDetail());
-                    Glide.with(context).load(totalSchedule.getTeacher().get(i).getBookImageUrl()).into(scheduleViewHolder.image);
+                    Glide.with(context).load(totalSchedule.getTeacher().get(i).getBookimageurl()).into(scheduleViewHolder.image);
                     scheduleViewHolder.line.setVisibility(View.GONE);
                     int finalI2 = i;
                     scheduleViewHolder.scheduleLayout.setOnClickListener(new View.OnClickListener() {
@@ -907,8 +908,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                         public void onClick(View v) {
                             Song song = new Song();
                             song.setBookName(totalSchedule.getTeacher().get(finalI2).getDetail());
-                            song.setBookImageUrl(totalSchedule.getTeacher().get(finalI2).getBookImageUrl());
-                            song.setBookId(totalSchedule.getTeacher().get(finalI2).getBookId());
+                            song.setBookImageUrl(totalSchedule.getTeacher().get(finalI2).getBookimageurl());
+                            song.setBookId(totalSchedule.getTeacher().get(finalI2).getBookid());
 
                             if (totalSchedule.getTeacher().get(finalI2).getAudioType() == 1) {
                                 if (totalSchedule.getTeacher().get(finalI2).getAudioSource() == 8) {
@@ -922,7 +923,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 } else {
                                     int musicPosition = 0;
                                     for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                        if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookid()) {
                                             musicPosition = j;
                                         }
                                     }
@@ -940,7 +941,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                             } else {
                                 int musicPosition = 0;
                                 for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookid()) {
                                         musicPosition = j;
                                     }
                                 }
@@ -984,7 +985,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleId());
+                                        presenter.deleteSchedule(totalSchedule.getTeacher().get(finalI1).getScheduleid());
                                     }
                                 })
                                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -997,7 +998,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                     }
                 });
                 scheduleViewHolder.text.setText(totalSchedule.getTeacher().get(i).getDetail());
-                Glide.with(context).load(totalSchedule.getTeacher().get(i).getBookImageUrl()).into(scheduleViewHolder.image);
+                Glide.with(context).load(totalSchedule.getTeacher().get(i).getBookimageurl()).into(scheduleViewHolder.image);
                 scheduleViewHolder.line.setVisibility(View.GONE);
                 int finalI2 = i;
                 scheduleViewHolder.scheduleLayout.setOnClickListener(new View.OnClickListener() {
@@ -1005,8 +1006,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                     public void onClick(View v) {
                         Song song = new Song();
                         song.setBookName(totalSchedule.getTeacher().get(finalI2).getDetail());
-                        song.setBookImageUrl(totalSchedule.getTeacher().get(finalI2).getBookImageUrl());
-                        song.setBookId(totalSchedule.getTeacher().get(finalI2).getBookId());
+                        song.setBookImageUrl(totalSchedule.getTeacher().get(finalI2).getBookimageurl());
+                        song.setBookId(totalSchedule.getTeacher().get(finalI2).getBookid());
 
                         if (totalSchedule.getTeacher().get(finalI2).getAudioType() == 1) {
                             if (totalSchedule.getTeacher().get(finalI2).getAudioSource() == 8) {
@@ -1020,7 +1021,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                             } else {
                                 int musicPosition = 0;
                                 for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                    if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookid()) {
                                         musicPosition = j;
                                     }
                                 }
@@ -1038,7 +1039,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
                         } else {
                             int musicPosition = 0;
                             for (int j = 0; j < totalSchedule.getMoerduolist().size(); j++) {
-                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookId()) {
+                                if (totalSchedule.getMoerduolist().get(j).getBookId() == totalSchedule.getTeacher().get(finalI2).getBookid()) {
                                     musicPosition = j;
                                 }
                             }

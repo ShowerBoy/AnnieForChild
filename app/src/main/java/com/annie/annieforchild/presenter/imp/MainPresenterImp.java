@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
@@ -169,7 +170,7 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
             //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
-                mainView.showInfo("该账号已在别处登陆");
+                mainView.showInfo(error);
 
                 JTMessage message = new JTMessage();
                 message.what = MethodCode.EVENT_RELOGIN;
@@ -230,5 +231,6 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
         if (mainView != null) {
             mainView.dismissLoad();
         }
+        Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

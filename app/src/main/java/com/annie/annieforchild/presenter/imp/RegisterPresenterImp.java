@@ -163,7 +163,7 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
             //该账号已在别处登陆
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
-                registerView.showInfo("该账号已在别处登陆");
+                registerView.showInfo(error);
                 if (MusicService.isPlay) {
                     MusicService.stop();
                 }
@@ -231,5 +231,6 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
         if (registerView != null) {
             registerView.dismissLoad();
         }
+        Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

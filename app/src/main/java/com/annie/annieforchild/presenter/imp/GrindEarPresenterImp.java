@@ -1479,13 +1479,13 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             if (!application.getSystemUtils().isReLogin()) {
                 application.getSystemUtils().setReLogin(true);
                 if (grindEarView != null) {
-                    grindEarView.showInfo("该账号已在别处登陆");
+                    grindEarView.showInfo(error);
                 }
                 if (songView != null) {
-                    songView.showInfo("该账号已在别处登陆");
+                    songView.showInfo(error);
                 }
                 if (viewInfo != null) {
-                    viewInfo.showInfo("该账号已在别处登陆");
+                    viewInfo.showInfo(error);
                 }
 
                 JTMessage message = new JTMessage();
@@ -1604,6 +1604,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
         if (viewInfo != null) {
             viewInfo.dismissLoad();
         }
+        Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 }
 

@@ -404,14 +404,14 @@ public class AddOnlineScheActivity extends BaseActivity implements OnCheckDouble
                                 if (title.getText().equals("加入课表")) {
                                     presenter.addSchedule(material.getMaterialId(), startDate, totalDays, startTime, endTime, audioType, audioSource);
                                 } else {
-                                    presenter.editSchedule(schedule.getScheduleId(), material.getMaterialId(), startDate, totalDays, startTime, endTime);
+                                    presenter.editSchedule(schedule.getScheduleid(), material.getMaterialId(), startDate, totalDays, startTime, endTime);
                                 }
                             }
                         } else {
                             if (title.getText().equals("加入课表")) {
                                 presenter.addSchedule(material.getMaterialId(), startDate, totalDays, startTime, endTime, audioType, audioSource);
                             } else {
-                                presenter.editSchedule(schedule.getScheduleId(), material.getMaterialId(), startDate, totalDays, startTime, endTime);
+                                presenter.editSchedule(schedule.getScheduleid(), material.getMaterialId(), startDate, totalDays, startTime, endTime);
                             }
                         }
                     } else {

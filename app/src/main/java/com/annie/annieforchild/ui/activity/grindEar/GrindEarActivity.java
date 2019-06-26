@@ -656,7 +656,7 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                     return;
                 }
                 showLoad();
-                presenter2.getMyCollections(0);
+                presenter2.getMyCollections(1);
                 break;
         }
     }

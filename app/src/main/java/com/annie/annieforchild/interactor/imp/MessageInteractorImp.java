@@ -200,6 +200,6 @@ public class MessageInteractorImp extends NetWorkImp implements MessageInteracto
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Fail(what, response.getException().getMessage());
+        listener.Fail(what, "系统发生错误");
     }
 }

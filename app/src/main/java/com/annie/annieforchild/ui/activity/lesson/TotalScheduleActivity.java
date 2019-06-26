@@ -349,7 +349,7 @@ public class TotalScheduleActivity extends WeekViewActivity implements MonthLoad
             endCalendar.set(Calendar.DAY_OF_MONTH, date);
             endCalendar.set(Calendar.HOUR_OF_DAY, endHour);
             endCalendar.set(Calendar.MINUTE, endMin);
-            event = new WeekViewEvent(onlineLists.get(i).getScheduleId(), onlineLists.get(i).getDetail(), startCalendar, endCalendar);
+            event = new WeekViewEvent(onlineLists.get(i).getScheduleid(), onlineLists.get(i).getDetail(), startCalendar, endCalendar);
             if (onlineLists.get(i).getType() == 1) {
                 event.setColor(getResources().getColor(R.color.event_color_01));
             } else {

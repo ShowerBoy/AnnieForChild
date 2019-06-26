@@ -82,6 +82,6 @@ public class MainInteractorImp extends NetWorkImp implements MainInteractor {
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Fail(what, "");
+        listener.Fail(what, "系统发生错误");
     }
 }

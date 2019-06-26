@@ -168,6 +168,6 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Fail(what, "");
+        listener.Fail(what, "系统发生错误");
     }
 }
