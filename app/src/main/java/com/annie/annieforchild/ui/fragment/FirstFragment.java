@@ -640,7 +640,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 //                Intent intent1 = new Intent(getContext(), MusicPlayActivity2.class);
 //                startActivity(intent1);
 
-
 //                SystemUtils.setBackGray(getActivity(), true);
 //                application.getSystemUtils().getNetWorkGift(getContext()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
 

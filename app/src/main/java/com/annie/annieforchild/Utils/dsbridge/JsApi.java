@@ -49,6 +49,15 @@ public class JsApi {
     }
 
     @JavascriptInterface
+    public String doRecordWithGrade(Object msg) {
+        JTMessage message = new JTMessage();
+        message.what = MethodCode.EVENT_WEBRECORDWITHGRADE;
+        message.obj = msg;
+        EventBus.getDefault().post(message);
+        return msg + "［doRecord syn call］";
+    }
+
+    @JavascriptInterface
     public String doShare(Object msg) {
         String msgs = msg.toString();
         WebShare webShare = JSON.parseObject(msgs, WebShare.class);

@@ -11,6 +11,7 @@ public class MethodCode {
     final public static String PERSONAPI = "Person/";
     final public static String PERSONAPI2 = "PersonApi/";
     final public static String TASKAPI = "Task/";
+    final public static String TASKAPI2 = "TaskApi/";
     final public static String SEARCHAPI = "Search/";
     final public static String ADDRESSAPI = "Address/";
     final public static String SHAREAPI = "Share/";
@@ -38,6 +39,7 @@ public class MethodCode {
      * EventBus
      */
     final public static int EVENT_RELOGIN = -2000; //重新登陆
+    final public static int EVENT_WEBRECORDWITHGRADE = -240; //网页录音智聆
     final public static int EVENT_WEBVIDEO = -230; //网页播放视频
     final public static int EVENT_WEBSHARE = -220; //网页分享
     final public static int EVENT_UNPLAYING = -210; //没在播放

@@ -1200,7 +1200,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
 
         }
         FileBinary fileBinary = new FileBinary(file);
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.UPLOADIMGH5, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.TASKAPI2 + MethodType.UPLOADIMGH5, RequestMethod.POST);
 //        request.add("token", application.getSystemUtils().getToken());
 //        request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("file", fileBinary);
@@ -1223,277 +1223,287 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     protected void onSuccess(int what, Object response) {
         String jsonString = response.toString();
         JSONObject jsonObject = JSON.parseObject(jsonString);
-        int status = jsonObject.getInteger(MethodCode.STATUS);
-        String msg = jsonObject.getString(MethodCode.MSG);
-        String data = jsonObject.getString(MethodCode.DATA);
-        if (status == 0) {
-            if (what == MethodCode.EVENT_GETLISTENING) {
-                GrindEarData grindEarData = JSON.parseObject(data, GrindEarData.class);
-                listener.Success(what, grindEarData);
-            } else if (what == MethodCode.EVENT_GETMUSICCLASSES1) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETMUSICCLASSES2) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETMUSICCLASSES3) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETMUSICCLASSES4) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETMUSICCLASSES5) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETMUSICCLASSES6) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETMUSICCLASSES7) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETMUSICCLASSES8) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETMUSICCLASSES9) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETMUSICCLASSES10) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETMUSICCLASSES11) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETMUSICLIST + 1000 + classId) {
-                List<Song> songList;
-                if (data != null) {
-                    songList = JSON.parseArray(data, Song.class);
-                } else {
-                    songList = new ArrayList<>();
-                }
-                listener.Success(what, songList);
 
-            } else if (what == MethodCode.EVENT_GETREADLIST + 6000 + classId) {
-                List<Song> songList;
-                if (data != null) {
-                    songList = JSON.parseArray(data, Song.class);
-                } else {
-                    songList = new ArrayList<>();
-                }
-                listener.Success(what, songList);
-            } else if (what == MethodCode.EVENT_GETMYLISTENING) {
-                MyGrindEarBean bean = JSON.parseObject(data, MyGrindEarBean.class);
-                listener.Success(what, bean);
-            } else if (what == MethodCode.EVENT_COMMITDURATION) {
-                listener.Success(what, "提交成功");
-            } else if (what == MethodCode.EVENT_GETBOOKSCORE) {
-                Song song = JSON.parseObject(data, Song.class);
-                listener.Success(what, song);
-            } else if (what == MethodCode.EVENT_GETBOOKAUDIODATA) {
-                Book book = JSON.parseObject(data, Book.class);
-                listener.Success(what, book);
-            } else if (what == MethodCode.EVENT_UPLOADAUDIO) {
-                AudioBean audioBean = JSON.parseObject(data, AudioBean.class);
-                listener.Success(what, audioBean);
-            } else if (what == MethodCode.EVENT_COLLECTCOURSE + 2000 + classId) {
-                listener.Success(what, "收藏成功");
-            } else if (what == MethodCode.EVENT_CANCELCOLLECTION1 + 3000 + classId) {
-                listener.Success(what, "取消收藏成功");
-            } else if (what == MethodCode.EVENT_GETPKUSERS) {
-                List<UserInfo2> lists = JSON.parseArray(data, UserInfo2.class);
-                if (lists == null) {
-                    lists = new ArrayList<>();
-                }
-                listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_GETPKRESULT) {
-                PkResult pkResult = JSON.parseObject(data, PkResult.class);
-                listener.Success(what, pkResult);
-            } else if (what == MethodCode.EVENT_JOINMATERIAL + 4000 + classId) {
-                listener.Success(what, "加入成功");
-            } else if (what == MethodCode.EVENT_CANCELMATERIAL + 5000 + classId) {
-                listener.Success(what, "取消加入成功");
-            } else if (what == MethodCode.EVENT_GETRANK) {
-                listener.Success(what, jsonString);
-            } else if (what == MethodCode.EVENT_GETSQUARERANK) {
-                RankList rankList = JSON.parseObject(data, RankList.class);
-                listener.Success(what, rankList);
-            } else if (what == MethodCode.EVENT_GETSQUARERANKLIST) {
-                SquareRankList squareRankList = JSON.parseObject(data, SquareRankList.class);
-                listener.Success(what, squareRankList);
-            } else if (what == MethodCode.EVENT_LIKESTUDENT) {
-                listener.Success(what, "已点赞");
-            } else if (what == MethodCode.EVENT_CANCELLIKESTUDENT) {
-                listener.Success(what, "取消点赞");
-            } else if (what == MethodCode.EVENT_GETMYREADING) {
-                MyGrindEarBean bean = JSON.parseObject(data, MyGrindEarBean.class);
-                listener.Success(what, bean);
-            } else if (what == MethodCode.EVENT_COMMITREADING) {
-                listener.Success(what, "提交成功");
-            } else if (what == MethodCode.EVENT_GETREADING) {
-                ReadingData readingData = JSON.parseObject(data, ReadingData.class);
-                listener.Success(what, readingData);
-            } else if (what == MethodCode.EVENT_GETDURATIONSTATISTICS) {
-                DurationStatis durationStatis = JSON.parseObject(data, DurationStatis.class);
-                listener.Success(what, durationStatis);
-            } else if (what == MethodCode.EVENT_GETQRCODE) {
+
+        if (what == MethodCode.EVENT_UPLOADIMGH5) {
+            int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
+            if (errorType == 0) {
                 JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
-                String qrCodeUrl = dataobj.getString("qrCodeUrl");
-                listener.Success(what, qrCodeUrl);
-            } else if (what == MethodCode.EVENT_GETANIMATIONLIST + 7000 + classId) {
-                List<AnimationData> lists = JSON.parseArray(data, AnimationData.class);
-                listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_GETSPOKENCLASSES) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETSPOKENLIST + 8000 + classId) {
-                List<Song> songList;
-                if (data != null) {
-                    songList = JSON.parseArray(data, Song.class);
-                } else {
-                    songList = new ArrayList<>();
-                }
-                listener.Success(what, songList);
-            } else if (what == MethodCode.EVENT_COMMITBOOK) {
-                listener.Success(what, "录入成功");
-            } else if (what == MethodCode.EVENT_DAILYPUNCH) {
-                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
-                int result = dataobj.getInteger("result");
-                listener.Success(what, result);
-            } else if (what == MethodCode.EVENT_IWANTLISTEN) {
-                List<Song> songList = JSON.parseArray(data, Song.class);
-                listener.Success(what, songList);
-            } else if (what == MethodCode.EVENT_ACCESSBOOK) {
-                listener.Success(what, "");
-            } else if (what == MethodCode.EVENT_UPLOADAUDIOTIME) {
-                listener.Success(what, "");
-            } else if (what == MethodCode.EVENT_MYPERIOD) {
-                PeriodBean periodBean;
-                if (data != null) {
-                    periodBean = JSON.parseObject(data, PeriodBean.class);
-                } else {
-                    periodBean = new PeriodBean();
-                }
-                listener.Success(what, periodBean);
-            } else if (what == MethodCode.EVENT_SUGGESTPERIOD) {
-                listener.Success(what, "提异成功");
-            } else if (what == MethodCode.EVENT_MYTASK) {
-                TaskBean taskBean = JSON.parseObject(data, TaskBean.class);
-                if (taskBean == null) {
-                    taskBean = new TaskBean();
-                }
-                listener.Success(what, taskBean);
-            } else if (what == MethodCode.EVENT_TASKDETAILS + 50000 + classify) {
-                TaskDetails taskDetails = JSON.parseObject(data, TaskDetails.class);
-                if (taskDetails == null) {
-                    taskDetails = new TaskDetails();
-                }
-                listener.Success(what, taskDetails);
-            } else if (what == MethodCode.EVENT_COMPLETETASK + 70000 + taskid) {
-                int result;
-                result = 0;
+                String fileurl = dataobj.getString("fileurl");
+                listener.Success(what, fileurl);
+            } else {
+                listener.Error(what, 7, "");
+            }
+        } else {
+            int status = jsonObject.getInteger(MethodCode.STATUS);
+            String msg = jsonObject.getString(MethodCode.MSG);
+            String data = jsonObject.getString(MethodCode.DATA);
+            if (status == 0) {
+                if (what == MethodCode.EVENT_GETLISTENING) {
+                    GrindEarData grindEarData = JSON.parseObject(data, GrindEarData.class);
+                    listener.Success(what, grindEarData);
+                } else if (what == MethodCode.EVENT_GETMUSICCLASSES1) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETMUSICCLASSES2) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETMUSICCLASSES3) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETMUSICCLASSES4) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETMUSICCLASSES5) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETMUSICCLASSES6) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETMUSICCLASSES7) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETMUSICCLASSES8) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETMUSICCLASSES9) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETMUSICCLASSES10) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETMUSICCLASSES11) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETMUSICLIST + 1000 + classId) {
+                    List<Song> songList;
+                    if (data != null) {
+                        songList = JSON.parseArray(data, Song.class);
+                    } else {
+                        songList = new ArrayList<>();
+                    }
+                    listener.Success(what, songList);
+
+                } else if (what == MethodCode.EVENT_GETREADLIST + 6000 + classId) {
+                    List<Song> songList;
+                    if (data != null) {
+                        songList = JSON.parseArray(data, Song.class);
+                    } else {
+                        songList = new ArrayList<>();
+                    }
+                    listener.Success(what, songList);
+                } else if (what == MethodCode.EVENT_GETMYLISTENING) {
+                    MyGrindEarBean bean = JSON.parseObject(data, MyGrindEarBean.class);
+                    listener.Success(what, bean);
+                } else if (what == MethodCode.EVENT_COMMITDURATION) {
+                    listener.Success(what, "提交成功");
+                } else if (what == MethodCode.EVENT_GETBOOKSCORE) {
+                    Song song = JSON.parseObject(data, Song.class);
+                    listener.Success(what, song);
+                } else if (what == MethodCode.EVENT_GETBOOKAUDIODATA) {
+                    Book book = JSON.parseObject(data, Book.class);
+                    listener.Success(what, book);
+                } else if (what == MethodCode.EVENT_UPLOADAUDIO) {
+                    AudioBean audioBean = JSON.parseObject(data, AudioBean.class);
+                    listener.Success(what, audioBean);
+                } else if (what == MethodCode.EVENT_COLLECTCOURSE + 2000 + classId) {
+                    listener.Success(what, "收藏成功");
+                } else if (what == MethodCode.EVENT_CANCELCOLLECTION1 + 3000 + classId) {
+                    listener.Success(what, "取消收藏成功");
+                } else if (what == MethodCode.EVENT_GETPKUSERS) {
+                    List<UserInfo2> lists = JSON.parseArray(data, UserInfo2.class);
+                    if (lists == null) {
+                        lists = new ArrayList<>();
+                    }
+                    listener.Success(what, lists);
+                } else if (what == MethodCode.EVENT_GETPKRESULT) {
+                    PkResult pkResult = JSON.parseObject(data, PkResult.class);
+                    listener.Success(what, pkResult);
+                } else if (what == MethodCode.EVENT_JOINMATERIAL + 4000 + classId) {
+                    listener.Success(what, "加入成功");
+                } else if (what == MethodCode.EVENT_CANCELMATERIAL + 5000 + classId) {
+                    listener.Success(what, "取消加入成功");
+                } else if (what == MethodCode.EVENT_GETRANK) {
+                    listener.Success(what, jsonString);
+                } else if (what == MethodCode.EVENT_GETSQUARERANK) {
+                    RankList rankList = JSON.parseObject(data, RankList.class);
+                    listener.Success(what, rankList);
+                } else if (what == MethodCode.EVENT_GETSQUARERANKLIST) {
+                    SquareRankList squareRankList = JSON.parseObject(data, SquareRankList.class);
+                    listener.Success(what, squareRankList);
+                } else if (what == MethodCode.EVENT_LIKESTUDENT) {
+                    listener.Success(what, "已点赞");
+                } else if (what == MethodCode.EVENT_CANCELLIKESTUDENT) {
+                    listener.Success(what, "取消点赞");
+                } else if (what == MethodCode.EVENT_GETMYREADING) {
+                    MyGrindEarBean bean = JSON.parseObject(data, MyGrindEarBean.class);
+                    listener.Success(what, bean);
+                } else if (what == MethodCode.EVENT_COMMITREADING) {
+                    listener.Success(what, "提交成功");
+                } else if (what == MethodCode.EVENT_GETREADING) {
+                    ReadingData readingData = JSON.parseObject(data, ReadingData.class);
+                    listener.Success(what, readingData);
+                } else if (what == MethodCode.EVENT_GETDURATIONSTATISTICS) {
+                    DurationStatis durationStatis = JSON.parseObject(data, DurationStatis.class);
+                    listener.Success(what, durationStatis);
+                } else if (what == MethodCode.EVENT_GETQRCODE) {
+                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                    String qrCodeUrl = dataobj.getString("qrCodeUrl");
+                    listener.Success(what, qrCodeUrl);
+                } else if (what == MethodCode.EVENT_GETANIMATIONLIST + 7000 + classId) {
+                    List<AnimationData> lists = JSON.parseArray(data, AnimationData.class);
+                    listener.Success(what, lists);
+                } else if (what == MethodCode.EVENT_GETSPOKENCLASSES) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETSPOKENLIST + 8000 + classId) {
+                    List<Song> songList;
+                    if (data != null) {
+                        songList = JSON.parseArray(data, Song.class);
+                    } else {
+                        songList = new ArrayList<>();
+                    }
+                    listener.Success(what, songList);
+                } else if (what == MethodCode.EVENT_COMMITBOOK) {
+                    listener.Success(what, "录入成功");
+                } else if (what == MethodCode.EVENT_DAILYPUNCH) {
+                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                    int result = dataobj.getInteger("result");
+                    listener.Success(what, result);
+                } else if (what == MethodCode.EVENT_IWANTLISTEN) {
+                    List<Song> songList = JSON.parseArray(data, Song.class);
+                    listener.Success(what, songList);
+                } else if (what == MethodCode.EVENT_ACCESSBOOK) {
+                    listener.Success(what, "");
+                } else if (what == MethodCode.EVENT_UPLOADAUDIOTIME) {
+                    listener.Success(what, "");
+                } else if (what == MethodCode.EVENT_MYPERIOD) {
+                    PeriodBean periodBean;
+                    if (data != null) {
+                        periodBean = JSON.parseObject(data, PeriodBean.class);
+                    } else {
+                        periodBean = new PeriodBean();
+                    }
+                    listener.Success(what, periodBean);
+                } else if (what == MethodCode.EVENT_SUGGESTPERIOD) {
+                    listener.Success(what, "提异成功");
+                } else if (what == MethodCode.EVENT_MYTASK) {
+                    TaskBean taskBean = JSON.parseObject(data, TaskBean.class);
+                    if (taskBean == null) {
+                        taskBean = new TaskBean();
+                    }
+                    listener.Success(what, taskBean);
+                } else if (what == MethodCode.EVENT_TASKDETAILS + 50000 + classify) {
+                    TaskDetails taskDetails = JSON.parseObject(data, TaskDetails.class);
+                    if (taskDetails == null) {
+                        taskDetails = new TaskDetails();
+                    }
+                    listener.Success(what, taskDetails);
+                } else if (what == MethodCode.EVENT_COMPLETETASK + 70000 + taskid) {
+                    int result;
+                    result = 0;
 //                if (data != null) {
 //                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
 //                    result = dataobj.getInteger("result");
 //                } else {
 //                    result = 1;
 //                }
-                listener.Success(what, result);
-            } else if (what == MethodCode.EVENT_UPLOADTASKIMAGE + 40000 + taskid) {
-                listener.Success(what, "");
-            } else if (what == MethodCode.EVENT_SUBMITTASK + 60000 + taskid) {
-                listener.Success(what, msg);
-            } else if (what == MethodCode.EVENT_CLOCKINSHARE) {
-                ShareBean shareBean = JSON.parseObject(data, ShareBean.class);
+                    listener.Success(what, result);
+                } else if (what == MethodCode.EVENT_UPLOADTASKIMAGE + 40000 + taskid) {
+                    listener.Success(what, "");
+                } else if (what == MethodCode.EVENT_SUBMITTASK + 60000 + taskid) {
+                    listener.Success(what, msg);
+                } else if (what == MethodCode.EVENT_CLOCKINSHARE) {
+                    ShareBean shareBean = JSON.parseObject(data, ShareBean.class);
 //                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
 //                String url = dataobj.getString("url");
-                listener.Success(what, shareBean);
-            } else if (what == MethodCode.EVENT_GETCARDDETAIL) {
-                ClockIn clockIn = JSON.parseObject(data, ClockIn.class);
-                listener.Success(what, clockIn);
-            } else if (what == MethodCode.EVENT_SHARESUCCESS) {
-                listener.Success(what, "");
-            } else if (what == MethodCode.EVENT_GETMYSPEAKING) {
-                MyGrindEarBean bean = JSON.parseObject(data, MyGrindEarBean.class);
-                listener.Success(what, bean);
-            } else if (what == MethodCode.EVENT_COMMITSPEAKING) {
-                listener.Success(what, "提交成功");
-            } else if (what == MethodCode.EVENT_UNLOCKBOOK + 9000 + classId) {
-                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
-                String result = dataobj.getString("result");
-                listener.Success(what, result);
-            } else if (what == MethodCode.EVENT_GETSPEAKING) {
-                ReadingData readingData = JSON.parseObject(data, ReadingData.class);
-                listener.Success(what, readingData);
-            } else if (what == MethodCode.EVENT_GETSPOKENCLASSES1) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETSPOKENCLASSES2) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETSPOKENCLASSES3) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETSPOKENCLASSES4) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETSPOKENCLASSES5) {
-                List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
-                listener.Success(what, classifyList);
-            } else if (what == MethodCode.EVENT_GETRELEASE) {
-                Release release = JSON.parseObject(data, Release.class);
-                listener.Success(what, release);
-            } else if (what == MethodCode.EVENT_RELEASEBOOK) {
-                listener.Success(what, msg);
-            } else if (what == MethodCode.EVENT_RELEASESUCCESS) {
-                Release release = JSON.parseObject(data, Release.class);
-                listener.Success(what, release);
-            } else if (what == MethodCode.EVENT_PLAYTIMES) {
+                    listener.Success(what, shareBean);
+                } else if (what == MethodCode.EVENT_GETCARDDETAIL) {
+                    ClockIn clockIn = JSON.parseObject(data, ClockIn.class);
+                    listener.Success(what, clockIn);
+                } else if (what == MethodCode.EVENT_SHARESUCCESS) {
+                    listener.Success(what, "");
+                } else if (what == MethodCode.EVENT_GETMYSPEAKING) {
+                    MyGrindEarBean bean = JSON.parseObject(data, MyGrindEarBean.class);
+                    listener.Success(what, bean);
+                } else if (what == MethodCode.EVENT_COMMITSPEAKING) {
+                    listener.Success(what, "提交成功");
+                } else if (what == MethodCode.EVENT_UNLOCKBOOK + 9000 + classId) {
+                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                    String result = dataobj.getString("result");
+                    listener.Success(what, result);
+                } else if (what == MethodCode.EVENT_GETSPEAKING) {
+                    ReadingData readingData = JSON.parseObject(data, ReadingData.class);
+                    listener.Success(what, readingData);
+                } else if (what == MethodCode.EVENT_GETSPOKENCLASSES1) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETSPOKENCLASSES2) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETSPOKENCLASSES3) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETSPOKENCLASSES4) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETSPOKENCLASSES5) {
+                    List<SongClassify> classifyList = JSON.parseArray(data, SongClassify.class);
+                    listener.Success(what, classifyList);
+                } else if (what == MethodCode.EVENT_GETRELEASE) {
+                    Release release = JSON.parseObject(data, Release.class);
+                    listener.Success(what, release);
+                } else if (what == MethodCode.EVENT_RELEASEBOOK) {
+                    listener.Success(what, msg);
+                } else if (what == MethodCode.EVENT_RELEASESUCCESS) {
+                    Release release = JSON.parseObject(data, Release.class);
+                    listener.Success(what, release);
+                } else if (what == MethodCode.EVENT_PLAYTIMES) {
 
-            } else if (what == MethodCode.EVENT_ADDLIKES) {
-                listener.Success(what, "点赞成功");
-            } else if (what == MethodCode.EVENT_CANCELLIKES) {
-                listener.Success(what, "取消点赞");
-            } else if (what == MethodCode.EVENT_SHARECOIN) {
-                ShareCoin shareCoin = JSON.parseObject(data, ShareCoin.class);
-                listener.Success(what, shareCoin);
+                } else if (what == MethodCode.EVENT_ADDLIKES) {
+                    listener.Success(what, "点赞成功");
+                } else if (what == MethodCode.EVENT_CANCELLIKES) {
+                    listener.Success(what, "取消点赞");
+                } else if (what == MethodCode.EVENT_SHARECOIN) {
+                    ShareCoin shareCoin = JSON.parseObject(data, ShareCoin.class);
+                    listener.Success(what, shareCoin);
 //                listener.Success(what, jsonString);
-            } else if (what == MethodCode.EVENT_GETRADIO) {
-                List<Song> lists = JSON.parseArray(data, Song.class);
-                listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_GETLYRIC) {
-                List<String> lists;
-                if (data == null) {
-                    lists = new ArrayList<>();
-                } else {
-                    lists = JSON.parseArray(data, String.class);
+                } else if (what == MethodCode.EVENT_GETRADIO) {
+                    List<Song> lists = JSON.parseArray(data, Song.class);
+                    listener.Success(what, lists);
+                } else if (what == MethodCode.EVENT_GETLYRIC) {
+                    List<String> lists;
+                    if (data == null) {
+                        lists = new ArrayList<>();
+                    } else {
+                        lists = JSON.parseArray(data, String.class);
+                    }
+                    listener.Success(what, lists);
+                } else if (what == MethodCode.EVENT_LUCKDRAW) {
+                    AudioBean audioBean = JSON.parseObject(data, AudioBean.class);
+                    listener.Success(what, audioBean);
+                } else if (what == MethodCode.EVENT_GETHOMEPAGE) {
+                    Hpbean hpbean = JSON.parseObject(data, Hpbean.class);
+                    listener.Success(what, hpbean);
+                } else if (what == MethodCode.EVENT_GETPRODUCTIONLIST) {
+                    ProductionBean productionBean = JSON.parseObject(data, ProductionBean.class);
+                    listener.Success(what, productionBean);
+                } else if (what == MethodCode.EVENT_MYRECORDINGS + 10000 + type) {
+                    RecordBean recordBean = JSON.parseObject(data, RecordBean.class);
+                    if (recordBean == null) {
+                        recordBean = new RecordBean();
+                    }
+                    listener.Success(what, recordBean);
+                } else if (what == MethodCode.EVENT_DELETERECORDING + 30000 + type) {
+                    listener.Success(what, "删除成功");
+                } else if (what == MethodCode.EVENT_CANCELRELEASE + 20000 + type) {
+                    listener.Success(what, "取消发布成功");
                 }
-                listener.Success(what, lists);
-            } else if (what == MethodCode.EVENT_LUCKDRAW) {
-                AudioBean audioBean = JSON.parseObject(data, AudioBean.class);
-                listener.Success(what, audioBean);
-            } else if (what == MethodCode.EVENT_GETHOMEPAGE) {
-                Hpbean hpbean = JSON.parseObject(data, Hpbean.class);
-                listener.Success(what, hpbean);
-            } else if (what == MethodCode.EVENT_GETPRODUCTIONLIST) {
-                ProductionBean productionBean = JSON.parseObject(data, ProductionBean.class);
-                listener.Success(what, productionBean);
-            } else if (what == MethodCode.EVENT_MYRECORDINGS + 10000 + type) {
-                RecordBean recordBean = JSON.parseObject(data, RecordBean.class);
-                if (recordBean == null) {
-                    recordBean = new RecordBean();
-                }
-                listener.Success(what, recordBean);
-            } else if (what == MethodCode.EVENT_DELETERECORDING + 30000 + type) {
-                listener.Success(what, "删除成功");
-            } else if (what == MethodCode.EVENT_CANCELRELEASE + 20000 + type) {
-                listener.Success(what, "取消发布成功");
-            } else if (what == MethodCode.EVENT_UPLOADIMGH5) {
-                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
-                String fileurl = dataobj.getString("fileurl");
-                listener.Success(what, fileurl);
+            } else {
+                listener.Error(what, status, msg);
             }
-        } else {
-            listener.Error(what, status, msg);
         }
+
     }
 
     @Override

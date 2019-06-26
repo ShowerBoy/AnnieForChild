@@ -61,17 +61,21 @@ import com.annie.annieforchild.Utils.dsbridge.JsEchoApi;
 import com.annie.annieforchild.Utils.pcm2mp3.RecorderAndPlayUtil;
 import com.annie.annieforchild.bean.HomeData;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.WebRecordGrade;
 import com.annie.annieforchild.bean.WebShare;
 import com.annie.annieforchild.bean.net.Game;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
+import com.annie.annieforchild.ui.activity.pk.ExerciseActivity2;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
+import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.example.lamemp3.MP3Recorder;
+import com.example.lamemp3.PrivateInfo;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.ValueCallback;
@@ -79,16 +83,32 @@ import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
+import com.tencent.taisdk.TAIErrCode;
+import com.tencent.taisdk.TAIError;
+import com.tencent.taisdk.TAIOralEvaluation;
+import com.tencent.taisdk.TAIOralEvaluationCallback;
+import com.tencent.taisdk.TAIOralEvaluationData;
+import com.tencent.taisdk.TAIOralEvaluationEvalMode;
+import com.tencent.taisdk.TAIOralEvaluationFileType;
+import com.tencent.taisdk.TAIOralEvaluationListener;
+import com.tencent.taisdk.TAIOralEvaluationParam;
+import com.tencent.taisdk.TAIOralEvaluationRet;
+import com.tencent.taisdk.TAIOralEvaluationServerType;
+import com.tencent.taisdk.TAIOralEvaluationStorageMode;
+import com.tencent.taisdk.TAIOralEvaluationTextMode;
+import com.tencent.taisdk.TAIOralEvaluationWorkMode;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -131,6 +151,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
     private GrindEarPresenter presenter;
     private String sentence;
     private WebShare webShare;
+    private TAIOralEvaluation oral;
+    private int recordType; //录音方式 0:正常 1:智聆
+    private double grade;
 
     {
         setRegister(true);
@@ -473,17 +496,23 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
             @Override
             public void onDismiss() {
 //                clarifyLayout.setVisibility(View.GONE);
-                Message message1 = new Message();
-                message1.arg1 = 1;
-                handler2.sendMessage(message1);
-                mRecorderUtil.stopRecording();
+                if (recordType == 0) {
+                    Message message1 = new Message();
+                    message1.arg1 = 1;
+                    handler2.sendMessage(message1);
+                    mRecorderUtil.stopRecording();
 //                showInfo("录音结束:" + Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + sentence + ".mp3");
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        presenter.uploadimgH5(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + sentence + ".mp3", "");
-                    }
-                }, 1000);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            presenter.uploadimgH5(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + sentence + ".mp3", "");
+                        }
+                    }, 1000);
+                } else {
+                    Message message1 = new Message();
+                    message1.arg1 = 1;
+                    handler2.sendMessage(message1);
+                }
             }
         });
         stopRecord = recordView.findViewById(R.id.stop_record);
@@ -767,6 +796,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
         if (message.what == MethodCode.EVENT_WEBRECORD) {
 //            getWindowGray(true);
 //            clarifyLayout.setVisibility(View.VISIBLE);
+            recordType = 0;
             sentence = (String) message.obj;
             Message message1 = new Message();
             message1.arg1 = 0;
@@ -777,12 +807,24 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
 //            SystemUtils.getWebRecord(this).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
         } else if (message.what == MethodCode.EVENT_UPLOADIMGH5) {
             String fileUrl = (String) message.obj;
-            webView.callHandler("addValue", new Object[]{fileUrl}, new OnReturnValue<String>() {
-                @Override
-                public void onValue(String s) {
+            if (recordType == 0) {
+                webView.callHandler("addValue", new Object[]{fileUrl}, new OnReturnValue<String>() {
+                    @Override
+                    public void onValue(String s) {
 
-                }
-            });
+                    }
+                });
+            } else {
+                WebRecordGrade webRecordGrade = new WebRecordGrade();
+                webRecordGrade.setFileUrl(fileUrl);
+                webRecordGrade.setGrade(grade);
+                webView.callHandler("getSound", new Object[]{webRecordGrade.toString()}, new OnReturnValue<String>() {
+                    @Override
+                    public void onValue(String s) {
+
+                    }
+                });
+            }
         } else if (message.what == MethodCode.EVENT_WEBSHARE) {
             webShare = (WebShare) message.obj;
             Message message1 = new Message();
@@ -797,6 +839,14 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
 
                 }
             });
+        } else if (message.what == MethodCode.EVENT_WEBRECORDWITHGRADE) {
+            recordType = 1;
+            sentence = (String) message.obj;
+            onRecord(sentence);
+            Message message1 = new Message();
+            message1.arg1 = 0;
+            handler2.sendMessage(message1);
+            recordPopup.showAtLocation(recordView, Gravity.CENTER, 0, 0);
         }
     }
 
@@ -840,7 +890,12 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
                 shareUtils.shareQZone("我在安妮花，坚持签到", "英文学习，贵在坚持，你也一起来吧", null, "https://demoapi.anniekids.net/api/Signin/share?username=" + application.getSystemUtils().getDefaultUsername());
                 break;
             case R.id.stop_record:
-                recordPopup.dismiss();
+                if (recordType == 0) {
+                    recordPopup.dismiss();
+                } else {
+                    onRecord(sentence);
+                    recordPopup.dismiss();
+                }
                 break;
             case R.id.pengyouquan_layout:
                 popupWindow2.dismiss();
@@ -948,6 +1003,102 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
             }
         }
         return list;
+    }
+
+    public void onRecord(String msg) {
+        if (oral == null) {
+            oral = new TAIOralEvaluation();
+        }
+        if (oral.isRecording()) {
+            oral.stopRecordAndEvaluation(new TAIOralEvaluationCallback() {
+                @Override
+                public void onResult(final TAIError error) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.e("说话结束", error.desc + "---" + error.code);
+                        }
+                    });
+                }
+            });
+        } else {
+            oral.setListener(new TAIOralEvaluationListener() {
+                @Override
+                public void onEvaluationData(final TAIOralEvaluationData data, final TAIOralEvaluationRet result, final TAIError error) {
+                    SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath, msg + ".mp3");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (error.code != TAIErrCode.SUCC) {
+//                                SystemUtils.show(context, "说话结束");
+                            }
+                            oral = null;
+                            Log.e("口语评测", result + "///" + error.desc);
+                            if (result != null) {
+                                double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
+                                BigDecimal bg = new BigDecimal(num / 20);
+                                grade = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        presenter.uploadimgH5(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + msg + ".mp3", "");
+                                    }
+                                }, 1000);
+//                                notifyDataSetChanged();
+                            } else {
+                                Log.e("eee", error.code + "");
+//                                if(error.code==3){
+                                SystemUtils.show(WebActivity.this, "上传失败，请稍后再试");
+//                                }
+                            }
+                        }
+                    });
+                }
+            });
+
+            TAIOralEvaluationParam param = new TAIOralEvaluationParam();
+            param.context = WebActivity.this;
+            param.sessionId = UUID.randomUUID().toString();
+            param.appId = PrivateInfo.appId;
+            param.soeAppId = PrivateInfo.soeAppId;
+            param.secretId = PrivateInfo.secretId;
+            param.secretKey = PrivateInfo.secretKey;
+            param.token = PrivateInfo.token;
+            //流式传输0，一次性传输1，
+            param.workMode = TAIOralEvaluationWorkMode.ONCE;
+            param.evalMode = TAIOralEvaluationEvalMode.PARAGRAPH;//单词模式0，句子模式1，段落模式2，自由说模式3
+            //是否存储 1
+            param.storageMode = TAIOralEvaluationStorageMode.ENABLE;
+            param.fileType = TAIOralEvaluationFileType.MP3;
+            param.serverType = TAIOralEvaluationServerType.ENGLISH;
+            param.textMode = TAIOralEvaluationTextMode.NORMAL;
+            //苛刻指数1.0-4.0
+            param.scoreCoeff = 1.0;
+            param.refText = msg;
+            if (param.workMode == TAIOralEvaluationWorkMode.STREAM) {
+                param.timeout = 5;
+                param.retryTimes = 5;
+            } else {
+                param.timeout = 30;
+                param.retryTimes = 0;
+            }
+            //分片大小
+            oral.setFragSize(10 * 1024);
+            oral.startRecordAndEvaluation(param, new TAIOralEvaluationCallback() {
+                @Override
+                public void onResult(final TAIError error) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (error.code == TAIErrCode.SUCC) {
+//                                SystemUtils.show(WebActivity.this, "说话开始");
+                                Log.e("说话开始", error.desc + "---" + error.code);
+                            }
+                        }
+                    });
+                }
+            });
+        }
     }
 
     @Override
