@@ -445,6 +445,17 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
         } else if (status == 5) {
             //账号或密码错误
             loginView.showInfo(error);
+            if (what == MethodCode.EVENT_LOGIN) {
+                loginView.showInfo(error);
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.GuideActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = MethodCode.EVENT_ERROR;
+                message.obj = error;
+                EventBus.getDefault().post(message);
+                application.getSystemUtils().setOnline(false);
+            }
         } else if (status == 6) {
             //获取验证码失败
 
