@@ -116,6 +116,8 @@ public class ModifyPsdActivity extends BaseActivity implements RegisterView, OnC
         if (message.what == MethodCode.EVENT_RESETPASSWORD) {
             showInfo((String) message.obj);
             finish();
+        }else if(message.what==MethodCode.EVENT_RESETPASSWORD+10000){//验证码错误或者其他错误
+            showInfo((String) message.obj);
         }
     }
 

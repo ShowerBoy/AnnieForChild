@@ -239,11 +239,11 @@ public class BankBookActivity extends BaseMusicActivity implements View.OnClickL
             if (position >= 0 && position < 3) {
                 switch (position) {
                     case 0:
-                        return "磨耳朵存折";
+                        return "磨耳朵";
                     case 1:
-                        return "流利读存折";
+                        return "阅读";
                     case 2:
-                        return "地道说存折";
+                        return "口语";
                     default:
                         break;
                 }

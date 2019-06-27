@@ -210,7 +210,7 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
                  * {@link com.annie.annieforchild.ui.activity.login.ModifyPsdActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
-                message.what = what;
+                message.what = what+10000;
                 message.obj = error;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_RGISTER) {
