@@ -84,34 +84,42 @@ public class MyReleaseFragment extends BaseFragment implements SongView {
                 song.setBookId(lists.get(position - 1).getRecordingId());
                 song.setBookImageUrl(lists.get(position - 1).getImageUrl());
                 song.setBookName(lists.get(position - 1).getTitle());
+                int collectType;
+                int bookType;
                 if (lists.get(position - 1).getAudioType() == 0) {
                     song.setIsmoerduo(0);
                     song.setIsyuedu(1);
                     song.setIskouyu(1);
+                    collectType = 0;
+                    bookType = 0;
                 } else if (lists.get(position - 1).getAudioType() == 1) {
                     song.setIsmoerduo(0);
                     song.setIsyuedu(1);
                     song.setIskouyu(0);
+                    collectType = 1;
+                    bookType = 1;
                 } else {
                     song.setIsmoerduo(0);
                     song.setIsyuedu(0);
                     song.setIskouyu(1);
+                    collectType = 2;
+                    bookType = 1;
                 }
-                if (tag == 1) {
-                    intent.putExtra("song", song);
-                    intent.putExtra("type", 0);
-                    intent.putExtra("audioType", 1);
-                    intent.putExtra("audioSource", lists.get(position - 1).getAudioSource());
-                    intent.putExtra("collectType", 2);
-                    intent.putExtra("bookType", 1);
-                } else {
-                    intent.putExtra("song", song);
-                    intent.putExtra("type", 0);
-                    intent.putExtra("audioType", 0);
-                    intent.putExtra("audioSource", lists.get(position - 1).getAudioSource());
-                    intent.putExtra("collectType", 1);
-                    intent.putExtra("bookType", 0);
-                }
+//                if (tag == 1) {
+//                    intent.putExtra("song", song);
+//                    intent.putExtra("type", 0);
+//                    intent.putExtra("audioType", lists.get(position - 1).getAudioType());
+//                    intent.putExtra("audioSource", lists.get(position - 1).getAudioSource());
+//                    intent.putExtra("collectType", 2);
+//                    intent.putExtra("bookType", 1);
+//                } else {
+                intent.putExtra("song", song);
+                intent.putExtra("type", 0);
+                intent.putExtra("audioType", lists.get(position - 1).getAudioType());
+                intent.putExtra("audioSource", lists.get(position - 1).getAudioSource());
+                intent.putExtra("collectType", collectType);
+                intent.putExtra("bookType", bookType);
+//                }
                 startActivity(intent);
             }
 

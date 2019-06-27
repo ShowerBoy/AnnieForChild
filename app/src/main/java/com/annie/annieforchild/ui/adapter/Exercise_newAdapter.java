@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
@@ -229,7 +230,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
             exerciseViewHolder.play.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(lists.get(i).getMyResourceUrl() != null && lists.get(i).getMyResourceUrl().length() > 0){
+                    if (lists.get(i).getMyResourceUrl() != null && lists.get(i).getMyResourceUrl().length() > 0) {
                         if (isClick) {
                             if (!isPlay) {
                                 if (isRecordPlay) {
@@ -247,7 +248,6 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                                         }
                                         exerciseViewHolder.play.setImageResource(R.drawable.icon_play_big);
                                     }
-
                                 } else {
                                     //开始播放
                                     isClick = false;
@@ -319,10 +319,10 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                             isRecording = false;
                             isClick = true;
                             oral = null;
-                            Log.e("口语评测", result+"///"+error.desc);
+                            Log.e("口语评测", result + "///" + error.desc);
                             ExerciseActivity2.viewPager.setNoFocus(false);
                             viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
-                            if(result!=null){
+                            if (result != null) {
                                 double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
                                 BigDecimal bg = new BigDecimal(num / 20);
                                 double num1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -330,16 +330,16 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName+ ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
+                                        presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
                                     }
                                 }, 1500);
-                                Log.e("说话结束2", result.pronAccuracy+"");
+                                Log.e("说话结束2", result.pronAccuracy + "");
 //                                notifyDataSetChanged();
-                            }else{
-                                Log.e("eee",error.code+"");
+                            } else {
+                                Log.e("eee", error.code + "");
                                 songView.dismissLoad();
 //                                if(error.code==3){
-                                    SystemUtils.show(context, "上传失败，请稍后再试");
+                                SystemUtils.show(context, "上传失败，请稍后再试");
 //                                }
                             }
                         }

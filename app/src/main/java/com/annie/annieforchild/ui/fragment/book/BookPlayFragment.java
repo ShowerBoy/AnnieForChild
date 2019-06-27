@@ -538,9 +538,11 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                 break;
             case R.id.book_preview_layout:
                 if (isPlay) {
+                    showInfo("播放中");
                     return;
                 }
                 if (isRecord) {
+                    showInfo("录音中");
                     return;
                 }
                 if (application.getSystemUtils().isPlayAll()) {
@@ -635,10 +637,16 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                                         record.setImageResource(R.drawable.icon_book_stop);
                                         mRecorderUtil.startRecording(title);
                                     }
+                                }else{
+                                    showInfo("播放中");
                                 }
                             }
                         }
+                    } else {
+                        showInfo("播放中");
                     }
+                } else {
+                    showInfo("播放中");
                 }
                 break;
             case R.id.book_play_layout:
@@ -669,10 +677,16 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                                             }).start();
                                         }
                                     }
+                                } else {
+                                    showInfo("录音中");
                                 }
                             }
                         }
+                    } else {
+                        showInfo("播放中");
                     }
+                } else {
+                    showInfo("播放中");
                 }
                 break;
             case R.id.animation_pic:
