@@ -196,11 +196,27 @@ public class ModifyPsdActivity extends BaseActivity implements RegisterView, OnC
                 }
                 break;
             case R.id.next_btn2:
-                if (ifNext()) {
-                    presenter.resetPassword(phoneNumber2.getText().toString(), testCode2.getText().toString(), modifyPsd.getText().toString(), presenter.getSerial_number());
-                } else {
-                    showInfo("输入有误,请重新检查");
+                if (phoneNumber2.getText().toString().equals("") || phoneNumber2.getText().toString().length() != 11 || phoneNumber2.getText().toString().contains(" ")) {
+                    showInfo("手机号输入有误");
+                    return;
                 }
+                if (testCode2.getText().toString().contains(" ") || testCode2.getText().toString().equals("")) {
+                    showInfo("验证码输入有误");
+                    return;
+                }
+                if (modifyPsd.getText().toString().equals("") || modifyPsd.getText().toString().length() == 0) {
+                    showInfo("请输入密码");
+                    return;
+                }
+                if (confirmPsd2.getText().toString().equals("") || confirmPsd2.getText().toString().length() == 0) {
+                    showInfo("请输入确认密码");
+                    return;
+                }
+                if (modifyPsd.getText().toString().length() != confirmPsd2.getText().toString().length() || !modifyPsd.getText().toString().equals(confirmPsd2.getText().toString())) {
+                    showInfo("输入密码不一致");
+                    return;
+                }
+                presenter.resetPassword(phoneNumber2.getText().toString(), testCode2.getText().toString(), modifyPsd.getText().toString(), presenter.getSerial_number());
                 break;
         }
     }

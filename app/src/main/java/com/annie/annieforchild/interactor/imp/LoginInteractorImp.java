@@ -166,7 +166,7 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
     @Override
     public void showGifts(int origin, int giftRecordId) {
         this.origin = origin;
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SHOWGIFTS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.SHOWGIFTS, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("origin", origin);
@@ -179,7 +179,7 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
 
     @Override
     public void chooseGift(int giftId, int giftRecordId) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.CHOOSEGIFT, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.CHOOSEGIFT, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("giftId", giftId);
@@ -204,56 +204,72 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
     protected void onSuccess(int what, Object response) {
         String jsonString = response.toString();
         JSONObject jsonObject = JSON.parseObject(jsonString);
-        int status = jsonObject.getInteger(MethodCode.STATUS);
-        String msg = jsonObject.getString(MethodCode.MSG);
-        if (status == 0) {
-            if (what == MethodCode.EVENT_LOGIN) {
-                MainBean bean = JSON.parseObject(jsonString, MainBean.class);
-                if (bean != null) {
-                    //请求成功
-                    listener.Success(what, bean);
-                } else {
-                    listener.Error(what, 7, "没有数据");
-                }
-            } else if (what == MethodCode.EVENT_GLOBALSEARCH) {
-                String data = jsonObject.getString(MethodCode.DATA);
-                if (data != null) {
-                    SearchContent searchContent = JSON.parseObject(data, SearchContent.class);
-                    listener.Success(what, searchContent);
-                } else {
-                    listener.Success(what, new SearchContent());
-                }
-            } else if (what == MethodCode.EVENT_CHECKUPDATE) {
-                String data = jsonObject.getString(MethodCode.DATA);
-                UpdateBean updateBean = JSON.parseObject(data, UpdateBean.class);
-                listener.Success(what, updateBean);
-            } else if (what == MethodCode.EVENT_GETTAGS) {
-                String data = jsonObject.getString(MethodCode.DATA);
-                if (data != null) {
-                    List<SearchTag> lists = JSON.parseArray(data, SearchTag.class);
-                    listener.Success(what, lists);
-                } else {
-                    listener.Success(what, new ArrayList<SearchTag>());
-                }
-            } else if (what == MethodCode.EVENT_GETTAGBOOK) {
-                String data = jsonObject.getString(MethodCode.DATA);
-                if (data != null) {
-                    SearchContent searchContent = JSON.parseObject(data, SearchContent.class);
-                    listener.Success(what, searchContent);
-                } else {
-                    listener.Success(what, new SearchContent());
-                }
-            } else if (what == MethodCode.EVENT_SHOWGIFTS + 110000 + origin) {
-                String data = jsonObject.getString(MethodCode.DATA);
+        if (what == MethodCode.EVENT_SHOWGIFTS + 110000 + origin) {
+            int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
+            String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
+            String data = jsonObject.getString(MethodCode.DATA);
+            if (errorType == 0) {
                 NetGift netGift = JSON.parseObject(data, NetGift.class);
                 listener.Success(what, netGift);
-            } else if (what == MethodCode.EVENT_CHOOSEGIFT) {
-                String data = jsonObject.getString(MethodCode.DATA);
+            } else {
+                listener.Error(what, 7, errorInfo);
+            }
+        } else if (what == MethodCode.EVENT_CHOOSEGIFT) {
+            int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
+            String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
+            String data = jsonObject.getString(MethodCode.DATA);
+            if (errorType == 0) {
                 listener.Success(what, data);
+            }else{
+                listener.Error(what, 7, errorInfo);
+
             }
         } else {
-            listener.Error(what, status, msg);
+            int status = jsonObject.getInteger(MethodCode.STATUS);
+            String msg = jsonObject.getString(MethodCode.MSG);
+            if (status == 0) {
+                if (what == MethodCode.EVENT_LOGIN) {
+                    MainBean bean = JSON.parseObject(jsonString, MainBean.class);
+                    if (bean != null) {
+                        //请求成功
+                        listener.Success(what, bean);
+                    } else {
+                        listener.Error(what, 7, "没有数据");
+                    }
+                } else if (what == MethodCode.EVENT_GLOBALSEARCH) {
+                    String data = jsonObject.getString(MethodCode.DATA);
+                    if (data != null) {
+                        SearchContent searchContent = JSON.parseObject(data, SearchContent.class);
+                        listener.Success(what, searchContent);
+                    } else {
+                        listener.Success(what, new SearchContent());
+                    }
+                } else if (what == MethodCode.EVENT_CHECKUPDATE) {
+                    String data = jsonObject.getString(MethodCode.DATA);
+                    UpdateBean updateBean = JSON.parseObject(data, UpdateBean.class);
+                    listener.Success(what, updateBean);
+                } else if (what == MethodCode.EVENT_GETTAGS) {
+                    String data = jsonObject.getString(MethodCode.DATA);
+                    if (data != null) {
+                        List<SearchTag> lists = JSON.parseArray(data, SearchTag.class);
+                        listener.Success(what, lists);
+                    } else {
+                        listener.Success(what, new ArrayList<SearchTag>());
+                    }
+                } else if (what == MethodCode.EVENT_GETTAGBOOK) {
+                    String data = jsonObject.getString(MethodCode.DATA);
+                    if (data != null) {
+                        SearchContent searchContent = JSON.parseObject(data, SearchContent.class);
+                        listener.Success(what, searchContent);
+                    } else {
+                        listener.Success(what, new SearchContent());
+                    }
+                }
+            } else {
+                listener.Error(what, status, msg);
+            }
         }
+
     }
 
     @Override

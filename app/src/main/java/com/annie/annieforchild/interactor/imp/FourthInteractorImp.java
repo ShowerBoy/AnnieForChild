@@ -101,7 +101,7 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
 
     @Override
     public void showGifts(int origin, int giftRecordId) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.SHOWGIFTS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.SHOWGIFTS, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("origin", origin);
@@ -126,43 +126,52 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
     protected void onSuccess(int what, Object response) {
         String jsonString = response.toString();
         JSONObject jsonObject = JSON.parseObject(jsonString);
-        int status = jsonObject.getInteger(MethodCode.STATUS);
-        String msg = jsonObject.getString(MethodCode.MSG);
-        String data = jsonObject.getString(MethodCode.DATA);
-        if (status == 0) {
-            if (what == MethodCode.EVENT_USERINFO) {
+        if (what == MethodCode.EVENT_SHOWGIFTS) {
+            int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
+            String errorInfo = jsonObject.getString(MethodCode.ERRINFO);
+            String data = jsonObject.getString(MethodCode.DATA);
+            if (errorType == 0) {
+                NetGift netGift = JSON.parseObject(data, NetGift.class);
+                listener.Success(what, netGift);
+            } else {
+                listener.Error(what, 7, errorInfo);
+            }
+        } else {
+            int status = jsonObject.getInteger(MethodCode.STATUS);
+            String msg = jsonObject.getString(MethodCode.MSG);
+            String data = jsonObject.getString(MethodCode.DATA);
+            if (status == 0) {
+                if (what == MethodCode.EVENT_USERINFO) {
 //                if (data != null) {
-                UserInfo userInfo = JSON.parseObject(data, UserInfo.class);
-                if (userInfo == null) {
-                    userInfo = new UserInfo();
-                    application.getSystemUtils().setChildTag(0);
-                    application.getSystemUtils().setDefaultUsername("");
-                } else {
-                    application.getSystemUtils().setChildTag(1);
-                    application.getSystemUtils().setDefaultUsername(userInfo.getUsername());
-                }
-                listener.Success(what, userInfo);
+                    UserInfo userInfo = JSON.parseObject(data, UserInfo.class);
+                    if (userInfo == null) {
+                        userInfo = new UserInfo();
+                        application.getSystemUtils().setChildTag(0);
+                        application.getSystemUtils().setDefaultUsername("");
+                    } else {
+                        application.getSystemUtils().setChildTag(1);
+                        application.getSystemUtils().setDefaultUsername(userInfo.getUsername());
+                    }
+                    listener.Success(what, userInfo);
 //                } else {
 //                    listener.Error(what, "无数据");
 //                }
-            } else if (what == MethodCode.EVENT_USERLIST) {
-                List<UserInfo2> list = JSON.parseArray(data, UserInfo2.class);
-                listener.Success(what, list);
-            } else if (what == MethodCode.EVENT_SETDEFAULEUSER) {
-                listener.Success(what, "切换成功");
-            } else if (what == MethodCode.EVENT_DELETEUSERNAME) {
-                ChildBean childBean = JSON.parseObject(data, ChildBean.class);
-                listener.Success(what, childBean);
-            } else if (what == MethodCode.EVENT_BINDWEIXIN) {
-                JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
-                int result = dataobj.getInteger("result");
-                listener.Success(what, result);
-            } else if (what == MethodCode.EVENT_SHOWGIFTS) {
-                NetGift netGift = JSON.parseObject(data, NetGift.class);
-                listener.Success(what, netGift);
+                } else if (what == MethodCode.EVENT_USERLIST) {
+                    List<UserInfo2> list = JSON.parseArray(data, UserInfo2.class);
+                    listener.Success(what, list);
+                } else if (what == MethodCode.EVENT_SETDEFAULEUSER) {
+                    listener.Success(what, "切换成功");
+                } else if (what == MethodCode.EVENT_DELETEUSERNAME) {
+                    ChildBean childBean = JSON.parseObject(data, ChildBean.class);
+                    listener.Success(what, childBean);
+                } else if (what == MethodCode.EVENT_BINDWEIXIN) {
+                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                    int result = dataobj.getInteger("result");
+                    listener.Success(what, result);
+                }
+            } else {
+                listener.Error(what, status, msg);
             }
-        } else {
-            listener.Error(what, status, msg);
         }
     }
 
