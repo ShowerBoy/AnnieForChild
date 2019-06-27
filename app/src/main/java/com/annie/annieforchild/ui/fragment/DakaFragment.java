@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -132,6 +133,8 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
         qq.setOnClickListener(listener);
         qqzone.setOnClickListener(listener);
         shareCancel.setOnClickListener(listener);
+        popupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setContentView(popupView);
         popupWindow.setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(R.color.clarity)));
         popupWindow.setOutsideTouchable(false);
