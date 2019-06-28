@@ -438,10 +438,10 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
 
         } else if (status == 3) {
             //参数错误
-
+            loginView.showInfo(error);
         } else if (status == 4) {
             //服务器错误
-
+            loginView.showInfo(error);
         } else if (status == 5) {
             //账号或密码错误
             loginView.showInfo(error);
@@ -458,7 +458,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
             }
         } else if (status == 6) {
             //获取验证码失败
-
+            loginView.showInfo(error);
         } else if (status == 7) {
             if (what == MethodCode.EVENT_LOGIN) {
                 loginView.showInfo(error);
