@@ -28,6 +28,7 @@ import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.activity.login.ModifyPsdActivity;
 import com.annie.annieforchild.view.FourthView;
 import com.annie.baselibrary.base.BaseActivity;
+import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.annie.baselibrary.utils.CleanUtils;
 
@@ -38,7 +39,7 @@ import org.greenrobot.eventbus.Subscribe;
  * Created by WangLei on 2018/1/17 0017
  */
 
-public class SettingsActivity extends BaseActivity implements FourthView, View.OnClickListener {
+public class SettingsActivity extends BaseMusicActivity implements FourthView, View.OnClickListener {
     private ImageView settingsBack;
     private TextView cacheSize, weixinText;
     private RelativeLayout changePsdLayout, changePhoneLayout, clearCacheLayout, bindWeixinLayout, logout;
@@ -141,11 +142,10 @@ public class SettingsActivity extends BaseActivity implements FourthView, View.O
                             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (MusicService.isPlay) {
-//                                    if (musicService != null) {
-//                                        musicService.stop();
-//                                    }
-                                    MusicService.stop();
+                                if (musicService != null) {
+                                    if (musicService.isPlaying()) {
+                                        musicService.stop();
+                                    }
                                 }
                                 MusicService.musicTitle = null;
                                 MusicService.musicImageUrl = null;
@@ -220,7 +220,29 @@ public class SettingsActivity extends BaseActivity implements FourthView, View.O
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+    }
+
+    @Override
+    protected void onPause() {
+        allowUnBindService();
+        super.onPause();
+    }
+
+    @Override
     public RecyclerView getMemberRecycler() {
         return null;
+    }
+
+    @Override
+    public void onPublish(int progress) {
+
+    }
+
+    @Override
+    public void onChange(int position) {
+
     }
 }

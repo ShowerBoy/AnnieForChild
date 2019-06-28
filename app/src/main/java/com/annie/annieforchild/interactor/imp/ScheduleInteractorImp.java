@@ -182,6 +182,7 @@ public class ScheduleInteractorImp extends NetWorkImp implements ScheduleInterac
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_MYCALENDAR, request);
+
 //        startQueue();
     }
 

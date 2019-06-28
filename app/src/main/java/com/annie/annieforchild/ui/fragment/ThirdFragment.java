@@ -104,9 +104,6 @@ public class ThirdFragment extends BaseFragment implements OnCheckDoubleClick {
 
     @SuppressLint("MissingPermission")
     private String getLngAndLat(Context context) {
-
-
-
         double latitude = 0.0;
         double longitude = 0.0;
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
