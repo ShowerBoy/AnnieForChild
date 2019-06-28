@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.Collection;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.interactor.CollectionInteractor;
@@ -188,8 +189,8 @@ public class CollectionPresenterImp extends BasePresenterImp implements Collecti
 
         } else if (status == 3) {
             //参数错误
-            collectionView.showInfo(error+"");
-
+            collectionView.showInfo(error + "");
+            SystemUtils.setDefaltSn(context, application);
         } else if (status == 4) {
             //服务器错误
 

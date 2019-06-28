@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.tongzhi.MyNotice;
 import com.annie.annieforchild.bean.tongzhi.Notice;
@@ -216,7 +217,7 @@ public class MessagePresenterImp extends BasePresenterImp implements MessagePres
 
         } else if (status == 3) {
             //参数错误
-
+            SystemUtils.setDefaltSn(context, application);
         } else if (status == 4) {
             //服务器错误
 

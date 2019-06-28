@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.interactor.NectarInteractor;
@@ -105,7 +106,7 @@ public class NectarPresenterImp extends BasePresenterImp implements NectarPresen
 
         } else if (status == 3) {
             //参数错误
-
+            SystemUtils.setDefaltSn(context, application);
         } else if (status == 4) {
             //服务器错误
 

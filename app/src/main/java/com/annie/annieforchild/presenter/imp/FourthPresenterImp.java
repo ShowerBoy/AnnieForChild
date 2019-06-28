@@ -360,7 +360,17 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
 
         } else if (status == 3) {
             //参数错误
-
+            Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+            SystemUtils.setDefaltSn(context, application);
+            if (what == MethodCode.EVENT_USERINFO) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.setWhat(what);
+                message.setObj(new UserInfo());
+                EventBus.getDefault().post(message);
+            }
         } else if (status == 4) {
             //服务器错误
 

@@ -1223,8 +1223,6 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     protected void onSuccess(int what, Object response) {
         String jsonString = response.toString();
         JSONObject jsonObject = JSON.parseObject(jsonString);
-
-
         if (what == MethodCode.EVENT_UPLOADIMGH5) {
             int errorType = jsonObject.getInteger(MethodCode.ERRTYPE);
             if (errorType == 0) {

@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.Banner;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Address;
@@ -699,6 +700,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         } else if (status == 3) {
             //参数错误
             viewInfo.showInfo(error);
+            SystemUtils.setDefaltSn(context, application);
         } else if (status == 4) {
             //服务器错误
 

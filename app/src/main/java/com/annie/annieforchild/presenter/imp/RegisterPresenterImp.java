@@ -195,6 +195,7 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
         } else if (status == 3) {
             //参数错误
             Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+            SystemUtils.setDefaltSn(context, application);
         } else if (status == 4) {
             //服务器错误
 

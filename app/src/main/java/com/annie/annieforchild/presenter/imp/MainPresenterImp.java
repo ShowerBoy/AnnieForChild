@@ -202,7 +202,7 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
 
         } else if (status == 3) {
             //参数错误
-
+            SystemUtils.setDefaltSn(context, application);
         } else if (status == 4) {
             //服务器错误
 

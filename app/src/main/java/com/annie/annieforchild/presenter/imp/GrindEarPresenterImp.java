@@ -1,9 +1,11 @@
 package com.annie.annieforchild.presenter.imp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
@@ -23,6 +25,7 @@ import com.annie.annieforchild.bean.book.Release;
 import com.annie.annieforchild.bean.grindear.GrindEarData;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
+import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.bean.period.PeriodBean;
 import com.annie.annieforchild.bean.rank.Hpbean;
 import com.annie.annieforchild.bean.rank.ProductionBean;
@@ -49,9 +52,12 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.litepal.LitePal;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import static android.content.Context.MODE_MULTI_PROCESS;
 import static android.content.Context.MODE_PRIVATE;
@@ -1463,6 +1469,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
         }
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void Error(int what, int status, String error) {
         if (grindEarView != null) {
@@ -1519,6 +1526,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
 
         } else if (status == 3) {
             //参数错误
+            SystemUtils.setDefaltSn(context, application);
             if (grindEarView != null) {
                 grindEarView.showInfo(error + "");
             }

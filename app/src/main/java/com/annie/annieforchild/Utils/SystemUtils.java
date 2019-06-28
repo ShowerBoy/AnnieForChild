@@ -76,6 +76,7 @@ import com.tencent.smtt.sdk.TbsVideo;
 //import com.github.chrisbanes.photoview.PhotoView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.litepal.LitePal;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -97,6 +98,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -153,6 +155,7 @@ public class SystemUtils {
     private boolean isReLogin = false; //重新登陆
     public static int MusicType = 0;//0：重新进入 1：列表进入
     Context context;
+    public static TelephonyManager tm;
 
     public SystemUtils(Context context) {
         this.context = context;
@@ -1601,5 +1604,43 @@ public class SystemUtils {
             }
         };
         editText.setFilters(new InputFilter[]{filter});
+    }
+
+    /**
+     * 参数错误重置sn
+     *
+     * @param mContext
+     */
+    @SuppressLint("MissingPermission")
+    public static void setDefaltSn(Context mContext, MyApplication application) {
+        if (tm == null) {
+            tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+        }
+        if (application.getSystemUtils().getSn() == null || application.getSystemUtils().getSn().length() == 0) {
+            List<PhoneSN> list = LitePal.findAll(PhoneSN.class);
+            if (list != null && list.size() != 0) {
+                PhoneSN phoneSN = list.get(list.size() - 1);
+                if (phoneSN.getSn() == null || phoneSN.getSn().length() == 0) {
+                    if (tm.getSimSerialNumber() != null) {
+                        phoneSN.setSn(tm.getSimSerialNumber());
+                    } else {
+                        phoneSN.setSn(UUID.randomUUID().toString());
+                    }
+                    phoneSN.save();
+                }
+                application.getSystemUtils().setPhoneSN(phoneSN);
+                application.getSystemUtils().setSn(phoneSN.getSn());
+            } else {
+                if (tm.getSimSerialNumber() != null) {
+                    application.getSystemUtils().setSn(tm.getSimSerialNumber());
+                } else {
+                    application.getSystemUtils().setSn(UUID.randomUUID().toString());
+                }
+                PhoneSN phoneSN = new PhoneSN();
+                phoneSN.setSn(application.getSystemUtils().getSn());
+                phoneSN.save();
+                application.getSystemUtils().setPhoneSN(phoneSN);
+            }
+        }
     }
 }
