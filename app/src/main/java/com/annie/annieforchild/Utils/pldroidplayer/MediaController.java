@@ -69,7 +69,7 @@ public class MediaController extends FrameLayout implements IMediaController {
     private boolean mShowNext;
     private boolean mShowDefi;
 
-    private String definition = "标清";
+    private String definition = "";
 
     private static final int IC_MEDIA_PAUSE_ID = Resources.getSystem().getIdentifier("ic_media_pause", "drawable", "android");
     private static final int IC_MEDIA_PLAY_ID = Resources.getSystem().getIdentifier("ic_media_play", "drawable", "android");

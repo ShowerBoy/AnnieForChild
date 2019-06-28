@@ -80,12 +80,21 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
         dialog = helper.LoadingDialog();
         presenter = new GrindEarPresenterImp(getContext(), this);
         presenter.initViewAndData();
-        presenter.getCardDetail();
+        if (application.getSystemUtils().getTag().equals("游客") || application.getSystemUtils().getChildTag() == 0) {
+
+        } else {
+            presenter.getCardDetail();
+        }
         shareUtils = new ShareUtils(getContext(), this);
         refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getCardDetail();
+                if (application.getSystemUtils().getTag().equals("游客") || application.getSystemUtils().getChildTag() == 0) {
+                    refresh_layout.setRefreshing(false);
+
+                } else {
+                    presenter.getCardDetail();
+                }
             }
         });
     }

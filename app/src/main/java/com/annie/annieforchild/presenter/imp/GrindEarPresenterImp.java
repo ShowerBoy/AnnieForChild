@@ -1528,7 +1528,15 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
             if (viewInfo != null) {
                 viewInfo.showInfo(error + "");
             }
-
+            if (what == MethodCode.EVENT_GETCARDDETAIL) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.DakaFragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = error;
+                EventBus.getDefault().post(message);
+            }
 
         } else if (status == 4) {
             //服务器错误

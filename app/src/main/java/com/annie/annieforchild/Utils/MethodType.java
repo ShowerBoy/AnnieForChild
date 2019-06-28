@@ -126,7 +126,7 @@ public class MethodType {
     final public static String BUYNUM = "buynum"; //
     final public static String BINDWEIXIN = "bindWeixin"; //
     final public static String GETBINDVERIFICATIONCODE = "getBindVerificationCode"; //获取绑定订购学员验证码
-    final public static String BINDSTUDENT = "bindStudent"; //绑定订购学员
+    final public static String BINDSTUDENT = "bindStudent"; //绑定机构学员
     final public static String UPLOADIMGH5 = "uploadimgH5"; //网页上传录音
     final public static String SHOWGIFTS = "showGifts"; //获取网页礼包弹窗
     final public static String CHOOSEGIFT = "chooseGift"; //选择礼包

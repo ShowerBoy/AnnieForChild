@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -191,7 +192,7 @@ public class GuideActivity extends BaseActivity implements LoginView {
                 }
                 application.getSystemUtils().setPhoneSN(list.get(list.size() - 1));
                 application.getSystemUtils().setSn(list.get(list.size() - 1).getSn());
-            }else{
+            } else {
                 if (tm.getSimSerialNumber() != null) {
                     application.getSystemUtils().setSn(tm.getSimSerialNumber());
                 } else {

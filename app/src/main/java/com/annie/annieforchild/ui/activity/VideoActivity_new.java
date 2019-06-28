@@ -488,8 +488,8 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
 
         @Override
         public void onClickDefi() {
-            defiPopup.showAtLocation(topLayout, Gravity.TOP + Gravity.RIGHT, 100, 0);
-            mMediaController.hideMC();
+//            defiPopup.showAtLocation(topLayout, Gravity.TOP + Gravity.RIGHT, 100, 0);
+//            mMediaController.hideMC();
         }
     };
 
@@ -597,7 +597,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
 //                defiPopup.showAsDropDown(definition);
                 break;
             case R.id.p_480:
-                mMediaController.setDefiText("标清");
+//                mMediaController.setDefiText("标清");
                 mVideoView.pause();
                 mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(0).getUrl());
                 mVideoView.start();
@@ -605,7 +605,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 defiPopup.dismiss();
                 break;
             case R.id.p_720:
-                mMediaController.setDefiText("高清");
+//                mMediaController.setDefiText("高清");
                 mVideoView.pause();
                 if (p480.getVisibility() == View.VISIBLE) {
                     mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(1).getUrl());
@@ -617,7 +617,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 defiPopup.dismiss();
                 break;
             case R.id.p_1080:
-                mMediaController.setDefiText("超清");
+//                mMediaController.setDefiText("超清");
                 mVideoView.pause();
                 if (p480.getVisibility() == View.VISIBLE) {
                     if (p720.getVisibility() == View.VISIBLE) {
@@ -642,7 +642,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     videoPos = videoList.size() - 1;
                 }
                 initPopup();
-                mMediaController.setShowDefi(isDefinition);
+//                mMediaController.setShowDefi(isDefinition);
                 mVideoView.setVideoPath(videoPath);
                 clarifyBack.setVisibility(View.GONE);
                 mVideoView.start();
@@ -654,7 +654,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     videoPos = 0;
                 }
                 initPopup();
-                mMediaController.setShowDefi(isDefinition);
+//                mMediaController.setShowDefi(isDefinition);
                 mVideoView.setVideoPath(videoPath);
                 clarifyBack.setVisibility(View.GONE);
                 mVideoView.start();
