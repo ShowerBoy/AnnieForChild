@@ -13,6 +13,7 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.Utils.pldroidplayer.PLVideoViewActivity;
 import com.annie.annieforchild.bean.AnimationData;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.netexpclass.VideoList;
@@ -106,8 +107,11 @@ public class AnimationFragment extends BaseFragment implements SongView {
                 bundle.putInt("videoPos", position - 1);
                 intent.putExtras(bundle);
 
-
-                startActivity(intent);
+                //TODO:
+//                Intent intent = new Intent(getContext(), PLVideoViewActivity.class);
+//                intent.putExtra("videoPath", list.get(0).getUrl());
+//                intent.putExtra("liveStreaming", 1);
+//                startActivity(intent);
             }
 
             @Override

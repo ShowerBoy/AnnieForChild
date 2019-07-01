@@ -78,6 +78,9 @@ public class LoginInteractorImp extends NetWorkImp implements LoginInteractor {
         request.add("versionCode", versionCode);
         request.add("versionName", versionName);
         request.add("type", "android");
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_CHECKUPDATE, request);
 //        startQueue();
     }

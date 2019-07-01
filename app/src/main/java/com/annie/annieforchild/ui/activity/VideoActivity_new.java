@@ -12,15 +12,21 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.os.PowerManager;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -34,6 +40,8 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.pldroidplayer.Config;
 import com.annie.annieforchild.Utils.pldroidplayer.MediaController;
+import com.annie.annieforchild.Utils.pldroidplayer.MediaController;
+import com.annie.annieforchild.Utils.pldroidplayer.MediaController2;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.bean.net.netexpclass.VideoDefiniList;
@@ -53,6 +61,7 @@ import com.pili.pldroid.player.PLOnErrorListener;
 import com.pili.pldroid.player.PLOnInfoListener;
 import com.pili.pldroid.player.PLOnVideoFrameListener;
 import com.pili.pldroid.player.PLOnVideoSizeChangedListener;
+import com.pili.pldroid.player.widget.PLVideoTextureView;
 import com.pili.pldroid.player.widget.PLVideoView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -67,8 +76,9 @@ import java.util.List;
 
 public class VideoActivity_new extends BaseMusicActivity implements SongView, OnCheckDoubleClick {
     String videoPath;
+    private FrameLayout baseFrameLayout;
     private static final String TAG = VideoActivity_new.class.getSimpleName();
-    private LinearLayout clarifyBack, topLayout;
+    private LinearLayout clarifyBack;
     private TextView definition, p480, p720, p1080, last, next;
     private PLVideoView mVideoView;
     private int mDisplayAspectRatio = PLVideoView.ASPECT_RATIO_FIT_PARENT;
@@ -95,10 +105,25 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     private int isWeb; //判断是否是网页视频播放 0:不是 1:是
     Runnable runnable;
     private Intent intent;
+    private int displayWidth = 0, displayHeight = 0;
 
     {
         setRegister(true);
     }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
 
     @Override
     protected int getLayoutId() {
@@ -112,7 +137,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         loadingView = findViewById(R.id.LoadingView);
         definition = findViewById(R.id.definition);
         clarifyBack = findViewById(R.id.clarify_back);
-        topLayout = findViewById(R.id.top_linearLayout);
+        baseFrameLayout = findViewById(R.id.baseFrameLayout);
         next = findViewById(R.id.next);
         last = findViewById(R.id.last);
         definition.setOnClickListener(listener);
@@ -197,6 +222,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
 
         // You can also use a custom `MediaController` widget
         mMediaController = new MediaController(this, true, false, false, false, isDefinition);
+//        mMediaController = new MediaController2(this, false, true);
         mMediaController.setOnClickSpeedAdjustListener(mOnClickSpeedAdjustListener);
         mVideoView.setMediaController(mMediaController);
     }
@@ -524,6 +550,10 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             duration = 0;
             handler.postDelayed(runnable, 1000);
         }
+        Display display = getWindowManager().getDefaultDisplay();
+        displayWidth = display.getWidth();
+        displayHeight = display.getHeight();
+
     }
 
     @Override
@@ -594,7 +624,6 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
             case R.id.definition:
-//                defiPopup.showAsDropDown(definition);
                 break;
             case R.id.p_480:
 //                mMediaController.setDefiText("标清");
@@ -616,6 +645,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 isComplete = false;
                 defiPopup.dismiss();
                 break;
+
             case R.id.p_1080:
 //                mMediaController.setDefiText("超清");
                 mVideoView.pause();
@@ -684,6 +714,24 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         }
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // land do nothing is ok
+//            ViewGroup.LayoutParams params = baseFrameLayout.getLayoutParams();
+//            params.width = displayHeight;
+//            params.height = displayWidth;
+//            baseFrameLayout.setLayoutParams(params);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // port do nothing is ok
+//            ViewGroup.LayoutParams params = baseFrameLayout.getLayoutParams();
+//            params.width = displayWidth;
+//            params.height = displayHeight;
+//            baseFrameLayout.setLayoutParams(params);
+        }
+    }
+
     private void changeWindowConf() {
         Configuration mConfiguration = this.getResources().getConfiguration(); //获取设置的配置信息
         int ori = mConfiguration.orientation; //获取屏幕方向
@@ -693,6 +741,21 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         } else if (ori == mConfiguration.ORIENTATION_PORTRAIT) {
             //竖屏
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//强制为横屏
+        }
+
+//        if (mConfiguration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            mVideoView.setDisplayOrientation(0);
+//        } else if (mConfiguration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            mVideoView.setDisplayOrientation(270);
+//        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (displayWidth == 0 && displayHeight == 0) {
+            displayWidth = baseFrameLayout.getWidth();
+            displayHeight = baseFrameLayout.getHeight();
         }
     }
 }

@@ -862,7 +862,8 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         }
     }
 
-    public void onRecord(String name, int i) {
+    public void
+    onRecord(String name, int i) {
         if (oral == null) {
             oral = new TAIOralEvaluation();
         }
