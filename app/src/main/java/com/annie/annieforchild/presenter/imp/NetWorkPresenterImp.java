@@ -668,7 +668,6 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 if (viewInfo != null) {
                     viewInfo.showInfo(error);
                 }
-
                 JTMessage message = new JTMessage();
                 message.what = MethodCode.EVENT_RELOGIN;
                 message.obj = 1;
@@ -699,7 +698,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
 
         } else if (status == 3) {
             //参数错误
-            viewInfo.showInfo(error);
+                viewInfo.showInfo(error);
             SystemUtils.setDefaltSn(context, application);
         } else if (status == 4) {
             //服务器错误
