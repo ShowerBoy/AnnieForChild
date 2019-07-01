@@ -679,7 +679,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     listener.Success(what, lists);
                 } else if (what == MethodCode.EVENT_GETMYORDERLIST) {
                     List<MyOrder> lists = JSON.parseArray(data, MyOrder.class);
-                    if (lists == null) {
+                    if(lists==null){
                         lists = new ArrayList<>();
                     }
                     listener.Success(what, lists);
@@ -723,7 +723,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     listener.Success(what, everyDetail);
                 }
             } else {
-                listener.Error(what, 3, errorInfo);
+                Log.e("222",jsonString+"");
+                listener.Error(what, errorType, errorInfo);
             }
         }
     }

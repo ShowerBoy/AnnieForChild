@@ -889,7 +889,6 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-//                            songView.showLoad();
 //                            SystemUtils.show(ChallengeActivity.this, "说话结束");
                             isRecording = false;
                             Log.e("说话结束", error.desc + "---" + error.code);
@@ -914,7 +913,12 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                                 BigDecimal bg = new BigDecimal(num / 20);
                                 double num1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 //                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + name + ".mp3", (float) num1, name + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
-                                presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + name + ".mp3", (float) num1, name, record_time, 1, "", imageUrl, 0, homeworkid, homeworktype);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + name + ".mp3", (float) num1, name, record_time, 1, "", imageUrl, 0, homeworkid, homeworktype);
+                                    }
+                                }, 1000);
                                 Log.e("说话结束2", result.pronAccuracy + "");
                             }else{
 //                                if(error.code==3){
