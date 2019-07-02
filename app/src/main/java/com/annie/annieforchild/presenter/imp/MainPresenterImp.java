@@ -213,7 +213,7 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
             //获取验证码失败
 
         } else if (status == 7) {
-            mainView.showInfo(error);
+            Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             /**
              * {@link com.annie.annieforchild.ui.fragment.FirstFragment#onMainEventThread(JTMessage)}
              */

@@ -189,7 +189,7 @@ public class CollectionPresenterImp extends BasePresenterImp implements Collecti
 
         } else if (status == 3) {
             //参数错误
-            collectionView.showInfo(error + "");
+            Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             SystemUtils.setDefaltSn(context, application);
         } else if (status == 4) {
             //服务器错误
@@ -202,7 +202,7 @@ public class CollectionPresenterImp extends BasePresenterImp implements Collecti
 
         } else if (status == 7) {
             //通用错误
-
+            Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
         }
     }
 

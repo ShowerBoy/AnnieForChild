@@ -89,7 +89,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         }
         presenter = new FourthPresenterImp(getContext(), this, tag);
         presenter.initViewAndData(0);
-        if (tag.equals("游客")) {
+        if (tag.equals("游客") || application.getSystemUtils().getChildTag() == 0) {
 
         } else {
             presenter.getUserInfo();
@@ -97,7 +97,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (tag.equals("游客")) {
+                if (tag.equals("游客") || application.getSystemUtils().getChildTag() == 0) {
                     swipeRefreshLayout.setRefreshing(false);
                 } else {
                     presenter.getUserInfo();

@@ -7,6 +7,7 @@ package com.annie.annieforchild.Utils;
 public class MethodCode {
     final public static String VERSION = "v1/";
     final public static String SYSTEMAPI = "System/";
+    final public static String SYSTEMTEST = "SystemTest/";
     final public static String HOMEPAGEAPI = "Homepage/";
     final public static String PERSONAPI = "Person/";
     final public static String PERSONAPI2 = "PersonApi/";

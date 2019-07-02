@@ -166,7 +166,6 @@
         <activity
             android:name=".ui.activity.VideoActivity_new"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
             android:theme="@style/AppThemeFullscreen"></activity>
         <activity
             android:name=".Utils.pldroidplayer.PLVideoViewActivity"

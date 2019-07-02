@@ -302,30 +302,6 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity {
             mVideoView.setPlaySpeed(0X00010002);
         }
 
-        @Override
-        public void onClickPrev() {
-
-        }
-
-        @Override
-        public void onClickNext() {
-
-        }
-
-        @Override
-        public void onClickBack() {
-
-        }
-
-        @Override
-        public void onClickMenu() {
-
-        }
-
-        @Override
-        public void onClickDefi() {
-
-        }
     };
 
     private String bytesToHex(byte[] bytes) {

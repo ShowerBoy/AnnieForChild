@@ -313,8 +313,10 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                     bundle.putInt("audioSource", collectList.get(musicPosition).getAudioSource());
                     bundle.putInt("collectType", 1);
                     intent1.putExtras(bundle);
+                    startActivity(intent1);
+                } else {
+                    showInfo("暂无收藏");
                 }
-                startActivity(intent1);
             } else {
                 showInfo("暂无收藏");
             }

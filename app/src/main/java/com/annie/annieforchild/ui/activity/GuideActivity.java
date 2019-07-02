@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
@@ -158,42 +159,10 @@ public class GuideActivity extends BaseActivity implements LoginView {
         presenter.initViewAndData();
         calendar = Calendar.getInstance();
         db = LitePal.getDatabase();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            MPermissions.requestPermissions(this, 2, new String[]{
-                    Manifest.permission.READ_PHONE_STATE
-            });
-        } else {
-            doit();
-        }
+        doit();
     }
 
-    @SuppressLint("MissingPermission")
     private void doit() {
-        List<PhoneSN> list = LitePal.findAll(PhoneSN.class);
-        if (list != null && list.size() != 0) {
-            PhoneSN phoneSN = list.get(list.size() - 1);
-            if (phoneSN.getSn() == null) {
-                if (tm.getSimSerialNumber() != null) {
-                    phoneSN.setSn(tm.getSimSerialNumber());
-                } else {
-                    phoneSN.setSn(UUID.randomUUID().toString());
-                }
-                phoneSN.save();
-            }
-            application.getSystemUtils().setPhoneSN(phoneSN);
-            application.getSystemUtils().setSn(phoneSN.getSn());
-        } else {
-            PhoneSN phoneSN = new PhoneSN();
-            if (tm.getSimSerialNumber() != null) {
-                phoneSN.setSn(tm.getSimSerialNumber());
-            } else {
-                phoneSN.setSn(UUID.randomUUID().toString());
-            }
-            phoneSN.save();
-            application.getSystemUtils().setPhoneSN(phoneSN);
-            application.getSystemUtils().setSn(phoneSN.getSn());
-        }
-
          /*sharepreference设置多进程访问*/
         preferences = getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
         editor = preferences.edit();
@@ -213,16 +182,6 @@ public class GuideActivity extends BaseActivity implements LoginView {
         timer.schedule(task, 2 * 1000);
     }
 
-    @PermissionGrant(2)
-    public void requsetSuccess() {
-        doit();
-    }
-
-    @PermissionDenied(2)
-    public void requestDenied() {
-        Toast.makeText(this, "缺少权限!", Toast.LENGTH_SHORT).show();
-        doit();
-    }
 
     @SuppressLint("MissingPermission")
     private void signin() {

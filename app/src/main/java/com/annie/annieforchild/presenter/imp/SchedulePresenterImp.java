@@ -329,7 +329,7 @@ public class SchedulePresenterImp extends BasePresenterImp implements SchedulePr
             //获取验证码失败
 
         } else if (status == 7) {
-            scheduleView.showInfo(error);
+            Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
         }
     }
 

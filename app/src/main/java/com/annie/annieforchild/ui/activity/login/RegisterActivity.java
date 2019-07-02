@@ -1,9 +1,12 @@
 package com.annie.annieforchild.ui.activity.login;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -28,6 +32,8 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
+import com.annie.annieforchild.bean.login.PhoneSN;
+import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.RegisterPresenter;
 import com.annie.annieforchild.presenter.imp.RegisterPresenterImp;
 import com.annie.annieforchild.ui.activity.child.AddChildActivity;
@@ -42,6 +48,10 @@ import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.litepal.LitePal;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  * 注册
@@ -59,6 +69,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
     private Dialog dialog;
     private String phone;
     private boolean isClick = false;
+    private TelephonyManager tm;
+    private SQLiteDatabase db;
     private CheckDoubleClickListener listener;
 
     {
@@ -121,6 +133,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
 
     @Override
     protected void initData() {
+        tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         presenter = new RegisterPresenterImp(this, this);
         presenter.initViewAndData();
         countDownTimer = new CountDownTimer(60 * 1000, 1000) {
@@ -137,6 +150,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
                 getTestCode.setClickable(true);
             }
         };
+        db = LitePal.getDatabase();
     }
 
     @Override
@@ -260,6 +274,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
                             startActivity(localIntent);
                         }
                     } else {
+                        doit();
                         presenter.register(phone_number.getText().toString(), test_code.getText().toString(), password.getText().toString());
                     }
                 }
@@ -267,6 +282,34 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
             case R.id.register_back:
                 finish();
                 break;
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void doit() {
+        List<PhoneSN> list = LitePal.findAll(PhoneSN.class);
+        if (list != null && list.size() != 0) {
+            PhoneSN phoneSN = list.get(list.size() - 1);
+            if (phoneSN.getSn() == null) {
+                if (tm.getSimSerialNumber() != null) {
+                    phoneSN.setSn(tm.getSimSerialNumber());
+                } else {
+                    phoneSN.setSn(UUID.randomUUID().toString());
+                }
+                phoneSN.save();
+            }
+            application.getSystemUtils().setPhoneSN(phoneSN);
+            application.getSystemUtils().setSn(phoneSN.getSn());
+        } else {
+            PhoneSN phoneSN = new PhoneSN();
+            if (tm.getSimSerialNumber() != null) {
+                phoneSN.setSn(tm.getSimSerialNumber());
+            } else {
+                phoneSN.setSn(UUID.randomUUID().toString());
+            }
+            phoneSN.save();
+            application.getSystemUtils().setPhoneSN(phoneSN);
+            application.getSystemUtils().setSn(phoneSN.getSn());
         }
     }
 
@@ -278,10 +321,20 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
 
     @PermissionGrant(3)
     public void requsetSuccess() {
+        doit();
+        presenter.register(phone_number.getText().toString(), test_code.getText().toString(), password.getText().toString());
     }
 
     @PermissionDenied(3)
     public void requestDenied() {
         Toast.makeText(this, "缺少权限！", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (db != null) {
+            db.close();
+        }
     }
 }

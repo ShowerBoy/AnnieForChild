@@ -698,7 +698,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
 
         } else if (status == 3) {
             //参数错误
-                viewInfo.showInfo(error);
+            Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             SystemUtils.setDefaltSn(context, application);
         } else if (status == 4) {
             //服务器错误
@@ -711,9 +711,9 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
 
         } else if (status == 7) {
             if (what == MethodCode.EVENT_CANCELORDER + 100000 + tag) {
-                viewInfo.showInfo(error);
+                Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             } else if (what == MethodCode.EVENT_BUYNETWORK) {
-                viewInfo.showInfo(error);
+                Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             }
         }
 

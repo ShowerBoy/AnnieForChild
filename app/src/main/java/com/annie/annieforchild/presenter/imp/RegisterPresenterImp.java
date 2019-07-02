@@ -215,13 +215,13 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
                 message.obj = error;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_RGISTER) {
-                registerView.showInfo(error);
+                Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             } else if (what == MethodCode.EVENT_BINDSTUDENT) {
-                registerView.showInfo(error);
+                Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             } else if (what == MethodCode.EVENT_GETBINDVERIFICATIONCODE) {
-                registerView.showInfo(error);
+                Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             } else if (what == MethodCode.EVENT_CHANGEPHONE) {
-                registerView.showInfo(error);
+                Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             }
         }
 

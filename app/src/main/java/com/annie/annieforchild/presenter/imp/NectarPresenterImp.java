@@ -106,6 +106,7 @@ public class NectarPresenterImp extends BasePresenterImp implements NectarPresen
 
         } else if (status == 3) {
             //参数错误
+            Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             SystemUtils.setDefaltSn(context, application);
         } else if (status == 4) {
             //服务器错误
@@ -117,7 +118,7 @@ public class NectarPresenterImp extends BasePresenterImp implements NectarPresen
             //获取验证码失败
 
         } else if (status == 7) {
-            viewInfo.showInfo(error);
+            Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
         }
     }
 

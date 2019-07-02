@@ -27,9 +27,9 @@ import com.pili.pldroid.player.IMediaController;
 import java.util.Locale;
 
 /**
- * Created by wanglei on 2019/6/30.
+ * You can write a custom MediaController instead of this class
+ * A MediaController widget must implement all the interface defined by com.pili.pldroid.player.IMediaController
  */
-
 public class MediaController2 extends FrameLayout implements IMediaController {
 
     private static final String TAG = "PLMediaController";
@@ -79,20 +79,8 @@ public class MediaController2 extends FrameLayout implements IMediaController {
 
     public interface OnClickSpeedAdjustListener {
         void onClickNormal();
-
         void onClickFaster();
-
         void onClickSlower();
-
-        void onClickPrev();
-
-        void onClickNext();
-
-        void onClickBack();
-
-        void onClickMenu();
-
-        void onClickDefi();
     }
 
     public MediaController2(Context context, AttributeSet attrs) {
@@ -211,7 +199,8 @@ public class MediaController2 extends FrameLayout implements IMediaController {
     /**
      * Control the action when the seekbar dragged by user
      *
-     * @param seekWhenDragging True the media will seek periodically
+     * @param seekWhenDragging
+     * True the media will seek periodically
      */
     public void setInstantSeeking(boolean seekWhenDragging) {
         mInstantSeeking = seekWhenDragging;
@@ -229,15 +218,17 @@ public class MediaController2 extends FrameLayout implements IMediaController {
      * <p>
      * Change the animation style resource for this controller.
      * </p>
-     * <p>
+     *
      * <p>
      * If the controller is showing, calling this method will take effect only
      * the next time the controller is shown.
      * </p>
      *
-     * @param animationStyle animation style to use when the controller appears and disappears.
-     *                       Set to -1 for the default animation, 0 for no animation,
-     *                       or a resource identifier for an explicit animation.
+     * @param animationStyle
+     * animation style to use when the controller appears and disappears.
+     * Set to -1 for the default animation, 0 for no animation,
+     * or a resource identifier for an explicit animation.
+     *
      */
     public void setAnimationStyle(int animationStyle) {
         mAnimStyle = animationStyle;
@@ -464,11 +455,12 @@ public class MediaController2 extends FrameLayout implements IMediaController {
 
     /**
      * Set the view that acts as the anchor for the control view.
-     * <p>
+     *
      * - This can for example be a VideoView, or your Activity's main view.
      * - AudioPlayer has no anchor view, so the view parameter will be null.
      *
-     * @param view The view to which to anchor the controller when it is visible.
+     * @param view
+     * The view to which to anchor the controller when it is visible.
      */
     @Override
     public void setAnchorView(View view) {
@@ -501,7 +493,8 @@ public class MediaController2 extends FrameLayout implements IMediaController {
      * Show the controller on screen. It will go away automatically after
      * 'timeout' milliseconds of inactivity.
      *
-     * @param timeout The timeout in milliseconds. Use 0 to show the controller until hide() is called.
+     * @param timeout
+     * The timeout in milliseconds. Use 0 to show the controller until hide() is called.
      */
     @Override
     public void show(int timeout) {
@@ -605,5 +598,4 @@ public class MediaController2 extends FrameLayout implements IMediaController {
     public long getSeekPosition() {
         return mSeekPosition;
     }
-
 }

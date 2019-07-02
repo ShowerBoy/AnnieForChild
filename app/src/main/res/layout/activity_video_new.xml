@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:id="@+id/LoadingView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
@@ -34,7 +34,7 @@
         android:layout_gravity="top|right"
         android:layout_margin="12dp"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/definition"
@@ -57,27 +57,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|left"
-        android:layout_margin="12dp"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#00000000"
-            android:onClick="onClickBack"
-            android:src="@drawable/ic_back_screen" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/clarify_back"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:background="@color/clarity_gray"
         android:gravity="center"
         android:orientation="horizontal"

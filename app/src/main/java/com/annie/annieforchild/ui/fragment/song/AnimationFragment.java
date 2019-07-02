@@ -111,7 +111,7 @@ public class AnimationFragment extends BaseFragment implements SongView {
 //                Intent intent = new Intent(getContext(), PLVideoViewActivity.class);
 //                intent.putExtra("videoPath", list.get(0).getUrl());
 //                intent.putExtra("liveStreaming", 1);
-//                startActivity(intent);
+                startActivity(intent);
             }
 
             @Override

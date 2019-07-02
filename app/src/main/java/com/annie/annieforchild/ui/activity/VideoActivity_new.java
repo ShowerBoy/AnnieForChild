@@ -25,11 +25,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -105,7 +107,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     private int isWeb; //判断是否是网页视频播放 0:不是 1:是
     Runnable runnable;
     private Intent intent;
-    private int displayWidth = 0, displayHeight = 0;
+    private int displayWidth = 0, displayHeight = 0, plVideoWidth = 0, plVideoHeight = 0;
 
     {
         setRegister(true);
@@ -234,7 +236,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             return;
         }
         videoPath = videoList.get(videoPos).getPath().get(0).getUrl();
-        definition.setVisibility(View.VISIBLE);
+//        definition.setVisibility(View.VISIBLE);
         defiPopup = new PopupWindow(this);
         defiPopupView = LayoutInflater.from(this).inflate(R.layout.activity_difi_popup, null, false);
         defiPopup.setContentView(defiPopupView);
@@ -260,14 +262,13 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 p1080.setVisibility(View.VISIBLE);
             }
         }
-        if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
-            definition.setText("标清");
-        } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
-            definition.setText("高清");
-        } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
-            definition.setText("超清");
-        }
-
+//        if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
+//            definition.setText("标清");
+//        } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
+//            definition.setText("高清");
+//        } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
+//            definition.setText("超清");
+//        }
 
     }
 
@@ -299,10 +300,6 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             default:
                 break;
         }
-    }
-
-    public void onClickBack(View v) {
-        finish();
     }
 
     @Subscribe
@@ -484,12 +481,14 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         public void onClickFaster() {
             // 0x0002/0x0001 = 2
             mVideoView.setPlaySpeed(0X00020001);
+            Toast.makeText(VideoActivity_new.this, "2倍速播放", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onClickSlower() {
             // 0x0001/0x0002 = 0.5
             mVideoView.setPlaySpeed(0X00010002);
+            Toast.makeText(VideoActivity_new.this, "0.5倍速播放", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -550,10 +549,6 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             duration = 0;
             handler.postDelayed(runnable, 1000);
         }
-        Display display = getWindowManager().getDefaultDisplay();
-        displayWidth = display.getWidth();
-        displayHeight = display.getHeight();
-
     }
 
     @Override
@@ -716,20 +711,21 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // land do nothing is ok
-//            ViewGroup.LayoutParams params = baseFrameLayout.getLayoutParams();
-//            params.width = displayHeight;
-//            params.height = displayWidth;
-//            baseFrameLayout.setLayoutParams(params);
+//            displayWidth = baseFrameLayout.getWidth();
+//            displayHeight = baseFrameLayout.getHeight();
+//            plVideoWidth = mVideoView.getWidth();
+//            plVideoHeight = mVideoView.getHeight();
+
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // port do nothing is ok
-//            ViewGroup.LayoutParams params = baseFrameLayout.getLayoutParams();
-//            params.width = displayWidth;
-//            params.height = displayHeight;
-//            baseFrameLayout.setLayoutParams(params);
+//            displayWidth = baseFrameLayout.getWidth();
+//            displayHeight = baseFrameLayout.getHeight();
+//            plVideoWidth = mVideoView.getWidth();
+//            plVideoHeight = mVideoView.getHeight();
         }
+
+        super.onConfigurationChanged(newConfig);
     }
 
     private void changeWindowConf() {
@@ -753,9 +749,27 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (displayWidth == 0 && displayHeight == 0) {
-            displayWidth = baseFrameLayout.getWidth();
-            displayHeight = baseFrameLayout.getHeight();
-        }
+//        if (displayWidth == 0 && displayHeight == 0) {
+//            displayWidth = baseFrameLayout.getWidth();
+//            displayHeight = baseFrameLayout.getHeight();
+//        } else {
+//            if (baseFrameLayout.getWidth() != displayWidth) {
+//                displayWidth = baseFrameLayout.getWidth();
+//            }
+//            if (baseFrameLayout.getHeight() != displayHeight) {
+//                displayHeight = baseFrameLayout.getHeight();
+//            }
+//        }
+//        if (plVideoWidth == 0 && plVideoHeight == 0) {
+//            plVideoWidth = mVideoView.getWidth();
+//            plVideoHeight = mVideoView.getHeight();
+//        } else {
+//            if (mVideoView.getWidth() != plVideoWidth) {
+//                plVideoWidth = mVideoView.getWidth();
+//            }
+//            if (mVideoView.getHeight() != plVideoHeight) {
+//                plVideoHeight = mVideoView.getHeight();
+//            }
+//        }
     }
 }

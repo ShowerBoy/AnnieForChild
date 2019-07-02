@@ -195,7 +195,7 @@ public class ChildPresenterImp extends BasePresenterImp implements ChildPresente
 
         } else if (status == 7) {
             //通用错误
-            viewInfo.showInfo(error);
+            Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             /**
              * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
              *  {@link com.annie.annieforchild.ui.activity.child.ModifyChildActivity#onMainEventThread(JTMessage)}

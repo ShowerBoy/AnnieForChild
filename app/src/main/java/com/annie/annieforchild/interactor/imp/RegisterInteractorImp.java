@@ -42,11 +42,14 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
 
     @Override
     public void register(String phone, String code, String password, String serialNumber) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.REGISTER, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMTEST + MethodType.REGISTER, RequestMethod.POST);
         request.add("phone", phone);
         request.add("code", code);
         request.add("password", password);
         request.add("serialNumber", serialNumber);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_RGISTER, request);
 //        startQueue();
     }
@@ -72,6 +75,9 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
         request.add("code", code);
         request.add("password", password);
         request.add("serialNumber", serialNumber);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_RESETPASSWORD, request);
 //        startQueue();
     }
@@ -80,6 +86,9 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
     public void getBindVerificationCode(String username) {
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.GETBINDVERIFICATIONCODE, RequestMethod.POST);
         request.add("username", username);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_GETBINDVERIFICATIONCODE, request);
     }
 

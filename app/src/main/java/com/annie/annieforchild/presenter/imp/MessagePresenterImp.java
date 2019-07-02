@@ -228,7 +228,7 @@ public class MessagePresenterImp extends BasePresenterImp implements MessagePres
             //获取验证码失败
 
         } else if (status == 7) {
-            viewInfo.showInfo(error);
+            Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
         }
     }
 
