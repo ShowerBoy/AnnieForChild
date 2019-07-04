@@ -1536,6 +1536,7 @@ public class SystemUtils {
             //通过创建对应路径的下是否有相应的文件夹。
             File dir = new File(filePath);
             if (!dir.exists()) {// 判断文件目录是否存在
+
                 //如果文件存在则删除已存在的文件夹。
                 dir.mkdirs();
             }

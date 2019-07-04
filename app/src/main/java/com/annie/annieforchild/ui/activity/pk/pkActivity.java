@@ -885,8 +885,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
             oral.setListener(new TAIOralEvaluationListener() {
                 @Override
                 public void onEvaluationData(final TAIOralEvaluationData data, final TAIOralEvaluationRet result, final TAIError error) {
-                    if (SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/", name + ".mp3")
-                    ) {
+                    if (SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/", name + ".mp3")) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -903,14 +902,14 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                                     lists.get(i - 1).setScoreShow(true);
                                     adapter.notifyDataSetChanged();
 //                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + name + ".mp3", (float) num1, name + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".mp3", (float) num1, fileName, record_time, 2, "", imageUrl, 0, homeworkid, homeworktype);
-                                    }
-                                }, 1500);
-                                Log.e("说话结束2", result.pronAccuracy + "");
-                            }else{
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".mp3", (float) num1, fileName, record_time, 2, "", imageUrl, 0, homeworkid, homeworktype);
+                                        }
+                                    }, 1500);
+                                    Log.e("说话结束2", result.pronAccuracy + "");
+                                } else {
 //                                if(error.code==3){
                                     SystemUtils.show(pkActivity.this, "上传失败，请稍后再试");
 //                                }
@@ -918,7 +917,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                                 }
                             }
                         });
-                    }else{
+                    } else {
                         SystemUtils.show(pkActivity.this, "录音保存失败！");
                     }
 
