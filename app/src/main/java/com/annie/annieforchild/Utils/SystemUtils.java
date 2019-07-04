@@ -1524,7 +1524,7 @@ public class SystemUtils {
      *参数二、文件要保存的路径
      *参数三、文件保存的名字
      */
-    public static void saveFile(byte[] bfile, String filePath, String fileName) {
+    public static boolean saveFile(byte[] bfile, String filePath, String fileName) {
         BufferedOutputStream bos = null;
         FileOutputStream fos = null;
 
@@ -1563,6 +1563,7 @@ public class SystemUtils {
                     e1.printStackTrace();
                 }
             }
+            return true;
         }
     }
 

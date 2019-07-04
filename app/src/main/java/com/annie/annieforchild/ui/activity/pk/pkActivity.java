@@ -861,6 +861,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                 break;
         }
     }
+
     public void onRecord(String name, int i) {
         if (oral == null) {
             oral = new TAIOralEvaluation();
@@ -884,38 +885,36 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
             oral.setListener(new TAIOralEvaluationListener() {
                 @Override
                 public void onEvaluationData(final TAIOralEvaluationData data, final TAIOralEvaluationRet result, final TAIError error) {
-                    SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/", name + ".mp3");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                    if (SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/", name + ".mp3")
+                    ) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
 
-                            if (error.code != TAIErrCode.SUCC) {
+                                if (error.code != TAIErrCode.SUCC) {
 //                                SystemUtils.show(ChallengeActivity.this, "说话结束");
-                            }
-                            oral = null;
-                            if(result!=null) {
-                                double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
-                                BigDecimal bg = new BigDecimal(num / 20);
-                                double num1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                lists.get(i - 1).setScore((float) num1);
-                                lists.get(i - 1).setScoreShow(true);
-                                adapter.notifyDataSetChanged();
+                                }
+                                oral = null;
+                                if (result != null) {
+                                    double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
+                                    BigDecimal bg = new BigDecimal(num / 20);
+                                    double num1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                    lists.get(i - 1).setScore((float) num1);
+                                    lists.get(i - 1).setScoreShow(true);
+                                    adapter.notifyDataSetChanged();
 //                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + name + ".mp3", (float) num1, name + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".mp3", (float) num1, fileName, record_time, 2, "", imageUrl, 0, homeworkid, homeworktype);
-                                    }
-                                }, 1000);
-                                Log.e("说话结束2", result.pronAccuracy + "");
-                            }else{
+                                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".mp3", (float) num1, fileName, record_time, 2, "", imageUrl, 0, homeworkid, homeworktype);
+                                    Log.e("说话结束2", result.pronAccuracy + "");
+                                } else {
 //                                if(error.code==3){
                                     SystemUtils.show(pkActivity.this, "上传失败，请稍后再试");
 //                                }
-                                dismissLoad();
+                                    dismissLoad();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+
                 }
             });
 

@@ -309,40 +309,38 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
             oral.setListener(new TAIOralEvaluationListener() {
                 @Override
                 public void onEvaluationData(final TAIOralEvaluationData data, final TAIOralEvaluationRet result, final TAIError error) {
-                    SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/", fileName + ".mp3");
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (error.code != TAIErrCode.SUCC) {
+                    if (SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/", fileName + ".mp3")
+                    ) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (error.code != TAIErrCode.SUCC) {
 //                                SystemUtils.show(context, "说话结束");
-                            }
-                            isRecording = false;
-                            isClick = true;
-                            oral = null;
-                            Log.e("口语评测", result + "///" + error.desc);
-                            ExerciseActivity2.viewPager.setNoFocus(false);
-                            viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
-                            if (result != null) {
-                                double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
-                                BigDecimal bg = new BigDecimal(num / 20);
-                                double num1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                lists.get(i).setScore((float) num1);
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
-                                    }
-                                }, 1000);
-                                Log.e("说话结束2", result.pronAccuracy + "");
+                                }
+                                isRecording = false;
+                                isClick = true;
+                                oral = null;
+                                Log.e("口语评测", result + "///" + error.desc);
+                                ExerciseActivity2.viewPager.setNoFocus(false);
+                                viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
+                                if (result != null) {
+                                    double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
+                                    BigDecimal bg = new BigDecimal(num / 20);
+                                    double num1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                    lists.get(i).setScore((float) num1);
+                                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
+                                    Log.e("说话结束2", result.pronAccuracy + "");
 //                                notifyDataSetChanged();
-                            } else {
-                                songView.dismissLoad();
+                                } else {
+                                    songView.dismissLoad();
 //                                if(error.code==3){
-                                SystemUtils.show(context, "上传失败，请稍后再试");
+                                    SystemUtils.show(context, "上传失败，请稍后再试");
 //                                }
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+
                 }
             });
 

@@ -1033,34 +1033,30 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
             oral.setListener(new TAIOralEvaluationListener() {
                 @Override
                 public void onEvaluationData(final TAIOralEvaluationData data, final TAIOralEvaluationRet result, final TAIError error) {
-                    SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath, msg + ".mp3");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (error.code != TAIErrCode.SUCC) {
+                    if(SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath, msg + ".mp3")){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (error.code != TAIErrCode.SUCC) {
 //                                SystemUtils.show(context, "说话结束");
-                            }
-                            oral = null;
-                            Log.e("口语评测", result + "///" + error.desc);
-                            if (result != null) {
-                                double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
-                                BigDecimal bg = new BigDecimal(num / 20);
-                                grade = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        presenter.uploadimgH5(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + msg + ".mp3", "");
-                                    }
-                                }, 1000);
+                                }
+                                oral = null;
+                                Log.e("口语评测", result + "///" + error.desc);
+                                if (result != null) {
+                                    double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
+                                    BigDecimal bg = new BigDecimal(num / 20);
+                                    grade = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                            presenter.uploadimgH5(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + msg + ".mp3", "");
 //                                notifyDataSetChanged();
-                            } else {
-                                Log.e("eee", error.code + "");
+                                } else {
 //                                if(error.code==3){
-                                SystemUtils.show(WebActivity.this, "上传失败，请稍后再试");
+                                    SystemUtils.show(WebActivity.this, "上传失败，请稍后再试");
 //                                }
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+
                 }
             });
 
