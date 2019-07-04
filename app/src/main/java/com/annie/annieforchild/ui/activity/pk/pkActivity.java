@@ -906,7 +906,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                                     public void run() {
                                         presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".mp3", (float) num1, fileName, record_time, 2, "", imageUrl, 0, homeworkid, homeworktype);
                                     }
-                                }, 1000);
+                                }, 1500);
                                 Log.e("说话结束2", result.pronAccuracy + "");
                             }else{
 //                                if(error.code==3){

@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
@@ -51,7 +52,8 @@ import java.lang.invoke.MethodHandle;
 public class VideoActivity extends BaseActivity implements SongView, OnCheckDoubleClick {
     private UniversalVideoView videoView;
     private UniversalMediaController mediaController;
-    private RelativeLayout topLayout;
+    //    private RelativeLayout topLayout;
+    private ImageButton videoBack;
     private Intent intent;
     private String url, imageUrl, name, classcode;
     private int id, duration, isFinish, position;
@@ -60,7 +62,6 @@ public class VideoActivity extends BaseActivity implements SongView, OnCheckDoub
     private Handler handler = new Handler();
     private AlertHelper helper;
     private Dialog dialog;
-    private ImageView back;
     private String netid, stageid, unitid, chaptercontentid;
     private boolean isTime = false; //是否计时
     private CheckDoubleClickListener listener;
@@ -79,19 +80,21 @@ public class VideoActivity extends BaseActivity implements SongView, OnCheckDoub
     protected void initView() {
         listener = new CheckDoubleClickListener(this);
         videoView = findViewById(R.id.unVideoView);
-        back = findViewById(R.id.video_back);
-        topLayout = findViewById(R.id.video_top_layout);
+        videoBack = findViewById(R.id.video_back);
+//        topLayout = findViewById(R.id.video_top_layout);
         mediaController = findViewById(R.id.unMediaController);
-        back.setOnClickListener(listener);
+        videoBack.setOnClickListener(listener);
         videoView.setMediaController(mediaController);
         videoView.setVideoViewCallback(new UniversalVideoView.VideoViewCallback() {
             @Override
             public void onScaleChange(boolean isFullscreen) {
 //                this.isFullscreen = isFullscreen;
                 if (isFullscreen) {
-                    topLayout.setVisibility(View.GONE);
+                    videoBack.setVisibility(View.GONE);
+//                    topLayout.setVisibility(View.GONE);
                 } else {
-                    topLayout.setVisibility(View.VISIBLE);
+                    videoBack.setVisibility(View.VISIBLE);
+//                    topLayout.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -119,9 +122,6 @@ public class VideoActivity extends BaseActivity implements SongView, OnCheckDoub
     protected void initData() {
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
-        if (MusicService.isPlay) {
-            MusicService.stop();
-        }
         presenter = new GrindEarPresenterImp(this, this);
         presenter2 = new NetWorkPresenterImp(this, this);
         presenter.initViewAndData();

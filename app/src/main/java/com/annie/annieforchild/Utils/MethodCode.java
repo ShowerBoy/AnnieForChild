@@ -84,6 +84,8 @@ public class MethodCode {
     final public static int EVENT_CHANGEPHONE = 14; //修改手机号
     final public static int EVENT_GETNECTAR = 15; //我的花蜜
     final public static int EVENT_CHECKUPDATE = 16; //检测更新
+
+
     final public static int EVENT_UPLOADAVATAR = 17; //上传头像
     final public static int EVENT_SETDEFAULEUSER = 18; //设置默认学员
     final public static int EVENT_GETMYMESSAGES = 19; //获取通知和群消息

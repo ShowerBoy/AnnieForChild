@@ -42,7 +42,7 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
 
     @Override
     public void register(String phone, String code, String password, String serialNumber) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMTEST + MethodType.REGISTER, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.SYSTEMAPI + MethodType.REGISTER, RequestMethod.POST);
         request.add("phone", phone);
         request.add("code", code);
         request.add("password", password);

@@ -316,6 +316,12 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    if (url.contains("tel:")) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(url));
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        return true;
+                    }
                     Map<String, String> header = new HashMap<String, String>();
                     header.put("username", "anniekids");
                     view.loadUrl(url, header);
@@ -1051,7 +1057,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
                                     public void run() {
                                         presenter.uploadimgH5(Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + msg + ".mp3", "");
                                     }
-                                }, 1000);
+                                }, 1500);
 //                                notifyDataSetChanged();
                             } else {
                                 Log.e("eee", error.code + "");

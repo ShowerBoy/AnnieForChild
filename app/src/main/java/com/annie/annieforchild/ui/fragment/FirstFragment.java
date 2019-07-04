@@ -19,6 +19,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
@@ -53,11 +55,18 @@ import com.annie.annieforchild.ui.activity.speaking.SpeakingActivity;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.MainView;
 import com.annie.baselibrary.base.BaseFragment;
+import com.annie.baselibrary.utils.NetUtils.NoHttpUtils;
 import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.RequestQueue;
+import com.yanzhenjie.nohttp.rest.Response;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
@@ -635,7 +644,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
-                //正式
+//                正式
                 SystemUtils.MusicType = 0;
                 Intent intent1 = new Intent(getContext(), MusicPlayActivity2.class);
                 startActivity(intent1);
@@ -643,10 +652,38 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 //                SystemUtils.setBackGray(getActivity(), true);
 //                application.getSystemUtils().getNetWorkGift(getContext()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
 
-//                Intent intent1 = new Intent(getContext(), WebActivity.class);
-//                intent1.putExtra("url", "http://study.anniekids.org/a-temporary/test/index.html");
-//                intent1.putExtra("title", "");
-//                startActivity(intent1);
+
+//                Request<String> request = NoHttp.createStringRequest("https://testapici.anniekids.com/Api/v1/Test/test1", RequestMethod.POST);
+//                request.add("active", "get");
+//                RequestQueue requestQueue = NoHttp.newRequestQueue();
+//                requestQueue.add(0, request, new OnResponseListener<String>() {
+//                    @Override
+//                    public void onStart(int i) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onSucceed(int i, Response<String> response) {
+//                        String jsonString = response.get().toString();
+//                        JSONObject jsonObject = JSON.parseObject(jsonString);
+//                        JSONObject data = jsonObject.getJSONObject(MethodCode.DATA);
+//                        Intent intent1 = new Intent(getContext(), WebActivity.class);
+//                        intent1.putExtra("url", data.getString("msg"));
+//                        intent1.putExtra("title", "");
+//                        startActivity(intent1);
+//                    }
+//
+//                    @Override
+//                    public void onFailed(int i, Response<String> response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFinish(int i) {
+//
+//                    }
+//                });
+
 
 //                Intent intent1 = new Intent(getContext(), CalendarActivity.class);
 //                startActivity(intent1);

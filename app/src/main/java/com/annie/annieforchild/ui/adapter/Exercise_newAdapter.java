@@ -332,7 +332,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                                     public void run() {
                                         presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
                                     }
-                                }, 1000);
+                                }, 1500);
                                 Log.e("说话结束2", result.pronAccuracy + "");
 //                                notifyDataSetChanged();
                             } else {

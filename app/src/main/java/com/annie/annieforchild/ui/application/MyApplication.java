@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.application;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.SSLCertificateSocketFactory;
 import android.net.wifi.aware.AttachCallback;
@@ -117,6 +118,12 @@ public class MyApplication extends LitePalApplication {
             getApplicationContext().startForegroundService(new Intent(this, MusicService2.class));
         } else {
             getApplicationContext().startService(new Intent(this, MusicService2.class));
+        }
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
+            SystemUtils.isOreo = true;
+        } else {
+            SystemUtils.isOreo = false;
         }
     }
 

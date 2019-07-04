@@ -68,6 +68,7 @@ public class MediaController extends FrameLayout implements IMediaController {
     private boolean mShowPrev;
     private boolean mShowNext;
     private boolean mShowDefi;
+    private boolean mShowMenu;
 
     private String definition = "";
 
@@ -121,13 +122,14 @@ public class MediaController extends FrameLayout implements IMediaController {
             initFloatingWindow();
     }
 
-    public MediaController(Context context, boolean useFastForward, boolean disableProgressBar, boolean showPrev, boolean showNext, boolean showDefi) {
+    public MediaController(Context context, boolean useFastForward, boolean disableProgressBar, boolean showPrev, boolean showNext, boolean showDefi, boolean showMenu) {
         this(context);
         mUseFastForward = useFastForward;
         mDisableProgress = disableProgressBar;
         mShowPrev = showPrev;
         mShowNext = showNext;
         mShowDefi = showDefi;
+        mShowMenu = showMenu;
     }
 
     public MediaController(Context context, boolean useFastForward) {
@@ -252,6 +254,7 @@ public class MediaController extends FrameLayout implements IMediaController {
 
         mMenu = v.findViewById(R.id.mt_menu);
         mMenu.setOnClickListener(mMenuListener);
+        mMenu.setVisibility(mShowMenu ? View.VISIBLE : View.GONE);
 
         mDefinition = v.findViewById(R.id.mt_definition);
         mDefinition.setVisibility(mShowDefi ? View.VISIBLE : View.GONE);

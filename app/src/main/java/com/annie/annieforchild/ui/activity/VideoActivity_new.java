@@ -40,6 +40,7 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.pldroidplayer.Config;
 import com.annie.annieforchild.Utils.pldroidplayer.MediaController;
 import com.annie.annieforchild.Utils.pldroidplayer.MediaController;
@@ -124,6 +125,9 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (SystemUtils.isOreo) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//强制为横屏
+        }
     }
 
 
@@ -223,7 +227,12 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         mVideoView.setLooping(false);
 
         // You can also use a custom `MediaController` widget
-        mMediaController = new MediaController(this, true, false, false, false, isDefinition);
+        if (SystemUtils.isOreo) {
+            mMediaController = new MediaController(this, false, false, false, false, isDefinition, false);
+        } else {
+            mMediaController = new MediaController(this, false, false, false, false, isDefinition, true);
+        }
+
 //        mMediaController = new MediaController2(this, false, true);
         mMediaController.setOnClickSpeedAdjustListener(mOnClickSpeedAdjustListener);
         mVideoView.setMediaController(mMediaController);
@@ -717,12 +726,17 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
 //            displayHeight = baseFrameLayout.getHeight();
 //            plVideoWidth = mVideoView.getWidth();
 //            plVideoHeight = mVideoView.getHeight();
-
+//            plVideoWidth = mVideoView.getWidth();
+//            plVideoHeight = mVideoView.getHeight();
+//            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(plVideoWidth, plVideoHeight);
+//            mVideoView.getSurfaceView().setLayoutParams(layoutParams);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
 //            displayWidth = baseFrameLayout.getWidth();
 //            displayHeight = baseFrameLayout.getHeight();
 //            plVideoWidth = mVideoView.getWidth();
 //            plVideoHeight = mVideoView.getHeight();
+//            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(plVideoWidth, plVideoHeight);
+//            mVideoView.getSurfaceView().setLayoutParams(layoutParams);
         }
 
         super.onConfigurationChanged(newConfig);

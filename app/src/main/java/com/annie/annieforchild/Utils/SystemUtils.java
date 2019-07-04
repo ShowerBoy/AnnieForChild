@@ -108,7 +108,8 @@ import java.util.regex.PatternSyntaxException;
  */
 
 public class SystemUtils {
-    public static String mainUrl = "https://testapici.anniekids.com/Api/" + MethodCode.VERSION; //获取接口对象地址（测试）
+    //        public static String mainUrl = "https://testapici.anniekids.com/Api/" + MethodCode.VERSION; //获取接口对象地址（测试）
+    public static String mainUrl = "https://appapi.anniekids.com/Api/" + MethodCode.VERSION; //
     public static String netMainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（正式）
 
     public static final String APP_ID = "wxcce6f37c8f2e3dc7"; //微信支付
@@ -154,6 +155,7 @@ public class SystemUtils {
     private NetGiftPopupAdapter netGiftPopupAdapter;
     private boolean isReLogin = false; //重新登陆
     public static int MusicType = 0;//0：重新进入 1：列表进入
+    public static boolean isOreo; //是否是Android8.0
     Context context;
     public static TelephonyManager tm;
 
@@ -180,6 +182,7 @@ public class SystemUtils {
         Intent intent = new Intent(context, AddStudentActivity.class);
         intent.putExtra("from", "other");
         context.startActivity(intent);
+
     }
 
     public static PopupWindow getPopup(Context context) {

@@ -918,7 +918,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                                     public void run() {
                                         presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + name + ".mp3", (float) num1, name, record_time, 1, "", imageUrl, 0, homeworkid, homeworktype);
                                     }
-                                }, 1000);
+                                }, 1500);
                                 Log.e("说话结束2", result.pronAccuracy + "");
                             }else{
 //                                if(error.code==3){

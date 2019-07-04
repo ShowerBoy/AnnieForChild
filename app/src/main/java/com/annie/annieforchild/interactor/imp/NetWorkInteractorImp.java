@@ -723,7 +723,6 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                     listener.Success(what, everyDetail);
                 }
             } else {
-                Log.e("222",jsonString+"");
                 listener.Error(what, errorType, errorInfo);
             }
         }
