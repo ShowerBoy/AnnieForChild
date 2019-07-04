@@ -309,11 +309,12 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
             oral.setListener(new TAIOralEvaluationListener() {
                 @Override
                 public void onEvaluationData(final TAIOralEvaluationData data, final TAIOralEvaluationRet result, final TAIError error) {
-                    SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/", fileName + ".mp3");
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (error.code != TAIErrCode.SUCC) {
+                    if (SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/", fileName + ".mp3")
+                    ) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (error.code != TAIErrCode.SUCC) {
 //                                SystemUtils.show(context, "说话结束");
                             }
                             isRecording = false;
@@ -335,14 +336,16 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                                 }, 1500);
                                 Log.e("说话结束2", result.pronAccuracy + "");
 //                                notifyDataSetChanged();
-                            } else {
-                                songView.dismissLoad();
+                                } else {
+                                    songView.dismissLoad();
 //                                if(error.code==3){
-                                SystemUtils.show(context, "上传失败，请稍后再试");
+                                    SystemUtils.show(context, "上传失败，请稍后再试");
 //                                }
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+
                 }
             });
 

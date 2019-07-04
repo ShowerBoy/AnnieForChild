@@ -1039,11 +1039,11 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
             oral.setListener(new TAIOralEvaluationListener() {
                 @Override
                 public void onEvaluationData(final TAIOralEvaluationData data, final TAIOralEvaluationRet result, final TAIError error) {
-                    SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath, msg + ".mp3");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (error.code != TAIErrCode.SUCC) {
+                    if(SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath, msg + ".mp3")){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (error.code != TAIErrCode.SUCC) {
 //                                SystemUtils.show(context, "说话结束");
                             }
                             oral = null;
@@ -1059,14 +1059,15 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
                                     }
                                 }, 1500);
 //                                notifyDataSetChanged();
-                            } else {
-                                Log.e("eee", error.code + "");
+                                } else {
 //                                if(error.code==3){
-                                SystemUtils.show(WebActivity.this, "上传失败，请稍后再试");
+                                    SystemUtils.show(WebActivity.this, "上传失败，请稍后再试");
 //                                }
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+
                 }
             });
 
