@@ -918,6 +918,8 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                                 }
                             }
                         });
+                    }else{
+                        SystemUtils.show(pkActivity.this, "录音保存失败！");
                     }
 
                 }

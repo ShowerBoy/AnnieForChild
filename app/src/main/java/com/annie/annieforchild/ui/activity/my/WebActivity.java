@@ -1066,6 +1066,8 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
                                 }
                             }
                         });
+                    }else{
+                        SystemUtils.show(WebActivity.this, "录音保存失败！");
                     }
 
                 }
