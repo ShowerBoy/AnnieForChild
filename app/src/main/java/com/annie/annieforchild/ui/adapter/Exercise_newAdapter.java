@@ -339,6 +339,8 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                                 }
                             }
                         });
+                    }else{
+                        SystemUtils.show(context, "录音保存失败，请稍后再试");
                     }
 
                 }

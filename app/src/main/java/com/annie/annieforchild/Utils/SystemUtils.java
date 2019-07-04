@@ -1545,7 +1545,9 @@ public class SystemUtils {
             fos = new FileOutputStream(file);
             bos = new BufferedOutputStream(fos);
             //把需要保存的文件保存到SD卡中
-            bos.write(bfile);
+            bos.write(bfile,0,bfile.length);
+            bos.flush();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -1563,8 +1565,8 @@ public class SystemUtils {
                     e1.printStackTrace();
                 }
             }
-            return true;
         }
+        return false;
     }
 
     /**
