@@ -7,7 +7,7 @@
         android:id="@+id/task_content_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -212,7 +212,7 @@
                 <EditText
                     android:id="@+id/task_content_remarks"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/task_content_parents_remarks"
                     android:layout_marginEnd="12dp"
                     android:layout_marginStart="12dp"
