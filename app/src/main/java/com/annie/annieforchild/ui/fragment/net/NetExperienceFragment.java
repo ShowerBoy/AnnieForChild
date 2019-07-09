@@ -155,13 +155,13 @@ public class NetExperienceFragment extends BaseFragment implements OnCheckDouble
             case R.id.network_consult:
                 Intent intent1 = new Intent(getContext(), NetFAQActivity.class);
                 intent1.putExtra("title", "购课咨询");
-                intent1.putExtra("type", "consult");
+                intent1.putExtra("type", "experienceConsult");
                 startActivity(intent1);
                 break;
             case R.id.network_faq:
                 Intent intent = new Intent(getContext(), NetFAQActivity.class);
                 intent.putExtra("title","体验课FAQ");
-                intent.putExtra("type","faq");
+                intent.putExtra("type","experienceFAQ");
 //                Intent intent = new Intent(getContext(), WebActivity2.class);
 //                intent.putExtra("title", "体验课FAQ");
 //                intent.putExtra("url", "https://demoapi.anniekids.net/Api/NetclassApi/NetclassFAQ");

@@ -106,13 +106,13 @@ public class NetSpecialFragment extends BaseFragment implements OnCheckDoubleCli
             case R.id.network_consult:
                 Intent intent1 = new Intent(getContext(), NetFAQActivity.class);
                 intent1.putExtra("title", "购课咨询");
-                intent1.putExtra("type", "consult");
+                intent1.putExtra("type", "specialConsult");
                 startActivity(intent1);
                 break;
             case R.id.network_faq:
                 Intent intent = new Intent(getContext(), NetFAQActivity.class);
-                intent.putExtra("title", "体验课FAQ");
-                intent.putExtra("type", "faq");
+                intent.putExtra("title", "综合课FAQ");
+                intent.putExtra("type", "specialFAQ");
                 startActivity(intent);
                 break;
         }

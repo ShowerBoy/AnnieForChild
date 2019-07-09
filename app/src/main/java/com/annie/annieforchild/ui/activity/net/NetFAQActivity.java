@@ -18,7 +18,7 @@ import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
-public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick{
+public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick {
     CheckDoubleClickListener listner;
     private ImageView back;
     private WebView webView;
@@ -26,6 +26,7 @@ public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick{
     TextView netfaq_title;
     private int height;
     private ProgressBar progressBar;
+
     //    GradientScrollView scrollView;
     @Override
     protected int getLayoutId() {
@@ -34,9 +35,9 @@ public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick{
 
     @Override
     protected void initView() {
-        progressBar=findViewById(R.id.progressBar1);
+        progressBar = findViewById(R.id.progressBar1);
 //        Linear_title=findViewById(R.id.ll_title);
-        netfaq_title=findViewById(R.id.netfaq_title);
+        netfaq_title = findViewById(R.id.netfaq_title);
         listner = new CheckDoubleClickListener(this);
         back = findViewById(R.id.back);
         back.setOnClickListener(listner);
@@ -59,30 +60,33 @@ public class NetFAQActivity extends BaseActivity implements OnCheckDoubleClick{
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 //网页在webView中打开
-                if(Build.VERSION.SDK_INT <=  Build.VERSION_CODES.LOLLIPOP){//安卓5.0的加载方法
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {//安卓5.0的加载方法
                     view.loadUrl(request.toString());
-                }else {//5.0以上的加载方法
+                } else {//5.0以上的加载方法
                     view.loadUrl(request.getUrl().toString());
                 }
                 return true;
             }
         });
-        String title=getIntent().getStringExtra("title");
-        String type=getIntent().getStringExtra("type");
+        String title = getIntent().getStringExtra("title");
+        String type = getIntent().getStringExtra("type");
         netfaq_title.setText(title);
-        if(type.equals("consult")){
+        if (type.equals("experienceConsult")) {
             webView.loadUrl("https://demoapi.anniekids.net/Api/NetclassApi/Consultation");
-        }else{
+        } else if (type.equals("experienceFAQ")) {
             webView.loadUrl("https://demoapi.anniekids.net/Api/NetclassApi/NetclassFAQ");
+        } else if (type.equals("specialConsult")) {
+            webView.loadUrl("https://demoapi.anniekids.net/api/NetclassApi/SpeConsultation");
+        } else if (type.equals("specialFAQ")) {
+            webView.loadUrl("https://demoapi.anniekids.net/api/NetclassApi/SpeNetclassFAQ");
         }
 
-        webView.setWebChromeClient(new WebChromeClient(){
+        webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                if(newProgress==100){
+                if (newProgress == 100) {
                     progressBar.setVisibility(View.GONE);//加载完网页进度条消失
-                }
-                else{
+                } else {
                     progressBar.setVisibility(View.VISIBLE);//开始加载网页时显示进度条
                     progressBar.setProgress(newProgress);//设置进度值
                 }
