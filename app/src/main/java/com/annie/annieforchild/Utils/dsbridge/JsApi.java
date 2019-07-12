@@ -85,6 +85,7 @@ public class JsApi {
         list.add(videoList);
         Intent intent = new Intent(context, VideoActivity_new.class);
         intent.putExtra("isTime", false);
+        intent.putExtra("isFinish", 1);
         intent.putExtra("isDefinition", false);
         intent.putExtra("isWeb", 1);
         Bundle bundle = new Bundle();

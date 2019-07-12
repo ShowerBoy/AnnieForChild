@@ -108,7 +108,7 @@ import java.util.regex.PatternSyntaxException;
  */
 
 public class SystemUtils {
-    //        public static String mainUrl = "https://testapici.anniekids.com/Api/" + MethodCode.VERSION; //获取接口对象地址（测试）
+    //            public static String mainUrl = "https://testapici.anniekids.com/Api/" + MethodCode.VERSION; //获取接口对象地址（测试）
     public static String mainUrl = "https://appapi.anniekids.com/Api/" + MethodCode.VERSION; //
     public static String netMainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（正式）
 
@@ -1549,7 +1549,7 @@ public class SystemUtils {
             fos = new FileOutputStream(file);
             bos = new BufferedOutputStream(fos);
             //把需要保存的文件保存到SD卡中
-            bos.write(bfile,0,bfile.length);
+            bos.write(bfile, 0, bfile.length);
             bos.flush();
             return true;
         } catch (Exception e) {

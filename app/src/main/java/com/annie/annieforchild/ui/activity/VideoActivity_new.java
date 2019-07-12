@@ -598,7 +598,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     public void showLoad() {
         if (dialog != null && !dialog.isShowing()) {
             if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
-                dialog.show();
+//                dialog.show();
             }
         }
     }
@@ -607,7 +607,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     public void dismissLoad() {
         if (dialog != null && dialog.isShowing()) {
             if (dialog.getOwnerActivity() != null && !dialog.getOwnerActivity().isFinishing()) {
-                dialog.dismiss();
+//                dialog.dismiss();
             }
         }
     }

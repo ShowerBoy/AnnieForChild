@@ -35,7 +35,6 @@ import com.annie.annieforchild.bean.net.netexpclass.FirstStageitem;
 import com.annie.annieforchild.bean.net.netexpclass.Info;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
-import com.annie.annieforchild.ui.activity.VideoActivity;
 import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.adapter.NetExperienceDetailAdapter;

@@ -58,7 +58,7 @@ import cn.sharesdk.framework.PlatformActionListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * 播放器界面
+ * 播放器界面(弃用)
  * Created by wanglei on 2018/7/19.
  */
 

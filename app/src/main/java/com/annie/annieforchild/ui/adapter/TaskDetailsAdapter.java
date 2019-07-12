@@ -277,6 +277,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
 
                         Intent intent = new Intent(context, VideoActivity_new.class);
                         intent.putExtra("isTime", true);
+                        intent.putExtra("isFinish", 1);
                         intent.putExtra("isDefinition", false);
                         intent.putExtra("animationId", lists.get(i).getBookid());
                         Bundle bundle = new Bundle();

@@ -35,6 +35,7 @@ public abstract class BaseMusicActivity extends BaseActivity {
             onChange(musicService.getMusicIndex());
             if (SystemUtils.MusicType == 1) {
                 if (musicStart) {
+                    SystemUtils.MusicType = 0;
                     if (!musicService.isPlaying()) {
                         JTMessage message = new JTMessage();
                         message.what = MethodCode.EVENT_UNPLAYING;

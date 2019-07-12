@@ -126,6 +126,7 @@ public class NetPreheatConsultAdapter extends RecyclerView.Adapter<NetPreheatCon
                 }
 
                 intent.putExtra("isTime", false);
+                intent.putExtra("isFinish", 1);
                 intent.putExtra("isDefinition", false);
 
                 context.startActivity(intent);

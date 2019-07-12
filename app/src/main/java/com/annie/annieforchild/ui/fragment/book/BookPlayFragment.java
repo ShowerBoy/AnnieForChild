@@ -59,7 +59,9 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.IOException;
 import java.lang.invoke.MethodHandle;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -355,7 +357,13 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
     private void playUrl(String url) {
         try {
             mediaPlayer.reset();
-            mediaPlayer.setDataSource(url);
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Content-Type", "audio/mp3"); // change content type if necessary
+            headers.put("Accept-Ranges", "bytes");
+            headers.put("Status", "206");
+            headers.put("Cache-control", "no-cache");
+            Uri uri = Uri.parse(url);
+            mediaPlayer.setDataSource(application.getApplicationContext(), uri, headers);
             mediaPlayer.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
@@ -371,9 +379,9 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
         lists.get(application.getSystemUtils().getCurrentLine()).setSelect(true);
         try {
             if (mediaPlayer.isPlaying()) {
-                mediaPlayer.pause();
+//                mediaPlayer.pause();
                 mediaPlayer.stop();
-                mediaPlayer.seekTo(0);
+//                mediaPlayer.seekTo(0);
             }
         } catch (IllegalStateException e) {
             e.printStackTrace();
@@ -428,9 +436,9 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
             if (mediaPlayer != null) {
                 try {
                     if (mediaPlayer.isPlaying()) {
-                        mediaPlayer.pause();
+//                        mediaPlayer.pause();
                         mediaPlayer.stop();
-                        mediaPlayer.seekTo(0);
+//                        mediaPlayer.seekTo(0);
                     }
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
@@ -464,9 +472,9 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
             if (mediaPlayer2 != null) {
                 try {
                     if (mediaPlayer2.isPlaying()) {
-                        mediaPlayer2.pause();
+//                        mediaPlayer2.pause();
                         mediaPlayer2.stop();
-                        mediaPlayer2.seekTo(0);
+//                        mediaPlayer2.seekTo(0);
                         isPlay = false;
                     }
                 } catch (IllegalStateException e) {
@@ -537,6 +545,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                 startActivity(intent);
                 break;
             case R.id.book_preview_layout:
+                //听音频
                 if (isPlay) {
                     showInfo("播放中");
                     return;
@@ -552,9 +561,9 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                     //如果是当前页在播放
                     try {
                         if (mediaPlayer.isPlaying()) {
-                            mediaPlayer.pause();
+//                            mediaPlayer.pause();
                             mediaPlayer.stop();
-                            mediaPlayer.seekTo(0);
+//                            mediaPlayer.seekTo(0);
                         }
                     } catch (IllegalStateException e) {
                         e.printStackTrace();
@@ -579,9 +588,9 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
 
                 try {
                     if (mediaPlayer.isPlaying()) {
-                        mediaPlayer.pause();
+//                        mediaPlayer.pause();
                         mediaPlayer.stop();
-                        mediaPlayer.seekTo(0);
+//                        mediaPlayer.seekTo(0);
                     }
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
@@ -603,6 +612,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.book_record_layout:
+                //我要读
                 if (isClick) {
                     if (!application.getSystemUtils().isPlaying()) {
                         if (!application.getSystemUtils().isCurrentPage()) {
@@ -637,7 +647,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                                         record.setImageResource(R.drawable.icon_book_stop);
                                         mRecorderUtil.startRecording(title);
                                     }
-                                }else{
+                                } else {
                                     showInfo("播放中");
                                 }
                             }
@@ -650,6 +660,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                 }
                 break;
             case R.id.book_play_layout:
+                //听回放
                 if (isClick) {
                     if (!application.getSystemUtils().isPlaying()) {
                         if (!application.getSystemUtils().isCurrentPage()) {
@@ -658,9 +669,9 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                                     if (isPlay) {
                                         playRecord.setImageResource(R.drawable.icon_book_play2);
                                         try {
-                                            mediaPlayer2.pause();
+//                                            mediaPlayer2.pause();
                                             mediaPlayer2.stop();
-                                            mediaPlayer2.seekTo(0);
+//                                            mediaPlayer2.seekTo(0);
                                         } catch (IllegalStateException e) {
                                             e.printStackTrace();
                                         }
@@ -848,9 +859,9 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
         super.onDestroy();
         if (mediaPlayer != null) {
             try {
-                mediaPlayer.pause();
+//                mediaPlayer.pause();
                 mediaPlayer.stop();
-                mediaPlayer.seekTo(0);
+//                mediaPlayer.seekTo(0);
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             }
@@ -860,9 +871,9 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
         }
         if (mediaPlayer2 != null) {
             try {
-                mediaPlayer2.pause();
+//                mediaPlayer2.pause();
                 mediaPlayer2.stop();
-                mediaPlayer2.seekTo(0);
+//                mediaPlayer2.seekTo(0);
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             }
