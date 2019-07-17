@@ -128,15 +128,15 @@ public class BankBookActivity extends BaseMusicActivity implements View.OnClickL
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_COMMITDURATION) {
             presenter.getMyListening();
-            presenter.getMyReading();
-            presenter.getMySpeaking();
+//            presenter.getMyReading();
+//            presenter.getMySpeaking();
         } else if (message.what == MethodCode.EVENT_COMMITREADING) {
-            presenter.getMyListening();
+//            presenter.getMyListening();
             presenter.getMyReading();
-            presenter.getMySpeaking();
+//            presenter.getMySpeaking();
         } else if (message.what == MethodCode.EVENT_COMMITSPEAKING) {
-            presenter.getMyListening();
-            presenter.getMyReading();
+//            presenter.getMyListening();
+//            presenter.getMyReading();
             presenter.getMySpeaking();
         } else if (message.what == MethodCode.EVENT_MUSIC) {
             if (musicBtn != null) {

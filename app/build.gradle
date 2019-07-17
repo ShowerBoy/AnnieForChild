@@ -14,8 +14,8 @@ android {
         applicationId "com.annie.annieforchild"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 46
-        versionName "1.1.34"
+        versionCode 47
+        versionName "1.1.35"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -59,8 +59,8 @@ android {
 
 
 MobSDK {
-    appKey "25ae3329fd83c"
-    appSecret "3a6bf549a506548273b37fadc35aae27"
+    appKey "2b6a3d1c35eb0"
+    appSecret "c13754c6f84172bc939297ea0938106e"
 
     ShareSDK {
         devInfo {

@@ -1,12 +1,10 @@
 package com.annie.annieforchild.Utils;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +14,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -24,9 +21,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,14 +39,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
-import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.login.HistoryRecord;
 import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.bean.login.PhoneSN;
@@ -61,9 +54,7 @@ import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.FourthPresenter;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.LoginPresenter;
-import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.MainActivity;
-import com.annie.annieforchild.ui.activity.child.AddChildActivity;
 import com.annie.annieforchild.ui.activity.child.AddStudentActivity;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
@@ -71,9 +62,7 @@ import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.NetGiftPopupAdapter;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
-import com.bumptech.glide.Glide;
 import com.tencent.smtt.sdk.TbsVideo;
-//import com.github.chrisbanes.photoview.PhotoView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
@@ -108,7 +97,7 @@ import java.util.regex.PatternSyntaxException;
  */
 
 public class SystemUtils {
-    //            public static String mainUrl = "https://testapici.anniekids.com/Api/" + MethodCode.VERSION; //获取接口对象地址（测试）
+    //                public static String mainUrl = "https://testapici.anniekids.com/Api/" + MethodCode.VERSION; //获取接口对象地址（测试）
     public static String mainUrl = "https://appapi.anniekids.com/Api/" + MethodCode.VERSION; //
     public static String netMainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（正式）
 

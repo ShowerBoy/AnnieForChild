@@ -907,6 +907,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = result;
+
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_GETBOOKSCORE) {
                 Song song = (Song) result;

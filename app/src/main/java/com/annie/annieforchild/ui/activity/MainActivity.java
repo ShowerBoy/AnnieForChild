@@ -49,6 +49,7 @@ import com.annie.annieforchild.ui.fragment.ThirdFragment;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseFragment;
 import com.annie.baselibrary.base.BasePresenter;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.yanzhenjie.nohttp.Headers;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.download.DownloadListener;
