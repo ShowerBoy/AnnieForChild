@@ -63,6 +63,7 @@ public class MediaController extends FrameLayout implements IMediaController {
     private ImageButton mBack;
     private ImageButton mMenu;
     private TextView mDefinition;
+    private TextView mScreen;
 
     private boolean mUseFastForward;
     private boolean mShowPrev;
@@ -90,6 +91,7 @@ public class MediaController extends FrameLayout implements IMediaController {
     private Runnable mLastSeekBarRunnable;
     private boolean mDisableProgress = false;
     private OnClickSpeedAdjustListener mOnClickSpeedAdjustListener;
+    Context context1;
 
     public interface OnClickSpeedAdjustListener {
         void onClickNormal();
@@ -107,11 +109,13 @@ public class MediaController extends FrameLayout implements IMediaController {
         void onClickMenu();
 
         void onClickDefi();
+        void onClickScreen();
     }
 
     public MediaController(Context context, AttributeSet attrs) {
         super(context, attrs);
         mRoot = this;
+        context1=context;
         mFromXml = true;
         initController(context);
     }
@@ -260,6 +264,17 @@ public class MediaController extends FrameLayout implements IMediaController {
         mDefinition.setVisibility(mShowDefi ? View.VISIBLE : View.GONE);
         mDefinition.setText(definition);
         mDefinition.setOnClickListener(mDefiListener);
+
+        mScreen = v.findViewById(R.id.mt_screen);
+        mScreen.setOnClickListener(mScreenListener);
+//        mScreen.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context1, ScreenActivity.class);
+//                intent.putExtra("url", "");
+//                context1.startActivity(intent);
+//            }
+//        });
     }
 
     /**
@@ -493,6 +508,15 @@ public class MediaController extends FrameLayout implements IMediaController {
             mAM.setStreamMute(AudioManager.STREAM_MUSIC, false);
             mDragging = false;
             mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 2000);
+        }
+    };
+
+    private OnClickListener mScreenListener = new OnClickListener() {
+        public void onClick(View v) {
+            if (mOnClickSpeedAdjustListener != null) {
+                mOnClickSpeedAdjustListener.onClickScreen();
+            }
+            show(sDefaultTimeout);
         }
     };
 

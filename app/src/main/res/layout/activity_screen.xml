@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:id="@+id/top_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top_tab_back">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:onClick="onClick"
+            android:layout_marginLeft="12dp"
+            android:src="@drawable/ic_arrow_left2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="选择投屏设备"
+            android:textColor="@color/text_black"
+            android:textSize="20sp" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <ListView
+            android:id="@+id/lv_devices"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <TextView
+        android:id="@+id/screenstatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textSize="30sp"
+        android:textColor="#ccc"
+        android:text="正在投屏"/>
+
+    <Switch
+        android:id="@+id/sw_mute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/mute"
+        android:textColor="#333"/>
+
+    <LinearLayout
+        android:id="@+id/seeklayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:visibility="gone"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="进度"
+            android:textColor="#333"/>
+
+        <SeekBar
+            android:id="@+id/seekbar_progress"
+            android:progressDrawable="@drawable/seekbar_drawable"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/volume_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:visibility="gone"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/volume"
+            android:textColor="#333"/>
+
+        <SeekBar
+            android:id="@+id/seekbar_volume"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:progressDrawable="@drawable/seekbar_drawable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/control_layout"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:visibility="gone"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:gravity="center_vertical">
+
+        <Button
+            android:id="@+id/bt_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/play"
+            android:onClick="onClick"/>
+        <Button
+            android:id="@+id/bt_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/pause"
+            android:onClick="onClick"/>
+        <Button
+            android:id="@+id/bt_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/stop"
+            android:onClick="onClick"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_large"
+        android:textColor="@android:color/primary_text_light"
+        android:layout_marginLeft="18dp"
+        android:paddingTop="@dimen/listview_items_padding_gp_top"
+        android:paddingBottom="@dimen/listview_items_padding_gp_top"
+        android:text="@string/notice"/>
+
+
+
+
+
+
+
+
+
+</LinearLayout>
