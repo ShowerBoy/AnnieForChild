@@ -85,6 +85,7 @@ public class ScreenActivity extends AppCompatActivity implements
     private LinearLayout volume_layout;
     private LinearLayout control_layout;
     private String url;
+    private  Long duration;
 
 
     /**
@@ -148,6 +149,8 @@ public class ScreenActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         if (intent != null) {
             url=intent.getStringExtra("url");
+            duration=intent.getLongExtra("duration",0);
+            Log.e("222",duration+"");
         }
         initView();
         initListeners();
@@ -210,7 +213,7 @@ public class ScreenActivity extends AppCompatActivity implements
 
         /** 这里为了模拟 seek 效果(假设视频时间为 15s)，拖住 seekbar 同步视频时间，
          * 在实际中 使用的是片源的时间 */
-        mSeekProgress.setMax(15);
+        mSeekProgress.setMax(duration.intValue());
 
         // 最大音量就是 100，不要问我为什么
         mSeekVolume.setMax(100);
@@ -445,6 +448,7 @@ public class ScreenActivity extends AppCompatActivity implements
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
     }
 
     @Override
