@@ -81,7 +81,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     String videoPath;
     private FrameLayout baseFrameLayout;
     private static final String TAG = VideoActivity_new.class.getSimpleName();
-    private LinearLayout clarifyBack;
+    private LinearLayout clarifyBack, topLayout;
     private TextView definition, p480, p720, p1080, last, next;
     private PLVideoView mVideoView;
     private int mDisplayAspectRatio = PLVideoView.ASPECT_RATIO_FIT_PARENT;
@@ -108,7 +108,6 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     private int isWeb; //判断是否是网页视频播放 0:不是 1:是
     Runnable runnable;
     private Intent intent;
-    private int displayWidth = 0, displayHeight = 0, plVideoWidth = 0, plVideoHeight = 0;
 
     {
         setRegister(true);
@@ -143,6 +142,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         loadingView = findViewById(R.id.LoadingView);
         definition = findViewById(R.id.definition);
         clarifyBack = findViewById(R.id.clarify_back);
+        topLayout = findViewById(R.id.top_linear);
         baseFrameLayout = findViewById(R.id.baseFrameLayout);
         next = findViewById(R.id.next);
         last = findViewById(R.id.last);
@@ -179,6 +179,18 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
 
         initPopup();
         initPLVideoView();
+        if (isDefinition) {
+            if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
+                mMediaController.setDefiText("标清");
+            } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
+                mMediaController.setDefiText("高清");
+            } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
+                mMediaController.setDefiText("超清");
+            }
+        } else {
+            definition.setVisibility(View.GONE);
+            videoPath = videoList.get(videoPos).getUrl();
+        }
     }
 
     @Override
@@ -205,7 +217,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
         // 1 -> hw codec enable, 0 -> disable [recommended]
         options.setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_AUTO);
-        options.setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
+        options.setInteger(AVOptions.KEY_LIVE_STREAMING, 0);
         // options.setString(AVOptions.KEY_DNS_SERVER, "127.0.0.1");
         options.setInteger(AVOptions.KEY_LOG_LEVEL, 0);
 
@@ -228,9 +240,9 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
 
         // You can also use a custom `MediaController` widget
         if (SystemUtils.isOreo) {
-            mMediaController = new MediaController(this, false, false, false, false, isDefinition, false);
+            mMediaController = new MediaController(this, true, false, false, false, isDefinition, false);
         } else {
-            mMediaController = new MediaController(this, false, false, false, false, isDefinition, true);
+            mMediaController = new MediaController(this, true, false, false, false, isDefinition, true);
         }
 
 //        mMediaController = new MediaController2(this, false, true);
@@ -245,7 +257,6 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             return;
         }
         videoPath = videoList.get(videoPos).getPath().get(0).getUrl();
-//        definition.setVisibility(View.VISIBLE);
         defiPopup = new PopupWindow(this);
         defiPopupView = LayoutInflater.from(this).inflate(R.layout.activity_difi_popup, null, false);
         defiPopup.setContentView(defiPopupView);
@@ -271,14 +282,6 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 p1080.setVisibility(View.VISIBLE);
             }
         }
-//        if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
-//            definition.setText("标清");
-//        } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
-//            definition.setText("高清");
-//        } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
-//            definition.setText("超清");
-//        }
-
     }
 
     @Override
@@ -522,8 +525,11 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
 
         @Override
         public void onClickDefi() {
-//            defiPopup.showAtLocation(topLayout, Gravity.TOP + Gravity.RIGHT, 100, 0);
-//            mMediaController.hideMC();
+            if (videoList.get(videoPos).getPath().size() == 1) {
+                return;
+            }
+            defiPopup.showAtLocation(topLayout, Gravity.TOP + Gravity.RIGHT, 100, 0);
+            mMediaController.hideMC();
         }
     };
 
@@ -630,7 +636,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             case R.id.definition:
                 break;
             case R.id.p_480:
-//                mMediaController.setDefiText("标清");
+                mMediaController.setDefiText("标清");
                 mVideoView.pause();
                 mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(0).getUrl());
                 mVideoView.start();
@@ -638,7 +644,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 defiPopup.dismiss();
                 break;
             case R.id.p_720:
-//                mMediaController.setDefiText("高清");
+                mMediaController.setDefiText("高清");
                 mVideoView.pause();
                 if (p480.getVisibility() == View.VISIBLE) {
                     mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(1).getUrl());
@@ -651,7 +657,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 break;
 
             case R.id.p_1080:
-//                mMediaController.setDefiText("超清");
+                mMediaController.setDefiText("超清");
                 mVideoView.pause();
                 if (p480.getVisibility() == View.VISIBLE) {
                     if (p720.getVisibility() == View.VISIBLE) {
@@ -676,7 +682,14 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     videoPos = videoList.size() - 1;
                 }
                 initPopup();
-//                mMediaController.setShowDefi(isDefinition);
+                if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
+                    mMediaController.setDefiText("标清");
+                } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
+                    mMediaController.setDefiText("高清");
+                } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
+                    mMediaController.setDefiText("超清");
+                }
+                mMediaController.setShowDefi(isDefinition);
                 mVideoView.setVideoPath(videoPath);
                 clarifyBack.setVisibility(View.GONE);
                 mVideoView.start();
@@ -688,7 +701,14 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     videoPos = 0;
                 }
                 initPopup();
-//                mMediaController.setShowDefi(isDefinition);
+                if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
+                    mMediaController.setDefiText("标清");
+                } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
+                    mMediaController.setDefiText("高清");
+                } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
+                    mMediaController.setDefiText("超清");
+                }
+                mMediaController.setShowDefi(isDefinition);
                 mVideoView.setVideoPath(videoPath);
                 clarifyBack.setVisibility(View.GONE);
                 mVideoView.start();
