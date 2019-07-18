@@ -84,6 +84,7 @@ public class ScreenActivity extends AppCompatActivity implements
     private LinearLayout seeklayout;
     private LinearLayout volume_layout;
     private LinearLayout control_layout;
+    private String url;
 
 
     /**
@@ -144,6 +145,10 @@ public class ScreenActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen);
         mContext = this;
+        Intent intent = getIntent();
+        if (intent != null) {
+            url=intent.getStringExtra("url");
+        }
         initView();
         initListeners();
         bindServices();
@@ -402,7 +407,7 @@ public class ScreenActivity extends AppCompatActivity implements
          */
 
         if (currentState == DLANPlayState.STOP) {
-            mClingPlayControl.playNew(Config.TEST_URL, new ControlCallback() {
+            mClingPlayControl.playNew(url, new ControlCallback() {
 
                 @Override
                 public void success(IResponse response) {
