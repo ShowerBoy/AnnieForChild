@@ -35,7 +35,16 @@
             android:textColor="@color/white"
             android:padding="12dp"/>
 
-
+        <TextView
+            android:id="@+id/mt_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/mt_definition"
+            android:layout_centerVertical="true"
+            android:text="投屏"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:padding="12dp"/>
     </RelativeLayout>
 
 </LinearLayout>

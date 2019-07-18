@@ -108,19 +108,19 @@ public class PushMessageReceiver extends JPushMessageReceiver {
         super.onMobileNumberOperatorResult(context, jPushMessage);
     }
 
-    //send msg to MainActivity
+    //send msg to ScreenActivity
     private void processCustomMessage(Context context, CustomMessage customMessage) {
         Log.e("111",customMessage.message);
-//        if (MainActivity.isForeground) {
+//        if (ScreenActivity.isForeground) {
 //            String message = customMessage.message;
 //            String extras = customMessage.extra;
-//            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
-//            msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
+//            Intent msgIntent = new Intent(ScreenActivity.MESSAGE_RECEIVED_ACTION);
+//            msgIntent.putExtra(ScreenActivity.KEY_MESSAGE, message);
 //            if (!ExampleUtil.isEmpty(extras)) {
 //                try {
 //                    JSONObject extraJson = new JSONObject(extras);
 //                    if (extraJson.length() > 0) {
-//                        msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
+//                        msgIntent.putExtra(ScreenActivity.KEY_EXTRAS, extras);
 //                    }
 //                } catch (JSONException e) {
 //

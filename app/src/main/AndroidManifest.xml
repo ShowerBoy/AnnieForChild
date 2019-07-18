@@ -544,6 +544,12 @@
             android:name=".ui.activity.pk.MusicPlayActivity2"
             android:screenOrientation="portrait"
             android:taskAffinity="Radio.finish"></activity>
+        <activity
+            android:name="com.androidupnpdemo.ui.ScreenActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.androidupnpdemo.ui.ScreenControlActivity"
+            android:screenOrientation="portrait"></activity>
         <!-- Since JCore2.0.0 Required SDK核心功能-->
         <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
         <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
@@ -569,5 +575,14 @@
                 <category android:name="com.annie.annieforchild" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name="com.androidupnpdemo.service.ClingUpnpService"
+            android:exported="false" />
+
+        <service
+            android:name="com.androidupnpdemo.service.SystemService"
+            android:exported="false" />
+
     </application>
 </manifest>

@@ -35,6 +35,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidupnpdemo.ui.ScreenActivity;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
@@ -524,6 +525,16 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         public void onClickDefi() {
 //            defiPopup.showAtLocation(topLayout, Gravity.TOP + Gravity.RIGHT, 100, 0);
 //            mMediaController.hideMC();
+        }
+
+        @Override
+        public void onClickScreen() {
+            Intent intent = new Intent(VideoActivity_new.this, ScreenActivity.class);
+            mVideoView.pause();
+                intent.putExtra("url",videoPath);
+                startActivity(intent);
+
+
         }
     };
 

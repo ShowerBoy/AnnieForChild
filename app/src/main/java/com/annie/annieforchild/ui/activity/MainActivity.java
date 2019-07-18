@@ -407,7 +407,7 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
         public void onProgress(int i, int i1, long l, long l1) {
             System.out.println("i1:" + i1);
             progressDialog.setProgress(i1);
-//            SystemUtils.getDownloadProgressDialog(MainActivity.this).setProgress();
+//            SystemUtils.getDownloadProgressDialog(ScreenActivity.this).setProgress();
         }
 
         @Override
