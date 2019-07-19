@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -64,7 +65,7 @@ public class ScreenActivity extends AppCompatActivity implements
     /** 连接设备状态: 转菊花状态 */
     public static final int TRANSITIONING_ACTION = 0xa4;
     /** 获取进度 */
-    public static final int GET_POSITION_INFO_ACTION = 0xa5;
+    public static final int GET_POSITION_INFO_ACTION = 0xa6;
     /** 投放失败 */
     public static final int ERROR_ACTION = 0xa5;
 
@@ -80,7 +81,7 @@ public class ScreenActivity extends AppCompatActivity implements
 
     private BroadcastReceiver mTransportStateBroadcastReceiver;
     private ArrayAdapter<ClingDevice> mDevicesAdapter;
-    private TextView screenstatus;
+    private RelativeLayout screenstatus;
     private LinearLayout seeklayout;
     private LinearLayout volume_layout;
     private LinearLayout control_layout;
@@ -140,7 +141,6 @@ public class ScreenActivity extends AppCompatActivity implements
     //        }
     //    };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,7 +150,6 @@ public class ScreenActivity extends AppCompatActivity implements
         if (intent != null) {
             url=intent.getStringExtra("url");
             duration=intent.getLongExtra("duration",0);
-            Log.e("222",duration+"");
         }
         initView();
         initListeners();
@@ -158,6 +157,7 @@ public class ScreenActivity extends AppCompatActivity implements
         registerReceivers();
         onRefresh();
     }
+
 
     private void registerReceivers() {
         //Register play status broadcast
@@ -167,6 +167,7 @@ public class ScreenActivity extends AppCompatActivity implements
         filter.addAction(Intents.ACTION_PAUSED_PLAYBACK);
         filter.addAction(Intents.ACTION_STOPPED);
         filter.addAction(Intents.ACTION_TRANSITIONING);
+        filter.addAction(Intents.ACTION_POSITION_CALLBACK);
         registerReceiver(mTransportStateBroadcastReceiver, filter);
     }
 
@@ -229,7 +230,7 @@ public class ScreenActivity extends AppCompatActivity implements
             seeklayout.setVisibility(View.VISIBLE);
             screenstatus.setVisibility(View.VISIBLE);
             control_layout.setVisibility(View.VISIBLE);
-            volume_layout.setVisibility(View.VISIBLE);
+            volume_layout.setVisibility(View.GONE);
             mRefreshLayout.setVisibility(View.GONE);
         }
     }
@@ -516,7 +517,6 @@ public class ScreenActivity extends AppCompatActivity implements
                 case STOP_ACTION:
                     Log.i(TAG, "Execute STOP_ACTION");
                     mClingPlayControl.setCurrentState(DLANPlayState.STOP);
-
                     break;
                 case TRANSITIONING_ACTION:
                     Log.i(TAG, "Execute TRANSITIONING_ACTION");
@@ -525,6 +525,11 @@ public class ScreenActivity extends AppCompatActivity implements
                 case ERROR_ACTION:
                     Log.e(TAG, "Execute ERROR_ACTION");
                     Toast.makeText(mContext, "投放失败", Toast.LENGTH_SHORT).show();
+                    break;
+                case GET_POSITION_INFO_ACTION:
+                    Log.e(TAG, "Execute ERROR_ACTION");
+                    Bundle b = msg.getData();
+                    Log.e("seek",b.getInt("seek",0)+"");
                     break;
             }
         }
@@ -550,6 +555,17 @@ public class ScreenActivity extends AppCompatActivity implements
 
             } else if (Intents.ACTION_TRANSITIONING.equals(action)) {
                 mHandler.sendEmptyMessage(TRANSITIONING_ACTION);
+            }else if(Intents.ACTION_POSITION_CALLBACK.equals(action)){
+                Message message=new Message();
+                Bundle b = new Bundle();// 存放数据
+                int seek=0;
+                if(intent!=null){
+                    seek=intent.getIntExtra(Intents.EXTRA_POSITION,0);
+                    Log.e("1111",intent.getIntExtra(Intents.EXTRA_POSITION,0)+"");
+                }
+                b.putInt("seek",seek);
+                message.setData(b);
+                mHandler.sendMessage(message);
             }
         }
     }
