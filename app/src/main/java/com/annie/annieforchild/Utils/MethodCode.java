@@ -20,7 +20,7 @@ public class MethodCode {
     final public static String SQUAREAPI = "Square/";
 
     final public static String HOMEWORKAPI = "homeworkApi/";
-    final public static String NETCLASSAPI = "NetclassApi/";
+    final public static String NETCLASSAPI = "NetclasstestApi/";
     final public static String SIGNINAPI = "Signin/";
 
     final public static String DEVICETYPE = "deviceType";

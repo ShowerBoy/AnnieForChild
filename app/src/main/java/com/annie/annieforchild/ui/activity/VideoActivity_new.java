@@ -537,9 +537,9 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         public void onClickScreen() {
             Intent intent = new Intent(VideoActivity_new.this, ScreenActivity.class);
             mVideoView.pause();
-                intent.putExtra("url",videoPath);
-                intent.putExtra("duration",mVideoView.getDuration()/1000);
-                startActivity(intent);
+            intent.putExtra("url", videoPath);
+            intent.putExtra("duration", mVideoView.getDuration() / 1000);
+            startActivity(intent);
 
 
         }
@@ -650,7 +650,8 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             case R.id.p_480:
                 mMediaController.setDefiText("标清");
                 mVideoView.pause();
-                mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(0).getUrl());
+                videoPath = videoList.get(videoPos).getPath().get(0).getUrl();
+                mVideoView.setVideoPath(videoPath);
                 mVideoView.start();
                 isComplete = false;
                 defiPopup.dismiss();
@@ -659,9 +660,11 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 mMediaController.setDefiText("高清");
                 mVideoView.pause();
                 if (p480.getVisibility() == View.VISIBLE) {
-                    mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(1).getUrl());
+                    videoPath = videoList.get(videoPos).getPath().get(1).getUrl();
+                    mVideoView.setVideoPath(videoPath);
                 } else {
-                    mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(0).getUrl());
+                    videoPath = videoList.get(videoPos).getPath().get(0).getUrl();
+                    mVideoView.setVideoPath(videoPath);
                 }
                 mVideoView.start();
                 isComplete = false;
@@ -673,15 +676,19 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 mVideoView.pause();
                 if (p480.getVisibility() == View.VISIBLE) {
                     if (p720.getVisibility() == View.VISIBLE) {
-                        mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(2).getUrl());
+                        videoPath = videoList.get(videoPos).getPath().get(2).getUrl();
+                        mVideoView.setVideoPath(videoPath);
                     } else {
-                        mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(1).getUrl());
+                        videoPath = videoList.get(videoPos).getPath().get(1).getUrl();
+                        mVideoView.setVideoPath(videoPath);
                     }
                 } else {
                     if (p720.getVisibility() == View.VISIBLE) {
-                        mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(1).getUrl());
+                        videoPath = videoList.get(videoPos).getPath().get(1).getUrl();
+                        mVideoView.setVideoPath(videoPath);
                     } else {
-                        mVideoView.setVideoPath(videoList.get(videoPos).getPath().get(0).getUrl());
+                        videoPath = videoList.get(videoPos).getPath().get(0).getUrl();
+                        mVideoView.setVideoPath(videoPath);
                     }
                 }
                 mVideoView.start();
