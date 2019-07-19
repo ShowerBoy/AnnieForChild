@@ -189,7 +189,6 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 mMediaController.setDefiText("超清");
             }
         } else {
-            definition.setVisibility(View.GONE);
             videoPath = videoList.get(videoPos).getUrl();
         }
     }
@@ -701,12 +700,16 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     videoPos = videoList.size() - 1;
                 }
                 initPopup();
-                if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
-                    mMediaController.setDefiText("标清");
-                } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
-                    mMediaController.setDefiText("高清");
-                } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
-                    mMediaController.setDefiText("超清");
+                if (isDefinition) {
+                    if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
+                        mMediaController.setDefiText("标清");
+                    } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
+                        mMediaController.setDefiText("高清");
+                    } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
+                        mMediaController.setDefiText("超清");
+                    }
+                } else {
+                    videoPath = videoList.get(videoPos).getUrl();
                 }
                 mMediaController.setShowDefi(isDefinition);
                 mVideoView.setVideoPath(videoPath);
@@ -720,12 +723,16 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     videoPos = 0;
                 }
                 initPopup();
-                if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
-                    mMediaController.setDefiText("标清");
-                } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
-                    mMediaController.setDefiText("高清");
-                } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
-                    mMediaController.setDefiText("超清");
+                if (isDefinition) {
+                    if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
+                        mMediaController.setDefiText("标清");
+                    } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
+                        mMediaController.setDefiText("高清");
+                    } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
+                        mMediaController.setDefiText("超清");
+                    }
+                } else {
+                    videoPath = videoList.get(videoPos).getUrl();
                 }
                 mMediaController.setShowDefi(isDefinition);
                 mVideoView.setVideoPath(videoPath);
