@@ -81,7 +81,7 @@ public class AVTransportSubscriptionCallback  extends BaseSubscriptionCallback {
             if (Utils.isNotNull(eventedValue)) {
                 position = lastChange.getEventedValue(0, AVTransportVariable.RelativeTimePosition.class).getValue();
                 int intTime = Utils.getIntTime(position);
-                Log.e(TAG, "position: " + position + ", intTime: " + intTime);
+                Log.e("111", "position: " + position + ", intTime: " + intTime);
 
                 // 该设备支持进度回传
                 Config.getInstance().setHasRelTimePosCallback(true);
@@ -92,6 +92,8 @@ public class AVTransportSubscriptionCallback  extends BaseSubscriptionCallback {
 
                 // TODO: 17/7/20 ACTION_PLAY_COMPLETE 播完了
 
+            }else{
+                Log.e("111","获取不到数据");
             }
         } catch (Exception e) {
             e.printStackTrace();
