@@ -11,6 +11,7 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.net.Address;
+import com.annie.annieforchild.bean.net.DiscountRecord;
 import com.annie.annieforchild.bean.net.Game;
 import com.annie.annieforchild.bean.net.ListenAndRead;
 import com.annie.annieforchild.bean.net.MyNetClass;
@@ -181,7 +182,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
     }
 
     @Override
-    public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid) {
+    public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid,String couponid) {
         this.payment = payment;
 //        JavaBeanRequest request = new JavaBeanRequest(SystemUtils.mainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNETWORK, String.class);
         FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.BUYNETWORK, RequestMethod.POST);
@@ -193,6 +194,7 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add("ismaterial", ismaterial);
         request.add("payment", payment);
         request.add("wxnumber", wxnumber);
+        request.add("disid", couponid);
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
@@ -256,7 +258,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getMyOrderList() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI2 + MethodType.GETMYORDERLIST, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI2 + MethodType.GETMYORDERLIST, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI2 + "getMyOrderListText", RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
@@ -267,7 +270,8 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
 
     @Override
     public void getMyOrderDetail(int orderIncrId) {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI2 + MethodType.GETMYORDERDETAIL, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI2 + MethodType.GETMYORDERDETAIL, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.PERSONAPI2 + "getMyOrderDetailText", RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("orderIncrId", orderIncrId);
@@ -385,6 +389,18 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_TASKDETAIL, request);
+    }
+
+    @Override
+    public void getDiscountRecordList(int netid) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.DISCOUNTRECORD, RequestMethod.POST);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("netid", netid);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
+        addQueue(MethodCode.EVENT_DISCOUNTRECORD, request);
     }
 
     @Override
@@ -721,6 +737,15 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 } else if (what == MethodCode.EVENT_TASKDETAIL) {
                     EveryDetail everyDetail = JSON.parseObject(data, EveryDetail.class);
                     listener.Success(what, everyDetail);
+                }
+                else if (what == MethodCode.EVENT_DISCOUNTRECORD) {
+                    List<DiscountRecord> lists;
+                    if (data != null) {
+                        lists = JSON.parseArray(data, DiscountRecord.class);
+                    } else {
+                        lists = new ArrayList<>();
+                    }
+                    listener.Success(what, lists);
                 }
             } else {
                 listener.Error(what, errorType, errorInfo);

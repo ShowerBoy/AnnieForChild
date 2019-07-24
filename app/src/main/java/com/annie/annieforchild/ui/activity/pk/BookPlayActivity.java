@@ -20,6 +20,7 @@ import com.annie.annieforchild.bean.AudioBean;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Line;
+import com.annie.annieforchild.interactor.imp.CrashHandlerInteractorImp;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.adapter.ExerciseAdapter;
@@ -66,6 +67,7 @@ public class BookPlayActivity extends BaseActivity implements OnCheckDoubleClick
     private int duration, homeworkid, homeworktype;
     private String title;
     private CheckDoubleClickListener listener;
+    private CrashHandlerInteractorImp interactor;
 
     {
         setRegister(true);
@@ -117,6 +119,7 @@ public class BookPlayActivity extends BaseActivity implements OnCheckDoubleClick
 
     @Override
     protected void initData() {
+        interactor = new CrashHandlerInteractorImp(null,1);
         helper = new AlertHelper(this);
         dialog = helper.LoadingDialog();
         lists = new ArrayList<>();
@@ -127,7 +130,7 @@ public class BookPlayActivity extends BaseActivity implements OnCheckDoubleClick
         mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.setOnCompletionListener(this);
 
-        adapter = new Exercise_newAdapter(this,this, this, title, lists, bookId, presenter, audioType, audioSource, imageUrl, 0, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
+        adapter = new Exercise_newAdapter(interactor,this,this, this, title, lists, bookId, presenter, audioType, audioSource, imageUrl, 0, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 if (isClick) {

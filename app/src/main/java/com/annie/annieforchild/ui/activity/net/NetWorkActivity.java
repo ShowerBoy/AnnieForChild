@@ -131,6 +131,8 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
         if (to_exp != null) {
             if (to_exp.equals("1")) {
                 mVP.setCurrentItem(1);
+            }else if(to_exp.equals("2")){
+                mVP.setCurrentItem(2);
             }
         }
     }

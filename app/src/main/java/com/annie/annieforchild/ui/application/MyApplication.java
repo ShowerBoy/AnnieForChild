@@ -51,9 +51,9 @@ import cn.jpush.android.api.JPushInterface;
  */
 
 public class MyApplication extends LitePalApplication {
-    private SystemUtils systemUtils;
+    private  SystemUtils systemUtils;
 
-    public SystemUtils getSystemUtils() {
+    public  SystemUtils getSystemUtils() {
         return systemUtils;
     }
 
@@ -98,7 +98,7 @@ public class MyApplication extends LitePalApplication {
 //        initJpush();
         MobSDK.init(this);
         StatService.start(this);
-        MyCrashHandler handler = new MyCrashHandler(this);
+        MyCrashHandler handler = new MyCrashHandler(this,0);
         Thread.setDefaultUncaughtExceptionHandler(handler);
         if (systemUtils == null) {
             systemUtils = new SystemUtils(this);

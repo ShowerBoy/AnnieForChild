@@ -160,6 +160,7 @@ public class MethodType {
     final public static String SPECIALCLASSV2 = "SpecialClassV2"; //
     final public static String TASKLIST = "taskList"; //
     final public static String TASKDETAIL = "taskDetail"; //
+    final public static String DISCOUNTRECORD = "DiscountRecordList"; //
 
 
 }

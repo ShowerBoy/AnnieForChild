@@ -2,6 +2,7 @@ package com.annie.annieforchild.interactor.imp;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -61,10 +62,12 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     private int taskid;
     private int classify;
     private MyApplication application;
+    private CrashHandlerInteractorImp interactor;
 
     public GrindEarInteractorImp(Context context, RequestListener listener) {
         this.context = context;
         this.listener = listener;
+        interactor = new CrashHandlerInteractorImp(null,1);
         application = (MyApplication) context.getApplicationContext();
     }
 
@@ -1506,6 +1509,11 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
 
     @Override
     protected void onFail(int what, Response response) {
+        if(what==MethodCode.EVENT_UPLOADAUDIO){
+            if (interactor != null) {
+                interactor.sendAudioMessage(context, application.getSystemUtils().getDefaultUsername() != null ? application.getSystemUtils().getDefaultUsername() : "", application.getSystemUtils().getPhone() != null ? application.getSystemUtils().getPhone() : "", Build.BRAND, Build.VERSION.RELEASE, SystemUtils.getVersionName(context),"",2,2);
+            }
+        }
         listener.Fail(what, "系统发生错误");
     }
 }

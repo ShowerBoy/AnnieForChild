@@ -135,10 +135,10 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid) {
+    public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid,String couponid) {
         this.payment = payment;
         viewInfo.showLoad();
-        interactor.buyNetWork(netid, addressid, ismaterial, payment, wxnumber, giftid);
+        interactor.buyNetWork(netid, addressid, ismaterial, payment, wxnumber, giftid, couponid);
     }
 
     @Override
@@ -228,6 +228,12 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     public void taskDetail(int netid, int num) {
         viewInfo.showLoad();
         interactor.taskDetail(netid, num);
+    }
+
+    @Override
+    public void getDiscountRecordList(int netid) {
+        viewInfo.showLoad();
+        interactor.getDiscountRecordList(netid);
     }
 
     @Override
@@ -645,6 +651,14 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = everyDetail;
+                EventBus.getDefault().post(message);
+            }else if (what == MethodCode.EVENT_DISCOUNTRECORD) {
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.my.MyCouponActivity#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
                 EventBus.getDefault().post(message);
             }
         }

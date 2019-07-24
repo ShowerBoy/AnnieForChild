@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
@@ -42,6 +43,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.PkResult;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Line;
+import com.annie.annieforchild.interactor.imp.CrashHandlerInteractorImp;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.adapter.ChallengeAdapter;
@@ -139,7 +141,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
     private Animation leftToRight, rightToLeft;
     private CheckDoubleClickListener listener;
     private TAIOralEvaluation oral;
-
+    private CrashHandlerInteractorImp interactor;
     {
         setRegister(true);
     }
@@ -361,6 +363,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
         presenter.getBookAudioData(bookId, 1, null);
+        interactor = new CrashHandlerInteractorImp(null,1);
     }
 
     @Override
@@ -918,8 +921,14 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                                             presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + name + ".mp3", (float) num1, name, record_time, 1, "", imageUrl, 0, homeworkid, homeworktype);
                                         }
                                     }, 1500);
+                                    if (interactor != null) {
+                                        interactor.sendAudioMessage(ChallengeActivity.this, application.getSystemUtils().getDefaultUsername() != null ? application.getSystemUtils().getDefaultUsername() : "", application.getSystemUtils().getPhone() != null ? application.getSystemUtils().getPhone() : "", Build.BRAND, Build.VERSION.RELEASE, SystemUtils.getVersionName(ChallengeActivity.this),"",1,1 );
+                                    }
                                     Log.e("说话结束2", result.pronAccuracy + "");
                                 } else {
+                                    if (interactor != null) {
+                                        interactor.sendAudioMessage(ChallengeActivity.this, application.getSystemUtils().getDefaultUsername() != null ? application.getSystemUtils().getDefaultUsername() : "", application.getSystemUtils().getPhone() != null ? application.getSystemUtils().getPhone() : "", Build.BRAND, Build.VERSION.RELEASE, SystemUtils.getVersionName(ChallengeActivity.this),"",1,2 );
+                                    }
 //                                if(error.code==3){
                                     SystemUtils.show(ChallengeActivity.this, "上传失败，请稍后再试");
 //                                }

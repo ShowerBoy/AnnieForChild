@@ -31,6 +31,7 @@ import com.annie.annieforchild.ui.activity.my.AboutActivity;
 import com.annie.annieforchild.ui.activity.my.GradeAchievementActivity;
 import com.annie.annieforchild.ui.activity.my.HelpActivity;
 import com.annie.annieforchild.ui.activity.my.MyCollectionActivity;
+import com.annie.annieforchild.ui.activity.my.MyCouponActivity;
 import com.annie.annieforchild.ui.activity.my.MyExchangeActivity;
 import com.annie.annieforchild.ui.activity.my.MyMessageActivity;
 import com.annie.annieforchild.ui.activity.my.MyNectarActivity;
@@ -59,7 +60,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  */
 
 public class FourthFragment extends BaseFragment implements FourthView, OnCheckDoubleClick {
-    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, feedbackLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout, addressLayout, myOrderLayout;
+    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, feedbackLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout, addressLayout, myOrderLayout,myCouponLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout nectarLayout, levelLayout, recordLayout;
     private ImageView settings, sexIcon, headpic_back;
@@ -134,6 +135,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         addressLayout = view.findViewById(R.id.address_layout);
         feedbackLayout = view.findViewById(R.id.feedback_layout);
         myOrderLayout = view.findViewById(R.id.my_order_layout);
+        myCouponLayout = view.findViewById(R.id.my_coupon_layout);
         listener = new CheckDoubleClickListener(this);
         myMsgLayout.setOnClickListener(listener);
         toFriendLayout.setOnClickListener(listener);
@@ -151,6 +153,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         addressLayout.setOnClickListener(listener);
         feedbackLayout.setOnClickListener(listener);
         myOrderLayout.setOnClickListener(listener);
+        myCouponLayout.setOnClickListener(listener);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         member_layout.setLayoutManager(manager);
@@ -628,6 +631,20 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                     return;
                 }
                 intent.setClass(getContext(), MyOrderActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.my_coupon_layout:
+                //我的优惠券
+                if (tag.equals("游客")) {
+                    SystemUtils.toLogin(getContext());
+                    return;
+                }
+                if (application.getSystemUtils().getChildTag() == 0) {
+                    showInfo("请先添加学员");
+                    SystemUtils.toAddChild(getContext());
+                    return;
+                }
+                intent.setClass(getContext(), MyCouponActivity.class);
                 startActivity(intent);
                 break;
         }

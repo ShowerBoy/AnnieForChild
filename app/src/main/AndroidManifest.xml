@@ -44,12 +44,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
@@ -63,6 +60,8 @@
         android:smallScreens="true"
         android:xlargeScreens="true" />
 
+    <!--android:allowBackup="true"-->
+    <!--android:hardwareAccelerated="false"-->
     <application
         android:name=".ui.application.MyApplication"
         android:allowBackup="true"
@@ -548,6 +547,9 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.androidupnpdemo.ui.ScreenControlActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.MyCouponActivity"
             android:screenOrientation="portrait"></activity>
         <!-- Since JCore2.0.0 Required SDK核心功能-->
         <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->

@@ -130,7 +130,7 @@ public class ScreenActivity extends AppCompatActivity implements
     //            SystemService.LocalBinder systemServiceBinder = (SystemService.LocalBinder) service;
     //            //Set binder to SystemManager
     //            ClingManager clingUpnpServiceManager = ClingManager.getInstance();
-    ////            clingUpnpServiceManager.setSystemService(systemServiceBinder.getService());
+    ////            clingUpnpServiceManager.setSystemService(systemServiceBinde r.getService());
     //        }
     //
     //        @Override

@@ -70,6 +70,7 @@ import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
 import com.annie.annieforchild.ui.activity.pk.ExerciseActivity2;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
+import com.annie.annieforchild.ui.activity.pk.pkActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;

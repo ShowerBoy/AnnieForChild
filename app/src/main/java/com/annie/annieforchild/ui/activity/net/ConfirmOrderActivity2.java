@@ -8,6 +8,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +67,9 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
     private String wxout_trade_no = "";
     private int tag = 1;
     private String trade_status;
+    private LinearLayout coupon_layout;
+    private TextView coupon_info;
+
 
     {
         setRegister(true);
@@ -78,6 +82,8 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
 
     @Override
     protected void initView() {
+        coupon_layout=findViewById(R.id.coupon_layout);
+        coupon_info=findViewById(R.id.coupon_info);
         wxapi = WXAPIFactory.createWXAPI(this, SystemUtils.APP_ID, true);
         wxapi.registerApp(SystemUtils.APP_ID);
         state = findViewById(R.id.confirm_order2_state);
@@ -251,11 +257,18 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
             } else {
                 materialLayout.setVisibility(View.VISIBLE);
             }
+
             wechat.setText(orderDetail.getWxnumber());
             if (orderDetail.getPaytype() == 0) {
                 payment.setText("支付宝");
             } else {
                 payment.setText("微信支付");
+            }
+            if(orderDetail.getCoupon()!=null && orderDetail.getCoupon().equals("0")){
+                coupon_layout.setVisibility(View.GONE);
+            }else{
+                coupon_layout.setVisibility(View.VISIBLE);
+                coupon_info.setText("-"+"￥"+orderDetail.getCoupon());
             }
             orderId.setText("订单编号：" + orderDetail.getOrderid());
             if (orderDetail.getAddtime() != null && orderDetail.getAddtime().length() != 0) {
