@@ -264,11 +264,15 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
             } else {
                 payment.setText("微信支付");
             }
-            if(orderDetail.getCoupon()!=null && orderDetail.getCoupon().equals("0")){
+            if(orderDetail.getCoupon()!=null && orderDetail.getCoupon().length()>0 && orderDetail.getCoupon().equals("0")){
                 coupon_layout.setVisibility(View.GONE);
             }else{
-                coupon_layout.setVisibility(View.VISIBLE);
-                coupon_info.setText("-"+"￥"+orderDetail.getCoupon());
+                if(orderDetail.getCoupon()==null){
+                    coupon_layout.setVisibility(View.GONE);
+                }else{
+                    coupon_layout.setVisibility(View.VISIBLE);
+                    coupon_info.setText("-"+"￥"+orderDetail.getCoupon());
+                }
             }
             orderId.setText("订单编号：" + orderDetail.getOrderid());
             if (orderDetail.getAddtime() != null && orderDetail.getAddtime().length() != 0) {
