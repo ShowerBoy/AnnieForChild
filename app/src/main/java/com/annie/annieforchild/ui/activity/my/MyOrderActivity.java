@@ -94,7 +94,7 @@ public class MyOrderActivity extends BaseActivity implements ViewInfo, OnCheckDo
         back.setOnClickListener(listener);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+//        recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recycler.setLayoutManager(layoutManager);
     }
 

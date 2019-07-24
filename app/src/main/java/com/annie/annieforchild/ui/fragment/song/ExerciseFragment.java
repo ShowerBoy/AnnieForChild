@@ -20,6 +20,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.book.Page;
+import com.annie.annieforchild.interactor.imp.CrashHandlerInteractorImp;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.PhotoActivity;
@@ -54,7 +55,7 @@ public class ExerciseFragment extends BaseFragment implements SongView, View.OnC
     private MediaPlayer mediaPlayer;
     private int tag, audioType, audioSource, bookId, homeworkid, homeworktype;
     private String title;
-
+    private CrashHandlerInteractorImp interactor;
     {
         setRegister(true);
     }
@@ -65,6 +66,7 @@ public class ExerciseFragment extends BaseFragment implements SongView, View.OnC
 
     @Override
     protected void initData() {
+        interactor = new CrashHandlerInteractorImp(null,1);
         helper = new AlertHelper(getActivity());
         dialog = helper.LoadingDialog();
         lists = new ArrayList<>();
@@ -84,7 +86,7 @@ public class ExerciseFragment extends BaseFragment implements SongView, View.OnC
         Glide.with(getContext()).load(page.getPageImage()).placeholder(R.drawable.book_image_loading).error(R.drawable.book_image_loadfail).fitCenter().into(pageImage);
         lists.addAll(page.getLineContent());
 
-        adapter = new Exercise_newAdapter(getActivity(), getContext(), this, title, lists, bookId, presenter, audioType, audioSource, page.getPageImage(), 1, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
+        adapter = new Exercise_newAdapter(interactor,getActivity(), getContext(), this, title, lists, bookId, presenter, audioType, audioSource, page.getPageImage(), 1, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 int positon = exerciseList.getChildAdapterPosition(view);

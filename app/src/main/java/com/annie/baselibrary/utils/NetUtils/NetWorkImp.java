@@ -1,7 +1,14 @@
 package com.annie.baselibrary.utils.NetUtils;
 
+import android.os.Build;
+import android.os.Environment;
+import android.os.Handler;
+
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.MethodCode;
+import com.annie.annieforchild.Utils.MyCrashHandler;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.interactor.imp.CrashHandlerInteractorImp;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.base.BaseApplication;
 import com.annie.baselibrary.utils.ToastHelp;
@@ -21,9 +28,10 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 public abstract class NetWorkImp<T> implements OnResponseListener<T> {
     private HttpConnect mHttpConnect;
-
+//    private CrashHandlerInteractorImp interactor;
     public NetWorkImp() {
         mHttpConnect = HttpConnect.newInstance();
+//        interactor = new CrashHandlerInteractorImp(null,1);
 //        mHttpConnect = new HttpConnect();
 //        mHttpConnect.setResponseListener(this);
     }
@@ -86,6 +94,17 @@ public abstract class NetWorkImp<T> implements OnResponseListener<T> {
         if (exception instanceof NetworkError) {// 网络不好
             ToastHelp.show(MyApplication.getContext(), R.string.error_please_check_network);
         } else if (exception instanceof TimeoutError) {// 请求超时
+
+//            if(what== MethodCode.EVENT_UPLOADAUDIO){
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (interactor != null) {
+//                            interactor.sendAudioMessage(MyApplication.getContext(),"",  "", Build.BRAND, Build.VERSION.RELEASE, SystemUtils.getVersionName(MyApplication.getContext().getApplicationContext()),"",2,2 );
+//                        }
+//                    }
+//                }, 100);
+//            }
             ToastHelp.show(MyApplication.getContext().getApplicationContext(), R.string.error_timeout);
         } else if (exception instanceof UnKnownHostError) {// 找不到服务器
             ToastHelp.show(MyApplication.getContext().getApplicationContext(), R.string.error_not_found_server);

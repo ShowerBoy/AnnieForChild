@@ -31,10 +31,10 @@ public class MyCrashHandler implements Thread.UncaughtExceptionHandler, RequestL
     private Context context;
     private MyApplication application;
 
-    public MyCrashHandler(Context context) {
+    public MyCrashHandler(Context context,int type) {
         this.context = context;
         application = (MyApplication) context.getApplicationContext();
-        interactor = new CrashHandlerInteractorImp(this);
+        interactor = new CrashHandlerInteractorImp(this,type);
     }
 
     @Override

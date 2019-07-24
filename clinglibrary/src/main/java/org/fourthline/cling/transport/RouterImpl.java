@@ -32,12 +32,6 @@ import org.fourthline.cling.transport.spi.NoNetworkException;
 import org.fourthline.cling.transport.spi.StreamClient;
 import org.fourthline.cling.transport.spi.StreamServer;
 import org.fourthline.cling.transport.spi.UpnpStream;
-import org.seamless.util.Exceptions;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
 import java.net.BindException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;

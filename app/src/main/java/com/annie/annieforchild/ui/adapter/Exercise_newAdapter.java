@@ -6,6 +6,7 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -23,9 +24,11 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.speech.util.Result;
 import com.annie.annieforchild.Utils.speech.util.XmlResultParser;
 import com.annie.annieforchild.bean.book.Line;
+import com.annie.annieforchild.interactor.imp.CrashHandlerInteractorImp;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.activity.pk.ExerciseActivity2;
 import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.example.lamemp3.PrivateInfo;
@@ -92,8 +95,10 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
     private int key; //0：书籍阅读 1：练习
     private Activity activity;
     private TAIOralEvaluation oral;
+    private CrashHandlerInteractorImp interactor;
+    private MyApplication application;
 
-    public Exercise_newAdapter(Activity activity, Context context, SongView songView, String title, List<Line> lists, int bookId, GrindEarPresenter presenter, int audioType, int audioSource, String imageUrl, int key, int homeworkid, int homeworktype, OnRecyclerItemClickListener listener) {
+    public Exercise_newAdapter(CrashHandlerInteractorImp interactor,Activity activity, Context context, SongView songView, String title, List<Line> lists, int bookId, GrindEarPresenter presenter, int audioType, int audioSource, String imageUrl, int key, int homeworkid, int homeworktype, OnRecyclerItemClickListener listener) {
         this.activity = activity;
         this.context = context;
         this.songView = songView;
@@ -109,6 +114,9 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
         this.homeworktype = homeworktype;
         this.listener = listener;
         inflater = LayoutInflater.from(context);
+        application = (MyApplication) context.getApplicationContext();
+        this.interactor=interactor;
+
         initData();
     }
 
@@ -334,9 +342,15 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                                         presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
                                     }
                                 }, 1500);
+                                if (interactor != null) {
+                                    interactor.sendAudioMessage(context, application.getSystemUtils().getDefaultUsername() != null ? application.getSystemUtils().getDefaultUsername() : "", application.getSystemUtils().getPhone() != null ? application.getSystemUtils().getPhone() : "", Build.BRAND, Build.VERSION.RELEASE, SystemUtils.getVersionName(context),"",1,1 );
+                                }
                                 Log.e("说话结束2", result.pronAccuracy + "");
 //                                notifyDataSetChanged();
                                 } else {
+                                if (interactor != null) {
+                                    interactor.sendAudioMessage(context,application.getSystemUtils().getDefaultUsername() != null ? application.getSystemUtils().getDefaultUsername() : "", application.getSystemUtils().getPhone() != null ? application.getSystemUtils().getPhone() : "", Build.BRAND, Build.VERSION.RELEASE, SystemUtils.getVersionName(context),"",1,2 );
+                                }
                                     songView.dismissLoad();
 //                                if(error.code==3){
                                     SystemUtils.show(context, "上传失败，请稍后再试");

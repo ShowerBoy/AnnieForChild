@@ -63,10 +63,11 @@
         android:smallScreens="true"
         android:xlargeScreens="true" />
 
+    <!--android:allowBackup="true"-->
+    <!--android:hardwareAccelerated="false"-->
     <application
         android:name=".ui.application.MyApplication"
-        android:allowBackup="true"
-        android:hardwareAccelerated="false"
+
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -549,6 +550,9 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.androidupnpdemo.ui.ScreenControlActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.MyCouponActivity"
             android:screenOrientation="portrait"></activity>
         <!-- Since JCore2.0.0 Required SDK核心功能-->
         <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->

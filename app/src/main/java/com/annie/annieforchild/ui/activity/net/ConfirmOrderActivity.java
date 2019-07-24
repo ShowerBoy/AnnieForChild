@@ -1,25 +1,17 @@
 package com.annie.annieforchild.ui.activity.net;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,7 +21,6 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alipay.sdk.app.PayTask;
-import com.alipay.sdk.auth.AlipaySDK;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
@@ -38,9 +29,7 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.PayResult;
-import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.net.Gift;
-import com.annie.annieforchild.bean.net.ListenAndRead;
 import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.bean.net.Payresulrinfo;
 import com.annie.annieforchild.bean.net.WechatBean;
@@ -48,28 +37,19 @@ import com.annie.annieforchild.bean.order.AliOrderBean;
 import com.annie.annieforchild.bean.order.WechatOrderBean;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
-import com.annie.annieforchild.ui.activity.my.MyCourseActivity;
-import com.annie.annieforchild.ui.adapter.GiftAdapter;
-import com.annie.annieforchild.ui.adapter.NetGiftAdapter;
-import com.annie.annieforchild.ui.application.MyApplication;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
+import com.annie.annieforchild.ui.activity.my.MyCouponActivity;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
-import com.tencent.mm.opensdk.constants.ConstantsAPI;
-import com.tencent.mm.opensdk.modelbase.BaseReq;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -115,6 +95,9 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     private int isbuy = -1;
     private int tag = 3;
     private String trade_status;
+    private TextView coupon_info;
+    private LinearLayout suggest_coupon_layout;
+    private String couponid;
 
     {
         setRegister(true);
@@ -147,10 +130,13 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         confirmWechat = findViewById(R.id.confirm_wechat);
         materialPrice = findViewById(R.id.material_price);
         suggestLayout = findViewById(R.id.suggest_material_layout);
+        coupon_info = findViewById(R.id.coupon_info);
+        suggest_coupon_layout=findViewById(R.id.suggest_coupon_layout);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
         addressLayout.setOnClickListener(listener);
         buyBtn.setOnClickListener(listener);
+        suggest_coupon_layout.setOnClickListener(listener);
         confirmWechat.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -294,6 +280,44 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 weixin.setActivated(true);
                 payment = 1;
                 break;
+            case R.id.suggest_coupon_layout:
+                if (netSuggest.getIsNot() == 0) {
+                    showInfo("暂无优惠券");
+                } else {
+                    Intent intent1 = new Intent(this, MyCouponActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("to", "confirm");
+                    bundle.putInt("netid", netSuggest.getNetId());
+                    intent1.putExtras(bundle);
+                    startActivityForResult(intent1, 3);
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //        if (resultCode == 2) {
+//            if (data != null) {
+//                Bundle bundle = data.getExtras();
+//                selectList.clear();
+//                lists.clear();
+//                selectList.addAll((List<Gift>) bundle.getSerializable("select"));
+//                lists.addAll((List<Gift>) bundle.getSerializable("list"));
+//            }
+//        }
+        switch(requestCode){
+            case 3://选择礼包返回
+                if(data!=null){
+                    Bundle bundle=data.getExtras();
+                    if(bundle!=null){
+                        coupon_info.setText("- ¥"+bundle.getString("couponprice"));
+                        confirm_price.setText((Float.parseFloat(netSuggest.getPrice())- Float.parseFloat(bundle.getString("couponprice"))) + "元");
+                        couponid=bundle.getString("couponid");
+                    }
+                }
+                break;
+
         }
     }
 
@@ -390,13 +414,13 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
 //                        }
 //                    }
                 if (payment == 0) {
-                    presenter.buyNetWork(netid, addressId, flag, payment, wxText, "");
+                    presenter.buyNetWork(netid, addressId, flag, payment, wxText, "",couponid);
                 } else {
                     if (!wxapi.isWXAppInstalled()) {
                         showInfo("请您先安装微信客户端！");
                         return;
                     }
-                    presenter.buyNetWork(netid, addressId, flag, payment, wxText, "");
+                    presenter.buyNetWork(netid, addressId, flag, payment, wxText, "",couponid);
                 }
 //                }
             } else if (isbuy == 0) {
@@ -432,18 +456,6 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode == 2) {
-//            if (data != null) {
-//                Bundle bundle = data.getExtras();
-//                selectList.clear();
-//                lists.clear();
-//                selectList.addAll((List<Gift>) bundle.getSerializable("select"));
-//                lists.addAll((List<Gift>) bundle.getSerializable("list"));
-//            }
-//        }
-    }
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -511,14 +523,46 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     }
 
     private void refresh() {
+
         if (netSuggest != null) {
             if (netSuggest.getIsBuy() == 2) {
                 canBuy = false;
             } else {
                 canBuy = true;
             }
+            if (netSuggest.getMaterialPrice() == null) {
+                materialPrice.setVisibility(View.GONE);
+            } else {
+                materialPrice.setVisibility(View.VISIBLE);
+                materialPrice.setText("￥" + netSuggest.getMaterialPrice());
+                matPrice = Double.parseDouble(netSuggest.getMaterialPrice());
+            }
+            netPrice = Double.parseDouble(netSuggest.getPrice());
+
+            if(netSuggest.getIsNot()==0){// #优惠券状态 1 有 0 无
+                coupon_info.setText("暂无优惠券");
+                if (flag == 0) {
+                    totalPrice.setText("共计：" + netPrice + "元");
+                    buyPrice = netPrice + "";
+                } else {
+                    totalPrice.setText("共计：" + (netPrice + matPrice) + "元");
+                    buyPrice = (netPrice + matPrice) + "";
+                }
+                confirm_price.setText(netSuggest.getPrice() + "元");
+            }else{
+                couponid=netSuggest.getDiscount().getId();
+                coupon_info.setText("- ¥"+netSuggest.getDiscount().getMoney());
+                if (flag == 0) {
+                    totalPrice.setText("共计：" + (Float.parseFloat(netSuggest.getPrice())- Float.parseFloat(netSuggest.getDiscount().getMoney())) + "元");
+                    buyPrice = netPrice + "";
+                } else {
+                    totalPrice.setText("共计：" +((netPrice + matPrice)-Float.parseFloat(netSuggest.getDiscount().getMoney())) + "元");
+                    buyPrice = (netPrice + matPrice) + "";
+                }
+                confirm_price.setText((Float.parseFloat(netSuggest.getPrice())-Float.parseFloat(netSuggest.getDiscount().getMoney())) + "元");
+            }
+
             product_name.setText(netSuggest.getNetName());
-            confirm_price.setText(netSuggest.getPrice() + "元");
             confirmWechat.setText(netSuggest.getWxnumber() != null ? netSuggest.getWxnumber() : "");
 //            if (netSuggest.getMaterial() != null && netSuggest.getMaterial().length() != 0) {
 //                material.setText(netSuggest.getMaterial());
@@ -543,13 +587,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
 //                }
 //            }
 
-            if (netSuggest.getMaterialPrice() == null) {
-                materialPrice.setVisibility(View.GONE);
-            } else {
-                materialPrice.setVisibility(View.VISIBLE);
-                materialPrice.setText("￥" + netSuggest.getMaterialPrice());
-                matPrice = Double.parseDouble(netSuggest.getMaterialPrice());
-            }
+
             if (netSuggest.getAddress() != null && netSuggest.getAddress().size() != 0) {
                 if (isAddress) {
                     for (int i = 0; i < netSuggest.getAddress().size(); i++) {
@@ -566,14 +604,7 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                     address.setText(netSuggest.getAddress().get(0).getAddress());
                 }
             }
-            netPrice = Double.parseDouble(netSuggest.getPrice());
-            if (flag == 0) {
-                totalPrice.setText("共计：" + netPrice + "元");
-                buyPrice = netPrice + "";
-            } else {
-                totalPrice.setText("共计：" + (netPrice + matPrice) + "元");
-                buyPrice = (netPrice + matPrice) + "";
-            }
+
         }
     }
 

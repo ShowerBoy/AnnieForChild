@@ -1,5 +1,6 @@
 package com.annie.annieforchild.interactor.imp;
 
+import android.app.Application;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
@@ -7,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
+import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
@@ -21,9 +23,14 @@ public class CrashHandlerInteractorImp extends NetWorkImp {
     private RequestListener listener;
     private FastJsonRequest request;
 
-    public CrashHandlerInteractorImp(RequestListener listener) {
+    public CrashHandlerInteractorImp(RequestListener listener, int type) {
         this.listener = listener;
-        request = new FastJsonRequest(SystemUtils.mainUrl + "SystemApi/ErrorCollection", RequestMethod.POST);
+        if (type == 0) {//0为崩溃日志收集，1为录音问题收集
+            request = new FastJsonRequest(SystemUtils.mainUrl + "SystemApi/ErrorCollection", RequestMethod.POST);
+        } else {
+            request = new FastJsonRequest(SystemUtils.mainUrl + "System/audioErrorCollection", RequestMethod.POST);
+        }
+
     }
 
     public void sendCrashMessage(String username, String phone, String phonetype, String systemversion, String appversion, String errlog) {
@@ -36,6 +43,21 @@ public class CrashHandlerInteractorImp extends NetWorkImp {
             request.add("appversion", appversion);
             request.add("errlog", errlog);
             addQueue(-100, request);
+        }
+    }
+
+    public void sendAudioMessage(Context context, String username, String phone, String phonetype, String systemversion, String appversion, String errlog, int logType, int status) {
+        if (request != null) {
+            MyApplication application = (MyApplication) context.getApplicationContext();
+            request.add("username", application.getSystemUtils().getDefaultUsername());
+            request.add("telphone", application.getSystemUtils().getPhone());
+            request.add("phonetype", phonetype);
+            request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+            request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+            request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
+            request.add("logType", logType);//1:志玲接口  2:app接口
+            request.add("status", status); //接口状态 1:成功   2:失败
+            addQueue(-101, request);
         }
     }
 
@@ -54,11 +76,14 @@ public class CrashHandlerInteractorImp extends NetWorkImp {
         JSONObject jsonObject = JSON.parseObject(jsonString);
         int status = jsonObject.getInteger(MethodCode.STATUS);
         String msg = jsonObject.getString(MethodCode.MSG);
-        if (status == 3) {
-            listener.Error(what, status, msg);
-        } else {
-            listener.Success(what, response);
+        if (what == (-100)) {
+            if (status == 3) {
+                listener.Error(what, status, msg);
+            } else {
+                listener.Success(what, response);
+            }
         }
+
     }
 
     @Override

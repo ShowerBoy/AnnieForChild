@@ -37,6 +37,7 @@ import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.book.Page;
 import com.annie.annieforchild.bean.book.ReleaseUrl;
+import com.annie.annieforchild.interactor.imp.CrashHandlerInteractorImp;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.PhotoActivity;
@@ -100,7 +101,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
     private int animationCode, homeworkid, homeworktype;
     private CheckDoubleClickListener listener;
     private Random random;
-
+    private CrashHandlerInteractorImp interactor;
     {
         setRegister(true);
     }
@@ -111,6 +112,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
 
     @Override
     protected void initData() {
+        interactor = new CrashHandlerInteractorImp(null,1);
         helper = new AlertHelper(getActivity());
         dialog = helper.LoadingDialog();
         random = new Random();
@@ -146,7 +148,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
         animationCode = page.getAnimationCode();
         initAnimation(animationCode);
         totalSign = lists.size();
-        adapter = new Exercise_newAdapter(getActivity(), getContext(), this, "", lists, 0, presenter, 0, 0, "", 0, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
+        adapter = new Exercise_newAdapter(interactor,getActivity(), getContext(), this, "", lists, 0, presenter, 0, 0, "", 0, homeworkid, homeworktype, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
 //                if (isPlay) {

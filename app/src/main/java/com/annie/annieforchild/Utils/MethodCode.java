@@ -236,4 +236,5 @@ public class MethodCode {
     final public static int EVENT_SPECIALCLASSV2 = 162; //
     final public static int EVENT_TASKLIST = 163; //
     final public static int EVENT_TASKDETAIL = 164; //
+    final public static int EVENT_DISCOUNTRECORD = 165; //优惠券
 }

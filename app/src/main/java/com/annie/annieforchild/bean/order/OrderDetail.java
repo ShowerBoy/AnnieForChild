@@ -22,10 +22,18 @@ public class OrderDetail implements Serializable {
     private String TeachingMaterialPrice;
     private String PreferentialPrice;
     private String ProductCourseName;
+    private String coupon;
     private int material;
     private int showStatus;
     private String pic;
 
+    public String getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(String coupon) {
+        this.coupon = coupon;
+    }
     public String getAddress() {
         return address;
     }

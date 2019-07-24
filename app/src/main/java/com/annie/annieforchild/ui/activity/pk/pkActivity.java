@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
@@ -43,6 +44,7 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.PkResult;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Line;
+import com.annie.annieforchild.interactor.imp.CrashHandlerInteractorImp;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.adapter.ChallengeAdapter;
@@ -50,6 +52,7 @@ import com.annie.annieforchild.ui.interfaces.OnCountFinishListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
+import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.bumptech.glide.Glide;
 import com.example.lamemp3.PrivateInfo;
 import com.iflytek.cloud.EvaluatorListener;
@@ -91,7 +94,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by wanglei on 2018/4/4.
  */
 
-public class pkActivity extends BaseActivity implements OnCheckDoubleClick, SongView, PlatformActionListener, PopupWindow.OnDismissListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, OnCountFinishListener {
+ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, SongView, PlatformActionListener, PopupWindow.OnDismissListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, OnCountFinishListener, RequestListener {
     private TextView quit, player1Name, player2Name;
     private ProgressBar progressBar;
     private CircleImageView player1, player2, character1, character2;
@@ -143,6 +146,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
     private Animation leftToRight, rightToLeft;
     private CheckDoubleClickListener listener;
     private TAIOralEvaluation oral;
+    private CrashHandlerInteractorImp interactor;
 
     {
         setRegister(true);
@@ -395,6 +399,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
         presenter.getBookAudioData(bookId, 2, pkUserName);
+        interactor = new CrashHandlerInteractorImp(this,1);
     }
 
     @Override
@@ -908,8 +913,14 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                                             presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".mp3", (float) num1, fileName, record_time, 2, "", imageUrl, 0, homeworkid, homeworktype);
                                         }
                                     }, 1500);
+                                    if (interactor != null) {
+                                        interactor.sendAudioMessage(pkActivity.this, application.getSystemUtils().getDefaultUsername() != null ? application.getSystemUtils().getDefaultUsername() : "", application.getSystemUtils().getPhone() != null ? application.getSystemUtils().getPhone() : "", Build.BRAND, Build.VERSION.RELEASE, SystemUtils.getVersionName(pkActivity.this),"",1,1 );
+                                    }
                                     Log.e("说话结束2", result.pronAccuracy + "");
                                 } else {
+                                    if (interactor != null) {
+                                        interactor.sendAudioMessage(pkActivity.this, application.getSystemUtils().getDefaultUsername() != null ? application.getSystemUtils().getDefaultUsername() : "", application.getSystemUtils().getPhone() != null ? application.getSystemUtils().getPhone() : "", Build.BRAND, Build.VERSION.RELEASE, SystemUtils.getVersionName(pkActivity.this),"",1,2 );
+                                    }
 //                                if(error.code==3){
                                     SystemUtils.show(pkActivity.this, "上传失败，请稍后再试");
 //                                }
@@ -986,6 +997,19 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
         isRecord = false;
         isPlay = false;
     }
+    @Override
+    public void Success(int what, Object result) {
 
+    }
+
+    @Override
+    public void Error(int what, int status, String error) {
+
+    }
+
+    @Override
+    public void Fail(int what, String error) {
+
+    }
 
 }

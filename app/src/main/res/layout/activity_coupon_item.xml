@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/couponlayout"
+        android:layout_width="match_parent"
+        android:layout_height="91dp"
+        android:background="@drawable/coupon_unuse"
+       android:layout_margin="8dp"
+        >
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_centerVertical="true"
+           android:layout_marginLeft="18dp"
+           android:gravity="bottom">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="¥"
+               android:textColor="#EF5733"
+               android:textSize="20sp"
+               />
+           <TextView
+               android:id="@+id/coupon_price"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text=""
+               android:textColor="#EF5733"
+               android:textSize="35sp"/>
+       </LinearLayout>
+        <Button
+            android:id="@+id/bt_use"
+            android:layout_width="65dp"
+            android:layout_height="25dp"
+            android:text="立即使用"
+            android:textSize="11sp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+           android:background="@drawable/orange_btn4"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="122dp"
+            >
+            <TextView
+                android:id="@+id/coupon_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="购课专项优惠券"
+                android:layout_marginTop="12dp"
+                android:textSize="16sp"
+                android:textColor="#454545"
+                />
+            <TextView
+                android:id="@+id/coupon_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="购课专项优惠券"
+                android:layout_marginTop="5dp"
+                android:textSize="11sp"
+                android:textColor="#888888"
+                />
+            <TextView
+                android:id="@+id/coupon_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2019-06-08到期"
+                android:layout_marginTop="5dp"
+                android:textSize="11sp"
+                android:textColor="#888888"
+                />
+        </LinearLayout>
+
+
+
+
+
+    </RelativeLayout>
+
+
