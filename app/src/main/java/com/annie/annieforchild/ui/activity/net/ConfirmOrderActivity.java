@@ -312,8 +312,9 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                     Bundle bundle=data.getExtras();
                     if(bundle!=null){
                         coupon_info.setText("- ¥"+bundle.getString("couponprice"));
-                        confirm_price.setText((Float.parseFloat(netSuggest.getPrice())- Float.parseFloat(bundle.getString("couponprice"))) + "元");
+//                        confirm_price.setText((Float.parseFloat(netSuggest.getPrice())- Float.parseFloat(bundle.getString("couponprice"))) + "元");
                         couponid=bundle.getString("couponid");
+                        refreshPrice(bundle.getString("couponprice"));
                     }
                 }
                 break;
@@ -522,6 +523,32 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         payThread.start();
     }
 
+    private void refreshPrice(String pouconprice){
+        netPrice = Double.parseDouble(netSuggest.getPrice());
+        if(netSuggest.getIsNot()==0){// #优惠券状态 1 有 0 无
+            coupon_info.setText("暂无优惠券");
+            if (flag == 0) {
+                totalPrice.setText("共计：" + netPrice + "元");
+                buyPrice = netPrice + "";
+            } else {
+                totalPrice.setText("共计：" + (netPrice + matPrice) + "元");
+                buyPrice = (netPrice + matPrice) + "";
+            }
+            confirm_price.setText(netSuggest.getPrice() + "元");
+        }else{
+            couponid=netSuggest.getDiscount().getId();
+            coupon_info.setText("- ¥"+netSuggest.getDiscount().getMoney());
+            if (flag == 0) {
+                totalPrice.setText("共计：" + (Float.parseFloat(netSuggest.getPrice())- Float.parseFloat(pouconprice)) + "元");
+                buyPrice = netPrice + "";
+            } else {
+                totalPrice.setText("共计：" +((netPrice + matPrice)-Float.parseFloat(pouconprice)) + "元");
+                buyPrice = (netPrice + matPrice) + "";
+            }
+            confirm_price.setText((Float.parseFloat(netSuggest.getPrice())) + "元");
+        }
+    }
+
     private void refresh() {
 
         if (netSuggest != null) {
@@ -537,30 +564,9 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 materialPrice.setText("￥" + netSuggest.getMaterialPrice());
                 matPrice = Double.parseDouble(netSuggest.getMaterialPrice());
             }
-            netPrice = Double.parseDouble(netSuggest.getPrice());
 
-            if(netSuggest.getIsNot()==0){// #优惠券状态 1 有 0 无
-                coupon_info.setText("暂无优惠券");
-                if (flag == 0) {
-                    totalPrice.setText("共计：" + netPrice + "元");
-                    buyPrice = netPrice + "";
-                } else {
-                    totalPrice.setText("共计：" + (netPrice + matPrice) + "元");
-                    buyPrice = (netPrice + matPrice) + "";
-                }
-                confirm_price.setText(netSuggest.getPrice() + "元");
-            }else{
-                couponid=netSuggest.getDiscount().getId();
-                coupon_info.setText("- ¥"+netSuggest.getDiscount().getMoney());
-                if (flag == 0) {
-                    totalPrice.setText("共计：" + (Float.parseFloat(netSuggest.getPrice())- Float.parseFloat(netSuggest.getDiscount().getMoney())) + "元");
-                    buyPrice = netPrice + "";
-                } else {
-                    totalPrice.setText("共计：" +((netPrice + matPrice)-Float.parseFloat(netSuggest.getDiscount().getMoney())) + "元");
-                    buyPrice = (netPrice + matPrice) + "";
-                }
-                confirm_price.setText((Float.parseFloat(netSuggest.getPrice())-Float.parseFloat(netSuggest.getDiscount().getMoney())) + "元");
-            }
+
+            refreshPrice(netSuggest.getDiscount().getMoney());
 
             product_name.setText(netSuggest.getNetName());
             confirmWechat.setText(netSuggest.getWxnumber() != null ? netSuggest.getWxnumber() : "");

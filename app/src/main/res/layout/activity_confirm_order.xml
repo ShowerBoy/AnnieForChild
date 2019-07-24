@@ -296,7 +296,7 @@
                             android:layout_height="wrap_content"
                             android:layout_toLeftOf="@id/img_right"
                             android:layout_centerVertical="true"
-                            android:text="- 100"
+                            android:text=""
                             android:layout_marginRight="5dp"
                             android:textColor="@color/text_orange"
                             android:textSize="14sp" />
