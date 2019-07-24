@@ -109,6 +109,7 @@ public class MediaController extends FrameLayout implements IMediaController {
         void onClickMenu();
 
         void onClickDefi();
+
         void onClickScreen();
     }
 
