@@ -899,6 +899,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 //                                SystemUtils.show(ChallengeActivity.this, "说话结束");
                                 }
                                 oral = null;
+                                dismissLoad();
                                 if (result != null) {
                                     double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
                                     BigDecimal bg = new BigDecimal(num / 20);

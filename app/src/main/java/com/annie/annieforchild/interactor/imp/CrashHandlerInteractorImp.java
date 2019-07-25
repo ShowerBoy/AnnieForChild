@@ -72,22 +72,27 @@ public class CrashHandlerInteractorImp extends NetWorkImp {
 
     @Override
     protected void onSuccess(int what, Object response) {
-        String jsonString = response.toString();
-        JSONObject jsonObject = JSON.parseObject(jsonString);
-        int status = jsonObject.getInteger(MethodCode.STATUS);
-        String msg = jsonObject.getString(MethodCode.MSG);
-        if (what == (-100)) {
-            if (status == 3) {
-                listener.Error(what, status, msg);
-            } else {
-                listener.Success(what, response);
+        if(response!=null){
+            String jsonString = response.toString();
+            JSONObject jsonObject = JSON.parseObject(jsonString);
+            int status = jsonObject.getInteger(MethodCode.STATUS);
+            String msg = jsonObject.getString(MethodCode.MSG);
+            if (what == (-100)) {
+                if (status == 3) {
+                    listener.Error(what, status, msg);
+                } else {
+                    listener.Success(what, response);
+                }
             }
         }
-
     }
 
     @Override
     protected void onFail(int what, Response response) {
-        listener.Fail(what, response.getException().getMessage());
+        if(response!=null){
+            if (what == (-100)) {
+                listener.Fail(what, response.getException().getMessage());
+            }
+        }
     }
 }
