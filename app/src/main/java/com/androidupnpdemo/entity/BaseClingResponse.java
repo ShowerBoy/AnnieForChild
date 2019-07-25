@@ -14,7 +14,7 @@ public class BaseClingResponse<T> implements IResponse<T> {
     protected ActionInvocation mActionInvocation;
     protected UpnpResponse operation;
     protected String defaultMsg;
-    protected T info;
+    public T info;
 
     /**
      * 控制操作成功 构造器

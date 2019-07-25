@@ -79,28 +79,39 @@
         android:text="@string/mute"
         android:textColor="#333"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/seeklayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:visibility="gone"
         android:layout_marginRight="20dp"
+        android:orientation="horizontal"
         android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/time_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="进度"
+            android:text="00:00:00"
             android:textColor="#333"/>
-
+        <TextView
+            android:id="@+id/time_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="00:00:00"
+            android:textColor="#333"/>
         <SeekBar
             android:id="@+id/seekbar_progress"
             android:progressDrawable="@drawable/seekbar_drawable"
             android:thumb="@drawable/icon_seekbar_thumb"
-            android:layout_width="match_parent"
+            android:layout_toRightOf="@id/time_left"
+            android:layout_toLeftOf="@id/time_right"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/volume_layout"
@@ -147,21 +158,13 @@
             android:text="@string/play"
             android:onClick="onClick"/>
         <Button
-            android:id="@+id/bt_pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FF8C15"
-            android:text="@string/pause"
-            android:onClick="onClick"/>
-        <Button
             android:id="@+id/bt_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginLeft="20dp"
             android:background="#FF8C15"
-            android:text="@string/stop"
+            android:text="断开设备"
             android:onClick="onClick"/>
 
 

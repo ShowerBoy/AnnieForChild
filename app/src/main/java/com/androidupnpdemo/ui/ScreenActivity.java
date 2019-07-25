@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +34,7 @@ import com.androidupnpdemo.control.callback.ControlCallback;
 import com.androidupnpdemo.control.callback.ControlReceiveCallback;
 import com.androidupnpdemo.entity.ClingDevice;
 import com.androidupnpdemo.entity.ClingDeviceList;
+import com.androidupnpdemo.entity.ClingPositionResponse;
 import com.androidupnpdemo.entity.DLANPlayState;
 import com.androidupnpdemo.entity.IDevice;
 import com.androidupnpdemo.entity.IResponse;
@@ -47,6 +49,7 @@ import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.ui.activity.VideoActivity_new;
 
 import org.fourthline.cling.model.meta.Device;
+import org.fourthline.cling.support.model.PositionInfo;
 
 import java.util.Collection;
 import java.util.List;
@@ -56,17 +59,29 @@ public class ScreenActivity extends AppCompatActivity implements
         SeekBar.OnSeekBarChangeListener {
 
     private static final String TAG = ScreenActivity.class.getSimpleName();
-    /** 连接设备状态: 播放状态 */
+    /**
+     * 连接设备状态: 播放状态
+     */
     public static final int PLAY_ACTION = 0xa1;
-    /** 连接设备状态: 暂停状态 */
+    /**
+     * 连接设备状态: 暂停状态
+     */
     public static final int PAUSE_ACTION = 0xa2;
-    /** 连接设备状态: 停止状态 */
+    /**
+     * 连接设备状态: 停止状态
+     */
     public static final int STOP_ACTION = 0xa3;
-    /** 连接设备状态: 转菊花状态 */
+    /**
+     * 连接设备状态: 转菊花状态
+     */
     public static final int TRANSITIONING_ACTION = 0xa4;
-    /** 获取进度 */
+    /**
+     * 获取进度
+     */
     public static final int GET_POSITION_INFO_ACTION = 0xa6;
-    /** 投放失败 */
+    /**
+     * 投放失败
+     */
     public static final int ERROR_ACTION = 0xa5;
 
     private Context mContext;
@@ -82,11 +97,26 @@ public class ScreenActivity extends AppCompatActivity implements
     private BroadcastReceiver mTransportStateBroadcastReceiver;
     private ArrayAdapter<ClingDevice> mDevicesAdapter;
     private RelativeLayout screenstatus;
-    private LinearLayout seeklayout;
+    private RelativeLayout seeklayout;
     private LinearLayout volume_layout;
     private LinearLayout control_layout;
     private String url;
-    private  Long duration;
+    private int duration;
+    private Button bt_play;
+    private TextView time_left,time_right;
+
+    Handler TimerHandler=new Handler();                   //创建一个Handler对象
+
+    Runnable myTimerRun=new Runnable()                //创建一个runnable对象
+    {
+        @Override
+        public void run()
+        {
+            getPositionInfo();
+            TimerHandler.postDelayed(this, 500);
+        }
+
+    };
 
 
     /**
@@ -94,7 +124,9 @@ public class ScreenActivity extends AppCompatActivity implements
      */
     private ClingPlayControl mClingPlayControl = new ClingPlayControl();
 
-    /** 用于监听发现设备 */
+    /**
+     * 用于监听发现设备
+     */
     private BrowseRegistryListener mBrowseRegistryListener = new BrowseRegistryListener();
 
     private ServiceConnection mUpnpServiceConnection = new ServiceConnection() {
@@ -146,16 +178,13 @@ public class ScreenActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen);
         mContext = this;
-        Intent intent = getIntent();
-        if (intent != null) {
-            url=intent.getStringExtra("url");
-            duration=intent.getLongExtra("duration",0);
-        }
+
         initView();
         initListeners();
         bindServices();
         registerReceivers();
         onRefresh();
+        TimerHandler.postDelayed(myTimerRun, 1000);
     }
 
 
@@ -194,13 +223,17 @@ public class ScreenActivity extends AppCompatActivity implements
 
         ClingManager.getInstance().destroy();
         ClingDeviceList.getInstance().destroy();
+        TimerHandler.removeCallbacks(myTimerRun);
     }
 
     private void initView() {
-        screenstatus=findViewById(R.id.screenstatus);
-        control_layout=findViewById(R.id.control_layout);
-        seeklayout=findViewById(R.id.seeklayout);
-        volume_layout=findViewById(R.id.volume_layout);
+        time_left=findViewById(R.id.time_left);
+        time_right=findViewById(R.id.time_right);
+        bt_play = findViewById(R.id.bt_play);
+        screenstatus = findViewById(R.id.screenstatus);
+        control_layout = findViewById(R.id.control_layout);
+        seeklayout = findViewById(R.id.seeklayout);
+        volume_layout = findViewById(R.id.volume_layout);
 
         mDeviceList = (ListView) findViewById(R.id.lv_devices);
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.srl_refresh);
@@ -211,22 +244,31 @@ public class ScreenActivity extends AppCompatActivity implements
 
         mDevicesAdapter = new DevicesAdapter(mContext);
         mDeviceList.setAdapter(mDevicesAdapter);
+        Intent intent = getIntent();
 
+        if (intent != null) {
+           Bundle bundle = intent.getExtras();
+           url=bundle.getString("url");
+           duration=bundle.getInt("duration",0);
+
+        }
         /** 这里为了模拟 seek 效果(假设视频时间为 15s)，拖住 seekbar 同步视频时间，
          * 在实际中 使用的是片源的时间 */
-        mSeekProgress.setMax(duration.intValue());
+        mSeekProgress.setMax(duration);
 
         // 最大音量就是 100，不要问我为什么
         mSeekVolume.setMax(100);
+        bt_play.setText("暂停");
     }
-    private void sethide(boolean hide){
-        if(hide){
+
+    private void sethide(boolean hide) {
+        if (hide) {
             seeklayout.setVisibility(View.GONE);
             screenstatus.setVisibility(View.GONE);
             control_layout.setVisibility(View.GONE);
             volume_layout.setVisibility(View.GONE);
             mRefreshLayout.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             seeklayout.setVisibility(View.VISIBLE);
             screenstatus.setVisibility(View.VISIBLE);
             control_layout.setVisibility(View.VISIBLE);
@@ -330,7 +372,11 @@ public class ScreenActivity extends AppCompatActivity implements
         int id = view.getId();
         switch (id) {
             case R.id.bt_play:
-                play();
+                if (bt_play.getText().equals("暂停")) {
+                    pause();
+                } else {
+                    play();
+                }
                 break;
 
             case R.id.bt_pause:
@@ -372,6 +418,7 @@ public class ScreenActivity extends AppCompatActivity implements
             @Override
             public void success(IResponse response) {
                 Log.e(TAG, "pause success");
+                bt_play.setText("播放");
             }
 
             @Override
@@ -385,6 +432,24 @@ public class ScreenActivity extends AppCompatActivity implements
         mClingPlayControl.getPositionInfo(new ControlReceiveCallback() {
             @Override
             public void receive(IResponse response) {
+                time_right.setText((((ClingPositionResponse)response).info).getTrackDuration());
+                time_left.setText((((ClingPositionResponse)response).info).getRelTime());
+                mSeekProgress.setProgress(Utils.getIntTime((((ClingPositionResponse)response).info).getRelTime())/1000);
+                if((Utils.getIntTime((((ClingPositionResponse)response).info).getTrackDuration())/1000) - (Utils.getIntTime((((ClingPositionResponse)response).info).getRelTime())/1000)<=1){
+                    Log.e("222","播放完毕");
+                    mClingPlayControl.seek(0, new ControlCallback() {
+                        @Override
+                        public void success(IResponse response) {
+                            Log.e(TAG, "seek success");
+                        }
+
+                        @Override
+                        public void fail(IResponse response) {
+                            Log.e(TAG, "seek fail");
+                        }
+                    });
+                    play();
+                }
 
             }
 
@@ -419,8 +484,10 @@ public class ScreenActivity extends AppCompatActivity implements
                     //                    ClingUpnpServiceManager.getInstance().subscribeMediaRender();
                     //                    getPositionInfo();
                     // TODO: 17/7/21 play success
+
                     ClingManager.getInstance().registerAVTransport(mContext);
                     ClingManager.getInstance().registerRenderingControl(mContext);
+                    bt_play.setText("暂停");
                 }
 
                 @Override
@@ -434,6 +501,7 @@ public class ScreenActivity extends AppCompatActivity implements
                 @Override
                 public void success(IResponse response) {
                     Log.e(TAG, "play success");
+                    bt_play.setText("暂停");
                 }
 
                 @Override
@@ -449,7 +517,9 @@ public class ScreenActivity extends AppCompatActivity implements
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+         if(progress==duration){
+             finish();
+         }
     }
 
     @Override
@@ -529,11 +599,12 @@ public class ScreenActivity extends AppCompatActivity implements
                 case GET_POSITION_INFO_ACTION:
                     Log.e(TAG, "Execute ERROR_ACTION");
                     Bundle b = msg.getData();
-                    Log.e("seek",b.getInt("seek",0)+"");
+                    Log.e("seek", b.getInt("seek", 0) + "");
                     break;
             }
         }
     }
+
 
     /**
      * 接收状态改变信息
@@ -555,15 +626,15 @@ public class ScreenActivity extends AppCompatActivity implements
 
             } else if (Intents.ACTION_TRANSITIONING.equals(action)) {
                 mHandler.sendEmptyMessage(TRANSITIONING_ACTION);
-            }else if(Intents.ACTION_POSITION_CALLBACK.equals(action)){
-                Message message=new Message();
+            } else if (Intents.ACTION_POSITION_CALLBACK.equals(action)) {
+                Message message = new Message();
                 Bundle b = new Bundle();// 存放数据
-                int seek=0;
-                if(intent!=null){
-                    seek=intent.getIntExtra(Intents.EXTRA_POSITION,0);
-                    Log.e("1111",intent.getIntExtra(Intents.EXTRA_POSITION,0)+"");
+                int seek = 0;
+                if (intent != null) {
+                    seek = intent.getIntExtra(Intents.EXTRA_POSITION, 0);
+                    Log.e("1111", intent.getIntExtra(Intents.EXTRA_POSITION, 0) + "");
                 }
-                b.putInt("seek",seek);
+                b.putInt("seek", seek);
                 message.setData(b);
                 mHandler.sendMessage(message);
             }
