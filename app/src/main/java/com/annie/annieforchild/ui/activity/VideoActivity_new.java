@@ -569,8 +569,10 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         public void onClickScreen() {
             Intent intent = new Intent(VideoActivity_new.this, ScreenActivity.class);
             mVideoView.pause();
-            intent.putExtra("url", videoPath);
-            intent.putExtra("duration", mVideoView.getDuration() / 1000);
+            Bundle bundle = new Bundle();
+            bundle.putString("url", videoPath);
+            bundle.putInt("duration", (int)mVideoView.getDuration() / 1000);
+            intent.putExtras(bundle);
             startActivity(intent);
             finish();
         }

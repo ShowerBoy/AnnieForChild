@@ -546,9 +546,6 @@
             android:name="com.androidupnpdemo.ui.ScreenActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.androidupnpdemo.ui.ScreenControlActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
             android:name=".ui.activity.my.MyCouponActivity"
             android:screenOrientation="portrait"></activity>
         <!-- Since JCore2.0.0 Required SDK核心功能-->
