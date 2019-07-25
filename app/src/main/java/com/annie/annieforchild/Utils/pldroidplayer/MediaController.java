@@ -54,6 +54,7 @@ public class MediaController extends FrameLayout implements IMediaController {
 
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
+    private boolean isLoop; //是否循环
     private boolean mFromXml = false;
     private ImageButton mPauseButton;
     private ImageButton mFfwdButton;
@@ -62,14 +63,17 @@ public class MediaController extends FrameLayout implements IMediaController {
     private ImageButton mPrevButton;
     private ImageButton mBack;
     private ImageButton mMenu;
+    private ImageButton mLoop;
     private TextView mDefinition;
     private TextView mScreen;
+
 
     private boolean mUseFastForward;
     private boolean mShowPrev;
     private boolean mShowNext;
     private boolean mShowDefi;
     private boolean mShowMenu;
+    private boolean mShowLoop;
 
     private String definition = "标清";
 
@@ -111,12 +115,14 @@ public class MediaController extends FrameLayout implements IMediaController {
         void onClickDefi();
 
         void onClickScreen();
+
+        void onClickLoop();
     }
 
     public MediaController(Context context, AttributeSet attrs) {
         super(context, attrs);
         mRoot = this;
-        context1=context;
+        context1 = context;
         mFromXml = true;
         initController(context);
     }
@@ -127,7 +133,7 @@ public class MediaController extends FrameLayout implements IMediaController {
             initFloatingWindow();
     }
 
-    public MediaController(Context context, boolean useFastForward, boolean disableProgressBar, boolean showPrev, boolean showNext, boolean showDefi, boolean showMenu) {
+    public MediaController(Context context, boolean useFastForward, boolean disableProgressBar, boolean showPrev, boolean showNext, boolean showDefi, boolean showMenu, boolean showLoop, boolean misLoop) {
         this(context);
         mUseFastForward = useFastForward;
         mDisableProgress = disableProgressBar;
@@ -135,6 +141,9 @@ public class MediaController extends FrameLayout implements IMediaController {
         mShowNext = showNext;
         mShowDefi = showDefi;
         mShowMenu = showMenu;
+        mShowLoop = showLoop;
+        isLoop = misLoop;
+
     }
 
     public MediaController(Context context, boolean useFastForward) {
@@ -268,6 +277,11 @@ public class MediaController extends FrameLayout implements IMediaController {
 
         mScreen = v.findViewById(R.id.mt_screen);
         mScreen.setOnClickListener(mScreenListener);
+
+        mLoop = v.findViewById(R.id.mt_loop);
+        mLoop.setVisibility(mShowLoop ? View.VISIBLE : View.GONE);
+        mLoop.setOnClickListener(mLoopListener);
+        changeLoop();
 //        mScreen.setOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -584,6 +598,15 @@ public class MediaController extends FrameLayout implements IMediaController {
         }
     };
 
+    private OnClickListener mLoopListener = new OnClickListener() {
+        public void onClick(View v) {
+            if (mOnClickSpeedAdjustListener != null) {
+                mOnClickSpeedAdjustListener.onClickLoop();
+            }
+            show(sDefaultTimeout);
+        }
+    };
+
     /**
      * Set the view that acts as the anchor for the control view.
      * <p>
@@ -755,6 +778,22 @@ public class MediaController extends FrameLayout implements IMediaController {
 
     public void setDefiText(String text) {
         definition = text;
+    }
+
+    public boolean isLoop() {
+        return isLoop;
+    }
+
+    public void setLoop(boolean loop) {
+        isLoop = loop;
+    }
+
+    public void changeLoop() {
+        if (isLoop) {
+            mLoop.setImageResource(R.drawable.icon_loop);
+        } else {
+            mLoop.setImageResource(R.drawable.icon_unloop);
+        }
     }
 
     public void hideMC() {
