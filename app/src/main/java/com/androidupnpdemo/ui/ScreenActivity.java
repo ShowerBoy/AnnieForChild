@@ -531,9 +531,7 @@ public class ScreenActivity extends AppCompatActivity implements
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-         if(progress==duration){
-             finish();
-         }
+
     }
 
     @Override
@@ -549,7 +547,7 @@ public class ScreenActivity extends AppCompatActivity implements
             case R.id.seekbar_progress: // 进度
 
                 int currentProgress = seekBar.getProgress() * 1000; // 转为毫秒
-                mClingPlayControl.seek(currentProgress, new ControlCallback() {
+                mClingPlayControl.seek(currentProgress-2000, new ControlCallback() {
                     @Override
                     public void success(IResponse response) {
                         Log.e(TAG, "seek success");
