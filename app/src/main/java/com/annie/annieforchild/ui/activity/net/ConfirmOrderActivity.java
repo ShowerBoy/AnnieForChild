@@ -186,7 +186,10 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         if (type.equals("体验课")) {
             suggestLayout.setVisibility(View.GONE);
             addressLayout.setVisibility(View.GONE);
+            suggest_coupon_layout.setVisibility(View.GONE);
+
         } else {
+            suggest_coupon_layout.setVisibility(View.VISIBLE);
             suggestLayout.setVisibility(View.VISIBLE);
             addressLayout.setVisibility(View.VISIBLE);
             if (flag == 0) {
