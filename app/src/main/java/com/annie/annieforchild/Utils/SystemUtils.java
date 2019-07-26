@@ -97,7 +97,7 @@ import java.util.regex.PatternSyntaxException;
  */
 
 public class SystemUtils {
-    //                public static String mainUrl = "https://testapici.anniekids.com/Api/" + MethodCode.VERSION; //获取接口对象地址（测试）
+//    public static String mainUrl = "https://testapici.anniekids.com/Api/" + MethodCode.VERSION; //获取接口对象地址（测试）
     public static String mainUrl = "https://appapi.anniekids.com/Api/" + MethodCode.VERSION; //
     public static String netMainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（正式）
 
