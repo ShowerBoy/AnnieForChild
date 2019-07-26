@@ -474,7 +474,8 @@ public class ScreenActivity extends AppCompatActivity implements
 
             @Override
             public void fail(IResponse response) {
-
+                Toast.makeText(mContext, "连接超时，请重试", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
@@ -508,6 +509,8 @@ public class ScreenActivity extends AppCompatActivity implements
                 public void fail(IResponse response) {
                     Log.e(TAG, "play fail");
                     mHandler.sendEmptyMessage(ERROR_ACTION);
+                    Toast.makeText(mContext, "播放失败，请重试", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             });
         } else {
@@ -522,6 +525,8 @@ public class ScreenActivity extends AppCompatActivity implements
                 public void fail(IResponse response) {
                     Log.e(TAG, "play fail");
                     mHandler.sendEmptyMessage(ERROR_ACTION);
+                    Toast.makeText(mContext, "播放失败，请重试", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             });
         }
