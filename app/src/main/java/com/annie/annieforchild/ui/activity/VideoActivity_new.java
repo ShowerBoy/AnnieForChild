@@ -436,8 +436,10 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 EventBus.getDefault().post(message);
                 finish();
             }
+            speed = 1f;
             if (isLoop) {
                 mVideoView.setVideoPath(videoPath);
+                mVideoView.setPlaySpeed(speed);
                 mVideoView.start();
                 return;
             }
@@ -571,7 +573,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             mVideoView.pause();
             Bundle bundle = new Bundle();
             bundle.putString("url", videoPath);
-            bundle.putInt("duration", (int)mVideoView.getDuration() / 1000);
+            bundle.putInt("duration", (int) mVideoView.getDuration() / 1000);
             intent.putExtras(bundle);
             startActivity(intent);
             finish();
@@ -698,7 +700,9 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 mMediaController.setDefiText("标清");
                 mVideoView.pause();
                 videoPath = videoList.get(videoPos).getPath().get(0).getUrl();
+                speed = 1f;
                 mVideoView.setVideoPath(videoPath);
+                mVideoView.setPlaySpeed(speed);
                 mVideoView.start();
                 isComplete = false;
                 defiPopup.dismiss();
@@ -713,6 +717,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     videoPath = videoList.get(videoPos).getPath().get(0).getUrl();
                     mVideoView.setVideoPath(videoPath);
                 }
+                mVideoView.setPlaySpeed(speed);
                 mVideoView.start();
                 isComplete = false;
                 defiPopup.dismiss();
@@ -738,6 +743,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                         mVideoView.setVideoPath(videoPath);
                     }
                 }
+                mVideoView.setPlaySpeed(speed);
                 mVideoView.start();
                 isComplete = false;
                 defiPopup.dismiss();
@@ -760,6 +766,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     videoPath = videoList.get(videoPos).getUrl();
                 }
                 mMediaController.setShowDefi(isDefinition);
+                mVideoView.setPlaySpeed(speed);
                 mVideoView.setVideoPath(videoPath);
                 clarifyBack.setVisibility(View.GONE);
                 mVideoView.start();
@@ -783,6 +790,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     videoPath = videoList.get(videoPos).getUrl();
                 }
                 mMediaController.setShowDefi(isDefinition);
+                mVideoView.setPlaySpeed(speed);
                 mVideoView.setVideoPath(videoPath);
                 clarifyBack.setVisibility(View.GONE);
                 mVideoView.start();
