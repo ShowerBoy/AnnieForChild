@@ -598,18 +598,7 @@ public class ScreenActivity extends AppCompatActivity implements
                 case STOP_ACTION:
                     Log.i(TAG, "Execute STOP_ACTION");
                     Toast.makeText(mContext, "设备已断开", Toast.LENGTH_SHORT).show();
-                    mClingPlayControl.setCurrentState(DLANPlayState.STOP);
-                    if (Utils.isNull(item)) {
-                        return;
-                    }
-                    ClingManager.getInstance().setSelectedDevice(item);
-                    Device device = item.getDevice();
-                    if (Utils.isNull(device)) {
-                        return;
-                    }
-                    String selectedDeviceName = String.format(getString(R.string.selectedText), device.getDetails().getFriendlyName());
-                    mTVSelected.setText(selectedDeviceName);
-                    play();
+                    again();
 
                     break;
                 case TRANSITIONING_ACTION:
@@ -619,6 +608,7 @@ public class ScreenActivity extends AppCompatActivity implements
                 case ERROR_ACTION:
                     Log.e(TAG, "Execute ERROR_ACTION");
                     Toast.makeText(mContext, "设备不匹配，请重新选择设备", Toast.LENGTH_SHORT).show();
+                    again();
                     break;
                 case GET_POSITION_INFO_ACTION:
                     Log.e(TAG, "Execute ERROR_ACTION");
@@ -627,6 +617,20 @@ public class ScreenActivity extends AppCompatActivity implements
                     break;
             }
         }
+    }
+    void again(){
+        mClingPlayControl.setCurrentState(DLANPlayState.STOP);
+        if (Utils.isNull(item)) {
+            return;
+        }
+        ClingManager.getInstance().setSelectedDevice(item);
+        Device device = item.getDevice();
+        if (Utils.isNull(device)) {
+            return;
+        }
+        String selectedDeviceName = String.format(getString(R.string.selectedText), device.getDetails().getFriendlyName());
+        mTVSelected.setText(selectedDeviceName);
+        play();
     }
 
 
