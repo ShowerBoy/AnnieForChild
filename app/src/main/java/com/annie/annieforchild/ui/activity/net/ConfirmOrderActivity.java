@@ -564,9 +564,11 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 materialPrice.setText("￥" + netSuggest.getMaterialPrice());
                 matPrice = Double.parseDouble(netSuggest.getMaterialPrice());
             }
-
-
-            refreshPrice(netSuggest.getDiscount().getMoney());
+            if(netSuggest.getDiscount()!=null){
+                refreshPrice(netSuggest.getDiscount().getMoney());
+            }else{
+                refreshPrice("0");
+            }
 
             product_name.setText(netSuggest.getNetName());
             confirmWechat.setText(netSuggest.getWxnumber() != null ? netSuggest.getWxnumber() : "");

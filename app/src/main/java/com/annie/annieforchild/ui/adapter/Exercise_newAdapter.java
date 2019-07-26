@@ -328,7 +328,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                             isRecording = false;
                             isClick = true;
                             oral = null;
-                            Log.e("口语评测", result + "///" + error.desc);
+                            Log.e("口语评测", result.audioUrl + "///" + error.desc);
                             ExerciseActivity2.viewPager.setNoFocus(false);
                             viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
                             if (result != null) {
