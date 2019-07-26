@@ -88,6 +88,7 @@ public class JsApi {
         intent.putExtra("isFinish", 1);
         intent.putExtra("isDefinition", false);
         intent.putExtra("isWeb", 1);
+        intent.putExtra("showLoop", false);
         Bundle bundle = new Bundle();
         bundle.putSerializable("videoList", (Serializable) list);
         bundle.putInt("videoPos", 0);

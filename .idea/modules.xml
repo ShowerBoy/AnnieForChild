@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AnnieForChild.iml" filepath="$PROJECT_DIR$/AnnieForChild.iml" />
       <module fileurl="file://$PROJECT_DIR$/AnnieForChild-DEMO.iml" filepath="$PROJECT_DIR$/AnnieForChild-DEMO.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/clinglibrary/clinglibrary.iml" filepath="$PROJECT_DIR$/clinglibrary/clinglibrary.iml" />

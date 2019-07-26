@@ -28,23 +28,33 @@
             android:id="@+id/mt_definition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/mt_menu"
             android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/mt_menu"
+            android:padding="12dp"
             android:text="标清"
-            android:textSize="16sp"
             android:textColor="@color/white"
-            android:padding="12dp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/mt_screen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/mt_definition"
             android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/mt_definition"
+            android:padding="12dp"
             android:text="投屏"
-            android:textSize="16sp"
             android:textColor="@color/white"
-            android:padding="12dp"/>
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/mt_loop"
+            style="@android:style/MediaButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:layout_toLeftOf="@id/mt_screen"
+            android:src="@drawable/icon_unloop" />
     </RelativeLayout>
 
 </LinearLayout>

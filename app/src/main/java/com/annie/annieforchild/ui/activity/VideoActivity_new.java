@@ -107,6 +107,9 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     private boolean isDefinition;//判断是否有清晰度
     private boolean isComplete = false;//判断是否播放完成
     private int isWeb; //判断是否是网页视频播放 0:不是 1:是
+    private float speed = 1f; //速度
+    private boolean isLoop; //是否循环
+    private boolean showLoop; //是否显示循环
     Runnable runnable;
     private Intent intent;
 
@@ -159,6 +162,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
 
         isTime = intent.getBooleanExtra("isTime", false);
         isDefinition = intent.getBooleanExtra("isDefinition", false);
+        showLoop = intent.getBooleanExtra("showLoop", true);
 
         isFinish = intent.getIntExtra("isFinish", 0);
         animationId = intent.getIntExtra("animationId", 0);
@@ -177,7 +181,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             videoList = (List<VideoList>) bundle.getSerializable("videoList");
             videoPos = bundle.getInt("videoPos");
         }
-
+        isLoop = false;
         initPopup();
         initPLVideoView();
         if (isDefinition) {
@@ -189,7 +193,6 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 mMediaController.setDefiText("超清");
             }
         } else {
-            definition.setVisibility(View.GONE);
             videoPath = videoList.get(videoPos).getUrl();
         }
     }
@@ -241,9 +244,9 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
 
         // You can also use a custom `MediaController` widget
         if (SystemUtils.isOreo) {
-            mMediaController = new MediaController(this, true, false, false, false, isDefinition, false);
+            mMediaController = new MediaController(this, true, false, false, false, isDefinition, false, showLoop, isLoop);
         } else {
-            mMediaController = new MediaController(this, true, false, false, false, isDefinition, true);
+            mMediaController = new MediaController(this, true, false, false, false, isDefinition, true, showLoop, isLoop);
         }
 
 //        mMediaController = new MediaController2(this, false, true);
@@ -426,17 +429,22 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                 }
             }
             mMediaController.refreshProgress();
-            if (videoList.size() > 1) {
-                clarifyBack.setVisibility(View.VISIBLE);
-            } else {
-                clarifyBack.setVisibility(View.GONE);
-            }
             if (isWeb == 1) {
                 JTMessage message = new JTMessage();
                 message.what = MethodCode.EVENT_WEBVIDEO;
                 message.obj = "播放结束";
                 EventBus.getDefault().post(message);
                 finish();
+            }
+            if (isLoop) {
+                mVideoView.setVideoPath(videoPath);
+                mVideoView.start();
+                return;
+            }
+            if (videoList.size() > 1) {
+                clarifyBack.setVisibility(View.VISIBLE);
+            } else {
+                clarifyBack.setVisibility(View.GONE);
             }
             isComplete = true;
 //            mMediaController.setEnabled(false);
@@ -480,12 +488,12 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             if (isComplete) {
                 mMediaController.hideMC();
                 mVideoView.setVideoPath(videoPath);
-                mVideoView.setPlaySpeed(0X00010001);
+                mVideoView.setPlaySpeed(speed);
                 clarifyBack.setVisibility(View.GONE);
                 mVideoView.start();
                 isComplete = false;
             } else {
-                mVideoView.setPlaySpeed(0X00010001);
+                mVideoView.setPlaySpeed(speed);
                 clarifyBack.setVisibility(View.GONE);
             }
         }
@@ -493,15 +501,39 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         @Override
         public void onClickFaster() {
             // 0x0002/0x0001 = 2
-            mVideoView.setPlaySpeed(0X00020001);
-            Toast.makeText(VideoActivity_new.this, "2倍速播放", Toast.LENGTH_SHORT).show();
+//            mVideoView.setPlaySpeed(0X00020001);
+            if (speed < 1f) {
+                speed = 1f;
+                mVideoView.setPlaySpeed(speed);
+                Toast.makeText(VideoActivity_new.this, "正常播放", Toast.LENGTH_SHORT).show();
+            } else if (speed == 1f) {
+                speed = 1.5f;
+                mVideoView.setPlaySpeed(speed);
+                Toast.makeText(VideoActivity_new.this, "1.5倍速播放", Toast.LENGTH_SHORT).show();
+            } else if (speed == 1.5f) {
+                speed = 2f;
+                mVideoView.setPlaySpeed(speed);
+                Toast.makeText(VideoActivity_new.this, "2倍速播放", Toast.LENGTH_SHORT).show();
+            }
+
         }
 
         @Override
         public void onClickSlower() {
             // 0x0001/0x0002 = 0.5
-            mVideoView.setPlaySpeed(0X00010002);
-            Toast.makeText(VideoActivity_new.this, "0.5倍速播放", Toast.LENGTH_SHORT).show();
+            if (speed == 1f) {
+                speed = 0.5f;
+                mVideoView.setPlaySpeed(speed);
+                Toast.makeText(VideoActivity_new.this, "0.5倍速播放", Toast.LENGTH_SHORT).show();
+            } else if (speed == 1.5f) {
+                speed = 1f;
+                mVideoView.setPlaySpeed(speed);
+                Toast.makeText(VideoActivity_new.this, "正常播放", Toast.LENGTH_SHORT).show();
+            } else if (speed == 2f) {
+                speed = 1.5f;
+                mVideoView.setPlaySpeed(speed);
+                Toast.makeText(VideoActivity_new.this, "1.5倍速播放", Toast.LENGTH_SHORT).show();
+            }
         }
 
         @Override
@@ -543,6 +575,20 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             intent.putExtras(bundle);
             startActivity(intent);
             finish();
+        }
+
+        @Override
+        public void onClickLoop() {
+            if (isLoop) {
+                isLoop = false;
+                mMediaController.setLoop(isLoop);
+                mMediaController.changeLoop();
+            } else {
+                isLoop = true;
+                mMediaController.setLoop(isLoop);
+                mMediaController.changeLoop();
+                Toast.makeText(VideoActivity_new.this, "循环播放", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
@@ -702,12 +748,16 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     videoPos = videoList.size() - 1;
                 }
                 initPopup();
-                if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
-                    mMediaController.setDefiText("标清");
-                } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
-                    mMediaController.setDefiText("高清");
-                } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
-                    mMediaController.setDefiText("超清");
+                if (isDefinition) {
+                    if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
+                        mMediaController.setDefiText("标清");
+                    } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
+                        mMediaController.setDefiText("高清");
+                    } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
+                        mMediaController.setDefiText("超清");
+                    }
+                } else {
+                    videoPath = videoList.get(videoPos).getUrl();
                 }
                 mMediaController.setShowDefi(isDefinition);
                 mVideoView.setVideoPath(videoPath);
@@ -721,12 +771,16 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
                     videoPos = 0;
                 }
                 initPopup();
-                if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
-                    mMediaController.setDefiText("标清");
-                } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
-                    mMediaController.setDefiText("高清");
-                } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
-                    mMediaController.setDefiText("超清");
+                if (isDefinition) {
+                    if (videoList.get(videoPos).getPath().get(0).getType() == 1) {
+                        mMediaController.setDefiText("标清");
+                    } else if (videoList.get(videoPos).getPath().get(0).getType() == 2) {
+                        mMediaController.setDefiText("高清");
+                    } else if (videoList.get(videoPos).getPath().get(0).getType() == 3) {
+                        mMediaController.setDefiText("超清");
+                    }
+                } else {
+                    videoPath = videoList.get(videoPos).getUrl();
                 }
                 mMediaController.setShowDefi(isDefinition);
                 mVideoView.setVideoPath(videoPath);
