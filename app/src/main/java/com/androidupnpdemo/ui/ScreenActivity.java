@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -45,6 +46,7 @@ import com.androidupnpdemo.service.manager.ClingManager;
 import com.androidupnpdemo.service.manager.DeviceManager;
 import com.androidupnpdemo.util.Utils;
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.ui.activity.VideoActivity_new;
 
@@ -114,7 +116,7 @@ public class ScreenActivity extends AppCompatActivity implements
         public void run()
         {
             getPositionInfo();
-            TimerHandler.postDelayed(this, 500);
+            TimerHandler.postDelayed(this, 1000);
         }
 
     };
@@ -279,7 +281,7 @@ public class ScreenActivity extends AppCompatActivity implements
             mRefreshLayout.setVisibility(View.GONE);
         }
     }
-
+    ClingDevice item;
     private void initListeners() {
         mRefreshLayout.setOnRefreshListener(this);
 
@@ -287,7 +289,7 @@ public class ScreenActivity extends AppCompatActivity implements
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 选择连接设备
-                ClingDevice item = mDevicesAdapter.getItem(position);
+                 item = mDevicesAdapter.getItem(position);
                 if (Utils.isNull(item)) {
                     return;
                 }
@@ -594,11 +596,23 @@ public class ScreenActivity extends AppCompatActivity implements
                 case PAUSE_ACTION:
                     Log.i(TAG, "Execute PAUSE_ACTION");
                     mClingPlayControl.setCurrentState(DLANPlayState.PAUSE);
-
                     break;
                 case STOP_ACTION:
                     Log.i(TAG, "Execute STOP_ACTION");
+                    Toast.makeText(mContext, "设备已断开", Toast.LENGTH_SHORT).show();
                     mClingPlayControl.setCurrentState(DLANPlayState.STOP);
+                    if (Utils.isNull(item)) {
+                        return;
+                    }
+                    ClingManager.getInstance().setSelectedDevice(item);
+                    Device device = item.getDevice();
+                    if (Utils.isNull(device)) {
+                        return;
+                    }
+                    String selectedDeviceName = String.format(getString(R.string.selectedText), device.getDetails().getFriendlyName());
+                    mTVSelected.setText(selectedDeviceName);
+                    play();
+
                     break;
                 case TRANSITIONING_ACTION:
                     Log.i(TAG, "Execute TRANSITIONING_ACTION");
