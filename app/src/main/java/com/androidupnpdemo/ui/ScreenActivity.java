@@ -103,6 +103,7 @@ public class ScreenActivity extends AppCompatActivity implements
     private String url;
     private int duration;
     private Button bt_play;
+    private Button bt_cycle;
     private TextView time_left,time_right;
 
     Handler TimerHandler=new Handler();                   //创建一个Handler对象
@@ -230,6 +231,7 @@ public class ScreenActivity extends AppCompatActivity implements
         time_left=findViewById(R.id.time_left);
         time_right=findViewById(R.id.time_right);
         bt_play = findViewById(R.id.bt_play);
+        bt_cycle = findViewById(R.id.bt_cycle);
         screenstatus = findViewById(R.id.screenstatus);
         control_layout = findViewById(R.id.control_layout);
         seeklayout = findViewById(R.id.seeklayout);
@@ -259,6 +261,7 @@ public class ScreenActivity extends AppCompatActivity implements
         // 最大音量就是 100，不要问我为什么
         mSeekVolume.setMax(100);
         bt_play.setText("暂停");
+        bt_cycle.setText("关闭循环");
     }
 
     private void sethide(boolean hide) {
@@ -382,7 +385,13 @@ public class ScreenActivity extends AppCompatActivity implements
             case R.id.bt_pause:
                 pause();
                 break;
-
+            case R.id.bt_cycle:
+                if(bt_cycle.getText().equals("关闭循环")){
+                    bt_cycle.setText("打开循环");
+                }else{
+                    bt_cycle.setText("关闭循环");
+                }
+                break;
             case R.id.bt_stop:
                 stop();
                 finish();
@@ -435,22 +444,25 @@ public class ScreenActivity extends AppCompatActivity implements
                 time_right.setText((((ClingPositionResponse)response).info).getTrackDuration());
                 time_left.setText((((ClingPositionResponse)response).info).getRelTime());
                 mSeekProgress.setProgress(Utils.getIntTime((((ClingPositionResponse)response).info).getRelTime())/1000);
-                if((Utils.getIntTime((((ClingPositionResponse)response).info).getTrackDuration())/1000) - (Utils.getIntTime((((ClingPositionResponse)response).info).getRelTime())/1000)<=1){
+                if(duration - (Utils.getIntTime((((ClingPositionResponse)response).info).getRelTime())/1000)<=2){
                     Log.e("222","播放完毕");
-                    mClingPlayControl.seek(0, new ControlCallback() {
-                        @Override
-                        public void success(IResponse response) {
-                            Log.e(TAG, "seek success");
-                        }
+                    if(bt_cycle.getText().equals("关闭循环")){//打开循环播放模式，循环播放
+                        mClingPlayControl.seek(0, new ControlCallback() {
+                            @Override
+                            public void success(IResponse response) {
+                                Log.e(TAG, "seek success");
+                            }
 
-                        @Override
-                        public void fail(IResponse response) {
-                            Log.e(TAG, "seek fail");
-                        }
-                    });
-                    play();
+                            @Override
+                            public void fail(IResponse response) {
+                                Log.e(TAG, "seek fail");
+                            }
+                        });
+                        play();
+                    }else{
+                        finish();
+                    }
                 }
-
             }
 
             @Override
@@ -594,7 +606,7 @@ public class ScreenActivity extends AppCompatActivity implements
                     break;
                 case ERROR_ACTION:
                     Log.e(TAG, "Execute ERROR_ACTION");
-                    Toast.makeText(mContext, "投放失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "设备不匹配，请重新选择设备", Toast.LENGTH_SHORT).show();
                     break;
                 case GET_POSITION_INFO_ACTION:
                     Log.e(TAG, "Execute ERROR_ACTION");
