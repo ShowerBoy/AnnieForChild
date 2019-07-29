@@ -14,8 +14,8 @@ android {
         applicationId "com.annie.annieforchild"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 47
-        versionName "1.1.35"
+        versionCode 48
+        versionName "1.1.36"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
