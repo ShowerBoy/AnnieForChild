@@ -131,12 +131,11 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <!--android:configChanges="orientation|screenSize|keyboardHidden"-->
+
         <activity
             android:name="com.tencent.smtt.sdk.VideoActivity"
             android:alwaysRetainTaskState="true"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|mcc|mnc"
-
+        android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
@@ -543,9 +542,9 @@
             android:name=".ui.activity.pk.MusicPlayActivity2"
             android:screenOrientation="portrait"
             android:taskAffinity="Radio.finish"></activity>
+        <!--android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"-->
         <activity
             android:name="com.androidupnpdemo.ui.ScreenActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|mcc|mnc"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.my.MyCouponActivity"
@@ -595,9 +594,7 @@
         <service
             android:name="com.androidupnpdemo.util.PollingService"
             android:exported="false" >
-            <intent-filter>
-                <action android:name="PollingService" />
-            </intent-filter>
+
         </service>
 
     </application>
