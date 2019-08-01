@@ -403,4 +403,20 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
         }
         Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
+
+    public List<UserInfo2> getLists() {
+        return lists;
+    }
+
+    public void setLists(List<UserInfo2> lists) {
+        this.lists = lists;
+    }
+
+    public MemberAdapter getAdapter() {
+        return adapter;
+    }
+
+    public void setAdapter(MemberAdapter adapter) {
+        this.adapter = adapter;
+    }
 }

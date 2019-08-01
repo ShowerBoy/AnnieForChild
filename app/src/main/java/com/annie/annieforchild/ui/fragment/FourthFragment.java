@@ -67,7 +67,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
     private CircleImageView userHeadpic;
     private TextView userId, userName, userOld, nectarNum, coinNum, recordNum;
     private RecyclerView member_layout;
-    private FourthPresenter presenter;
+    private FourthPresenterImp presenter;
     private UserInfo userInfo;
     private AlertHelper helper;
     private Dialog dialog;
@@ -202,6 +202,10 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
             }
             if (application.getSystemUtils().getChildTag() == 1) {
                 presenter.getUserInfo();
+            } else {
+                presenter.getLists().clear();
+                presenter.getAdapter().notifyDataSetChanged();
+                refresh(new UserInfo());
             }
         } else if (message.what == MethodCode.EVENT_EXCHANGEGOLD) {
             presenter.getUserInfo();
