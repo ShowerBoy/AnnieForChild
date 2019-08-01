@@ -65,7 +65,7 @@ public class MediaController extends FrameLayout implements IMediaController {
     private ImageButton mMenu;
     private ImageButton mLoop;
     private TextView mDefinition;
-    private TextView mScreen;
+    private ImageButton mScreen;
 
 
     private boolean mUseFastForward;
