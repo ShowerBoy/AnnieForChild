@@ -12,6 +12,7 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.SerialBean;
+import com.annie.annieforchild.bean.child.ChildBean;
 import com.annie.annieforchild.interactor.RegisterInteractor;
 import com.annie.annieforchild.interactor.imp.RegisterInteractorImp;
 import com.annie.annieforchild.presenter.RegisterPresenter;
@@ -144,12 +145,14 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
                 message.obj = serialBean;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_BINDSTUDENT) {
+                ChildBean childBean = (ChildBean) result;
                 /**
                  * {@link com.annie.annieforchild.ui.activity.child.BindStudentActivity#onMainEventThread(JTMessage)}
+                 * {@link com.annie.annieforchild.ui.fragment.FourthFragment#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
-                message.obj = result;
+                message.obj = childBean;
                 EventBus.getDefault().post(message);
             }
         }
@@ -211,7 +214,7 @@ public class RegisterPresenterImp extends BasePresenterImp implements RegisterPr
                  * {@link com.annie.annieforchild.ui.activity.login.ModifyPsdActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
-                message.what = what+10000;
+                message.what = what + 10000;
                 message.obj = error;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_RGISTER) {

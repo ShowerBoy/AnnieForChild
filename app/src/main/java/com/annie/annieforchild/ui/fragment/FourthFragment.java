@@ -60,14 +60,14 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  */
 
 public class FourthFragment extends BaseFragment implements FourthView, OnCheckDoubleClick {
-    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, feedbackLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout, addressLayout, myOrderLayout,myCouponLayout;
+    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, feedbackLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout, addressLayout, myOrderLayout, myCouponLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout nectarLayout, levelLayout, recordLayout;
     private ImageView settings, sexIcon, headpic_back;
     private CircleImageView userHeadpic;
     private TextView userId, userName, userOld, nectarNum, coinNum, recordNum;
     private RecyclerView member_layout;
-    private FourthPresenter presenter;
+    private FourthPresenterImp presenter;
     private UserInfo userInfo;
     private AlertHelper helper;
     private Dialog dialog;
@@ -193,9 +193,20 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 showInfo("删除失败");
             } else {
                 showInfo("删除成功");
-                application.getSystemUtils().setDefaultUsername(childBean.getUsername());
+                if (childBean.getUsername().equals("")) {
+                    application.getSystemUtils().setChildTag(0);
+                    application.getSystemUtils().setDefaultUsername(childBean.getUsername());
+                } else {
+                    application.getSystemUtils().setDefaultUsername(childBean.getUsername());
+                }
             }
-            presenter.getUserInfo();
+            if (application.getSystemUtils().getChildTag() == 1) {
+                presenter.getUserInfo();
+            } else {
+                presenter.getLists().clear();
+                presenter.getAdapter().notifyDataSetChanged();
+                refresh(new UserInfo());
+            }
         } else if (message.what == MethodCode.EVENT_EXCHANGEGOLD) {
             presenter.getUserInfo();
         } else if (message.what == MethodCode.EVENT_COMMITDURATION) {
@@ -205,6 +216,12 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         } else if (message.what == MethodCode.EVENT_PAY) {
             presenter.getUserInfo();
         } else if (message.what == MethodCode.EVENT_BINDSTUDENT) {
+            ChildBean childBean = (ChildBean) message.obj;
+            if (childBean != null) {
+                if (childBean.getResult() == 1) {
+                    application.getSystemUtils().setDefaultUsername(childBean.getUsername());
+                }
+            }
             presenter.getUserInfo();
         }
 //        else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {

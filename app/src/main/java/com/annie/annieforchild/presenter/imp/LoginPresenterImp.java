@@ -225,7 +225,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                         }
                         if (bean1.getDefaultUsername() == null) {
                             SystemUtils.show(context, "没有学员");
-                            return;
+                            bean1.setDefaultUsername("");
                         }
                         List<LoginBean> loginList = LitePal.findAll(LoginBean.class);
                         if (loginList != null && loginList.size() != 0) {
