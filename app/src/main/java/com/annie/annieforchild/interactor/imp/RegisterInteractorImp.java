@@ -8,6 +8,7 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.SerialBean;
+import com.annie.annieforchild.bean.child.ChildBean;
 import com.annie.annieforchild.interactor.RegisterInteractor;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
@@ -141,9 +142,9 @@ public class RegisterInteractorImp extends NetWorkImp implements RegisterInterac
                 SerialBean serialBean = JSON.parseObject(dataString, SerialBean.class);
                 listener.Success(what, serialBean);
             } else if (what == MethodCode.EVENT_BINDSTUDENT) {
-                JSONObject data = jsonObject.getJSONObject(MethodCode.DATA);
-                String result = data.getString("result");
-                listener.Success(what, result);
+                String dataString = jsonObject.getString(MethodCode.DATA);
+                ChildBean childBean = JSON.parseObject(dataString, ChildBean.class);
+                listener.Success(what, childBean);
             }
         } else {
             listener.Error(what, status, msg);

@@ -20,6 +20,7 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.SerialBean;
+import com.annie.annieforchild.bean.child.ChildBean;
 import com.annie.annieforchild.presenter.RegisterPresenter;
 import com.annie.annieforchild.presenter.imp.RegisterPresenterImp;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
@@ -139,9 +140,9 @@ public class BindStudentActivity extends BaseActivity implements RegisterView, O
                 serialNumber = serialBean.getSerialNumber();
             }
         } else if (message.what == MethodCode.EVENT_BINDSTUDENT) {
-            String result = (String) message.obj;
-            if (result != null) {
-                if (result.equals("0")) {
+            ChildBean childBean = (ChildBean) message.obj;
+            if (childBean != null) {
+                if (childBean.getResult() == 0) {
                     showInfo("绑定失败");
                 } else {
                     showInfo("绑定成功");
