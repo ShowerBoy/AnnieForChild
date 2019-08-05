@@ -51,37 +51,45 @@
                 android:layout_height="wrap_content" />
 
             <LinearLayout
+                android:id="@+id/back_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="174dp"
-                android:layout_alignParentBottom="true"
-                android:paddingBottom="25dp"
-                android:orientation="horizontal">
+                android:visibility="gone"
+                android:background="@drawable/net_v3_bottom_back"
+                android:layout_alignParentBottom="true">
 
-                <ImageView
-                    android:id="@+id/typrogess"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_weight="1" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="154dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="12dp">
 
-                <ImageView
-                    android:id="@+id/totest"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1" />
+                    <ImageView
+                        android:id="@+id/typrogess"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_weight="1"
+                        android:visibility="gone" />
 
+                    <ImageView
+                        android:id="@+id/totest"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:visibility="gone" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/net_coursedetail_recycler"
-                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
             </android.support.v7.widget.RecyclerView>
 
@@ -93,6 +101,7 @@
                 android:layout_centerInParent="true"
                 android:background="@drawable/emptystate_soon"
                 android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/loading"
                 android:layout_width="wrap_content"
