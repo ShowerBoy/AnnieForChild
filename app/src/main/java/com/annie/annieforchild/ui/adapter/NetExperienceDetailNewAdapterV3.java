@@ -110,14 +110,14 @@ public class NetExperienceDetailNewAdapterV3 extends RecyclerView.Adapter<NetExp
                     } else {
                         //TODO:
                         //TODO:
-                        boolean isClick = true;
-                        int j = i + 1;
-                        for (int w = j; w < lists.size(); w++) {
-                            if (lists.get(w).getIsfinish().equals("0")) {
-                                isClick = false;
-                            }
-                        }
-                        if (isClick) {
+//                        boolean isClick = true;
+//                        int j = i + 1;
+//                        for (int w = j; w < lists.size(); w++) {
+//                            if (lists.get(w).getIsfinish().equals("0")) {
+//                                isClick = false;
+//                            }
+//                        }
+//                        if (isClick) {
                             if (lists.get(i).getInfo().get(position).getType().equals("1")) {
                                 Intent intent = new Intent(context, LessonActivity.class);
                                 intent.putExtra("lessonId", lists.get(i).getInfo().get(position).getFid());
@@ -148,9 +148,9 @@ public class NetExperienceDetailNewAdapterV3 extends RecyclerView.Adapter<NetExp
                                 intent.putExtra("position", i);
                                 context.startActivity(intent);
                             }
-                        } else {
-                            SystemUtils.show(context, "请先完成上一阶段");
-                        }
+//                        } else {
+//                            SystemUtils.show(context, "请先完成上一阶段");
+//                        }
                     }
                 }
 
