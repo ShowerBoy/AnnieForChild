@@ -160,7 +160,7 @@ public class NetExperienceDetailNewAdapterV3 extends RecyclerView.Adapter<NetExp
 
                 }
             });
-            if (beenint != 0 && (beenint - 1) == i) {
+            if (beenint != 0 && (lists.size()-beenint) == i) {
                 addGroupImage(netExperienceDetailNewViewHolder.net_v3_childlayout);
             }
             if (lists.get(i).getIsshow().equals("0")) {//0 为加锁，1为隐藏

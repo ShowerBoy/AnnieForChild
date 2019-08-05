@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +70,7 @@ public class NetExperienceDetail_newActivity3 extends BaseActivity implements Vi
     private ImageView typrogess,totest;
     private int beeint=0;
     private ImageView loading;
+    private LinearLayout back_bottom;
 
     {
         setRegister(true);
@@ -81,6 +83,7 @@ public class NetExperienceDetail_newActivity3 extends BaseActivity implements Vi
 
     @Override
     protected void initView() {
+        back_bottom=findViewById(R.id.back_bottom);
         loading=findViewById(R.id.loading);
         typrogess=findViewById(R.id.typrogess);
         totest=findViewById(R.id.totest);
@@ -145,6 +148,7 @@ public class NetExperienceDetail_newActivity3 extends BaseActivity implements Vi
                                                    Target arg2, boolean arg3, boolean arg4) {
 //                        dialog.dismiss();
                         loading.setVisibility(View.GONE);
+                        back_bottom.setVisibility(View.VISIBLE);
                         recycler.setVisibility(View.VISIBLE);
                         net_exp_v3_backlayout.setVisibility(View.VISIBLE);
                         typrogess.setVisibility(View.VISIBLE);
