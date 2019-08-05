@@ -54,6 +54,7 @@ public interface NetWorkPresenter {
     void cancelOrder(int orderIncrId, int payment, int tag);
 
     void experienceDetailsV2(int netid);
+    void experienceDetailsV3(int netid);
 
     void videoPayRecord(String netid, String stageid, String unitid, String chaptercontent_id, int isFinish, String classcode, int position);
 

@@ -24,27 +24,17 @@
             android:layout_centerVertical="true"
             android:src="@drawable/icon_fullscreen" />
 
-        <TextView
-            android:id="@+id/mt_definition"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/mt_menu"
-            android:padding="12dp"
-            android:text="标清"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
 
-        <TextView
+
+        <ImageButton
             android:id="@+id/mt_screen"
+            style="@android:style/MediaButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/mt_definition"
-            android:padding="12dp"
-            android:text="投屏"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:layout_marginLeft="12dp"
+            android:layout_toLeftOf="@id/mt_menu"
+            android:src="@drawable/icon_screen" />
 
         <ImageButton
             android:id="@+id/mt_loop"
@@ -55,6 +45,17 @@
             android:layout_marginEnd="12dp"
             android:layout_toLeftOf="@id/mt_screen"
             android:src="@drawable/icon_unloop" />
+        <TextView
+            android:id="@+id/mt_definition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:layout_toStartOf="@+id/mt_loop"
+            android:padding="12dp"
+            android:text="标清"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </LinearLayout>

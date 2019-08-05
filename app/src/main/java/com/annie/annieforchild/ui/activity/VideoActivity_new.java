@@ -71,6 +71,7 @@ import com.pili.pldroid.player.widget.PLVideoView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -570,10 +571,11 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         @Override
         public void onClickScreen() {
             Intent intent = new Intent(VideoActivity_new.this, ScreenActivity.class);
-            mVideoView.pause();
             Bundle bundle = new Bundle();
             bundle.putString("url", videoPath);
             bundle.putInt("duration", (int) mVideoView.getDuration() / 1000);
+            bundle.putSerializable("videoList", (Serializable) videoList);
+            bundle.putInt("videoPos", videoPos);
             intent.putExtras(bundle);
             startActivity(intent);
             finish();
@@ -849,6 +851,8 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
         int ori = mConfiguration.orientation; //获取屏幕方向
         if (ori == mConfiguration.ORIENTATION_LANDSCAPE) {
             //横屏
+
+
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//强制为竖屏
         } else if (ori == mConfiguration.ORIENTATION_PORTRAIT) {
             //竖屏

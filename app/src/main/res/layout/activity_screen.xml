@@ -141,38 +141,39 @@
 
     <LinearLayout
         android:id="@+id/control_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:visibility="gone"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
+        android:layout_gravity="center_horizontal"
         android:gravity="center_vertical">
-
-        <Button
-            android:id="@+id/bt_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FF8C15"
-            android:text="@string/play"
-            android:onClick="onClick"/>
         <Button
             android:id="@+id/bt_cycle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FF8C15"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/icon_list_loop"
             android:layout_marginLeft="20dp"
-            android:text="关闭循环"
+            android:layout_marginRight="20dp"
             android:onClick="onClick"/>
         <Button
-            android:id="@+id/bt_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:id="@+id/bt_play"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/icon_music_pause"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:onClick="onClick"/>
+
+        <Button
+            android:id="@+id/bt_stop"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="gone"
+            android:layout_marginRight="20dp"
             android:background="#FF8C15"
-            android:text="断开设备"
+            android:text="退出投屏"
             android:onClick="onClick"/>
 
 

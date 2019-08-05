@@ -237,4 +237,6 @@ public class MethodCode {
     final public static int EVENT_TASKLIST = 163; //
     final public static int EVENT_TASKDETAIL = 164; //
     final public static int EVENT_DISCOUNTRECORD = 165; //优惠券
+    final public static int EVENT_EXPERIENCEDETAILSV3 = 166; //体验课V3
+
 }

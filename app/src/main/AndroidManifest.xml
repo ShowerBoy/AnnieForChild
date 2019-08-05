@@ -135,7 +135,7 @@
         <activity
             android:name="com.tencent.smtt.sdk.VideoActivity"
             android:alwaysRetainTaskState="true"
-            android:configChanges="orientation|screenSize|keyboardHidden"
+        android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
@@ -542,11 +542,15 @@
             android:name=".ui.activity.pk.MusicPlayActivity2"
             android:screenOrientation="portrait"
             android:taskAffinity="Radio.finish"></activity>
+        <!--android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"-->
         <activity
             android:name="com.androidupnpdemo.ui.ScreenActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.my.MyCouponActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.net.NetExperienceDetail_newActivity3"
             android:screenOrientation="portrait"></activity>
         <!-- Since JCore2.0.0 Required SDK核心功能-->
         <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
@@ -573,6 +577,14 @@
                 <category android:name="com.annie.annieforchild" />
             </intent-filter>
         </receiver>
+        <!--<receiver-->
+            <!--android:name="com.androidupnpdemo.util.PollingReceiver"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="ScreenActivity.class"/>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+
 
         <service
             android:name="com.androidupnpdemo.service.ClingUpnpService"
@@ -581,6 +593,12 @@
         <service
             android:name="com.androidupnpdemo.service.SystemService"
             android:exported="false" />
+
+        <service
+            android:name="com.androidupnpdemo.util.PollingService"
+            android:exported="false" >
+
+        </service>
 
     </application>
 </manifest>

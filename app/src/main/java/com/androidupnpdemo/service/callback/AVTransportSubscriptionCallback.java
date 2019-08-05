@@ -26,9 +26,11 @@ import java.util.Map;
 public class AVTransportSubscriptionCallback  extends BaseSubscriptionCallback {
 
     private static final String TAG = AVTransportSubscriptionCallback.class.getSimpleName();
+    public Context context;
 
     public AVTransportSubscriptionCallback(org.fourthline.cling.model.meta.Service service, Context context) {
         super(service, context);
+        this.context=context;
     }
 
     @Override
@@ -47,7 +49,6 @@ public class AVTransportSubscriptionCallback  extends BaseSubscriptionCallback {
     private void doAVTransportChange(String lastChangeValue) {
         try {
             LastChange lastChange = new LastChange(new AVTransportLastChangeParser(), lastChangeValue);
-
             //Parse TransportState value.
             AVTransportVariable.TransportState transportState = lastChange.getEventedValue(0, AVTransportVariable.TransportState.class);
             if (transportState != null) {

@@ -8,6 +8,7 @@ import android.net.SSLCertificateSocketFactory;
 import android.net.wifi.aware.AttachCallback;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.MyCrashHandler;
@@ -125,6 +126,13 @@ public class MyApplication extends LitePalApplication {
         } else {
             SystemUtils.isOreo = false;
         }
+
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable throwable) {
+                Log.e("TXT", "uncaughtException: happen!", throwable);
+            }
+        });
     }
 
     @Override

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   >
+    <!---->
+
+    <RelativeLayout
+        android:id="@+id/net_v3_childlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:id="@+id/net_v3_background_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/net_experience_net_recycler"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+           >
+
+        </android.support.v7.widget.RecyclerView>
+
+        <ImageView
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:clickable="false"
+            android:id="@+id/net_v3_lock"
+            />
+        <!---->
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="5dp"
+    >
+
+
+    <TextView
+        android:id="@+id/net_experience_item_title"
+        android:layout_width="107dp"
+        android:layout_height="28dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:background="@drawable/net_v3_title_background"
+        android:textStyle="bold"
+        android:textColor="#26893c"
+        android:text=""
+        android:paddingLeft="22dp"
+        android:textSize="15sp" />
+</LinearLayout>

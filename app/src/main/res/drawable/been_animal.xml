@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:duration="240" android:drawable="@drawable/bee11" />
+    <item android:duration="240" android:drawable="@drawable/bee22" />
+    <item android:duration="240" android:drawable="@drawable/bee33" />
+    <item android:duration="240" android:drawable="@drawable/bee44" />
+    <item android:duration="240" android:drawable="@drawable/bee55" />
+    <item android:duration="240" android:drawable="@drawable/bee66" />
+</animation-list>
