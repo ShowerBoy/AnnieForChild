@@ -131,13 +131,15 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
-            MPermissions.requestPermissions(this, 0, new String[]{
-                    Manifest.permission.READ_PHONE_STATE,
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-            });
+            if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M ) {
+                MPermissions.requestPermissions(this, 0, new String[]{
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                });
+            }
         } else {
             doit();
         }

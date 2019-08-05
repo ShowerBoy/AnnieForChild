@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -276,6 +277,11 @@ public class MediaController extends FrameLayout implements IMediaController {
         mDefinition.setOnClickListener(mDefiListener);
 
         mScreen = v.findViewById(R.id.mt_screen);
+        if(!mShowMenu){
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mScreen.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+            mScreen.setLayoutParams(params);
+        }
         mScreen.setOnClickListener(mScreenListener);
 
         mLoop = v.findViewById(R.id.mt_loop);

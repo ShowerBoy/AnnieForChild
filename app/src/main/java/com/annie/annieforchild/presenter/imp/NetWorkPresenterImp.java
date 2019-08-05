@@ -27,6 +27,7 @@ import com.annie.annieforchild.bean.net.WechatBean;
 import com.annie.annieforchild.bean.net.experience.EveryDetail;
 import com.annie.annieforchild.bean.net.experience.EveryTaskList;
 import com.annie.annieforchild.bean.net.experience.ExperienceV2;
+import com.annie.annieforchild.bean.net.experience.ExperienceV3;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
@@ -197,6 +198,11 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     public void experienceDetailsV2(int netid) {
         viewInfo.showLoad();
         interactor.experienceDetailsV2(netid);
+    }
+    @Override
+    public void experienceDetailsV3(int netid) {
+//        viewInfo.showLoad();
+        interactor.experienceDetailsV3(netid);
     }
 
     @Override
@@ -602,6 +608,15 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = experienceV2;
+                EventBus.getDefault().post(message);
+            }else if (what == MethodCode.EVENT_EXPERIENCEDETAILSV3) {
+                ExperienceV3 experienceV3 = (ExperienceV3) result;
+                /**
+                 * {@link com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity3#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = experienceV3;
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_VIDEOPAYRECORD) {
                 VideoFinishBean videoFinishBean = (VideoFinishBean) result;

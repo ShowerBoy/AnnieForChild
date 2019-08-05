@@ -101,13 +101,16 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
         presenter = new LoginPresenterImp(this, this);
         presenter.initViewAndData();
         requestQueue = NoHttp.newDownloadQueue();
-        MPermissions.requestPermissions(this, 1, new String[]{
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-        });
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M ){
+            MPermissions.requestPermissions(this, 1, new String[]{
+                    Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            });
+        }
+
         tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling

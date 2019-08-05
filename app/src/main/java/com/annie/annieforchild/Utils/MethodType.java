@@ -154,6 +154,7 @@ public class MethodType {
     final public static String CONTINUEPAY = "continuePay"; //订单详情
     final public static String CANCELORDER = "cancelOrder"; //取消订单
     final public static String EXPERIENCEDETAILSV2 = "experienceDetailsV2"; //新版体验课V2
+    final public static String EXPERIENCEDETAILSV3 = "experienceDetailsV3"; //新版体验课V3
     final public static String VIDEOPAYRECORD = "videoPayRecord"; //视频播放结束回调
     final public static String VIDEOLIST = "videoList"; //V2体验课视频列表
     final public static String VIDEOLISTV2 = "videoListV2"; //V2体验课视频列表(ver.2)

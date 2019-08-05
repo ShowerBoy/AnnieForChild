@@ -29,6 +29,7 @@ import com.annie.annieforchild.bean.net.experience.EveryDetail;
 import com.annie.annieforchild.bean.net.experience.EveryTaskList;
 import com.annie.annieforchild.bean.net.experience.EveryTasks;
 import com.annie.annieforchild.bean.net.experience.ExperienceV2;
+import com.annie.annieforchild.bean.net.experience.ExperienceV3;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
@@ -319,6 +320,17 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_EXPERIENCEDETAILSV2, request);
+    }
+    @Override
+    public void experienceDetailsV3(int netid) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.netMainUrl + MethodCode.NETCLASSAPI + MethodType.EXPERIENCEDETAILSV3, RequestMethod.POST);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("netid", netid);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
+        addQueue(MethodCode.EVENT_EXPERIENCEDETAILSV3, request);
     }
 
     @Override
@@ -717,6 +729,9 @@ public class NetWorkInteractorImp extends NetWorkImp implements NetWorkInteracto
                 } else if (what == MethodCode.EVENT_EXPERIENCEDETAILSV2) {
                     ExperienceV2 experienceV2 = JSON.parseObject(data, ExperienceV2.class);
                     listener.Success(what, experienceV2);
+                }else if (what == MethodCode.EVENT_EXPERIENCEDETAILSV3) {
+                    ExperienceV3 experienceV3 = JSON.parseObject(data, ExperienceV3.class);
+                    listener.Success(what, experienceV3);
                 } else if (what == MethodCode.EVENT_VIDEOPAYRECORD) {
                     VideoFinishBean videoFinishBean = JSON.parseObject(data, VideoFinishBean.class);
                     listener.Success(what, videoFinishBean);

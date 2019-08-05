@@ -34,6 +34,7 @@ import com.annie.annieforchild.ui.activity.net.LessonActivity;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetailActivity;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity;
 import com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity2;
+import com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity3;
 import com.annie.annieforchild.ui.activity.net.NetSpecialDetailActivity;
 import com.annie.annieforchild.ui.activity.net.NetSpecialDetailActivity2;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
@@ -133,7 +134,19 @@ public class MyCourseActivity extends BaseMusicActivity implements ViewInfo, OnC
                     intent.putExtra("color", lists.get(position).getColour());
                     startActivity(intent);
                 } else if (lists.get(position).getType() == 1) {
-                    if (lists.get(position).getPeriods() > 3) {
+                    if(lists.get(position).getPeriods() >=7){
+                        //新版体验课V3
+                        if (musicService != null) {
+                            if (musicService.isPlaying()) {
+                                musicService.stop();
+                            }
+                        }
+                        Intent intent = new Intent(MyCourseActivity.this, NetExperienceDetail_newActivity3.class);
+                        intent.putExtra("netid", lists.get(position).getNetId());
+                        intent.putExtra("netName", lists.get(position).getNetName());
+                        startActivity(intent);
+                    }
+                   else if (lists.get(position).getPeriods() > 3) {
                         //新版体验课V2
                         if (musicService != null) {
                             if (musicService.isPlaying()) {
