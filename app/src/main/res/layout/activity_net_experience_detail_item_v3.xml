@@ -15,6 +15,7 @@
         android:gravity="center_vertical"
         android:background="@drawable/net_v3_title_background"
         android:textStyle="bold"
+        android:textColor="#26893c"
         android:text=""
         android:paddingLeft="22dp"
         android:textSize="15sp" />
