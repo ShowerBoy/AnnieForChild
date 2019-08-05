@@ -224,9 +224,6 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
             }
             presenter.getUserInfo();
         }
-//        else if (message.what == MethodCode.EVENT_UPLOADAUDIO) {
-//            presenter.getUserInfo();
-//        }
     }
 
     public void refresh(UserInfo userInfo) {

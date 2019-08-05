@@ -21,6 +21,15 @@ public class HomeData implements Serializable {
     private Song meiriyishi;
     private Song meiriyidu;
     private String picture;
+    private List<Banner> pictureList;
+
+    public List<Banner> getPictureList() {
+        return pictureList;
+    }
+
+    public void setPictureList(List<Banner> pictureList) {
+        this.pictureList = pictureList;
+    }
 
     public String getPicture() {
         return picture;

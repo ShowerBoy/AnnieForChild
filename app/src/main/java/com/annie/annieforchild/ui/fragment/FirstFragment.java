@@ -91,7 +91,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
     //    private GridView recommendGrid;
 //    private RecommendAdapter recommend_adapter;
     private TextView moreMoerduo, moreReading, moreSpoken, moerduoText1, moerduoText2, moerduoText3, readingText1, readingText2, readingText3, spokenText1, spokenText2, spokenText3, meiriyigeText, meiriyigeCount, meiriyishiText, meiriyishiCount, meiriyiduText, meiriyiduCount, grindText, readingText, speakingText;
-    private SliderLayout imageSlide;
+    private SliderLayout imageSlide, imageSlide2;
     private ImageView homePicture, signImage, grindEarLayout, readingLayout, spokenLayout, moerduoImage1, moerduoImage2, moerduoImage3, readingImage1, readingImage2, readingImage3, spokenImage1, spokenImage2, spokenImage3, meiriyigeImage, meiriyishiImage, meiriyiduImage, grindLock1, grindLock2, grindLock3, readingLock1, readingLock2, readingLock3, speakingLock1, speakingLock2, speakingLock3, meiriyigeLock, meiriyishiLock, meiriyiduLock, freeImage1, freeImage2, freeImage3;
     private LinearLayout clockInLayout, scheduleLayout, eventLayout, matchLayout, iWantLayout, moerduoLinear, readingLinear, speakingLinear;
     private List<Song> moerduoList, readingList, speakingList, freeList;
@@ -102,7 +102,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
     private Dialog dialog;
     private MainPresenter presenter;
     private GrindEarPresenter presenter2;
-    private HashMap<Integer, String> file_maps;//轮播图图片map
+    private HashMap<Integer, String> file_maps, file_maps2;//轮播图图片map
     private int screenwidth;
     private CheckDoubleClickListener listener;
     private int classId = -10000;
@@ -130,6 +130,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         }
 
         file_maps = new HashMap<>();
+        file_maps2 = new HashMap<>();
 
 //        recommend_adapter = new RecommendAdapter(getContext(), recommend_list);
 //        recommendGrid.setAdapter(recommend_adapter);
@@ -143,10 +144,11 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         int width = screenwidth;
         int height = (int) (width / 25f * 7);
 
-        ViewGroup.LayoutParams layoutParams = homePicture.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = imageSlide2.getLayoutParams();
         layoutParams.width = width;
         layoutParams.height = height;
-        homePicture.setLayoutParams(layoutParams);
+        imageSlide2.setLayoutParams(layoutParams);
+        imageSlide2.stopAutoCycle();
 
         presenter = new MainPresenterImp(getContext(), this, screenwidth);
         presenter2 = new GrindEarPresenterImp(getContext(), this);
@@ -174,6 +176,23 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 
             @Override
             public void onPageSelected(int i) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+        imageSlide2 = view.findViewById(R.id.image_slide2);
+        imageSlide2.addOnPageChangeListener(new ViewPagerEx.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
             }
 
             @Override
@@ -308,8 +327,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
             readingList.addAll(homeData.getReading() != null ? homeData.getReading() : new ArrayList<>());
             speakingList.clear();
             speakingList.addAll(homeData.getSpeaking() != null ? homeData.getSpeaking() : new ArrayList<>());
-//            freeList.clear();
-//            freeList.addAll(homeData.getFreelist());
             meiriyige = homeData.getMeiriyige();
             meiriyishi = homeData.getMeiriyishi();
             meiriyidu = homeData.getMeiriyidu();
@@ -319,15 +336,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
             } else {
                 iWantLayout.setVisibility(View.VISIBLE);
             }
-//            msgFlipper.removeAllViews();
-//            for (int i = 0; i < msgText.size(); i++) {
-//                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//                msgFlipper.addView(msgText.get(i), params);
-//            }
-
-//            recommend_list.clear();
-//            recommend_list.addAll(homeData.getRecommendList());
-//            recommend_adapter.notifyDataSetChanged();
         } else if (message.what == MethodCode.EVENT_GETSPOKENCLASSES) {
             spokenList.clear();
             spokenList.addAll((List<SongClassify>) message.obj);
@@ -394,36 +402,6 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
             spokenText1.setText(speakingList.get(0).getBookName());
             spokenText2.setText(speakingList.get(1).getBookName());
             spokenText3.setText(speakingList.get(2).getBookName());
-//            if (speakingList.get(0).getJurisdiction() == 0) {
-//                speakingLock1.setVisibility(View.VISIBLE);
-//                if (speakingList.get(0).getIsusenectar() == 0) {
-//                    speakingLock1.setImageResource(R.drawable.icon_lock_book_f);
-//                } else {
-//                    speakingLock1.setImageResource(R.drawable.icon_lock_book_t);
-//                }
-//            } else {
-//                speakingLock1.setVisibility(View.GONE);
-//            }
-//            if (speakingList.get(1).getJurisdiction() == 0) {
-//                speakingLock2.setVisibility(View.VISIBLE);
-//                if (speakingList.get(1).getIsusenectar() == 0) {
-//                    speakingLock2.setImageResource(R.drawable.icon_lock_book_f);
-//                } else {
-//                    speakingLock2.setImageResource(R.drawable.icon_lock_book_t);
-//                }
-//            } else {
-//                speakingLock2.setVisibility(View.GONE);
-//            }
-//            if (speakingList.get(2).getJurisdiction() == 0) {
-//                speakingLock3.setVisibility(View.VISIBLE);
-//                if (speakingList.get(2).getIsusenectar() == 0) {
-//                    speakingLock3.setImageResource(R.drawable.icon_lock_book_f);
-//                } else {
-//                    speakingLock3.setImageResource(R.drawable.icon_lock_book_t);
-//                }
-//            } else {
-//                speakingLock3.setVisibility(View.GONE);
-//            }
         } else {
             speakingLinear.setVisibility(View.GONE);
             speakingText.setVisibility(View.GONE);
@@ -450,8 +428,18 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
     }
 
     @Override
+    public SliderLayout getImageSlide2() {
+        return imageSlide2;
+    }
+
+    @Override
     public HashMap<Integer, String> getFile_maps() {
         return file_maps;
+    }
+
+    @Override
+    public HashMap<Integer, String> getFile_maps2() {
+        return file_maps2;
     }
 
     @Override
@@ -717,49 +705,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 //我要练口语更多
                 intent.setClass(getContext(), SpeakingActivity.class);
                 startActivity(intent);
-//                if (application.getSystemUtils().getTag().equals("游客")) {
-//                    SystemUtils.toLogin(getContext());
-//                    return;
-//                }
-//                if (application.getSystemUtils().getChildTag() == 0) {
-//                    SystemUtils.toAddChild(getContext());
-//                    return;
-//                }
-//                if (spokenList.size() != 0) {
-//                    intent.setClass(getContext(), ListenSongActivity.class);
-//                    Bundle bundle5 = new Bundle();
-//                    bundle5.putInt("type", 11);
-//                    bundle5.putSerializable("ClassifyList", (Serializable) spokenList);
-//                    intent.putExtras(bundle5);
-//                    startActivity(intent);
-//                } else {
-//                    showInfo("请稍后");
-//                }
                 break;
-//            case R.id.main_free_image1:
-//                intent = new Intent(getContext(), PracticeActivity.class);
-//                intent.putExtra("song", freeList.get(0));
-//                intent.putExtra("type", 0);
-//                intent.putExtra("audioType", 0);
-//                intent.putExtra("audioSource", 0);
-//                startActivity(intent);
-//                break;
-//            case R.id.main_free_image2:
-//                intent = new Intent(getContext(), PracticeActivity.class);
-//                intent.putExtra("song", freeList.get(1));
-//                intent.putExtra("type", 0);
-//                intent.putExtra("audioType", 0);
-//                intent.putExtra("audioSource", 0);
-//                startActivity(intent);
-//                break;
-//            case R.id.main_free_image3:
-//                intent = new Intent(getContext(), PracticeActivity.class);
-//                intent.putExtra("song", freeList.get(2));
-//                intent.putExtra("type", 0);
-//                intent.putExtra("audioType", 0);
-//                intent.putExtra("audioSource", 0);
-//                startActivity(intent);
-//                break;
             case R.id.main_moerduo_image1:
                 if (moerduoList.get(0).getJurisdiction() == 0) {
                     if (moerduoList.get(0).getIsusenectar() == 1) {
@@ -1014,6 +960,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
     @Override
     public void onDestroy() {
         // TODO Auto-generated method stub
+        imageSlide.stopAutoCycle();
         super.onDestroy();
     }
 }

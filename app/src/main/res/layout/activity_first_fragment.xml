@@ -24,18 +24,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="3dp"
-                    android:paddingTop="5dp">
+                    android:paddingTop="5dp"
+                    android:paddingBottom="3dp">
 
                     <RelativeLayout
                         android:id="@+id/search_layout"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="8"
-                        android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
                         android:paddingRight="5dp"
-                        android:paddingTop="5dp">
+                        android:paddingBottom="5dp">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -240,12 +240,20 @@
                     android:layout_marginTop="10dp"
                     android:background="@color/light_gray2" />
 
+                <com.daimajia.slider.library.SliderLayout
+                    android:id="@+id/image_slide2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.daimajia.slider.library.SliderLayout>
+
                 <ImageView
                     android:id="@+id/home_picture"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -263,10 +271,10 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="12dp"
-                        android:paddingEnd="16dp"
                         android:paddingStart="16dp"
-                        android:paddingTop="10dp">
+                        android:paddingTop="10dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="12dp">
 
                         <ImageView
                             android:id="@+id/icon_main_free"
@@ -290,10 +298,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingBottom="12dp"
-                        android:paddingEnd="16dp"
                         android:paddingStart="16dp"
-                        android:paddingTop="6dp">
+                        android:paddingTop="6dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="12dp">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -313,15 +321,15 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="120dp"
                                     android:layout_centerInParent="true"
-                                    android:layout_marginEnd="2dp"
                                     android:layout_marginStart="2dp"
+                                    android:layout_marginEnd="2dp"
                                     android:scaleType="fitCenter" />
 
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
                                     android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
                                     android:src="@drawable/icon_free_limit" />
 
                             </RelativeLayout>
@@ -342,8 +350,8 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
@@ -358,15 +366,15 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="120dp"
                                     android:layout_centerInParent="true"
-                                    android:layout_marginEnd="2dp"
                                     android:layout_marginStart="2dp"
+                                    android:layout_marginEnd="2dp"
                                     android:scaleType="fitCenter" />
 
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
                                     android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
                                     android:src="@drawable/icon_free_limit" />
 
                             </RelativeLayout>
@@ -401,15 +409,15 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="120dp"
                                     android:layout_centerInParent="true"
-                                    android:layout_marginEnd="2dp"
                                     android:layout_marginStart="2dp"
+                                    android:layout_marginEnd="2dp"
                                     android:scaleType="fitCenter" />
 
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
                                     android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
                                     android:src="@drawable/icon_free_limit" />
 
                             </RelativeLayout>
@@ -453,10 +461,10 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="12dp"
-                            android:paddingEnd="16dp"
                             android:paddingStart="16dp"
-                            android:paddingTop="10dp">
+                            android:paddingTop="10dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="12dp">
 
                             <ImageView
                                 android:id="@+id/icon_main_moerduo"
@@ -480,8 +488,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:drawablePadding="6dp"
                                 android:drawableRight="@drawable/icon_arrow_right2"
+                                android:drawablePadding="6dp"
                                 android:text="更多"
                                 android:textColor="@color/text_black"
                                 android:textSize="16sp" />
@@ -492,10 +500,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:paddingBottom="12dp"
-                            android:paddingEnd="16dp"
                             android:paddingStart="16dp"
-                            android:paddingTop="6dp">
+                            android:paddingTop="6dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="12dp">
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -515,8 +523,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="110dp"
                                         android:layout_centerInParent="true"
-                                        android:layout_marginEnd="2dp"
                                         android:layout_marginStart="2dp"
+                                        android:layout_marginEnd="2dp"
                                         android:scaleType="fitCenter" />
 
                                 </RelativeLayout>
@@ -537,8 +545,8 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
                                 android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
 
@@ -553,8 +561,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="110dp"
                                         android:layout_centerInParent="true"
-                                        android:layout_marginEnd="2dp"
                                         android:layout_marginStart="2dp"
+                                        android:layout_marginEnd="2dp"
                                         android:scaleType="fitCenter" />
 
                                 </RelativeLayout>
@@ -589,8 +597,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_centerInParent="true"
-                                        android:layout_marginEnd="2dp"
                                         android:layout_marginStart="2dp"
+                                        android:layout_marginEnd="2dp"
                                         android:scaleType="fitCenter" />
 
                                 </RelativeLayout>
@@ -628,10 +636,10 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="12dp"
-                            android:paddingEnd="16dp"
                             android:paddingStart="16dp"
-                            android:paddingTop="10dp">
+                            android:paddingTop="10dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="12dp">
 
                             <ImageView
                                 android:id="@+id/icon_main_reading"
@@ -655,8 +663,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:drawablePadding="6dp"
                                 android:drawableRight="@drawable/icon_arrow_right2"
+                                android:drawablePadding="6dp"
                                 android:text="更多"
                                 android:textColor="@color/text_black"
                                 android:textSize="16sp" />
@@ -667,10 +675,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:paddingBottom="12dp"
-                            android:paddingEnd="16dp"
                             android:paddingStart="16dp"
-                            android:paddingTop="6dp">
+                            android:paddingTop="6dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="12dp">
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -690,8 +698,8 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="110dp"
                                         android:layout_centerInParent="true"
-                                        android:layout_marginEnd="2dp"
                                         android:layout_marginStart="2dp"
+                                        android:layout_marginEnd="2dp"
                                         android:scaleType="fitCenter" />
 
                                 </RelativeLayout>
@@ -713,8 +721,8 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
                                 android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
 
@@ -729,8 +737,8 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="110dp"
                                         android:layout_centerInParent="true"
-                                        android:layout_marginEnd="2dp"
-                                        android:layout_marginStart="2dp" />
+                                        android:layout_marginStart="2dp"
+                                        android:layout_marginEnd="2dp" />
                                 </RelativeLayout>
 
                                 <TextView
@@ -763,8 +771,8 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="110dp"
                                         android:layout_centerInParent="true"
-                                        android:layout_marginEnd="2dp"
                                         android:layout_marginStart="2dp"
+                                        android:layout_marginEnd="2dp"
                                         android:scaleType="fitCenter" />
 
                                 </RelativeLayout>
@@ -801,10 +809,10 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="12dp"
-                            android:paddingEnd="16dp"
                             android:paddingStart="16dp"
-                            android:paddingTop="10dp">
+                            android:paddingTop="10dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="12dp">
 
                             <ImageView
                                 android:id="@+id/icon_main_spoken"
@@ -828,8 +836,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:drawablePadding="6dp"
                                 android:drawableRight="@drawable/icon_arrow_right2"
+                                android:drawablePadding="6dp"
                                 android:text="更多"
                                 android:textColor="@color/text_black"
                                 android:textSize="16sp" />
@@ -840,10 +848,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:paddingBottom="12dp"
-                            android:paddingEnd="16dp"
                             android:paddingStart="16dp"
-                            android:paddingTop="6dp">
+                            android:paddingTop="6dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="12dp">
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -863,8 +871,8 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="110dp"
                                         android:layout_centerInParent="true"
-                                        android:layout_marginEnd="2dp"
                                         android:layout_marginStart="2dp"
+                                        android:layout_marginEnd="2dp"
                                         android:scaleType="fitCenter" />
 
                                 </RelativeLayout>
@@ -886,8 +894,8 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
                                 android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
 
@@ -902,8 +910,8 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="110dp"
                                         android:layout_centerInParent="true"
-                                        android:layout_marginEnd="2dp"
                                         android:layout_marginStart="2dp"
+                                        android:layout_marginEnd="2dp"
                                         android:scaleType="fitCenter" />
 
                                 </RelativeLayout>
@@ -938,8 +946,8 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="110dp"
                                         android:layout_centerInParent="true"
-                                        android:layout_marginEnd="2dp"
                                         android:layout_marginStart="2dp"
+                                        android:layout_marginEnd="2dp"
                                         android:scaleType="fitCenter" />
 
                                 </RelativeLayout>
@@ -977,10 +985,10 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="12dp"
-                        android:paddingEnd="16dp"
                         android:paddingStart="16dp"
-                        android:paddingTop="10dp">
+                        android:paddingTop="10dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="12dp">
 
                         <ImageView
                             android:id="@+id/icon_main_meiriyige"
@@ -1004,10 +1012,10 @@
                         android:id="@+id/meiriyige_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="12dp"
-                        android:paddingEnd="12dp"
                         android:paddingStart="12dp"
-                        android:paddingTop="6dp">
+                        android:paddingTop="6dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="12dp">
 
                         <RelativeLayout
                             android:id="@+id/meiriyige_relative"
@@ -1043,8 +1051,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="12dp"
                             android:layout_marginStart="12dp"
+                            android:layout_marginBottom="12dp"
                             android:layout_toEndOf="@+id/meiriyige_relative"
                             android:text=""
                             android:textColor="@color/text_color"
@@ -1070,10 +1078,10 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="12dp"
-                        android:paddingEnd="16dp"
                         android:paddingStart="16dp"
-                        android:paddingTop="10dp">
+                        android:paddingTop="10dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="12dp">
 
                         <ImageView
                             android:id="@+id/icon_main_meiriyishi"
@@ -1097,10 +1105,10 @@
                         android:id="@+id/meiriyishi_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="12dp"
-                        android:paddingEnd="12dp"
                         android:paddingStart="12dp"
-                        android:paddingTop="6dp">
+                        android:paddingTop="6dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="12dp">
 
                         <RelativeLayout
                             android:id="@+id/meiriyishi_relative"
@@ -1136,8 +1144,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="12dp"
                             android:layout_marginStart="12dp"
+                            android:layout_marginBottom="12dp"
                             android:layout_toEndOf="@+id/meiriyishi_relative"
                             android:text=""
                             android:textColor="@color/text_color"
@@ -1163,10 +1171,10 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="12dp"
-                        android:paddingEnd="16dp"
                         android:paddingStart="16dp"
-                        android:paddingTop="10dp">
+                        android:paddingTop="10dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="12dp">
 
                         <ImageView
                             android:id="@+id/icon_main_meiriyidu"
@@ -1190,10 +1198,10 @@
                         android:id="@+id/meiriyidu_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="12dp"
-                        android:paddingEnd="12dp"
                         android:paddingStart="12dp"
-                        android:paddingTop="6dp">
+                        android:paddingTop="6dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="12dp">
 
                         <RelativeLayout
                             android:id="@+id/meiriyidu_relative"
@@ -1229,8 +1237,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="12dp"
                             android:layout_marginStart="12dp"
+                            android:layout_marginBottom="12dp"
                             android:layout_toEndOf="@+id/meiriyidu_relative"
                             android:text=""
                             android:textColor="@color/text_color"

@@ -35,6 +35,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static android.content.Context.MODE_MULTI_PROCESS;
@@ -52,7 +53,9 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
     //    private List<Course> myCourse_lists;
 //    private List<Course2> myCourse_lists2;
     private List<Banner> bannerList; //banner列表
+    private List<Banner> bannerList2; //banner列表
     private HashMap<Integer, String> file_maps;
+    private HashMap<Integer, String> file_maps2;
     private MyApplication application;
     private int screenwidth;
 
@@ -67,17 +70,32 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
         mainView.getImageSlide().removeAllSliders();
         for (int name : file_maps.keySet()) {
             DefaultSliderView defaultSliderView = new DefaultSliderView(context);
-//            TextSliderView textSliderView = new TextSliderView(context);
-//            textSliderView
-//                    .image(file_maps.get(name))
-//                    .setScaleType(BaseSliderView.ScaleType.Fit)
-//                    .setOnSliderClickListener(this);
-//            textSliderView.bundle(new Bundle());
-//            textSliderView.getBundle().putInt("extra", name);
-//            mainView.getImageSlide().addSlider(textSliderView);
             defaultSliderView.bundle(new Bundle());
             defaultSliderView.getBundle().putInt("extra", name);
-            defaultSliderView.setOnSliderClickListener(this);
+            defaultSliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                @Override
+                public void onSliderClick(BaseSliderView baseSliderView) {
+                    if (application.getSystemUtils().getTag().equals("游客")) {
+                        SystemUtils.toLogin(context);
+                        return;
+                    }
+                    if (application.getSystemUtils().getChildTag() == 0) {
+                        SystemUtils.toAddChild(context);
+                        return;
+                    }
+                    if (!bannerList.get(baseSliderView.getBundle().getInt("extra")).getUrl().equals("")) {
+                        if (bannerList.get(baseSliderView.getBundle().getInt("extra")).getUrl().equals("1")) {
+                            Intent intent = new Intent(context, NetWorkActivity.class);
+                            context.startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(context, WebActivity.class);
+                            intent.putExtra("url", bannerList.get(baseSliderView.getBundle().getInt("extra")).getUrl());
+                            intent.putExtra("title", "活动");
+                            context.startActivity(intent);
+                        }
+                    }
+                }
+            });
             defaultSliderView.image(file_maps.get(name));
             mainView.getImageSlide().addSlider(defaultSliderView);
         }
@@ -88,38 +106,61 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
         mainView.getImageSlide().setDuration(4000);
     }
 
+    private void initImageSlide2() {
+        mainView.getImageSlide2().removeAllSliders();
+        for (int name : file_maps2.keySet()) {
+            DefaultSliderView defaultSliderView = new DefaultSliderView(context);
+            defaultSliderView.bundle(new Bundle());
+            defaultSliderView.getBundle().putInt("extra", name);
+            defaultSliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                @Override
+                public void onSliderClick(BaseSliderView baseSliderView) {
+                    if (application.getSystemUtils().getTag().equals("游客")) {
+                        SystemUtils.toLogin(context);
+                        return;
+                    }
+                    if (application.getSystemUtils().getChildTag() == 0) {
+                        SystemUtils.toAddChild(context);
+                        return;
+                    }
+                    if (!bannerList2.get(baseSliderView.getBundle().getInt("extra")).getUrl().equals("")) {
+                        if (bannerList2.get(baseSliderView.getBundle().getInt("extra")).getUrl().equals("1")) {
+                            Intent intent = new Intent(context, NetWorkActivity.class);
+                            intent.putExtra("to_exp", "1");
+                            context.startActivity(intent);
+                        } else if (bannerList2.get(baseSliderView.getBundle().getInt("extra")).getUrl().equals("2")) {
+                            Intent intent = new Intent(context, NetWorkActivity.class);
+                            intent.putExtra("to_exp", "2");
+                            context.startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(context, WebActivity.class);
+                            intent.putExtra("url", bannerList2.get(baseSliderView.getBundle().getInt("extra")).getUrl());
+                            intent.putExtra("title", "活动");
+                            context.startActivity(intent);
+                        }
+                    }
+                }
+            });
+            defaultSliderView.image(file_maps2.get(name));
+            mainView.getImageSlide2().addSlider(defaultSliderView);
+        }
+        mainView.getImageSlide2().movePrevPosition(false);
+        mainView.getImageSlide2().setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
+//        mainView.getImageSlide2().setPresetTransformer(SliderLayout.Transformer.DepthPage);
+        mainView.getImageSlide2().setPresetTransformer(SliderLayout.Transformer.Accordion);
+        mainView.getImageSlide2().setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mainView.getImageSlide2().setCurrentPosition(0);
+    }
+
     @Override
     public void onSliderClick(BaseSliderView slider) {
-//        mainView.showInfo(bannerList.get(slider.getBundle().getInt("extra")).getUrl());
-//        Uri uri = Uri.parse(bannerList.get(slider.getBundle().getInt("extra")).getUrl());
-//        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//        context.startActivity(intent);
-        if (application.getSystemUtils().getTag().equals("游客")) {
-            SystemUtils.toLogin(context);
-            return;
-        }
-        if (application.getSystemUtils().getChildTag() == 0) {
-            SystemUtils.toAddChild(context);
-            return;
-        }
-        if (!bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("")) {
-            if (bannerList.get(slider.getBundle().getInt("extra")).getUrl().equals("1")) {
-                Intent intent = new Intent(context, NetWorkActivity.class);
-                context.startActivity(intent);
-            } else {
-                Intent intent = new Intent(context, WebActivity.class);
-                intent.putExtra("url", bannerList.get(slider.getBundle().getInt("extra")).getUrl());
-                intent.putExtra("title", "活动");
-                context.startActivity(intent);
-            }
-        }
+
     }
 
     @Override
     public void initViewAndData() {
         file_maps = mainView.getFile_maps();
-//        myCourse_lists2 = new ArrayList<>();
-//        course_adapter = new MyCourseAdapter(context, screenwidth, myCourse_lists2);
+        file_maps2 = mainView.getFile_maps2();
         interactor = new MainInteractorImp(context, this);
     }
 
@@ -146,6 +187,14 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
                         file_maps.put(i, bannerList.get(i).getImageUrl());
                     }
                     initImageSlide();
+                }
+                if (homeData.getPictureList() != null) {
+                    bannerList2 = homeData.getPictureList();
+                    file_maps2.clear();
+                    for (int i = 0; i < bannerList2.size(); i++) {
+                        file_maps2.put(i, bannerList2.get(i).getImageUrl());
+                    }
+                    initImageSlide2();
                 }
                 /**
                  * {@link com.annie.annieforchild.ui.fragment.FirstFragment#onMainEventThread(JTMessage)}
