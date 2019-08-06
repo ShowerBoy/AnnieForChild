@@ -54,6 +54,8 @@ public class NetSpecialFragment extends BaseFragment implements OnCheckDoubleCli
     private RecyclerView specialList;
     private ImageView network_consult, network_faq;
     private int width;
+    private ImageView net_suggest_intro;
+
 
     {
         setRegister(true);
@@ -75,6 +77,7 @@ public class NetSpecialFragment extends BaseFragment implements OnCheckDoubleCli
 
     @Override
     protected void initView(View view) {
+        net_suggest_intro=view.findViewById(R.id.net_suggest_intro);
         DisplayMetrics dm = this.getResources().getDisplayMetrics();
         width = dm.widthPixels;
         listener = new CheckDoubleClickListener(this);
@@ -126,6 +129,9 @@ public class NetSpecialFragment extends BaseFragment implements OnCheckDoubleCli
                 if (netWork.getSpeciaList() != null) {
                     list_center.clear();
                     list_center.add(netWork.getSpeciaList().getTeacherQrcode());
+                    if(netWork.getSpeciaList().getImageDiscount()!=null && netWork.getSpeciaList().getImageDiscount().length()>0){
+                        Glide.with(this).load(netWork.getSpeciaList().getImageDiscount()).into(net_suggest_intro);
+                    }
                     list.clear();
                     list.addAll(netWork.getSpeciaList().getList());
                     if (netWork.getSpeciaList().getImageList() != null) {

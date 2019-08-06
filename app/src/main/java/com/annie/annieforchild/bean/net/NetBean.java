@@ -13,6 +13,16 @@ public class NetBean implements Serializable {
     private List<NetClass> list;
     private ExperienceImageList imageList;
 
+
+
+    private String imageDiscount;
+    public String getImageDiscount() {
+        return imageDiscount;
+    }
+
+    public void setImageDiscount(String imageDiscount) {
+        this.imageDiscount = imageDiscount;
+    }
     public String getTeacherName() {
         return teacherName;
     }

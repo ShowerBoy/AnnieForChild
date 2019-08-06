@@ -15,6 +15,8 @@ public class NetWork implements Serializable {
     private NetBean speciaList;
     private SuggestList suggestList;
 
+
+
     public List<Banner> getBannerList() {
         return bannerList;
     }
