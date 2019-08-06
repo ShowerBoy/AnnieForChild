@@ -15,7 +15,7 @@
         <com.daimajia.slider.library.SliderLayout
             android:id="@+id/net_banner"
             android:layout_width="match_parent"
-            android:layout_height="180dp"></com.daimajia.slider.library.SliderLayout>
+            android:layout_height="200dp"></com.daimajia.slider.library.SliderLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
