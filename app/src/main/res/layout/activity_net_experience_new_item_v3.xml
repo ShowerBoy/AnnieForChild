@@ -10,6 +10,7 @@
         android:id="@+id/net_v3_childlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         >
         <ImageView
             android:id="@+id/net_v3_background_layout"
@@ -27,16 +28,16 @@
 
         </android.support.v7.widget.RecyclerView>
 
-        <ImageView
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:clickable="false"
-            android:id="@+id/net_v3_lock"
-            />
+
         <!---->
 
     </RelativeLayout>
-
+    <ImageView
+        android:layout_width="335dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:clickable="false"
+        android:id="@+id/net_v3_lock"
+        />
 
 </RelativeLayout>

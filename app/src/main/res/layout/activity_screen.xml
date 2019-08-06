@@ -130,8 +130,8 @@
 
         <SeekBar
             android:id="@+id/seekbar_volume"
-            style="?android:attr/progressBarStyleHorizontal"
             android:progressDrawable="@drawable/seekbar_drawable"
+            android:thumb="@drawable/icon_seekbar_thumb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
