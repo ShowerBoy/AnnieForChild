@@ -99,6 +99,7 @@ public class MainPresenterImp extends BasePresenterImp implements MainPresenter,
             defaultSliderView.image(file_maps.get(name));
             mainView.getImageSlide().addSlider(defaultSliderView);
         }
+        mainView.getImageSlide().movePrevPosition(false);
         mainView.getImageSlide().setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
         mainView.getImageSlide().setPresetTransformer(SliderLayout.Transformer.DepthPage);
         mainView.getImageSlide().setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);

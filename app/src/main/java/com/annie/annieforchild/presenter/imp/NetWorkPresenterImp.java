@@ -136,7 +136,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid,String couponid) {
+    public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid, String couponid) {
         this.payment = payment;
         viewInfo.showLoad();
         interactor.buyNetWork(netid, addressid, ismaterial, payment, wxnumber, giftid, couponid);
@@ -199,6 +199,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
         viewInfo.showLoad();
         interactor.experienceDetailsV2(netid);
     }
+
     @Override
     public void experienceDetailsV3(int netid) {
 //        viewInfo.showLoad();
@@ -300,6 +301,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
             defaultSliderView.image(file_maps.get(name));
             grindEarView.getImageSlide().addSlider(defaultSliderView);
         }
+        grindEarView.getImageSlide().movePrevPosition(false);
         grindEarView.getImageSlide().setPresetTransformer(SliderLayout.Transformer.DepthPage);
         grindEarView.getImageSlide().setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         grindEarView.getImageSlide().setCustomAnimation(new DescriptionAnimation());
@@ -609,7 +611,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = experienceV2;
                 EventBus.getDefault().post(message);
-            }else if (what == MethodCode.EVENT_EXPERIENCEDETAILSV3) {
+            } else if (what == MethodCode.EVENT_EXPERIENCEDETAILSV3) {
                 ExperienceV3 experienceV3 = (ExperienceV3) result;
                 /**
                  * {@link com.annie.annieforchild.ui.activity.net.NetExperienceDetail_newActivity3#onMainEventThread(JTMessage)}
@@ -667,7 +669,7 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
                 message.what = what;
                 message.obj = everyDetail;
                 EventBus.getDefault().post(message);
-            }else if (what == MethodCode.EVENT_DISCOUNTRECORD) {
+            } else if (what == MethodCode.EVENT_DISCOUNTRECORD) {
                 /**
                  * {@link com.annie.annieforchild.ui.activity.my.MyCouponActivity#onMainEventThread(JTMessage)}
                  */
