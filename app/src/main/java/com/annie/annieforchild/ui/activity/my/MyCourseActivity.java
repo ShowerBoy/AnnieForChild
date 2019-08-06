@@ -134,7 +134,7 @@ public class MyCourseActivity extends BaseMusicActivity implements ViewInfo, OnC
                     intent.putExtra("color", lists.get(position).getColour());
                     startActivity(intent);
                 } else if (lists.get(position).getType() == 1) {
-                    if(lists.get(position).getPeriods() >=7){
+                    if(lists.get(position).getPeriods() >=8){
                         //新版体验课V3
                         if (musicService != null) {
                             if (musicService.isPlaying()) {
