@@ -12,6 +12,7 @@ import java.util.List;
 public class NetSuggest implements Serializable {
     private int isBuy;
     private int isNot;//是否有优惠券 0：没有 1有
+    private int discountPrice;//活动优惠 0：没有 1有
     private List<Gift> gift;
     private List<String> netSuggestUrl;
     private String material;
@@ -27,7 +28,13 @@ public class NetSuggest implements Serializable {
     private String message;
     private String wxnumber;
     private Discount discount;
+    public int getDiscountPrice() {
+        return discountPrice;
+    }
 
+    public void setDiscountPrice(int discountPrice) {
+        this.discountPrice = discountPrice;
+    }
     public String getWxnumber() {
         return wxnumber;
     }

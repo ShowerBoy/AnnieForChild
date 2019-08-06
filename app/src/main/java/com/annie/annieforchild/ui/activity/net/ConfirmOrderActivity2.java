@@ -67,8 +67,8 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
     private String wxout_trade_no = "";
     private int tag = 1;
     private String trade_status;
-    private LinearLayout coupon_layout;
-    private TextView coupon_info;
+    private LinearLayout coupon_layout,coupon_layout2;
+    private TextView coupon_info,coupon_info2;
 
 
     {
@@ -83,7 +83,9 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
     @Override
     protected void initView() {
         coupon_layout=findViewById(R.id.coupon_layout);
+        coupon_layout2=findViewById(R.id.coupon_layout2);
         coupon_info=findViewById(R.id.coupon_info);
+        coupon_info2=findViewById(R.id.coupon_info2);
         wxapi = WXAPIFactory.createWXAPI(this, SystemUtils.APP_ID, true);
         wxapi.registerApp(SystemUtils.APP_ID);
         state = findViewById(R.id.confirm_order2_state);
@@ -274,6 +276,8 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
                     coupon_info.setText("-"+"￥"+orderDetail.getCoupon());
                 }
             }
+            coupon_info2.setText("-"+"￥"+orderDetail.getDiscountPrice());
+
             orderId.setText("订单编号：" + orderDetail.getOrderid());
             if (orderDetail.getAddtime() != null && orderDetail.getAddtime().length() != 0) {
                 orderDate.setText("下单时间：" + orderDetail.getAddtime());

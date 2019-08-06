@@ -95,8 +95,8 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     private int isbuy = -1;
     private int tag = 3;
     private String trade_status;
-    private TextView coupon_info;
-    private LinearLayout suggest_coupon_layout;
+    private TextView coupon_info,coupon_info2;
+    private LinearLayout suggest_coupon_layout,suggest_coupon_layout2;
     private String couponid;
 
     {
@@ -131,7 +131,9 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
         materialPrice = findViewById(R.id.material_price);
         suggestLayout = findViewById(R.id.suggest_material_layout);
         coupon_info = findViewById(R.id.coupon_info);
+        coupon_info2 = findViewById(R.id.coupon_info2);
         suggest_coupon_layout=findViewById(R.id.suggest_coupon_layout);
+        suggest_coupon_layout2=findViewById(R.id.suggest_coupon_layout2);
         listener = new CheckDoubleClickListener(this);
         back.setOnClickListener(listener);
         addressLayout.setOnClickListener(listener);
@@ -187,9 +189,11 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
             suggestLayout.setVisibility(View.GONE);
             addressLayout.setVisibility(View.GONE);
             suggest_coupon_layout.setVisibility(View.GONE);
+            suggest_coupon_layout2.setVisibility(View.GONE);
 
         } else {
             suggest_coupon_layout.setVisibility(View.VISIBLE);
+            suggest_coupon_layout2.setVisibility(View.VISIBLE);
             suggestLayout.setVisibility(View.VISIBLE);
             addressLayout.setVisibility(View.VISIBLE);
             if (flag == 0) {
@@ -527,14 +531,16 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     }
 
     private void refreshPrice(String pouconprice){
+        Double price2=Double.parseDouble(netSuggest.getDiscountPrice()+"");
         netPrice = Double.parseDouble(netSuggest.getPrice());
+        coupon_info2.setText("- ¥"+netSuggest.getDiscountPrice());
         if(netSuggest.getIsNot()==0){// #优惠券状态 1 有 0 无
             coupon_info.setText("暂无优惠券");
             if (flag == 0) {
-                totalPrice.setText("共计：" + netPrice + "元");
+                totalPrice.setText("共计：" + (netPrice-price2) + "元");
                 buyPrice = netPrice + "";
             } else {
-                totalPrice.setText("共计：" + (netPrice + matPrice) + "元");
+                totalPrice.setText("共计：" + (netPrice + matPrice-price2) + "元");
                 buyPrice = (netPrice + matPrice) + "";
             }
             confirm_price.setText(netSuggest.getPrice() + "元");
@@ -542,10 +548,10 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
             couponid=netSuggest.getDiscount().getId();
             coupon_info.setText("- ¥"+netSuggest.getDiscount().getMoney());
             if (flag == 0) {
-                totalPrice.setText("共计：" + (Float.parseFloat(netSuggest.getPrice())- Float.parseFloat(pouconprice)) + "元");
+                totalPrice.setText("共计：" + (Float.parseFloat(netSuggest.getPrice())- Float.parseFloat(pouconprice)-price2) + "元");
                 buyPrice = netPrice + "";
             } else {
-                totalPrice.setText("共计：" +((netPrice + matPrice)-Float.parseFloat(pouconprice)) + "元");
+                totalPrice.setText("共计：" +((netPrice + matPrice)-Float.parseFloat(pouconprice)-price2) + "元");
                 buyPrice = (netPrice + matPrice) + "";
             }
             confirm_price.setText((Float.parseFloat(netSuggest.getPrice())) + "元");
