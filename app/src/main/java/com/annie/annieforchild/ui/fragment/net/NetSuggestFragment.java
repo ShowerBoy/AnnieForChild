@@ -59,6 +59,7 @@ public class NetSuggestFragment extends BaseFragment implements OnCheckDoubleCli
 
     @Override
     protected void initView(View view) {
+
         recycler = view.findViewById(R.id.net_suggest_recycler);
         recycler_bottom = view.findViewById(R.id.net_suggest_recycler_bottom);
         empty = view.findViewById(R.id.net_suggest_empty);
@@ -101,6 +102,7 @@ public class NetSuggestFragment extends BaseFragment implements OnCheckDoubleCli
                     empty.setVisibility(View.GONE);
                 }
                 adapter.notifyDataSetChanged();
+
 //                pageradapter.notifyDataSetChanged();
 
                 recycler_bottom.removeAllViews();

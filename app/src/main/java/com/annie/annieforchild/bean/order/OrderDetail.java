@@ -24,8 +24,18 @@ public class OrderDetail implements Serializable {
     private String ProductCourseName;
     private String coupon;
     private int material;
+    private int discountPrice;//活动优惠价格
     private int showStatus;
     private String pic;
+    public int getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(int discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+
 
     public String getCoupon() {
         return coupon;

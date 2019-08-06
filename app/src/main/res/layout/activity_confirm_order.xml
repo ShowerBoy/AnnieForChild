@@ -303,6 +303,41 @@
 
                     </RelativeLayout>
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/suggest_coupon_layout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_gray2" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="活动优惠"
+                            android:textColor="@color/text_black"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/coupon_info2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="￥0"
+                            android:layout_marginRight="5dp"
+                            android:textColor="@color/text_orange"
+                            android:textSize="14sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
 
 
                 <LinearLayout
