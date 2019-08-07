@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/net_v3_childlayout"
    >
     <!---->
 
     <RelativeLayout
-        android:id="@+id/net_v3_childlayout"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:paddingTop="27dp"
         >
         <ImageView
             android:id="@+id/net_v3_background_layout"
@@ -33,7 +34,7 @@
 
     </RelativeLayout>
     <ImageView
-        android:layout_width="335dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:clickable="false"

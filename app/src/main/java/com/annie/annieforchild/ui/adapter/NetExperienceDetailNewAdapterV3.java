@@ -172,7 +172,7 @@ public class NetExperienceDetailNewAdapterV3 extends RecyclerView.Adapter<NetExp
             }
             GridLayoutManager layoutManager;
 
-            if ((lists.size() - i - 1) % 2 == 0) {
+            if ((lists.size() - i - 1) % 2 == 0) {//右边
 
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) netExperienceDetailNewViewHolder.recycler.getLayoutParams();
                 RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) netExperienceDetailNewViewHolder.net_v3_lock.getLayoutParams();
@@ -180,14 +180,14 @@ public class NetExperienceDetailNewAdapterV3 extends RecyclerView.Adapter<NetExp
                 params1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
                 if (lists.get(i).getInfo().size() > 2) {
                     layoutManager = new GridLayoutManager(context, 2);
-                    netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 35));
+                    netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 20));
                 } else {
                     layoutManager = new GridLayoutManager(context, 1);
-                    params.setMargins(dip2px(context, 135), 0, 0, 0);
+                    params.setMargins(dip2px(context, 145), 0, 0, 0);
                     if (lists.get(i).getInfo().size() == 1) {
-                        netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 30));
+                        netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 20));
                     } else {
-                        netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 35));
+                        netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 20));
                     }
                 }
                 netExperienceDetailNewViewHolder.recycler.setLayoutParams(params);
@@ -199,15 +199,15 @@ public class NetExperienceDetailNewAdapterV3 extends RecyclerView.Adapter<NetExp
                 params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
                 if (lists.get(i).getInfo().size() > 2) {
                     layoutManager = new GridLayoutManager(context, 2);
-                    netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 35));
-                    params.setMargins(dip2px(context, 30), 0, 0, 0);
+                    netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 20));
+                    params.setMargins(dip2px(context, 20), 0, 0, 0);
                 } else {
                     layoutManager = new GridLayoutManager(context, 1);
                     params.setMargins(dip2px(context, 100), 0, 0, 0);
                     if (lists.get(i).getInfo().size() == 1) {
-                        netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 30));
+                        netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 20));
                     } else {
-                        netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 35));
+                        netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 20));
                     }
                 }
                 netExperienceDetailNewViewHolder.recycler.setLayoutParams(params);
@@ -233,7 +233,7 @@ public class NetExperienceDetailNewAdapterV3 extends RecyclerView.Adapter<NetExp
         animationDrawable.start();
         RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
         params1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-        params1.setMargins(0,dip2px(context,50),dip2px(context,30),0);
+        params1.setMargins(0,dip2px(context,0),dip2px(context,5),0);
         imageView.setLayoutParams(params1);
         layout.addView(imageView); //动态添加图片
 
