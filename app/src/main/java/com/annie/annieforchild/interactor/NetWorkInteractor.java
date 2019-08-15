@@ -19,7 +19,7 @@ public interface NetWorkInteractor {
 
     void deleteAddress(int addressid);
 
-    void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid,String couponid);
+    void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid,String couponid,int startclass);
 
     void getNetDetails(int netid);
 

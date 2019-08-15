@@ -12,6 +12,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -98,6 +100,8 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
     private TextView coupon_info,coupon_info2;
     private LinearLayout suggest_coupon_layout,suggest_coupon_layout2;
     private String couponid;
+    private CheckBox startclass_bt,startclass_no_bt;
+    private int startClass=1;
 
     {
         setRegister(true);
@@ -110,6 +114,8 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
 
     @Override
     protected void initView() {
+        startclass_bt=findViewById(R.id.startclass_bt);
+        startclass_no_bt=findViewById(R.id.startclass_no_bt);
         wxapi = WXAPIFactory.createWXAPI(this, SystemUtils.APP_ID, true);
         wxapi.registerApp(SystemUtils.APP_ID);
 //        wxapi.handleIntent(getIntent(), this);
@@ -176,6 +182,30 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
                 weixin.setSelected(true);
                 payment = 1;
                 return false;
+            }
+        });
+        startclass_bt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+               if(isChecked){
+                   startClass=1;
+                   startclass_no_bt.setChecked(false);
+               }else{
+                   startClass=0;
+                   startclass_no_bt.setChecked(true);
+               }
+            }
+        });
+        startclass_no_bt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    startClass=0;
+                    startclass_bt.setChecked(false);
+                }else{
+                    startClass=1;
+                    startclass_bt.setChecked(true);
+                }
             }
         });
 
@@ -422,13 +452,13 @@ public class ConfirmOrderActivity extends BaseActivity implements ViewInfo, OnCh
 //                        }
 //                    }
                 if (payment == 0) {
-                    presenter.buyNetWork(netid, addressId, flag, payment, wxText, "",couponid);
+                    presenter.buyNetWork(netid, addressId, flag, payment, wxText, "",couponid,startClass);
                 } else {
                     if (!wxapi.isWXAppInstalled()) {
                         showInfo("请您先安装微信客户端！");
                         return;
                     }
-                    presenter.buyNetWork(netid, addressId, flag, payment, wxText, "",couponid);
+                    presenter.buyNetWork(netid, addressId, flag, payment, wxText, "",couponid,startClass);
                 }
 //                }
             } else if (isbuy == 0) {

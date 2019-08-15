@@ -88,8 +88,12 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((MemberFooterViewHolder) holder).addMember.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+//                    if (tag.equals("游客")) {
+//                        SystemUtils.show(context, "请登录");
+//                        return;
+//                    }
                     if (tag.equals("游客")) {
-                        SystemUtils.show(context, "请登录");
+                        SystemUtils.toLogin(context);
                         return;
                     }
 //                    Intent intent = new Intent(context, AddChildActivity.class);

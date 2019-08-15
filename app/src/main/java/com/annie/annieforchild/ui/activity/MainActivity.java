@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -38,6 +39,7 @@ import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
+import com.annie.annieforchild.ui.activity.my.DevicetestActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
 import com.annie.annieforchild.ui.activity.speaking.SpeakingActivity;
@@ -79,6 +81,8 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
     private ProgressDialog progressDialog;
     public static String title, giftName;
     private int origin = 1;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
     {
         setRegister(true);
@@ -101,6 +105,16 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
         presenter = new LoginPresenterImp(this, this);
         presenter.initViewAndData();
         requestQueue = NoHttp.newDownloadQueue();
+
+        preferences = getSharedPreferences("ischeck", MODE_PRIVATE );
+//        editor = preferences.edit();
+        if (preferences.getString("ischeck", null) == null) {
+            Log.e("1111",preferences.getString("ischeck", null)+"");
+            Intent intent=new Intent(this, DevicetestActivity.class);
+            startActivity(intent);
+        }else{
+            Log.e("1111",preferences.getString("ischeck", null)+"");
+        }
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M ){
             MPermissions.requestPermissions(this, 1, new String[]{
                     Manifest.permission.READ_PHONE_STATE,
@@ -205,6 +219,8 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
                 }
             }
         }
+
+
     }
 
     private void initSoundPool(Context context) {

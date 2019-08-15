@@ -28,6 +28,7 @@ import com.annie.annieforchild.presenter.FourthPresenter;
 import com.annie.annieforchild.presenter.imp.FourthPresenterImp;
 import com.annie.annieforchild.ui.activity.child.ModifyChildActivity;
 import com.annie.annieforchild.ui.activity.my.AboutActivity;
+import com.annie.annieforchild.ui.activity.my.DevicetestActivity;
 import com.annie.annieforchild.ui.activity.my.GradeAchievementActivity;
 import com.annie.annieforchild.ui.activity.my.HelpActivity;
 import com.annie.annieforchild.ui.activity.my.MyCollectionActivity;
@@ -60,7 +61,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  */
 
 public class FourthFragment extends BaseFragment implements FourthView, OnCheckDoubleClick {
-    private RelativeLayout myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, feedbackLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout, addressLayout, myOrderLayout, myCouponLayout;
+    private RelativeLayout device_test_layout,myMsgLayout, toFriendLayout, myExchangeLayout, helpLayout, feedbackLayout, aboutLayout, collectionLayout, periodLayout, myRecordLayout, addressLayout, myOrderLayout, myCouponLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout nectarLayout, levelLayout, recordLayout;
     private ImageView settings, sexIcon, headpic_back;
@@ -136,6 +137,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         feedbackLayout = view.findViewById(R.id.feedback_layout);
         myOrderLayout = view.findViewById(R.id.my_order_layout);
         myCouponLayout = view.findViewById(R.id.my_coupon_layout);
+        device_test_layout = view.findViewById(R.id.device_test_layout);
         listener = new CheckDoubleClickListener(this);
         myMsgLayout.setOnClickListener(listener);
         toFriendLayout.setOnClickListener(listener);
@@ -154,6 +156,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         feedbackLayout.setOnClickListener(listener);
         myOrderLayout.setOnClickListener(listener);
         myCouponLayout.setOnClickListener(listener);
+        device_test_layout.setOnClickListener(listener);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         member_layout.setLayoutManager(manager);
@@ -534,6 +537,15 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
             case R.id.about_layout:
                 //关于
                 intent.setClass(getContext(), AboutActivity.class);
+                startActivity(intent);
+//                intent.setClass(getContext(), WebActivity.class);
+//                intent.putExtra("url", "http://m.anniekids.org/");
+//                intent.putExtra("title", "关于");
+//                startActivity(intent);
+                break;
+            case R.id.device_test_layout:
+                //设备检测
+                intent.setClass(getContext(), DevicetestActivity.class);
                 startActivity(intent);
 //                intent.setClass(getContext(), WebActivity.class);
 //                intent.putExtra("url", "http://m.anniekids.org/");

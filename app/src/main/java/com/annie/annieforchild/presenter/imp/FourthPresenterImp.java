@@ -163,11 +163,23 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
         fourthView.showLoad();
         interactor.bindWeixin(weixinNum);
     }
+    @Override
+    public void uploadIng(String path) {
+        fourthView.showLoad();
+        interactor.uploadIng(path);
+    }
 
     @Override
     public void showGifts(int origin, int giftRecordId) {
         interactor.showGifts(origin, giftRecordId);
     }
+    @Override
+    public void insertEquipmentdata(String systemversion, int canrecord, String url, int canscore, String score,int microphone,
+                                    int camera,int location ,int readAndWrite ,int status,int network){
+        interactor.insertEquipmentdata(systemversion,canrecord,url,canscore,score, microphone,
+         camera, location , readAndWrite , status, network);
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -315,7 +327,16 @@ public class FourthPresenterImp extends BasePresenterImp implements FourthPresen
                 message.what = what;
                 message.obj = netGift;
                 EventBus.getDefault().post(message);
+            }else if (what == MethodCode.EVENT_UPLOADING) {
+                /**
+                 * {@link com.annie.annieforchild.ui.fragment.devicetest.Devicetest3Fragment#onMainEventThread(JTMessage)}
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
             }
+
         } else {
             fourthView.dismissLoad();
         }

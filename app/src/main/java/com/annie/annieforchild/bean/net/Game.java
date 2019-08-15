@@ -12,9 +12,20 @@ public class Game implements Serializable {
     private int bookId;
     private String bookName;
     private String bookImageUrl;
+
+
+    private String gameCnName;
     private int audioType;
     private int color;
     private int tag; //0:跳网页 1:跳书籍
+
+    public String getGameCnName() {
+        return gameCnName;
+    }
+
+    public void setGameCnName(String gameCnName) {
+        this.gameCnName = gameCnName;
+    }
 
     public int getTag() {
         return tag;

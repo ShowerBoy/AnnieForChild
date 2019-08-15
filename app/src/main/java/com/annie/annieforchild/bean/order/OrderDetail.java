@@ -24,6 +24,7 @@ public class OrderDetail implements Serializable {
     private String ProductCourseName;
     private String coupon;
     private int material;
+    private int startClass;//是否开课   0:不开课   1:开课
     private int discountPrice;//活动优惠价格
     private int showStatus;
     private String pic;
@@ -34,7 +35,13 @@ public class OrderDetail implements Serializable {
     public void setDiscountPrice(int discountPrice) {
         this.discountPrice = discountPrice;
     }
+    public int getStartClass() {
+        return startClass;
+    }
 
+    public void setStartClass(int startClass) {
+        this.startClass = startClass;
+    }
 
 
     public String getCoupon() {

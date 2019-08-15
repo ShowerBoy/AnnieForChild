@@ -68,7 +68,7 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
     private int tag = 1;
     private String trade_status;
     private LinearLayout coupon_layout,coupon_layout2;
-    private TextView coupon_info,coupon_info2;
+    private TextView coupon_info,coupon_info2,startclass;
 
 
     {
@@ -82,6 +82,7 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
 
     @Override
     protected void initView() {
+        startclass=findViewById(R.id.startclass);
         coupon_layout=findViewById(R.id.coupon_layout);
         coupon_layout2=findViewById(R.id.coupon_layout2);
         coupon_info=findViewById(R.id.coupon_info);
@@ -244,6 +245,7 @@ public class ConfirmOrderActivity2 extends BaseActivity implements ViewInfo, OnC
                 payBtn.setVisibility(View.GONE);
                 cancel.setVisibility(View.GONE);
             }
+            startclass.setText(orderDetail.getStartClass()==0?"不开课":"开课");
             name.setText("收件人：" + orderDetail.getName());
             phone.setText(orderDetail.getTelphone());
             address.setText("收件地址：" + orderDetail.getAddress());

@@ -136,10 +136,10 @@ public class NetWorkPresenterImp extends BasePresenterImp implements NetWorkPres
     }
 
     @Override
-    public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid, String couponid) {
+    public void buyNetWork(int netid, int addressid, int ismaterial, int payment, String wxnumber, String giftid, String couponid,int startclass) {
         this.payment = payment;
         viewInfo.showLoad();
-        interactor.buyNetWork(netid, addressid, ismaterial, payment, wxnumber, giftid, couponid);
+        interactor.buyNetWork(netid, addressid, ismaterial, payment, wxnumber, giftid, couponid,startclass);
     }
 
     @Override

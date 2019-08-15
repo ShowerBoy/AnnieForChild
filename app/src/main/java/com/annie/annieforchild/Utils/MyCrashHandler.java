@@ -93,7 +93,12 @@ public class MyCrashHandler implements Thread.UncaughtExceptionHandler, RequestL
         }
 
         if (interactor != null) {
-            interactor.sendCrashMessage(application.getSystemUtils().getDefaultUsername() != null ? application.getSystemUtils().getDefaultUsername() : "", application.getSystemUtils().getPhone() != null ? application.getSystemUtils().getPhone() : "", Build.BRAND, Build.VERSION.RELEASE, SystemUtils.getVersionName(context), errorMessage);
+            interactor.sendCrashMessage(application.getSystemUtils().getDefaultUsername() != null ? application.getSystemUtils().getDefaultUsername() : "",
+                    application.getSystemUtils().getPhone() != null ? application.getSystemUtils().getPhone() : "",
+                    Build.BRAND,
+                    Build.VERSION.RELEASE,
+                    SystemUtils.getVersionName(context),
+                    errorMessage);
         }
 
 //        File file = new File(logFilePath);

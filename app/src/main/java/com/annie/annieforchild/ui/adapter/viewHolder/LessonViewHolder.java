@@ -13,12 +13,13 @@ import com.annie.annieforchild.R;
  */
 
 public class LessonViewHolder extends RecyclerView.ViewHolder {
-    public TextView name;
+    public TextView name,lesson_name_cn;
     public ImageView lesson_circle;
 
     public LessonViewHolder(View itemView) {
         super(itemView);
         name = itemView.findViewById(R.id.lesson_name);
+        lesson_name_cn = itemView.findViewById(R.id.lesson_name_cn);
         lesson_circle = itemView.findViewById(R.id.lesson_circle);
     }
 }

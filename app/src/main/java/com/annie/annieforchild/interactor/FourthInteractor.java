@@ -17,4 +17,8 @@ public interface FourthInteractor {
     void bindWeixin(String weixinNum);
 
     void showGifts(int origin, int giftRecordId);
+
+    void uploadIng(String path);
+    void insertEquipmentdata(String systemversion, int canrecord, String url, int canscore, String score,int microphone,
+                             int camera,int location ,int readAndWrite ,int status,int network);
 }

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <RelativeLayout
+        android:id="@+id/back_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top_tab_back"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/about_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_arrow_left2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="设备检测完成"
+            android:textColor="@color/text_black"
+            android:textSize="20sp" />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/device_test_end"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="38dp"
+        android:background="@drawable/orange_white_btn"
+        android:enabled="true"
+        android:text="返回首页"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="#FF8C15"
+        android:textSize="15sp"
+       android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
+        android:fillViewport="true"
+        android:layout_below="@id/back_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:id="@+id/top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/devicetest_end"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/top_text"
+                android:layout_width="wrap_content"
+                android:layout_height="21dp"
+                android:layout_marginTop="28dp"
+                android:text="恭喜您，设备检测已完成！"
+                android:textColor="#ff333333"
+                android:textSize="15sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/top" />
+            <TextView
+                android:id="@+id/device_test_end_result"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text="未检测出问题，可以正常使用APP"
+                android:textColor="#ff333333"
+                android:textSize="18sp"
+                android:layout_marginTop="68dp"
+                android:visibility="gone"
+                />
+            <LinearLayout
+                android:id="@+id/device_test_end_all"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="53dp"
+                android:layout_marginRight="36dp"
+               >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="以下检测项可能出现问题"
+                    android:textColor="#ff333333"
+                    android:layout_marginTop="38dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    />
+                <LinearLayout
+                    android:id="@+id/device_test_end_per"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <TextView
+                    android:id="@+id/device_test_end_title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="软件授权"
+                    android:textColor="#ff333333"
+                    android:textStyle="bold"
+                    android:layout_marginTop="28dp"
+                    android:textSize="15sp" />
+                <RelativeLayout
+                    android:id="@+id/device_test_end_read"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="设备读写权限"
+                        android:textColor="#ff666666"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/device_test_1_read_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="权限未打开"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/device_test_end_camera"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="相机"
+                        android:textColor="#ff666666"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/device_test_1_camera_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="权限未打开"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/device_test_end_record"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="录音"
+                        android:textColor="#ff666666"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/device_test_1_record_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="权限未打开"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/device_test_end_position"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="获取位置"
+                        android:textColor="#ff666666"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/device_test_1_position_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="权限未打开"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/device_test_end_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="获取设备状态"
+                        android:textColor="#ff666666"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/device_test_1_status_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="权限未打开"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/device_test_end_wifi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="当前网络"
+                        android:textColor="#ff333333"
+                        android:textStyle="bold"
+                        android:textSize="15sp" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="20dp">
+                        <TextView
+                            android:id="@+id/device_test_2_wifi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="网络"
+                            android:textColor="#ff666666"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:id="@+id/device_test_2_wifi_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="网络不可用"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"/>
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</RelativeLayout>

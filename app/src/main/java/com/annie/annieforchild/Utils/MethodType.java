@@ -162,6 +162,8 @@ public class MethodType {
     final public static String TASKLIST = "taskList"; //
     final public static String TASKDETAIL = "taskDetail"; //
     final public static String DISCOUNTRECORD = "DiscountRecordList"; //
+    final public static String UPLOADING = "uploadIng"; //上传测试录音
+    final public static String INSERTEQUIPMENTDATA = "insertEquipmentdata"; //上传测试结果
 
 
 }

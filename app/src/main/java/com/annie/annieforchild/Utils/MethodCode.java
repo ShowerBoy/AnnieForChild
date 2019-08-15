@@ -238,5 +238,7 @@ public class MethodCode {
     final public static int EVENT_TASKDETAIL = 164; //
     final public static int EVENT_DISCOUNTRECORD = 165; //优惠券
     final public static int EVENT_EXPERIENCEDETAILSV3 = 166; //体验课V3
+    final public static int EVENT_UPLOADING = 167; //上传测试录音
+    final public static int EVENT_INSERTEQUIPMENTDATA = 168; //上传测试录音
 
 }

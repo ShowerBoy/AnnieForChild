@@ -552,6 +552,15 @@
         <activity
             android:name=".ui.activity.net.NetExperienceDetail_newActivity3"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.DevicetestActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.DevicetestingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.my.DevicetestendActivity"
+            android:screenOrientation="portrait"></activity>
         <!-- Since JCore2.0.0 Required SDK核心功能-->
         <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
         <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->

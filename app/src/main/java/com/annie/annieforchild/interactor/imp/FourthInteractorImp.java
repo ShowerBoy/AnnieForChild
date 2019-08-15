@@ -16,10 +16,13 @@ import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
+import com.yanzhenjie.nohttp.FileBinary;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 我的
@@ -111,6 +114,47 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
         addQueue(MethodCode.EVENT_SHOWGIFTS, request);
     }
+    //上传测试录音
+    @Override
+    public void uploadIng(String path) {
+        File file = new File(path);
+        if (!file.exists()) {
+            return;
+        }
+        FileBinary fileBinary = new FileBinary(file);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.UPLOADING, RequestMethod.POST);
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("file", fileBinary);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
+        addQueue(MethodCode.EVENT_UPLOADING, request);
+    }
+    //上传测试j结果
+    @Override
+    public void insertEquipmentdata(String systemversion, int canrecord, String url, int canscore, String score,int microphone,
+                                    int camera,int location ,int readAndWrite ,int status,int network) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.PERSONAPI + MethodType.INSERTEQUIPMENTDATA, RequestMethod.POST);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
+        request.add("systemVersion", systemversion);
+        request.add("isCanRecord", canrecord);//是否能够录音  0：不能    1：能
+        request.add("recordUrl", url);//
+        request.add("isCanScore", canscore);//是否能评分   0：不能    1：能
+        request.add("score", score);//
+        request.add("microphone", microphone);//   0：没有 ，1：有
+        request.add("camera", camera);//   0：没有 ，1：有
+        request.add("location", location);//   0：没有 ，1：有
+        request.add("readAndWrite", readAndWrite);//   0：没有 ，1：有
+        request.add("status", status);//   0：没有 ，1：有
+        request.add("network", network);//   0：没有 ，1：有
+
+        addQueue(MethodCode.EVENT_INSERTEQUIPMENTDATA, request);
+    }
 
     @Override
     protected void onNetWorkStart(int what) {
@@ -168,9 +212,19 @@ public class FourthInteractorImp extends NetWorkImp implements FourthInteractor 
                     JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
                     int result = dataobj.getInteger("result");
                     listener.Success(what, result);
+                }else if (what == MethodCode.EVENT_UPLOADING) {
+                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+                    String result = dataobj.getString("imgUrl");
+                    listener.Success(what, result);
+                }
+                else if (what == MethodCode.EVENT_INSERTEQUIPMENTDATA) {
+//                    JSONObject dataobj = jsonObject.getJSONObject(MethodCode.DATA);
+//                    listener.Success(what, dataobj);
                 }
             } else {
-                listener.Error(what, status, msg);
+                if(what != MethodCode.EVENT_INSERTEQUIPMENTDATA){
+                    listener.Error(what, status, msg);
+                }
             }
         }
     }

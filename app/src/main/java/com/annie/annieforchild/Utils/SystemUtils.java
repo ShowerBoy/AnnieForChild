@@ -122,6 +122,11 @@ public class SystemUtils {
     private String phone; //手机号
     private String password; //密码
     private String sn; //设备sn号
+
+    public static boolean ischeck=false; //是否第一次设备测试
+
+
+
     private String tag = "游客"; //会员标识
     private String netDate; //网络时间
     public static final String deviceType = "android"; //设备类型
@@ -164,6 +169,13 @@ public class SystemUtils {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("tag", "游客登陆");
         context.startActivity(intent);
+    }
+    public Boolean getIscheck() {
+        return ischeck;
+    }
+
+    public void setIscheck(Boolean ischeck) {
+        this.ischeck = ischeck;
     }
 
     public static void toAddChild(Context context) {
@@ -1510,6 +1522,7 @@ public class SystemUtils {
     public void setReLogin(boolean reLogin) {
         isReLogin = reLogin;
     }
+
 
     /*保存文件到本地
      *参数一、文件的byte流

@@ -33,6 +33,7 @@
     <color name="gray1">#e5e5e5</color>
     <color name="relative_orange_back">#F8F3ED</color>
     <color name="text_orange">#FF8A0D</color>
+    <color name="device_orange">#FF8C15</color>
     <color name="button_orange">#FF9800</color>
     <color name="back_orange1">#ff871d</color>
     <color name="back_orange2">#ff671d</color>
@@ -59,6 +60,7 @@
     <color name="live_tip_btn">#0000cc</color>
     <color name="black">#000000</color>
     <color name="canlendar_text_color">#969696</color>
+    <color name="c333">#333</color>
 
 
     <color name="event_color_01">#59dbe0</color>

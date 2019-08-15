@@ -48,6 +48,12 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonViewHolder> {
     @Override
     public void onBindViewHolder(LessonViewHolder lessonViewHolder, int i) {
         lessonViewHolder.name.setText(lists.get(i).getGameName());
+        if(lists.get(i).getGameCnName()!=null && lists.get(i).getGameCnName().length()>0){
+            lessonViewHolder.lesson_name_cn.setVisibility(View.VISIBLE);
+            lessonViewHolder.lesson_name_cn.setText(lists.get(i).getGameCnName());
+        }else{
+            lessonViewHolder.lesson_name_cn.setVisibility(View.GONE);
+        }
         if (lists.get(i).getColor() == 1) {
             lessonViewHolder.lesson_circle.setImageResource(R.drawable.classa_icon_03);
         } else if (lists.get(i).getColor() == 2) {
