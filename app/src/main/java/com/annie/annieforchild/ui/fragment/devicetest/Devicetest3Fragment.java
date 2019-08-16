@@ -135,7 +135,6 @@ public class Devicetest3Fragment extends BaseFragment implements FourthView {
             public void onClick(View v) {
                 if (!hasPermission(getContext(),Manifest.permission.RECORD_AUDIO)){
                     // TODO: Consider calling
-                    Log.e("222","dhuidh");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         MPermissions.requestPermissions(Devicetest3Fragment.this, 0, new String[]{
                                 Manifest.permission.RECORD_AUDIO
@@ -145,7 +144,6 @@ public class Devicetest3Fragment extends BaseFragment implements FourthView {
                 } else {
                     onRecord();
 
-                    Log.e("22211","dhuidh");
 
                 }
             }

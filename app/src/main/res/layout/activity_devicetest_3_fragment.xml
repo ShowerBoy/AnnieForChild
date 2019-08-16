@@ -77,7 +77,7 @@
                     android:id="@+id/device_test_3_play_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/device_play"
+                    android:src="@drawable/device_play"
                     android:layout_marginLeft="18dp"/>
                 <TextView
                     android:layout_width="wrap_content"

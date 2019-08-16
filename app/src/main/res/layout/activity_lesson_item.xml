@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="#F9F9F9">
 
     <RelativeLayout
         android:id="@+id/lesson_layout"
@@ -12,7 +12,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/gray_btn">
+        android:background="@drawable/white_btn">
 
         <ImageView
             android:id="@+id/lesson_circle"
@@ -38,8 +38,8 @@
                 android:visibility="gone"
                 android:layout_centerVertical="true"
                 android:text=""
-                android:textColor="#999"
-                android:textSize="13sp" />
+                android:textColor="#666"
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/lesson_name"
                 android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
                 android:layout_centerVertical="true"
                 android:text="Greeting"
                 android:textColor="#333"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
