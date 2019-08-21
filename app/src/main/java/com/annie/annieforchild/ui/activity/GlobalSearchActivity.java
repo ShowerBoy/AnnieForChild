@@ -251,7 +251,7 @@ public class GlobalSearchActivity extends BaseMusicActivity implements LoginView
                                     Intent intent = new Intent(GlobalSearchActivity.this, BookPlayActivity2.class);
                                     intent.putExtra("bookId", song.getBookId());
                                     intent.putExtra("imageUrl", song.getBookImageUrl());
-                                    intent.putExtra("audioType", 2);
+                                    intent.putExtra("audioType", 1);
                                     intent.putExtra("audioSource", 8);
                                     intent.putExtra("title", song.getBookName());
                                     startActivity(intent);

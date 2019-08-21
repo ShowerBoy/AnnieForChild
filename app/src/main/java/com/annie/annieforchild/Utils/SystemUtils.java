@@ -805,7 +805,7 @@ public class SystemUtils {
                     Intent intent = new Intent(context, BookPlayActivity2.class);
                     intent.putExtra("bookId", song.getBookId());
                     intent.putExtra("imageUrl", song.getBookImageUrl());
-                    intent.putExtra("audioType", 3);
+                    intent.putExtra("audioType", 1);
                     intent.putExtra("audioSource", 8);
                     intent.putExtra("title", song.getBookName());
                     context.startActivity(intent);
