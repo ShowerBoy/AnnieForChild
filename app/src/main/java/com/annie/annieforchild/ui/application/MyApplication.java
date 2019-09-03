@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.SSLCertificateSocketFactory;
 import android.net.wifi.aware.AttachCallback;
 import android.os.Build;
+import android.support.multidex.MultiDex;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -139,6 +140,7 @@ public class MyApplication extends LitePalApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         fixOPPOR9();
+        MultiDex.install(base);
     }
 
     /**

@@ -31,6 +31,13 @@ android {
         ]
 
         multiDexEnabled true
+        //MultiDex手动拆包
+        multiDexKeepFile file ('multiDexKeep.txt')
+        multiDexKeepProguard file('multiDexKeep.pro')
+        // 保证其他的lib没有被preDex
+        dexOptions {
+            preDexLibraries = false
+        }
     }
     packagingOptions {
         doNotStrip '*/mips/*.so'
@@ -161,4 +168,5 @@ dependencies {
     compile 'org.eclipse.jetty:jetty-client:8.1.12.v20130726'
     compile 'org.slf4j:slf4j-simple:1.7.21'
     compile 'com.koushikdutta.urlimageviewhelper:urlimageviewhelper:1.0.4'
+    compile 'com.android.support:multidex:1.0.1'
 }
