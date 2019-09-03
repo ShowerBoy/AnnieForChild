@@ -253,6 +253,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                     if (lists.get(i).getType().equals("moerduo")) {
                         bookType = 0;
                         audioType = 0;
+                        intent.putExtra("collectType", 1);//作业点击磨耳朵收藏为1
                     } else if (lists.get(i).getType().equals("yuedu")) {
                         bookType = 1;
                         audioType = 1;
@@ -298,6 +299,15 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
             public void onCheckDoubleClick(View view) {
                 if (lists.get(i).getIsjoinmaterial() == 0) {
                     //加入课表
+                    int audioType;
+                    if (lists.get(i).getType().equals("moerduo")) {
+                        audioType = 0;
+                    } else if (lists.get(i).getType().equals("yuedu")) {
+                        audioType = 1;
+                    } else {
+                        audioType = 2;
+                    }
+
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
                     String date = simpleDateFormat.format(new Date());
                     Material material = new Material();
@@ -308,7 +318,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("material", material);
                     bundle.putString("date", date);
-                    bundle.putInt("audioType", 3);
+                    bundle.putInt("audioType", audioType);
                     bundle.putInt("audioSource", 12);
                     intent.putExtras(bundle);
                     context.startActivity(intent);

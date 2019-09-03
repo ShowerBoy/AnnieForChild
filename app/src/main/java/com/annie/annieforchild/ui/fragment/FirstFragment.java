@@ -4,7 +4,10 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -105,6 +108,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
     private HashMap<Integer, String> file_maps, file_maps2;//轮播图图片map
     private int screenwidth;
     private CheckDoubleClickListener listener;
+    private SharedPreferences preferences;
     private int classId = -10000;
 
     {
@@ -114,6 +118,22 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
     public FirstFragment() {
 
     }
+    private Handler popupHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    if(Build.VERSION.SDK_INT<=Build.VERSION_CODES.M){
+                        preferences =getActivity().getSharedPreferences("issystemPopup", MODE_PRIVATE );
+                        if (preferences.getString("issystemPopup", null) == null) {
+                            SystemUtils.setBackGray(getActivity(), true);
+                            SystemUtils.getSystemPopup(getContext()).showAtLocation(SystemUtils.popupView, Gravity.CENTER, 0, 0);
+                        };
+                    }
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void initData() {
@@ -160,9 +180,11 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
             presenter2.getMusicList(-1);
         }
 
+        popupHandler.sendEmptyMessage(0);
 
 //        Dialog dialog = SystemUtils.CoundownDialog(getActivity());
 //        dialog.show();
+
     }
 
     @Override
@@ -302,6 +324,9 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         searchLayout.setFocusableInTouchMode(true);
         searchLayout.requestFocus();
 
+
+
+
     }
 
     @Override
@@ -317,6 +342,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
     @Subscribe
     public void onMainEventThread(JTMessage message) {
         if (message.what == MethodCode.EVENT_GETHOMEDATA) {
+
             if (first_refresh_layout.isRefreshing()) {
                 first_refresh_layout.setRefreshing(false);
             }

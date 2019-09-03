@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -92,12 +93,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by WangLei on 2018/1/30 0030
  */
 
 public class SystemUtils {
-//    public static String mainUrl = "https://testapici.anniekids.com/Api/" + MethodCode.VERSION; //获取接口对象地址（测试）
+    //    public static String mainUrl = "https://testapici.anniekids.com/Api/" + MethodCode.VERSION; //获取接口对象地址（测试）
     public static String mainUrl = "https://appapi.anniekids.com/Api/" + MethodCode.VERSION; //
     public static String netMainUrl = "https://demoapi.anniekids.net/api/"; //获取接口对象地址（正式）
 
@@ -658,6 +661,56 @@ public class SystemUtils {
         popupWindow.setContentView(popupView);
         return popupWindow;
     }
+
+
+    /**
+     * 系统版本过低提示
+     *
+     * @param context
+     * @return
+     */
+    public static PopupWindow getSystemPopup(Context context) {
+        TextView textView = new TextView(context);
+        TextView textView2 = new TextView(context);
+        popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_verson, null, false);
+        textView = popupView.findViewById(R.id.confirm_btn);
+        textView2 = popupView.findViewById(R.id.cancel_btn);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences preferences = context.getSharedPreferences("issystemPopup", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("issystemPopup","1");
+                editor.commit();
+                popupWindow.dismiss();
+            }
+        });
+        textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences preferences = context.getSharedPreferences("issystemPopup", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("issystemPopup","1");
+                editor.commit();
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.clarity)));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemUtils.setBackGray((Activity) context, false);
+            }
+        });
+        popupWindow.setContentView(popupView);
+        return popupWindow;
+    }
+
 
     /**
      * 课时提议
@@ -1651,5 +1704,36 @@ public class SystemUtils {
                 application.getSystemUtils().setPhoneSN(phoneSN);
             }
         }
+    }
+
+    /**
+     * 创建指定数量的随机字符串
+     * @param numberFlag 是否是数字
+     * @param length
+     * @return
+     */
+    public static String createRandom(boolean numberFlag, int length){
+        String retStr = "";
+        String strTable = numberFlag ? "1234567890" : "1234567890abcdefghijkmnpqrstuvwxyz";
+        int len = strTable.length();
+        boolean bDone = true;
+        do {
+            retStr = "";
+            int count = 0;
+            for (int i = 0; i < length; i++) {
+                double dblR = Math.random() * len;
+                int intR = (int) Math.floor(dblR);
+                char c = strTable.charAt(intR);
+                if (('0' <= c) && (c <= '9')) {
+                    count++;
+                }
+                retStr += strTable.charAt(intR);
+            }
+            if (count >= 2) {
+                bDone = false;
+            }
+        } while (bDone);
+
+        return retStr;
     }
 }

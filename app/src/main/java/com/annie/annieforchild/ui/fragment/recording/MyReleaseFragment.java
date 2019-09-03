@@ -90,19 +90,19 @@ public class MyReleaseFragment extends BaseFragment implements SongView {
                     song.setIsmoerduo(0);
                     song.setIsyuedu(1);
                     song.setIskouyu(1);
-                    collectType = 0;
+                    collectType = 1;
                     bookType = 0;
                 } else if (lists.get(position - 1).getAudioType() == 1) {
                     song.setIsmoerduo(0);
                     song.setIsyuedu(1);
                     song.setIskouyu(0);
-                    collectType = 1;
+                    collectType = 2;
                     bookType = 1;
                 } else {
                     song.setIsmoerduo(0);
                     song.setIsyuedu(0);
                     song.setIskouyu(1);
-                    collectType = 2;
+                    collectType = 3;
                     bookType = 1;
                 }
 //                if (tag == 1) {

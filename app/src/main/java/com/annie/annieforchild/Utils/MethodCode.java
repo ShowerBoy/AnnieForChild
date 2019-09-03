@@ -199,6 +199,8 @@ public class MethodCode {
     final public static int EVENT_PLAYTIMES = 127; //
     final public static int EVENT_ADDLIKES = 128; //
     final public static int EVENT_CANCELLIKES = 129; //
+    final public static int EVENT_ADDLIKES_PRODUCTION = 169; //
+    final public static int EVENT_CANCELLIKES_PRODUCTION = 170; //
     final public static int EVENT_SHARECOIN = 130; //
     final public static int EVENT_GETRADIO = 131; //
     final public static int EVENT_GETLYRIC = 132; //

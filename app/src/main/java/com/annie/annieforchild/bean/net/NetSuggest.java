@@ -19,6 +19,7 @@ public class NetSuggest implements Serializable {
     private String materialPrice;
     private String netSummary;
     private int netId;
+    private int ismaterial;//是否有教材  0：没有 1：有
     private List<Address> address;
     private String netName;
     private String price;
@@ -28,6 +29,14 @@ public class NetSuggest implements Serializable {
     private String message;
     private String wxnumber;
     private Discount discount;
+
+    public int getIsmaterial() {
+        return ismaterial;
+    }
+
+    public void setIsmaterial(int ismaterial) {
+        this.ismaterial = ismaterial;
+    }
     public int getDiscountPrice() {
         return discountPrice;
     }

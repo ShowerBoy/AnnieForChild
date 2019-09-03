@@ -115,6 +115,10 @@ public interface GrindEarInteractor {
 
     void cancellikes(int id);
 
+    void addlikes_production(int id);
+
+    void cancellikes_production(int id);
+
     void shareCoin(int record, int type);
 
     void getRadio(String type, int radioid);

@@ -966,7 +966,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
             }
         } else if (totalSchedule.getTeacher() != null && totalSchedule.getTeacher().size() != 0) {
             if (totalSchedule.getTeacher().size() > 0) {
-                scheduleViewHolder.titleLayout.setVisibility(View.GONE);
+                scheduleViewHolder.titleLayout.setVisibility(View.VISIBLE);
                 scheduleViewHolder.scheduleLayout.setVisibility(View.VISIBLE);
                 scheduleViewHolder.scheduleLayout1.setVisibility(View.VISIBLE);
                 scheduleViewHolder.time.setText(totalSchedule.getTeacher().get(i).getStart() + "-" + totalSchedule.getTeacher().get(i).getStop());
@@ -1069,6 +1069,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleViewHolder> {
     public int getItemCount() {
         return (totalSchedule.getOffline() != null ? totalSchedule.getOffline().size() : 0)
                 + (totalSchedule.getOnline() != null ? totalSchedule.getOnline().size() : 0)
-                + (totalSchedule.getFamily() != null ? totalSchedule.getFamily().size() : 0) + 1;
+                + (totalSchedule.getFamily() != null ? totalSchedule.getFamily().size() : 0)
+                +(totalSchedule.getTeacher() != null ? totalSchedule.getTeacher().size() : 0);
     }
 }

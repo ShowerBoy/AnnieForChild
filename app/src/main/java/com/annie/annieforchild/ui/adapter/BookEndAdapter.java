@@ -24,6 +24,7 @@ import com.annie.annieforchild.bean.book.Release;
 import com.annie.annieforchild.bean.book.ReleaseBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.activity.mains.HomePageActivity;
+import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.BookEndViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.ui.fragment.book.BookPlayEndFragment;

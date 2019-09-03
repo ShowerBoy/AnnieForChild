@@ -60,6 +60,7 @@ import com.yanzhenjie.nohttp.download.DownloadRequest;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
+import com.zhy.m.permission.Utils;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -109,11 +110,8 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
         preferences = getSharedPreferences("ischeck", MODE_PRIVATE );
 //        editor = preferences.edit();
         if (preferences.getString("ischeck", null) == null) {
-            Log.e("1111",preferences.getString("ischeck", null)+"");
             Intent intent=new Intent(this, DevicetestActivity.class);
             startActivity(intent);
-        }else{
-            Log.e("1111",preferences.getString("ischeck", null)+"");
         }
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M ){
             MPermissions.requestPermissions(this, 1, new String[]{

@@ -379,7 +379,8 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
     }
 
     private void startRecord(int position) {
-        fileName = lists.get(currentLine - 1).getEnTitle().replace(".", "").trim();
+        fileName = lists.get(currentLine - 1).getEnTitle().replace(".", "").replace(",", "")
+                .replace("!", "").trim();
         setParams(fileName);
         if (mIse == null) {
             return;
@@ -389,7 +390,6 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
     }
 
     /**
-     * {@link GrindEarPresenterImp#Success(int, Object)}
      *
      * @param message
      */
@@ -821,12 +821,13 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                         timer.start();
                         isPlay = true;
 
-//                        startRecord(currentLine);
-                        String fileName2 = lists.get(currentLine - 1).getEnTitle().replace(".", "").trim();
-                        if (fileName2.length() > 50) {
-                            fileName2 = fileName2.substring(0, 50);
-                        }
-                        fileName = fileName2;
+//                        String fileName2 = lists.get(currentLine - 1).getEnTitle().replace(".", "").replace(",", "").replace("!", "").trim();
+//                        if (fileName2.length() > 50) {
+//                            fileName2 = fileName2.substring(0, 50);
+//                        }
+//                        fileName = fileName2;
+                        //随机生成文件名字
+                        fileName=SystemUtils.createRandom(false,20);
 
 
                         onRecord(fileName, currentLine);

@@ -117,12 +117,13 @@ public class ProductionAdapter extends RecyclerView.Adapter<ProductionViewHolder
                     holder.play.setImageResource(R.drawable.icon_practice_play);
                     isPlay = false;
                 }
+                //0为个人主页的点赞， 1为作品下的点赞
                 if (lists.get(i).getIsLike() == 0) {
                     position = i;
-                    presenter.addlikes(lists.get(i).getId());
+                    presenter.addlikes_production(lists.get(i).getId());
                 } else {
                     position = i;
-                    presenter.cancellikes(lists.get(i).getId());
+                    presenter.cancellikes_production(lists.get(i).getId());
                 }
             }
         });

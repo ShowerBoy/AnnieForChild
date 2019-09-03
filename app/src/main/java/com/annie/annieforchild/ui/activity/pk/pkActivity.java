@@ -94,7 +94,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by wanglei on 2018/4/4.
  */
 
- public class pkActivity extends BaseActivity implements OnCheckDoubleClick, SongView, PlatformActionListener, PopupWindow.OnDismissListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, OnCountFinishListener, RequestListener {
+public class pkActivity extends BaseActivity implements OnCheckDoubleClick, SongView, PlatformActionListener, PopupWindow.OnDismissListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, OnCountFinishListener, RequestListener {
     private TextView quit, player1Name, player2Name;
     private ProgressBar progressBar;
     private CircleImageView player1, player2, character1, character2;
@@ -415,7 +415,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 //    }
 
     private void startRecord(int position) {
-        fileName = lists.get(currentLine - 1).getEnTitle().replace(".", "");
+        fileName = lists.get(currentLine - 1).getEnTitle().replace(".", "").replace("!", "").replace(",", "");
         setParams(fileName);
         if (mIse == null) {
             return;
@@ -526,7 +526,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
     }
 
     /**
-     * {@link GrindEarPresenterImp#Success(int, Object)}
      *
      * @param message
      */
@@ -827,11 +826,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
                         timer.start();
                         isRecord = true;
 
-                        String fileName2 = lists.get(currentLine - 1).getEnTitle().replace(".", "").trim();
-                        if (fileName2.length() > 50) {
-                            fileName2 = fileName2.substring(0, 50);
-                        }
-                        fileName = fileName2;
+//                        String fileName2 = lists.get(currentLine - 1).getEnTitle().replace(".", "").replace(",", "")
+//                                .replace("!", "").trim();
+//                        if (fileName2.length() > 50) {
+//                            fileName2 = fileName2.substring(0, 50);
+//                        }
+//                        fileName = fileName2;
+
+                        fileName=SystemUtils.createRandom(false,20);
 
 
                         onRecord(fileName, currentLine);

@@ -165,6 +165,7 @@ public class HomePageActivity extends BaseActivity implements SongView, OnCheckD
                 intent.putExtra("audioSource", 0);
                 intent.putExtra("collectType", 2);
                 intent.putExtra("bookType", 1);
+                intent.putExtra("homepage", 1);
                 startActivity(intent);
             }
 
@@ -229,13 +230,15 @@ public class HomePageActivity extends BaseActivity implements SongView, OnCheckD
                 recycler.setVisibility(View.GONE);
                 empty.setVisibility(View.VISIBLE);
             }
-        } else if (message.what == MethodCode.EVENT_ADDLIKES) {
+        } else if (message.what == MethodCode.EVENT_ADDLIKES_PRODUCTION) {
             showInfo((String) message.obj);
+            adapter.notifyDataSetChanged();
             lists.get(adapter.getPosition()).setIsLike(1);
             lists.get(adapter.getPosition()).setLikeCount(Integer.parseInt(lists.get(adapter.getPosition()).getLikeCount()) + 1 + "");
             adapter.notifyDataSetChanged();
-        } else if (message.what == MethodCode.EVENT_CANCELLIKES) {
+        } else if (message.what == MethodCode.EVENT_CANCELLIKES_PRODUCTION) {
             showInfo((String) message.obj);
+            adapter.notifyDataSetChanged();
             lists.get(adapter.getPosition()).setIsLike(0);
             lists.get(adapter.getPosition()).setLikeCount(Integer.parseInt(lists.get(adapter.getPosition()).getLikeCount()) - 1 + "");
             adapter.notifyDataSetChanged();

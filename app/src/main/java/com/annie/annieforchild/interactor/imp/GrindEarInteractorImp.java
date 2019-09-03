@@ -1050,7 +1050,21 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
-        addQueue(MethodCode.EVENT_ADDLIKES, request);
+        //0为个人主页下的点赞  1为作品下的点赞
+            addQueue(MethodCode.EVENT_ADDLIKES, request);
+//        startQueue();
+    }
+    @Override
+    public void addlikes_production(int id) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.ADDLIKES, RequestMethod.POST);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("id", id);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
+        //0为个人主页下的点赞  1为作品下的点赞
+            addQueue(MethodCode.EVENT_ADDLIKES_PRODUCTION, request);
 //        startQueue();
     }
 
@@ -1063,7 +1077,19 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
-        addQueue(MethodCode.EVENT_CANCELLIKES, request);
+            addQueue(MethodCode.EVENT_CANCELLIKES, request);
+//        startQueue();
+    }
+    @Override
+    public void cancellikes_production(int id) {
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.CANCELLIKES, RequestMethod.POST);
+        request.add("username", application.getSystemUtils().getDefaultUsername());
+        request.add("token", application.getSystemUtils().getToken());
+        request.add("id", id);
+        request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
+        request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
+        request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
+            addQueue(MethodCode.EVENT_CANCELLIKES_PRODUCTION, request);
 //        startQueue();
     }
 
@@ -1461,9 +1487,13 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
                     listener.Success(what, release);
                 } else if (what == MethodCode.EVENT_PLAYTIMES) {
 
-                } else if (what == MethodCode.EVENT_ADDLIKES) {
+                }else if (what == MethodCode.EVENT_ADDLIKES) {
                     listener.Success(what, "点赞成功");
-                } else if (what == MethodCode.EVENT_CANCELLIKES) {
+                } else if (what == MethodCode.EVENT_ADDLIKES_PRODUCTION) {
+                    listener.Success(what, "点赞成功");
+                }  else if (what == MethodCode.EVENT_CANCELLIKES) {
+                    listener.Success(what, "取消点赞");
+                }  else if (what == MethodCode.EVENT_CANCELLIKES_PRODUCTION) {
                     listener.Success(what, "取消点赞");
                 } else if (what == MethodCode.EVENT_SHARECOIN) {
                     ShareCoin shareCoin = JSON.parseObject(data, ShareCoin.class);

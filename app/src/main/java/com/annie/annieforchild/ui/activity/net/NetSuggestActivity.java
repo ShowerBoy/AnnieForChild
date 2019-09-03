@@ -185,7 +185,7 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
         presenter.initViewAndData();
         presenter.getNetSuggest(netid);
 
-         adapter=new NetSuggestAdapter(this,imglist);
+        adapter=new NetSuggestAdapter(this,imglist);
         HeaderViewAdapter headerViewAdapter = new HeaderViewAdapter(adapter);
         headerViewAdapter.addHeaderView(headview);
         recycler.setAdapter(headerViewAdapter);
@@ -360,8 +360,13 @@ public class NetSuggestActivity extends BaseActivity implements GrindEarView, On
                         if (type.equals("体验课")) {
                             presenter.buynum(netid, 1);//type:1:netsuggest页面请求 2:confirmorder请求
                         } else {
-                            SystemUtils.setBackGray(this, true);
-                            popupWindow.showAtLocation(popupView, Gravity.BOTTOM, 0, 0);
+                            //ismaterial  是否有教材    0：没有     1：有
+                            if(netSuggest.getIsmaterial()==0){
+                                presenter.buynum(netid, 1);
+                            }else{
+                                SystemUtils.setBackGray(this, true);
+                                popupWindow.showAtLocation(popupView, Gravity.BOTTOM, 0, 0);
+                            }
                         }
                         break;
                     case 1:

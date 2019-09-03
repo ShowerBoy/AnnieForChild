@@ -201,7 +201,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     /**
      * 时长录入
      *
-     * @param type
+     * @param Ftype
      * @param duration
      */
     @Override
@@ -634,6 +634,7 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     }
 
     @Override
+    //0为个人主页下的点赞  1为作品下的点赞
     public void addlikes(int id) {
         songView.showLoad();
         interactor.addlikes(id);
@@ -643,6 +644,18 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
     public void cancellikes(int id) {
         songView.showLoad();
         interactor.cancellikes(id);
+    }
+    @Override
+    //0为个人主页下的点赞  1为作品下的点赞
+    public void addlikes_production(int id) {
+        songView.showLoad();
+        interactor.addlikes_production(id);
+    }
+
+    @Override
+    public void cancellikes_production(int id) {
+        songView.showLoad();
+        interactor.cancellikes_production(id);
     }
 
     @Override
@@ -1368,23 +1381,33 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 EventBus.getDefault().post(message);
             } else if (what == MethodCode.EVENT_ADDLIKES) {
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.pk.PracticeActivity#onMainEventThread(JTMessage)}
-                 * {@link com.annie.annieforchild.ui.activity.mains.HomePageActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = result;
                 EventBus.getDefault().post(message);
-            } else if (what == MethodCode.EVENT_CANCELLIKES) {
+            }else if (what == MethodCode.EVENT_ADDLIKES_PRODUCTION) {
                 /**
-                 * {@link com.annie.annieforchild.ui.activity.pk.PracticeActivity#onMainEventThread(JTMessage)}
-                 * {@link com.annie.annieforchild.ui.activity.mains.HomePageActivity#onMainEventThread(JTMessage)}
                  */
                 JTMessage message = new JTMessage();
                 message.what = what;
                 message.obj = result;
                 EventBus.getDefault().post(message);
-            } else if (what == MethodCode.EVENT_SHARECOIN) {
+            }else if (what == MethodCode.EVENT_CANCELLIKES) {
+                /**
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            }  else if (what == MethodCode.EVENT_CANCELLIKES_PRODUCTION) {
+                /**
+                 */
+                JTMessage message = new JTMessage();
+                message.what = what;
+                message.obj = result;
+                EventBus.getDefault().post(message);
+            }  else if (what == MethodCode.EVENT_SHARECOIN) {
                 ShareCoin shareCoin = (ShareCoin) result;
                 /**
                  * {@link com.annie.annieforchild.ui.activity.pk.ReleaseSuccessActivity#onMainEventThread(JTMessage)}

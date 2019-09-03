@@ -2,7 +2,6 @@ package com.annie.annieforchild.ui.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,7 +23,6 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.UserInfo;
 import com.annie.annieforchild.bean.child.ChildBean;
-import com.annie.annieforchild.presenter.FourthPresenter;
 import com.annie.annieforchild.presenter.imp.FourthPresenterImp;
 import com.annie.annieforchild.ui.activity.child.ModifyChildActivity;
 import com.annie.annieforchild.ui.activity.my.AboutActivity;
@@ -42,7 +40,6 @@ import com.annie.annieforchild.ui.activity.my.MyRecordActivity;
 import com.annie.annieforchild.ui.activity.my.SettingsActivity;
 import com.annie.annieforchild.ui.activity.my.ToFriendActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
-import com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity2;
 import com.annie.annieforchild.ui.activity.net.MyAddressActivity;
 import com.annie.annieforchild.view.FourthView;
 import com.annie.baselibrary.base.BaseFragment;
@@ -53,7 +50,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import jp.wasabeef.glide.transformations.BlurTransformation;
+
 
 /**
  * 我的
@@ -170,8 +167,6 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
     }
 
     /**
-     * {@link FourthPresenterImp#Success(int, Object)}
-     * {@link com.annie.annieforchild.presenter.imp.ChildPresenterImp#Success(int, Object)}
      *
      * @param message
      */

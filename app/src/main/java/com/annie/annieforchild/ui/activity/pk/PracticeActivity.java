@@ -130,7 +130,8 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
     private int homeworkid, musicPosition, shareType, homeworktype;
     Runnable runnable;
     private int lessonTag;
-
+    public static int homepage=0;
+    public static int pagenum=0;
     {
         setRegister(true);
     }
@@ -346,6 +347,7 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
             homeworktype = intent.getIntExtra("homeworktype", -1);
             musicPosition = intent.getIntExtra("musicPosition", 0);
             lessonTag = intent.getIntExtra("lessonTag", 0);
+            homepage = intent.getIntExtra("homepage", 0);
             if (songList != null) {
                 resourUrl_list.clear();
                 resourUrl_list.addAll(songList);
@@ -455,7 +457,6 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                 resourUrl_list.clear();
                 resourUrl_list.add(song1);
             }
-
             refresh();
             if (song1.getRecordList() != null) {
                 lists.clear();
@@ -500,17 +501,40 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
             presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_ADDLIKES) {
             showInfo((String) message.obj);
-            song1.getRecordList().get(adapter.getPosition()).setIslike(1);
-            song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) + 1 + "");
             adapter.notifyDataSetChanged();
+            if(homepage==0){
+                song1.getRecordList().get(adapter.getPosition()).setIslike(1);
+                song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) + 1 + "");
+                adapter.notifyDataSetChanged();
+            }else if(homepage==1){
+                if(pagenum==0){
+                    pagenum=1;
+                }else{
+                    song1.getRecordList().get(adapter.getPosition()).setIslike(1);
+                    song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) + 1 + "");
+                    adapter.notifyDataSetChanged();
+                    pagenum=0;
+                }
+            }
 //            presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_CANCELLIKES) {
             showInfo((String) message.obj);
-            song1.getRecordList().get(adapter.getPosition()).setIslike(0);
-            song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) - 1 + "");
             adapter.notifyDataSetChanged();
-//            presenter.getBookScore(song.getBookId(), bookType, false);
-        } else if (message.what == MethodCode.EVENT_PRACTICE) {
+            if(homepage==0){
+                song1.getRecordList().get(adapter.getPosition()).setIslike(0);
+                song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) - 1 + "");
+                adapter.notifyDataSetChanged();
+            }else if(homepage==1){
+                if(pagenum==0){
+                    pagenum=1;
+                }else {
+                    song1.getRecordList().get(adapter.getPosition()).setIslike(0);
+                    song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) - 1 + "");
+                    adapter.notifyDataSetChanged();
+                    pagenum=0;
+                }
+            }
+        }  else if (message.what == MethodCode.EVENT_PRACTICE) {
             presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_CLOCKINSHARE) {
             ShareBean shareBean = (ShareBean) message.obj;
