@@ -671,24 +671,12 @@ public class SystemUtils {
      */
     public static PopupWindow getSystemPopup(Context context) {
         TextView textView = new TextView(context);
-        TextView textView2 = new TextView(context);
         popupWindow = new PopupWindow(context);
-        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupView = LayoutInflater.from(context).inflate(R.layout.activity_popup_verson, null, false);
         textView = popupView.findViewById(R.id.confirm_btn);
-        textView2 = popupView.findViewById(R.id.cancel_btn);
         textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences preferences = context.getSharedPreferences("issystemPopup", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("issystemPopup","1");
-                editor.commit();
-                popupWindow.dismiss();
-            }
-        });
-        textView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferences preferences = context.getSharedPreferences("issystemPopup", MODE_PRIVATE);

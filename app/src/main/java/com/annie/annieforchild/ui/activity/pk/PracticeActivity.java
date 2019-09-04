@@ -132,6 +132,7 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
     private int lessonTag;
     public static int homepage=0;
     public static int pagenum=0;
+
     {
         setRegister(true);
     }
@@ -195,6 +196,8 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
         coinCount.setText("分享+2金币");
         popupWindow = new PopupWindow(popupView, popupWidth, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow2 = new PopupWindow(this);
+        popupWindow2.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        popupWindow2.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow3 = new PopupWindow(this);
         popupGrid = popupView.findViewById(R.id.popup_grid);
         randomMatch = popupView.findViewById(R.id.random_match);
@@ -348,10 +351,15 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
             musicPosition = intent.getIntExtra("musicPosition", 0);
             lessonTag = intent.getIntExtra("lessonTag", 0);
             homepage = intent.getIntExtra("homepage", 0);
-            if (songList != null) {
-                resourUrl_list.clear();
-                resourUrl_list.addAll(songList);
+            if (audioType == 2) {
+                songList = null;
+            } else {
+                if (songList != null) {
+                    resourUrl_list.clear();
+                    resourUrl_list.addAll(songList);
+                }
             }
+
         }
 
         if (bookType == 0) {
@@ -365,6 +373,19 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
             practiceLine.setVisibility(View.GONE);
             bookBehind.setVisibility(View.GONE);
             songBehind.setVisibility(View.VISIBLE);
+            if (audioType == 1) {
+                practiceRecording.setImageResource(R.drawable.icon_liulidu_btn);
+            } else if (audioType == 0) {
+                practiceRecording.setImageResource(R.drawable.icon_moerduo_btn);
+            } else {
+                //强行把地道说样式变为流利读
+                practiceImage.setVisibility(View.GONE);
+                bookRead.setVisibility(View.VISIBLE);
+                practiceBackLayout.setVisibility(View.VISIBLE);
+                practiceRecording.setVisibility(View.VISIBLE);
+                practiceRecording.setImageResource(R.drawable.icon_didaoshuo_btn);
+                bookType = 1;
+            }
         } else {
             practiceImage.setVisibility(View.GONE);
             bookRead.setVisibility(View.VISIBLE);
@@ -441,8 +462,6 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
     }
 
     /**
-     * {@link GrindEarPresenterImp#Success(int, Object)}
-     *
      * @param message
      */
     @Subscribe
@@ -457,6 +476,7 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                 resourUrl_list.clear();
                 resourUrl_list.add(song1);
             }
+
             refresh();
             if (song1.getRecordList() != null) {
                 lists.clear();
@@ -499,7 +519,7 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
         } else if (message.what == MethodCode.EVENT_CANCELMATERIAL + 5000 + classId) {
             showInfo((String) message.obj);
             presenter.getBookScore(song.getBookId(), bookType, false);
-        } else if (message.what == MethodCode.EVENT_ADDLIKES) {
+        }else if (message.what == MethodCode.EVENT_ADDLIKES) {
             showInfo((String) message.obj);
             adapter.notifyDataSetChanged();
             if(homepage==0){
@@ -534,7 +554,7 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                     pagenum=0;
                 }
             }
-        }  else if (message.what == MethodCode.EVENT_PRACTICE) {
+        } else if (message.what == MethodCode.EVENT_PRACTICE) {
             presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_CLOCKINSHARE) {
             ShareBean shareBean = (ShareBean) message.obj;
@@ -927,6 +947,8 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("material", material);
                 bundle.putString("date", date);
+                bundle.putInt("audioSource", audioSource);
+                bundle.putInt("audioType", audioType);
                 intent3.putExtras(bundle);
                 startActivity(intent3);
                 popupWindow2.dismiss();
@@ -993,10 +1015,13 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                         if (musicService == null) {
                             return;
                         }
-                        if (song1 == null || resourUrl_list.size() == 0) {
+                        if (song1 == null ) {
                             return;
                         }
                         if (bookType == 0) {
+                            if(resourUrl_list.size()==0){
+                                return;
+                            }
                             SystemUtils.MusicType = 1;
                             Intent intent2 = new Intent(this, MusicPlayActivity2.class);
                             Bundle bundle2 = new Bundle();

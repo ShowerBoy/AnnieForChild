@@ -14,13 +14,13 @@ android {
         applicationId "com.annie.annieforchild"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 51
-        versionName "1.1.39"
+        versionCode 52
+        versionName "1.1.40"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
         ndk {
-            abiFilters "armeabi", "x86"
+            abiFilters "armeabi", "x86","x86-64"
         }
 
 
