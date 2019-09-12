@@ -31,7 +31,6 @@ import com.annie.annieforchild.bean.book.ReleaseBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.adapter.BookEndAdapter;
-import com.annie.annieforchild.ui.adapter.viewHolder.MeiriyiViewHolder;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;

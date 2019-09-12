@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.WeekBean;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;

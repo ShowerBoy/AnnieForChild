@@ -1,25 +1,19 @@
 package com.annie.annieforchild.Utils.service;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Dialog;
 import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.view.View;
-import android.widget.Toast;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
@@ -35,7 +29,6 @@ import com.bumptech.glide.Glide;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
-import java.net.ProtocolException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

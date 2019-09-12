@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.DividerItemDecoration;
@@ -26,11 +25,11 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
@@ -53,7 +52,6 @@ import com.annie.annieforchild.ui.adapter.SearchAdapter;
 import com.annie.annieforchild.ui.adapter.TagAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.LoginView;
-import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.google.android.flexbox.FlexboxLayout;
@@ -64,8 +62,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
 
 import java.io.Serializable;
-import java.lang.invoke.MethodHandle;
-import java.sql.DatabaseMetaData;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -307,7 +303,8 @@ public class GlobalSearchActivity extends BaseMusicActivity implements LoginView
                                 list.add(videoList);
                             }
                         }
-                        Intent intent = new Intent(GlobalSearchActivity.this, VideoActivity_new.class);
+//                        Intent intent = new Intent(GlobalSearchActivity.this, VideoActivity_new.class);
+                        Intent intent = new Intent(GlobalSearchActivity.this, AliyunPlayerSkinActivity.class);
                         intent.putExtra("isTime", true);
                         intent.putExtra("isDefinition", false);
 

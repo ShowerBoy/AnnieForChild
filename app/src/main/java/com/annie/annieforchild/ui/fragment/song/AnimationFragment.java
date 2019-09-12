@@ -2,28 +2,21 @@ package com.annie.annieforchild.ui.fragment.song;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
+import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.pldroidplayer.PLVideoViewActivity;
 import com.annie.annieforchild.bean.AnimationData;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.netexpclass.VideoList;
-import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
-import com.annie.annieforchild.ui.activity.VideoActivity;
-import com.annie.annieforchild.ui.activity.VideoActivity_new;
 import com.annie.annieforchild.ui.adapter.AnimationAdapter;
-import com.annie.annieforchild.ui.adapter.SongAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseFragment;
@@ -33,7 +26,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -97,7 +89,8 @@ public class AnimationFragment extends BaseFragment implements SongView {
                     videoList.setUrl(lists.get(j).getAnimationUrl());
                     list.add(videoList);
                 }
-                Intent intent = new Intent(getContext(), VideoActivity_new.class);
+//                Intent intent = new Intent(getContext(), VideoActivity_new.class);
+                Intent intent = new Intent(getContext(), AliyunPlayerSkinActivity.class);
                 intent.putExtra("isTime", true);
                 intent.putExtra("isDefinition", false);
 

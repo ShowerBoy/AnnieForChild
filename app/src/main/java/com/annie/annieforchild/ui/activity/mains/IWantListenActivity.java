@@ -2,7 +2,6 @@ package com.annie.annieforchild.ui.activity.mains;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,6 @@ import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.adapter.SongAdapter;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;

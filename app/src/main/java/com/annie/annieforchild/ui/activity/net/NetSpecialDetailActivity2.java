@@ -22,8 +22,6 @@ import com.annie.annieforchild.bean.net.experience.ExperienceV2;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
-import com.annie.annieforchild.ui.adapter.NetExperienceDetailNewAdapter;
-import com.annie.annieforchild.ui.adapter.NetSpecialDetailAdapter;
 import com.annie.annieforchild.ui.adapter.NetSpecialDetailAdapter2;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;

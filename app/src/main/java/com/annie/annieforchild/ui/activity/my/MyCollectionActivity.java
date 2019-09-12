@@ -1,5 +1,6 @@
 package com.annie.annieforchild.ui.activity.my;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -15,7 +16,6 @@ import com.annie.annieforchild.ui.fragment.collection.ReadingFragment;
 import com.annie.annieforchild.ui.fragment.collection.SpokenFragment;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 /**
  * 我的收藏
@@ -24,7 +24,7 @@ import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 public class MyCollectionActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private ImageView myCollectionBack;
-    private AdvancedPagerSlidingTabStrip mSlidingTab;
+    private TabLayout mSlidingTab;
     private APSTSViewPager mVP;
     private GrindEarFragment grindEarFragment;
     private ReadingFragment readingFragment;
@@ -51,8 +51,14 @@ public class MyCollectionActivity extends BaseActivity implements View.OnClickLi
         mVP.setOffscreenPageLimit(4);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-        mSlidingTab.setViewPager(mVP);
-        mSlidingTab.setOnPageChangeListener(this);
+//        mSlidingTab.setViewPager(mVP);
+//        mSlidingTab.setOnPageChangeListener(this);
+        mSlidingTab.addTab(mSlidingTab.newTab().setText("磨耳朵"));
+        mSlidingTab.addTab(mSlidingTab.newTab().setText("流利读"));
+        mSlidingTab.addTab(mSlidingTab.newTab().setText("地道说"));
+        mSlidingTab.addTab(mSlidingTab.newTab().setText("其他"));
+        mSlidingTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mSlidingTab));
     }
 
     @Override

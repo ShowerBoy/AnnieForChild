@@ -23,7 +23,6 @@ import com.annie.annieforchild.bean.net.experience.EveryTaskBean;
 import com.annie.annieforchild.bean.net.experience.EveryTaskList;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
-import com.annie.annieforchild.ui.adapter.EveryDayTaskAdapter;
 import com.annie.annieforchild.ui.adapter.EveryDayTaskTopAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.info.ViewInfo;
@@ -31,7 +30,6 @@ import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.tencent.smtt.sdk.WebSettings;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;

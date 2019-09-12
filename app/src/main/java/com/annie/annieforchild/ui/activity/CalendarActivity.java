@@ -1,17 +1,11 @@
 package com.annie.annieforchild.ui.activity;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.decorators.EventDecorator;
-import com.annie.annieforchild.Utils.decorators.HighlightWeekendsDecorator;
 import com.annie.annieforchild.Utils.decorators.MySelectorDecorator;
 import com.annie.annieforchild.Utils.decorators.OneDayDecorator;
 import com.annie.baselibrary.base.BaseActivity;

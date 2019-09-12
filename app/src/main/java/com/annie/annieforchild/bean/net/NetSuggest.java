@@ -1,7 +1,5 @@
 package com.annie.annieforchild.bean.net;
 
-import com.annie.annieforchild.bean.Banner;
-
 import java.io.Serializable;
 import java.util.List;
 

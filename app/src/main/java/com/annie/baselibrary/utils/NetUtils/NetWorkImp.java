@@ -1,16 +1,7 @@
 package com.annie.baselibrary.utils.NetUtils;
 
-import android.os.Build;
-import android.os.Environment;
-import android.os.Handler;
-
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.MyCrashHandler;
-import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.interactor.imp.CrashHandlerInteractorImp;
 import com.annie.annieforchild.ui.application.MyApplication;
-import com.annie.baselibrary.base.BaseApplication;
 import com.annie.baselibrary.utils.ToastHelp;
 import com.yanzhenjie.nohttp.Logger;
 import com.yanzhenjie.nohttp.error.NetworkError;

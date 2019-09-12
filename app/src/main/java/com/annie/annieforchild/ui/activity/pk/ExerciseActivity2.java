@@ -23,7 +23,6 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
-import com.annie.annieforchild.ui.adapter.ExerciseAdapter;
 import com.annie.annieforchild.ui.adapter.Exercise_newAdapter;
 import com.annie.annieforchild.ui.fragment.song.ExerciseFragment;
 import com.annie.annieforchild.view.SongView;

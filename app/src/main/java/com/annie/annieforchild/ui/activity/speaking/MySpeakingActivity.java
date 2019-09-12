@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.activity.speaking;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -18,15 +19,12 @@ import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
-import com.annie.annieforchild.ui.fragment.myreading.TodayReadingFragment;
-import com.annie.annieforchild.ui.fragment.myreading.TotalReadingFragment;
 import com.annie.annieforchild.ui.fragment.myspeaking.TodaySpeakingFragment;
 import com.annie.annieforchild.ui.fragment.myspeaking.TotalSpeakingFragment;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -43,7 +41,7 @@ public class MySpeakingActivity extends BaseActivity implements SongView, View.O
     private TotalSpeakingFragment totalSpeakingFragment;
     private MySpeakingFragmentAdapter fragmentAdapter;
     private GrindEarPresenter presenter;
-    private AdvancedPagerSlidingTabStrip mTab;
+    private TabLayout mTab;
     private APSTSViewPager mVP;
     private AlertHelper helper;
     private Dialog dialog;
@@ -73,8 +71,12 @@ public class MySpeakingActivity extends BaseActivity implements SongView, View.O
         mVP.setOffscreenPageLimit(2);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-        mTab.setViewPager(mVP);
-        mTab.setOnPageChangeListener(this);
+        mTab.addTab(mTab.newTab().setText("今日存折"));
+        mTab.addTab(mTab.newTab().setText("累计存折"));
+        mTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
+//        mTab.setViewPager(mVP);
+//        mTab.setOnPageChangeListener(this);
         Glide.with(this).load(application.getSystemUtils().getUserInfo().getAvatar()).into(headpic);
         name.setText(application.getSystemUtils().getUserInfo().getName());
         presenter = new GrindEarPresenterImp(this, this);

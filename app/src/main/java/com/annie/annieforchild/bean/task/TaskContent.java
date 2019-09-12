@@ -1,7 +1,6 @@
 package com.annie.annieforchild.bean.task;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by wanglei on 2019/1/22.

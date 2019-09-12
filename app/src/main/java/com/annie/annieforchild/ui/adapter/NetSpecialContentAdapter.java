@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.net.SpecInfo;
 import com.annie.annieforchild.ui.activity.net.LessonActivity;
-import com.annie.annieforchild.ui.activity.net.NetExpFirstVideoActivity;
-import com.annie.annieforchild.ui.activity.net.NetListenAndReadActivity;
 import com.annie.annieforchild.ui.activity.net.NetPreheatClassActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetSpecialContentViewHolder2;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;

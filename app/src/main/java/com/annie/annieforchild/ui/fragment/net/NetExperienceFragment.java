@@ -1,22 +1,11 @@
 package com.annie.annieforchild.ui.fragment.net;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
@@ -25,21 +14,9 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.NetClass;
 import com.annie.annieforchild.bean.net.NetWork;
-import com.annie.annieforchild.ui.activity.my.WebActivity;
-import com.annie.annieforchild.ui.activity.my.WebActivity2;
-import com.annie.annieforchild.ui.activity.net.NetConsultActivity;
 import com.annie.annieforchild.ui.activity.net.NetFAQActivity;
-import com.annie.annieforchild.ui.activity.net.NetSuggestActivity;
-import com.annie.annieforchild.ui.adapter.HeaderViewAdapter;
-import com.annie.annieforchild.ui.adapter.NetBeanAdapter;
 import com.annie.annieforchild.ui.adapter.NetBeanAdapter_img;
-import com.annie.annieforchild.ui.adapter.NetSuggestAdapter1;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.baselibrary.base.BaseFragment;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 
 import org.greenrobot.eventbus.Subscribe;
 

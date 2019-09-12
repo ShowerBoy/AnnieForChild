@@ -28,14 +28,12 @@ import com.annie.annieforchild.presenter.imp.ChildPresenterImp;
 import com.annie.annieforchild.ui.activity.CameraActivity;
 import com.annie.annieforchild.ui.activity.my.QrCodeActivity;
 import com.annie.annieforchild.view.AddChildView;
-import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;

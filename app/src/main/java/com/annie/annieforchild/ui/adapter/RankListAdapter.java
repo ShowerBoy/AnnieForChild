@@ -8,10 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alibaba.fastjson.serializer.ListSerializer;
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.CheckDoubleClickListener;
-import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.rank.Rank;
 import com.annie.annieforchild.bean.rank.RankList;
 import com.annie.annieforchild.ui.activity.mains.HomePageActivity;

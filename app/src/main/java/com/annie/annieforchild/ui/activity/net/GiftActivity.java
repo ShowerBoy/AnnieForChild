@@ -18,7 +18,6 @@ import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

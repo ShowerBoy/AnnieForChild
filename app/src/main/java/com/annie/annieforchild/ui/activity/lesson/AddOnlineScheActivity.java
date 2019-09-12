@@ -22,7 +22,6 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.material.Material;
 import com.annie.annieforchild.bean.material.MaterialGroup;

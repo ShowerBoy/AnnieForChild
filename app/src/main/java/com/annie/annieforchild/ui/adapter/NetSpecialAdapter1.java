@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.net.NetClass;
 import com.annie.annieforchild.ui.activity.net.NetSuggestActivity;
-import com.annie.annieforchild.ui.adapter.viewHolder.NetBeanViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetSpecialViewHolder;
 import com.bumptech.glide.Glide;
 

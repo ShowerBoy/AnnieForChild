@@ -2,14 +2,12 @@ package com.annie.annieforchild.ui.activity.net;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Slide;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,12 +19,9 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
-import com.annie.annieforchild.Utils.views.WrapContentHeightViewPager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.NetBean;
-import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
@@ -35,12 +30,9 @@ import com.annie.annieforchild.ui.fragment.net.NetExperienceFragment;
 import com.annie.annieforchild.ui.fragment.net.NetSpecialFragment;
 import com.annie.annieforchild.ui.fragment.net.NetSuggestFragment;
 import com.annie.annieforchild.view.GrindEarView;
-import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.SliderLayout;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -56,7 +48,7 @@ import java.util.List;
 public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick, GrindEarView, ViewPager.OnPageChangeListener {
     private RecyclerView recycler;
     private SliderLayout sliderLayout;
-    private AdvancedPagerSlidingTabStrip mTab;
+    private TabLayout mTab;
     public static APSTSViewPager mVP;
     private ImageView back;
     private List<NetBean> lists;
@@ -118,8 +110,13 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
         mVP.setOffscreenPageLimit(3);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-        mTab.setViewPager(mVP);
-        mTab.setOnPageChangeListener(this);
+//        mTab.setViewPager(mVP);
+//        mTab.setOnPageChangeListener(this);
+        mTab.addTab(mTab.newTab().setText("网课介绍"));
+        mTab.addTab(mTab.newTab().setText("体验课"));
+        mTab.addTab(mTab.newTab().setText("综合课"));
+        mTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
 //        lists = new ArrayList<>();
 //        adapter = new NetWorkAdapter(this, lists);
 //        recycler.setAdapter(adapter);

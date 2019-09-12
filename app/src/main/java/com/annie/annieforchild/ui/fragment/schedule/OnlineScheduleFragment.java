@@ -21,7 +21,6 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**

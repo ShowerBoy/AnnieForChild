@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.ClockIn;
-import com.annie.annieforchild.bean.net.SpecInfo;
 import com.annie.annieforchild.bean.net.SpecInfoInfo;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetSpecialConInfoViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;

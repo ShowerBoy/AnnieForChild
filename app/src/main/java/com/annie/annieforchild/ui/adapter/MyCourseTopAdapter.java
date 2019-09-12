@@ -12,7 +12,6 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.net.MyNetTop;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyCourseTopViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
-import com.bumptech.glide.Glide;
 
 import java.util.List;
 

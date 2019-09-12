@@ -1,7 +1,5 @@
 package com.annie.annieforchild.view;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.annie.annieforchild.view.info.ViewInfo;
 
 /**

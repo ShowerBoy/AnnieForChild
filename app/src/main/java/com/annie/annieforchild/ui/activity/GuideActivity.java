@@ -1,23 +1,16 @@
 package com.annie.annieforchild.ui.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -27,10 +20,8 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.login.LoginBean;
 import com.annie.annieforchild.bean.login.PhoneSN;
-import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.application.MyApplication;
@@ -38,24 +29,18 @@ import com.annie.annieforchild.view.LoginView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.annie.baselibrary.utils.NetUtils.NoHttpUtils;
-import com.yanzhenjie.nohttp.Headers;
-import com.yanzhenjie.nohttp.NoHttp;
-import com.yanzhenjie.nohttp.download.DownloadListener;
-import com.yanzhenjie.nohttp.download.DownloadQueue;
-import com.yanzhenjie.nohttp.download.DownloadRequest;
-import com.zhy.m.permission.MPermissions;
-import com.zhy.m.permission.PermissionDenied;
-import com.zhy.m.permission.PermissionGrant;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+
+//import com.zhy.m.permission.PermissionDenied;
+//import com.zhy.m.permission.PermissionGrant;
 
 /**
  * 引导页

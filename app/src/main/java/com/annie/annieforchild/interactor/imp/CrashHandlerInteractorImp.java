@@ -1,11 +1,9 @@
 package com.annie.annieforchild.interactor.imp;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.ui.application.MyApplication;

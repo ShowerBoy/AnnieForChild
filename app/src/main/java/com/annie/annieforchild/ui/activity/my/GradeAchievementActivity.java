@@ -10,7 +10,6 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.UserInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.annie.baselibrary.utils.IntentUtils;
 import com.bumptech.glide.Glide;
 
 import de.hdodenhof.circleimageview.CircleImageView;

@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.widget.FrameLayout;
 
 import com.annie.annieforchild.R;
-import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BaseFragment;
 import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;

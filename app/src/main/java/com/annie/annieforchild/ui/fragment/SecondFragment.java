@@ -2,11 +2,8 @@ package com.annie.annieforchild.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
@@ -15,11 +12,9 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.ui.activity.PhotoActivity;
 import com.annie.annieforchild.ui.activity.lesson.MaterialActivity;
-import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity;
 import com.annie.annieforchild.ui.activity.lesson.ScheduleActivity2;
 import com.annie.annieforchild.ui.activity.lesson.TaskActivity;
 import com.annie.annieforchild.ui.activity.my.MyCourseActivity;
-import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.view.SecondView;
 import com.annie.baselibrary.base.BaseFragment;
 

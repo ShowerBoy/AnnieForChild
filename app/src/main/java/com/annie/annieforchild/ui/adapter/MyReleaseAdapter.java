@@ -15,7 +15,6 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.record.Record;
 import com.annie.annieforchild.ui.activity.my.MyRecordActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyReleaseViewHolder;
-import com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
 

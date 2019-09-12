@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import com.annie.annieforchild.Utils.service.MusicService;
-
 /**
  * Created by wanglei on 2018/7/20.
  */

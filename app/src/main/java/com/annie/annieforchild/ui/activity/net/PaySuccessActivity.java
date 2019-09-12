@@ -5,7 +5,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,29 +13,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
-import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.net.Address;
-import com.annie.annieforchild.bean.net.NetClass;
 import com.annie.annieforchild.bean.order.SecretaryInfo;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.my.MyCourseActivity;
 import com.annie.annieforchild.ui.activity.my.MyOrderActivity;
-import com.annie.annieforchild.ui.activity.my.WebActivity;
-import com.annie.annieforchild.ui.adapter.MyCourseAdapter;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 
 import org.greenrobot.eventbus.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PaySuccessActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     private ImageView back;

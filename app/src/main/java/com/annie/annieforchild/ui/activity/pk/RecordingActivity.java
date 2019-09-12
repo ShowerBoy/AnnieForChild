@@ -1,7 +1,6 @@
 package com.annie.annieforchild.ui.activity.pk;
 
 import android.animation.Animator;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;

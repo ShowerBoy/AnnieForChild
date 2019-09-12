@@ -6,7 +6,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.GrindTime;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;

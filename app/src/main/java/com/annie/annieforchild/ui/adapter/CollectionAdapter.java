@@ -8,17 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity;
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.Collection;
 import com.annie.annieforchild.bean.net.netexpclass.VideoList;
 import com.annie.annieforchild.bean.song.Song;
-import com.annie.annieforchild.ui.activity.VideoActivity;
-import com.annie.annieforchild.ui.activity.VideoActivity_new;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.CollectionViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnMyItemClickListener;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
 
 import java.io.Serializable;
@@ -80,7 +77,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewHolder
                         videoList.setUrl(lists.get(j).getAnimationUrl());
                         list.add(videoList);
                     }
-                    Intent intent = new Intent(context, VideoActivity_new.class);
+//                    Intent intent = new Intent(context, VideoActivity_new.class);
+                    Intent intent = new Intent(context, AliyunPlayerSkinActivity.class);
 
                     intent.putExtra("isTime", true);
                     intent.putExtra("isDefinition", false);

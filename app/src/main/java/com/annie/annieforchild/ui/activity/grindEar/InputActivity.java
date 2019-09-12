@@ -29,7 +29,6 @@ import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.my.HelpActivity;
 import com.annie.annieforchild.ui.adapter.PopupAdapter;
-import com.annie.annieforchild.view.ReadingView;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;

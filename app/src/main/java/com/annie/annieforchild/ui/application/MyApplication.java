@@ -2,15 +2,8 @@ package com.annie.annieforchild.ui.application;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.net.SSLCertificateSocketFactory;
-import android.net.wifi.aware.AttachCallback;
 import android.os.Build;
 import android.support.multidex.MultiDex;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.MyCrashHandler;
 import com.annie.annieforchild.Utils.SSLSocketClient;
@@ -22,13 +15,8 @@ import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.mob.MobSDK;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.smtt.sdk.QbSdk;
-import com.yanzhenjie.nohttp.BasicRequest;
 import com.yanzhenjie.nohttp.InitializationConfig;
-import com.yanzhenjie.nohttp.Network;
-import com.yanzhenjie.nohttp.NetworkExecutor;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.OkHttpNetworkExecutor;
 import com.yanzhenjie.nohttp.cache.DBCacheStore;
@@ -44,8 +32,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.net.ssl.SSLContext;
-
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -54,7 +40,6 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MyApplication extends LitePalApplication {
     private  SystemUtils systemUtils;
-
     public  SystemUtils getSystemUtils() {
         return systemUtils;
     }
@@ -62,7 +47,6 @@ public class MyApplication extends LitePalApplication {
     public void setSystemUtils(SystemUtils systemUtils) {
         this.systemUtils = systemUtils;
     }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -128,12 +112,7 @@ public class MyApplication extends LitePalApplication {
             SystemUtils.isOreo = false;
         }
 
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable throwable) {
-                Log.e("TXT", "uncaughtException: happen!", throwable);
-            }
-        });
+
     }
 
     @Override

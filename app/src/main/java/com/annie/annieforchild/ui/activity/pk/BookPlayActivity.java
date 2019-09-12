@@ -23,7 +23,6 @@ import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.interactor.imp.CrashHandlerInteractorImp;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
-import com.annie.annieforchild.ui.adapter.ExerciseAdapter;
 import com.annie.annieforchild.ui.adapter.Exercise_newAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;

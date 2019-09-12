@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.activity.my;
 
 import android.app.Dialog;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -21,8 +22,6 @@ import com.annie.annieforchild.ui.fragment.message.NoticeFragment;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -33,7 +32,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class MyMessageActivity extends BaseActivity implements ViewInfo, View.OnClickListener, ViewPager.OnPageChangeListener {
     private ImageView myMessageBack;
-    private AdvancedPagerSlidingTabStrip pagerTab;
+    private TabLayout pagerTab;
     private APSTSViewPager mVP;
     private NoticeFragment noticeFragment;
     private GroupMsgFragment groupMsgFragment;
@@ -69,8 +68,12 @@ public class MyMessageActivity extends BaseActivity implements ViewInfo, View.On
         mVP.setOffscreenPageLimit(2);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-        pagerTab.setViewPager(mVP);
-        pagerTab.setOnPageChangeListener(this);
+//        pagerTab.setViewPager(mVP);
+//        pagerTab.setOnPageChangeListener(this);
+        pagerTab.addTab(pagerTab.newTab().setText("通知"));
+        pagerTab.addTab(pagerTab.newTab().setText("群消息"));
+        pagerTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(pagerTab));
 //        presenter.getMyMessages();
         presenter.getMessagesList();
     }

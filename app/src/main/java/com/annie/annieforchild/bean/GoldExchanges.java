@@ -1,7 +1,5 @@
 package com.annie.annieforchild.bean;
 
-import java.util.List;
-
 /**
  * Created by WangLei on 2018/3/8 0008
  */

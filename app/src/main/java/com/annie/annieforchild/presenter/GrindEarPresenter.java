@@ -1,7 +1,5 @@
 package com.annie.annieforchild.presenter;
 
-import android.view.View;
-
 import java.util.List;
 
 /**

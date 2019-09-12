@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.NoScrollViewPager;
 import com.annie.annieforchild.presenter.FourthPresenter;
 import com.annie.annieforchild.presenter.imp.FourthPresenterImp;
@@ -27,7 +28,6 @@ import com.annie.annieforchild.ui.fragment.devicetest.Devicetest3Fragment;
 import com.annie.annieforchild.view.FourthView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.zhy.m.permission.MPermissions;
 
 /**
  * 设备检测中
@@ -85,13 +85,18 @@ public class DevicetestingActivity extends BaseActivity implements View.OnClickL
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                MPermissions.requestPermissions(this, 0, new String[]{
-                        Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                });
+//                MPermissions.requestPermissions(this, 0, new String[]{
+//                        Manifest.permission.READ_PHONE_STATE,
+//                        Manifest.permission.CAMERA,
+//                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                        Manifest.permission.RECORD_AUDIO,
+//                        Manifest.permission.ACCESS_COARSE_LOCATION
+//                });
+                SystemUtils.hasPermission(this,Manifest.permission.READ_PHONE_STATE);
+                SystemUtils.hasPermission(this,Manifest.permission.CAMERA);
+                SystemUtils.hasPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                SystemUtils.hasPermission(this,Manifest.permission.RECORD_AUDIO);
+                SystemUtils.hasPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION);
             }
 //            fragmentAdapter.notifyDataSetChanged();
         }

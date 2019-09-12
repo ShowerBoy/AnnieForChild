@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/black"
+                android:text="选择要投屏的设备"/>
+            <TextView
+                android:id="@+id/search_again"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="重新搜索"
+                android:textColor="@color/black"
+                android:layout_alignParentRight="true"
+                android:paddingRight="20dp"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.7dp"
+            android:background="@color/divider"></LinearLayout>
+        <TextView
+            android:id="@+id/search_status"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/c9"
+            android:visibility="visible"
+            android:gravity="center_vertical"
+            android:text="正在搜索设备..."/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_browse"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:padding="1dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+
+    </LinearLayout>
+
+</ScrollView>

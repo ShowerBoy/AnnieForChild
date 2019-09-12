@@ -7,17 +7,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupWindow;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.period.MyPeriod;
 import com.annie.annieforchild.bean.period.Period;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.adapter.viewHolder.PeriodViewHolder;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**

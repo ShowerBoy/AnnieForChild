@@ -2,37 +2,31 @@ package com.annie.annieforchild.ui.activity.reading;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
-import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
-import com.annie.annieforchild.ui.activity.grindEar.InputActivity;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
-import com.annie.annieforchild.ui.fragment.mygrindear.TodayGrindEarFragment;
-import com.annie.annieforchild.ui.fragment.mygrindear.TotalGrindEarFragment;
 import com.annie.annieforchild.ui.fragment.myreading.TodayReadingFragment;
 import com.annie.annieforchild.ui.fragment.myreading.TotalReadingFragment;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -48,7 +42,7 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
     private CircleImageView headpic;
     private TextView level, sublevel, name;
     //    private Button input;
-    private AdvancedPagerSlidingTabStrip mTab;
+    private TabLayout mTab;
     private APSTSViewPager mVP;
     private TodayReadingFragment todayReadingFragment;
     private TotalReadingFragment totalReadingFragment;
@@ -91,8 +85,12 @@ public class MyReadingActivity extends BaseActivity implements View.OnClickListe
         mVP.setOffscreenPageLimit(2);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-        mTab.setViewPager(mVP);
-        mTab.setOnPageChangeListener(this);
+//        mTab.setViewPager(mVP);
+//        mTab.setOnPageChangeListener(this);
+        mTab.addTab(mTab.newTab().setText("今日存折"));
+        mTab.addTab(mTab.newTab().setText("累计存折"));
+        mTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
         presenter.getMyReading();

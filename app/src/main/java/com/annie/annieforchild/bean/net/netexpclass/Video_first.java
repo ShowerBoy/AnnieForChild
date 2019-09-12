@@ -1,7 +1,5 @@
 package com.annie.annieforchild.bean.net.netexpclass;
 
-import java.util.List;
-
 /**
  *
  */

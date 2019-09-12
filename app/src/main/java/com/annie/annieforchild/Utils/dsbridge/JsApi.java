@@ -4,17 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.EventLog;
 import android.webkit.JavascriptInterface;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.WebShare;
 import com.annie.annieforchild.bean.WebUrl;
 import com.annie.annieforchild.bean.net.netexpclass.VideoList;
-import com.annie.annieforchild.ui.activity.VideoActivity_new;
 import com.annie.annieforchild.ui.application.MyApplication;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,11 +78,12 @@ public class JsApi {
 
         List<VideoList> list = new ArrayList<>();
         VideoList videoList = new VideoList();
-        videoList.setTitle("");
+        videoList.setTitle(webUrl.getTitle());
         videoList.setPicurl("");
         videoList.setUrl(webUrl.getUrl());
         list.add(videoList);
-        Intent intent = new Intent(context, VideoActivity_new.class);
+//        Intent intent = new Intent(context, VideoActivity_new.class);
+        Intent intent = new Intent(context, AliyunPlayerSkinActivity.class);
         intent.putExtra("isTime", false);
         intent.putExtra("isFinish", 1);
         intent.putExtra("isDefinition", false);

@@ -17,9 +17,9 @@ public class BindStudentViewHolder extends RecyclerView.ViewHolder {
 
     public BindStudentViewHolder(View itemView) {
         super(itemView);
-        student_name = itemView.findViewById(R.id.bind_student_name);
-        student_number = itemView.findViewById(R.id.bind_student_number);
-        student_class = itemView.findViewById(R.id.bind_student_class);
+//        student_name = itemView.findViewById(R.id.bind_student_name);
+//        student_number = itemView.findViewById(R.id.bind_student_number);
+//        student_class = itemView.findViewById(R.id.bind_student_class);
         bind_btn = itemView.findViewById(R.id.bind_btn);
     }
 }

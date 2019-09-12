@@ -77,11 +77,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -1723,5 +1719,10 @@ public class SystemUtils {
         } while (bDone);
 
         return retStr;
+    }
+
+    public static  boolean hasPermission(Context context, String permission){
+        int perm = context.checkCallingOrSelfPermission(permission);
+        return perm == PackageManager.PERMISSION_GRANTED;
     }
 }

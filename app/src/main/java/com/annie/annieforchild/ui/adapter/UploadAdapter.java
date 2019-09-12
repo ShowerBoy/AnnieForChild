@@ -3,8 +3,6 @@ package com.annie.annieforchild.ui.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import com.annie.annieforchild.ui.activity.PhotoActivity;
 import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.UploadHeaderViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.UploadViewHolder;
-import com.annie.annieforchild.ui.fragment.task.TaskContentFragment;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
 

@@ -46,3 +46,18 @@
 -dontwarn com.meizu.cloud.pushsdk.**
 -keep class com.meizu.cloud.pushsdk.**{*;}
 
+###乐播sdk
+-keep class com.dd.plist.** { *; }
+-dontwarn com.dd.plist.**
+
+###kxml
+-keep class org.kxml2.** { *; }
+-keep class org.xmlpull.** { *; }
+-dontwarn org.kxml2.**
+-dontwarn org.xmlpull.**
+
+###Lebo
+-keep class com.hpplay.**{*;}
+-keep class com.hpplay.**$*{*;}
+-dontwarn com.hpplay.**
+

@@ -1,25 +1,17 @@
 package com.annie.baselibrary.base;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.broadcastrecevier.MyBroadCastRecevier;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.ToastHelp;
 

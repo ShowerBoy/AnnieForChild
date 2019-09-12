@@ -44,8 +44,6 @@ import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.zhy.m.permission.MPermissions;
-import com.zhy.m.permission.PermissionDenied;
-import com.zhy.m.permission.PermissionGrant;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -54,6 +52,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+//import com.zhy.m.permission.PermissionDenied;
+//import com.zhy.m.permission.PermissionGrant;
 
 /**
  * 添加学员
@@ -179,11 +180,14 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            MPermissions.requestPermissions(this, 2, new String[]{
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-            });
+//            MPermissions.requestPermissions(this, 2, new String[]{
+//                    Manifest.permission.CAMERA,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE,
+//                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+//            });
+            SystemUtils.hasPermission(this,Manifest.permission.READ_PHONE_STATE);
+            SystemUtils.hasPermission(this,Manifest.permission.CAMERA);
+            SystemUtils.hasPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
         presenter = new ChildPresenterImp(this, this);
         presenter2 = new LoginPresenterImp(this, this);
@@ -239,14 +243,14 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @PermissionGrant(2)
-    public void requsetSuccess() {
-    }
-
-    @PermissionDenied(2)
-    public void requestDenied() {
-        Toast.makeText(this, "缺少权限！", Toast.LENGTH_SHORT).show();
-    }
+//    @PermissionGrant(2)
+//    public void requsetSuccess() {
+//    }
+//
+//    @PermissionDenied(2)
+//    public void requestDenied() {
+//        Toast.makeText(this, "缺少权限！", Toast.LENGTH_SHORT).show();
+//    }
 
     /**
      * {@link ChildPresenterImp#Success(int, Object)}
@@ -329,10 +333,12 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
                         ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) ||
                             ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                        MPermissions.requestPermissions(this, 1, new String[]{
-                                Manifest.permission.CAMERA,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                        });
+//                        MPermissions.requestPermissions(this, 1, new String[]{
+//                                Manifest.permission.CAMERA,
+//                                Manifest.permission.READ_EXTERNAL_STORAGE
+//                        });
+                        SystemUtils.hasPermission(this,Manifest.permission.READ_PHONE_STATE);
+                        SystemUtils.hasPermission(this,Manifest.permission.CAMERA);
                     } else {
                         showInfo("无法正常使用安妮花，请开通相关权限！请设置");
                         Intent localIntent = new Intent();
@@ -361,10 +367,12 @@ public class AddChildActivity extends CameraActivity implements AddChildView, On
                             ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) ||
                                 ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                            MPermissions.requestPermissions(this, 1, new String[]{
-                                    Manifest.permission.CAMERA,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE
-                            });
+//                            MPermissions.requestPermissions(this, 1, new String[]{
+//                                    Manifest.permission.CAMERA,
+//                                    Manifest.permission.READ_EXTERNAL_STORAGE
+//                            });
+                            SystemUtils.hasPermission(this,Manifest.permission.READ_PHONE_STATE);
+                            SystemUtils.hasPermission(this,Manifest.permission.CAMERA);
                         } else {
                             showInfo("无法正常使用安妮花，请开通相关权限！请设置");
                             Intent localIntent = new Intent();

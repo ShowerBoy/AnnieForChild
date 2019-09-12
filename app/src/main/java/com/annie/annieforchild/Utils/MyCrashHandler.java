@@ -3,15 +3,12 @@ package com.annie.annieforchild.Utils;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.annie.annieforchild.interactor.imp.CrashHandlerInteractorImp;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
-import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
-import com.yanzhenjie.nohttp.RequestMethod;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

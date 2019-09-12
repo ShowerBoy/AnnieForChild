@@ -1,24 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
     <color name="system_text_color">#8A000000</color>
 
-    <color name="home_bar_text_normal">#6a6c6f</color>
-    <color name="home_bar_text_push">#ff5959</color>
-    <color name="textnormal">#adadad</color>
-    <color name="btn_bg_pressed_color">#ffacac</color>
-    <color name="btn_bg_color">#ff5959</color>
-
     <color name="white">#FFFFFF</color>
-    <color name="teal">#00796B</color>
     <color name="skin">#EDE9E9</color>
-    <color name="brown">#8D6E63</color>
     <color name="blue">#2196F3</color>
     <color name="red">#ff0000</color>
     <color name="text_red">#E51C23</color>
-    <color name="grey">#607D8B</color>
     <color name="divider">#f2f2f2</color>
     <color name="text_color">#898989</color>
     <color name="text_light_color">#A1A1A1</color>
@@ -35,15 +23,10 @@
     <color name="text_orange">#FF8A0D</color>
     <color name="device_orange">#FF8C15</color>
     <color name="button_orange">#FF9800</color>
-    <color name="back_orange1">#ff871d</color>
-    <color name="back_orange2">#ff671d</color>
-    <color name="card_back">#FFE6C9</color>
-    <color name="icon_green">#4ED0AA</color>
     <color name="text_green">#259B24</color>
     <color name="text_green2">#8ABD2D</color>
     <color name="text_black">#1e1e1e</color>
     <color name="navigation_bar_color">#888888</color>
-    <color name="text_back_green">#E3F7C8</color>
     <color name="top_tab_back">#fafbfd</color>
     <color name="blue2">#5F96F0</color>
     <color name="clarity">#00000000</color>
@@ -53,21 +36,47 @@
     <color name="chart3">#66CBFF</color>
 
     <!--聊天框-->
-    <color name="color_input_dialog_background">#b4ffffff</color>
-    <color name="colorTransparentBlack">#44777777</color>
     <color name="c9">#777777</color>
-    <color name="item_live_chat">#1D1B31</color>
-    <color name="live_tip_btn">#0000cc</color>
     <color name="black">#000000</color>
-    <color name="canlendar_text_color">#969696</color>
     <color name="c333">#333</color>
 
 
     <color name="event_color_01">#59dbe0</color>
     <color name="event_color_02">#f57f68</color>
-    <color name="event_color_03">#87d288</color>
     <color name="event_color_04">#f8b552</color>
     <color name="toolbar">#efefef</color>
     <color name="toolbar_text">#8f000000</color>
     <color name="accent">#2789e4</color>
+
+
+
+    <!--其他一些常用颜色，除字体、背景色、线-->
+    <color name="alivc_common_white">#ffffffff</color>
+
+    <!--公用字体颜色-->
+
+    <color name="alivc_common_font_white_light">#e7e7e7</color>
+    <color name="alivc_common_font_gray_light">#C3C5C6</color>
+    <color name="alivc_common_font_gray_333">#333</color>
+    <color name="alivc_common_font_cyan_light">#00C1DE</color>
+
+    <!--主题色，代表应用整体风格的颜色-->
+    <color name="alivc_common_theme_primary_darker">#1e222d</color>
+    <color name="alivc_common_theme_primary_light">#373d41</color>
+
+    <!--公用背景色，包含前景色、填充色-->
+    <color name="alivc_common_bg_gray_bright">#D8D8D8</color>
+
+    <color name="alivc_common_bg_black">#ff000000</color>
+    <color name="alivc_common_bg_black_alpha_30">#4d000000</color>
+    <color name="alivc_common_bg_black_alpha_70">#B3000000</color>
+    <color name="alivc_common_bg_cyan_light">#00C1DE</color>
+
+    <!--公用线的颜色，包含边界线的颜色-->
+    <color name="alivc_common_line_cyan_light">#00C1DE</color>
+
+    <color name="alivc_player_theme_blue">#379DF2</color>
+    <color name="alivc_player_theme_green">#57AB44</color>
+    <color name="alivc_player_theme_orange">#EE7C33</color>
+    <color name="alivc_player_theme_red">#E94033</color>
 </resources>

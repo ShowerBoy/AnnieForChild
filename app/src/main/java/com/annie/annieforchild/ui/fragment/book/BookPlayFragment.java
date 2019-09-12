@@ -1,27 +1,20 @@
 package com.annie.annieforchild.ui.fragment.book;
 
-import android.animation.Animator;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
@@ -30,10 +23,8 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.pcm2mp3.RecorderAndPlayUtil;
 import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
-import com.annie.annieforchild.Utils.views.photoview.PhotoView;
 import com.annie.annieforchild.bean.AudioBean;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.book.Page;
 import com.annie.annieforchild.bean.book.ReleaseUrl;
@@ -42,23 +33,19 @@ import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.PhotoActivity;
 import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
-import com.annie.annieforchild.ui.adapter.ExerciseAdapter;
 import com.annie.annieforchild.ui.adapter.Exercise_newAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
-import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BaseFragment;
 import com.bumptech.glide.Glide;
 import com.example.lamemp3.MP3Recorder;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
-import java.lang.invoke.MethodHandle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,8 +53,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.microedition.khronos.opengles.GL;
 
 /**
  * Created by wanglei on 2018/10/9.

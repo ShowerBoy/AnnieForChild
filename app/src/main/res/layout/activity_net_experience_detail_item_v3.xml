@@ -3,21 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:gravity="center_horizontal"
     android:layout_marginTop="5dp"
-    android:layout_marginLeft="4dp"
     >
+    <!--<RelativeLayout-->
+        <!--android:layout_width="120dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--&gt;-->
+        <TextView
+            android:id="@+id/net_experience_item_title"
+            android:layout_width="107dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:background="@drawable/net_v3_title_background"
+            android:textStyle="bold"
+            android:textColor="#26893c"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="21dp"
+            android:text=""
+            android:textSize="15sp" />
+    <!--</RelativeLayout>-->
 
 
-    <TextView
-        android:id="@+id/net_experience_item_title"
-        android:layout_width="107dp"
-        android:layout_height="28dp"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:background="@drawable/net_v3_title_background"
-        android:textStyle="bold"
-        android:textColor="#26893c"
-        android:text=""
-        android:paddingLeft="22dp"
-        android:textSize="15sp" />
 </LinearLayout>

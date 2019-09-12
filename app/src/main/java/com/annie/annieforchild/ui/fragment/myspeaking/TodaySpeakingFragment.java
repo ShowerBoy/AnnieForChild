@@ -4,13 +4,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
-import com.annie.annieforchild.presenter.GrindEarPresenter;
-import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
-import com.annie.annieforchild.ui.fragment.myreading.TodayReadingFragment;
-import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BaseFragment;
 
 import org.greenrobot.eventbus.Subscribe;

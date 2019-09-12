@@ -1,6 +1,5 @@
 package com.annie.annieforchild.ui.activity.grindEar;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.EventLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,24 +23,18 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.Utils.views.MyMaxHeightRecyclerView;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
-import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
-import com.annie.annieforchild.ui.activity.speaking.MySpeakingActivity;
 import com.annie.annieforchild.ui.adapter.MenuAdapter;
-import com.annie.annieforchild.ui.adapter.SongAdapter;
 import com.annie.annieforchild.ui.fragment.song.AnimationFragment;
 import com.annie.annieforchild.ui.fragment.song.ListenSongFragment;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 

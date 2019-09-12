@@ -1,13 +1,11 @@
 package com.annie.annieforchild.ui.fragment.message;
 
-import android.media.Image;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.tongzhi.MyNotice;
 import com.annie.annieforchild.bean.tongzhi.Notice;
 import com.annie.annieforchild.ui.adapter.NoticeAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;

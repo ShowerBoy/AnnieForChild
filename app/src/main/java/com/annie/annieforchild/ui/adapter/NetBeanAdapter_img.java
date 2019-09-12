@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.net.NetClass;
 import com.annie.annieforchild.ui.activity.net.NetSuggestActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetBeanViewHolder;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
 
 import java.util.List;

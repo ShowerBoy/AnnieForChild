@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.ui.application.MyApplication;
 
 import org.greenrobot.eventbus.EventBus;

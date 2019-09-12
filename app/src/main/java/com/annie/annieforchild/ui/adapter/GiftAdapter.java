@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.net.Gift;
 import com.annie.annieforchild.ui.adapter.viewHolder.GiftViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;

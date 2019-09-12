@@ -6,49 +6,33 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidupnpdemo.ui.ScreenActivity;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.pldroidplayer.Config;
 import com.annie.annieforchild.Utils.pldroidplayer.MediaController;
-import com.annie.annieforchild.Utils.pldroidplayer.MediaController;
-import com.annie.annieforchild.Utils.pldroidplayer.MediaController2;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
-import com.annie.annieforchild.bean.net.netexpclass.VideoDefiniList;
 import com.annie.annieforchild.bean.net.netexpclass.VideoList;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
@@ -65,14 +49,10 @@ import com.pili.pldroid.player.PLOnErrorListener;
 import com.pili.pldroid.player.PLOnInfoListener;
 import com.pili.pldroid.player.PLOnVideoFrameListener;
 import com.pili.pldroid.player.PLOnVideoSizeChangedListener;
-import com.pili.pldroid.player.widget.PLVideoTextureView;
 import com.pili.pldroid.player.widget.PLVideoView;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -113,6 +93,7 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
     private boolean showLoop; //是否显示循环
     Runnable runnable;
     private Intent intent;
+
 
     {
         setRegister(true);
@@ -431,11 +412,11 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
             }
             mMediaController.refreshProgress();
             if (isWeb == 1) {
-                JTMessage message = new JTMessage();
-                message.what = MethodCode.EVENT_WEBVIDEO;
-                message.obj = "播放结束";
-                EventBus.getDefault().post(message);
-                finish();
+//                JTMessage message = new JTMessage();
+//                message.what = MethodCode.EVENT_WEBVIDEO;
+//                message.obj = "播放结束";
+//                EventBus.getDefault().post(message);
+//                finish();
             }
             speed = 1f;
             if (isLoop) {
@@ -570,15 +551,15 @@ public class VideoActivity_new extends BaseMusicActivity implements SongView, On
 
         @Override
         public void onClickScreen() {
-            Intent intent = new Intent(VideoActivity_new.this, ScreenActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("url", videoPath);
-            bundle.putInt("duration", (int) mVideoView.getDuration() / 1000);
-            bundle.putSerializable("videoList", (Serializable) videoList);
-            bundle.putInt("videoPos", videoPos);
-            intent.putExtras(bundle);
-            startActivity(intent);
-            finish();
+//            Intent intent = new Intent(VideoActivity_new.this, ScreenActivity.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putString("url", videoPath);
+//            bundle.putInt("duration", (int) mVideoView.getDuration() / 1000);
+//            bundle.putSerializable("videoList", (Serializable) videoList);
+//            bundle.putInt("videoPos", videoPos);
+//            intent.putExtras(bundle);
+//            startActivity(intent);
+//            finish();
         }
 
         @Override

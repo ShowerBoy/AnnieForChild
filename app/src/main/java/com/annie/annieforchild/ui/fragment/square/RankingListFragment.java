@@ -1,7 +1,6 @@
 package com.annie.annieforchild.ui.fragment.square;
 
 import android.app.Dialog;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,9 +10,7 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.rank.Rank;
 import com.annie.annieforchild.bean.rank.RankList;
-import com.annie.annieforchild.bean.rank.RankingBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.adapter.RankListAdapter;

@@ -1,5 +1,6 @@
 package com.annie.annieforchild.ui.activity.mains;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -14,7 +15,6 @@ import com.annie.annieforchild.ui.fragment.square.RankingListFragment;
 import com.annie.annieforchild.ui.fragment.square.WorkshowFragment;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 /**
  * 广场
@@ -23,7 +23,7 @@ import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 public class SquareActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private ImageView back;
-    private AdvancedPagerSlidingTabStrip mTab;
+    private TabLayout mTab;
     private APSTSViewPager mVP;
     private RankingListFragment rankingListFragment;
     private CensusFragment censusFragment;
@@ -49,8 +49,13 @@ public class SquareActivity extends BaseActivity implements View.OnClickListener
         mVP.setOffscreenPageLimit(3);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-        mTab.setViewPager(mVP);
-        mTab.setOnPageChangeListener(this);
+//        mTab.setViewPager(mVP);
+//        mTab.setOnPageChangeListener(this);
+        mTab.addTab(mTab.newTab().setText("排行榜"));
+        mTab.addTab(mTab.newTab().setText("统计"));
+        mTab.addTab(mTab.newTab().setText("作品展示"));
+        mTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
     }
 
     @Override

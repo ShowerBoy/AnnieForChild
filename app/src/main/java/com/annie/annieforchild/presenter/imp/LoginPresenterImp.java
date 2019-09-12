@@ -2,11 +2,9 @@ package com.annie.annieforchild.presenter.imp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -21,8 +19,6 @@ import com.annie.annieforchild.bean.login.LoginBean;
 import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.bean.net.NetGift;
-import com.annie.annieforchild.bean.search.BookClassify;
-import com.annie.annieforchild.bean.search.Books;
 import com.annie.annieforchild.bean.search.SearchContent;
 import com.annie.annieforchild.interactor.LoginInteractor;
 import com.annie.annieforchild.interactor.imp.LoginInteractorImp;
@@ -32,17 +28,10 @@ import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.LoginView;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BasePresenterImp;
-import com.yanzhenjie.nohttp.Headers;
-import com.yanzhenjie.nohttp.NoHttp;
-import com.yanzhenjie.nohttp.download.DownloadListener;
-import com.yanzhenjie.nohttp.download.DownloadQueue;
-import com.yanzhenjie.nohttp.download.DownloadRequest;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
-import org.litepal.crud.LitePalSupport;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;

@@ -9,14 +9,12 @@ import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -33,25 +31,23 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.login.PhoneSN;
-import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.RegisterPresenter;
 import com.annie.annieforchild.presenter.imp.RegisterPresenterImp;
-import com.annie.annieforchild.ui.activity.child.AddChildActivity;
 import com.annie.annieforchild.ui.activity.child.AddStudentActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.view.RegisterView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.ashokvarma.bottomnavigation.utils.Utils;
 import com.zhy.m.permission.MPermissions;
-import com.zhy.m.permission.PermissionDenied;
-import com.zhy.m.permission.PermissionGrant;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
 
 import java.util.List;
 import java.util.UUID;
+
+//import com.zhy.m.permission.PermissionDenied;
+//import com.zhy.m.permission.PermissionGrant;
 
 /**
  * 注册
@@ -256,9 +252,10 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
                     }
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            MPermissions.requestPermissions(this, 3, new String[]{
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                            });
+//                            MPermissions.requestPermissions(this, 3, new String[]{
+//                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+//                            });
+                            SystemUtils.hasPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
                         } else {
                             showInfo("无法正常使用安妮花，请开通存储权限！请设置");
                             Intent localIntent = new Intent();
@@ -319,16 +316,16 @@ public class RegisterActivity extends BaseActivity implements RegisterView, OnCh
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @PermissionGrant(3)
-    public void requsetSuccess() {
-        doit();
-        presenter.register(phone_number.getText().toString(), test_code.getText().toString(), password.getText().toString());
-    }
-
-    @PermissionDenied(3)
-    public void requestDenied() {
-        Toast.makeText(this, "缺少权限！", Toast.LENGTH_SHORT).show();
-    }
+//    @PermissionGrant(3)
+//    public void requsetSuccess() {
+//        doit();
+//        presenter.register(phone_number.getText().toString(), test_code.getText().toString(), password.getText().toString());
+//    }
+//
+//    @PermissionDenied(3)
+//    public void requestDenied() {
+//        Toast.makeText(this, "缺少权限！", Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     protected void onDestroy() {

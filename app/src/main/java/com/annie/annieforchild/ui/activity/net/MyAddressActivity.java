@@ -14,7 +14,6 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.Address;
-import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.adapter.AddressAdapter;
@@ -25,7 +24,6 @@ import com.annie.baselibrary.base.BasePresenter;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**

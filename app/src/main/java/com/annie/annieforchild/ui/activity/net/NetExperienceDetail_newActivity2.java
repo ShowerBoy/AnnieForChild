@@ -21,8 +21,6 @@ import com.annie.annieforchild.bean.net.ListenAndRead;
 import com.annie.annieforchild.bean.net.experience.ExpItemBean;
 import com.annie.annieforchild.bean.net.experience.ExperienceV2;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
-import com.annie.annieforchild.bean.net.netexpclass.Info_new;
-import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;

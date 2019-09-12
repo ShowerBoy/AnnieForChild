@@ -2,10 +2,6 @@ package com.annie.annieforchild.ui.activity.my;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,22 +10,17 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.HelpBean;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.MessagePresenter;
 import com.annie.annieforchild.presenter.imp.MessagePresenterImp;
 import com.annie.annieforchild.ui.adapter.HelpAdapter;
-import com.annie.annieforchild.ui.fragment.help.HelpFragment;
-import com.annie.annieforchild.ui.fragment.message.GroupMsgFragment;
-import com.annie.annieforchild.ui.fragment.message.NoticeFragment;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.Subscribe;
 

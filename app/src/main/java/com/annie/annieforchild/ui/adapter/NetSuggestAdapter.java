@@ -1,24 +1,16 @@
 package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetSuggestViewHolder;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.microedition.khronos.opengles.GL;
 
 /**
  * Created by wanglei on 2018/11/14.

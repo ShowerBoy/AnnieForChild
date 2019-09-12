@@ -11,7 +11,6 @@ import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.material.Material;
 import com.annie.annieforchild.ui.adapter.viewHolder.MaterialViewHolder;
-import com.annie.annieforchild.ui.interfaces.OnMyItemClickListener;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
 

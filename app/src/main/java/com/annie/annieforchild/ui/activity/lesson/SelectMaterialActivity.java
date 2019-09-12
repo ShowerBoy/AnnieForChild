@@ -3,38 +3,28 @@ package com.annie.annieforchild.ui.activity.lesson;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IntRange;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
-import com.annie.annieforchild.bean.material.MaterialGroup;
 import com.annie.annieforchild.bean.schedule.Schedule;
 import com.annie.annieforchild.presenter.SchedulePresenter;
 import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
-import com.annie.annieforchild.ui.adapter.SelectMaterialExpandAdapter;
 import com.annie.annieforchild.ui.fragment.selectmaterial.SelectGrindEarFragment;
 import com.annie.annieforchild.ui.fragment.selectmaterial.SelectReadingFragment;
 import com.annie.annieforchild.ui.fragment.selectmaterial.SelectSpokenFragment;
 import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * 选择教材
@@ -43,7 +33,7 @@ import java.util.List;
 
 public class SelectMaterialActivity extends BaseActivity implements View.OnClickListener, ScheduleView, ViewPager.OnPageChangeListener {
     private ImageView back;
-    private AdvancedPagerSlidingTabStrip mTab;
+    private TabLayout mTab;
     private APSTSViewPager mVP;
     private AlertHelper helper;
     private Dialog dialog;
@@ -76,8 +66,13 @@ public class SelectMaterialActivity extends BaseActivity implements View.OnClick
         mVP.setOffscreenPageLimit(3);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-        mTab.setViewPager(mVP);
-        mTab.setOnPageChangeListener(this);
+//        mTab.setViewPager(mVP);
+//        mTab.setOnPageChangeListener(this);
+        mTab.addTab(mTab.newTab().setText("磨耳朵"));
+        mTab.addTab(mTab.newTab().setText("阅读"));
+        mTab.addTab(mTab.newTab().setText("口语"));
+        mTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
 
         /**
          * {@link com.annie.annieforchild.ui.adapter.OnlineScheAdapter#onBindViewHolder(RecyclerView.ViewHolder, int)}

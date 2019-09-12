@@ -3,13 +3,10 @@ package com.annie.annieforchild.ui.fragment;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,18 +27,14 @@ import com.annie.annieforchild.bean.ShareBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.grindEar.GrindEarActivity;
-import com.annie.annieforchild.ui.activity.grindEar.MyGrindEarActivity;
 import com.annie.annieforchild.ui.activity.mains.BankBookActivity;
-import com.annie.annieforchild.ui.activity.reading.MyReadingActivity;
 import com.annie.annieforchild.ui.activity.reading.ReadingActivity;
-import com.annie.annieforchild.ui.activity.speaking.MySpeakingActivity;
 import com.annie.annieforchild.ui.activity.speaking.SpeakingActivity;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseFragment;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;

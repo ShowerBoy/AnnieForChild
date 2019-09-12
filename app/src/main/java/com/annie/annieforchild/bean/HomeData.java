@@ -1,7 +1,6 @@
 package com.annie.annieforchild.bean;
 
 import com.annie.annieforchild.bean.song.Song;
-import com.annie.annieforchild.bean.tongzhi.Msgs;
 
 import java.io.Serializable;
 import java.util.List;

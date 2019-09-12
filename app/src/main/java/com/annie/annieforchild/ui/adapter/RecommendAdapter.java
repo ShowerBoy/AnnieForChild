@@ -2,16 +2,13 @@ package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.imp.MainPresenterImp;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;

@@ -5,11 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,23 +19,15 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.ListenAndRead;
-import com.annie.annieforchild.bean.net.netexpclass.FirstStageitem;
-import com.annie.annieforchild.bean.net.netexpclass.Info;
-import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
-import com.annie.annieforchild.ui.adapter.NetExperienceDetailAdapter;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.bumptech.glide.Glide;
 
 import org.greenrobot.eventbus.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NetExperienceDetail_newActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     CheckDoubleClickListener listner;

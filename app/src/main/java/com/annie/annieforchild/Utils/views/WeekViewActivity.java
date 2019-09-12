@@ -4,13 +4,12 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
-import com.annie.annieforchild.R;
 
+import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.views.weekview.DateTimeInterpreter;
 import com.annie.annieforchild.Utils.views.weekview.MonthLoader;
 import com.annie.annieforchild.Utils.views.weekview.WeekView;
 import com.annie.annieforchild.Utils.views.weekview.WeekViewEvent;
-import com.annie.baselibrary.base.BaseActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

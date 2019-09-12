@@ -1,13 +1,11 @@
 package com.annie.annieforchild.ui.adapter.viewHolder;
 
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.amap.api.maps2d.model.Circle;
 import com.annie.annieforchild.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;

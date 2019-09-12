@@ -1,16 +1,14 @@
 package com.annie.annieforchild.ui.activity.net;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.transition.Transition;
-import android.support.v4.widget.NestedScrollView;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,9 +21,7 @@ import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.views.AutoScaleWidthImageView;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.ListenAndRead;
-import com.annie.annieforchild.bean.net.experience.ExpItemBean;
 import com.annie.annieforchild.bean.net.experience.ExpItemBeanV3;
-import com.annie.annieforchild.bean.net.experience.ExperienceV2;
 import com.annie.annieforchild.bean.net.experience.ExperienceV3;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
@@ -37,16 +33,15 @@ import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.fourthline.cling.binding.xml.Descriptor.Device.ELEMENT.url;
 
 /**
  * V3体验课
@@ -70,8 +65,9 @@ public class NetExperienceDetail_newActivity3 extends BaseActivity implements Vi
     private ImageView typrogess,totest;
     private int beeint=0;
     private ImageView loading;
-    private LinearLayout back_bottom;
-
+    private RelativeLayout back_bottom;
+    private ImageView back_bottom_img;
+    private Context context;
     {
         setRegister(true);
     }
@@ -83,7 +79,9 @@ public class NetExperienceDetail_newActivity3 extends BaseActivity implements Vi
 
     @Override
     protected void initView() {
+        context=this;
         back_bottom=findViewById(R.id.back_bottom);
+        back_bottom_img=findViewById(R.id.back_bottom_img);
         loading=findViewById(R.id.loading);
         typrogess=findViewById(R.id.typrogess);
         totest=findViewById(R.id.totest);
@@ -137,18 +135,16 @@ public class NetExperienceDetail_newActivity3 extends BaseActivity implements Vi
                 .load(experienceV3.getBackground_img())
                 .listener(new RequestListener() {
                     @Override
-                    public boolean onException(Exception arg0, Object arg1,
-                                               Target arg2, boolean arg3) {
-//                        dialog.dismiss();
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
                         loading.setVisibility(View.GONE);
                         return false;
                     }
+
                     @Override
-                    public boolean onResourceReady(Object arg0, Object arg1,
-                                                   Target arg2, boolean arg3, boolean arg4) {
-//                        dialog.dismiss();
+                    public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
                         loading.setVisibility(View.GONE);
                         back_bottom.setVisibility(View.VISIBLE);
+                        Glide.with(context).load(experienceV3.getBottom_img()).into(back_bottom_img);
                         recycler.setVisibility(View.VISIBLE);
                         net_exp_v3_backlayout.setVisibility(View.VISIBLE);
                         typrogess.setVisibility(View.VISIBLE);
@@ -156,6 +152,7 @@ public class NetExperienceDetail_newActivity3 extends BaseActivity implements Vi
 //                        btn_make_insurance_plan.setVisibility(View.VISIBLE);
                         return false;
                     }
+
                 })
                 .into(net_exp_v3_backlayout);
 //        Glide.with(this).load(experienceV3.getBackground_img()).into(net_exp_v3_backlayout);

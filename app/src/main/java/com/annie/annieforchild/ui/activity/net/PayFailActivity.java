@@ -1,13 +1,11 @@
 package com.annie.annieforchild.ui.activity.net;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.baselibrary.base.BaseActivity;

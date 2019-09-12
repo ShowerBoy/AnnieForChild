@@ -2,14 +2,13 @@ package com.annie.annieforchild.ui.activity.lesson;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,14 +20,12 @@ import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.task.Task;
 import com.annie.annieforchild.bean.task.TaskBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
-import com.annie.annieforchild.ui.activity.mains.BankBookActivity;
 import com.annie.annieforchild.ui.adapter.TaskAdapter;
 import com.annie.annieforchild.ui.fragment.task.TaskFragment;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
@@ -36,12 +33,10 @@ import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -55,7 +50,7 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
     private TextView totalFlower;
     private XRecyclerView recycler;
     private LinearLayout taskLayout;
-    private AdvancedPagerSlidingTabStrip mTab;
+    private TabLayout mTab;
     private APSTSViewPager mVP;
     private GrindEarPresenter presenter;
     private TaskFragment taskFragment1, taskFragment2;
@@ -123,8 +118,12 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
             mVP.setOffscreenPageLimit(fragmentCount);
             mVP.setAdapter(fragmentAdapter);
             fragmentAdapter.notifyDataSetChanged();
-            mTab.setViewPager(mVP);
-            mTab.setOnPageChangeListener(this);
+//            mTab.setViewPager(mVP);
+//            mTab.setOnPageChangeListener(this);
+            mTab.addTab(mTab.newTab().setText("课程作业"));
+            mTab.addTab(mTab.newTab().setText("网课作业"));
+            mTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+            mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
         } else if (fragmentCount == 1) {
             taskLayout.setVisibility(View.GONE);
             recycler.setVisibility(View.VISIBLE);

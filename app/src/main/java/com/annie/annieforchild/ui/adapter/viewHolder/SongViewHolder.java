@@ -8,7 +8,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.book.Line;
 
 /**
  * Created by wanglei on 2018/3/24.

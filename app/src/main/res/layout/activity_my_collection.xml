@@ -34,16 +34,28 @@
                 android:textSize="20sp" />
         </RelativeLayout>
 
-        <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
-            android:id="@+id/collection_tab_layout"
-            style="@style/pagertab_style"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/white"
-            android:fillViewport="false">
+        <!--<com.lhh.apst.library.AdvancedPagerSlidingTabStrip-->
+            <!--android:id="@+id/collection_tab_layout"-->
+            <!--style="@style/pagertab_style"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="42dp"-->
+            <!--android:layout_marginTop="1dp"-->
+            <!--android:background="@color/white"-->
+            <!--android:fillViewport="false">-->
 
-        </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
+        <!--</com.lhh.apst.library.AdvancedPagerSlidingTabStrip>-->
+        <android.support.design.widget.TabLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/collection_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+
+            app:tabIndicatorColor="#FF8A16"
+            app:tabSelectedTextColor="#FF8A16"
+            app:tabTextColor="#666666"
+            ></android.support.design.widget.TabLayout>
 
         <com.annie.annieforchild.Utils.views.APSTSViewPager
             android:id="@+id/collection_viewpager"

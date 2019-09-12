@@ -4,21 +4,16 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.AudioFormat;
-import android.media.AudioRecord;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,15 +22,10 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.FourthPresenter;
-import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.FourthPresenterImp;
 import com.annie.annieforchild.presenter.imp.MessagePresenterImp;
-import com.annie.annieforchild.ui.activity.my.DevicetestendActivity;
 import com.annie.annieforchild.ui.activity.my.DevicetestingActivity;
-import com.annie.annieforchild.ui.activity.pk.ExerciseActivity2;
-import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.view.FourthView;
-import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseFragment;
 import com.example.lamemp3.PrivateInfo;
 import com.tencent.taisdk.TAIErrCode;
@@ -52,9 +42,7 @@ import com.tencent.taisdk.TAIOralEvaluationServerType;
 import com.tencent.taisdk.TAIOralEvaluationStorageMode;
 import com.tencent.taisdk.TAIOralEvaluationTextMode;
 import com.tencent.taisdk.TAIOralEvaluationWorkMode;
-import com.zhy.m.permission.MPermissions;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.FileNotFoundException;
@@ -136,9 +124,10 @@ public class Devicetest3Fragment extends BaseFragment implements FourthView {
                 if (!hasPermission(getContext(),Manifest.permission.RECORD_AUDIO)){
                     // TODO: Consider calling
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        MPermissions.requestPermissions(Devicetest3Fragment.this, 0, new String[]{
-                                Manifest.permission.RECORD_AUDIO
-                        });
+                        SystemUtils.hasPermission(getContext(),Manifest.permission.RECORD_AUDIO);
+//                        MPermissions.requestPermissions(Devicetest3Fragment.this, 0, new String[]{
+//                                Manifest.permission.RECORD_AUDIO
+//                        });
                     }
                     Toast.makeText(getContext(), "请打开麦克风权限", Toast.LENGTH_LONG).show();
                 } else {

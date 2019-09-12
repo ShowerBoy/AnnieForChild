@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.OverScroller;
 
+import com.annie.annieforchild.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,7 +42,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import com.annie.annieforchild.R;
 
 import static com.annie.annieforchild.Utils.views.weekview.WeekViewUtil.isSameDay;
 import static com.annie.annieforchild.Utils.views.weekview.WeekViewUtil.today;

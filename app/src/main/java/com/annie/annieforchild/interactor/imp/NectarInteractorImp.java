@@ -8,7 +8,6 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.nectar.MyNectar;
-import com.annie.annieforchild.bean.nectar.NectarBean;
 import com.annie.annieforchild.interactor.NectarInteractor;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
@@ -16,8 +15,6 @@ import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Response;
-
-import java.util.List;
 
 /**
  * Created by WangLei on 2018/3/7 0007

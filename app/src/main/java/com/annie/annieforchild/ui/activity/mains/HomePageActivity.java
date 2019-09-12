@@ -3,8 +3,6 @@ package com.annie.annieforchild.ui.activity.mains;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +16,6 @@ import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.views.RecyclerLinearLayoutManager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.rank.Hpbean;
 import com.annie.annieforchild.bean.rank.Production;
@@ -38,7 +35,6 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;

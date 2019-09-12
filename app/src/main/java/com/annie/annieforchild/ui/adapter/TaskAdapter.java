@@ -2,7 +2,6 @@ package com.annie.annieforchild.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.task.Task;
-import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.TaskViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 

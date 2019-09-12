@@ -7,19 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity;
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.net.PreheatConsultList;
 import com.annie.annieforchild.bean.net.netexpclass.VideoList;
-import com.annie.annieforchild.bean.song.Song;
-import com.annie.annieforchild.ui.activity.VideoActivity;
-import com.annie.annieforchild.ui.activity.VideoActivity_new;
-import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetPreheatConsultViewHolder;
 import com.bumptech.glide.Glide;
-import com.tencent.smtt.sdk.TbsVideo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -95,7 +89,8 @@ public class NetPreheatConsultAdapter extends RecyclerView.Adapter<NetPreheatCon
             @Override
             public void onClick(View v) {
 //                Intent intent = new Intent(context, VideoActivity.class);
-                Intent intent = new Intent(context, VideoActivity_new.class);
+//                Intent intent = new Intent(context, VideoActivity_new.class);
+                Intent intent = new Intent(context, AliyunPlayerSkinActivity.class);
                 List<VideoList> list = new ArrayList<>();
                 if (i < list1.size()) {
                     for (int j = 0; j < list1.size(); j++) {

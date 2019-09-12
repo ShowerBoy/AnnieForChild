@@ -9,6 +9,8 @@ import java.util.List;
 
 public class ExperienceV3 implements Serializable {
     private String background_img;
+
+    private String bottom_img;
     private TyProcess tyProcess;
     private JoinTest joinTest;
 
@@ -54,5 +56,12 @@ public class ExperienceV3 implements Serializable {
 
     public void setPlate(List<ExpItemBeanV3> plate) {
         this.plate = plate;
+    }
+    public String getBottom_img() {
+        return bottom_img;
+    }
+
+    public void setBottom_img(String bottom_img) {
+        this.bottom_img = bottom_img;
     }
 }

@@ -8,29 +8,20 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.net.ListenAndRead;
-import com.annie.annieforchild.bean.net.NetClass;
-import com.annie.annieforchild.bean.net.NetExpDetails;
 import com.annie.annieforchild.bean.net.netexpclass.FirstStageitem;
 import com.annie.annieforchild.bean.net.netexpclass.Info;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
@@ -46,9 +37,7 @@ import com.bumptech.glide.Glide;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class NetExperienceDetailActivity extends BaseActivity implements ViewInfo, OnCheckDoubleClick {
     CheckDoubleClickListener listner;

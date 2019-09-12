@@ -10,23 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.CheckDoubleClickListener;
-import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.net.Address;
 import com.annie.annieforchild.bean.net.DiscountRecord;
-import com.annie.annieforchild.presenter.NetWorkPresenter;
-import com.annie.annieforchild.ui.activity.net.AddAddressActivity;
-import com.annie.annieforchild.ui.activity.net.MyAddressActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
-import com.annie.annieforchild.ui.adapter.viewHolder.AddressViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.CouponViewHolder;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.io.Serializable;
 import java.util.List;
 
 /**

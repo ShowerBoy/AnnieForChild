@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.net.SpecInfoInfo;
 import com.annie.annieforchild.bean.net.experience.ExpItemBeanItem;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetSpecialDetailItemViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;

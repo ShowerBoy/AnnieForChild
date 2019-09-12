@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.net.NetClass;
-import com.annie.annieforchild.ui.adapter.viewHolder.NetBeanViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetSpecialViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;

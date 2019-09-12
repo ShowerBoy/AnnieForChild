@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.net.experience.ExpItemBean;
-import com.annie.annieforchild.bean.net.netexpclass.Info_new;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.ui.activity.my.WebActivity;
 import com.annie.annieforchild.ui.activity.net.LessonActivity;

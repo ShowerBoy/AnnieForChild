@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alivc_common_theme_primary_darker">
+
+    <com.aliyun.vodplayerview.widget.AliyunVodPlayerView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_tab_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/alivc_common_bg_gray_bright"/>
+
+        <LinearLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <!-- video list tab-->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/tv_tab_video_list"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="列表"
+                    android:textColor="@color/alivc_common_font_white_light"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:id="@+id/iv_video_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:background="@drawable/alivc_solution_tab_item_selector"/>
+            </FrameLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+    <LinearLayout
+        android:id="@+id/ll_video_list"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/video_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/nocontent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前暂无其他资源"
+            android:textSize="18sp"
+            android:textColor="@color/alivc_common_font_white_light"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>

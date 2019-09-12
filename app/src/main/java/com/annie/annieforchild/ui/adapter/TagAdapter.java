@@ -1,7 +1,6 @@
 package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -18,7 +17,6 @@ import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.ui.adapter.viewHolder.TagViewHolder;
 import com.google.android.flexbox.FlexboxLayout;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

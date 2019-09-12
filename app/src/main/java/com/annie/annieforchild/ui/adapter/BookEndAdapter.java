@@ -6,9 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.MainThread;
 import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,21 +14,14 @@ import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
-import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.service.MusicService2;
-import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.book.Release;
 import com.annie.annieforchild.bean.book.ReleaseBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.activity.mains.HomePageActivity;
-import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.BookEndViewHolder;
-import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.ui.fragment.book.BookPlayEndFragment;
 import com.bumptech.glide.Glide;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.ArrayList;

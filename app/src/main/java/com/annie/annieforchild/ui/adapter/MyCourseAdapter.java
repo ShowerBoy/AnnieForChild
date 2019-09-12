@@ -5,11 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.net.NetClass;
-import com.annie.annieforchild.presenter.imp.MainPresenterImp;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyCourseViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;

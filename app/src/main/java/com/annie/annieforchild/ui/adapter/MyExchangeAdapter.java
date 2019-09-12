@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.ExchangeBean;
 import com.annie.annieforchild.bean.GoldExchanges;
 import com.annie.annieforchild.ui.adapter.viewHolder.MyExchangeViewHolder;
 

@@ -2,7 +2,6 @@ package com.annie.annieforchild.ui.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,10 +13,11 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
-//import com.github.chrisbanes.photoview.PhotoView;
-//import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
 import org.greenrobot.eventbus.EventBus;
+
+//import com.github.chrisbanes.photoview.PhotoView;
+//import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
 /**
  * Created by wanglei on 2018/8/28.

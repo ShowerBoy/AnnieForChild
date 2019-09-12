@@ -1,7 +1,5 @@
 package com.annie.annieforchild.presenter;
 
-import com.annie.baselibrary.base.BasePresenter;
-
 /**
  * Created by WangLei on 2018/3/2 0002
  */

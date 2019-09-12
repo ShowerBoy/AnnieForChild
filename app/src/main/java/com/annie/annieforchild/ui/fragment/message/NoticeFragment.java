@@ -11,7 +11,6 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.NetGift;
-import com.annie.annieforchild.bean.tongzhi.MyNotice;
 import com.annie.annieforchild.bean.tongzhi.Notice;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;

@@ -12,7 +12,6 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.AnimationData;
-import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.adapter.viewHolder.AnimationViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;

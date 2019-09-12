@@ -1,34 +1,26 @@
 package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.speech.util.Result;
 import com.annie.annieforchild.Utils.speech.util.XmlResultParser;
-import com.annie.annieforchild.bean.Exercise;
 import com.annie.annieforchild.bean.book.Line;
-import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
-import com.annie.annieforchild.ui.activity.grindEar.ExerciseTestActivity;
-import com.annie.annieforchild.ui.activity.pk.ExerciseActivity;
 import com.annie.annieforchild.ui.activity.pk.ExerciseActivity2;
 import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;

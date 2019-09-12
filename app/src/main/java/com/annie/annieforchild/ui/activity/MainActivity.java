@@ -15,18 +15,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity;
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MusicManager;
@@ -51,16 +49,11 @@ import com.annie.annieforchild.ui.fragment.ThirdFragment;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseFragment;
 import com.annie.baselibrary.base.BasePresenter;
-import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.yanzhenjie.nohttp.Headers;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.download.DownloadListener;
 import com.yanzhenjie.nohttp.download.DownloadQueue;
 import com.yanzhenjie.nohttp.download.DownloadRequest;
-import com.zhy.m.permission.MPermissions;
-import com.zhy.m.permission.PermissionDenied;
-import com.zhy.m.permission.PermissionGrant;
-import com.zhy.m.permission.Utils;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -69,6 +62,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+//import com.zhy.m.permission.PermissionDenied;
+//import com.zhy.m.permission.PermissionGrant;
 
 public class MainActivity extends QuickNavigationBarActivity implements ViewInfo {
     TelephonyManager tm;
@@ -114,13 +110,23 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
             startActivity(intent);
         }
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M ){
-            MPermissions.requestPermissions(this, 1, new String[]{
-                    Manifest.permission.READ_PHONE_STATE,
+            this.requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE,
                     Manifest.permission.CAMERA,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-            });
+                    Manifest.permission.ACCESS_COARSE_LOCATION},1);
+//            SystemUtils.hasPermission(this,Manifest.permission.READ_PHONE_STATE);
+//            SystemUtils.hasPermission(this,Manifest.permission.CAMERA);
+//            SystemUtils.hasPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//            SystemUtils.hasPermission(this,Manifest.permission.RECORD_AUDIO);
+//            SystemUtils.hasPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION);
+//            MPermissions.requestPermissions(this, 1, new String[]{
+//                    Manifest.permission.READ_PHONE_STATE,
+//                    Manifest.permission.CAMERA,
+//                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                    Manifest.permission.RECORD_AUDIO,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION
+//            });
         }
 
         tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -200,7 +206,8 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
                         videoList.setUrl(animationurl);
                         list.add(videoList);
 
-                        Intent intent = new Intent(this, VideoActivity_new.class);
+//                        Intent intent = new Intent(this, VideoActivity_new.class);
+                        Intent intent = new Intent(this, AliyunPlayerSkinActivity.class);
 //                intent.putExtra("url", lists.get(i).getPath().get(0));
 //                intent.putExtra("imageUrl", lists.get(i).getPicurl());
 //                intent.putExtra("name", lists.get(i).getTitle());
@@ -305,18 +312,18 @@ public class MainActivity extends QuickNavigationBarActivity implements ViewInfo
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+//        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @PermissionGrant(1)
-    public void requsetSuccess() {
-    }
-
-    @PermissionDenied(1)
-    public void requestDenied() {
-        Toast.makeText(this, "缺少权限!", Toast.LENGTH_SHORT).show();
-    }
+//    @PermissionGrant(1)
+//    public void requsetSuccess() {
+//    }
+//
+//    @PermissionDenied(1)
+//    public void requestDenied() {
+//        Toast.makeText(this, "缺少权限!", Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

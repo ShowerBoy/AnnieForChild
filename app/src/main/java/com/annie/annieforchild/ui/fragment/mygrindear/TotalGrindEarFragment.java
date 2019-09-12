@@ -14,7 +14,6 @@ import com.annie.baselibrary.base.BaseFragment;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

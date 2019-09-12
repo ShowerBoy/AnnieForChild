@@ -1,57 +1,32 @@
 package com.annie.annieforchild.ui.activity.my;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.alipay.sdk.app.PayTask;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.PayResult;
 import com.annie.annieforchild.bean.net.DiscountRecord;
-import com.annie.annieforchild.bean.net.Payresulrinfo;
-import com.annie.annieforchild.bean.net.WechatBean;
-import com.annie.annieforchild.bean.order.AliOrderBean;
-import com.annie.annieforchild.bean.order.MyOrder;
-import com.annie.annieforchild.bean.order.WechatOrderBean;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
-import com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity2;
-import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
-import com.annie.annieforchild.ui.activity.net.PayFailActivity;
-import com.annie.annieforchild.ui.activity.net.PaySuccessActivity;
 import com.annie.annieforchild.ui.adapter.CouponAdapter;
-import com.annie.annieforchild.ui.adapter.MyOrderAdapter;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.tencent.mm.opensdk.modelpay.PayReq;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 我的优惠券

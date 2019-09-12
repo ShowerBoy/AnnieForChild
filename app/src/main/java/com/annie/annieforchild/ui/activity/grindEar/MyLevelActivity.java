@@ -8,12 +8,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
-
-import java.text.DecimalFormat;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

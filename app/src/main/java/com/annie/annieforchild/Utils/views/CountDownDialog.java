@@ -10,8 +10,6 @@ import android.widget.TextView;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.ui.interfaces.OnCountFinishListener;
 
-import org.w3c.dom.Text;
-
 /**
  * 屏幕中间倒计时
  * Created by wanglei on 2018/4/19.

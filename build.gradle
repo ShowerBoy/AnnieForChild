@@ -8,9 +8,12 @@ buildscript {
         maven {
             url "http://mvn.mob.com/android"
         }
+        maven {
+            url 'https://maven.aliyun.com/repository/releases'
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.+'
+        classpath 'com.android.tools.build:gradle:3.4.0'
         classpath 'me.tatarka:gradle-retrolambda:3.7.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'com.mob.sdk:MobSDK:+'
@@ -28,6 +31,13 @@ allprojects {
         maven { url "https://maven.google.com" }
         maven { url "https://jitpack.io" }
         maven {url 'http://4thline.org/m2'}
+        mavenCentral()
+        maven(){
+            url 'https://maven.aliyun.com/repository/releases'
+        }
+        flatDir {
+            dirs 'libs'
+        }
     }
 }
 

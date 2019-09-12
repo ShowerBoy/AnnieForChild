@@ -5,8 +5,6 @@ import android.app.Activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zhy.m.permission.Utils.getActivity;
-
 /**
  * Created by wanglei on 2018/4/25.
  */

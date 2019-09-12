@@ -2,26 +2,19 @@ package com.annie.annieforchild.ui.fragment.task;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.schedule.Schedule;
 import com.annie.annieforchild.bean.task.Task;
 import com.annie.annieforchild.bean.task.TaskBean;
-import com.annie.annieforchild.ui.activity.lesson.TaskActivity;
 import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
 import com.annie.annieforchild.ui.adapter.TaskAdapter;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
-import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BaseFragment;
-import com.annie.baselibrary.base.BasePresenter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.Subscribe;

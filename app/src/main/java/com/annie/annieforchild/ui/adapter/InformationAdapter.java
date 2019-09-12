@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
@@ -17,8 +16,6 @@ import com.annie.annieforchild.ui.adapter.viewHolder.InformationViewHolder;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
-
-import javax.microedition.khronos.opengles.GL;
 
 /**
  * Created by WangLei on 2018/1/16 0016

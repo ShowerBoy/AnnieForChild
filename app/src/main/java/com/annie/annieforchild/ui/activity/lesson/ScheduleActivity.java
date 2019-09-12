@@ -3,6 +3,7 @@ package com.annie.annieforchild.ui.activity.lesson;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -36,7 +37,6 @@ import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -57,7 +57,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
     private Button backToday;
     private TextView totalSchedule;
     private RecyclerView dateRecycler;
-    private AdvancedPagerSlidingTabStrip mTab;
+    private TabLayout mTab;
     private APSTSViewPager mVP;
     private List<DateBean> date_lists;
     private DateRecyclerAdapter adapter;
@@ -156,8 +156,12 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView, View
         mVP.setOffscreenPageLimit(2);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-        mTab.setViewPager(mVP);
-        mTab.setOnPageChangeListener(this);
+//        mTab.setViewPager(mVP);
+//        mTab.setOnPageChangeListener(this);
+        mTab.addTab(mTab.newTab().setText("线下课程"));
+        mTab.addTab(mTab.newTab().setText("线上课程"));
+        mTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
         presenter.getScheduleDetails(date_lists.get(0).getYear() + date_lists.get(0).getMonth() + date_lists.get(0).getDay());
     }
 

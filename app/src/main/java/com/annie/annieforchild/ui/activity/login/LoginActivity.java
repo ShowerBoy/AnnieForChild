@@ -2,18 +2,14 @@ package com.annie.annieforchild.ui.activity.login;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
@@ -31,35 +27,25 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.UpdateBean;
 import com.annie.annieforchild.bean.login.LoginBean;
 import com.annie.annieforchild.bean.login.MainBean;
 import com.annie.annieforchild.bean.login.PhoneSN;
-import com.annie.annieforchild.bean.login.SigninBean;
 import com.annie.annieforchild.presenter.LoginPresenter;
 import com.annie.annieforchild.presenter.imp.LoginPresenterImp;
 import com.annie.annieforchild.ui.activity.MainActivity;
-import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.LoginView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.annie.baselibrary.utils.NetUtils.NoHttpUtils;
-import com.yanzhenjie.nohttp.Headers;
-import com.yanzhenjie.nohttp.NoHttp;
-import com.yanzhenjie.nohttp.download.DownloadListener;
-import com.yanzhenjie.nohttp.download.DownloadQueue;
-import com.yanzhenjie.nohttp.download.DownloadRequest;
-import com.zhy.m.permission.MPermissions;
-import com.zhy.m.permission.PermissionDenied;
-import com.zhy.m.permission.PermissionGrant;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
+
+//import com.zhy.m.permission.PermissionDenied;
+//import com.zhy.m.permission.PermissionGrant;
 
 /**
  * 登陆界面
@@ -132,13 +118,23 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M ) {
-                MPermissions.requestPermissions(this, 0, new String[]{
-                        Manifest.permission.READ_PHONE_STATE,
+//                MPermissions.requestPermissions(this, 0, new String[]{
+//                        Manifest.permission.READ_PHONE_STATE,
+//                        Manifest.permission.CAMERA,
+//                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                        Manifest.permission.RECORD_AUDIO,
+//                        Manifest.permission.ACCESS_COARSE_LOCATION
+//                });
+                this.requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE,
                         Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                });
+                        Manifest.permission.ACCESS_COARSE_LOCATION},1);
+                SystemUtils.hasPermission(this,Manifest.permission.READ_PHONE_STATE);
+                SystemUtils.hasPermission(this,Manifest.permission.CAMERA);
+                SystemUtils.hasPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                SystemUtils.hasPermission(this,Manifest.permission.RECORD_AUDIO);
+                SystemUtils.hasPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION);
             }
         } else {
             doit();
@@ -281,32 +277,32 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+//        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @PermissionGrant(0)
-    public void requsetSuccess() {
-        doit();
-    }
+//    @PermissionGrant(0)
+//    public void requsetSuccess() {
+//        doit();
+//    }
+//
+//    @PermissionDenied(0)
+//    public void requestDenied() {
+//        Toast.makeText(this, "缺少权限!", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @PermissionGrant(1)
+//    public void requestLoginSuccess() {
+//        logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
+//        phone = phoneNumber.getText().toString();
+//        psd = password.getText().toString();
+//        presenter.login(phone, psd, logintime);
+//    }
 
-    @PermissionDenied(0)
-    public void requestDenied() {
-        Toast.makeText(this, "缺少权限!", Toast.LENGTH_SHORT).show();
-    }
-
-    @PermissionGrant(1)
-    public void requestLoginSuccess() {
-        logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
-        phone = phoneNumber.getText().toString();
-        psd = password.getText().toString();
-        presenter.login(phone, psd, logintime);
-    }
-
-    @PermissionDenied(1)
-    public void requestLoginDenied() {
-        Toast.makeText(this, "缺少权限!", Toast.LENGTH_SHORT).show();
-    }
+//    @PermissionDenied(1)
+//    public void requestLoginDenied() {
+//        Toast.makeText(this, "缺少权限!", Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public void showInfo(String info) {
@@ -376,13 +372,18 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
                                 ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
                                 ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO) ||
                                 ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                            MPermissions.requestPermissions(this, 1, new String[]{
-                                    Manifest.permission.READ_PHONE_STATE,
-                                    Manifest.permission.CAMERA,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                    Manifest.permission.RECORD_AUDIO,
-                                    Manifest.permission.ACCESS_COARSE_LOCATION
-                            });
+//                            MPermissions.requestPermissions(this, 1, new String[]{
+//                                    Manifest.permission.READ_PHONE_STATE,
+//                                    Manifest.permission.CAMERA,
+//                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                                    Manifest.permission.RECORD_AUDIO,
+//                                    Manifest.permission.ACCESS_COARSE_LOCATION
+//                            });
+                            SystemUtils.hasPermission(this,Manifest.permission.READ_PHONE_STATE);
+                            SystemUtils.hasPermission(this,Manifest.permission.CAMERA);
+                            SystemUtils.hasPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                            SystemUtils.hasPermission(this,Manifest.permission.RECORD_AUDIO);
+                            SystemUtils.hasPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION);
                         } else {
                             showInfo("无法正常使用安妮花，请开通相关权限！请设置");
                             Intent localIntent = new Intent();

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
@@ -15,6 +14,7 @@ import com.annie.annieforchild.bean.AnimationData;
 import com.annie.annieforchild.bean.AudioBean;
 import com.annie.annieforchild.bean.Banner;
 import com.annie.annieforchild.bean.ClockIn;
+import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.PkResult;
 import com.annie.annieforchild.bean.ReadingData;
 import com.annie.annieforchild.bean.ShareBean;
@@ -23,18 +23,14 @@ import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Release;
 import com.annie.annieforchild.bean.grindear.GrindEarData;
-import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
-import com.annie.annieforchild.bean.login.PhoneSN;
 import com.annie.annieforchild.bean.period.PeriodBean;
 import com.annie.annieforchild.bean.rank.Hpbean;
 import com.annie.annieforchild.bean.rank.ProductionBean;
 import com.annie.annieforchild.bean.record.RecordBean;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
-import com.annie.annieforchild.bean.task.Task;
 import com.annie.annieforchild.bean.task.TaskBean;
-import com.annie.annieforchild.bean.task.TaskContent;
 import com.annie.annieforchild.bean.task.TaskDetails;
 import com.annie.annieforchild.interactor.GrindEarInteractor;
 import com.annie.annieforchild.interactor.imp.GrindEarInteractorImp;
@@ -52,12 +48,9 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.litepal.LitePal;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import static android.content.Context.MODE_MULTI_PROCESS;
 import static android.content.Context.MODE_PRIVATE;

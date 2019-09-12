@@ -7,7 +7,6 @@ import android.os.Environment;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.ui.application.MyApplication;
-import com.mob.MobSDK;
 
 import java.io.File;
 

@@ -5,17 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.ui.activity.my.MyCourseActivity;
 import com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
-import com.annie.annieforchild.ui.activity.net.PayFailActivity;
-import com.annie.annieforchild.ui.activity.net.PaySuccessActivity;
-import com.annie.annieforchild.ui.application.MyApplication;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;

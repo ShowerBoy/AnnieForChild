@@ -11,6 +11,7 @@ public class VideoList implements Serializable {
     private String title;
     private String picurl;
     private String url;
+    private int isselect;
     private List<VideoDefiniList> path;
 
     public String getTitle() {
@@ -43,5 +44,12 @@ public class VideoList implements Serializable {
 
     public void setPath(List<VideoDefiniList> path) {
         this.path = path;
+    }
+    public int getIsselect() {
+        return isselect;
+    }
+
+    public void setIsselect(int isselect) {
+        this.isselect = isselect;
     }
 }

@@ -169,6 +169,11 @@
             android:name=".Utils.pldroidplayer.PLVideoViewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppThemeFullscreen"></activity>
+        <activity android:name="com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
         <activity
             android:name=".ui.activity.GuideActivity"
             android:screenOrientation="portrait"
@@ -380,10 +385,6 @@
             android:name=".ui.activity.my.QrCodeActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".ui.activity.VideoActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"></activity>
-        <activity
             android:name=".ui.activity.LeadActivity"
             android:screenOrientation="portrait"></activity>
         <activity
@@ -472,9 +473,6 @@
             android:screenOrientation="portrait"
             android:taskAffinity="Radio.finish"></activity>
         <activity
-            android:name=".ui.activity.XiangXueActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
             android:name=".ui.activity.pk.ReleaseSuccessActivity"
             android:screenOrientation="portrait"></activity>
         <activity
@@ -560,6 +558,9 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.my.DevicetestendActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.lebo.LeboActivity"
             android:screenOrientation="portrait"></activity>
         <!-- Since JCore2.0.0 Required SDK核心功能-->
         <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->

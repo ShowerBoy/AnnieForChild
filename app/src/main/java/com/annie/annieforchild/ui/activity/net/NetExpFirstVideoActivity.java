@@ -1,7 +1,6 @@
 package com.annie.annieforchild.ui.activity.net;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,15 +15,10 @@ import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.net.NetDetails;
-import com.annie.annieforchild.bean.net.PreheatConsult;
-import com.annie.annieforchild.bean.net.PreheatConsultList;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
-import com.annie.annieforchild.bean.net.netexpclass.Video_first;
 import com.annie.annieforchild.bean.net.netexpclass.Video_second;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
 import com.annie.annieforchild.ui.adapter.NetExpFirstVideoAdapter;
-import com.annie.annieforchild.ui.adapter.NetPreheatConsultAdapter;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;

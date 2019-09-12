@@ -8,15 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity;
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.net.PreheatConsultList;
 import com.annie.annieforchild.bean.net.PreheatConsultList2;
 import com.annie.annieforchild.bean.net.netexpclass.VideoList;
-import com.annie.annieforchild.ui.activity.VideoActivity;
-import com.annie.annieforchild.ui.activity.VideoActivity_new;
 import com.annie.annieforchild.ui.adapter.viewHolder.SpecialPreheatItemViewHolder;
-import com.annie.annieforchild.ui.adapter.viewHolder.SpecialPreheatViewHolder;
 import com.bumptech.glide.Glide;
 
 import java.io.Serializable;
@@ -68,7 +64,8 @@ public class SpecialPreheatItemAdapter extends RecyclerView.Adapter<SpecialPrehe
                     list.add(videoList);
                 }
 
-                Intent intent = new Intent(context, VideoActivity_new.class);
+//                Intent intent = new Intent(context, VideoActivity_new.class);
+                Intent intent = new Intent(context, AliyunPlayerSkinActivity.class);
 //                intent.putExtra("url", lists.get(i).getPath().get(0));
 //                intent.putExtra("imageUrl", lists.get(i).getPicurl());
 //                intent.putExtra("name", lists.get(i).getTitle());

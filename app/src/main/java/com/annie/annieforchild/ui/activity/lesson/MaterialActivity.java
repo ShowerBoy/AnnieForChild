@@ -1,6 +1,7 @@
 package com.annie.annieforchild.ui.activity.lesson;
 
 import android.app.Dialog;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -11,9 +12,7 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
-import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
-import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.SchedulePresenter;
 import com.annie.annieforchild.presenter.imp.SchedulePresenterImp;
 import com.annie.annieforchild.ui.fragment.material.OptionalMaterialFragment;
@@ -22,9 +21,6 @@ import com.annie.annieforchild.ui.fragment.material.SupportingMaterialFragment;
 import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
-
-import org.greenrobot.eventbus.Subscribe;
 
 /**
  * 我的教材
@@ -33,7 +29,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class MaterialActivity extends BaseActivity implements View.OnClickListener, ScheduleView, ViewPager.OnPageChangeListener {
     private ImageView back;
-    private AdvancedPagerSlidingTabStrip mTab;
+    private TabLayout mTab;
     private APSTSViewPager mVP;
     private OptionalMaterialFragment optionalMaterialFragment;
     private SupplementaryMaterialFragment supplementaryMaterialFragment;
@@ -64,8 +60,13 @@ public class MaterialActivity extends BaseActivity implements View.OnClickListen
         mVP.setOffscreenPageLimit(3);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-        mTab.setViewPager(mVP);
-        mTab.setOnPageChangeListener(this);
+//        mTab.setViewPager(mVP);
+//        mTab.setOnPageChangeListener(this);
+        mTab.addTab(mTab.newTab().setText("自选教材"));
+        mTab.addTab(mTab.newTab().setText("配套教材"));
+        mTab.addTab(mTab.newTab().setText("补充教材"));
+        mTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
         presenter = new SchedulePresenterImp(this, this);
         presenter.initViewAndData();
         presenter.myTeachingMaterials();

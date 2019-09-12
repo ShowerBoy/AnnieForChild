@@ -30,7 +30,6 @@ import com.annie.annieforchild.bean.order.MyOrder;
 import com.annie.annieforchild.bean.order.WechatOrderBean;
 import com.annie.annieforchild.presenter.NetWorkPresenter;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
-import com.annie.annieforchild.ui.activity.net.AddAddressActivity;
 import com.annie.annieforchild.ui.activity.net.ConfirmOrderActivity2;
 import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.ui.activity.net.PayFailActivity;

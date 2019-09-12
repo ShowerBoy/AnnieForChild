@@ -1,8 +1,5 @@
 package com.annie.baselibrary.utils.NetUtils;
 
-import com.yanzhenjie.nohttp.rest.OnResponseListener;
-import com.yanzhenjie.nohttp.rest.Response;
-
 /**
  * Created by Mark.Han on 2017/8/15.
  */

@@ -1,14 +1,12 @@
 package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.song.MusicPart;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.ui.adapter.viewHolder.MusicListViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;

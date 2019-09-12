@@ -1,12 +1,10 @@
 package com.annie.annieforchild.ui.activity.grindEar;
 
-import android.content.ContentResolver;
 import android.content.SharedPreferences;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.PCMRecordUtils;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.speech.util.FucUtil;
 import com.annie.annieforchild.Utils.speech.util.Result;
 import com.annie.annieforchild.Utils.speech.util.XmlResultParser;
 import com.annie.baselibrary.base.BaseActivity;
@@ -42,7 +39,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 

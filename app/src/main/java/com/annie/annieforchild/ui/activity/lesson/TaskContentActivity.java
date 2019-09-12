@@ -3,11 +3,11 @@ package com.annie.annieforchild.ui.activity.lesson;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.EventLog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -22,14 +22,10 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.task.TaskContent;
 import com.annie.annieforchild.bean.task.TaskDetails;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
-import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.CameraActivity;
 import com.annie.annieforchild.ui.fragment.task.TaskContentFragment;
-import com.annie.annieforchild.ui.fragment.task.TaskFragment;
 import com.annie.annieforchild.view.SongView;
-import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,7 +41,7 @@ import java.util.List;
 public class TaskContentActivity extends CameraActivity implements SongView, ViewPager.OnPageChangeListener, OnCheckDoubleClick {
     private ImageView back;
     private TaskContentFragment fragment1, fragment2, fragment3, fragment4;
-    private AdvancedPagerSlidingTabStrip tab;
+    private TabLayout tab;
     private APSTSViewPager mVP;
     private GrindEarPresenter presenter;
     private CheckDoubleClickListener listener;
@@ -95,13 +91,36 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
         fragmentAdapter = new TaskContentAdapter(getSupportFragmentManager());
         mVP.setOffscreenPageLimit(4);
         mVP.setAdapter(fragmentAdapter);
+
         fragmentAdapter.notifyDataSetChanged();
-        tab.setViewPager(mVP);
-        if (tabPosition != -1) {
-            tab.setSelectItem(tabPosition);
-            mVP.setCurrentItem(tabPosition);
+//        case 0:
+//
+//            return "随堂作业";
+//        } else {
+//            return "本期作业";
+//        }
+//        case 1:
+//        return "预习作业";
+//        case 2:
+//        return "泛听泛读";
+//        case 3:
+//        return "其他作业";
+        if (type == 0) {
+            tab.addTab(tab.newTab().setText("随堂作业"));
+        } else {
+            tab.addTab(tab.newTab().setText("本期作业"));
         }
-        tab.setOnPageChangeListener(this);
+        tab.addTab(tab.newTab().setText("预习作业"));
+        tab.addTab(tab.newTab().setText("泛听泛读"));
+        tab.addTab(tab.newTab().setText("其他作业"));
+        tab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
+//        tab.setViewPager(mVP);
+//        if (tabPosition != -1) {
+//            tab.setSelectItem(tabPosition);
+//            mVP.setCurrentItem(tabPosition);
+//        }
+//        tab.setOnPageChangeListener(this);
     }
 
     @Override

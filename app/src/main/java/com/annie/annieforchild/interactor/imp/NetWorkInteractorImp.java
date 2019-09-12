@@ -1,9 +1,6 @@
 package com.annie.annieforchild.interactor.imp;
 
 import android.content.Context;
-import android.media.MediaPlayer;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -17,23 +14,19 @@ import com.annie.annieforchild.bean.net.ListenAndRead;
 import com.annie.annieforchild.bean.net.MyNetClass;
 import com.annie.annieforchild.bean.net.NetClass;
 import com.annie.annieforchild.bean.net.NetDetails;
-import com.annie.annieforchild.bean.net.NetExpDetails;
 import com.annie.annieforchild.bean.net.NetSpecialDetail;
 import com.annie.annieforchild.bean.net.NetSuggest;
 import com.annie.annieforchild.bean.net.NetWork;
 import com.annie.annieforchild.bean.net.PreheatConsult;
-import com.annie.annieforchild.bean.net.PreheatConsultList;
 import com.annie.annieforchild.bean.net.SpecialPreHeat;
 import com.annie.annieforchild.bean.net.WechatBean;
 import com.annie.annieforchild.bean.net.experience.EveryDetail;
 import com.annie.annieforchild.bean.net.experience.EveryTaskList;
-import com.annie.annieforchild.bean.net.experience.EveryTasks;
 import com.annie.annieforchild.bean.net.experience.ExperienceV2;
 import com.annie.annieforchild.bean.net.experience.ExperienceV3;
 import com.annie.annieforchild.bean.net.experience.VideoFinishBean;
 import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.bean.net.netexpclass.NetExp_new;
-import com.annie.annieforchild.bean.net.netexpclass.Video_first;
 import com.annie.annieforchild.bean.net.netexpclass.Video_second;
 import com.annie.annieforchild.bean.order.AliOrderBean;
 import com.annie.annieforchild.bean.order.MyOrder;
@@ -44,16 +37,11 @@ import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;
-import com.annie.baselibrary.utils.NetUtils.request.JavaBeanRequest;
-import com.annie.baselibrary.utils.NetUtils.request.WLStringRequest;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Response;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by wanglei on 2018/9/22.

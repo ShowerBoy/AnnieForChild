@@ -2,7 +2,6 @@ package com.annie.annieforchild.ui.fragment.square;
 
 import android.app.Dialog;
 import android.graphics.Color;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +23,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import lecho.lib.hellocharts.listener.ColumnChartOnValueSelectListener;
@@ -33,7 +31,6 @@ import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.SubcolumnValue;
-import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.ColumnChartView;
 
 /**

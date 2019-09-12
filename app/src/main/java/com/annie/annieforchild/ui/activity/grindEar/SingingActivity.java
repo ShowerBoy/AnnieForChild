@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
@@ -29,14 +28,15 @@ import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.zhy.m.permission.MPermissions;
-import com.zhy.m.permission.PermissionDenied;
-import com.zhy.m.permission.PermissionGrant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+
+//import com.zhy.m.permission.PermissionDenied;
+//import com.zhy.m.permission.PermissionGrant;
 
 /**
  * 唱歌（测试）
@@ -86,11 +86,14 @@ public class SingingActivity extends BaseActivity implements View.OnClickListene
 //        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)){
 //
 //        }
-        MPermissions.requestPermissions(this, 0, new String[]{
-                Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-        });
+//        MPermissions.requestPermissions(this, 0, new String[]{
+//                Manifest.permission.RECORD_AUDIO,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                Manifest.permission.READ_EXTERNAL_STORAGE
+//        });
+        SystemUtils.hasPermission(this,Manifest.permission.READ_PHONE_STATE);
+        SystemUtils.hasPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        SystemUtils.hasPermission(this,Manifest.permission.RECORD_AUDIO);
     }
 
     @Override
@@ -99,15 +102,15 @@ public class SingingActivity extends BaseActivity implements View.OnClickListene
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @PermissionGrant(0)
-    public void requestSuccess() {
-//        Toast.makeText(this, "GRANT ACCESS SDCARD!", Toast.LENGTH_SHORT).show();
-    }
-
-    @PermissionDenied(0)
-    public void requsetDenied() {
-        Toast.makeText(this, "DENY ACCESS SDCARD!", Toast.LENGTH_SHORT).show();
-    }
+//    @PermissionGrant(0)
+//    public void requestSuccess() {
+////        Toast.makeText(this, "GRANT ACCESS SDCARD!", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @PermissionDenied(0)
+//    public void requsetDenied() {
+//        Toast.makeText(this, "DENY ACCESS SDCARD!", Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     protected void initData() {

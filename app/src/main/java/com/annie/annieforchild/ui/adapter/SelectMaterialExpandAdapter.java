@@ -9,9 +9,7 @@ import android.widget.TextView;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.bean.ClassList;
-import com.annie.annieforchild.bean.material.MaterialGroup;
 import com.annie.annieforchild.bean.material.SubClassList;
-import com.annie.annieforchild.bean.song.SongClassify;
 
 import java.util.HashMap;
 import java.util.List;

@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.annie.annieforchild.R;
 
@@ -17,6 +16,7 @@ public class NetExperienceDetailNewViewHolderV3 extends RecyclerView.ViewHolder 
     public RecyclerView recycler;
     public ImageView net_v3_background_layout;
     public RelativeLayout net_v3_childlayout;
+    public RelativeLayout net_v3_layout;
     public ImageView net_v3_lock;
 
     public NetExperienceDetailNewViewHolderV3(View itemView) {
@@ -24,6 +24,7 @@ public class NetExperienceDetailNewViewHolderV3 extends RecyclerView.ViewHolder 
         recycler = itemView.findViewById(R.id.net_experience_net_recycler);
         net_v3_background_layout = itemView.findViewById(R.id.net_v3_background_layout);
         net_v3_childlayout = itemView.findViewById(R.id.net_v3_childlayout);
+        net_v3_layout = itemView.findViewById(R.id.net_v3_layout);
         net_v3_lock = itemView.findViewById(R.id.net_v3_lock);
     }
 

@@ -9,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.net.NetBean;
 import com.annie.annieforchild.ui.activity.net.NetSuggestActivity;
-import com.annie.annieforchild.ui.activity.net.NetWorkActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetWorkViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 

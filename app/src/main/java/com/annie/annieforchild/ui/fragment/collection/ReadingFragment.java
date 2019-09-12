@@ -16,7 +16,6 @@ import com.annie.annieforchild.presenter.CollectionPresenter;
 import com.annie.annieforchild.presenter.imp.CollectionPresenterImp;
 import com.annie.annieforchild.ui.adapter.CollectionAdapter;
 import com.annie.annieforchild.ui.interfaces.OnMyItemClickListener;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.CollectionView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;

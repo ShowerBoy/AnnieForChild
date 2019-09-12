@@ -1,7 +1,6 @@
 package com.annie.annieforchild.ui.activity.pk;
 
 import android.animation.Animator;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -9,14 +8,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,7 +42,6 @@ import com.annie.annieforchild.ui.fragment.book.BookPlayEndFragment;
 import com.annie.annieforchild.ui.fragment.book.BookPlayFragment;
 import com.annie.annieforchild.ui.fragment.book.BookPlayFragment2;
 import com.annie.annieforchild.view.SongView;
-import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 
@@ -56,7 +51,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;

@@ -1,17 +1,8 @@
 package com.annie.annieforchild.Utils.broadcastrecevier;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.PopupWindow;
-
-import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.presenter.GrindEarPresenter;
-import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 
 /**
  * 自定义广播

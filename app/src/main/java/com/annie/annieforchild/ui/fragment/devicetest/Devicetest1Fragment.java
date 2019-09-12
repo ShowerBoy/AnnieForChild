@@ -14,7 +14,6 @@ import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.imp.MessagePresenterImp;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseFragment;
-import com.zhy.m.permission.MPermissions;
 
 import org.greenrobot.eventbus.Subscribe;
 

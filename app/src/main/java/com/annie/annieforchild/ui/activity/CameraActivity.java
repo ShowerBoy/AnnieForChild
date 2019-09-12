@@ -1,6 +1,5 @@
 package com.annie.annieforchild.ui.activity;
 
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,15 +9,10 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
-import com.annie.annieforchild.Utils.ImageTools;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.baselibrary.base.BaseActivity;
-import com.annie.baselibrary.base.BasePresenter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.UUID;
 
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;

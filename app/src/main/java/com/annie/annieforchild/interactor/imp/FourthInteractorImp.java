@@ -7,8 +7,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.MethodType;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.UserInfo;
+import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.child.ChildBean;
 import com.annie.annieforchild.bean.net.NetGift;
 import com.annie.annieforchild.interactor.FourthInteractor;
@@ -22,7 +22,6 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 我的

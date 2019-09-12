@@ -2,21 +2,18 @@ package com.annie.annieforchild.ui.activity.grindEar;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
-import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
@@ -26,12 +23,10 @@ import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
 import com.annie.annieforchild.ui.fragment.mygrindear.TodayGrindEarFragment;
 import com.annie.annieforchild.ui.fragment.mygrindear.TotalGrindEarFragment;
-import com.annie.annieforchild.view.GrindEarView;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -46,7 +41,7 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
     private ImageView back, help, music;
     private CircleImageView headpic;
     private TextView level, sublevel, name;
-    private AdvancedPagerSlidingTabStrip mTab;
+    private TabLayout mTab;
     private APSTSViewPager mVP;
     private TodayGrindEarFragment todayGrindEarFragment;
     private TotalGrindEarFragment totalGrindEarFragment;
@@ -91,8 +86,12 @@ public class MyGrindEarActivity extends BaseActivity implements View.OnClickList
         mVP.setOffscreenPageLimit(2);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-        mTab.setViewPager(mVP);
-        mTab.setOnPageChangeListener(this);
+//        mTab.setViewPager(mVP);
+//        mTab.setOnPageChangeListener(this);
+        mTab.addTab(mTab.newTab().setText("今日磨耳朵"));
+        mTab.addTab(mTab.newTab().setText("累计磨耳朵"));
+        mTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
         presenter.getMyListening();

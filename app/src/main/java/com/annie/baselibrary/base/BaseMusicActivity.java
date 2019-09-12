@@ -4,11 +4,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.IBinder;
 
+import com.aliyun.utils.VcPlayerLog;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.Utils.service.MusicService2;
 import com.annie.annieforchild.bean.JTMessage;
 
@@ -96,4 +97,17 @@ public abstract class BaseMusicActivity extends BaseActivity {
      * @param position 歌曲在list中的位置
      */
     public abstract void onChange(int position);
+
+    protected boolean isStrangePhone() {
+        boolean strangePhone = "mx5".equalsIgnoreCase(Build.DEVICE)
+                || "Redmi Note2".equalsIgnoreCase(Build.DEVICE)
+                || "Z00A_1".equalsIgnoreCase(Build.DEVICE)
+                || "hwH60-L02".equalsIgnoreCase(Build.DEVICE)
+                || "hermes".equalsIgnoreCase(Build.DEVICE)
+                || ("V4".equalsIgnoreCase(Build.DEVICE) && "Meitu".equalsIgnoreCase(Build.MANUFACTURER))
+                || ("m1metal".equalsIgnoreCase(Build.DEVICE) && "Meizu".equalsIgnoreCase(Build.MANUFACTURER));
+
+        VcPlayerLog.e("lfj1115 ", " Build.Device = " + Build.DEVICE + " , isStrange = " + strangePhone);
+        return strangePhone;
+    }
 }

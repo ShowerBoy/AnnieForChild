@@ -1,9 +1,7 @@
 package com.annie.annieforchild.interactor.imp;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -16,9 +14,8 @@ import com.annie.annieforchild.bean.ClockIn;
 import com.annie.annieforchild.bean.DurationStatis;
 import com.annie.annieforchild.bean.PkResult;
 import com.annie.annieforchild.bean.ReadingData;
-import com.annie.annieforchild.bean.ShareCoin;
-import com.annie.annieforchild.bean.record.Record;
 import com.annie.annieforchild.bean.ShareBean;
+import com.annie.annieforchild.bean.ShareCoin;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Release;
@@ -33,11 +30,9 @@ import com.annie.annieforchild.bean.record.RecordBean;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.song.SongClassify;
 import com.annie.annieforchild.bean.task.TaskBean;
-import com.annie.annieforchild.bean.task.TaskContent;
 import com.annie.annieforchild.bean.task.TaskDetails;
 import com.annie.annieforchild.interactor.GrindEarInteractor;
 import com.annie.annieforchild.ui.application.MyApplication;
-import com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment;
 import com.annie.baselibrary.utils.NetUtils.NetWorkImp;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.annie.baselibrary.utils.NetUtils.request.FastJsonRequest;

@@ -1,6 +1,5 @@
 package com.annie.annieforchild.presenter.imp;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +8,6 @@ import android.widget.Toast;
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.bean.Collection;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.interactor.CollectionInteractor;
 import com.annie.annieforchild.interactor.imp.CollectionInteractorImp;
@@ -18,12 +16,8 @@ import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BasePresenterImp;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static android.content.Context.MODE_MULTI_PROCESS;
 import static android.content.Context.MODE_PRIVATE;

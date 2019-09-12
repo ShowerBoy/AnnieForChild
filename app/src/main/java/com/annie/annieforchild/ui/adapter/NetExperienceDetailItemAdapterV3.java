@@ -7,12 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.net.experience.ExpItemBeanItem;
 import com.annie.annieforchild.bean.net.experience.ExpItemBeanItemV3;
-import com.annie.annieforchild.ui.adapter.viewHolder.NetExperienceDetailItemViewHolder;
 import com.annie.annieforchild.ui.adapter.viewHolder.NetExperienceDetailItemViewHolderV3;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
-import com.bumptech.glide.Glide;
 
 import java.util.List;
 

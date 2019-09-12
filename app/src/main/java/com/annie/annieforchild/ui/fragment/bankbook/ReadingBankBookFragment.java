@@ -17,7 +17,6 @@ import com.annie.annieforchild.bean.grindear.GrindTime;
 import com.annie.annieforchild.bean.grindear.MyGrindEarBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
-import com.annie.annieforchild.ui.activity.grindEar.InputActivity;
 import com.annie.annieforchild.ui.activity.grindEar.InputBookActivity;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseFragment;

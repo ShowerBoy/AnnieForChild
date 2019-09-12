@@ -3,7 +3,6 @@ package com.annie.annieforchild.presenter.imp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.annie.annieforchild.Utils.ActivityCollector;
@@ -20,7 +19,6 @@ import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.view.RegisterView;
 import com.annie.baselibrary.base.BasePresenterImp;
-import com.yanzhenjie.nohttp.rest.Response;
 
 import org.greenrobot.eventbus.EventBus;
 

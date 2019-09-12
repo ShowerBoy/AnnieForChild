@@ -3,6 +3,7 @@ package com.annie.annieforchild.ui.activity.mains;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -15,7 +16,6 @@ import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
@@ -25,10 +25,8 @@ import com.annie.annieforchild.ui.fragment.bankbook.GrindEarBankBookFragment;
 import com.annie.annieforchild.ui.fragment.bankbook.ReadingBankBookFragment;
 import com.annie.annieforchild.ui.fragment.bankbook.SpeakingBankBookFragment;
 import com.annie.annieforchild.view.SongView;
-import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -40,7 +38,7 @@ import org.greenrobot.eventbus.Subscribe;
 public class BankBookActivity extends BaseMusicActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, SongView {
     private ImageView back, music;
     private AnimationDrawable musicBtn;
-    private AdvancedPagerSlidingTabStrip mTab;
+    private TabLayout mTab;
     private APSTSViewPager mVP;
     private GrindEarBankBookFragment grindEarBankBookFragment;
     private ReadingBankBookFragment readingBankBookFragment;
@@ -80,8 +78,13 @@ public class BankBookActivity extends BaseMusicActivity implements View.OnClickL
         mVP.setOffscreenPageLimit(3);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-        mTab.setViewPager(mVP);
-        mTab.setOnPageChangeListener(this);
+//        mTab.setViewPager(mVP);
+//        mTab.setOnPageChangeListener(this);
+        mTab.addTab(mTab.newTab().setText("磨耳朵"));
+        mTab.addTab(mTab.newTab().setText("阅读"));
+        mTab.addTab(mTab.newTab().setText("口语"));
+        mTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTab));
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
         presenter.getMyListening();

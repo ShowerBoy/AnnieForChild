@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.presenter.SecondPresenter;
-import com.annie.annieforchild.presenter.imp.SecondPresenterImp;
 import com.annie.annieforchild.view.SecondView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.prolificinteractive.materialcalendarview.CalendarDay;

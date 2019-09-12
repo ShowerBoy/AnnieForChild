@@ -2,12 +2,10 @@ package com.annie.annieforchild.ui.activity.net;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
@@ -17,9 +15,7 @@ import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.net.ListenAndRead;
-import com.annie.annieforchild.bean.net.netexpclass.NetExpClass;
 import com.annie.annieforchild.presenter.imp.NetWorkPresenterImp;
-import com.annie.annieforchild.ui.activity.lesson.TaskActivity;
 import com.annie.annieforchild.ui.activity.lesson.TaskContentActivity;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
@@ -86,7 +82,8 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
         if (message.what == MethodCode.EVENT_GETLISTENANDREAD + 80000 + tag) {
             to_listenandread.setVisibility(View.VISIBLE);
             listenAndRead = (ListenAndRead) message.obj;
-            Glide.with(this).load(listenAndRead.getPath()).placeholder(R.drawable.book_image_loading).dontAnimate().into(listenandread_img);
+            Glide.with(this).load(listenAndRead.getPath())
+                    .placeholder(R.drawable.book_image_loading).dontAnimate().into(listenandread_img);
             if (listenAndRead.getIsshow() == 0) {
                 no_content.setVisibility(View.VISIBLE);
                 listenLayout.setVisibility(View.GONE);
@@ -94,7 +91,6 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
                 no_content.setVisibility(View.GONE);
                 listenLayout.setVisibility(View.VISIBLE);
             }
-
         }
     }
 

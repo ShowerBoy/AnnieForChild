@@ -6,9 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
-import com.annie.annieforchild.bean.net.experience.EveryTaskBean;
 import com.annie.annieforchild.ui.adapter.viewHolder.EveryDayTaskViewHolder;
-import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
 
 import java.util.List;

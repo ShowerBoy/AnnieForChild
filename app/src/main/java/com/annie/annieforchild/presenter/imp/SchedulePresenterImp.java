@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.annie.annieforchild.Utils.ActivityCollector;
 import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
-import com.annie.annieforchild.Utils.service.MusicService;
 import com.annie.annieforchild.bean.ClassList;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.course.OnlineCourse;
@@ -19,8 +18,6 @@ import com.annie.annieforchild.interactor.imp.ScheduleInteractorImp;
 import com.annie.annieforchild.presenter.SchedulePresenter;
 import com.annie.annieforchild.ui.activity.login.LoginActivity;
 import com.annie.annieforchild.ui.application.MyApplication;
-import com.annie.annieforchild.ui.fragment.schedule.OfflineScheduleFragment;
-import com.annie.annieforchild.ui.fragment.schedule.OnlineScheduleFragment;
 import com.annie.annieforchild.view.ScheduleView;
 import com.annie.baselibrary.base.BasePresenterImp;
 

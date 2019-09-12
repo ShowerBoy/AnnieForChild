@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annie.annieforchild.R;
@@ -21,19 +20,16 @@ import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.pcm2mp3.RecorderAndPlayUtil;
 import com.annie.annieforchild.bean.AudioBean;
 import com.annie.annieforchild.bean.JTMessage;
-import com.annie.annieforchild.bean.book.Book;
 import com.annie.annieforchild.bean.book.Line;
 import com.annie.annieforchild.bean.book.Page;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.presenter.imp.GrindEarPresenterImp;
 import com.annie.annieforchild.ui.activity.PhotoActivity;
 import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
-import com.annie.annieforchild.ui.adapter.ExerciseAdapter;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseFragment;
 import com.bumptech.glide.Glide;
 import com.example.lamemp3.MP3Recorder;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.Subscribe;
 

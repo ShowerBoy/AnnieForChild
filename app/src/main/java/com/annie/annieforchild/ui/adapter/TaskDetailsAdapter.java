@@ -2,14 +2,13 @@ package com.annie.annieforchild.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
@@ -18,11 +17,8 @@ import com.annie.annieforchild.bean.material.Material;
 import com.annie.annieforchild.bean.net.netexpclass.VideoList;
 import com.annie.annieforchild.bean.song.Song;
 import com.annie.annieforchild.bean.task.Homework;
-import com.annie.annieforchild.bean.task.TaskBean;
 import com.annie.annieforchild.bean.task.TaskFade;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
-import com.annie.annieforchild.ui.activity.VideoActivity;
-import com.annie.annieforchild.ui.activity.VideoActivity_new;
 import com.annie.annieforchild.ui.activity.lesson.AddOnlineScheActivity;
 import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.ui.adapter.viewHolder.TaskDetailsViewHolder;
@@ -276,7 +272,8 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsViewHold
                         videoList.setUrl(lists.get(i).getAnimationUrl());
                         list.add(videoList);
 
-                        Intent intent = new Intent(context, VideoActivity_new.class);
+//                        Intent intent = new Intent(context, VideoActivity_new.class);
+                        Intent intent = new Intent(context, AliyunPlayerSkinActivity.class);
                         intent.putExtra("isTime", true);
                         intent.putExtra("isFinish", 1);
                         intent.putExtra("isDefinition", false);

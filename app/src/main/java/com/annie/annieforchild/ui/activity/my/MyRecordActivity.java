@@ -1,10 +1,9 @@
 package com.annie.annieforchild.ui.activity.my;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Environment;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -17,13 +16,10 @@ import android.widget.Toast;
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.AlertHelper;
 import com.annie.annieforchild.Utils.MethodCode;
-import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.Utils.views.APSTSViewPager;
 import com.annie.annieforchild.bean.JTMessage;
 import com.annie.annieforchild.bean.record.Record;
-import com.annie.annieforchild.presenter.MessagePresenter;
 import com.annie.annieforchild.presenter.imp.MessagePresenterImp;
-import com.annie.annieforchild.ui.adapter.MyRecordAdapter;
 import com.annie.annieforchild.ui.fragment.recording.MyReleaseFragment;
 import com.annie.annieforchild.view.info.ViewInfo;
 import com.annie.baselibrary.base.BaseActivity;
@@ -32,12 +28,10 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +42,7 @@ import java.util.List;
 
 public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnClickListener, ViewPager.OnPageChangeListener {
     private ImageView myRecordBack;
-    private AdvancedPagerSlidingTabStrip mSlidingTab;
+    private TabLayout mSlidingTab;
     public static APSTSViewPager mVP;
     private SwipeMenuListView myRecordRecycler;
     private List<Record> lists;
@@ -78,8 +72,15 @@ public class MyRecordActivity extends BaseActivity implements ViewInfo, View.OnC
         mVP.setOffscreenPageLimit(5);
         mVP.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-        mSlidingTab.setViewPager(mVP);
-        mSlidingTab.setOnPageChangeListener(this);
+        mSlidingTab.addTab(mSlidingTab.newTab().setText("我的发布"));
+        mSlidingTab.addTab(mSlidingTab.newTab().setText("我的录音"));
+        mSlidingTab.addTab(mSlidingTab.newTab().setText("我的练习"));
+        mSlidingTab.addTab(mSlidingTab.newTab().setText("我的挑战"));
+        mSlidingTab.addTab(mSlidingTab.newTab().setText("我的PK"));
+        mSlidingTab.setupWithViewPager(mVP);//将TabLayout和ViewPager关联起来。
+        mVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mSlidingTab));
+//        mSlidingTab.setViewPager(mVP);
+//        mSlidingTab.setOnPageChangeListener(this);
         myRecordBack.setOnClickListener(this);
     }
 

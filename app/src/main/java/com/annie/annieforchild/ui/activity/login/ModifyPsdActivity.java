@@ -2,9 +2,7 @@ package com.annie.annieforchild.ui.activity.login;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Dialog;
-import android.app.PictureInPictureParams;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,14 +34,15 @@ import com.annie.annieforchild.view.RegisterView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.zhy.m.permission.MPermissions;
-import com.zhy.m.permission.PermissionDenied;
-import com.zhy.m.permission.PermissionGrant;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.litepal.LitePal;
 
 import java.util.List;
 import java.util.UUID;
+
+//import com.zhy.m.permission.PermissionDenied;
+//import com.zhy.m.permission.PermissionGrant;
 
 /**
  * 忘记密码/修改密码
@@ -215,9 +213,10 @@ public class ModifyPsdActivity extends BaseActivity implements RegisterView, OnC
 
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                        MPermissions.requestPermissions(this, 4, new String[]{
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        });
+//                        MPermissions.requestPermissions(this, 4, new String[]{
+//                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+//                        });
+                        SystemUtils.hasPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     } else {
                         showInfo("无法正常使用安妮花，请开通存储权限！请设置");
                         Intent localIntent = new Intent();
@@ -274,16 +273,16 @@ public class ModifyPsdActivity extends BaseActivity implements RegisterView, OnC
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @PermissionGrant(4)
-    public void requsetSuccess() {
-        doit();
-        presenter.resetPassword(phoneNumber2.getText().toString(), testCode2.getText().toString(), modifyPsd.getText().toString(), presenter.getSerial_number());
-    }
-
-    @PermissionDenied(4)
-    public void requestDenied() {
-        Toast.makeText(this, "缺少权限！", Toast.LENGTH_SHORT).show();
-    }
+//    @PermissionGrant(4)
+//    public void requsetSuccess() {
+//        doit();
+//        presenter.resetPassword(phoneNumber2.getText().toString(), testCode2.getText().toString(), modifyPsd.getText().toString(), presenter.getSerial_number());
+//    }
+//
+//    @PermissionDenied(4)
+//    public void requestDenied() {
+//        Toast.makeText(this, "缺少权限！", Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     protected void onDestroy() {

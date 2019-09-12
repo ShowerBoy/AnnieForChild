@@ -33,7 +33,6 @@ import com.annie.annieforchild.ui.activity.GlobalSearchActivity;
 import com.annie.annieforchild.ui.activity.pk.MusicPlayActivity2;
 import com.annie.annieforchild.ui.adapter.RadioAdapter;
 import com.annie.annieforchild.view.GrindEarView;
-import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.daimajia.slider.library.SliderLayout;
