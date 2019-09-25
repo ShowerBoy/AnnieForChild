@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/net_v3_childlayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/net_v3_childlayout">
+    android:layout_height="wrap_content">
     <!---->
 
     <RelativeLayout
-        android:id="@+id/net_v3_layout"
-        android:layout_width="290dp"
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="27dp"
-
         >
+
         <ImageView
             android:id="@+id/net_v3_background_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+
+             />
+
+        <RelativeLayout
+            android:layout_width="310dp"
+            android:id="@+id/net_v3_layout"
+            android:layout_marginTop="48dp"
+            android:layout_height="wrap_content">
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/net_experience_net_recycler"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="20dp"
-            android:paddingBottom="8dp"
-           >
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/net_experience_net_recycler"
+                android:layout_width="234dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="38dp"
+                android:layout_marginTop="10dp"
+                android:paddingBottom="8dp">
 
-        </android.support.v7.widget.RecyclerView>
+            </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
 
 
         <!---->
 
     </RelativeLayout>
+
     <ImageView
-        android:layout_width="290dp"
+        android:id="@+id/net_v3_lock"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:clickable="false"
-        android:id="@+id/net_v3_lock"
-        />
+        android:clickable="false" />
 
 </RelativeLayout>

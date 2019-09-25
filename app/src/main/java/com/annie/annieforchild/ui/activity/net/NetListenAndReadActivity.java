@@ -103,6 +103,7 @@ public class NetListenAndReadActivity extends BaseActivity implements ViewInfo, 
             case R.id.to_listenandread:
                 Intent intent = new Intent(this, TaskContentActivity.class);
                 intent.putExtra("classid", listenAndRead.getClassid());
+                intent.putExtra("courseType", listenAndRead.getCourseType());
                 intent.putExtra("type", listenAndRead.getType());
                 intent.putExtra("week", listenAndRead.getWeek());
                 intent.putExtra("tabPosition", 2);

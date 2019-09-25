@@ -52,7 +52,7 @@ import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.bumptech.glide.Glide;
-import com.example.lamemp3.PrivateInfo;
+import com.annie.taiRecord.lamemp3.PrivateInfo;
 import com.iflytek.cloud.EvaluatorListener;
 import com.iflytek.cloud.EvaluatorResult;
 import com.iflytek.cloud.SpeechConstant;

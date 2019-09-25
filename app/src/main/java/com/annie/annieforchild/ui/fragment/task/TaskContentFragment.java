@@ -76,6 +76,7 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
     private String text, taskTime, week;
     private int tag, type, complete = -1, taskid; //type: 0：课程 1：网课
     private boolean iscommit = true;
+    private int courseType;
 
     {
         setRegister(true);
@@ -84,11 +85,12 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
     public TaskContentFragment() {
     }
 
-    public static TaskContentFragment instance(int tag, int classid, int type, String taskTime, String week) {
+    public static TaskContentFragment instance(int tag, int classid, int type, String taskTime, String week,int courseType) {
         TaskContentFragment fragment = new TaskContentFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("tag", tag);
         bundle.putInt("classid", classid);
+        bundle.putInt("courseType", courseType);
         bundle.putInt("type", type);
         bundle.putString("taskTime", taskTime);
         bundle.putString("week", week);
@@ -103,6 +105,7 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
         if (getArguments() != null) {
             tag = getArguments().getInt("tag");
             classid = getArguments().getInt("classid");
+            courseType = getArguments().getInt("courseType");
             type = getArguments().getInt("type");
             taskTime = getArguments().getString("taskTime");
             week = getArguments().getString("week");
@@ -122,25 +125,25 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
 
         presenter = new GrindEarPresenterImp(getContext(), this);
         presenter.initViewAndData();
+        presenter.taskDetails(classid, type, week, taskTime, tag,courseType);
 
-
-        if (TaskContentActivity.tabPosition == -1 || TaskContentActivity.tabPosition == 0) {
-            if (tag == 0) {
-                if (type == 0) {
-                    presenter.taskDetails(classid, type, "", taskTime, tag);
-                } else {
-                    presenter.taskDetails(classid, type, week, "", tag);
-                }
-            }
-        } else {
-            if (tag == 2) {
-                if (type == 0) {
-                    presenter.taskDetails(classid, type, "", taskTime, tag);
-                } else {
-                    presenter.taskDetails(classid, type, week, "", tag);
-                }
-            }
-        }
+//        if (TaskContentActivity.tabPosition == -1 || TaskContentActivity.tabPosition == 0) {
+//            if (tag == 0) {
+//                if (type == 0) {
+//                    presenter.taskDetails(classid, type, "", taskTime, tag,courseType);
+//                } else {
+//                    presenter.taskDetails(classid, type, week, "", tag,courseType);
+//                }
+//            }
+//        } else {
+//            if (tag == 2) {
+//                if (type == 0) {
+//                    presenter.taskDetails(classid, type, "", taskTime, tag,courseType);
+//                } else {
+//                    presenter.taskDetails(classid, type, week, "", tag,courseType);
+//                }
+//            }
+//        }
 
     }
 
@@ -199,7 +202,7 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
                         refresh();
                     }
                     if (taskAdapter == null) {
-                        taskAdapter = new TaskDetailsAdapter(getContext(), lists, presenter, taskid, type);
+                        taskAdapter = new TaskDetailsAdapter(getContext(), lists, presenter, taskid, type,classid,courseType);
                         taskRecycler.setAdapter(taskAdapter);
                     }
                     taskAdapter.notifyDataSetChanged();
@@ -231,15 +234,15 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
             }
         } else if (message.what == MethodCode.EVENT_UPLOADTASKIMAGE + 40000 + taskid) {
             if (iscommit) {
-                presenter.submitTask(taskid, text, complete, type);
+                presenter.submitTask(taskid, text, complete, type,classid,courseType);
                 iscommit = false;
             }
         } else if (message.what == MethodCode.EVENT_SUBMITTASK + 60000 + taskid) {
             showInfo((String) message.obj);
             if (type == 0) {
-                presenter.taskDetails(classid, type, "", taskTime, tag);
+                presenter.taskDetails(classid, type, "", taskTime, tag,courseType);
             } else {
-                presenter.taskDetails(classid, type, week, "", tag);
+                presenter.taskDetails(classid, type, week, "", tag,courseType);
             }
         } else if (message.what == MethodCode.EVENT_COMPLETETASK + 70000 + taskid) {
             int result = (int) message.obj;
@@ -252,9 +255,9 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
             } else {
                 showInfo("失败");
                 if (type == 0) {
-                    presenter.taskDetails(classid, type, "", taskTime, tag);
+                    presenter.taskDetails(classid, type, "", taskTime, tag,courseType);
                 } else {
-                    presenter.taskDetails(classid, type, week, "", tag);
+                    presenter.taskDetails(classid, type, week, "", tag,courseType);
                 }
             }
         } else if (message.what == MethodCode.EVENT_TASKDATA) {
@@ -262,9 +265,9 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
             if (bos == tag) {
                 if (taskDetails == null) {
                     if (type == 0) {
-                        presenter.taskDetails(classid, type, "", taskTime, tag);
+                        presenter.taskDetails(classid, type, "", taskTime, tag,courseType);
                     } else {
-                        presenter.taskDetails(classid, type, week, "", tag);
+                        presenter.taskDetails(classid, type, week, "", tag,courseType);
                     }
                 }
             }
@@ -322,25 +325,25 @@ public class TaskContentFragment extends BaseFragment implements SongView, OnChe
                             if (TaskContentActivity.pathList1.size() != 0) {
                                 presenter.uploadTaskImage(taskid, TaskContentActivity.pathList1, type);
                             } else {
-                                presenter.submitTask(taskid, text, complete, type);
+                                presenter.submitTask(taskid, text, complete, type,classid,courseType);
                             }
                         } else if (tag == 1) {
                             if (TaskContentActivity.pathList2.size() != 0) {
                                 presenter.uploadTaskImage(taskid, TaskContentActivity.pathList2, type);
                             } else {
-                                presenter.submitTask(taskid, text, complete, type);
+                                presenter.submitTask(taskid, text, complete, type,classid,courseType);
                             }
                         } else if (tag == 2) {
                             if (TaskContentActivity.pathList3.size() != 0) {
                                 presenter.uploadTaskImage(taskid, TaskContentActivity.pathList3, type);
                             } else {
-                                presenter.submitTask(taskid, text, complete, type);
+                                presenter.submitTask(taskid, text, complete, type,classid,courseType);
                             }
                         } else if (tag == 3) {
                             if (TaskContentActivity.pathList4.size() != 0) {
                                 presenter.uploadTaskImage(taskid, TaskContentActivity.pathList4, type);
                             } else {
-                                presenter.submitTask(taskid, text, complete, type);
+                                presenter.submitTask(taskid, text, complete, type,classid,courseType);
                             }
                         }
 //                        if (TaskContentActivity.pathList1.size() != 0) {

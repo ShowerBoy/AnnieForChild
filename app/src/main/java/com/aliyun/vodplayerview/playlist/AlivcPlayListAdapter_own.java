@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.views.RoundImageView;
 import com.annie.annieforchild.bean.net.netexpclass.VideoList;
 import com.bumptech.glide.Glide;
 
@@ -35,14 +36,14 @@ public class AlivcPlayListAdapter_own extends RecyclerView.Adapter<AlivcPlayList
     }
 
     public  class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView coverImage;
+        RoundImageView coverImage;
         TextView title;
         TextView tvVideoDuration;
         LinearLayout alivcVideoInfoItemLayout;
         public ViewHolder(View itemView) {
             super(itemView);
             alivcVideoInfoItemLayout = (LinearLayout)itemView.findViewById(R.id.alivc_video_info_item_layout);
-            coverImage = (ImageView)itemView.findViewById(R.id.iv_video_cover);
+            coverImage = (RoundImageView)itemView.findViewById(R.id.iv_video_cover);
             title = (TextView)itemView.findViewById(R.id.tv_video_title);
             tvVideoDuration = (TextView)itemView.findViewById(R.id.tv_video_duration);
         }
@@ -61,11 +62,11 @@ public class AlivcPlayListAdapter_own extends RecyclerView.Adapter<AlivcPlayList
             //isselect为1表示高亮显示，正在播放。
            if(videoLists.size()>isselect){
                if(position==isselect){
-                   holder.title.setTextColor(context.getResources().getColor(R.color.blue2));
+                   holder.title.setTextColor(context.getResources().getColor(R.color.text_orange));
                }else{
                    //type为1表示视频播放器，type为2表示投屏列表。
                    if(type==1){
-                       holder.title.setTextColor(context.getResources().getColor(R.color.alivc_common_font_white_light));
+                       holder.title.setTextColor(context.getResources().getColor(R.color.alivc_common_font_gray_333));
                    }else{
                        holder.title.setTextColor(context.getResources().getColor(R.color.alivc_common_font_gray_333));
                    }

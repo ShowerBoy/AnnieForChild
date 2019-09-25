@@ -29,6 +29,16 @@ public class UserInfo implements Serializable {
     private int isnetstudent; //是否是网课学员 0:不是 1:是
     private int isfirstbuy; //是否是第一次购买 0:不是 1:是
 
+    private int isHaveOrder; //是否有订单    0：没有，1：有        （有订单，显示作业）
+
+    public int getIsHaveOrder() {
+        return isHaveOrder;
+    }
+
+    public void setIsHaveOrder(int isHaveOrder) {
+        this.isHaveOrder = isHaveOrder;
+    }
+
     public String getWechatNickname() {
         return WechatNickname;
     }

@@ -62,6 +62,7 @@ public class TaskFragment extends BaseFragment {
                 int position = recycler.getChildAdapterPosition(view);
                 Intent intent = new Intent(getContext(), TaskContentActivity.class);
                 intent.putExtra("classid", lists.get(position - 1).getClassid());
+                intent.putExtra("courseType", lists.get(position - 1).getCourseType());
                 intent.putExtra("type", lists.get(position - 1).getType());
                 if (lists.get(position - 1).getType() == 0) {
                     intent.putExtra("taskTime", lists.get(position - 1).getTasktime());

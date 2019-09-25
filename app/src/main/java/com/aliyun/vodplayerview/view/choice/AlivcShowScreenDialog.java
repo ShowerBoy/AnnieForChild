@@ -77,8 +77,7 @@ public class AlivcShowScreenDialog extends Dialog {
         if (aliyunScreenMode == AliyunScreenMode.Small){
             WindowManager.LayoutParams params = getWindow().getAttributes();
 
-//            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            params.height = dipToPx(280);
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             params.gravity = Gravity.BOTTOM | Gravity.CENTER;
 
             int screenWidth = ScreenUtils.getWidth(getContext());
@@ -90,7 +89,6 @@ public class AlivcShowScreenDialog extends Dialog {
             WindowManager.LayoutParams params = getWindow().getAttributes();
             params.height = ViewGroup.LayoutParams.MATCH_PARENT;
             params.gravity = Gravity.RIGHT;
-
             int screenWidth = ScreenUtils.getWidth(getContext());
             int screenHeight = ScreenUtils.getHeight(getContext());
             params.width = screenWidth < screenHeight ? screenWidth:screenHeight;

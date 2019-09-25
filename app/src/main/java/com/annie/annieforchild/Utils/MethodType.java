@@ -85,7 +85,9 @@ public class MethodType {
     final public static String MYPERIOD = "myPeriod"; //课时核对
     final public static String SUGGESTPERIOD = "suggestPeriod"; //课时提异
     final public static String MYTASK = "myTask"; //我的作业
+    final public static String MYTASKV2 = "myTaskV2"; //我的作业V2
     final public static String TASKDETAILS = "taskDetails"; //作业详情
+    final public static String TASKDETAILSV2 = "taskDetailsV2"; //作业详情v2
     final public static String COMPLETETASK = "completeTask"; //完成作业
     final public static String UPLOADTASKIMAGE = "uploadTaskImage"; //提交作业图片
     final public static String SUBMITTASK = "submitTask"; //提交作业
@@ -137,6 +139,7 @@ public class MethodType {
     final public static String GETNETEXPDETAILS = "experienceDetails"; //购买的网课具体内容
     final public static String GETPREHEATCONSULT = "PreheatingClass"; //预热课
     final public static String GETLISTENANDREAD = "listeningandreading"; //泛听泛读
+    final public static String GETLISTENANDREADV2 = "listeningandreadingV2"; //泛听泛读
     final public static String ORDERQUERY = "OrderQuery"; //订单查询
     final public static String GETWEICLASS = "WeiClass"; //微课堂视频
     final public static String GETWEICLASSV2 = "WeiClassV2"; //微课堂视频(ver.2)

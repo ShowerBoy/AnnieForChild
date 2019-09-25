@@ -158,10 +158,13 @@ public class NetExperienceDetailNewAdapterV3 extends RecyclerView.Adapter<NetExp
                 addGroupImage(netExperienceDetailNewViewHolder.net_v3_childlayout);
             }
             if (lists.get(i).getIsshow().equals("0")) {//0 为加锁，1为隐藏
+                adapter.setclick(false);
+                adapter.notifyDataSetChanged();
                 Glide.with(context).load(lists.get(i).getShade_img()).into(netExperienceDetailNewViewHolder.net_v3_lock);
                 netExperienceDetailNewViewHolder.net_v3_lock.setVisibility(View.VISIBLE);
                 netExperienceDetailNewViewHolder.net_v3_lock.setOnClickListener(null);
             } else {
+                adapter.setclick(true);
                 netExperienceDetailNewViewHolder.net_v3_lock.setVisibility(View.GONE);
             }
             GridLayoutManager layoutManager;
@@ -178,6 +181,7 @@ public class NetExperienceDetailNewAdapterV3 extends RecyclerView.Adapter<NetExp
 //                    netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 20));
                 } else {
                     layoutManager = new GridLayoutManager(context, 1);
+                    netExperienceDetailNewViewHolder.net_v3_layout.setPadding(0,0,0,dip2px(context, 15));
 //                    params.setMargins(dip2px(context, 145), 0, 0, 0);
 //                    if (lists.get(i).getInfo().size() == 1) {
 //                        netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 20));
@@ -198,6 +202,7 @@ public class NetExperienceDetailNewAdapterV3 extends RecyclerView.Adapter<NetExp
 //                    params.setMargins(dip2px(context, 20), 0, 0, 0);
                 } else {
                     layoutManager = new GridLayoutManager(context, 1);
+                    netExperienceDetailNewViewHolder.net_v3_layout.setPadding(0,0,0,dip2px(context, 15));
 //                    params.setMargins(dip2px(context, 100), 0, 0, 0);
 //                    if (lists.get(i).getInfo().size() == 1) {
 //                        netExperienceDetailNewViewHolder.recycler.setPadding(0, 0, 0, dip2px(context, 20));

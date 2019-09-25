@@ -62,8 +62,8 @@ import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.example.lamemp3.MP3Recorder;
-import com.example.lamemp3.PrivateInfo;
+import com.annie.taiRecord.lamemp3.MP3Recorder;
+import com.annie.taiRecord.lamemp3.PrivateInfo;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.ValueCallback;
@@ -1035,7 +1035,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
 //                                SystemUtils.show(context, "说话结束");
                             }
                             oral = null;
-                            Log.e("口语评测", result + "///" + error.desc);
                             if (result != null) {
                                 double num = (result.pronAccuracy) * (result.pronCompletion) * (2 - result.pronCompletion);
                                 BigDecimal bg = new BigDecimal(num / 20);

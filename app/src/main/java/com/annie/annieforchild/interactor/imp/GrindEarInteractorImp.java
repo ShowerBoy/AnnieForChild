@@ -790,7 +790,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
 
     @Override
     public void myTask() {
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.MYTASK, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.MYTASK, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.MYTASKV2, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
@@ -801,14 +802,16 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     }
 
     @Override
-    public void taskDetails(int classid, int type, String week, String taskTime, int classify) {
+    public void taskDetails(int classid, int type, String week, String taskTime, int classify,int courseType) {
         this.classify = classify;
-        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.TASKDETAILS, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.TASKDETAILS, RequestMethod.POST);
+        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.TASKDETAILSV2, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("token", application.getSystemUtils().getToken());
         request.add("classid", classid);
         request.add("classify", classify);
         request.add("type", type);
+        request.add("courseType", courseType);
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
@@ -822,7 +825,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     }
 
     @Override
-    public void completeTask(int cid, int taskid, int type, int likes, int listen, int homeworkid) {
+    public void completeTask(int cid, int taskid, int type, int likes, int listen, int homeworkid,int classid,int courseType) {
         this.taskid = taskid;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.COMPLETETASK, RequestMethod.POST);
         request.add("username", application.getSystemUtils().getDefaultUsername());
@@ -831,6 +834,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("likes", likes);
         request.add("listen", listen);
         request.add("homeworkid", homeworkid);
+        request.add("classid", classid);
+        request.add("courseType", courseType);
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));
@@ -860,7 +865,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
     }
 
     @Override
-    public void submitTask(int taskid, String remarks, int status, int type) {
+    public void submitTask(int taskid, String remarks, int status, int type,int classid,int courseType) {
         this.taskid = taskid;
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.TASKAPI + MethodType.SUBMITTASK, RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
@@ -869,6 +874,8 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
         request.add("type", type);
         request.add("taskid", taskid);
         request.add("remarks", remarks);
+        request.add("classid", classid);
+        request.add("courseType", courseType);
         request.add(MethodCode.DEVICEID, application.getSystemUtils().getSn());
         request.add(MethodCode.DEVICETYPE, SystemUtils.deviceType);
         request.add(MethodCode.APPVERSION, SystemUtils.getVersionName(context));

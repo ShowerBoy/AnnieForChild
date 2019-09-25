@@ -54,12 +54,12 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.RecyclerHo
 //        + " uid:" + info.getUid() + " types:" + info.getTypes()
         String item = info.getName();
         holder.textView.setText(item);
-        if (AssetsUtil.isContains(mSelectInfo, info)) {
-            // 选中了，则重置底色
-            holder.textView.setBackgroundColor(mContext.getResources().getColor(R.color.alivc_common_font_white_light));
-        } else {
-            holder.textView.setBackgroundColor(Color.WHITE);
-        }
+//        if (AssetsUtil.isContains(mSelectInfo, info)) {
+//            // 选中了，则重置底色
+//            holder.textView.setBackgroundColor(mContext.getResources().getColor(R.color.alivc_common_font_white_light));
+//        } else {
+//            holder.textView.setBackgroundColor(Color.WHITE);
+//        }
         holder.textView.setTag(R.id.id_position, position);
         holder.textView.setTag(R.id.id_info, info);
         holder.textView.setOnClickListener(mOnItemClickListener);

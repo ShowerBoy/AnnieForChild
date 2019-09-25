@@ -513,7 +513,6 @@ public class ControlView extends RelativeLayout implements ViewAction, ITheme {
         updateLargeInfoBar();
         updateChangeQualityBtn();
         updateTitleView();
-
     }
 
 

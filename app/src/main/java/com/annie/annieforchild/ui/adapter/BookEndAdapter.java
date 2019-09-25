@@ -199,9 +199,19 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
                     if (lists.get(i).getIslike() == 0) {
                         position = i;
                         presenter.addlikes(lists.get(i).getId());
+                        lists.get(i).setIslike(1);
+                        lists.get(i).setRecordLikes(Integer.parseInt(lists.get(i).getRecordLikes()) + 1 + "");
+                        bookEndViewHolder.like.setImageResource(R.drawable.icon_like_t);
+                        bookEndViewHolder.likeTimes.setTextColor(context.getResources().getColor(R.color.text_orange));
+                        bookEndViewHolder.likeTimes.setText(lists.get(i).getRecordLikes());
                     } else {
                         position = i;
                         presenter.cancellikes(lists.get(i).getId());
+                        lists.get(i).setIslike(0);
+                        lists.get(i).setRecordLikes(Integer.parseInt(lists.get(i).getRecordLikes()) - 1 + "");
+                        bookEndViewHolder.like.setImageResource(R.drawable.icon_like_f);
+                        bookEndViewHolder.likeTimes.setTextColor(context.getResources().getColor(R.color.text_color));
+                        bookEndViewHolder.likeTimes.setText(lists.get(i).getRecordLikes());
                     }
                 }
             }));

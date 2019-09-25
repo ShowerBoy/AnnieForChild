@@ -58,6 +58,7 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
     private TaskDetails taskDetails;
     private int pagePosition = 0;
     public static int tabPosition;
+    private int courseType;
 
     {
         setRegister(true);
@@ -79,6 +80,7 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
         intent = getIntent();
         if (intent != null) {
             classid = intent.getIntExtra("classid", 0);
+            courseType = intent.getIntExtra("courseType", 0);
             type = intent.getIntExtra("type", 0);
             if (type == 0) {
                 taskTime = intent.getStringExtra("taskTime");
@@ -260,22 +262,22 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
                 switch (position) {
                     case 0:
                         if (null == fragment1) {
-                            fragment1 = TaskContentFragment.instance(position, classid, type, taskTime, week);
+                            fragment1 = TaskContentFragment.instance(position, classid, type, taskTime, week,courseType);
                         }
                         return fragment1;
                     case 1:
                         if (null == fragment2) {
-                            fragment2 = TaskContentFragment.instance(position, classid, type, taskTime, week);
+                            fragment2 = TaskContentFragment.instance(position, classid, type, taskTime, week,courseType);
                         }
                         return fragment2;
                     case 2:
                         if (null == fragment3) {
-                            fragment3 = TaskContentFragment.instance(position, classid, type, taskTime, week);
+                            fragment3 = TaskContentFragment.instance(position, classid, type, taskTime, week,courseType);
                         }
                         return fragment3;
                     case 3:
                         if (null == fragment4) {
-                            fragment4 = TaskContentFragment.instance(position, classid, type, taskTime, week);
+                            fragment4 = TaskContentFragment.instance(position, classid, type, taskTime, week,courseType);
                         }
                         return fragment4;
                     default:

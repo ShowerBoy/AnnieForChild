@@ -3,61 +3,57 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/alivc_common_theme_primary_darker">
+    android:background="#fff">
 
     <com.aliyun.vodplayerview.widget.AliyunVodPlayerView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#f1f1f1"></LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/iv_tab_line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_gravity="bottom"
-            android:background="@color/alivc_common_bg_gray_bright"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center_vertical"
             android:orientation="horizontal"
-            android:weightSum="3">
+          >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="列表"
+                android:layout_centerVertical="true"
+                android:textColor="#ff333333"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/tv_loop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/loop_list"
+                android:drawablePadding="5dp"
+                android:textColor="#ffff8c15"
+                android:textSize="15sp"
+                android:text="列表循环"/>
 
-            <!-- video list tab-->
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/tv_tab_video_list"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="列表"
-                    android:textColor="@color/alivc_common_font_white_light"
-                    android:textSize="16sp"/>
-
-                <ImageView
-                    android:id="@+id/iv_video_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:background="@drawable/alivc_solution_tab_item_selector"/>
-            </FrameLayout>
-
-        </LinearLayout>
+        </RelativeLayout>
     </FrameLayout>
     <LinearLayout
         android:id="@+id/ll_video_list"
         android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:orientation="vertical"
         android:layout_height="match_parent">
 

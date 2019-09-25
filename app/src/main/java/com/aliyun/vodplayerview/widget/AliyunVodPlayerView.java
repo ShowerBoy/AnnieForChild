@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -764,6 +765,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
                     inSeek = false;
                 } else {
                     //拖动结束后，开始seek
+                    Log.e("cccc1",position+"");
                     seekTo(position);
 
                     if (onSeekStartListener != null) {
@@ -1014,7 +1016,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
             mGestureView.setScreenLockStatus(mIsFullScreenLocked);
         }
     }
-
     /**
      * 初始化清晰度列表
      */
@@ -1033,7 +1034,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
                 UrlSource urlSource = new UrlSource();
                 urlSource.setUri(qualityTrackInfo.getUrl());
                 urlSource.setTitle(qualityTrackInfo.getTitle());
-                setLocalSource(urlSource);
+                setLocalSource_changequality(urlSource);
 
                 mControlView.setCurrentQuality(qualityTrackInfo.getTitle());
 
@@ -1768,6 +1769,71 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         }
 
     }
+    /**
+     * 设置本地播放源
+     *
+     * @param aliyunLocalSource 本地播放源
+     */
+    public void setLocalSource_changequality(UrlSource aliyunLocalSource) {
+        if (mAliyunVodPlayer == null) {
+            return;
+        }
+        clearAllSource();
+        isCompleted = false;
+        inSeek = false;
+        mVideoBufferedPosition = 0;
+
+        if (mTipsView != null) {
+            mTipsView.hideAll();
+        }
+        if (mControlView != null) {
+            mControlView.reset();
+        }
+        if (mGestureView != null) {
+            mGestureView.reset();
+        }
+        stop();
+
+        mAliyunLocalSource = aliyunLocalSource;
+
+        if (mControlView != null) {
+            if(videoList!=null && videoList.size()>0){
+                mControlView.setForceQuality(false);
+            }else{
+                mControlView.setForceQuality(true);
+
+            }
+        }
+        if (!isLocalSource() && NetWatchdog.is4GConnected(getContext())) {
+            if (mTipsView != null) {
+                mTipsView.showNetChangeTipView();
+            }
+        } else {
+            if (mControlView != null) {
+                if(videoList!=null && videoList.size()>0){
+                    mControlView.setForceQuality(false);
+                }else{
+                    mControlView.setForceQuality(true);
+
+                }
+            }
+            if (mControlView != null) {
+                mControlView.setIsMtsSource(false);
+            }
+
+            if (mQualityView != null) {
+                mQualityView.setIsMtsSource(false);
+            }
+            mAliyunVodPlayer.setAutoPlay(true);
+            mAliyunVodPlayer.setDataSource(aliyunLocalSource);
+            mAliyunVodPlayer.prepare();
+            long position = mCurrentPosition;
+
+            inSeek = true;
+            seekTo((int)position);
+        }
+
+    }
 
     /**
      * prepare本地播放源
@@ -1780,7 +1846,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
                 mControlView.setForceQuality(false);
             }else{
                 mControlView.setForceQuality(true);
-
             }
         }
         if (mControlView != null) {

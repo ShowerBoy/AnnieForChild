@@ -8,13 +8,22 @@ public class ListenAndRead {
     private int isshow; //0：空
     private String path;
     private int classid;
+    private int courseType;
+
     private int type;
     private int classify;
     private String week;
     private String username;
-
     public void setIsshow(int isshow) {
         this.isshow = isshow;
+    }
+
+    public int getCourseType() {
+        return courseType;
+    }
+
+    public void setCourseType(int courseType) {
+        this.courseType = courseType;
     }
 
     public int getIsshow() {

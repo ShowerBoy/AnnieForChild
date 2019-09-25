@@ -55,7 +55,7 @@ import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
-import com.example.lamemp3.MP3Recorder;
+import com.annie.taiRecord.lamemp3.MP3Recorder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -128,6 +128,7 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
     private int lessonTag;
     public static int homepage=0;
     public static int pagenum=0;
+    private int flag=0;
 
     {
         setRegister(true);
@@ -517,39 +518,41 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
             presenter.getBookScore(song.getBookId(), bookType, false);
         }else if (message.what == MethodCode.EVENT_ADDLIKES) {
             showInfo((String) message.obj);
-            adapter.notifyDataSetChanged();
-            if(homepage==0){
-                song1.getRecordList().get(adapter.getPosition()).setIslike(1);
-                song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) + 1 + "");
-                adapter.notifyDataSetChanged();
-            }else if(homepage==1){
-                if(pagenum==0){
-                    pagenum=1;
-                }else{
-                    song1.getRecordList().get(adapter.getPosition()).setIslike(1);
-                    song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) + 1 + "");
-                    adapter.notifyDataSetChanged();
-                    pagenum=0;
-                }
-            }
+//            presenter.getBookScore(song.getBookId(), bookType, true);
+//            adapter.notifyDataSetChanged();
+//            if(homepage==0){
+//                song1.getRecordList().get(adapter.getPosition()).setIslike(1);
+//                song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) + 1 + "");
+//                adapter.notifyDataSetChanged();
+//            }else if(homepage==1){
+//                if(pagenum==0){
+//                    pagenum=1;
+//                }else{
+//                    song1.getRecordList().get(adapter.getPosition()).setIslike(1);
+//                    song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) + 1 + "");
+//                    adapter.notifyDataSetChanged();
+//                    pagenum=0;
+//                }
+//            }
 //            presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_CANCELLIKES) {
             showInfo((String) message.obj);
-            adapter.notifyDataSetChanged();
-            if(homepage==0){
-                song1.getRecordList().get(adapter.getPosition()).setIslike(0);
-                song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) - 1 + "");
-                adapter.notifyDataSetChanged();
-            }else if(homepage==1){
-                if(pagenum==0){
-                    pagenum=1;
-                }else {
-                    song1.getRecordList().get(adapter.getPosition()).setIslike(0);
-                    song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) - 1 + "");
-                    adapter.notifyDataSetChanged();
-                    pagenum=0;
-                }
-            }
+//            adapter.notifyDataSetChanged();
+//            if(homepage==0){
+//                song1.getRecordList().get(adapter.getPosition()).setIslike(0);
+//                song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) - 1 + "");
+//                adapter.notifyDataSetChanged();
+//            }else if(homepage==1){
+//                if(pagenum==0){
+//                    pagenum=1;
+//                }else {
+//                    song1.getRecordList().get(adapter.getPosition()).setIslike(0);
+//                    song1.getRecordList().get(adapter.getPosition()).setRecordLikes(Integer.parseInt(song1.getRecordList().get(adapter.getPosition()).getRecordLikes()) - 1 + "");
+//                    adapter.notifyDataSetChanged();
+//                    pagenum=0;
+//                }
+//            }
+//            presenter.getBookScore(song.getBookId(), bookType, true);
         } else if (message.what == MethodCode.EVENT_PRACTICE) {
             presenter.getBookScore(song.getBookId(), bookType, false);
         } else if (message.what == MethodCode.EVENT_CLOCKINSHARE) {

@@ -23,7 +23,7 @@ import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
-import com.example.lamemp3.PrivateInfo;
+import com.annie.taiRecord.lamemp3.PrivateInfo;
 import com.iflytek.cloud.SpeechEvaluator;
 import com.tencent.taisdk.TAIErrCode;
 import com.tencent.taisdk.TAIError;
@@ -313,7 +313,6 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                                 isRecording = false;
                                 isClick = true;
                                 oral = null;
-                                Log.e("口语评测", result.audioUrl + "///" + error.desc);
                                 ExerciseActivity2.viewPager.setNoFocus(false);
                                 viewHolder.speak.setImageResource(R.drawable.icon_speak_medium);
                                 if (result != null) {

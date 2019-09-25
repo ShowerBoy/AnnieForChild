@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="90dp"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white">
+    android:background="@drawable/quality_back">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请选择清晰度"
+        android:textColor="#ff666666"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="22dp"
+        />
+    <ImageView
+        android:id="@+id/quality_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/quality_exit"
+        android:layout_marginTop="22dp"
+        android:layout_marginRight="15dp"
+        android:padding="5dp"
+
+        />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/quality_list"
-        android:layout_width="90dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="45dp"
         android:background="@color/white"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         >
     </android.support.v7.widget.RecyclerView>
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

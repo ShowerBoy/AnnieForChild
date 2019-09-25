@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 public class Task implements Serializable {
     private String tasktime;
+    private int courseType;
     private String week;
     private int classid;
     private String title;
@@ -21,7 +22,13 @@ public class Task implements Serializable {
     private String averagescore;
     private int status;
     private int type; //0：课程 1：网课
+    public int getCourseType() {
+        return courseType;
+    }
 
+    public void setCourseType(int courseType) {
+        this.courseType = courseType;
+    }
     public int getType() {
         return type;
     }

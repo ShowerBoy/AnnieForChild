@@ -81,13 +81,13 @@ public interface GrindEarInteractor {
 
     void myTask();
 
-    void taskDetails(int classid, int type, String week, String taskTime, int classify);
+    void taskDetails(int classid, int type, String week, String taskTime, int classify,int courseType);
 
-    void completeTask(int cid,int taskid, int type, int likes, int listen, int homeworkid);
+    void completeTask(int cid,int taskid, int type, int likes, int listen, int homeworkid,int classid,int courseType);
 
     void uploadTaskImage(int taskid, List<String> path, int type);
 
-    void submitTask(int taskid, String remarks, int status, int type);
+    void submitTask(int taskid, String remarks, int status, int type,int classid,int courseType);
 
     void clockinShare(int type, int bookid);
 

@@ -22,6 +22,7 @@ public class NetExperienceDetailItemAdapterV3 extends RecyclerView.Adapter<NetEx
     private LayoutInflater inflater;
     private List<ExpItemBeanItemV3> lists;
     private OnRecyclerItemClickListener listener;
+    private Boolean isclick=true;//true表示可以点击
 
     public NetExperienceDetailItemAdapterV3(Context context, List<ExpItemBeanItemV3> lists, OnRecyclerItemClickListener listener) {
         this.context = context;
@@ -37,11 +38,18 @@ public class NetExperienceDetailItemAdapterV3 extends RecyclerView.Adapter<NetEx
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(v);
+                if(isclick){
+                    listener.onItemClick(v);
+                }
             }
         });
         return holder;
     }
+    public void setclick(Boolean iscan){
+       this.isclick=iscan;
+    }
+
+
 
     @Override
     public void onBindViewHolder(NetExperienceDetailItemViewHolderV3 netExperienceDetailItemViewHolder, int i) {

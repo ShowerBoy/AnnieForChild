@@ -513,10 +513,10 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * 作业详情
      */
     @Override
-    public void taskDetails(int classid, int type, String week, String taskTime, int classify) {
+    public void taskDetails(int classid, int type, String week, String taskTime, int classify,int courseType) {
         this.classify = classify;
         songView.showLoad();
-        interactor.taskDetails(classid, type, week, taskTime, classify);
+        interactor.taskDetails(classid, type, week, taskTime, classify,courseType);
     }
 
     /**
@@ -528,10 +528,10 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param homeworkid
      */
     @Override
-    public void completeTask(int cid, int taskid, int type, int likes, int listen, int homeworkid) {
+    public void completeTask(int cid, int taskid, int type, int likes, int listen, int homeworkid,int classid,int courseType) {
         this.taskid = taskid;
         songView.showLoad();
-        interactor.completeTask(cid, taskid, type, likes, listen, homeworkid);
+        interactor.completeTask(cid, taskid, type, likes, listen, homeworkid, classid, courseType);
     }
 
     /**
@@ -554,12 +554,12 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param remarks
      */
     @Override
-    public void submitTask(int taskid, String remarks, int status, int type) {
+    public void submitTask(int taskid, String remarks, int status, int type,int classid,int courseType) {
         if (submitTask) {
             submitTask = false;
             this.taskid = taskid;
             songView.showLoad();
-            interactor.submitTask(taskid, remarks, status, type);
+            interactor.submitTask(taskid, remarks, status, type,classid,courseType);
         }
 
     }
@@ -1511,12 +1511,10 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 if (viewInfo != null) {
                     viewInfo.showInfo(error);
                 }
-
                 JTMessage message = new JTMessage();
                 message.what = MethodCode.EVENT_RELOGIN;
                 message.obj = 1;
                 EventBus.getDefault().post(message);
-
                 SharedPreferences preferences = context.getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.remove("phone");
@@ -1620,6 +1618,8 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
                 message.what = MethodCode.EVENT_ERROR;
                 message.obj = error;
                 EventBus.getDefault().post(message);
+            } else if (what == MethodCode.EVENT_ADDLIKES_PRODUCTION) {
+                Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             } else if (what == MethodCode.EVENT_RELEASEBOOK) {
                 Toast.makeText(application.getApplicationContext(), error, Toast.LENGTH_SHORT).show();
             }

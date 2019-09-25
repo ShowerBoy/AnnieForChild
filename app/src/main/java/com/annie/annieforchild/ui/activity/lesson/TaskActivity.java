@@ -95,14 +95,14 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
         //TODO:正式
         if (application.getSystemUtils().getUserInfo() != null) {
             if (application.getSystemUtils().getUserInfo().getStatus() == 0) {
-                if (application.getSystemUtils().getUserInfo().getIsnetstudent() == 0) {
+                if (application.getSystemUtils().getUserInfo().getIsHaveOrder() == 0) {
                     fragmentCount = 1;
                     taskType = 0;
                 } else {
                     fragmentCount = 2;
                 }
             } else {
-                if (application.getSystemUtils().getUserInfo().getIsnetstudent() == 0) {
+                if (application.getSystemUtils().getUserInfo().getIsHaveOrder() == 0) {
                     fragmentCount = 0;
                 } else {
                     fragmentCount = 1;
@@ -159,6 +159,7 @@ public class TaskActivity extends BaseActivity implements SongView, OnCheckDoubl
                 int position = recycler.getChildAdapterPosition(view);
                 Intent intent = new Intent(TaskActivity.this, TaskContentActivity.class);
                 intent.putExtra("classid", lists.get(position - 1).getClassid());
+                intent.putExtra("courseType", lists.get(position - 1).getCourseType());
                 intent.putExtra("type", lists.get(position - 1).getType());
                 if (lists.get(position - 1).getType() == 0) {
                     intent.putExtra("taskTime", lists.get(position - 1).getTasktime());

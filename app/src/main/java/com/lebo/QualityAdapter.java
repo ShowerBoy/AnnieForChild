@@ -49,7 +49,7 @@ public class QualityAdapter extends RecyclerView.Adapter<QualityAdapter.Recycler
             if (quality.equals(currentQuality)) {
                 holder.textView.setTextColor(mContext.getResources().getColor(R.color.text_orange));
             } else {
-                holder.textView.setTextColor(mContext.getResources().getColor(R.color.black));
+                holder.textView.setTextColor(mContext.getResources().getColor(R.color.c333));
             }
         }
         holder.textView.setOnClickListener(new View.OnClickListener() {

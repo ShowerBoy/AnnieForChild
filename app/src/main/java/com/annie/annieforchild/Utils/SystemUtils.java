@@ -19,6 +19,8 @@ import android.media.SoundPool;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -1724,5 +1726,30 @@ public class SystemUtils {
     public static  boolean hasPermission(Context context, String permission){
         int perm = context.checkCallingOrSelfPermission(permission);
         return perm == PackageManager.PERMISSION_GRANTED;
+    }
+
+
+    public static boolean isWifi(Context mContext) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null
+                && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 获取当前连接的wifi名称
+     *
+     * @param context
+     * @return
+     */
+    public static String getWIFIName(Context context) {
+        WifiManager wifiMgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        int wifiState = wifiMgr.getWifiState();
+        WifiInfo info = wifiMgr.getConnectionInfo();
+        String wifiId = info != null ? info.getSSID().replace("\"", "") : null;
+        return wifiId;
     }
 }

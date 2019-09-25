@@ -1,55 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white">
+    android:layout_width="match_parent"
+    android:background="@drawable/nowifi_popup"
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/nowifi_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:layout_marginRight="15dp"
+                android:text=""
+                android:textColor="#ffffffff"
+                android:textSize="14sp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="90dp"
+                android:text="未连接WIFI,无法支持投屏"
+                android:textColor="#ffffffff"
+                android:textSize="19sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="133dp"
+                android:gravity="center_horizontal"
+                android:text="请前往手机设置，连接可用的WiFi\n并确保手机与电视/盒子连接同一WiFi后投屏"
+                android:textColor="#ffffffff"
+                android:textSize="14sp"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
         <RelativeLayout
+            android:id="@+id/screen_layout"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="280dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/layout1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="12dp"
+                    android:text="请选择投屏设备"
+                    android:textColor="#ffffffff"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="15dp"
+                    android:gravity="center_vertical"
+                    android:text="常见问题"
+                    android:textColor="#ffffffff"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_wifi"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/black"
-                android:text="选择要投屏的设备"/>
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/layout1"
+                android:gravity="center_horizontal"
+                android:text="当前WiFi："
+                android:textColor="#ffffffff"
+                android:textSize="13sp" />
             <TextView
-                android:id="@+id/search_again"
-                android:layout_width="wrap_content"
+                android:id="@+id/search_status"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="重新搜索"
-                android:textColor="@color/black"
-                android:layout_alignParentRight="true"
-                android:paddingRight="20dp"/>
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                android:text="正在查找设备…"
+                android:textColor="#ffffffff"
+                android:textSize="14sp"
+                android:visibility="visible" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_browse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_wifi"
+                android:layout_above="@id/search_status"
+                android:padding="1dp"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+            <TextView
+                android:id="@+id/no_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_wifi"
+                android:layout_above="@id/search_status"
+                android:visibility="gone"
+                android:gravity="center"
+                android:text="未搜索到设备"
+                android:textColor="#ffffffff"
+                android:textSize="19sp"/>
+
+
+
+
         </RelativeLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0.7dp"
-            android:background="@color/divider"></LinearLayout>
-        <TextView
-            android:id="@+id/search_status"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:textColor="@color/c9"
-            android:visibility="visible"
-            android:gravity="center_vertical"
-            android:text="正在搜索设备..."/>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_browse"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:padding="1dp"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+    </RelativeLayout>
 
-
-    </LinearLayout>
 
 </ScrollView>

@@ -1,4 +1,4 @@
-package com.example.lamemp3;
+package com.annie.taiRecord.lamemp3;
 
 
 import android.media.AudioFormat;

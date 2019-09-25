@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -93,8 +94,6 @@ public class AliyunPlayerSkinActivity extends BaseMusicActivity {
     private TextView tvTabLogs;
     private TextView tvTabDownloadVideo;
     private LinearLayout llClearLogs;
-    private TextView tvVideoList;
-    private ImageView ivVideoList;
     private RecyclerView recyclerView;
     private LinearLayout llVideoList;
     private TextView tvStartSetting;
@@ -172,11 +171,13 @@ public class AliyunPlayerSkinActivity extends BaseMusicActivity {
     private float speed = 1f; //速度
     private boolean isLoop; //是否循环
     private boolean showLoop; //是否显示循环
-    private int animationId, duration, isFinish, position, videoPos;
+    private int animationId, duration, isFinish, position;
     private String netid, stageid, unitid, chaptercontentid;
     private List<VideoList> videoList; //视频列表
     private String classcode;
     private LinearLayout nocontent_layout;
+    public  Boolean isloop=true;//初始默认是列表循环
+    private TextView tv_loop;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -186,8 +187,8 @@ public class AliyunPlayerSkinActivity extends BaseMusicActivity {
             setTheme(R.style.AppThemeFullscreen);
         }
         DatabaseManager.getInstance().createDataBase(this);
-
         super.onCreate(savedInstanceState);
+        isloop=true;
         showAddDownloadView = false;
 //        setContentView(R.layout.alivc_player_layout_skin);
         getbundle();
@@ -241,7 +242,7 @@ public class AliyunPlayerSkinActivity extends BaseMusicActivity {
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             videoList = (List<VideoList>) bundle.getSerializable("videoList");
-            videoPos = bundle.getInt("videoPos");
+            currentVideoPosition = bundle.getInt("videoPos");
         }
 
     }
@@ -258,6 +259,25 @@ public class AliyunPlayerSkinActivity extends BaseMusicActivity {
 
 
     private void initAliyunPlayerView() {
+        tv_loop=findViewById(R.id.tv_loop);
+        tv_loop.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isloop){//表示当前是列表循环，需要变成单曲循环
+                    isloop=false;
+                    Drawable dra= getResources().getDrawable(R.drawable.loop_unlist);
+                   dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight());
+                   tv_loop.setCompoundDrawables(dra,null,null,null);
+                    tv_loop.setText("单曲循环");
+                }else{
+                    isloop=true;
+                    tv_loop.setText("列表循环");
+                    Drawable dra= getResources().getDrawable(R.drawable.loop_list);
+                    dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight());
+                    tv_loop.setCompoundDrawables(dra,null,null,null);
+                }
+            }
+        });
         mAliyunVodPlayerView = (AliyunVodPlayerView) findViewById(R.id.video_view);
         //保持屏幕敞亮
         mAliyunVodPlayerView.setKeepScreenOn(true);
@@ -342,31 +362,19 @@ public class AliyunPlayerSkinActivity extends BaseMusicActivity {
      * init视频列表tab
      */
     private void initVideoListView() {
-        tvVideoList = findViewById(R.id.tv_tab_video_list);
-        ivVideoList = findViewById(R.id.iv_video_list);
         recyclerView = findViewById(R.id.video_list);
         llVideoList = findViewById(R.id.ll_video_list);
         nocontent_layout = findViewById(R.id.nocontent_layout);
         alivcVideoInfos = new ArrayList<AlivcVideoInfo.DataBean.VideoListBean>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         alivcPlayListAdapter = new AlivcPlayListAdapter_own(this, videoList,1);
-        ivVideoList.setActivated(true);
-        if(videoList.size()<=1){
-            llVideoList.setVisibility(View.GONE);
-            nocontent_layout.setVisibility(View.VISIBLE);
-        }else{
-            llVideoList.setVisibility(View.VISIBLE);
-            nocontent_layout.setVisibility(View.GONE);
-        }
-        tvVideoList.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentTab = TAB_VIDEO_LIST;
-                ivVideoList.setActivated(true);
-//                downloadView.changeDownloadEditState(false);
-                llVideoList.setVisibility(View.VISIBLE);
-            }
-        });
+//        if(videoList.size()<=1){
+//            llVideoList.setVisibility(View.GONE);
+//            nocontent_layout.setVisibility(View.VISIBLE);
+//        }else{
+//            llVideoList.setVisibility(View.VISIBLE);
+//            nocontent_layout.setVisibility(View.GONE);
+//        }
 
         recyclerView.setAdapter(alivcPlayListAdapter);
 
@@ -429,48 +437,6 @@ public class AliyunPlayerSkinActivity extends BaseMusicActivity {
         mAliyunVodPlayerView.setLocalSource(urlSource);
     }
 
-    /**
-     * 切换播放vid资源
-     *
-     * @param video 要切换的资源
-     */
-    private void changePlayVidSource(AlivcVideoInfo.DataBean.VideoListBean video) {
-        mDownloadInPrepare = true;
-        VidSts vidSts = new VidSts();
-        PlayParameter.PLAY_PARAM_VID = video.getVideoId();
-        mAliyunVodPlayerView.setAutoPlay(!mIsInBackground);
-        //切换资源重置下载flag
-        mDownloadInPrepare = false;
-        /**
-         * 如果是鉴权过期
-         */
-        if (mIsTimeExpired) {
-            onTimExpiredError();
-        } else {
-            vidSts.setVid(PlayParameter.PLAY_PARAM_VID);
-            vidSts.setRegion(PlayParameter.PLAY_PARAM_REGION);
-            vidSts.setAccessKeyId(PlayParameter.PLAY_PARAM_AK_ID);
-            vidSts.setAccessKeySecret(PlayParameter.PLAY_PARAM_AK_SECRE);
-            vidSts.setSecurityToken(PlayParameter.PLAY_PARAM_SCU_TOKEN);
-            vidSts.setTitle(video.getTitle());
-            mAliyunVodPlayerView.setVidSts(vidSts);
-        }
-
-    }
-
-    /**
-     * 下载重新调用onPrepared方法,否则会出现断点续传的现象
-     * 而且断点续传出错
-     */
-    private void callDownloadPrepare(String vid, String title) {
-        VidSts vidSts = new VidSts();
-        vidSts.setVid(vid);
-        vidSts.setAccessKeyId(PlayParameter.PLAY_PARAM_AK_ID);
-        vidSts.setAccessKeySecret(PlayParameter.PLAY_PARAM_AK_SECRE);
-        vidSts.setSecurityToken(PlayParameter.PLAY_PARAM_SCU_TOKEN);
-        vidSts.setTitle(title);
-//        downloadManager.prepareDownload(vidSts);
-    }
 
     @Override
     public void onPublish(int progress) {
@@ -529,7 +495,7 @@ public class AliyunPlayerSkinActivity extends BaseMusicActivity {
     }
 
     private void onCompletion() {
-        logStrs.add(format.format(new Date()) + getString(R.string.log_play_completion));
+//        logStrs.add(format.format(new Date()) + getString(R.string.log_play_completion));
 //        FixedToastUtils.show(AliyunPlayerSkinActivity.this.getApplicationContext(), R.string.toast_play_compleion);
         if (isWeb == 1) {
             JTMessage message = new JTMessage();
@@ -538,16 +504,16 @@ public class AliyunPlayerSkinActivity extends BaseMusicActivity {
             EventBus.getDefault().post(message);
             finish();
         }else{
-            if(videoList.size()<=1){
-                mAliyunVodPlayerView.mTipsView.showReplayTipView();
-            }else{
+//            if(videoList.size()<=1){
+//                mAliyunVodPlayerView.mTipsView.showReplayTipView();
+//            }else{
                 // 当前视频播放结束, 播放下一个视频
                 if ("vidsts".equals(PlayParameter.PLAY_PARAM_TYPE)) {
                     onNext();
                 }else if("localSource".equals(PlayParameter.PLAY_PARAM_TYPE)){
                     onNext();
                 }
-            }
+//            }
         }
 
     }
@@ -565,8 +531,12 @@ public class AliyunPlayerSkinActivity extends BaseMusicActivity {
             }
             return;
         }
+        if(isloop){//表示当前是列表循环
+            currentVideoPosition++;
+        }else{
 
-        currentVideoPosition++;
+        }
+
         if (currentVideoPosition > videoList.size() - 1) {
             //列表循环播放，如发现播放完成了从列表的第一个开始重新播放
             currentVideoPosition = 0;
@@ -773,15 +743,15 @@ public class AliyunPlayerSkinActivity extends BaseMusicActivity {
         if ("localSource".equals(PlayParameter.PLAY_PARAM_TYPE)) {
             UrlSource urlSource = new UrlSource();
             if(videoList.size()>0){
-                urlSource.setUri(videoList.get(videoPos).getUrl());
-                alivcPlayListAdapter.setSelectVideo(videoPos);
+                urlSource.setUri(videoList.get(currentVideoPosition).getUrl());
+                alivcPlayListAdapter.setSelectVideo(currentVideoPosition);
                 alivcPlayListAdapter.notifyDataSetChanged();
-                mAliyunVodPlayerView.setVideoList(videoList.get(videoPos).getPath());
+                mAliyunVodPlayerView.setVideoList(videoList.get(currentVideoPosition).getPath());
             }
 
             //默认是5000
             int maxDelayTime = 5000;
-            if (videoList.get(videoPos).getUrl().startsWith("artp")) {
+            if (videoList.get(currentVideoPosition).getUrl().startsWith("artp")) {
                 //如果url的开头是artp，将直播延迟设置成100，
                 maxDelayTime = 100;
             }
@@ -1398,10 +1368,9 @@ public class AliyunPlayerSkinActivity extends BaseMusicActivity {
     }
     private void showScreen(final AliyunPlayerSkinActivity activity) {
         showScreenDialog = new AlivcShowScreenDialog(activity,mAliyunVodPlayerView.getScreenMode());
-        ShowScreenView showScreenView = new ShowScreenView(activity, activity,videoList,videoPos);
+        ShowScreenView showScreenView = new ShowScreenView(activity, activity,videoList,currentVideoPosition,1);
         showScreenDialog.setContentView(showScreenView);
         showScreenDialog.show();
-
     }
     /**
      * 获取url的scheme

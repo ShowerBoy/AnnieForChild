@@ -1,4 +1,4 @@
-package com.example.lamemp3;
+package com.annie.taiRecord.lamemp3;
 
 public class PrivateInfo {
 //    自行传入appId, secretId, secretKey等参数

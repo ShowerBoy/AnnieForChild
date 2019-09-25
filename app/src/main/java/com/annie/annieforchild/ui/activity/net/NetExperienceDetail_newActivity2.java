@@ -182,6 +182,7 @@ public class NetExperienceDetail_newActivity2 extends BaseActivity implements Vi
             } else {
                 Intent intent = new Intent(this, TaskContentActivity.class);
                 intent.putExtra("classid", listenAndRead.getClassid());
+                intent.putExtra("courseType", listenAndRead.getCourseType());
                 intent.putExtra("type", listenAndRead.getType());
                 intent.putExtra("week", listenAndRead.getWeek());
                 intent.putExtra("tabPosition", 0);

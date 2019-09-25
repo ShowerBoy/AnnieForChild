@@ -140,6 +140,19 @@ public final class ToastUtil {
         return unitTimeFormat(hour) + ":" + unitTimeFormat(minute) + ":" +
                 unitTimeFormat(second);
     }
+    /*
+     * 将时分秒转为秒数
+     * */
+    public static long formatTurnSecond(String time) {
+        String s = time;
+        int index1 = s.indexOf(":");
+        int index2 = s.indexOf(":", index1 + 1);
+        int hh = Integer.parseInt(s.substring(0, index1));
+        int mi = Integer.parseInt(s.substring(index1 + 1, index2));
+        int ss = Integer.parseInt(s.substring(index2 + 1));
+
+        return hh * 60 * 60 + mi * 60 + ss;
+    }
 
     private static String unitTimeFormat(long number) {
         return String.format("%02d", number);

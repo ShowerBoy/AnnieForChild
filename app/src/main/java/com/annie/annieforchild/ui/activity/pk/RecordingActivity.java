@@ -45,7 +45,7 @@ import com.annie.annieforchild.ui.adapter.ChallengeAdapter;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.example.lamemp3.MP3Recorder;
+import com.annie.taiRecord.lamemp3.MP3Recorder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

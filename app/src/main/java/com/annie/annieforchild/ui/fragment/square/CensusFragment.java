@@ -76,7 +76,7 @@ public class CensusFragment extends BaseFragment implements SongView {
         locationType = 4;
         timeList.add("本周");
         timeList.add("本月");
-        timeList.add("本季");
+//        timeList.add("本季");
         locationList.add("全国");
         locationList.add("全班");
         locationList.add("全校");
