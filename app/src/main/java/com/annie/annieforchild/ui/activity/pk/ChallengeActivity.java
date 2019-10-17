@@ -52,7 +52,7 @@ import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
-import com.annie.taiRecord.lamemp3.PrivateInfo;
+import com.example.lamemp3.PrivateInfo;
 import com.iflytek.cloud.EvaluatorListener;
 import com.iflytek.cloud.EvaluatorResult;
 import com.iflytek.cloud.SpeechConstant;
@@ -602,7 +602,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                             score = finalResult.total_score;
                             BigDecimal bigDecimal = new BigDecimal(score);
                             score = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 1, "", imageUrl, 0, homeworkid, homeworktype);
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + fileName + ".pcm", score, fileName, record_time, 1, "", imageUrl, 0, homeworkid, homeworktype,"");
                         } else {
 //                        showInfo("解析结果为空");
                         }
@@ -918,7 +918,7 @@ public class ChallengeActivity extends BaseActivity implements OnCheckDoubleClic
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
-                                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + name + ".mp3", (float) num1, name, record_time, 1, "", imageUrl, 0, homeworkid, homeworktype);
+                                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "challenge/" + name + ".mp3", (float) num1, name, record_time, 1, "", imageUrl, 0, homeworkid, homeworktype,result.audioUrl);
                                         }
                                     }, 1500);
                                     if (interactor != null) {

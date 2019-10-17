@@ -43,6 +43,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 /**
  * 阅读
  * Created by WangLei on 2018/1/19 0019
@@ -126,6 +129,8 @@ public class ReadingActivity extends BaseMusicActivity implements OnCheckDoubleC
         adapter = new GrindEarAdapter(this, lists, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
+                CountEvent Event_706 = new CountEvent(MethodCode.A0706);
+                JAnalyticsInterface.onEvent(ReadingActivity.this, Event_706);
                 int position = recycler.getChildAdapterPosition(view);
                 if (lists.get(position).getJurisdiction() == 0) {
                     if (lists.get(position).getIsusenectar() == 1) {
@@ -243,6 +248,8 @@ public class ReadingActivity extends BaseMusicActivity implements OnCheckDoubleC
                 break;
             case R.id.huiben_layout:
                 //绘本
+                CountEvent Event_702 = new CountEvent(MethodCode.A0702);
+                JAnalyticsInterface.onEvent(this, Event_702);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -265,6 +272,8 @@ public class ReadingActivity extends BaseMusicActivity implements OnCheckDoubleC
                 break;
             case R.id.xugou_layout:
                 //分级读物
+                CountEvent Event_703 = new CountEvent(MethodCode.A0703);
+                JAnalyticsInterface.onEvent(this, Event_703);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -287,6 +296,8 @@ public class ReadingActivity extends BaseMusicActivity implements OnCheckDoubleC
                 break;
             case R.id.feixugou_layout:
                 //桥梁书
+                CountEvent Event_704 = new CountEvent(MethodCode.A0704);
+                JAnalyticsInterface.onEvent(this, Event_704);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -309,6 +320,8 @@ public class ReadingActivity extends BaseMusicActivity implements OnCheckDoubleC
                 break;
             case R.id.zhangjie_layout:
                 //章节书
+                CountEvent Event_705 = new CountEvent(MethodCode.A0705);
+                JAnalyticsInterface.onEvent(this, Event_705);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -376,17 +389,6 @@ public class ReadingActivity extends BaseMusicActivity implements OnCheckDoubleC
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        allowBindService();
-    }
-
-    @Override
-    protected void onPause() {
-        allowUnBindService();
-        super.onPause();
-    }
 
     @Override
     public void onPublish(int progress) {
@@ -402,5 +404,20 @@ public class ReadingActivity extends BaseMusicActivity implements OnCheckDoubleC
                 musicBtn.stop();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+        JAnalyticsInterface.onPageStart(getApplicationContext(),this.getClass().getCanonicalName());
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        allowUnBindService();
+        JAnalyticsInterface.onPageEnd(getApplicationContext(),this.getClass().getCanonicalName());
     }
 }

@@ -13,6 +13,7 @@ import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,16 +46,33 @@ import com.annie.annieforchild.ui.adapter.ChallengeAdapter;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.annie.taiRecord.lamemp3.MP3Recorder;
+import com.example.lamemp3.MP3Recorder;
+import com.example.lamemp3.PrivateInfo;
+import com.tencent.taisdk.TAIErrCode;
+import com.tencent.taisdk.TAIError;
+import com.tencent.taisdk.TAIOralEvaluation;
+import com.tencent.taisdk.TAIOralEvaluationCallback;
+import com.tencent.taisdk.TAIOralEvaluationData;
+import com.tencent.taisdk.TAIOralEvaluationEvalMode;
+import com.tencent.taisdk.TAIOralEvaluationFileType;
+import com.tencent.taisdk.TAIOralEvaluationListener;
+import com.tencent.taisdk.TAIOralEvaluationParam;
+import com.tencent.taisdk.TAIOralEvaluationRet;
+import com.tencent.taisdk.TAIOralEvaluationServerType;
+import com.tencent.taisdk.TAIOralEvaluationStorageMode;
+import com.tencent.taisdk.TAIOralEvaluationTextMode;
+import com.tencent.taisdk.TAIOralEvaluationWorkMode;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -101,7 +119,8 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
     private int animationCode = -1, shareType, type;
     private boolean tag = true;
     private PopupWindow popupWindow2;
-
+    private TAIOralEvaluation oral;
+    private MP3Recorder mp3Recorder;
     {
         setRegister(true);
     }
@@ -223,52 +242,58 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
         presenter = new GrindEarPresenterImp(this, this);
         presenter.initViewAndData();
         mRecorderUtil = new RecorderAndPlayUtil(DIR);
-        mRecorderUtil.getRecorder().setHandle(new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case MP3Recorder.MSG_REC_STARTED:
-                        // 开始录音
-                        break;
-                    case MP3Recorder.MSG_REC_STOPPED:
-                        // 停止录音
-//                        if (mIsSendVoice) {// 是否发送录音
-//                            mIsSendVoice = false;
-//                            audioRecordFinishListener.onFinish(mSecond, mRecorderUtil.getRecorderPath());
-//                        }
-//                        showInfo(mRecorderUtil.getRecorderPath());
-                        break;
-                    case MP3Recorder.MSG_ERROR_GET_MIN_BUFFERSIZE:
-                        initRecording();
-                        showInfo("采样率手机不支持");
-                        break;
-                    case MP3Recorder.MSG_ERROR_CREATE_FILE:
-                        initRecording();
-                        showInfo("创建音频文件出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_REC_START:
-                        initRecording();
-                        showInfo("初始化录音器出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_AUDIO_RECORD:
-                        initRecording();
-                        showInfo("录音的时候出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_AUDIO_ENCODE:
-                        initRecording();
-                        showInfo("编码出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_WRITE_FILE:
-                        initRecording();
-                        showInfo("文件写入出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_CLOSE_FILE:
-                        initRecording();
-                        showInfo("文件流关闭出错");
-                        break;
-                }
-            }
-        });
+//        String mFilePath =Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + bookName + ".mp3";
+//        File file = new File(mFilePath);
+//        if (file.exists()) {
+//            file.delete();
+//        }
+//         mp3Recorder=new MP3Recorder(file);
+//        mRecorderUtil.getRecorder().setHandle(new Handler() {
+//            @Override
+//            public void handleMessage(Message msg) {
+//                switch (msg.what) {
+//                    case MP3Recorder.MSG_REC_STARTED:
+//                        // 开始录音
+//                        break;
+//                    case MP3Recorder.MSG_REC_STOPPED:
+//                        // 停止录音
+////                        if (mIsSendVoice) {// 是否发送录音
+////                            mIsSendVoice = false;
+////                            audioRecordFinishListener.onFinish(mSecond, mRecorderUtil.getRecorderPath());
+////                        }
+////                        showInfo(mRecorderUtil.getRecorderPath());
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_GET_MIN_BUFFERSIZE:
+//                        initRecording();
+//                        showInfo("采样率手机不支持");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_CREATE_FILE:
+//                        initRecording();
+//                        showInfo("创建音频文件出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_REC_START:
+//                        initRecording();
+//                        showInfo("初始化录音器出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_AUDIO_RECORD:
+//                        initRecording();
+//                        showInfo("录音的时候出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_AUDIO_ENCODE:
+//                        initRecording();
+//                        showInfo("编码出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_WRITE_FILE:
+//                        initRecording();
+//                        showInfo("文件写入出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_CLOSE_FILE:
+//                        initRecording();
+//                        showInfo("文件流关闭出错");
+//                        break;
+//                }
+//            }
+//        });
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -284,6 +309,7 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
     private void initRecording() {
         mRecorderUtil.stopRecording();
         mRecorderUtil.getRecorderPath();
+
     }
 
     private void initAnimation(int animationCode) {
@@ -571,12 +597,14 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                 }
                 if (isClick) {
                     if (!isPlay) {
+//                        onRecord();
                         if (isRecord) {
                             showInfo("录音结束");
 //                            isRecord = false;
                             record.setImageResource(R.drawable.icon_book_record2);
 //                            speak.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_speak2), null, null);
                             initRecording();
+//                            mp3Recorder.stop();
                             mRecorderUtil.stopRecording();
                             if (record_time <= 20) {
                                 showInfo("录音时长过短，至少超过20s");
@@ -587,15 +615,21 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    presenter.uploadAudioResource(bookId, 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + bookName + ".mp3", 0f, bookName, record_time, 3, "", bookImageUrl, animationCode, homeworkid, homeworktype);
+                                    presenter.uploadAudioResource(bookId, 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + bookName + ".mp3", 0f, bookName, record_time, 3, "", bookImageUrl, animationCode, homeworkid, homeworktype,"");
                                 }
                             }, 1000);
+
                         } else {
                             showInfo("录音开始");
                             isRecord = true;
                             record_time = 0;
                             handler.postDelayed(runnable, 1000);
                             record.setImageResource(R.drawable.icon_book_stop);
+//                            try {
+//                                mp3Recorder.start();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
                             mRecorderUtil.startRecording(bookName);
                         }
                     }
@@ -731,6 +765,113 @@ public class RecordingActivity extends BaseActivity implements SongView, OnCheck
                         break;
                 }
                 break;
+        }
+    }
+    public void onRecord() {
+        if (oral == null) {
+            oral = new TAIOralEvaluation();
+        }
+        if (oral.isRecording()) {
+            oral.stopRecordAndEvaluation(new TAIOralEvaluationCallback() {
+                @Override
+                public void onResult(final TAIError error) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showInfo("录音结束");
+                            isRecord = false;
+                            isClick = true;
+                            if (record_time <= 20) {
+                                showInfo("录音时长过短，至少超过20s");
+                            }else{
+                                showLoad();
+                            }
+                            isPlay=false;
+                            record.setImageResource(R.drawable.icon_book_record2);
+                        }
+                    });
+                }
+            });
+        } else {
+            oral.setListener(new TAIOralEvaluationListener() {
+                @Override
+                public void onEvaluationData(final TAIOralEvaluationData data, final TAIOralEvaluationRet result, final TAIError error) {
+                    if (SystemUtils.saveFile(data.audio, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath,  bookName+ ".mp3")
+                    ) {
+                       runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                oral = null;
+                                if (result != null) {
+                                    if (record_time <= 20) {
+                                    }else{
+                                        isRecordPlay = false;
+                                        play.setImageResource(R.drawable.icon_book_play2);
+                                        //延迟1秒上传
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                presenter.uploadAudioResource(bookId, 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + bookName + ".mp3", 0f, bookName, record_time, 3, "", bookImageUrl, animationCode, homeworkid, homeworktype,"");
+                                            }
+                                        }, 1000);
+                                    }
+                                } else {
+                                    SystemUtils.show(getApplicationContext(), "上传失败，请稍后再试");
+                                }
+                            }
+                        });
+                    }else{
+                        SystemUtils.show(getApplicationContext(), "录音保存失败，请稍后再试");
+                    }
+
+                }
+            });
+
+            TAIOralEvaluationParam param = new TAIOralEvaluationParam();
+            param.context = getApplicationContext();
+            param.sessionId = UUID.randomUUID().toString();
+            param.appId = PrivateInfo.appId;
+            param.soeAppId = PrivateInfo.soeAppId;
+            param.secretId = PrivateInfo.secretId;
+            param.secretKey = PrivateInfo.secretKey;
+            param.token = PrivateInfo.token;
+            //流式传输0，一次性传输1，
+            param.workMode = TAIOralEvaluationWorkMode.ONCE;
+            param.evalMode = TAIOralEvaluationEvalMode.PARAGRAPH;//单词模式0，句子模式1，段落模式2，自由说模式3
+            //是否存储 1
+            param.storageMode = TAIOralEvaluationStorageMode.ENABLE;
+            param.fileType = TAIOralEvaluationFileType.MP3;
+            param.serverType = TAIOralEvaluationServerType.ENGLISH;
+            param.textMode = TAIOralEvaluationTextMode.NORMAL;
+            //苛刻指数1.0-4.0
+            param.scoreCoeff = 1.0;
+            param.refText = "hello";
+            if (param.workMode == TAIOralEvaluationWorkMode.STREAM) {
+                param.timeout = 5;
+                param.retryTimes = 5;
+            } else {
+                param.timeout = 30;
+                param.retryTimes = 0;
+            }
+            //分片大小
+            oral.setFragSize(10 * 1024);
+            oral.startRecordAndEvaluation(param, new TAIOralEvaluationCallback() {
+                @Override
+                public void onResult(final TAIError error) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (error.code == TAIErrCode.SUCC) {
+                                showInfo("录音开始");
+                                isRecord = true;
+                                record_time = 0;
+                                handler.postDelayed(runnable, 1000);
+                                record.setImageResource(R.drawable.icon_book_stop);
+                            }
+                        }
+                    });
+                }
+            });
         }
     }
 

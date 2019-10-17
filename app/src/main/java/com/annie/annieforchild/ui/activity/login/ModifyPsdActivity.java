@@ -41,6 +41,9 @@ import org.litepal.LitePal;
 import java.util.List;
 import java.util.UUID;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 //import com.zhy.m.permission.PermissionDenied;
 //import com.zhy.m.permission.PermissionGrant;
 
@@ -232,6 +235,8 @@ public class ModifyPsdActivity extends BaseActivity implements RegisterView, OnC
                         startActivity(localIntent);
                     }
                 } else {
+                    CountEvent Event_040401 = new CountEvent(MethodCode.A040401);
+                    JAnalyticsInterface.onEvent(this, Event_040401);
                     doit();
                     presenter.resetPassword(phoneNumber2.getText().toString(), testCode2.getText().toString(), modifyPsd.getText().toString(), presenter.getSerial_number());
                 }

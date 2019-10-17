@@ -41,6 +41,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -241,10 +243,14 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
                 }
                 break;
             case R.id.release_close:
+                CountEvent Event_080105 = new CountEvent(MethodCode.A080105);
+                JAnalyticsInterface.onEvent(getActivity(), Event_080105);
                 getActivity().finish();
                 break;
             case R.id.play_back:
                 //回放
+                CountEvent Event_080102 = new CountEvent(MethodCode.A080102);
+                JAnalyticsInterface.onEvent(getActivity(), Event_080102);
                 if (!adapter.isPlay()) {
                     if (isPlay) {
                         try {
@@ -284,6 +290,8 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
                 }
                 break;
             case R.id.record_back:
+                CountEvent Event_080103 = new CountEvent(MethodCode.A080103);
+                JAnalyticsInterface.onEvent(getActivity(), Event_080103);
                 if (!adapter.isPlay()) {
                     BookPlayActivity2.viewPager.setCurrentItem(0);
                     BookPlayActivity2.viewPager.setNoFocus(false);
@@ -294,6 +302,8 @@ public class BookPlayEndFragment extends BaseFragment implements OnCheckDoubleCl
                 break;
             case R.id.release_back:
                 //发布
+                CountEvent Event_080104 = new CountEvent(MethodCode.A080104);
+                JAnalyticsInterface.onEvent(getActivity(), Event_080104);
                 boolean tag = true;
                 for (int i = 0; i < BookPlayActivity2.releaseList.size(); i++) {
                     if (!BookPlayActivity2.releaseList.get(i).getTag()) {

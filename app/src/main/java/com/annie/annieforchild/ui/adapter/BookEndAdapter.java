@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.service.MusicService2;
 import com.annie.annieforchild.bean.book.ReleaseBean;
@@ -26,6 +27,9 @@ import com.bumptech.glide.Glide;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 
 /**
  * Created by wanglei on 2018/11/30.
@@ -90,6 +94,8 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onCheckDoubleClick(View view) {
+                CountEvent Event_1101 = new CountEvent(MethodCode.A1101);
+                JAnalyticsInterface.onEvent(context, Event_1101);
                 if (fragment != null) {
                     if (!fragment.isPlay()) {
                         if (isPlay) {
@@ -106,6 +112,7 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
                                 isPlay = false;
                             }
                         } else {
+
                             holder = bookEndViewHolder;
                             urlList.clear();
                             urlList.addAll(lists.get(i).getRecordUrl());
@@ -182,6 +189,8 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
             bookEndViewHolder.likeLinear.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
                 @Override
                 public void onCheckDoubleClick(View view) {
+                    CountEvent Event_1102 = new CountEvent(MethodCode.A1102);
+                    JAnalyticsInterface.onEvent(context, Event_1102);
                     if (isPlay) {
                         if (mediaPlayer != null) {
                             try {
@@ -218,6 +227,8 @@ public class BookEndAdapter extends RecyclerView.Adapter<BookEndViewHolder> impl
             bookEndViewHolder.headpic.setOnClickListener(new CheckDoubleClickListener(new OnCheckDoubleClick() {
                 @Override
                 public void onCheckDoubleClick(View view) {
+                    CountEvent Event_1103 = new CountEvent(MethodCode.A1103);
+                    JAnalyticsInterface.onEvent(context, Event_1103);
                     if (isPlay) {
                         if (mediaPlayer != null) {
                             try {

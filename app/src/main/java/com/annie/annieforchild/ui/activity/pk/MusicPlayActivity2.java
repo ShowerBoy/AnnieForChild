@@ -57,6 +57,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -457,6 +459,8 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
                 break;
             case R.id.music_share2:
                 //分享
+                CountEvent Event_060103 = new CountEvent(MethodCode.A060103);
+                JAnalyticsInterface.onEvent(this, Event_060103);
                 if (MusicManager.getInstance().musicList == null || MusicManager.getInstance().musicList.size() == 0) {
                     return;
                 }
@@ -482,6 +486,8 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
                 break;
             case R.id.music_collected2:
                 //收藏
+                CountEvent Event_060102 = new CountEvent(MethodCode.A060102);
+                JAnalyticsInterface.onEvent(this, Event_060102);
                 if (MusicManager.getInstance().musicList == null || MusicManager.getInstance().musicList.size() == 0) {
                     return;
                 }
@@ -513,6 +519,8 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
                 startActivity(intent);
                 break;
             case R.id.anwa_radio2:
+                CountEvent Event_060104 = new CountEvent(MethodCode.A060104);
+                JAnalyticsInterface.onEvent(this, Event_060104);
                 Intent intent1 = new Intent(this, GrindEarActivity.class);
                 startActivity(intent1);
                 finishAffinity();
@@ -645,6 +653,8 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
         super.onResume();
         allowBindService();
         isPause = false;
+        JAnalyticsInterface.onPageStart(getApplicationContext(),this.getClass().getCanonicalName());
+
     }
 
     @Override
@@ -652,6 +662,8 @@ public class MusicPlayActivity2 extends BaseMusicActivity implements SongView, O
         allowUnBindService();
         isPause = true;
         super.onPause();
+        JAnalyticsInterface.onPageEnd(getApplicationContext(),this.getClass().getCanonicalName());
+
     }
 
     @Override

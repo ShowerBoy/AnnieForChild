@@ -32,6 +32,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -111,6 +112,9 @@ public class MyApplication extends LitePalApplication {
         } else {
             SystemUtils.isOreo = false;
         }
+
+        JAnalyticsInterface.setDebugMode(true);
+        JAnalyticsInterface.init(this);
 
 
     }

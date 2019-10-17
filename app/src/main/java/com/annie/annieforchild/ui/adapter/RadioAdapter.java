@@ -9,12 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.bean.radio.RadioBean;
 import com.annie.annieforchild.presenter.GrindEarPresenter;
 import com.annie.annieforchild.ui.adapter.viewHolder.RadioViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 
 import java.util.List;
+
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 
 /**
  * Created by wanglei on 2018/12/14.
@@ -53,15 +57,21 @@ public class RadioAdapter extends RecyclerView.Adapter<RadioViewHolder> {
                 int position = radioViewHolder.recycler.getChildAdapterPosition(view);
                 switch (lists.get(i).getTitle()) {
                     case "年龄":
+                        CountEvent Event_513 = new CountEvent(MethodCode.A0513);
+                        JAnalyticsInterface.onEvent(context, Event_513);
                         presenter.getRadio("age", lists.get(i).getList().get(position).getRadioId());
                         break;
                     case "功能":
+                        CountEvent Event_514 = new CountEvent(MethodCode.A0514);
+                        JAnalyticsInterface.onEvent(context, Event_514);
                         presenter.getRadio("function", lists.get(i).getList().get(position).getRadioId());
                         break;
                     case "类型":
                         presenter.getRadio("type", lists.get(i).getList().get(position).getRadioId());
                         break;
                     case "主题":
+                        CountEvent Event_515 = new CountEvent(MethodCode.A0515);
+                        JAnalyticsInterface.onEvent(context, Event_515);
                         presenter.getRadio("theme", lists.get(i).getList().get(position).getRadioId());
                         break;
                     case "系列":

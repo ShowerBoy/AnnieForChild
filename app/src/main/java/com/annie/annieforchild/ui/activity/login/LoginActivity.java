@@ -399,6 +399,7 @@ public class LoginActivity extends BaseActivity implements LoginView, OnCheckDou
                             startActivity(localIntent);
                         }
                     } else {
+                        doit();
                         logintime = calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + 1 + "" + calendar.get(Calendar.DATE) + "" + calendar.get(Calendar.HOUR) + "" + calendar.get(Calendar.MINUTE) + "" + calendar.get(Calendar.SECOND);
                         phone = phoneNumber.getText().toString();
                         psd = password.getText().toString();

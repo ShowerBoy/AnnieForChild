@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.material.Material;
@@ -30,6 +31,9 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 
 /**
  * Created by wanglei on 2018/3/24.
@@ -153,6 +157,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
             public void onCheckDoubleClick(View view) {
                 if (lists.get(i).getJurisdiction() == 1) {
                     if (lists.get(i).getIsCollected() == 0) {
+                        CountEvent Event_50201 = new CountEvent(MethodCode.A050201);
+                        JAnalyticsInterface.onEvent(context, Event_50201);
                         presenter.collectCourse(collectType, audioSource, lists.get(i).getBookId(), classId);
                     } else {
                         presenter.cancelCollection(collectType, audioSource, lists.get(i).getBookId(), classId);
@@ -165,6 +171,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
             public void onCheckDoubleClick(View view) {
                 if (lists.get(i).getJurisdiction() == 1) {
                     if (lists.get(i).getIsJoinMaterial() == 0) {
+                        CountEvent Event_50202 = new CountEvent(MethodCode.A050202);
+                        JAnalyticsInterface.onEvent(context, Event_50202);
                         presenter.joinMaterial(lists.get(i).getBookId(), audioSource, audioType, classId);
                     } else {
                         presenter.cancelMaterial(lists.get(i).getBookId(), classId);
@@ -177,6 +185,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
             public void onCheckDoubleClick(View view) {
                 //加入课表
                 if (lists.get(i).getJurisdiction() == 1) {
+                    CountEvent Event_50203 = new CountEvent(MethodCode.A050203);
+                    JAnalyticsInterface.onEvent(context, Event_50203);
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
                     String date = simpleDateFormat.format(new Date());
                     Material material = new Material();

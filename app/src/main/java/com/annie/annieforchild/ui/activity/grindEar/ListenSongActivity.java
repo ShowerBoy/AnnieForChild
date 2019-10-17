@@ -41,6 +41,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 /**
  * 听儿歌
  * Created by WangLei on 2018/3/13 0013
@@ -404,6 +406,18 @@ public class ListenSongActivity extends BaseActivity implements SongView, OnChec
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getWindow().setAttributes(layoutParams);
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JAnalyticsInterface.onPageStart(getApplicationContext(),this.getClass().getCanonicalName());
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JAnalyticsInterface.onPageEnd(getApplicationContext(),this.getClass().getCanonicalName());
     }
 
 }

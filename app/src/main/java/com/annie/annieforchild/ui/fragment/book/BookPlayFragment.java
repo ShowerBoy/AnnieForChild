@@ -41,9 +41,8 @@ import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseFragment;
-import com.annie.taiRecord.lamemp3.PrivateInfo;
 import com.bumptech.glide.Glide;
-import com.annie.taiRecord.lamemp3.MP3Recorder;
+import com.example.lamemp3.PrivateInfo;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tencent.taisdk.TAIErrCode;
@@ -74,6 +73,9 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 
 /**
  * Created by wanglei on 2018/10/9.
@@ -223,52 +225,52 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
         });
         exerciseList.setAdapter(adapter);
         mRecorderUtil = new RecorderAndPlayUtil(DIR);
-        mRecorderUtil.getRecorder().setHandle(new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case MP3Recorder.MSG_REC_STARTED:
-                        // 开始录音
-                        break;
-                    case MP3Recorder.MSG_REC_STOPPED:
-                        // 停止录音
-//                        if (mIsSendVoice) {// 是否发送录音
-//                            mIsSendVoice = false;
-//                            audioRecordFinishListener.onFinish(mSecond, mRecorderUtil.getRecorderPath());
-//                        }
-//                        showInfo(mRecorderUtil.getRecorderPath());
-                        break;
-                    case MP3Recorder.MSG_ERROR_GET_MIN_BUFFERSIZE:
-                        initRecording();
-                        showInfo("采样率手机不支持");
-                        break;
-                    case MP3Recorder.MSG_ERROR_CREATE_FILE:
-                        initRecording();
-                        showInfo("创建音频文件出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_REC_START:
-                        initRecording();
-                        showInfo("初始化录音器出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_AUDIO_RECORD:
-                        initRecording();
-//                        showInfo("录音的时候出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_AUDIO_ENCODE:
-                        initRecording();
-                        showInfo("编码出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_WRITE_FILE:
-                        initRecording();
-                        showInfo("文件写入出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_CLOSE_FILE:
-                        initRecording();
-                        showInfo("文件流关闭出错");
-                        break;
-                }
-            }
-        });
+//        mRecorderUtil.getRecorder().setHandle(new Handler() {
+//            @Override
+//            public void handleMessage(Message msg) {
+//                switch (msg.what) {
+//                    case MP3Recorder.MSG_REC_STARTED:
+//                        // 开始录音
+//                        break;
+//                    case MP3Recorder.MSG_REC_STOPPED:
+//                        // 停止录音
+////                        if (mIsSendVoice) {// 是否发送录音
+////                            mIsSendVoice = false;
+////                            audioRecordFinishListener.onFinish(mSecond, mRecorderUtil.getRecorderPath());
+////                        }
+////                        showInfo(mRecorderUtil.getRecorderPath());
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_GET_MIN_BUFFERSIZE:
+//                        initRecording();
+//                        showInfo("采样率手机不支持");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_CREATE_FILE:
+//                        initRecording();
+//                        showInfo("创建音频文件出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_REC_START:
+//                        initRecording();
+//                        showInfo("初始化录音器出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_AUDIO_RECORD:
+//                        initRecording();
+////                        showInfo("录音的时候出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_AUDIO_ENCODE:
+//                        initRecording();
+//                        showInfo("编码出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_WRITE_FILE:
+//                        initRecording();
+//                        showInfo("文件写入出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_CLOSE_FILE:
+//                        initRecording();
+//                        showInfo("文件流关闭出错");
+//                        break;
+//                }
+//            }
+//        });
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -628,7 +630,6 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                             if (!application.getSystemUtils().isPlayAll()) {
                                 if (!isPlay) {
                                         onRecord();
-
 //                                    if (isRecord) {
 ////                                        showInfo("录音结束");
 //                                        BookPlayActivity2.viewPager.setNoFocus(false);
@@ -673,6 +674,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                 break;
             case R.id.book_play_layout:
                 //听回放
+
                 if (isClick) {
                     if (!application.getSystemUtils().isPlaying()) {
                         if (!application.getSystemUtils().isCurrentPage()) {
@@ -793,7 +795,7 @@ public class BookPlayFragment extends BaseFragment implements OnCheckDoubleClick
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                presenter.uploadAudioResource(bookId, page.getPage(), audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + title + ".mp3", 0f, title + "(分页)", record_time, 4, "", imageUrl, animationCode, homeworkid, homeworktype);
+                                                presenter.uploadAudioResource(bookId, page.getPage(), audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + title + ".mp3", 0f, title + "(分页)", record_time, 4, "", imageUrl, animationCode, homeworkid, homeworktype,result.audioUrl);
                                             }
                                         }, 1000);
                                 } else {

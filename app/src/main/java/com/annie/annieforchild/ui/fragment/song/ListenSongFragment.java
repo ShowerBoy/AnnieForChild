@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -24,6 +25,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 
 /**
  * 听儿歌
@@ -277,5 +280,4 @@ public class ListenSongFragment extends BaseFragment implements SongView {
             }
         }
     }
-
 }

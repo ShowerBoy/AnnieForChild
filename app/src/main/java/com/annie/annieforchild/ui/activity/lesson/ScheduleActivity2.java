@@ -44,6 +44,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 /**
  * Created by wanglei on 2018/8/7.
  */
@@ -320,6 +323,8 @@ public class ScheduleActivity2 extends BaseActivity implements OnDateSelectedLis
                 timePickerDialog.show(getSupportFragmentManager(), "year_month");
                 break;
             case R.id.add_schedule2:
+                CountEvent Event_10201 = new CountEvent(MethodCode.A010201);
+                JAnalyticsInterface.onEvent(this, Event_10201);
                 if (date != null) {
                     Intent intent = new Intent(this, SelectMaterialActivity.class);
                     Bundle bundle = new Bundle();
@@ -330,5 +335,17 @@ public class ScheduleActivity2 extends BaseActivity implements OnDateSelectedLis
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JAnalyticsInterface.onPageStart(getApplicationContext(),this.getClass().getCanonicalName());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JAnalyticsInterface.onPageEnd(getApplicationContext(),this.getClass().getCanonicalName());
     }
 }

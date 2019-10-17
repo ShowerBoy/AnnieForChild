@@ -52,7 +52,7 @@ import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.annie.baselibrary.utils.NetUtils.RequestListener;
 import com.bumptech.glide.Glide;
-import com.annie.taiRecord.lamemp3.PrivateInfo;
+import com.example.lamemp3.PrivateInfo;
 import com.iflytek.cloud.EvaluatorListener;
 import com.iflytek.cloud.EvaluatorResult;
 import com.iflytek.cloud.SpeechConstant;
@@ -466,7 +466,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
 //                            new Handler().postDelayed(new Runnable() {
 //                                @Override
 //                                public void run() {
-                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".pcm", score, fileName, record_time, 2, pkUserName, imageUrl, 0, homeworkid, homeworktype);
+                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".pcm", score, fileName, record_time, 2, pkUserName, imageUrl, 0, homeworkid, homeworktype,"");
 //                                }
 //                            }, 5000);
 //                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(position - 1).getPageid()), audioType, audioSource, lists.get(position - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".pcm", score, fileName, record_time, 2, pkUserName, imageUrl, 0, homeworkid, homeworktype);
@@ -911,7 +911,7 @@ public class pkActivity extends BaseActivity implements OnCheckDoubleClick, Song
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
-                                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".mp3", (float) num1, fileName, record_time, 2, "", imageUrl, 0, homeworkid, homeworktype);
+                                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i - 1).getPageid()), audioType, audioSource, lists.get(i - 1).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "pk/" + fileName + ".mp3", (float) num1, fileName, record_time, 2, "", imageUrl, 0, homeworkid, homeworktype,result.audioUrl);
                                         }
                                     }, 1500);
                                     if (interactor != null) {

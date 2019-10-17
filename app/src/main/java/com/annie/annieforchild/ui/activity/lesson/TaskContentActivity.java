@@ -2,6 +2,7 @@ package com.annie.annieforchild.ui.activity.lesson;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -48,17 +49,17 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
     private TaskContentAdapter fragmentAdapter;
     //    private List<String> imageList;
     public static List<String> pathList1, pathList2, pathList3, pathList4; //用户选择图片路径列表
-    public static int imageNum1 = 0, imageNum2 = 0, imageNum3 = 0, imageNum4 = 0; //选择图片数量
+    public static  int imageNum1 = 0, imageNum2 = 0, imageNum3 = 0, imageNum4 = 0; //选择图片数量
     private Intent intent;
-    private int classid, type;//type: 0:课程作业 1:网课作业
-    private String week = "", taskTime = "";
+    private  int classid, type;//type: 0:课程作业 1:网课作业
+    private  String week = "", taskTime = "";
     private AlertHelper helper;
     private Dialog dialog;
     private TaskContent taskContent;
     private TaskDetails taskDetails;
     private int pagePosition = 0;
     public static int tabPosition;
-    private int courseType;
+    private  int courseType;
 
     {
         setRegister(true);
@@ -327,5 +328,43 @@ public class TaskContentActivity extends CameraActivity implements SongView, Vie
         imageNum2 = 0;
         imageNum3 = 0;
         imageNum4 = 0;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences preferences=getSharedPreferences("data",MODE_PRIVATE);
+        if(classid==0){
+            classid=preferences.getInt("classid",0);
+        }
+        if(courseType==0){
+            courseType=preferences.getInt("courseType",0);
+        }
+        if(tabPosition==0){
+            tabPosition=preferences.getInt("tabPosition",0);
+        }
+        if(type==0){
+            type=preferences.getInt("type",0);
+        }
+        if(taskTime.length()==0){
+            taskTime=preferences.getString("taskTime","");
+        }
+        if(week.length()==0){
+            week=preferences.getString("week","");
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences preferences=getSharedPreferences("data",MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putInt("classid",classid);
+        editor.putInt("courseType",courseType);
+        editor.putInt("tabPosition",tabPosition);
+        editor.putString("taskTime",taskTime);
+        editor.putString("week",week);
+        editor.putInt("type",type);
+        editor.commit();
     }
 }

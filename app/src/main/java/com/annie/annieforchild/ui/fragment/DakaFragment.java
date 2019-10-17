@@ -37,6 +37,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 
@@ -195,6 +197,8 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 startActivity(intent);
                 break;
             case R.id.goto_moerduo:
+                CountEvent Event_1403 = new CountEvent(MethodCode.A1403);
+                JAnalyticsInterface.onEvent(getContext(), Event_1403);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -207,18 +211,23 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 startActivity(intent);
                 break;
             case R.id.goto_reading:
+                CountEvent Event_1404 = new CountEvent(MethodCode.A1404);
+                JAnalyticsInterface.onEvent(getContext(), Event_1404);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
                 }
                 if (application.getSystemUtils().getChildTag() == 0) {
                     SystemUtils.toAddChild(getContext());
+
                     return;
                 }
                 intent.setClass(getContext(), ReadingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.goto_speaking:
+                CountEvent Event_140101 = new CountEvent(MethodCode.A140101);
+                JAnalyticsInterface.onEvent(getContext(), Event_140101);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -231,6 +240,8 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
                 startActivity(intent);
                 break;
             case R.id.daka_btn:
+                CountEvent Event_140102 = new CountEvent(MethodCode.A140102);
+                JAnalyticsInterface.onEvent(getContext(), Event_140102);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -458,6 +469,43 @@ public class DakaFragment extends BaseFragment implements SongView, OnCheckDoubl
             layoutParams.alpha = 1f;
             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             getActivity().getWindow().setAttributes(layoutParams);
+        }
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isResumed()) {
+            if(isVisibleToUser){
+                JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+            }else {
+                JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
+            }
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){
+            JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
+        }else {
+            JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isHidden() && getUserVisibleHint()) {
+            JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!isHidden() && getUserVisibleHint()) {
+            JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
         }
     }
 }

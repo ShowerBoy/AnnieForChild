@@ -243,4 +243,110 @@ public class MethodCode {
     final public static int EVENT_UPLOADING = 167; //上传测试录音
     final public static int EVENT_INSERTEQUIPMENTDATA = 168; //上传测试录音
 
+
+    final public static String A0102="A0102";//点击我的课表
+    final public static String A0103 ="A0103";//点击网课
+    final public static String A0104="A0104";//点击存折
+    final public static String A0105="A0105";//点击广场
+    final public static String A0106="A0106";//点击磨耳朵
+    final public static String A0107="A0107";//点击流利读
+    final public static String A0108="A0108";//点击地道说
+    final public static String A0109="A0109";//点击磨耳朵列表
+    final public static String A0110="A0110";//点击磨耳朵更多
+    final public static String A0111="A0111";//点击流利读
+    final public static String A0112="A0112";//点击流利读更多
+    final public static String A0113="A0113";//点击地道说
+    final public static String A0114="A0114";//点击地道说更多
+    final public static String A0115="A0115";//点击每日一歌
+    final public static String A0116="A0116";//点击每日一诗
+    final public static String A0117="A0117";//点击每日一读
+    final public static String A0118="A0118";//点击首页网课图片介绍
+
+    final public static String A0203="A0203";//点击我的课表
+    final public static String A0204="A0204";//点击我的网课
+    final public static String A0205="A0205";//点击我的作业
+    final public static String A0206="A0206";//点击我的教材
+
+    final public static String A1403 ="A1403";//打卡页面点击去磨耳朵
+    final public static String A1404 ="A1404";//打卡页面点击去阅读
+    final public static String A140101="A140101";//打卡页面点击去口语
+    final public static String A140102="A140102";//打卡页面点击打卡
+
+    final public static String A0402="A0402";//点击个人中心
+    final public static String A0403="A0403";//点击等级
+    final public static String A0404="A0404";//点击设置
+    final public static String A0405="A0405";//点击花蜜
+    final public static String A0406="A0406";//点击添加学员
+    final public static String A0407="A0407";//点击课时核对
+    final public static String A0408="A0408";//点击我的作品
+    final public static String A0409="A0409";//点击我的订单
+    final public static String A0410="A0410";//点击我的优惠券
+    final public static String A0411="A0411";//点击我的收藏
+    final public static String A0412="A0412";//点击推荐好友
+    final public static String A040401="A040401";//点击推荐好友
+    final public static String A040402="A040402";//点击推荐好友
+    final public static String A040403="A040403";//点击推荐好友
+
+    final public static String A010201="A010201";//点击添加课表
+    final public static String A010202="A010202";//点击加入课表
+
+    final public static String A0502="A0502";//点击听儿歌
+    final public static String A0503="A0503";//点击听诗歌
+    final public static String A0504="A0504";//点击听故事
+    final public static String A0505="A0505";//点击分级读物
+    final public static String A0506="A0506";//点击桥梁书
+    final public static String A0507="A0507";//点击章节书
+    final public static String A0508="A0508";//点击听对话
+    final public static String A0509="A0509";//点击看动画
+    final public static String A0510="A0510";//点击伴奏
+    final public static String A0511="A0511";//点击最近播放
+    final public static String A0512="A0512";//点击我的收藏
+    final public static String A0513="A0513";//点击磨耳朵页面的安娃电台的各个类型
+    final public static String A0514="A0514";//点击磨耳朵页面的安娃电台的各个类型
+    final public static String A0515="A0515";//点击磨耳朵页面的安娃电台的各个类型
+    final public static String A050201="A050201";//点击磨耳朵听儿歌等列表页的收藏
+    final public static String A050202="A050202";//点击磨耳朵听儿歌等列表页的加入教材
+    final public static String A050203="A050203";//点击磨耳朵听儿歌等列表页的加入课表
+
+    final public static String A060102="A060102";//点击磨耳朵播放页面的收藏
+    final public static String A060103="A060103";//点击磨耳朵播放页面的分享
+    final public static String A060104="A060104";//点击磨耳朵播放页面的安娃电台
+    final public static String A0602="A0602";//点击磨耳朵资源页的练习
+    final public static String A0603="A0603";//点击磨耳朵资源页的挑战
+    final public static String A0604="A0604";//点击磨耳朵资源页的pk
+    final public static String A060501="A060501";//点击磨耳朵资源列表页的收藏
+    final public static String A060502="A060502";//点击磨耳朵资源列表页的加入教材
+    final public static String A060503="A060503";//点击磨耳朵资源列表页的加入课表
+
+    final public static String A1101="A1101";//点击录制列表用户播放按钮
+    final public static String A1102="A1102";//点击录制列表用户的点赞
+    final public static String A1103="A1103";//点击录制列表用户的用户头像
+
+    final public static String A0902="A0902";//点击地道说页面的绘本口语
+    final public static String A0903="A0903";//点击地道说页面的主题口语
+    final public static String A0904="A0904";//点击地道说页面的交际口语
+    final public static String A0905="A0905";//点击地道说页面的动画口语
+    final public static String A0906="A0906";//点击地道说页面的项目演讲
+    final public static String A0907="A0907";//点击地道说页面的口语推荐列表
+    final public static String A090201="A090201";//点击地道说页面的收藏
+    final public static String A090202="A090202";//点击地道说页面的加入教材
+    final public static String A090203="A090203";//点击地道说页面的加入课表
+
+    final public static String A0702="A0702";//点击流利度页面绘本
+    final public static String A0703="A0703";//点击流利度页面分级读物
+    final public static String A0704="A0704";//点击流利度页面桥梁书
+    final public static String A0705="A0705";//点击流利度页面章节书
+    final public static String A0706="A0706";//点击流利度页面页面推荐列表
+
+    final public static String A080102="A080102";//点击流利度资源页回放
+    final public static String A080103="A080103";//点击流利度资源页重录
+    final public static String A080104="A080104";//点击流利度资源页发布
+    final public static String A080105="A080105";//点击流利度资源页关闭
+
+
+
+
+
+
+
 }

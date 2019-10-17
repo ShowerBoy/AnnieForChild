@@ -22,6 +22,8 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 /**
  * 网课介绍
  * Created by wanglei on 2018/11/14.
@@ -119,6 +121,44 @@ public class NetSuggestFragment extends BaseFragment implements OnCheckDoubleCli
     public void onCheckDoubleClick(View view) {
         switch (view.getId()) {
 
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isResumed()) {
+            if(isVisibleToUser){
+                JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+            }else {
+                JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
+            }
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){
+            JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
+        }else {
+            JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isHidden() && getUserVisibleHint()) {
+            JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!isHidden() && getUserVisibleHint()) {
+            JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
         }
     }
 

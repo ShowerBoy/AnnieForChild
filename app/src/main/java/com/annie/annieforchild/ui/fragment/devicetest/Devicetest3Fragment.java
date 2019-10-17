@@ -27,7 +27,7 @@ import com.annie.annieforchild.presenter.imp.MessagePresenterImp;
 import com.annie.annieforchild.ui.activity.my.DevicetestingActivity;
 import com.annie.annieforchild.view.FourthView;
 import com.annie.baselibrary.base.BaseFragment;
-import com.annie.taiRecord.lamemp3.PrivateInfo;
+import com.example.lamemp3.PrivateInfo;
 import com.tencent.taisdk.TAIErrCode;
 import com.tencent.taisdk.TAIError;
 import com.tencent.taisdk.TAIOralEvaluation;

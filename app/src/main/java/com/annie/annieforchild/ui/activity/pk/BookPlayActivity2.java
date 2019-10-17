@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 
@@ -665,17 +666,6 @@ public class BookPlayActivity2 extends BaseMusicActivity implements PlatformActi
         popupWindow.dismiss();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        allowBindService();
-    }
-
-    @Override
-    protected void onPause() {
-        allowUnBindService();
-        super.onPause();
-    }
 
     @Override
     public void onPublish(int progress) {
@@ -837,4 +827,20 @@ public class BookPlayActivity2 extends BaseMusicActivity implements PlatformActi
         application.getSystemUtils().setPlaying(false);
         viewPager.setNoFocus(false);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+        JAnalyticsInterface.onPageStart(getApplicationContext(),this.getClass().getCanonicalName());
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        allowUnBindService();
+        JAnalyticsInterface.onPageEnd(getApplicationContext(),this.getClass().getCanonicalName());
+    }
+
 }

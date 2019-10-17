@@ -40,6 +40,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 /**
  * 网课
  * Created by wanglei on 2018/9/22.
@@ -298,4 +300,17 @@ public class NetWorkActivity extends BaseActivity implements OnCheckDoubleClick,
             return null;
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JAnalyticsInterface.onPageStart(getApplicationContext(),this.getClass().getCanonicalName());
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JAnalyticsInterface.onPageEnd(getApplicationContext(),this.getClass().getCanonicalName());
+    }
+
 }

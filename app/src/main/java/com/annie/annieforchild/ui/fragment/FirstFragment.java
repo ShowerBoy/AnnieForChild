@@ -58,6 +58,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -115,6 +118,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
 
     @Override
     protected void initData() {
+
         spokenList = new ArrayList<>();
         moerduoList = new ArrayList<>();
         readingList = new ArrayList<>();
@@ -485,6 +489,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
         switch (view.getId()) {
             case R.id.clock_in_layout:
                 //存折
+                CountEvent Event_104 = new CountEvent(MethodCode.A0104);
+                JAnalyticsInterface.onEvent(getContext(), Event_104);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -501,6 +507,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 break;
             case R.id.schedule_layout:
                 //我的课表
+                CountEvent cEvent = new CountEvent(MethodCode.A0102);
+                JAnalyticsInterface.onEvent(getContext(), cEvent);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -514,6 +522,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 break;
             case R.id.event_layout:
                 //网课
+                CountEvent Event_103 = new CountEvent(MethodCode.A0103);
+                JAnalyticsInterface.onEvent(getContext(), Event_103);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -533,6 +543,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 break;
             case R.id.match_layout:
                 //广场
+                CountEvent Event_105 = new CountEvent(MethodCode.A0105);
+                JAnalyticsInterface.onEvent(getContext(), Event_105);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -541,11 +553,14 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
+
                 intent.setClass(getContext(), SquareActivity.class);
                 startActivity(intent);
                 break;
             case R.id.grind_ear_layout:
                 //磨耳朵
+                CountEvent Event_106 = new CountEvent(MethodCode.A0106);
+                JAnalyticsInterface.onEvent(getContext(), Event_106);
 //                if (SystemUtils.tag.equals("游客")) {
 //                    SystemUtils.toLogin(getContext());
 //                    return;
@@ -561,11 +576,14 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
+
                 intent.setClass(getContext(), GrindEarActivity.class);
                 startActivity(intent);
                 break;
             case R.id.reading_layout:
                 //阅读
+                CountEvent Event_107 = new CountEvent(MethodCode.A0107);
+                JAnalyticsInterface.onEvent(getContext(), Event_107);
 //                if (SystemUtils.tag.equals("游客")) {
 //                    SystemUtils.toLogin(getContext());
 //                    return;
@@ -578,11 +596,14 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
+
                 intent.setClass(getContext(), ReadingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.spoken_layout:
                 //口语
+                CountEvent Event_108 = new CountEvent(MethodCode.A0108);
+                JAnalyticsInterface.onEvent(getContext(), Event_108);
 //                if (SystemUtils.tag.equals("游客")) {
 //                    SystemUtils.toLogin(getContext());
 //                    return;
@@ -609,6 +630,7 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
+
                 intent.setClass(getContext(), SpeakingActivity.class);
                 startActivity(intent);
                 break;
@@ -697,20 +719,28 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 break;
             case R.id.more_moerduo:
                 //我要磨耳朵更多
+                CountEvent Event_110 = new CountEvent(MethodCode.A0110);
+                JAnalyticsInterface.onEvent(getContext(), Event_110);
                 intent.setClass(getContext(), GrindEarActivity.class);
                 startActivity(intent);
                 break;
             case R.id.more_reading:
                 //我要阅读更多
+                CountEvent Event_112 = new CountEvent(MethodCode.A0112);
+                JAnalyticsInterface.onEvent(getContext(), Event_112);
                 intent.setClass(getContext(), ReadingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.more_spoken:
                 //我要练口语更多
+                CountEvent Event_114 = new CountEvent(MethodCode.A0114);
+                JAnalyticsInterface.onEvent(getContext(), Event_114);
                 intent.setClass(getContext(), SpeakingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.main_moerduo_image1:
+                CountEvent Event_109 = new CountEvent(MethodCode.A0109);
+                JAnalyticsInterface.onEvent(getContext(), Event_109);
                 if (moerduoList.get(0).getJurisdiction() == 0) {
                     if (moerduoList.get(0).getIsusenectar() == 1) {
                         SystemUtils.setBackGray(getActivity(), true);
@@ -728,6 +758,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.main_moerduo_image2:
+                CountEvent Event_109_1 = new CountEvent(MethodCode.A0109);
+                JAnalyticsInterface.onEvent(getContext(), Event_109_1);
                 if (moerduoList.get(1).getJurisdiction() == 0) {
                     if (moerduoList.get(1).getIsusenectar() == 1) {
                         SystemUtils.setBackGray(getActivity(), true);
@@ -745,6 +777,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.main_moerduo_image3:
+                CountEvent Event_109_3 = new CountEvent(MethodCode.A0109);
+                JAnalyticsInterface.onEvent(getContext(), Event_109_3);
                 if (moerduoList.get(2).getJurisdiction() == 0) {
                     if (moerduoList.get(2).getIsusenectar() == 1) {
                         SystemUtils.setBackGray(getActivity(), true);
@@ -762,6 +796,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.main_reading_image1:
+                CountEvent Event_111 = new CountEvent(MethodCode.A0111);
+                JAnalyticsInterface.onEvent(getContext(), Event_111);
                 if (readingList.get(0).getJurisdiction() == 0) {
                     if (readingList.get(0).getIsusenectar() == 1) {
                         SystemUtils.setBackGray(getActivity(), true);
@@ -778,6 +814,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.main_reading_image2:
+                CountEvent Event_111_1 = new CountEvent(MethodCode.A0111);
+                JAnalyticsInterface.onEvent(getContext(), Event_111_1);
                 if (readingList.get(1).getJurisdiction() == 0) {
                     if (readingList.get(1).getIsusenectar() == 1) {
                         SystemUtils.setBackGray(getActivity(), true);
@@ -794,6 +832,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.main_reading_image3:
+                CountEvent Event_111_2 = new CountEvent(MethodCode.A0111);
+                JAnalyticsInterface.onEvent(getContext(), Event_111_2);
                 if (readingList.get(2).getJurisdiction() == 0) {
                     if (readingList.get(2).getIsusenectar() == 1) {
                         SystemUtils.setBackGray(getActivity(), true);
@@ -810,6 +850,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.main_spoken_image1:
+                CountEvent Event_113 = new CountEvent(MethodCode.A0113);
+                JAnalyticsInterface.onEvent(getContext(), Event_113);
                 if (speakingList.get(0).getJurisdiction() == 0) {
                     if (speakingList.get(0).getIsusenectar() == 1) {
                         SystemUtils.setBackGray(getActivity(), true);
@@ -826,6 +868,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.main_spoken_image2:
+                CountEvent Event_113_1 = new CountEvent(MethodCode.A0113);
+                JAnalyticsInterface.onEvent(getContext(), Event_113_1);
                 if (speakingList.get(1).getJurisdiction() == 0) {
                     if (speakingList.get(1).getIsusenectar() == 1) {
                         SystemUtils.setBackGray(getActivity(), true);
@@ -842,6 +886,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.main_spoken_image3:
+                CountEvent Event_113_2 = new CountEvent(MethodCode.A0113);
+                JAnalyticsInterface.onEvent(getContext(), Event_113_2);
                 if (speakingList.get(2).getJurisdiction() == 0) {
                     if (speakingList.get(2).getIsusenectar() == 1) {
                         SystemUtils.setBackGray(getActivity(), true);
@@ -858,6 +904,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.meiriyige_layout:
+                CountEvent Event_115 = new CountEvent(MethodCode.A0115);
+                JAnalyticsInterface.onEvent(getContext(), Event_115);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -883,6 +931,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.meiriyishi_layout:
+                CountEvent Event_116 = new CountEvent(MethodCode.A0116);
+                JAnalyticsInterface.onEvent(getContext(), Event_116);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -907,6 +957,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.meiriyidu_layout:
+                CountEvent Event_117 = new CountEvent(MethodCode.A0117);
+                JAnalyticsInterface.onEvent(getContext(), Event_117);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -931,6 +983,8 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
                 }
                 break;
             case R.id.home_picture:
+                CountEvent Event_118 = new CountEvent(MethodCode.A0118);
+                JAnalyticsInterface.onEvent(getContext(), Event_118);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -950,21 +1004,51 @@ public class FirstFragment extends BaseFragment implements MainView, BaseSliderV
     public void onSliderClick(BaseSliderView baseSliderView) {
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//        SharedPreferences preferences = getContext().getSharedPreferences("userInfo", MODE_PRIVATE | MODE_MULTI_PROCESS);
-//        if (preferences.getString("token", null) != null && preferences.getString("defaultUsername", null) != null) {
-//            application.getSystemUtils().setChildTag(preferences.getInt("childTag", 0));
-//            application.getSystemUtils().setToken(preferences.getString("token", null));
-//            application.getSystemUtils().setDefaultUsername(preferences.getString("defaultUsername", null));
-//        }
-    }
+
 
     @Override
     public void onDestroy() {
         // TODO Auto-generated method stub
         imageSlide.stopAutoCycle();
+
         super.onDestroy();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isResumed()) {
+            if(isVisibleToUser){
+                JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+            }else {
+                JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
+            }
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){
+            JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
+        }else {
+            JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isHidden() && getUserVisibleHint()) {
+            JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!isHidden() && getUserVisibleHint()) {
+            JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
+        }
     }
 }

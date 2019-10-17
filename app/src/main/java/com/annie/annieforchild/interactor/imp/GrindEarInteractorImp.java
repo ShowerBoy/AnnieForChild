@@ -357,7 +357,7 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
      * @param homeworktype  -1
      */
     @Override
-    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid, int homeworktype) {
+    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid, int homeworktype,String tempUrl) {
         File file = new File(path);
         if (!file.exists()) {
             return;
@@ -368,11 +368,13 @@ public class GrindEarInteractorImp extends NetWorkImp implements GrindEarInterac
             duration = 1;
         }
         FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + MethodType.UPLOADAUDIO, RequestMethod.POST);
+//        FastJsonRequest request = new FastJsonRequest(SystemUtils.mainUrl + MethodCode.HOMEPAGEAPI + "uploadAudioResourceTest", RequestMethod.POST);
         request.add("token", application.getSystemUtils().getToken());
         request.add("username", application.getSystemUtils().getDefaultUsername());
         request.add("resourseId", resourseId);
         request.add("audioType", audioType);
         request.add("audioSource", audioSource);
+        request.add("tempUrl", tempUrl);
         request.add("page", page);
         request.add("lineId", lineId);
         request.add("file", fileBinary);

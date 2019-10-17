@@ -24,6 +24,8 @@ import com.annie.baselibrary.base.BaseFragment;
 
 import java.text.DecimalFormat;
 
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 /**
  * 发现
  * Created by WangLei on 2018/1/12 0012
@@ -207,4 +209,5 @@ public class ThirdFragment extends BaseFragment implements OnCheckDoubleClick {
                 break;
         }
     }
+
 }

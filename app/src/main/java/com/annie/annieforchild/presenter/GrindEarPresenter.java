@@ -29,7 +29,7 @@ public interface GrindEarPresenter {
 
     void getBookAudioData(int bookId, int pkType, String pkUsername);
 
-    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid, int homeworktype);
+    void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid, int homeworktype,String tempUrl);
 
     void getPkUsers(int bookId);
 

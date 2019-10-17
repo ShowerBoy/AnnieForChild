@@ -104,8 +104,6 @@ public class NetExperienceDetail_newActivity2 extends BaseActivity implements Vi
 
         adapter = new NetExperienceDetailNewAdapter(this, lists, presenter, tag, netid);
         recycler.setAdapter(adapter);
-
-
         presenter.experienceDetailsV2(netid);
     }
 

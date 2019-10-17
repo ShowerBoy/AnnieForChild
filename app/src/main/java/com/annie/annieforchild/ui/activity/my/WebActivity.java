@@ -62,8 +62,8 @@ import com.annie.annieforchild.ui.activity.pk.PracticeActivity;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseActivity;
 import com.annie.baselibrary.base.BasePresenter;
-import com.annie.taiRecord.lamemp3.MP3Recorder;
-import com.annie.taiRecord.lamemp3.PrivateInfo;
+//import com.annie.taiRecord.lamemp3.MP3Recorder;
+import com.example.lamemp3.PrivateInfo;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.ValueCallback;
@@ -740,52 +740,52 @@ public class WebActivity extends BaseActivity implements View.OnClickListener, S
 
     private void initMp3() {
         mRecorderUtil = new RecorderAndPlayUtil(DIR);
-        mRecorderUtil.getRecorder().setHandle(new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case MP3Recorder.MSG_REC_STARTED:
-                        // 开始录音
-                        break;
-                    case MP3Recorder.MSG_REC_STOPPED:
-                        // 停止录音
-//                        if (mIsSendVoice) {// 是否发送录音
-//                            mIsSendVoice = false;
-//                            audioRecordFinishListener.onFinish(mSecond, mRecorderUtil.getRecorderPath());
-//                        }
-//                        showInfo(mRecorderUtil.getRecorderPath());
-                        break;
-                    case MP3Recorder.MSG_ERROR_GET_MIN_BUFFERSIZE:
-                        initRecording();
-                        showInfo("采样率手机不支持");
-                        break;
-                    case MP3Recorder.MSG_ERROR_CREATE_FILE:
-                        initRecording();
-                        showInfo("创建音频文件出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_REC_START:
-                        initRecording();
-                        showInfo("初始化录音器出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_AUDIO_RECORD:
-                        initRecording();
-                        showInfo("录音的时候出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_AUDIO_ENCODE:
-                        initRecording();
-                        showInfo("编码出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_WRITE_FILE:
-                        initRecording();
-                        showInfo("文件写入出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_CLOSE_FILE:
-                        initRecording();
-                        showInfo("文件流关闭出错");
-                        break;
-                }
-            }
-        });
+//        mRecorderUtil.getRecorder().setHandle(new Handler() {
+//            @Override
+//            public void handleMessage(Message msg) {
+//                switch (msg.what) {
+//                    case MP3Recorder.MSG_REC_STARTED:
+//                        // 开始录音
+//                        break;
+//                    case MP3Recorder.MSG_REC_STOPPED:
+//                        // 停止录音
+////                        if (mIsSendVoice) {// 是否发送录音
+////                            mIsSendVoice = false;
+////                            audioRecordFinishListener.onFinish(mSecond, mRecorderUtil.getRecorderPath());
+////                        }
+////                        showInfo(mRecorderUtil.getRecorderPath());
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_GET_MIN_BUFFERSIZE:
+//                        initRecording();
+//                        showInfo("采样率手机不支持");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_CREATE_FILE:
+//                        initRecording();
+//                        showInfo("创建音频文件出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_REC_START:
+//                        initRecording();
+//                        showInfo("初始化录音器出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_AUDIO_RECORD:
+//                        initRecording();
+//                        showInfo("录音的时候出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_AUDIO_ENCODE:
+//                        initRecording();
+//                        showInfo("编码出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_WRITE_FILE:
+//                        initRecording();
+//                        showInfo("文件写入出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_CLOSE_FILE:
+//                        initRecording();
+//                        showInfo("文件流关闭出错");
+//                        break;
+//                }
+//            }
+//        });
     }
 
     private void initRecording() {

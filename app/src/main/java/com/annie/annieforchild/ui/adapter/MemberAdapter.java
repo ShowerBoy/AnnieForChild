@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annie.annieforchild.R;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.bean.UserInfo2;
 import com.annie.annieforchild.ui.activity.child.AddStudentActivity;
@@ -17,6 +18,9 @@ import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
+
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 
 /**
  * Created by WangLei on 2018/2/26 0026
@@ -95,6 +99,8 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         SystemUtils.toLogin(context);
                         return;
                     }
+                    CountEvent Event_0406 = new CountEvent(MethodCode.A0406);
+                    JAnalyticsInterface.onEvent(context, Event_0406);
 //                    Intent intent = new Intent(context, AddChildActivity.class);
                     Intent intent = new Intent(context, AddStudentActivity.class);
                     intent.putExtra("from", "addMember");

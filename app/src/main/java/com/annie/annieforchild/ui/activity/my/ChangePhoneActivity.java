@@ -22,6 +22,9 @@ import com.annie.baselibrary.base.BasePresenter;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 /**
  * 修改手机号
  * Created by WangLei on 2018/2/27 0027
@@ -104,6 +107,8 @@ public class ChangePhoneActivity extends BaseActivity implements RegisterView, V
             case R.id.commit_new_phone:
                 if (ifNext()) {
                     //提交新手机号
+                    CountEvent Event_040402 = new CountEvent(MethodCode.A040402);
+                    JAnalyticsInterface.onEvent(this, Event_040402);
                     presenter.changePhone(presenter.getSerial_number(), testCodeCp.getText().toString(), newPhoneNumber.getText().toString());
                 } else {
                     SystemUtils.show(this, "输入有误,请重新检查");

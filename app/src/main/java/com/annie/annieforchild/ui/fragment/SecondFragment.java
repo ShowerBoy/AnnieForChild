@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.annie.annieforchild.R;
 import com.annie.annieforchild.Utils.CheckDoubleClickListener;
+import com.annie.annieforchild.Utils.MethodCode;
 import com.annie.annieforchild.Utils.OnCheckDoubleClick;
 import com.annie.annieforchild.Utils.SystemUtils;
 import com.annie.annieforchild.ui.activity.PhotoActivity;
@@ -19,6 +20,9 @@ import com.annie.annieforchild.view.SecondView;
 import com.annie.baselibrary.base.BaseFragment;
 
 import java.util.Calendar;
+
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 
 /**
  * 课业
@@ -89,6 +93,8 @@ public class SecondFragment extends BaseFragment implements SecondView, OnCheckD
         switch (view.getId()) {
             case R.id.lesson_schedule:
                 //我的课表
+                CountEvent Event_203 = new CountEvent(MethodCode.A0203);
+                JAnalyticsInterface.onEvent(getContext(), Event_203);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -98,11 +104,14 @@ public class SecondFragment extends BaseFragment implements SecondView, OnCheckD
                     SystemUtils.toAddChild(getContext());
                     return;
                 }
+
                 intent.setClass(getContext(), ScheduleActivity2.class);
                 startActivity(intent);
                 break;
             case R.id.lesson_course:
                 //我的作业
+                CountEvent Event_205 = new CountEvent(MethodCode.A0205);
+                JAnalyticsInterface.onEvent(getContext(), Event_205);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -118,6 +127,8 @@ public class SecondFragment extends BaseFragment implements SecondView, OnCheckD
                 break;
             case R.id.lesson_textbook:
                 //我的教材
+                CountEvent Event_206 = new CountEvent(MethodCode.A0206);
+                JAnalyticsInterface.onEvent(getContext(), Event_206);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -139,6 +150,8 @@ public class SecondFragment extends BaseFragment implements SecondView, OnCheckD
                 startActivity(intent);
                 break;
             case R.id.lesson_netclass:
+                CountEvent Event_204 = new CountEvent(MethodCode.A0204);
+                JAnalyticsInterface.onEvent(getContext(), Event_204);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -151,6 +164,43 @@ public class SecondFragment extends BaseFragment implements SecondView, OnCheckD
                 intent.setClass(getContext(), MyCourseActivity.class);
                 startActivity(intent);
                 break;
+        }
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isResumed()) {
+            if(isVisibleToUser){
+                JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+            }else {
+                JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
+            }
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){
+            JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
+        }else {
+            JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isHidden() && getUserVisibleHint()) {
+            JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!isHidden() && getUserVisibleHint()) {
+            JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
         }
     }
 }

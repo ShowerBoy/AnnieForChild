@@ -37,6 +37,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -392,5 +393,17 @@ public class HomePageActivity extends BaseActivity implements SongView, OnCheckD
             adapter.stopMedia();
         }
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JAnalyticsInterface.onPageStart(getApplicationContext(),this.getClass().getCanonicalName());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JAnalyticsInterface.onPageEnd(getApplicationContext(),this.getClass().getCanonicalName());
     }
 }

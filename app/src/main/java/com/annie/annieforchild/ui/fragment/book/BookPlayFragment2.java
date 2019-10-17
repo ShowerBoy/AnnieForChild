@@ -29,9 +29,9 @@ import com.annie.annieforchild.ui.activity.PhotoActivity;
 import com.annie.annieforchild.ui.activity.pk.BookPlayActivity2;
 import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseFragment;
-import com.annie.taiRecord.lamemp3.PrivateInfo;
 import com.bumptech.glide.Glide;
-import com.annie.taiRecord.lamemp3.MP3Recorder;
+import com.example.lamemp3.MP3Recorder;
+import com.example.lamemp3.PrivateInfo;
 import com.tencent.taisdk.TAIErrCode;
 import com.tencent.taisdk.TAIError;
 import com.tencent.taisdk.TAIOralEvaluation;
@@ -363,7 +363,7 @@ public class BookPlayFragment2 extends BaseFragment implements SongView, OnCheck
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
-                                            presenter.uploadAudioResource(bookId, page.getPage(), audioType, audioSource, 1, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + title + ".mp3", 0f, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
+                                            presenter.uploadAudioResource(bookId, page.getPage(), audioType, audioSource, 1, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + title + ".mp3", 0f, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype,result.audioUrl);
                                         }
                                     }, 1000);
 //                                    }

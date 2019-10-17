@@ -2,7 +2,8 @@ package com.annie.annieforchild.Utils.pcm2mp3;
 
 import android.media.MediaPlayer;
 
-import com.annie.taiRecord.lamemp3.MP3Recorder;
+
+import com.example.lamemp3.MP3Recorder;
 
 import java.io.IOException;
 

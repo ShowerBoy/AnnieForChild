@@ -237,11 +237,11 @@ public class GrindEarPresenterImp extends BasePresenterImp implements GrindEarPr
      * @param score
      */
     @Override
-    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid, int homeworktype) {
+    public void uploadAudioResource(int resourseId, int page, int audioType, int audioSource, int lineId, String path, float score, String title, int duration, int origin, String pkUsername, String imageUrl, int animationCode, int homeworkid, int homeworktype,String tempUrl) {
         this.lineId = lineId;
         this.page = page;
 //        songView.showLoad();
-        interactor.uploadAudioResource(resourseId, page, audioType, audioSource, lineId, path, score, title, duration, origin, pkUsername, imageUrl, animationCode, homeworkid, homeworktype);
+        interactor.uploadAudioResource(resourseId, page, audioType, audioSource, lineId, path, score, title, duration, origin, pkUsername, imageUrl, animationCode, homeworkid, homeworktype,tempUrl);
     }
 
     /**

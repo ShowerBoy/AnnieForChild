@@ -45,6 +45,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 /**
  * 磨耳朵
  * Created by WangLei on 2018/1/18 0018
@@ -405,6 +408,8 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                 break;
             case R.id.song_layout:
                 //听儿歌
+                CountEvent Event_502 = new CountEvent(MethodCode.A0502);
+                JAnalyticsInterface.onEvent(this, Event_502);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -427,6 +432,8 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                 break;
             case R.id.poetry_layout:
                 //听诗歌
+                CountEvent Event_503 = new CountEvent(MethodCode.A0503);
+                JAnalyticsInterface.onEvent(this, Event_503);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -449,6 +456,8 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                 break;
             case R.id.animation_layout:
                 //看动画
+                CountEvent Event_509 = new CountEvent(MethodCode.A0509);
+                JAnalyticsInterface.onEvent(this, Event_509);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -471,6 +480,8 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                 break;
             case R.id.picturebook_layout:
                 //听故事
+                CountEvent Event_504 = new CountEvent(MethodCode.A0504);
+                JAnalyticsInterface.onEvent(this, Event_504);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -493,6 +504,8 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                 break;
             case R.id.accomp_layout:
                 //伴奏
+                CountEvent Event_510 = new CountEvent(MethodCode.A0510);
+                JAnalyticsInterface.onEvent(this, Event_510);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -515,6 +528,8 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                 break;
             case R.id.dialogue_layout:
                 //听对话
+                CountEvent Event_508 = new CountEvent(MethodCode.A0508);
+                JAnalyticsInterface.onEvent(this, Event_508);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -537,6 +552,8 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                 break;
             case R.id.fenjiduwu_layout:
                 //分级读物
+                CountEvent Event_505 = new CountEvent(MethodCode.A0505);
+                JAnalyticsInterface.onEvent(this, Event_505);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -553,13 +570,15 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                 intent.setClass(this, ListenSongActivity.class);
                 Bundle bundle8 = new Bundle();
                 bundle8.putInt("type", 7);
-                bundle8.putSerializable("ClassifyList", (Serializable) xugouClassifyList);
+                bundle8.putSerializable("ClassifyList", (Serializable) xugouClassifyList) ;
                 bundle8.putInt("grindType", 7);
                 intent.putExtras(bundle8);
                 startActivity(intent);
                 break;
             case R.id.qiaoliangshu_layout:
                 //桥梁书
+                CountEvent Event_506 = new CountEvent(MethodCode.A0506);
+                JAnalyticsInterface.onEvent(this, Event_506);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -583,6 +602,8 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                 break;
             case R.id.zhangjieshu_layout:
                 //章节书
+                CountEvent Event_507 = new CountEvent(MethodCode.A0507);
+                JAnalyticsInterface.onEvent(this, Event_507);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -617,6 +638,8 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                 break;
             case R.id.recently_play:
                 //最近播放
+                CountEvent Event_511 = new CountEvent(MethodCode.A0511);
+                JAnalyticsInterface.onEvent(this, Event_511);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -648,6 +671,8 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                 break;
             case R.id.my_collection:
                 //我的收藏
+                CountEvent Event_512 = new CountEvent(MethodCode.A0512);
+                JAnalyticsInterface.onEvent(this, Event_512);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -662,17 +687,6 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        allowBindService();
-    }
-
-    @Override
-    protected void onPause() {
-        allowUnBindService();
-        super.onPause();
-    }
 
     @Override
     public void onPublish(int progress) {
@@ -688,5 +702,20 @@ public class GrindEarActivity extends BaseMusicActivity implements GrindEarView,
                 musicBtn.stop();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+        JAnalyticsInterface.onPageStart(getApplicationContext(),this.getClass().getCanonicalName());
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        allowUnBindService();
+        JAnalyticsInterface.onPageEnd(getApplicationContext(),this.getClass().getCanonicalName());
     }
 }

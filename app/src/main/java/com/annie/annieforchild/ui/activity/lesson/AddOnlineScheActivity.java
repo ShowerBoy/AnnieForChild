@@ -45,6 +45,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 /**
  * 加入课表
  * Created by WangLei on 2018/3/2 0002
@@ -401,6 +404,8 @@ public class AddOnlineScheActivity extends BaseActivity implements OnCheckDouble
                                 return;
                             } else {
                                 if (title.getText().equals("加入课表")) {
+                                    CountEvent Event_10202 = new CountEvent(MethodCode.A010202);
+                                    JAnalyticsInterface.onEvent(this, Event_10202);
                                     presenter.addSchedule(material.getMaterialId(), startDate, totalDays, startTime, endTime, audioType, audioSource);
                                 } else {
                                     presenter.editSchedule(schedule.getScheduleid(), material.getMaterialId(), startDate, totalDays, startTime, endTime);
@@ -408,6 +413,8 @@ public class AddOnlineScheActivity extends BaseActivity implements OnCheckDouble
                             }
                         } else {
                             if (title.getText().equals("加入课表")) {
+                                CountEvent Event_10202 = new CountEvent(MethodCode.A010202);
+                                JAnalyticsInterface.onEvent(this, Event_10202);
                                 presenter.addSchedule(material.getMaterialId(), startDate, totalDays, startTime, endTime, audioType, audioSource);
                             } else {
                                 presenter.editSchedule(schedule.getScheduleid(), material.getMaterialId(), startDate, totalDays, startTime, endTime);

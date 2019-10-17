@@ -49,6 +49,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Calendar;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -406,6 +408,8 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
         switch (view.getId()) {
             case R.id.user_headpic:
                 //头像
+                CountEvent Event_0402 = new CountEvent(MethodCode.A0402);
+                JAnalyticsInterface.onEvent(getContext(), Event_0402);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -423,6 +427,8 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 break;
             case R.id.settings:
                 //设置
+                CountEvent Event_0404 = new CountEvent(MethodCode.A0404);
+                JAnalyticsInterface.onEvent(getContext(), Event_0404);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -433,6 +439,8 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 break;
             case R.id.my_period_layout:
                 //课时核对
+                CountEvent Event_0407 = new CountEvent(MethodCode.A0407);
+                JAnalyticsInterface.onEvent(getContext(), Event_0407);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -446,6 +454,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 break;
             case R.id.my_msg_layout:
                 //我的信息
+
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -459,6 +468,8 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 break;
             case R.id.to_friend_layout:
                 //推荐好友
+                CountEvent Event_0412 = new CountEvent(MethodCode.A0412);
+                JAnalyticsInterface.onEvent(getContext(), Event_0412);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -487,6 +498,8 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 break;
             case R.id.collection_layout:
                 //我的收藏
+                CountEvent Event_0411 = new CountEvent(MethodCode.A0411);
+                JAnalyticsInterface.onEvent(getContext(), Event_0411);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -501,6 +514,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 break;
             case R.id.help_layout:
                 //帮助
+
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -515,6 +529,7 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 break;
             case R.id.feedback_layout:
                 //反馈
+
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -549,6 +564,8 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 break;
             case R.id.user_level_layout:
                 //等级成就
+                CountEvent Event_0403 = new CountEvent(MethodCode.A0403);
+                JAnalyticsInterface.onEvent(getContext(), Event_0403);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -564,6 +581,8 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 break;
             case R.id.nectar_layout:
                 //我的花蜜
+                CountEvent Event_0405 = new CountEvent(MethodCode.A0405);
+                JAnalyticsInterface.onEvent(getContext(), Event_0405);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -610,6 +629,8 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 break;
             case R.id.my_record_layout:
                 //我的作品
+                CountEvent Event_0408 = new CountEvent(MethodCode.A0408);
+                JAnalyticsInterface.onEvent(getContext(), Event_0408);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -642,6 +663,8 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 break;
             case R.id.my_order_layout:
                 //我的订单
+                CountEvent Event_0409 = new CountEvent(MethodCode.A0409);
+                JAnalyticsInterface.onEvent(getContext(), Event_0409);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -656,6 +679,8 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 break;
             case R.id.my_coupon_layout:
                 //我的优惠券
+                CountEvent Event_0410 = new CountEvent(MethodCode.A0410);
+                JAnalyticsInterface.onEvent(getContext(), Event_0410);
                 if (tag.equals("游客")) {
                     SystemUtils.toLogin(getContext());
                     return;
@@ -668,6 +693,43 @@ public class FourthFragment extends BaseFragment implements FourthView, OnCheckD
                 intent.setClass(getContext(), MyCouponActivity.class);
                 startActivity(intent);
                 break;
+        }
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isResumed()) {
+            if(isVisibleToUser){
+                JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+            }else {
+                JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
+            }
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){
+            JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
+        }else {
+            JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isHidden() && getUserVisibleHint()) {
+            JAnalyticsInterface.onPageStart(getActivity(),this.getClass().getCanonicalName());
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!isHidden() && getUserVisibleHint()) {
+            JAnalyticsInterface.onPageEnd(getActivity(),this.getClass().getCanonicalName());
         }
     }
 }

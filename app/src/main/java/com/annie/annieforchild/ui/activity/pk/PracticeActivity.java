@@ -55,7 +55,6 @@ import com.annie.annieforchild.view.SongView;
 import com.annie.baselibrary.base.BaseMusicActivity;
 import com.annie.baselibrary.base.BasePresenter;
 import com.bumptech.glide.Glide;
-import com.annie.taiRecord.lamemp3.MP3Recorder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -69,6 +68,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -261,52 +262,52 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
     protected void initData() {
         shareUtils = new ShareUtils(this, this);
         mRecorderUtil = new RecorderAndPlayUtil(DIR);
-        mRecorderUtil.getRecorder().setHandle(new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case MP3Recorder.MSG_REC_STARTED:
-                        // 开始录音
-                        break;
-                    case MP3Recorder.MSG_REC_STOPPED:
-                        // 停止录音
-//                        if (mIsSendVoice) {// 是否发送录音
-//                            mIsSendVoice = false;
-//                            audioRecordFinishListener.onFinish(mSecond, mRecorderUtil.getRecorderPath());
-//                        }
-//                        showInfo(mRecorderUtil.getRecorderPath());
-                        break;
-                    case MP3Recorder.MSG_ERROR_GET_MIN_BUFFERSIZE:
-                        initRecording();
-                        showInfo("采样率手机不支持");
-                        break;
-                    case MP3Recorder.MSG_ERROR_CREATE_FILE:
-                        initRecording();
-                        showInfo("创建音频文件出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_REC_START:
-                        initRecording();
-                        showInfo("初始化录音器出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_AUDIO_RECORD:
-                        initRecording();
-                        showInfo("录音的时候出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_AUDIO_ENCODE:
-                        initRecording();
-                        showInfo("编码出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_WRITE_FILE:
-                        initRecording();
-                        showInfo("文件写入出错");
-                        break;
-                    case MP3Recorder.MSG_ERROR_CLOSE_FILE:
-                        initRecording();
-                        showInfo("文件流关闭出错");
-                        break;
-                }
-            }
-        });
+//        mRecorderUtil.getRecorder().setHandle(new Handler() {
+//            @Override
+//            public void handleMessage(Message msg) {
+//                switch (msg.what) {
+//                    case MP3Recorder.MSG_REC_STARTED:
+//                        // 开始录音
+//                        break;
+//                    case MP3Recorder.MSG_REC_STOPPED:
+//                        // 停止录音
+////                        if (mIsSendVoice) {// 是否发送录音
+////                            mIsSendVoice = false;
+////                            audioRecordFinishListener.onFinish(mSecond, mRecorderUtil.getRecorderPath());
+////                        }
+////                        showInfo(mRecorderUtil.getRecorderPath());
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_GET_MIN_BUFFERSIZE:
+//                        initRecording();
+//                        showInfo("采样率手机不支持");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_CREATE_FILE:
+//                        initRecording();
+//                        showInfo("创建音频文件出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_REC_START:
+//                        initRecording();
+//                        showInfo("初始化录音器出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_AUDIO_RECORD:
+//                        initRecording();
+//                        showInfo("录音的时候出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_AUDIO_ENCODE:
+//                        initRecording();
+//                        showInfo("编码出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_WRITE_FILE:
+//                        initRecording();
+//                        showInfo("文件写入出错");
+//                        break;
+//                    case MP3Recorder.MSG_ERROR_CLOSE_FILE:
+//                        initRecording();
+//                        showInfo("文件流关闭出错");
+//                        break;
+//                }
+//            }
+//        });
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -661,6 +662,8 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                 finish();
                 break;
             case R.id.practice_btn:
+                CountEvent Event_602 = new CountEvent(MethodCode.A0602);
+                JAnalyticsInterface.onEvent(this, Event_602);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -690,6 +693,8 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                 startActivity(intent);
                 break;
             case R.id.challenge_btn:
+                CountEvent Event_603 = new CountEvent(MethodCode.A0603);
+                JAnalyticsInterface.onEvent(this, Event_603);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -718,6 +723,8 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                 startActivity(intent1);
                 break;
             case R.id.pk_btn:
+                CountEvent Event_604 = new CountEvent(MethodCode.A0604);
+                JAnalyticsInterface.onEvent(this, Event_604);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -763,101 +770,101 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                 }
                 break;
             case R.id.practice_speak:
-                if (application.getSystemUtils().getTag().equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (application.getSystemUtils().getChildTag() == 0) {
-                    SystemUtils.toAddChild(this);
-                    return;
-                }
-                if (musicService != null) {
-                    if (musicService.isPlaying()) {
-                        musicService.stop();
-                    }
-                } else {
-                    return;
-                }
-                if (adapter != null) {
-                    adapter.stopMedia();
-                }
-                if (isClick) {
-                    if (!isPlay) {
-                        if (isRecord) {
-                            showInfo("录音结束");
-                            isRecord = false;
-                            speak.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_speak2), null, null);
-                            initRecording();
-                            mRecorderUtil.stopRecording();
-                            if (record_time <= 0) {
-                                showInfo("时长不能为零");
-                                break;
-                            }
-                            //延迟1秒上传
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    presenter.uploadAudioResource(song.getBookId(), 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + song1.getBookName() + ".mp3", 0f, song1.getBookName(), record_time, 3, "", song.getBookImageUrl(), 0, homeworkid, homeworktype);
-                                }
-                            }, 1000);
-                        } else {
-                            showInfo("录音开始");
-                            isRecord = true;
-                            record_time = 0;
-                            handler.postDelayed(runnable, 1000);
-                            speak.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_stop2), null, null);
-                            mRecorderUtil.startRecording(song.getBookName());
-                        }
-                    }
-                }
+//                if (application.getSystemUtils().getTag().equals("游客")) {
+//                    SystemUtils.toLogin(this);
+//                    return;
+//                }
+//                if (application.getSystemUtils().getChildTag() == 0) {
+//                    SystemUtils.toAddChild(this);
+//                    return;
+//                }
+//                if (musicService != null) {
+//                    if (musicService.isPlaying()) {
+//                        musicService.stop();
+//                    }
+//                } else {
+//                    return;
+//                }
+//                if (adapter != null) {
+//                    adapter.stopMedia();
+//                }
+//                if (isClick) {
+//                    if (!isPlay) {
+//                        if (isRecord) {
+//                            showInfo("录音结束");
+//                            isRecord = false;
+//                            speak.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_speak2), null, null);
+//                            initRecording();
+//                            mRecorderUtil.stopRecording();
+//                            if (record_time <= 0) {
+//                                showInfo("时长不能为零");
+//                                break;
+//                            }
+//                            //延迟1秒上传
+//                            new Handler().postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    presenter.uploadAudioResource(song.getBookId(), 0, audioType, audioSource, 0, Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + song1.getBookName() + ".mp3", 0f, song1.getBookName(), record_time, 3, "", song.getBookImageUrl(), 0, homeworkid, homeworktype);
+//                                }
+//                            }, 1000);
+//                        } else {
+//                            showInfo("录音开始");
+//                            isRecord = true;
+//                            record_time = 0;
+//                            handler.postDelayed(runnable, 1000);
+//                            speak.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_stop2), null, null);
+//                            mRecorderUtil.startRecording(song.getBookName());
+//                        }
+//                    }
+//                }
                 break;
             case R.id.practice_play:
-                if (application.getSystemUtils().getTag().equals("游客")) {
-                    SystemUtils.toLogin(this);
-                    return;
-                }
-                if (application.getSystemUtils().getChildTag() == 0) {
-                    SystemUtils.toAddChild(this);
-                    return;
-                }
-                if (musicService != null) {
-                    if (musicService.isPlaying()) {
-                        musicService.stop();
-                    }
-                } else {
-                    return;
-                }
-                if (adapter != null) {
-                    adapter.stopMedia();
-                }
-                if (isClick) {
-                    if (!isRecord) {
-                        if (isPlay) {
-                            play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_play2_t), null, null);
-                            try {
-                                mediaPlayer2.pause();
-                                mediaPlayer2.stop();
-                                mediaPlayer2.seekTo(0);
-                            } catch (IllegalStateException e) {
-                                e.printStackTrace();
-                            }
-                            isPlay = false;
-                        } else {
-                            if (song1 != null && song1.getMyResourceUrl() != null) {
-//                                isClick = false;
-                                isPlay = true;
-                                play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_stop2), null, null);
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-//                                        playUrl2(song1.getMyResourceUrl());
-                                        playUrl2("https://demoapi.anniekids.net/Public/Upload/123.aac");
-                                    }
-                                }).start();
-                            }
-                        }
-                    }
-                }
+//                if (application.getSystemUtils().getTag().equals("游客")) {
+//                    SystemUtils.toLogin(this);
+//                    return;
+//                }
+//                if (application.getSystemUtils().getChildTag() == 0) {
+//                    SystemUtils.toAddChild(this);
+//                    return;
+//                }
+//                if (musicService != null) {
+//                    if (musicService.isPlaying()) {
+//                        musicService.stop();
+//                    }
+//                } else {
+//                    return;
+//                }
+//                if (adapter != null) {
+//                    adapter.stopMedia();
+//                }
+//                if (isClick) {
+//                    if (!isRecord) {
+//                        if (isPlay) {
+//                            play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_play2_t), null, null);
+//                            try {
+//                                mediaPlayer2.pause();
+//                                mediaPlayer2.stop();
+//                                mediaPlayer2.seekTo(0);
+//                            } catch (IllegalStateException e) {
+//                                e.printStackTrace();
+//                            }
+//                            isPlay = false;
+//                        } else {
+//                            if (song1 != null && song1.getMyResourceUrl() != null) {
+////                                isClick = false;
+//                                isPlay = true;
+//                                play.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.icon_stop2), null, null);
+//                                new Thread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+////                                        playUrl2(song1.getMyResourceUrl());
+//                                        playUrl2("https://demoapi.anniekids.net/Public/Upload/123.aac");
+//                                    }
+//                                }).start();
+//                            }
+//                        }
+//                    }
+//                }
                 break;
             case R.id.music_frame:
                 if (application.getSystemUtils().getTag().equals("游客")) {
@@ -928,6 +935,8 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                 break;
             case R.id.menu_add_timetable:
                 //加入课表
+                CountEvent Event_A090203 = new CountEvent(MethodCode.A090203);
+                JAnalyticsInterface.onEvent(this, Event_A090203);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -954,6 +963,8 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                 break;
             case R.id.menu_collect:
                 //收藏
+                CountEvent Event_A090201 = new CountEvent(MethodCode.A090201);
+                JAnalyticsInterface.onEvent(this, Event_A090201);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -979,6 +990,8 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                 break;
             case R.id.menu_add_material:
                 //加入教材
+                CountEvent Event_A090202 = new CountEvent(MethodCode.A090202);
+                JAnalyticsInterface.onEvent(this, Event_A090202);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -1021,6 +1034,7 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
                             if(resourUrl_list.size()==0){
                                 return;
                             }
+
                             SystemUtils.MusicType = 1;
                             Intent intent2 = new Intent(this, MusicPlayActivity2.class);
                             Bundle bundle2 = new Bundle();
@@ -1189,6 +1203,8 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
     protected void onResume() {
         super.onResume();
         allowBindService();
+        JAnalyticsInterface.onPageStart(getApplicationContext(),this.getClass().getCanonicalName());
+
     }
 
     @Override
@@ -1205,6 +1221,8 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
         }
         isClick = true;
         isPlay = false;
+        JAnalyticsInterface.onPageEnd(getApplicationContext(),this.getClass().getCanonicalName());
+
     }
 
     @Override
@@ -1264,4 +1282,6 @@ public class PracticeActivity extends BaseMusicActivity implements PlatformActio
         practiceRecycler.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
+
+
 }

@@ -23,7 +23,7 @@ import com.annie.annieforchild.ui.adapter.viewHolder.ExerciseViewHolder;
 import com.annie.annieforchild.ui.application.MyApplication;
 import com.annie.annieforchild.ui.interfaces.OnRecyclerItemClickListener;
 import com.annie.annieforchild.view.SongView;
-import com.annie.taiRecord.lamemp3.PrivateInfo;
+import com.example.lamemp3.PrivateInfo;
 import com.iflytek.cloud.SpeechEvaluator;
 import com.tencent.taisdk.TAIErrCode;
 import com.tencent.taisdk.TAIError;
@@ -323,7 +323,7 @@ public class Exercise_newAdapter extends RecyclerView.Adapter<ExerciseViewHolder
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
-                                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype);
+                                            presenter.uploadAudioResource(bookId, Integer.parseInt(lists.get(i).getPageid()), audioType, audioSource, lists.get(i).getLineId(), Environment.getExternalStorageDirectory().getAbsolutePath() + SystemUtils.recordPath + "exercise/" + fileName + ".mp3", (float) num1, title + "（练习）", record_time, 0, "", imageUrl, 0, homeworkid, homeworktype,result.audioUrl);
                                         }
                                     }, 1500);
                                     if (interactor != null) {

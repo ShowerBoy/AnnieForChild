@@ -32,6 +32,9 @@ import com.annie.baselibrary.utils.CleanUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 /**
  * 设置
  * Created by WangLei on 2018/1/17 0017
@@ -140,6 +143,9 @@ public class SettingsActivity extends BaseMusicActivity implements FourthView, V
                             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
+                                CountEvent Event_040403 = new CountEvent(MethodCode.A040403);
+                                JAnalyticsInterface.onEvent(SettingsActivity.this, Event_040403);
                                 if (musicService != null) {
                                     if (musicService.isPlaying()) {
                                         musicService.stop();

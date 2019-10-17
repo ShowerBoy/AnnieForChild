@@ -42,8 +42,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jiguang.analytics.android.api.CountEvent;
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
+
 /**
  * Created by wanglei on 2018/11/8.
+ * 地道说
  */
 
 public class SpeakingActivity extends BaseMusicActivity implements OnCheckDoubleClick, GrindEarView {
@@ -120,6 +124,8 @@ public class SpeakingActivity extends BaseMusicActivity implements OnCheckDouble
         adapter = new GrindEarAdapter(this, lists, new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view) {
+                CountEvent Event_907 = new CountEvent(MethodCode.A0907);
+                JAnalyticsInterface.onEvent(SpeakingActivity.this, Event_907);
                 int position = recycler.getChildAdapterPosition(view);
 //                if (lists.get(position).getJurisdiction() == 0) {
 //                    if (lists.get(position).getIsusenectar() == 1) {
@@ -164,6 +170,8 @@ public class SpeakingActivity extends BaseMusicActivity implements OnCheckDouble
                 finish();
                 break;
             case R.id.huiben_speaking_layout:
+                CountEvent Event_902 = new CountEvent(MethodCode.A0902);
+                JAnalyticsInterface.onEvent(this, Event_902);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -185,6 +193,8 @@ public class SpeakingActivity extends BaseMusicActivity implements OnCheckDouble
                 startActivity(intent);
                 break;
             case R.id.zhuti_speaking_layout:
+                CountEvent Event_903 = new CountEvent(MethodCode.A0903);
+                JAnalyticsInterface.onEvent(this, Event_903);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -206,6 +216,8 @@ public class SpeakingActivity extends BaseMusicActivity implements OnCheckDouble
                 startActivity(intent);
                 break;
             case R.id.jiaoji_speaking_layout:
+                CountEvent Event_904 = new CountEvent(MethodCode.A0904);
+                JAnalyticsInterface.onEvent(this, Event_904);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -227,6 +239,8 @@ public class SpeakingActivity extends BaseMusicActivity implements OnCheckDouble
                 startActivity(intent);
                 break;
             case R.id.donghua_speaking_layout:
+                CountEvent Event_905 = new CountEvent(MethodCode.A0905);
+                JAnalyticsInterface.onEvent(this, Event_905);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -248,6 +262,8 @@ public class SpeakingActivity extends BaseMusicActivity implements OnCheckDouble
                 startActivity(intent);
                 break;
             case R.id.yanjiang_speaking_layout:
+                CountEvent Event_906 = new CountEvent(MethodCode.A0906);
+                JAnalyticsInterface.onEvent(this, Event_906);
                 if (application.getSystemUtils().getTag().equals("游客")) {
                     SystemUtils.toLogin(this);
                     return;
@@ -341,17 +357,6 @@ public class SpeakingActivity extends BaseMusicActivity implements OnCheckDouble
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        allowBindService();
-    }
-
-    @Override
-    protected void onPause() {
-        allowUnBindService();
-        super.onPause();
-    }
 
     @Override
     public void onPublish(int progress) {
@@ -368,4 +373,19 @@ public class SpeakingActivity extends BaseMusicActivity implements OnCheckDouble
             }
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allowBindService();
+        JAnalyticsInterface.onPageStart(getApplicationContext(),this.getClass().getCanonicalName());
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        allowUnBindService();
+        JAnalyticsInterface.onPageEnd(getApplicationContext(),this.getClass().getCanonicalName());
+    }
+
 }
